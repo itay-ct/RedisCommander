@@ -93,7 +93,7 @@ test('terminal shell stays fixed, keyboard-driven, and hides ASCII art on tighte
   )
 
   expect(document.body.textContent).not.toContain('C:\\REDIS\\')
-  expect(document.body.textContent).toContain('version 1.03')
+  expect(document.body.textContent).toContain('version 1.04')
   expect(document.querySelector('.dossier__example-code')?.textContent?.trim()).not.toContain(
     'Overview',
   )
@@ -111,7 +111,7 @@ test('terminal shell stays fixed, keyboard-driven, and hides ASCII art on tighte
   expect(openedUrl).toContain('redis.io/docs/latest/commands/')
 
   ;(document.querySelector('.dos-header__link') as HTMLButtonElement | null)?.click()
-  expect(openedUrl).toContain('github.com/itay-ct/RedisCommandTerminal')
+  expect(openedUrl).toContain('github.com/itay-ct/RedisCommander')
 
   keyboard('f')
   await waitFor(() => expect(document.querySelector('.find-palette')).not.toBeNull())
@@ -144,7 +144,7 @@ test('terminal shell stays fixed, keyboard-driven, and hides ASCII art on tighte
   expect(document.querySelector('.dossier__title')?.textContent).toContain('JSON.GET')
 
   keyboard('F10')
-  expect(openedUrl).toContain('github.com/itay-ct/RedisCommandTerminal')
+  expect(openedUrl).toContain('github.com/itay-ct/RedisCommander')
 
   keyboard('Escape')
   await waitFor(() => expect(getFocusedBar()).toContain('JSON'))

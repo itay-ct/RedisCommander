@@ -1,4 +1,4 @@
-# Redis Command Terminal
+# Redis Commander
 
 Keyboard-first Redis command explorer with a DOS-inspired terminal UI, local command cache, and animated ASCII category art.
 

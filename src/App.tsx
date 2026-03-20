@@ -41,8 +41,8 @@ const CATEGORY_ROWS = 11
 const COMMAND_ROWS = 14
 const ARGUMENT_ROWS = 6
 const FIND_RESULT_LIMIT = 6
-const RELEASE_VERSION = '1.03'
-const REPO_URL = 'https://github.com/itay-ct/RedisCommandTerminal'
+const RELEASE_VERSION = '1.04'
+const REPO_URL = 'https://github.com/itay-ct/RedisCommander'
 
 const commandIndex = commandIndexJson as CommandIndex
 
@@ -476,10 +476,10 @@ function App() {
 
   useEffect(() => {
     const pageTitle = selectedCommand
-      ? `${selectedCommand.title} // Redis DOS Terminal`
+      ? `${selectedCommand.title} // Redis Commander`
       : currentCategory
-        ? `${currentCategory.label} // Redis DOS Terminal`
-        : 'Redis DOS Terminal'
+        ? `${currentCategory.label} // Redis Commander`
+        : 'Redis Commander'
 
     document.title = pageTitle
   }, [currentCategory, selectedCommand])
@@ -1027,7 +1027,7 @@ function App() {
         </div>
 
         <div className="dos-header__status">
-          <span className="dos-header__brand">Redis Command Terminal</span>
+          <span className="dos-header__brand">Redis Commander</span>
           <span>{commandIndex.commandCount} commands cached locally</span>
           <span>snapshot {docsSnapshotLabel}</span>
           <button className="dos-header__link" onClick={openRepository} type="button">
