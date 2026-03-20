@@ -1,4 +1,13 @@
-import { startTransition, useEffect, useEffectEvent, useState, type CSSProperties } from 'react'
+import {
+  startTransition,
+  useDeferredValue,
+  useEffect,
+  useEffectEvent,
+  useRef,
+  useState,
+  type CSSProperties,
+  type KeyboardEvent as ReactKeyboardEvent,
+} from 'react'
 
 import { AsciiArtPane } from './components/AsciiArtPane'
 import { ShuffleText } from './components/ShuffleText'
@@ -31,7 +40,8 @@ type CategoryBrowserItem =
 const CATEGORY_ROWS = 11
 const COMMAND_ROWS = 14
 const ARGUMENT_ROWS = 6
-const RELEASE_VERSION = '1.01'
+const FIND_RESULT_LIMIT = 6
+const RELEASE_VERSION = '1.02'
 const REPO_URL = 'https://github.com/itay-ct/RedisCommandTerminal'
 
 const commandIndex = commandIndexJson as CommandIndex
@@ -275,6 +285,93 @@ function formatArgumentLabel(argument: CommandArgument) {
   return argument.display_text ?? argument.token ?? argument.name
 }
 
+function normalizeCommandSearchValue(value: string) {
+  return value
+    .toLowerCase()
+    .replace(/[_-]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+
+function getCommandSearchResults(commands: CommandSummary[], query: string, limit: number) {
+  const normalizedQuery = normalizeCommandSearchValue(query)
+  if (!normalizedQuery) {
+    return []
+  }
+
+  const tokens = normalizedQuery.split(' ')
+
+  return commands
+    .map((command) => {
+      const titleKey = normalizeCommandSearchValue(command.title)
+      const slugKey = normalizeCommandSearchValue(command.slug)
+      const groupKey = normalizeCommandSearchValue(command.group)
+      const syntaxKey = normalizeCommandSearchValue(command.syntax ?? '')
+      const descriptionKey = normalizeCommandSearchValue(command.description ?? '')
+
+      let score = Number.POSITIVE_INFINITY
+
+      if (titleKey === normalizedQuery || slugKey === normalizedQuery) {
+        score = 0
+      } else if (titleKey.startsWith(normalizedQuery)) {
+        score = 1
+      } else if (slugKey.startsWith(normalizedQuery)) {
+        score = 2
+      } else if (tokens.every((token) => titleKey.includes(token))) {
+        score = 3
+      } else if (tokens.every((token) => slugKey.includes(token))) {
+        score = 4
+      } else if (tokens.every((token) => syntaxKey.includes(token))) {
+        score = 5
+      } else if (tokens.every((token) => groupKey.includes(token))) {
+        score = 6
+      } else if (tokens.every((token) => descriptionKey.includes(token))) {
+        score = 7
+      } else {
+        return null
+      }
+
+      return {
+        command,
+        score,
+      }
+    })
+    .filter((entry): entry is { command: CommandSummary; score: number } => Boolean(entry))
+    .sort((left, right) => {
+      if (left.score !== right.score) {
+        return left.score - right.score
+      }
+
+      if (left.command.title.length !== right.command.title.length) {
+        return left.command.title.length - right.command.title.length
+      }
+
+      return left.command.title.localeCompare(right.command.title)
+    })
+    .slice(0, limit)
+    .map((entry) => entry.command)
+}
+
+function getCompletionTail(query: string, command: CommandSummary | null) {
+  if (!command) {
+    return ''
+  }
+
+  const trimmedQuery = query.trim()
+  if (!trimmedQuery) {
+    return ''
+  }
+
+  const candidates = [command.title, command.slug]
+  for (const candidate of candidates) {
+    if (candidate.toLowerCase().startsWith(trimmedQuery.toLowerCase())) {
+      return candidate.slice(trimmedQuery.length)
+    }
+  }
+
+  return ''
+}
+
 const commandsByGroup = buildCommandsByGroup(commandIndex.commands)
 const categoryRecords = buildCategoryRecords(commandsByGroup, commandIndex.categories)
 const categoryLookup = Object.fromEntries(
@@ -309,6 +406,11 @@ function App() {
   const [activeGroup, setActiveGroup] = useState(initialGroup)
   const [commandCursors, setCommandCursors] = useState<Record<string, number>>({})
   const [clock, setClock] = useState(() => formatClock(new Date()))
+  const [findOpen, setFindOpen] = useState(false)
+  const [findQuery, setFindQuery] = useState('')
+  const [findIndex, setFindIndex] = useState(0)
+  const findInputRef = useRef<HTMLInputElement | null>(null)
+  const deferredFindQuery = useDeferredValue(findQuery)
 
   const categoryMenu = categoryShelf === 'primary' ? primaryMenu : secondaryMenu
   const categoryIndex = categoryShelf === 'primary' ? primaryIndex : secondaryIndex
@@ -347,6 +449,10 @@ function App() {
   const commandPanelStyle = { '--panel-accent': currentAccent } as CSSProperties
   const detailPanelStyle = { '--panel-accent': currentAccent } as CSSProperties
   const headerStyle = { '--brand-accent': currentAccent } as CSSProperties
+  const findResults = getCommandSearchResults(commandIndex.commands, deferredFindQuery, FIND_RESULT_LIMIT)
+  const activeFindIndex = clampIndex(findIndex, findResults.length)
+  const highlightedFindResult = findResults[activeFindIndex] ?? null
+  const findCompletionTail = getCompletionTail(findQuery, highlightedFindResult)
 
   useEffect(() => {
     const intervalId = window.setInterval(() => {
@@ -355,6 +461,18 @@ function App() {
 
     return () => window.clearInterval(intervalId)
   }, [])
+
+  useEffect(() => {
+    if (!findOpen) {
+      return
+    }
+
+    const frameId = window.requestAnimationFrame(() => {
+      findInputRef.current?.focus()
+    })
+
+    return () => window.cancelAnimationFrame(frameId)
+  }, [findOpen])
 
   useEffect(() => {
     const pageTitle = selectedCommand
@@ -399,6 +517,18 @@ function App() {
       setActiveGroup(nextGroup)
       setPaneFocus('categories')
     })
+  }
+
+  function openFindPalette() {
+    setFindOpen(true)
+    setFindQuery('')
+    setFindIndex(0)
+  }
+
+  function closeFindPalette() {
+    setFindOpen(false)
+    setFindQuery('')
+    setFindIndex(0)
   }
 
   function setCategoryCursor(nextIndex: number, shelf: CategoryShelf = categoryShelf) {
@@ -502,6 +632,44 @@ function App() {
     openOfficialDocs()
   }
 
+  function revealCommand(command: CommandSummary) {
+    const groupCommands = commandsByGroup[command.group] ?? []
+    const nextCommandIndex = groupCommands.findIndex((entry) => entry.slug === command.slug)
+    const nextPrimaryIndex = primaryCategories.findIndex((category) => category.group === command.group)
+    const nextSecondaryIndex = secondaryCategories.findIndex((category) => category.group === command.group)
+
+    startTransition(() => {
+      if (nextPrimaryIndex >= 0) {
+        setCategoryShelf('primary')
+        setPrimaryIndex(nextPrimaryIndex)
+      } else if (nextSecondaryIndex >= 0) {
+        setCategoryShelf('secondary')
+        setSecondaryIndex(nextSecondaryIndex + 1)
+      }
+
+      if (nextCommandIndex >= 0) {
+        setCommandCursors((previous) => ({
+          ...previous,
+          [command.group]: nextCommandIndex,
+        }))
+      }
+
+      setActiveGroup(command.group)
+      setPaneFocus('details')
+      setFindOpen(false)
+      setFindQuery('')
+      setFindIndex(0)
+    })
+  }
+
+  function commitFindSelection(command: CommandSummary | null) {
+    if (!command) {
+      return
+    }
+
+    revealCommand(command)
+  }
+
   function goBack() {
     if (paneFocus === 'details') {
       setPaneFocus('commands')
@@ -530,6 +698,49 @@ function App() {
     window.open(REPO_URL, '_blank', 'noopener,noreferrer')
   }
 
+  function handleFindKeyDown(event: ReactKeyboardEvent<HTMLInputElement>) {
+    if (event.key === 'Escape') {
+      event.preventDefault()
+      closeFindPalette()
+      return
+    }
+
+    if (event.key === 'ArrowDown' || event.key === 'Tab') {
+      event.preventDefault()
+      if (findResults.length) {
+        setFindIndex((previous) => clampIndex(previous + 1, findResults.length))
+      }
+      return
+    }
+
+    if (event.key === 'ArrowUp') {
+      event.preventDefault()
+      if (findResults.length) {
+        setFindIndex((previous) => clampIndex(previous - 1, findResults.length))
+      }
+      return
+    }
+
+    if (event.key === 'Home') {
+      event.preventDefault()
+      setFindIndex(0)
+      return
+    }
+
+    if (event.key === 'End') {
+      event.preventDefault()
+      if (findResults.length) {
+        setFindIndex(findResults.length - 1)
+      }
+      return
+    }
+
+    if (event.key === 'Enter') {
+      event.preventDefault()
+      commitFindSelection(highlightedFindResult)
+    }
+  }
+
   const handleKeyDown = useEffectEvent((event: KeyboardEvent) => {
     if (event.metaKey || event.ctrlKey || event.altKey) {
       return
@@ -546,6 +757,15 @@ function App() {
       return
     }
 
+    if (findOpen) {
+      if (event.key === 'Escape') {
+        event.preventDefault()
+        closeFindPalette()
+      }
+
+      return
+    }
+
     if (event.key === 'F1') {
       event.preventDefault()
       openCoreShelf()
@@ -554,21 +774,21 @@ function App() {
 
     if (event.key === 'F2') {
       event.preventDefault()
-      openMoreShelf()
+      setPaneFocus('commands')
       return
     }
 
     if (event.key === 'F3') {
       event.preventDefault()
-      setPaneFocus('commands')
+      if (selectedCommand) {
+        setPaneFocus('details')
+      }
       return
     }
 
     if (event.key === 'F4') {
       event.preventDefault()
-      if (selectedCommand) {
-        setPaneFocus('details')
-      }
+      openMoreShelf()
       return
     }
 
@@ -581,6 +801,12 @@ function App() {
     if (event.key === 'F10') {
       event.preventDefault()
       openRepository()
+      return
+    }
+
+    if (event.key === 'f' || event.key === 'F') {
+      event.preventDefault()
+      openFindPalette()
       return
     }
 
@@ -731,22 +957,28 @@ function App() {
       label: 'Core',
     },
     {
-      action: openMoreShelf,
-      disabled: !secondaryCategories.length,
-      hotkey: 'F2',
-      label: 'More',
-    },
-    {
       action: () => setPaneFocus('commands'),
-      disabled: !selectedCommand,
-      hotkey: 'F3',
+      disabled: !currentCommands.length,
+      hotkey: 'F2',
       label: 'Commands',
     },
     {
       action: () => selectedCommand && setPaneFocus('details'),
       disabled: !selectedCommand,
-      hotkey: 'F4',
+      hotkey: 'F3',
       label: 'Dossier',
+    },
+    {
+      action: openMoreShelf,
+      disabled: !secondaryCategories.length,
+      hotkey: 'F4',
+      label: 'More',
+    },
+    {
+      action: openFindPalette,
+      disabled: false,
+      hotkey: 'F',
+      label: 'Find',
     },
     {
       action: openOfficialDocs,
@@ -1019,6 +1251,87 @@ function App() {
           />
         </div>
       </section>
+
+      {findOpen ? (
+        <div className="find-overlay" onClick={closeFindPalette} role="presentation">
+          <section
+            aria-label="Find Redis command"
+            aria-modal="true"
+            className="find-palette"
+            onClick={(event) => event.stopPropagation()}
+            role="dialog"
+            style={detailPanelStyle}
+          >
+            <div className="find-palette__bar">
+              <span>Find Command</span>
+              <span>{formatCounter(activeFindIndex + 1, findResults.length)}</span>
+            </div>
+
+            <div className="find-palette__input-shell">
+              <span className="find-palette__prompt">C:&gt;</span>
+
+              <div className="find-palette__input-track">
+                <span aria-hidden="true" className="find-palette__completion">
+                  <span className="find-palette__typed">{findQuery}</span>
+                  <span className="find-palette__ghost">{findCompletionTail}</span>
+                </span>
+
+                <input
+                  autoCapitalize="off"
+                  autoComplete="off"
+                  autoCorrect="off"
+                  className="find-palette__input"
+                  onChange={(event) => {
+                    setFindQuery(event.target.value)
+                    setFindIndex(0)
+                  }}
+                  onKeyDown={handleFindKeyDown}
+                  placeholder="type a Redis command"
+                  ref={findInputRef}
+                  spellCheck={false}
+                  value={findQuery}
+                />
+              </div>
+            </div>
+
+            <div className="find-palette__results" role="listbox" aria-label="Command search results">
+              {findResults.length ? (
+                findResults.map((command, index) => {
+                  const active = index === activeFindIndex
+
+                  return (
+                    <button
+                      aria-selected={active}
+                      className={`find-palette__result ${active ? 'find-palette__result--active' : ''}`}
+                      key={command.slug}
+                      onClick={() => commitFindSelection(command)}
+                      onMouseEnter={() => setFindIndex(index)}
+                      type="button"
+                    >
+                      <span className="find-palette__result-title">{command.title}</span>
+                      <span className="find-palette__result-meta">{getCategoryMeta(command.group).label}</span>
+                      <span className="find-palette__result-copy">
+                        {command.description || command.syntax || 'Open the dossier to inspect this command.'}
+                      </span>
+                    </button>
+                  )
+                })
+              ) : (
+                <div className="find-palette__empty">
+                  {findQuery.trim()
+                    ? 'No cached Redis commands match that query.'
+                    : 'Type a Redis verb, module prefix, or command fragment to jump straight into the dossier.'}
+                </div>
+              )}
+            </div>
+
+            <div className="find-palette__footer">
+              <span>{highlightedFindResult?.syntax ?? 'Arrow keys move through the command matches.'}</span>
+              <span>ENTER select / ESC close</span>
+            </div>
+          </section>
+        </div>
+      ) : null}
 
       <footer className="dos-footer">
         <div className="dos-footer__status">

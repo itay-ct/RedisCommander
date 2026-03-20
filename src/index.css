@@ -291,7 +291,7 @@ a {
   font-size: 0.75rem;
 }
 
-.dos-panel__footer span {
+.dos-panel__footer > span:not(.dos-panel__footer-copy) {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -300,6 +300,8 @@ a {
 .dos-panel__footer-copy {
   grid-column: 1 / -1;
   min-height: 2.45em;
+  overflow: hidden;
+  text-overflow: clip;
   white-space: normal;
   line-height: 1.24;
   color: var(--text);
@@ -476,7 +478,7 @@ a {
   color: var(--text);
   font-size: 1rem;
   line-height: 1.42;
-   white-space: pre-line;
+  white-space: pre-line;
   font-family: var(--mono);
 }
 
@@ -531,6 +533,197 @@ a {
   animation: asciiFlicker 4.5s steps(1) infinite;
 }
 
+.find-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 4;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background: rgba(11, 13, 16, 0.74);
+}
+
+.find-palette {
+  --panel-accent: var(--redis-red);
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  width: min(46rem, calc(100vw - 3rem));
+  max-height: min(31rem, calc(100vh - 3rem));
+  overflow: hidden;
+  border: 2px solid var(--panel-accent);
+  background: var(--panel);
+  box-shadow:
+    inset 1px 1px 0 rgba(255, 255, 255, 0.14),
+    inset -1px -1px 0 rgba(0, 0, 0, 0.38);
+}
+
+.find-palette__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 2.05rem;
+  padding: 0.15rem 0.55rem;
+  background: var(--panel-accent);
+  color: var(--bg);
+  font-size: 0.8rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.find-palette__input-shell {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.58rem 0.75rem;
+  border-top: 1px solid var(--line-soft);
+  border-bottom: 1px solid var(--line-soft);
+  background: var(--panel-body);
+}
+
+.find-palette__prompt {
+  flex-shrink: 0;
+  color: var(--redis-yellow);
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.find-palette__input-track {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.find-palette__completion,
+.find-palette__input {
+  font-family: var(--mono);
+  font-size: 1.08rem;
+  line-height: 1.28;
+}
+
+.find-palette__completion {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.find-palette__typed {
+  visibility: hidden;
+}
+
+.find-palette__ghost {
+  color: rgba(197, 205, 211, 0.45);
+}
+
+.find-palette__input {
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  caret-color: var(--panel-accent);
+  outline: none;
+}
+
+.find-palette__input::placeholder {
+  color: rgba(197, 205, 211, 0.45);
+}
+
+.find-palette__results {
+  display: grid;
+  gap: 0.12rem;
+  align-content: start;
+  min-height: 13rem;
+  padding: 0.35rem;
+  overflow: hidden;
+  background: var(--panel-deep);
+}
+
+.find-palette__result {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.16rem 0.6rem;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  text-align: left;
+}
+
+.find-palette__result:hover {
+  color: var(--text);
+}
+
+.find-palette__result--active {
+  border-color: var(--panel-accent);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+}
+
+.find-palette__result-title {
+  overflow: hidden;
+  color: var(--text);
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.find-palette__result-meta {
+  color: var(--redis-yellow);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.find-palette__result-copy {
+  grid-column: 1 / -1;
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.32;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.find-palette__empty {
+  display: grid;
+  place-items: center;
+  min-height: 13rem;
+  padding: 1rem;
+  color: var(--muted);
+  line-height: 1.45;
+  text-align: center;
+}
+
+.find-palette__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  min-height: 2.4rem;
+  padding: 0.3rem 0.55rem;
+  border-top: 1px solid var(--line-soft);
+  background: var(--panel-footer);
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.find-palette__footer span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.find-palette__footer span:last-child {
+  color: var(--panel-accent);
+}
+
 .dos-footer {
   display: grid;
   grid-template-rows: auto auto;
@@ -559,7 +752,7 @@ a {
 
 .dos-footer__keys {
   display: grid;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-columns: repeat(8, minmax(0, 1fr));
   gap: 0.3rem;
 }
 
@@ -658,5 +851,14 @@ a {
 
   .dos-footer__keys {
     grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .find-palette {
+    width: min(100%, calc(100vw - 2rem));
+  }
+
+  .find-palette__footer {
+    display: grid;
+    justify-content: stretch;
   }
 }

@@ -2,7 +2,7 @@
 
 import { readFile } from 'node:fs/promises'
 
-import { render, waitFor } from '@testing-library/react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
 import { afterEach, expect, test, vi } from 'vitest'
 
 afterEach(() => {
@@ -93,7 +93,7 @@ test('terminal shell stays fixed, keyboard-driven, and hides ASCII art on tighte
   )
 
   expect(document.body.textContent).not.toContain('C:\\REDIS\\')
-  expect(document.body.textContent).toContain('version 1.01')
+  expect(document.body.textContent).toContain('version 1.02')
   expect(document.querySelector('.dossier__example-code')?.textContent?.trim()).not.toContain(
     'Overview',
   )
@@ -113,13 +113,43 @@ test('terminal shell stays fixed, keyboard-driven, and hides ASCII art on tighte
   ;(document.querySelector('.dos-header__link') as HTMLButtonElement | null)?.click()
   expect(openedUrl).toContain('github.com/itay-ct/RedisCommandTerminal')
 
+  keyboard('f')
+  await waitFor(() => expect(document.querySelector('.find-palette')).not.toBeNull())
+
+  const findInput = document.querySelector('.find-palette__input') as HTMLInputElement | null
+  expect(findInput).not.toBeNull()
+
+  fireEvent.change(findInput!, { target: { value: 'json.g' } })
+  await waitFor(() =>
+    expect(document.querySelector('.find-palette__result-title')?.textContent).toContain('JSON.GET'),
+  )
+
+  fireEvent.keyDown(findInput!, { bubbles: true, cancelable: true, key: 'Enter' })
+  await waitFor(() => expect(document.querySelector('.find-palette')).toBeNull())
+  await waitFor(() => expect(document.querySelector('.dossier__title')?.textContent).toContain('JSON.GET'))
+
+  keyboard('F2')
+  await waitFor(() => expect(getFocusedBar()).toContain('JSON'))
+
+  keyboard('F3')
+  await waitFor(() => expect(getFocusedBar()).toContain('JSON.GET'))
+
+  keyboard('f')
+  await waitFor(() => expect(document.querySelector('.find-palette')).not.toBeNull())
+
+  const secondFindInput = document.querySelector('.find-palette__input') as HTMLInputElement | null
+  fireEvent.change(secondFindInput!, { target: { value: 'expire' } })
+  fireEvent.keyDown(secondFindInput!, { bubbles: true, cancelable: true, key: 'Escape' })
+  await waitFor(() => expect(document.querySelector('.find-palette')).toBeNull())
+  expect(document.querySelector('.dossier__title')?.textContent).toContain('JSON.GET')
+
   keyboard('F10')
   expect(openedUrl).toContain('github.com/itay-ct/RedisCommandTerminal')
 
   keyboard('Escape')
-  await waitFor(() => expect(getFocusedBar()).toContain('Strings'))
+  await waitFor(() => expect(getFocusedBar()).toContain('JSON'))
 
-  keyboard('F2')
+  keyboard('F4')
   await waitFor(() => expect(getFocusedBar()).toContain('More'))
 
   const css = await readFile(`${process.cwd()}/src/index.css`, 'utf8')
@@ -127,5 +157,12 @@ test('terminal shell stays fixed, keyboard-driven, and hides ASCII art on tighte
     /@media\s*\(max-width:\s*1180px\)[\s\S]*?\.ascii-pane\s*\{\s*display:\s*none;/m.test(css),
   ).toBe(true)
 
+  expect(getFooterText()).toContain('F2Commands')
+  expect(getFooterText()).toContain('F3Dossier')
+  expect(getFooterText()).toContain('FFind')
   expect(getFooterText()).toContain('F5Docs')
+
+  const favicon = await readFile(`${process.cwd()}/public/favicon.svg`, 'utf8')
+  expect(favicon).toContain('shape-rendering="crispEdges"')
+  expect(favicon).toContain('#ff4438')
 })
