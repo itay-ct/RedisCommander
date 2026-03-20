@@ -41,7 +41,7 @@ const CATEGORY_ROWS = 11
 const COMMAND_ROWS = 14
 const ARGUMENT_ROWS = 6
 const FIND_RESULT_LIMIT = 6
-const RELEASE_VERSION = '1.04'
+const RELEASE_VERSION = '1.05'
 const REPO_URL = 'https://github.com/itay-ct/RedisCommander'
 
 const commandIndex = commandIndexJson as CommandIndex
@@ -1005,31 +1005,11 @@ function App() {
       <div aria-hidden="true" className="shell__scanlines" />
 
       <header className="dos-header" style={headerStyle}>
-        <div className="dos-header__menu">
-          <div className="dos-menu" aria-label="Terminal menu">
-            <span className="dos-menu__item">
-              <strong>R</strong>edis
-            </span>
-            <span className="dos-menu__item">
-              <strong>C</strong>atalog
-            </span>
-            <span className="dos-menu__item">
-              <strong>M</strong>odules
-            </span>
-            <span className="dos-menu__item">
-              <strong>D</strong>ocs
-            </span>
-            <span className="dos-menu__item">
-              <strong>W</strong>indow
-            </span>
-          </div>
-          <time className="dos-header__clock">{clock}</time>
-        </div>
-
         <div className="dos-header__status">
           <span className="dos-header__brand">Redis Commander</span>
-          <span>{commandIndex.commandCount} commands cached locally</span>
+          <span>{commandIndex.commandCount} commands</span>
           <span>snapshot {docsSnapshotLabel}</span>
+          <time className="dos-header__clock">{clock}</time>
           <button className="dos-header__link" onClick={openRepository} type="button">
             version {RELEASE_VERSION}
           </button>

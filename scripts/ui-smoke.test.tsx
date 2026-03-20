@@ -93,7 +93,10 @@ test('terminal shell stays fixed, keyboard-driven, and hides ASCII art on tighte
   )
 
   expect(document.body.textContent).not.toContain('C:\\REDIS\\')
-  expect(document.body.textContent).toContain('version 1.04')
+  expect(document.body.textContent).toContain('version 1.05')
+  expect(document.body.textContent).toContain('commands')
+  expect(document.body.textContent).not.toContain('cached locally')
+  expect(document.querySelector('.dos-header__menu')).toBeNull()
   expect(document.querySelector('.dossier__example-code')?.textContent?.trim()).not.toContain(
     'Overview',
   )
