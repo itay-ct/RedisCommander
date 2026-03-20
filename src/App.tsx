@@ -41,7 +41,7 @@ const CATEGORY_ROWS = 11
 const COMMAND_ROWS = 14
 const ARGUMENT_ROWS = 6
 const FIND_RESULT_LIMIT = 6
-const RELEASE_VERSION = '1.02'
+const RELEASE_VERSION = '1.03'
 const REPO_URL = 'https://github.com/itay-ct/RedisCommandTerminal'
 
 const commandIndex = commandIndexJson as CommandIndex
@@ -975,16 +975,16 @@ function App() {
       label: 'More',
     },
     {
-      action: openFindPalette,
-      disabled: false,
-      hotkey: 'F',
-      label: 'Find',
-    },
-    {
       action: openOfficialDocs,
       disabled: !selectedCommand,
       hotkey: 'F5',
       label: 'Docs',
+    },
+    {
+      action: openFindPalette,
+      disabled: false,
+      hotkey: 'F',
+      label: 'Find',
     },
     {
       action: () => moveFocus(1),

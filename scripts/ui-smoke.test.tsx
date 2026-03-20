@@ -93,7 +93,7 @@ test('terminal shell stays fixed, keyboard-driven, and hides ASCII art on tighte
   )
 
   expect(document.body.textContent).not.toContain('C:\\REDIS\\')
-  expect(document.body.textContent).toContain('version 1.02')
+  expect(document.body.textContent).toContain('version 1.03')
   expect(document.querySelector('.dossier__example-code')?.textContent?.trim()).not.toContain(
     'Overview',
   )
@@ -159,8 +159,9 @@ test('terminal shell stays fixed, keyboard-driven, and hides ASCII art on tighte
 
   expect(getFooterText()).toContain('F2Commands')
   expect(getFooterText()).toContain('F3Dossier')
-  expect(getFooterText()).toContain('FFind')
   expect(getFooterText()).toContain('F5Docs')
+  expect(getFooterText()).toContain('FFind')
+  expect(getFooterText().indexOf('F5Docs')).toBeLessThan(getFooterText().indexOf('FFind'))
 
   const favicon = await readFile(`${process.cwd()}/public/favicon.svg`, 'utf8')
   expect(favicon).toContain('shape-rendering="crispEdges"')
