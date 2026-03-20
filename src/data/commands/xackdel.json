@@ -1,0 +1,167 @@
+{
+  "slug": "xackdel",
+  "title": "XACKDEL",
+  "description": "Acknowledges and conditionally deletes one or multiple entries for a stream consumer group.",
+  "docsUrl": "https://redis.io/docs/latest/commands/xackdel/",
+  "group": "stream",
+  "groupLabel": "Streams",
+  "syntax": "XACKDEL key group [KEEPREF | DELREF | ACKED] IDS numids id [id ...]",
+  "complexity": "O(1) for each entry ID processed.",
+  "since": "8.2.0",
+  "arity": -6,
+  "aclCategories": [
+    "@write",
+    "@stream",
+    "@fast"
+  ],
+  "commandFlags": [
+    "write",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "group",
+      "name": "group",
+      "type": "string"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "keepref",
+          "name": "keepref",
+          "token": "KEEPREF",
+          "type": "pure-token"
+        },
+        {
+          "display_text": "delref",
+          "name": "delref",
+          "token": "DELREF",
+          "type": "pure-token"
+        },
+        {
+          "display_text": "acked",
+          "name": "acked",
+          "token": "ACKED",
+          "type": "pure-token"
+        }
+      ],
+      "name": "condition",
+      "optional": true,
+      "type": "oneof"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "numids",
+          "name": "numids",
+          "type": "integer"
+        },
+        {
+          "display_text": "id",
+          "multiple": true,
+          "name": "id",
+          "type": "string"
+        }
+      ],
+      "name": "ids",
+      "token": "IDS",
+      "type": "block"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "delete": true,
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      },
+      "update": true
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "optional-arguments",
+        "title": "Optional arguments"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Acknowledges and conditionally deletes one or multiple entries (messages) for a stream consumer group at the specified `key`.\n\n`XACKDEL` combines the functionality of [`XACK`]() and [`XDEL`]() in Redis Streams. It acknowledges the specified entry IDs in the given consumer group and simultaneously attempts to delete the corresponding entries from the stream.\n\n## Required arguments\n\n<details open>\n<summary><code>key</code></summary>\n\nThe name of the stream key.\n</details>\n\n<details open>\n<summary><code>group</code></summary>\n\nThe name of the consumer group.\n</details>\n\n<details open>\n<summary><code>IDS numids id [id ...]</code></summary>\n\nThe IDS block specifying which entries to acknowledge and delete:\n- `numids`: The number of IDs that follow\n- `id [id ...]`: One or more stream entry IDs to acknowledge and delete\n</details>\n\n## Optional arguments\n\n<details open>\n<summary><code>KEEPREF | DELREF | ACKED</code></summary>\n\nSpecifies how to handle consumer group references when acknowledging and deleting entries. Available since Redis 8.2. If no option is specified, `KEEPREF` is used by default:\n\n- `KEEPREF` (default): Acknowledges the entries in the specified consumer group and deletes the entries from the stream, but preserves existing references to these entries in all consumer groups' PEL (Pending Entries List).\n- `DELREF`: Acknowledges the entries in the specified consumer group, deletes the entries from the stream, and also removes all references to these entries from all consumer groups' pending entry lists, effectively cleaning up all traces of the entries. If an entry ID is not in the stream, but there are dangling references, `XACKDEL` with `DELREF` would still remove all those references.\n- `ACKED`: Acknowledges the entries in the specified consumer group and only deletes entries that were read and acknowledged by all consumer groups.\n</details>\n\nThis command is particularly useful when you want to both acknowledge entry processing and clean up the stream in a single atomic operation, providing fine-grained control over how entry references are handled.\n\n\nWhen using multiple consumer groups, users are encouraged to use `XACKDEL` with the `ACKED` option instead of `XACK` and `XDEL`, simplifying the application logic.\n\n\n## Examples\n\n```\n> XADD mystream * field1 value1\n\"1755870377536-0\"\n> XADD mystream * field2 value2\n\"1755870387045-0\"\n> XGROUP CREATE mystream mygroup 0\nOK\n> XREADGROUP GROUP mygroup consumer1 COUNT 2 STREAMS mystream >\n1) 1) \"mystream\"\n   2) 1) 1) \"1755870377536-0\"\n         2) 1) \"field1\"\n            2) \"value1\"\n      2) 1) \"1755870387045-0\"\n         2) 1) \"field2\"\n            2) \"value2\"\n> XPENDING mystream mygroup\n1) (integer) 2\n2) \"1755870377536-0\"\n3) \"1755870387045-0\"\n4) 1) 1) \"consumer1\"\n      2) \"2\"\n> XACKDEL mystream mygroup KEEPREF IDS 2 1755870377536-0 1755870387045-0\n1) (integer) 1\n2) (integer) 1\n> XPENDING mystream mygroup\n1) (integer) 0\n2) (nil)\n3) (nil)\n4) (nil)\n> XRANGE mystream - +\n(empty array)\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n\n* [Array reply](): -1 for each requested ID when the given key does not exist.\n* [Array reply](): For each ID:\n    * [Integer reply](): 1 if the entry was acknowledged and deleted from the stream.\n    * [Integer reply](): -1 if no such ID exists in the provided stream key.\n    * [Integer reply](): 2 if the entry was acknowledged but not deleted, as there are still dangling references (ACKED option).\n\n**RESP3:**\n\nOne of the following:\n\n* [Array reply](): -1 for each requested ID when the given key does not exist.\n* [Array reply](): For each ID:\n    * [Integer reply](): 1 if the entry was acknowledged and deleted from the stream.\n    * [Integer reply](): -1 if no such ID exists in the provided stream key.\n    * [Integer reply](): 2 if the entry was acknowledged but not deleted, as there are still dangling references (ACKED option).",
+  "intro": "Acknowledges and conditionally deletes one or multiple entries (messages) for a stream consumer group at the specified `key`.\n\n`XACKDEL` combines the functionality of [`XACK`]() and [`XDEL`]() in Redis Streams. It acknowledges the specified entry IDs in the given consumer group and simultaneously attempts to delete the corresponding entries from the stream.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Acknowledges and conditionally deletes one or multiple entries (messages) for a stream consumer group at the specified `key`.\n\n`XACKDEL` combines the functionality of [`XACK`]() and [`XDEL`]() in Redis Streams. It acknowledges the specified entry IDs in the given consumer group and simultaneously attempts to delete the corresponding entries from the stream."
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open>\n<summary><code>key</code></summary>\n\nThe name of the stream key.\n</details>\n\n<details open>\n<summary><code>group</code></summary>\n\nThe name of the consumer group.\n</details>\n\n<details open>\n<summary><code>IDS numids id [id ...]</code></summary>\n\nThe IDS block specifying which entries to acknowledge and delete:\n- `numids`: The number of IDs that follow\n- `id [id ...]`: One or more stream entry IDs to acknowledge and delete\n</details>"
+    },
+    {
+      "title": "Optional arguments",
+      "level": 2,
+      "content": "<details open>\n<summary><code>KEEPREF | DELREF | ACKED</code></summary>\n\nSpecifies how to handle consumer group references when acknowledging and deleting entries. Available since Redis 8.2. If no option is specified, `KEEPREF` is used by default:\n\n- `KEEPREF` (default): Acknowledges the entries in the specified consumer group and deletes the entries from the stream, but preserves existing references to these entries in all consumer groups' PEL (Pending Entries List).\n- `DELREF`: Acknowledges the entries in the specified consumer group, deletes the entries from the stream, and also removes all references to these entries from all consumer groups' pending entry lists, effectively cleaning up all traces of the entries. If an entry ID is not in the stream, but there are dangling references, `XACKDEL` with `DELREF` would still remove all those references.\n- `ACKED`: Acknowledges the entries in the specified consumer group and only deletes entries that were read and acknowledged by all consumer groups.\n</details>\n\nThis command is particularly useful when you want to both acknowledge entry processing and clean up the stream in a single atomic operation, providing fine-grained control over how entry references are handled.\n\n\nWhen using multiple consumer groups, users are encouraged to use `XACKDEL` with the `ACKED` option instead of `XACK` and `XDEL`, simplifying the application logic."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "```\n> XADD mystream * field1 value1\n\"1755870377536-0\"\n> XADD mystream * field2 value2\n\"1755870387045-0\"\n> XGROUP CREATE mystream mygroup 0\nOK\n> XREADGROUP GROUP mygroup consumer1 COUNT 2 STREAMS mystream >\n1) 1) \"mystream\"\n   2) 1) 1) \"1755870377536-0\"\n         2) 1) \"field1\"\n            2) \"value1\"\n      2) 1) \"1755870387045-0\"\n         2) 1) \"field2\"\n            2) \"value2\"\n> XPENDING mystream mygroup\n1) (integer) 2\n2) \"1755870377536-0\"\n3) \"1755870387045-0\"\n4) 1) 1) \"consumer1\"\n      2) \"2\"\n> XACKDEL mystream mygroup KEEPREF IDS 2 1755870377536-0 1755870387045-0\n1) (integer) 1\n2) (integer) 1\n> XPENDING mystream mygroup\n1) (integer) 0\n2) (nil)\n3) (nil)\n4) (nil)\n> XRANGE mystream - +\n(empty array)\n```"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n\n* [Array reply](): -1 for each requested ID when the given key does not exist.\n* [Array reply](): For each ID:\n    * [Integer reply](): 1 if the entry was acknowledged and deleted from the stream.\n    * [Integer reply](): -1 if no such ID exists in the provided stream key.\n    * [Integer reply](): 2 if the entry was acknowledged but not deleted, as there are still dangling references (ACKED option).\n\n**RESP3:**\n\nOne of the following:\n\n* [Array reply](): -1 for each requested ID when the given key does not exist.\n* [Array reply](): For each ID:\n    * [Integer reply](): 1 if the entry was acknowledged and deleted from the stream.\n    * [Integer reply](): -1 if no such ID exists in the provided stream key.\n    * [Integer reply](): 2 if the entry was acknowledged but not deleted, as there are still dangling references (ACKED option)."
+    }
+  ]
+}

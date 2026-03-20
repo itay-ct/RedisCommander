@@ -1,0 +1,107 @@
+{
+  "slug": "incrby",
+  "title": "INCRBY",
+  "description": "Increments the integer value of a key by a number. Uses 0 as initial value if the key doesn't exist.",
+  "docsUrl": "https://redis.io/docs/latest/commands/incrby/",
+  "group": "string",
+  "groupLabel": "Strings",
+  "syntax": "INCRBY key increment",
+  "complexity": "O(1)",
+  "since": "1.0.0",
+  "arity": 3,
+  "aclCategories": [
+    "@write",
+    "@string",
+    "@fast"
+  ],
+  "commandFlags": [
+    "write",
+    "denyoom",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "increment",
+      "name": "increment",
+      "type": "integer"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      },
+      "update": true
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Increments the number stored at `key` by `increment`.\nIf the key does not exist, it is set to `0` before performing the operation.\nAn error is returned if the key contains a value of the wrong type or contains a\nstring that can not be represented as integer.\nThis operation is limited to 64 bit signed integers.\n\nSee [`INCR`]() for extra information on increment/decrement operations.\n\n## Examples\n\n\nSET mykey \"10\"\nINCRBY mykey 5\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the value of the key after the increment.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the value of the key after the increment.",
+  "intro": "Increments the number stored at `key` by `increment`.\nIf the key does not exist, it is set to `0` before performing the operation.\nAn error is returned if the key contains a value of the wrong type or contains a\nstring that can not be represented as integer.\nThis operation is limited to 64 bit signed integers.\n\nSee [`INCR`]() for extra information on increment/decrement operations.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Increments the number stored at `key` by `increment`.\nIf the key does not exist, it is set to `0` before performing the operation.\nAn error is returned if the key contains a value of the wrong type or contains a\nstring that can not be represented as integer.\nThis operation is limited to 64 bit signed integers.\n\nSee [`INCR`]() for extra information on increment/decrement operations."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "SET mykey \"10\"\nINCRBY mykey 5"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the value of the key after the increment.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the value of the key after the increment."
+    }
+  ]
+}

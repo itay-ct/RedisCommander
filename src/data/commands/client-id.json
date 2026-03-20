@@ -1,0 +1,74 @@
+{
+  "slug": "client-id",
+  "title": "CLIENT ID",
+  "description": "Returns the unique client ID of the connection.",
+  "docsUrl": "https://redis.io/docs/latest/commands/client-id/",
+  "group": "connection",
+  "groupLabel": "Connection",
+  "syntax": "CLIENT ID",
+  "complexity": "O(1)",
+  "since": "5.0.0",
+  "arity": 2,
+  "aclCategories": [
+    "@slow",
+    "@connection"
+  ],
+  "commandFlags": [
+    "noscript",
+    "loading",
+    "stale"
+  ],
+  "arguments": [],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "The command just returns the ID of the current connection. Every connection\nID has certain guarantees:\n\n1. It is never repeated, so if `CLIENT ID` returns the same number, the caller can be sure that the underlying client did not disconnect and reconnect the connection, but it is still the same connection.\n2. The ID is monotonically incremental. If the ID of a connection is greater than the ID of another connection, it is guaranteed that the second connection was established with the server at a later time.\n\nThis command is especially useful together with [`CLIENT UNBLOCK`]() which was\nintroduced also in Redis 5 together with `CLIENT ID`. Check the [`CLIENT UNBLOCK`]() command page for a pattern involving the two commands.\n\n## Examples\n\n\nCLIENT ID\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Because Redis Software clustering allows [multiple active proxies](), `CLIENT ID` cannot guarantee incremental IDs between clients that connect to different nodes under multi proxy policies. |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the ID of the client.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the ID of the client.",
+  "intro": "The command just returns the ID of the current connection. Every connection\nID has certain guarantees:\n\n1. It is never repeated, so if `CLIENT ID` returns the same number, the caller can be sure that the underlying client did not disconnect and reconnect the connection, but it is still the same connection.\n2. The ID is monotonically incremental. If the ID of a connection is greater than the ID of another connection, it is guaranteed that the second connection was established with the server at a later time.\n\nThis command is especially useful together with [`CLIENT UNBLOCK`]() which was\nintroduced also in Redis 5 together with `CLIENT ID`. Check the [`CLIENT UNBLOCK`]() command page for a pattern involving the two commands.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "The command just returns the ID of the current connection. Every connection\nID has certain guarantees:\n\n1. It is never repeated, so if `CLIENT ID` returns the same number, the caller can be sure that the underlying client did not disconnect and reconnect the connection, but it is still the same connection.\n2. The ID is monotonically incremental. If the ID of a connection is greater than the ID of another connection, it is guaranteed that the second connection was established with the server at a later time.\n\nThis command is especially useful together with [`CLIENT UNBLOCK`]() which was\nintroduced also in Redis 5 together with `CLIENT ID`. Check the [`CLIENT UNBLOCK`]() command page for a pattern involving the two commands."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "CLIENT ID"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Because Redis Software clustering allows [multiple active proxies](), `CLIENT ID` cannot guarantee incremental IDs between clients that connect to different nodes under multi proxy policies. |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the ID of the client.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the ID of the client."
+    }
+  ]
+}

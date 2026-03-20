@@ -1,0 +1,95 @@
+{
+  "slug": "xgroup-destroy",
+  "title": "XGROUP DESTROY",
+  "description": "Destroys a consumer group.",
+  "docsUrl": "https://redis.io/docs/latest/commands/xgroup-destroy/",
+  "group": "stream",
+  "groupLabel": "Streams",
+  "syntax": "XGROUP DESTROY key group",
+  "complexity": "O(N) where N is the number of entries in the group's pending entries list (PEL).",
+  "since": "5.0.0",
+  "arity": 4,
+  "aclCategories": [
+    "@write",
+    "@stream",
+    "@slow"
+  ],
+  "commandFlags": [
+    "write"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "group",
+      "name": "group",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "begin_search": {
+        "spec": {
+          "index": 2
+        },
+        "type": "index"
+      },
+      "delete": true,
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "The `XGROUP DESTROY` command completely destroys a consumer group.\n\nThe consumer group will be destroyed even if there are active consumers, and pending messages, so make sure to call this command only when really needed.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of destroyed consumer groups, either 0 or 1.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of destroyed consumer groups, either 0 or 1.",
+  "intro": "The `XGROUP DESTROY` command completely destroys a consumer group.\n\nThe consumer group will be destroyed even if there are active consumers, and pending messages, so make sure to call this command only when really needed.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "The `XGROUP DESTROY` command completely destroys a consumer group.\n\nThe consumer group will be destroyed even if there are active consumers, and pending messages, so make sure to call this command only when really needed."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of destroyed consumer groups, either 0 or 1.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of destroyed consumer groups, either 0 or 1."
+    }
+  ]
+}

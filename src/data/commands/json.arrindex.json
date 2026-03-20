@@ -1,0 +1,136 @@
+{
+  "slug": "json.arrindex",
+  "title": "JSON.ARRINDEX",
+  "description": "Returns the index of the first occurrence of a JSON scalar value in the array at path",
+  "docsUrl": "https://redis.io/docs/latest/commands/json.arrindex/",
+  "group": "json",
+  "groupLabel": "JSON",
+  "syntax": "JSON.ARRINDEX key path value [start [stop]]",
+  "complexity": "O(N) when path is evaluated to a single value where N is the size of the array, O(N) when path is evaluated to multiple values, where N is the size of the key",
+  "since": "1.0.0",
+  "arity": null,
+  "aclCategories": [
+    "@json",
+    "@read",
+    "@slow"
+  ],
+  "commandFlags": [],
+  "arguments": [
+    {
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "name": "path",
+      "type": "string"
+    },
+    {
+      "name": "value",
+      "type": "string"
+    },
+    {
+      "arguments": [
+        {
+          "name": "start",
+          "type": "integer"
+        },
+        {
+          "name": "stop",
+          "optional": true,
+          "type": "integer"
+        }
+      ],
+      "name": "range",
+      "optional": true,
+      "type": "block"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "optional-arguments",
+        "title": "Optional arguments"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      },
+      {
+        "id": "see-also",
+        "title": "See also"
+      },
+      {
+        "id": "related-topics",
+        "title": "Related topics"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Search for the first occurrence of a JSON value in an array\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open><summary><code>key</code></summary> \n\nis key to parse.\n</details>\n\n<details open><summary><code>path</code></summary> \n\nis JSONPath to specify.\n</details>\n\n<details open><summary><code>value</code></summary> \n\nis value to find its index in one or more arrays. \n\n\nTo specify a string as an array value to index, wrap the quoted string with an additional set of single quotes. Example: `'\"silver\"'`. For more detailed use, see [Examples](#examples).\n\n</details>\n\n## Optional arguments\n\n<details open><summary><code>start</code></summary> \n\nis inclusive start value to specify in a slice of the array to search. Default is `0`. \n</details>\n\n<details open><summary><code>stop</code></summary> \n\nis exclusive stop value to specify in a slice of the array to search, including the last element. Default is `0`. Negative values are interpreted as starting from the end.\n</details>\n\n\n\nOut-of-range indexes round to the array's start and end. An inverse index range (such as the range from 1 to 0) returns unfound or `-1`.\n\n\n## Examples\n\n<details open>\n<summary><b>Find the specific place of a color in a list of product colors</b></summary>\n\nCreate a document for noise-cancelling headphones in black and silver colors.\n\n\nredis> JSON.SET item:1 $ '{\"name\":\"Noise-cancelling Bluetooth headphones\",\"description\":\"Wireless Bluetooth headphones with noise-cancelling technology\",\"connection\":{\"wireless\":true,\"type\":\"Bluetooth\"},\"price\":99.98,\"stock\":25,\"colors\":[\"black\",\"silver\"]}'\nOK\n\n\nAdd color `blue` to the end of the `colors` array. `JSON.ARRAPEND` returns the array's new size.\n\n\nredis> JSON.ARRAPPEND item:1 $.colors '\"blue\"'\n1) (integer) 3\n\n\nReturn the new length of the `colors` array.\n\n\nredis> JSON.GET item:1\n\"{\\\"name\\\":\\\"Noise-cancelling Bluetooth headphones\\\",\\\"description\\\":\\\"Wireless Bluetooth headphones with noise-cancelling technology\\\",\\\"connection\\\":{\\\"wireless\\\":true,\\\"type\\\":\\\"Bluetooth\\\"},\\\"price\\\":99.98,\\\"stock\\\":25,\\\"colors\\\":[\\\"black\\\",\\\"silver\\\",\\\"blue\\\"]}\"\n\n\nGet the list of colors for the product.\n\n\nredis> JSON.GET item:1 '$.colors[*]'\n\"[\\\"black\\\",\\\"silver\\\",\\\"blue\\\"]\"\n\n\nInsert two more colors after the second color. You now have five colors.\n\n\nredis> JSON.ARRINSERT item:1 $.colors 2 '\"yellow\"' '\"gold\"'\n1) (integer) 5\n\n\nGet the updated list of colors.\n\n\nredis> JSON.GET item:1 $.colors\n\"[[\\\"black\\\",\\\"silver\\\",\\\"yellow\\\",\\\"gold\\\",\\\"blue\\\"]]\"\n\n\nFind the place where color `silver` is located.\n\n\nredis> JSON.ARRINDEX item:1 $..colors '\"silver\"'\n1) (integer) 1\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nWith `$`-based path argument: [Array reply]() of [integer replies]() or [null replies](), where each element is the first position in the array, `-1` if unfound, or `null` if the matching value is not an array.\n\nWith `.`-based path argument: [Integer reply]() representing the first position in the array, `-1` if unfound, or [null reply]() if the matching value is not an array.\n\n**RESP3:**\n\nWith `$`-based path argument (default): [Array reply]() of [integer replies]() or [null replies](), where each element is the first position in the array, `-1` if unfound, or `null` if the matching value is not an array.\n\nWith `.`-based path argument: [Integer reply]() representing the first position in the array, `-1` if unfound, or [null reply]() if the matching value is not an array.\n\n\n\n## See also\n\n[`JSON.ARRAPPEND`]() | [`JSON.ARRINSERT`]() \n\n## Related topics\n\n* [RedisJSON]()\n* [Index and search JSON documents]()",
+  "intro": "Search for the first occurrence of a JSON value in an array\n\n[Examples](#examples)",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Search for the first occurrence of a JSON value in an array\n\n[Examples](#examples)"
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open><summary><code>key</code></summary> \n\nis key to parse.\n</details>\n\n<details open><summary><code>path</code></summary> \n\nis JSONPath to specify.\n</details>\n\n<details open><summary><code>value</code></summary> \n\nis value to find its index in one or more arrays. \n\n\nTo specify a string as an array value to index, wrap the quoted string with an additional set of single quotes. Example: `'\"silver\"'`. For more detailed use, see [Examples](#examples).\n\n</details>"
+    },
+    {
+      "title": "Optional arguments",
+      "level": 2,
+      "content": "<details open><summary><code>start</code></summary> \n\nis inclusive start value to specify in a slice of the array to search. Default is `0`. \n</details>\n\n<details open><summary><code>stop</code></summary> \n\nis exclusive stop value to specify in a slice of the array to search, including the last element. Default is `0`. Negative values are interpreted as starting from the end.\n</details>\n\n\n\nOut-of-range indexes round to the array's start and end. An inverse index range (such as the range from 1 to 0) returns unfound or `-1`."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "<details open>\n<summary><b>Find the specific place of a color in a list of product colors</b></summary>\n\nCreate a document for noise-cancelling headphones in black and silver colors.\n\n\nredis> JSON.SET item:1 $ '{\"name\":\"Noise-cancelling Bluetooth headphones\",\"description\":\"Wireless Bluetooth headphones with noise-cancelling technology\",\"connection\":{\"wireless\":true,\"type\":\"Bluetooth\"},\"price\":99.98,\"stock\":25,\"colors\":[\"black\",\"silver\"]}'\nOK\n\n\nAdd color `blue` to the end of the `colors` array. `JSON.ARRAPEND` returns the array's new size.\n\n\nredis> JSON.ARRAPPEND item:1 $.colors '\"blue\"'\n1) (integer) 3\n\n\nReturn the new length of the `colors` array.\n\n\nredis> JSON.GET item:1\n\"{\\\"name\\\":\\\"Noise-cancelling Bluetooth headphones\\\",\\\"description\\\":\\\"Wireless Bluetooth headphones with noise-cancelling technology\\\",\\\"connection\\\":{\\\"wireless\\\":true,\\\"type\\\":\\\"Bluetooth\\\"},\\\"price\\\":99.98,\\\"stock\\\":25,\\\"colors\\\":[\\\"black\\\",\\\"silver\\\",\\\"blue\\\"]}\"\n\n\nGet the list of colors for the product.\n\n\nredis> JSON.GET item:1 '$.colors[*]'\n\"[\\\"black\\\",\\\"silver\\\",\\\"blue\\\"]\"\n\n\nInsert two more colors after the second color. You now have five colors.\n\n\nredis> JSON.ARRINSERT item:1 $.colors 2 '\"yellow\"' '\"gold\"'\n1) (integer) 5\n\n\nGet the updated list of colors.\n\n\nredis> JSON.GET item:1 $.colors\n\"[[\\\"black\\\",\\\"silver\\\",\\\"yellow\\\",\\\"gold\\\",\\\"blue\\\"]]\"\n\n\nFind the place where color `silver` is located.\n\n\nredis> JSON.ARRINDEX item:1 $..colors '\"silver\"'\n1) (integer) 1\n\n</details>"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nWith `$`-based path argument: [Array reply]() of [integer replies]() or [null replies](), where each element is the first position in the array, `-1` if unfound, or `null` if the matching value is not an array.\n\nWith `.`-based path argument: [Integer reply]() representing the first position in the array, `-1` if unfound, or [null reply]() if the matching value is not an array.\n\n**RESP3:**\n\nWith `$`-based path argument (default): [Array reply]() of [integer replies]() or [null replies](), where each element is the first position in the array, `-1` if unfound, or `null` if the matching value is not an array.\n\nWith `.`-based path argument: [Integer reply]() representing the first position in the array, `-1` if unfound, or [null reply]() if the matching value is not an array."
+    },
+    {
+      "title": "See also",
+      "level": 2,
+      "content": "[`JSON.ARRAPPEND`]() | [`JSON.ARRINSERT`]()"
+    },
+    {
+      "title": "Related topics",
+      "level": 2,
+      "content": "* [RedisJSON]()\n* [Index and search JSON documents]()"
+    }
+  ]
+}

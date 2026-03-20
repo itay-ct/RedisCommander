@@ -1,0 +1,140 @@
+{
+  "slug": "geodist",
+  "title": "GEODIST",
+  "description": "Returns the distance between two members of a geospatial index.",
+  "docsUrl": "https://redis.io/docs/latest/commands/geodist/",
+  "group": "geo",
+  "groupLabel": "Geo",
+  "syntax": "GEODIST key member1 member2 [M | KM | FT | MI]",
+  "complexity": "O(1)",
+  "since": "3.2.0",
+  "arity": -4,
+  "aclCategories": [
+    "@read",
+    "@geo",
+    "@slow"
+  ],
+  "commandFlags": [
+    "readonly"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "member1",
+      "name": "member1",
+      "type": "string"
+    },
+    {
+      "display_text": "member2",
+      "name": "member2",
+      "type": "string"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "m",
+          "name": "m",
+          "token": "M",
+          "type": "pure-token"
+        },
+        {
+          "display_text": "km",
+          "name": "km",
+          "token": "KM",
+          "type": "pure-token"
+        },
+        {
+          "display_text": "ft",
+          "name": "ft",
+          "token": "FT",
+          "type": "pure-token"
+        },
+        {
+          "display_text": "mi",
+          "name": "mi",
+          "token": "MI",
+          "type": "pure-token"
+        }
+      ],
+      "name": "unit",
+      "optional": true,
+      "type": "oneof"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RO": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Return the distance between two members in the geospatial index represented by the sorted set.\n\nGiven a sorted set representing a geospatial index, populated using the [`GEOADD`]() command, the command returns the distance between the two specified members in the specified unit.\n\nIf one or both the members are missing, the command returns NULL.\n\nThe unit must be one of the following, and defaults to meters:\n\n* **m** for meters.\n* **km** for kilometers.\n* **mi** for miles.\n* **ft** for feet.\n\nThe distance is computed assuming that the Earth is a perfect sphere, so errors up to 0.5% are possible in edge cases.\n\n## Examples\n\n\nGEOADD Sicily 13.361389 38.115556 \"Palermo\" 15.087269 37.502669 \"Catania\"\nGEODIST Sicily Palermo Catania\nGEODIST Sicily Palermo Catania km\nGEODIST Sicily Palermo Catania mi\nGEODIST Sicily Foo Bar\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): one or both of the elements are missing.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): distance as a double (represented as a string) in the specified units.\n\n**RESP3:**\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): one or both of the elements are missing.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): distance as a double (represented as a string) in the specified units.",
+  "intro": "Return the distance between two members in the geospatial index represented by the sorted set.\n\nGiven a sorted set representing a geospatial index, populated using the [`GEOADD`]() command, the command returns the distance between the two specified members in the specified unit.\n\nIf one or both the members are missing, the command returns NULL.\n\nThe unit must be one of the following, and defaults to meters:\n\n* **m** for meters.\n* **km** for kilometers.\n* **mi** for miles.\n* **ft** for feet.\n\nThe distance is computed assuming that the Earth is a perfect sphere, so errors up to 0.5% are possible in edge cases.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Return the distance between two members in the geospatial index represented by the sorted set.\n\nGiven a sorted set representing a geospatial index, populated using the [`GEOADD`]() command, the command returns the distance between the two specified members in the specified unit.\n\nIf one or both the members are missing, the command returns NULL.\n\nThe unit must be one of the following, and defaults to meters:\n\n* **m** for meters.\n* **km** for kilometers.\n* **mi** for miles.\n* **ft** for feet.\n\nThe distance is computed assuming that the Earth is a perfect sphere, so errors up to 0.5% are possible in edge cases."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "GEOADD Sicily 13.361389 38.115556 \"Palermo\" 15.087269 37.502669 \"Catania\"\nGEODIST Sicily Palermo Catania\nGEODIST Sicily Palermo Catania km\nGEODIST Sicily Palermo Catania mi\nGEODIST Sicily Foo Bar"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): one or both of the elements are missing.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): distance as a double (represented as a string) in the specified units.\n\n**RESP3:**\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): one or both of the elements are missing.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): distance as a double (represented as a string) in the specified units."
+    }
+  ]
+}

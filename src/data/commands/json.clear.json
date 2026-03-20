@@ -1,0 +1,117 @@
+{
+  "slug": "json.clear",
+  "title": "JSON.CLEAR",
+  "description": "Clears all values from an array or an object and sets numeric values to `0`",
+  "docsUrl": "https://redis.io/docs/latest/commands/json.clear/",
+  "group": "json",
+  "groupLabel": "JSON",
+  "syntax": "JSON.CLEAR key [path]",
+  "complexity": "O(N) when path is evaluated to a single value where N is the size of the values, O(N) when path is evaluated to multiple values, where N is the size of the key",
+  "since": "2.0.0",
+  "arity": null,
+  "aclCategories": [
+    "@json",
+    "@write",
+    "@slow"
+  ],
+  "commandFlags": [],
+  "arguments": [
+    {
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "name": "path",
+      "optional": true,
+      "type": "string"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "optional-arguments",
+        "title": "Optional arguments"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      },
+      {
+        "id": "see-also",
+        "title": "See also"
+      },
+      {
+        "id": "related-topics",
+        "title": "Related topics"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Clear container values (arrays/objects) and set numeric values to `0`\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open><summary><code>key</code></summary> \n\nis key to parse.\n</details>\n\n## Optional arguments\n\n<details open><summary><code>path</code></summary> \n\nis JSONPath to specify. Default is root `$`. Nonexisting paths are ignored.\n</details>\n\n\n \nAlready cleared values are ignored for empty containers and zero numbers.\n\n\n\n## Examples\n\n<details open>\n<summary><b>Clear container values and set numeric values to <code>0</code></b></summary>\n\nCreate a JSON document.\n\n\nredis> JSON.SET doc $ '{\"obj\":{\"a\":1, \"b\":2}, \"arr\":[1,2,3], \"str\": \"foo\", \"bool\": true, \"int\": 42, \"float\": 3.14}'\nOK\n\n\nClear all container values. This returns the number of objects with cleared values.\n\n\nredis> JSON.CLEAR doc $.*\n(integer) 4\n\n\nGet the updated document. Note that numeric values have been set to `0`.\n\n\nredis> JSON.GET doc $\n\"[{\\\"obj\\\":{},\\\"arr\\\":[],\\\"str\\\":\\\"foo\\\",\\\"bool\\\":true,\\\"int\\\":0,\\\"float\\\":0}]\"\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](): the number of matching JSON arrays and objects cleared plus the number of matching JSON numerical values zeroed.\n\n**RESP3:**\n\n[Integer reply](): the number of matching JSON arrays and objects cleared plus the number of matching JSON numerical values zeroed.\n\n\n\n## See also\n\n[`JSON.ARRINDEX`]() | [`JSON.ARRINSERT`]() \n\n## Related topics\n\n* [RedisJSON]()\n* [Index and search JSON documents]()",
+  "intro": "Clear container values (arrays/objects) and set numeric values to `0`\n\n[Examples](#examples)",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Clear container values (arrays/objects) and set numeric values to `0`\n\n[Examples](#examples)"
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open><summary><code>key</code></summary> \n\nis key to parse.\n</details>"
+    },
+    {
+      "title": "Optional arguments",
+      "level": 2,
+      "content": "<details open><summary><code>path</code></summary> \n\nis JSONPath to specify. Default is root `$`. Nonexisting paths are ignored.\n</details>\n\n\n \nAlready cleared values are ignored for empty containers and zero numbers."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "<details open>\n<summary><b>Clear container values and set numeric values to <code>0</code></b></summary>\n\nCreate a JSON document.\n\n\nredis> JSON.SET doc $ '{\"obj\":{\"a\":1, \"b\":2}, \"arr\":[1,2,3], \"str\": \"foo\", \"bool\": true, \"int\": 42, \"float\": 3.14}'\nOK\n\n\nClear all container values. This returns the number of objects with cleared values.\n\n\nredis> JSON.CLEAR doc $.*\n(integer) 4\n\n\nGet the updated document. Note that numeric values have been set to `0`.\n\n\nredis> JSON.GET doc $\n\"[{\\\"obj\\\":{},\\\"arr\\\":[],\\\"str\\\":\\\"foo\\\",\\\"bool\\\":true,\\\"int\\\":0,\\\"float\\\":0}]\"\n\n</details>"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Integer reply](): the number of matching JSON arrays and objects cleared plus the number of matching JSON numerical values zeroed.\n\n**RESP3:**\n\n[Integer reply](): the number of matching JSON arrays and objects cleared plus the number of matching JSON numerical values zeroed."
+    },
+    {
+      "title": "See also",
+      "level": 2,
+      "content": "[`JSON.ARRINDEX`]() | [`JSON.ARRINSERT`]()"
+    },
+    {
+      "title": "Related topics",
+      "level": 2,
+      "content": "* [RedisJSON]()\n* [Index and search JSON documents]()"
+    }
+  ]
+}

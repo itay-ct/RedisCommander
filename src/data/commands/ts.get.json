@@ -1,0 +1,118 @@
+{
+  "slug": "ts.get",
+  "title": "TS.GET",
+  "description": "Get the sample with the highest timestamp from a given time series",
+  "docsUrl": "https://redis.io/docs/latest/commands/ts.get/",
+  "group": "timeseries",
+  "groupLabel": "Time Series",
+  "syntax": "TS.GET key [LATEST]",
+  "complexity": "O(1)",
+  "since": "1.0.0",
+  "arity": null,
+  "aclCategories": [
+    "@timeseries",
+    "@read",
+    "@fast"
+  ],
+  "commandFlags": [],
+  "arguments": [
+    {
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "name": "LATEST",
+      "optional": true,
+      "since": "1.8.0",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "optional-arguments",
+        "title": "Optional arguments"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      },
+      {
+        "id": "see-also",
+        "title": "See also"
+      },
+      {
+        "id": "related-topics",
+        "title": "Related topics"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Get the sample with the highest timestamp from a given time series. Starting from Redis 8.6, NaN values are included in the results.\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open><summary><code>key</code></summary> \n\nis key name for the time series.\n</details>\n\n## Optional arguments\n\n<details open><summary><code>LATEST</code> (since RedisTimeSeries v1.8)</summary> \n\nis used when a time series is a compaction. With `LATEST`, TS.GET reports the compacted value of the latest (possibly partial) bucket. Without `LATEST`, TS.GET does not report the latest (possibly partial) bucket. When a time series is not a compaction, `LATEST` is ignored.\n  \nThe data in the latest bucket of a compaction is possibly partial. A bucket is _closed_ and compacted only upon arrival of a new sample that _opens_ a new _latest_ bucket. There are cases, however, when the compacted value of the latest (possibly partial) bucket is also required. In such a case, use `LATEST`.\n</details>\n\n## Examples\n\n<details open>\n<summary><b>Get latest measured temperature for a city</b></summary>\n\nCreate a time series to store the temperatures measured in Tel Aviv and add four measurements for Sun Jan 01 2023\n  \n\n127.0.0.1:6379> TS.CREATE temp:TLV LABELS type temp location TLV\nOK\n127.0.0.1:6379> TS.MADD temp:TLV 1672534800 12 temp:TLV 1672556400 16 temp:TLV 1672578000 21 temp:TLV 1672599600 14\n\n  \nNext, get the latest measured temperature (the temperature with the highest timestamp)\n\n\n127.0.0.1:6379> TS.GET temp:TLV\n1) (integer) 1672599600\n2) 14\n\n</details>\n\n<details open>\n<summary><b>Get latest maximal daily temperature for a city</b></summary>\n\nCreate a time series to store the temperatures measured in Jerusalem\n\n\n127.0.0.1:6379> TS.CREATE temp:JLM LABELS type temp location JLM\nOK\n\n\nNext, create a compacted time series named _dailyAvgTemp:JLM_ containing one compacted sample per 24 hours: the maximum of all measurements taken from midnight to next midnight.\n\n\n127.0.0.1:6379> TS.CREATE dailyMaxTemp:JLM LABELS type temp location JLM\nOK\n127.0.0.1:6379> TS.CREATERULE temp:JLM dailyMaxTemp:JLM AGGREGATION max 86400000\nOK\n\n\nAdd four measurements for Sun Jan 01 2023 and three measurements for Mon Jan 02 2023\n\n\n127.0.0.1:6379> TS.MADD temp:JLM 1672534800000 12 temp:JLM 1672556400000 16 temp:JLM 1672578000000 21 temp:JLM 1672599600000 14\n1) (integer) 1672534800000\n2) (integer) 1672556400000\n3) (integer) 1672578000000\n4) (integer) 1672599600000\n127.0.0.1:6379> TS.MADD temp:JLM 1672621200000 11 temp:JLM 1672642800000 21 temp:JLM 1672664400000 26\n1) (integer) 1672621200000\n2) (integer) 1672642800000\n3) (integer) 1672664400000\n\n  \nNext, get the latest maximum daily temperature; do not report the latest, possibly partial, bucket \n\n\n127.0.0.1:6379> TS.GET dailyMaxTemp:JLM\n1) (integer) 1672531200000\n2) 21\n\n\nGet the latest maximum daily temperature (the temperature with the highest timestamp); report the latest, possibly partial, bucket\n\n\n127.0.0.1:6379> TS.GET dailyMaxTemp:JLM LATEST\n1) (integer) 1672617600000\n2) 26\n\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Array reply]() of a single ([Integer reply](), [Simple string reply]()) pair representing (timestamp, value) of the sample with the highest timestamp.\n* An empty [Array reply]() when the time series is empty.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, key does not exist, etc.\n\n**RESP3:**\n\nOne of the following:\n* [Array reply]() of a single ([Integer reply](), [Double reply]()) pair representing (timestamp, value) of the sample with the highest timestamp.\n* An empty [Array reply]() when the time series is empty.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, key does not exist, etc.\n\n\n\n## See also\n\n[`TS.MGET`]()  \n\n## Related topics\n\n[RedisTimeSeries]()",
+  "intro": "Get the sample with the highest timestamp from a given time series. Starting from Redis 8.6, NaN values are included in the results.\n\n[Examples](#examples)",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Get the sample with the highest timestamp from a given time series. Starting from Redis 8.6, NaN values are included in the results.\n\n[Examples](#examples)"
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open><summary><code>key</code></summary> \n\nis key name for the time series.\n</details>"
+    },
+    {
+      "title": "Optional arguments",
+      "level": 2,
+      "content": "<details open><summary><code>LATEST</code> (since RedisTimeSeries v1.8)</summary> \n\nis used when a time series is a compaction. With `LATEST`, TS.GET reports the compacted value of the latest (possibly partial) bucket. Without `LATEST`, TS.GET does not report the latest (possibly partial) bucket. When a time series is not a compaction, `LATEST` is ignored.\n  \nThe data in the latest bucket of a compaction is possibly partial. A bucket is _closed_ and compacted only upon arrival of a new sample that _opens_ a new _latest_ bucket. There are cases, however, when the compacted value of the latest (possibly partial) bucket is also required. In such a case, use `LATEST`.\n</details>"
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "<details open>\n<summary><b>Get latest measured temperature for a city</b></summary>\n\nCreate a time series to store the temperatures measured in Tel Aviv and add four measurements for Sun Jan 01 2023\n  \n\n127.0.0.1:6379> TS.CREATE temp:TLV LABELS type temp location TLV\nOK\n127.0.0.1:6379> TS.MADD temp:TLV 1672534800 12 temp:TLV 1672556400 16 temp:TLV 1672578000 21 temp:TLV 1672599600 14\n\n  \nNext, get the latest measured temperature (the temperature with the highest timestamp)\n\n\n127.0.0.1:6379> TS.GET temp:TLV\n1) (integer) 1672599600\n2) 14\n\n</details>\n\n<details open>\n<summary><b>Get latest maximal daily temperature for a city</b></summary>\n\nCreate a time series to store the temperatures measured in Jerusalem\n\n\n127.0.0.1:6379> TS.CREATE temp:JLM LABELS type temp location JLM\nOK\n\n\nNext, create a compacted time series named _dailyAvgTemp:JLM_ containing one compacted sample per 24 hours: the maximum of all measurements taken from midnight to next midnight.\n\n\n127.0.0.1:6379> TS.CREATE dailyMaxTemp:JLM LABELS type temp location JLM\nOK\n127.0.0.1:6379> TS.CREATERULE temp:JLM dailyMaxTemp:JLM AGGREGATION max 86400000\nOK\n\n\nAdd four measurements for Sun Jan 01 2023 and three measurements for Mon Jan 02 2023\n\n\n127.0.0.1:6379> TS.MADD temp:JLM 1672534800000 12 temp:JLM 1672556400000 16 temp:JLM 1672578000000 21 temp:JLM 1672599600000 14\n1) (integer) 1672534800000\n2) (integer) 1672556400000\n3) (integer) 1672578000000\n4) (integer) 1672599600000\n127.0.0.1:6379> TS.MADD temp:JLM 1672621200000 11 temp:JLM 1672642800000 21 temp:JLM 1672664400000 26\n1) (integer) 1672621200000\n2) (integer) 1672642800000\n3) (integer) 1672664400000\n\n  \nNext, get the latest maximum daily temperature; do not report the latest, possibly partial, bucket \n\n\n127.0.0.1:6379> TS.GET dailyMaxTemp:JLM\n1) (integer) 1672531200000\n2) 21\n\n\nGet the latest maximum daily temperature (the temperature with the highest timestamp); report the latest, possibly partial, bucket\n\n\n127.0.0.1:6379> TS.GET dailyMaxTemp:JLM LATEST\n1) (integer) 1672617600000\n2) 26\n\n\n</details>"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Array reply]() of a single ([Integer reply](), [Simple string reply]()) pair representing (timestamp, value) of the sample with the highest timestamp.\n* An empty [Array reply]() when the time series is empty.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, key does not exist, etc.\n\n**RESP3:**\n\nOne of the following:\n* [Array reply]() of a single ([Integer reply](), [Double reply]()) pair representing (timestamp, value) of the sample with the highest timestamp.\n* An empty [Array reply]() when the time series is empty.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, key does not exist, etc."
+    },
+    {
+      "title": "See also",
+      "level": 2,
+      "content": "[`TS.MGET`]()"
+    },
+    {
+      "title": "Related topics",
+      "level": 2,
+      "content": "[RedisTimeSeries]()"
+    }
+  ]
+}

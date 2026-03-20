@@ -1,0 +1,89 @@
+{
+  "slug": "cf.exists",
+  "title": "CF.EXISTS",
+  "description": "Checks whether one or more items exist in a Cuckoo Filter",
+  "docsUrl": "https://redis.io/docs/latest/commands/cf.exists/",
+  "group": "cf",
+  "groupLabel": "Cuckoo",
+  "syntax": "CF.EXISTS key item",
+  "complexity": "O(k), where k is the number of sub-filters",
+  "since": "1.0.0",
+  "arity": null,
+  "aclCategories": [
+    "@cuckoo",
+    "@read",
+    "@slow"
+  ],
+  "commandFlags": [],
+  "arguments": [
+    {
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "name": "item",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Determines whether a given item was added to a cuckoo filter.\n\nThis command is similar to [`CF.MEXISTS`](), except that only one item can be checked.\n\n## Required arguments\n\n<details open><summary><code>key</code></summary>\n\nis key name for a cuckoo filter.\n\n</details>\n\n<details open><summary><code>item</code></summary>\n\nis an item to check.\n</details>\n\n## Examples\n\n\nredis> CF.ADD cf item1\n(integer) 1\nredis> CF.EXISTS cf item1\n(integer) 1\nredis> CF.EXISTS cf item2\n(integer) 0\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Integer reply](): `1` means that, with high probability, `item` was already added to the filter, and `0` means that either the `key` does not exist or that the `item` had not been added to the filter.\n* [Simple error reply]() if invalid arguments are passed.\n\n**RESP3:**\n\nOne of the following:\n* [Boolean reply](): `true` means that, with high probability, `item` was already added to the filter, and `false` means that either `key` does not exist or that `item` had not been added to the filter.\n* [Simple error reply]() if invalid arguments are passed or `key` is not of the correct type.",
+  "intro": "Determines whether a given item was added to a cuckoo filter.\n\nThis command is similar to [`CF.MEXISTS`](), except that only one item can be checked.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Determines whether a given item was added to a cuckoo filter.\n\nThis command is similar to [`CF.MEXISTS`](), except that only one item can be checked."
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open><summary><code>key</code></summary>\n\nis key name for a cuckoo filter.\n\n</details>\n\n<details open><summary><code>item</code></summary>\n\nis an item to check.\n</details>"
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "redis> CF.ADD cf item1\n(integer) 1\nredis> CF.EXISTS cf item1\n(integer) 1\nredis> CF.EXISTS cf item2\n(integer) 0"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Integer reply](): `1` means that, with high probability, `item` was already added to the filter, and `0` means that either the `key` does not exist or that the `item` had not been added to the filter.\n* [Simple error reply]() if invalid arguments are passed.\n\n**RESP3:**\n\nOne of the following:\n* [Boolean reply](): `true` means that, with high probability, `item` was already added to the filter, and `false` means that either `key` does not exist or that `item` had not been added to the filter.\n* [Simple error reply]() if invalid arguments are passed or `key` is not of the correct type."
+    }
+  ]
+}

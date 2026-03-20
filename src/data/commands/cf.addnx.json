@@ -1,0 +1,89 @@
+{
+  "slug": "cf.addnx",
+  "title": "CF.ADDNX",
+  "description": "Adds an item to a Cuckoo Filter if the item did not exist previously.",
+  "docsUrl": "https://redis.io/docs/latest/commands/cf.addnx/",
+  "group": "cf",
+  "groupLabel": "Cuckoo",
+  "syntax": "CF.ADDNX key item",
+  "complexity": "O(k + i), where k is the number of sub-filters and i is maxIterations",
+  "since": "1.0.0",
+  "arity": null,
+  "aclCategories": [
+    "@cuckoo",
+    "@write",
+    "@slow"
+  ],
+  "commandFlags": [],
+  "arguments": [
+    {
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "name": "item",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Adds an item to a cuckoo filter if the item does not exist.\n\nThis command is similar to the combination of [`CF.EXISTS`]() and [`CF.ADD`](). It does not add an item into the filter if its fingerprint already exists.\n\n<note><b>Notes:</b>\n\n- This command is slower than [`CF.ADD`]() because it first checks whether the item exists.\n- Since [`CF.EXISTS`]() can result in false positive, `CF.ADDNX` may not add an item because it is supposedly already exist, which may be wrong.\n\n</note>\n\n## Required arguments\n\n<details open><summary><code>key</code></summary>\n\nis key name for a cuckoo filter to add items to.\n\nIf `key` does not exist - a new cuckoo filter is created.\n</details>\n\n<details open><summary><code>item</code></summary>\n\nis an item to add.\n</details>\n\n## Examples\n\n\nredis> CF.ADDNX cf item\n(integer) 1\nredis> CF.ADDNX cf item\n(integer) 0\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Integer reply](): `1` for successfully adding an item to the filter or `0` if the item's fingerprint already exists in the filter.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, or when the filter is full.\n\n**RESP3:**\n\nOne of the following:\n* [Boolean reply](): `true` for successfully adding an item to the filter or `false` if the item's fingerprint already exists in the filter.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, or when the filter is full.",
+  "intro": "Adds an item to a cuckoo filter if the item does not exist.\n\nThis command is similar to the combination of [`CF.EXISTS`]() and [`CF.ADD`](). It does not add an item into the filter if its fingerprint already exists.\n\n<note><b>Notes:</b>\n\n- This command is slower than [`CF.ADD`]() because it first checks whether the item exists.\n- Since [`CF.EXISTS`]() can result in false positive, `CF.ADDNX` may not add an item because it is supposedly already exist, which may be wrong.\n\n</note>",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Adds an item to a cuckoo filter if the item does not exist.\n\nThis command is similar to the combination of [`CF.EXISTS`]() and [`CF.ADD`](). It does not add an item into the filter if its fingerprint already exists.\n\n<note><b>Notes:</b>\n\n- This command is slower than [`CF.ADD`]() because it first checks whether the item exists.\n- Since [`CF.EXISTS`]() can result in false positive, `CF.ADDNX` may not add an item because it is supposedly already exist, which may be wrong.\n\n</note>"
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open><summary><code>key</code></summary>\n\nis key name for a cuckoo filter to add items to.\n\nIf `key` does not exist - a new cuckoo filter is created.\n</details>\n\n<details open><summary><code>item</code></summary>\n\nis an item to add.\n</details>"
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "redis> CF.ADDNX cf item\n(integer) 1\nredis> CF.ADDNX cf item\n(integer) 0"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Integer reply](): `1` for successfully adding an item to the filter or `0` if the item's fingerprint already exists in the filter.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, or when the filter is full.\n\n**RESP3:**\n\nOne of the following:\n* [Boolean reply](): `true` for successfully adding an item to the filter or `false` if the item's fingerprint already exists in the filter.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, or when the filter is full."
+    }
+  ]
+}

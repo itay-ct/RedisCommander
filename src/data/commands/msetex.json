@@ -1,0 +1,183 @@
+{
+  "slug": "msetex",
+  "title": "MSETEX",
+  "description": "Atomically sets multiple string keys with a shared expiration in a single operation. Supports flexible argument parsing where condition and expiration flags can appear in any order.",
+  "docsUrl": "https://redis.io/docs/latest/commands/msetex/",
+  "group": "string",
+  "groupLabel": "Strings",
+  "syntax": "MSETEX numkeys key value [key value ...] [NX | XX] [EX seconds |\n  PX milliseconds | EXAT unix-time-seconds |\n  PXAT unix-time-milliseconds | KEEPTTL]",
+  "complexity": "O(N) where N is the number of keys to set.",
+  "since": "8.4.0",
+  "arity": -4,
+  "aclCategories": [
+    "@write",
+    "@string",
+    "@slow"
+  ],
+  "commandFlags": [
+    "write",
+    "denyoom",
+    "movablekeys"
+  ],
+  "arguments": [
+    {
+      "display_text": "numkeys",
+      "name": "numkeys",
+      "type": "integer"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "key",
+          "key_spec_index": 0,
+          "name": "key",
+          "type": "key"
+        },
+        {
+          "display_text": "value",
+          "name": "value",
+          "type": "string"
+        }
+      ],
+      "multiple": true,
+      "name": "data",
+      "type": "block"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "nx",
+          "name": "nx",
+          "token": "NX",
+          "type": "pure-token"
+        },
+        {
+          "display_text": "xx",
+          "name": "xx",
+          "token": "XX",
+          "type": "pure-token"
+        }
+      ],
+      "name": "condition",
+      "optional": true,
+      "type": "oneof"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "seconds",
+          "name": "seconds",
+          "token": "EX",
+          "type": "integer"
+        },
+        {
+          "display_text": "milliseconds",
+          "name": "milliseconds",
+          "token": "PX",
+          "type": "integer"
+        },
+        {
+          "display_text": "unix-time-seconds",
+          "name": "unix-time-seconds",
+          "token": "EXAT",
+          "type": "unix-time"
+        },
+        {
+          "display_text": "unix-time-milliseconds",
+          "name": "unix-time-milliseconds",
+          "token": "PXAT",
+          "type": "unix-time"
+        },
+        {
+          "display_text": "keepttl",
+          "name": "keepttl",
+          "token": "KEEPTTL",
+          "type": "pure-token"
+        }
+      ],
+      "name": "expiration",
+      "optional": true,
+      "type": "oneof"
+    }
+  ],
+  "keySpecs": [
+    {
+      "OW": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "firstkey": 1,
+          "keynumidx": 0,
+          "keystep": 2
+        },
+        "type": "keynum"
+      },
+      "update": true
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "optional-arguments",
+        "title": "Optional arguments"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Atomically sets multiple string keys with an optional shared expiration in a single operation.\n\n## Required arguments\n\n<details open><summary><code>numkeys</code></summary>\n\nThe number of keys being set.\n\n</details>\n\n<details open><summary><code>key value [key value ...]</code></summary>\n\nA series of key/value pairs.\n\n</details>\n\n## Optional arguments\n\n<details open><summary><code>condition and expiration flags</code></summary>\n\nThe `MSETEX` command supports a set of options that modify its behavior:\n\n* `NX` -- Set the keys and their expiration time only if none of the specified keys exist.\n* `XX` -- Set the keys and their expiration time only if all of the specified keys already exist.\n* `EX seconds` -- Set the specified expiration time in seconds (a positive integer).\n* `PX milliseconds` -- Set the specified expiration time in milliseconds (a positive integer).\n* `EXAT unix-time-seconds` -- Set the specified Unix time in seconds (a positive integer) at which the key(s) will expire.\n* `PXAT unix-time-milliseconds` -- Set the specified Unix time in milliseconds (a positive integer) at which the key(s) will expire.\n* `KEEPTTL` -- Retain the time to live associated with the keys.\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](): 0 if none of the keys were set; 1 if all of the keys were set.\n\n**RESP3:**\n\n[Integer reply](): 0 if none of the keys were set; 1 if all of the keys were set.",
+  "intro": "Atomically sets multiple string keys with an optional shared expiration in a single operation.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Atomically sets multiple string keys with an optional shared expiration in a single operation."
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open><summary><code>numkeys</code></summary>\n\nThe number of keys being set.\n\n</details>\n\n<details open><summary><code>key value [key value ...]</code></summary>\n\nA series of key/value pairs.\n\n</details>"
+    },
+    {
+      "title": "Optional arguments",
+      "level": 2,
+      "content": "<details open><summary><code>condition and expiration flags</code></summary>\n\nThe `MSETEX` command supports a set of options that modify its behavior:\n\n* `NX` -- Set the keys and their expiration time only if none of the specified keys exist.\n* `XX` -- Set the keys and their expiration time only if all of the specified keys already exist.\n* `EX seconds` -- Set the specified expiration time in seconds (a positive integer).\n* `PX milliseconds` -- Set the specified expiration time in milliseconds (a positive integer).\n* `EXAT unix-time-seconds` -- Set the specified Unix time in seconds (a positive integer) at which the key(s) will expire.\n* `PXAT unix-time-milliseconds` -- Set the specified Unix time in milliseconds (a positive integer) at which the key(s) will expire.\n* `KEEPTTL` -- Retain the time to live associated with the keys.\n\n</details>"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Integer reply](): 0 if none of the keys were set; 1 if all of the keys were set.\n\n**RESP3:**\n\n[Integer reply](): 0 if none of the keys were set; 1 if all of the keys were set."
+    }
+  ]
+}

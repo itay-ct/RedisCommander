@@ -1,0 +1,190 @@
+{
+  "slug": "rpush",
+  "title": "RPUSH",
+  "description": "Appends one or more elements to a list. Creates the key if it doesn't exist.",
+  "docsUrl": "https://redis.io/docs/latest/commands/rpush/",
+  "group": "list",
+  "groupLabel": "Lists",
+  "syntax": "RPUSH key element [element ...]",
+  "complexity": "O(1) for each element added, so O(N) to add N elements when the command is called with multiple arguments.",
+  "since": "1.0.0",
+  "arity": -3,
+  "aclCategories": [
+    "@write",
+    "@list",
+    "@fast"
+  ],
+  "commandFlags": [
+    "write",
+    "denyoom",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "element",
+      "multiple": true,
+      "name": "element",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      },
+      "insert": true
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [
+    {
+      "codetabsId": "cmds_list-steprpush",
+      "commands": [
+        {
+          "acl_categories": [
+            "@write",
+            "@list",
+            "@fast"
+          ],
+          "complexity": "O(1)",
+          "name": "RPUSH"
+        },
+        {
+          "acl_categories": [
+            "@read",
+            "@list",
+            "@slow"
+          ],
+          "complexity": "O(S+N)",
+          "name": "LRANGE"
+        }
+      ],
+      "description": "Foundational: Add one or more elements to the tail of a list using RPUSH (creates list if needed, returns new list length)",
+      "difficulty": "beginner",
+      "id": "rpush",
+      "languages": [
+        {
+          "id": "redis-cli",
+          "panelId": "panel_redis-cli_cmds_list-steprpush"
+        },
+        {
+          "clientId": "redis-py",
+          "clientName": "redis-py",
+          "id": "Python",
+          "langId": "python",
+          "panelId": "panel_Python_cmds_list-steprpush"
+        },
+        {
+          "id": "Node-js",
+          "panelId": "panel_Nodejs_cmds_list-steprpush"
+        },
+        {
+          "clientId": "jedis",
+          "clientName": "Jedis",
+          "id": "Java-Sync",
+          "langId": "java",
+          "panelId": "panel_Java-Sync_cmds_list-steprpush"
+        },
+        {
+          "clientId": "lettuce",
+          "clientName": "Lettuce",
+          "id": "Java-Async",
+          "langId": "java",
+          "panelId": "panel_Java-Async_cmds_list-steprpush"
+        },
+        {
+          "clientId": "lettuce",
+          "clientName": "Lettuce",
+          "id": "Java-Reactive",
+          "langId": "java",
+          "panelId": "panel_Java-Reactive_cmds_list-steprpush"
+        },
+        {
+          "clientId": "go-redis",
+          "clientName": "go-redis",
+          "id": "Go",
+          "langId": "go",
+          "panelId": "panel_Go_cmds_list-steprpush"
+        },
+        {
+          "id": "dotnet-Sync",
+          "panelId": "panel_Csharp-Sync_cmds_list-steprpush"
+        },
+        {
+          "clientId": "predis",
+          "clientName": "Predis",
+          "id": "PHP",
+          "langId": "php",
+          "panelId": "panel_PHP_cmds_list-steprpush"
+        }
+      ]
+    }
+  ],
+  "content": "Insert all the specified values at the tail of the list stored at `key`.\nIf `key` does not exist, it is created as empty list before performing the push\noperation.\nWhen `key` holds a value that is not a list, an error is returned.\n\nIt is possible to push multiple elements using a single command call just\nspecifying multiple arguments at the end of the command.\nElements are inserted one after the other to the tail of the list, from the\nleftmost element to the rightmost element.\nSo for instance the command `RPUSH mylist a b c` will result into a list\ncontaining `a` as first element, `b` as second element and `c` as third element.\n\n## Examples\n\n#### Code Examples\n\nFoundational: Add one or more elements to the tail of a list using RPUSH (creates list if needed, returns new list length)\n\n**Difficulty:** Beginner\n\n**Commands:** RPUSH, LRANGE\n\n**Complexity:**\n- RPUSH: O(1)\n- LRANGE: O(S+N)\n\n**Redis CLI:**\n\n```\nredis> RPUSH mylist \"hello\"\n(integer) 1\nredis> RPUSH mylist \"world\"\n(integer) 2\nredis> LRANGE mylist 0 -1\n1) \"hello\"\n2) \"world\"\n```\n\n**Available in:** Redis CLI, C# (Synchronous), Go, Java (Asynchronous - Lettuce), Java (Reactive - Lettuce), Java (Synchronous - Jedis), JavaScript (Node.js), PHP, Python\n\n**C# (Synchronous):**\n\n```csharp\n        long rPushResult1 = db.ListRightPush(\"mylist\", \"hello\");\n        Console.WriteLine(rPushResult1); // >>> 1\n\n        long rPushResult2 = db.ListRightPush(\"mylist\", \"world\");\n        Console.WriteLine(rPushResult2); // >>> 2\n\n        RedisValue[] rPushResult3 = db.ListRange(\"mylist\", 0, -1);\n        Console.WriteLine($\"[{string.Join(\", \", rPushResult3)}]\");\n        // >>> [hello, world]\n```\n\n**Go:**\n\n```go\n\trPushResult1, err := rdb.RPush(ctx, \"mylist\", \"Hello\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(rPushResult1) // >>> 1\n\n\trPushResult2, err := rdb.RPush(ctx, \"mylist\", \"World\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(rPushResult2) // >>> 2\n\n\tlRangeResult, err := rdb.LRange(ctx, \"mylist\", 0, -1).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(lRangeResult) // >>> [Hello World]\n```\n\n**Java (Asynchronous - Lettuce):**\n\n```java\n            CompletableFuture<Void> rpush = asyncCommands.rpush(\"mylist\", \"hello\").thenCompose(res14 -> {\n                System.out.println(res14); // >>> 1\n\n                return asyncCommands.rpush(\"mylist\", \"world\");\n            }).thenCompose(res15 -> {\n                System.out.println(res15); // >>> 2\n\n                return asyncCommands.lrange(\"mylist\", 0, -1);\n            })\n                    .thenAccept(res16 -> System.out.println(res16)) // >>> [hello, world]\n                    .toCompletableFuture();\n```\n\n**Java (Reactive - Lettuce):**\n\n```java\n            Mono<Void> rpush = reactiveCommands.rpush(\"mylist\", \"hello\").doOnNext(res14 -> {\n                System.out.println(res14); // >>> 1\n            }).flatMap(res14 -> reactiveCommands.rpush(\"mylist\", \"world\")).doOnNext(res15 -> {\n                System.out.println(res15); // >>> 2\n            }).flatMap(res15 -> reactiveCommands.lrange(\"mylist\", 0, -1).collectList()).doOnNext(res16 -> {\n                System.out.println(res16); // >>> [hello, world]\n            }).then();\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n        long rPushResult1 = jedis.rpush(\"mylist\", \"hello\");\n        System.out.println(rPushResult1); // >>> 1\n\n        long rPushResult2 = jedis.rpush(\"mylist\", \"world\");\n        System.out.println(rPushResult2); // >>> 2\n\n        List<String> rPushResult3 = jedis.lrange(\"mylist\", 0, -1);\n        System.out.println(rPushResult3); // >>> [hello, world]\n```\n\n**JavaScript (Node.js):**\n\n```javascript\nconst res14 = await client.rPush('mylist', 'hello');\nconsole.log(res14); // 1\n\nconst res15 = await client.rPush('mylist', 'world');\nconsole.log(res15); // 2\n\nconst res16 = await client.lRange('mylist', 0, -1);\nconsole.log(res16); // [ 'hello', 'world' ]\n\n```\n\n**PHP:**\n\n```php\n        $res14 = $r->rpush('mylist', 'hello');\n        echo $res14 . PHP_EOL;\n        // >>> 1\n\n        $res15 = $r->rpush('mylist', 'world');\n        echo $res15 . PHP_EOL;\n        // >>> 2\n\n        $res16 = $r->lrange('mylist', 0, -1);\n        echo json_encode($res16) . PHP_EOL;\n        // >>> [\"hello\",\"world\"]\n```\n\n**Python:**\n\n```python\nres14 = r.rpush(\"mylist\", \"hello\")\nprint(res14) # >>> 1\n\nres15 = r.rpush(\"mylist\", \"world\")\nprint(res15) # >>> 2\n\nres16 = r.lrange(\"mylist\", 0, -1)\nprint(res16)  # >>> [ \"hello\", \"world\" ]\n\n```\n\n\n\nGive these commands a try in the interactive console:\n\n\nRPUSH mylist \"hello\"\nRPUSH mylist \"world\"\nLRANGE mylist 0 -1\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the length of the list after the push operation.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the length of the list after the push operation.",
+  "intro": "Insert all the specified values at the tail of the list stored at `key`.\nIf `key` does not exist, it is created as empty list before performing the push\noperation.\nWhen `key` holds a value that is not a list, an error is returned.\n\nIt is possible to push multiple elements using a single command call just\nspecifying multiple arguments at the end of the command.\nElements are inserted one after the other to the tail of the list, from the\nleftmost element to the rightmost element.\nSo for instance the command `RPUSH mylist a b c` will result into a list\ncontaining `a` as first element, `b` as second element and `c` as third element.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Insert all the specified values at the tail of the list stored at `key`.\nIf `key` does not exist, it is created as empty list before performing the push\noperation.\nWhen `key` holds a value that is not a list, an error is returned.\n\nIt is possible to push multiple elements using a single command call just\nspecifying multiple arguments at the end of the command.\nElements are inserted one after the other to the tail of the list, from the\nleftmost element to the rightmost element.\nSo for instance the command `RPUSH mylist a b c` will result into a list\ncontaining `a` as first element, `b` as second element and `c` as third element."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "#### Code Examples\n\nFoundational: Add one or more elements to the tail of a list using RPUSH (creates list if needed, returns new list length)\n\n**Difficulty:** Beginner\n\n**Commands:** RPUSH, LRANGE\n\n**Complexity:**\n- RPUSH: O(1)\n- LRANGE: O(S+N)\n\n**Redis CLI:**\n\n```\nredis> RPUSH mylist \"hello\"\n(integer) 1\nredis> RPUSH mylist \"world\"\n(integer) 2\nredis> LRANGE mylist 0 -1\n1) \"hello\"\n2) \"world\"\n```\n\n**Available in:** Redis CLI, C# (Synchronous), Go, Java (Asynchronous - Lettuce), Java (Reactive - Lettuce), Java (Synchronous - Jedis), JavaScript (Node.js), PHP, Python\n\n**C# (Synchronous):**\n\n```csharp\n        long rPushResult1 = db.ListRightPush(\"mylist\", \"hello\");\n        Console.WriteLine(rPushResult1); // >>> 1\n\n        long rPushResult2 = db.ListRightPush(\"mylist\", \"world\");\n        Console.WriteLine(rPushResult2); // >>> 2\n\n        RedisValue[] rPushResult3 = db.ListRange(\"mylist\", 0, -1);\n        Console.WriteLine($\"[{string.Join(\", \", rPushResult3)}]\");\n        // >>> [hello, world]\n```\n\n**Go:**\n\n```go\n\trPushResult1, err := rdb.RPush(ctx, \"mylist\", \"Hello\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(rPushResult1) // >>> 1\n\n\trPushResult2, err := rdb.RPush(ctx, \"mylist\", \"World\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(rPushResult2) // >>> 2\n\n\tlRangeResult, err := rdb.LRange(ctx, \"mylist\", 0, -1).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(lRangeResult) // >>> [Hello World]\n```\n\n**Java (Asynchronous - Lettuce):**\n\n```java\n            CompletableFuture<Void> rpush = asyncCommands.rpush(\"mylist\", \"hello\").thenCompose(res14 -> {\n                System.out.println(res14); // >>> 1\n\n                return asyncCommands.rpush(\"mylist\", \"world\");\n            }).thenCompose(res15 -> {\n                System.out.println(res15); // >>> 2\n\n                return asyncCommands.lrange(\"mylist\", 0, -1);\n            })\n                    .thenAccept(res16 -> System.out.println(res16)) // >>> [hello, world]\n                    .toCompletableFuture();\n```\n\n**Java (Reactive - Lettuce):**\n\n```java\n            Mono<Void> rpush = reactiveCommands.rpush(\"mylist\", \"hello\").doOnNext(res14 -> {\n                System.out.println(res14); // >>> 1\n            }).flatMap(res14 -> reactiveCommands.rpush(\"mylist\", \"world\")).doOnNext(res15 -> {\n                System.out.println(res15); // >>> 2\n            }).flatMap(res15 -> reactiveCommands.lrange(\"mylist\", 0, -1).collectList()).doOnNext(res16 -> {\n                System.out.println(res16); // >>> [hello, world]\n            }).then();\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n        long rPushResult1 = jedis.rpush(\"mylist\", \"hello\");\n        System.out.println(rPushResult1); // >>> 1\n\n        long rPushResult2 = jedis.rpush(\"mylist\", \"world\");\n        System.out.println(rPushResult2); // >>> 2\n\n        List<String> rPushResult3 = jedis.lrange(\"mylist\", 0, -1);\n        System.out.println(rPushResult3); // >>> [hello, world]\n```\n\n**JavaScript (Node.js):**\n\n```javascript\nconst res14 = await client.rPush('mylist', 'hello');\nconsole.log(res14); // 1\n\nconst res15 = await client.rPush('mylist', 'world');\nconsole.log(res15); // 2\n\nconst res16 = await client.lRange('mylist', 0, -1);\nconsole.log(res16); // [ 'hello', 'world' ]\n\n```\n\n**PHP:**\n\n```php\n        $res14 = $r->rpush('mylist', 'hello');\n        echo $res14 . PHP_EOL;\n        // >>> 1\n\n        $res15 = $r->rpush('mylist', 'world');\n        echo $res15 . PHP_EOL;\n        // >>> 2\n\n        $res16 = $r->lrange('mylist', 0, -1);\n        echo json_encode($res16) . PHP_EOL;\n        // >>> [\"hello\",\"world\"]\n```\n\n**Python:**\n\n```python\nres14 = r.rpush(\"mylist\", \"hello\")\nprint(res14) # >>> 1\n\nres15 = r.rpush(\"mylist\", \"world\")\nprint(res15) # >>> 2\n\nres16 = r.lrange(\"mylist\", 0, -1)\nprint(res16)  # >>> [ \"hello\", \"world\" ]\n\n```\n\n\n\nGive these commands a try in the interactive console:\n\n\nRPUSH mylist \"hello\"\nRPUSH mylist \"world\"\nLRANGE mylist 0 -1"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the length of the list after the push operation.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the length of the list after the push operation."
+    }
+  ]
+}

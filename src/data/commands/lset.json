@@ -1,0 +1,110 @@
+{
+  "slug": "lset",
+  "title": "LSET",
+  "description": "Sets the value of an element in a list by its index.",
+  "docsUrl": "https://redis.io/docs/latest/commands/lset/",
+  "group": "list",
+  "groupLabel": "Lists",
+  "syntax": "LSET key index element",
+  "complexity": "O(N) where N is the length of the list. Setting either the first or the last element of the list is O(1).",
+  "since": "1.0.0",
+  "arity": 4,
+  "aclCategories": [
+    "@write",
+    "@list",
+    "@slow"
+  ],
+  "commandFlags": [
+    "write",
+    "denyoom"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "index",
+      "name": "index",
+      "type": "integer"
+    },
+    {
+      "display_text": "element",
+      "name": "element",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      },
+      "update": true
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Sets the list element at `index` to `element`.\nFor more information on the `index` argument, see [`LINDEX`]().\n\nAn error is returned for out of range indexes.\n\n## Examples\n\n\nRPUSH mylist \"one\"\nRPUSH mylist \"two\"\nRPUSH mylist \"three\"\nLSET mylist 0 \"four\"\nLSET mylist -2 \"five\"\nLRANGE mylist 0 -1\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.",
+  "intro": "Sets the list element at `index` to `element`.\nFor more information on the `index` argument, see [`LINDEX`]().\n\nAn error is returned for out of range indexes.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Sets the list element at `index` to `element`.\nFor more information on the `index` argument, see [`LINDEX`]().\n\nAn error is returned for out of range indexes."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "RPUSH mylist \"one\"\nRPUSH mylist \"two\"\nRPUSH mylist \"three\"\nLSET mylist 0 \"four\"\nLSET mylist -2 \"five\"\nLRANGE mylist 0 -1"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`."
+    }
+  ]
+}

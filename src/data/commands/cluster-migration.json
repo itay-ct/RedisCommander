@@ -1,0 +1,176 @@
+{
+  "slug": "cluster-migration",
+  "title": "CLUSTER MIGRATION",
+  "description": "Start, monitor, and cancel atomic slot migration tasks.",
+  "docsUrl": "https://redis.io/docs/latest/commands/cluster-migration/",
+  "group": "cluster",
+  "groupLabel": "Cluster",
+  "syntax": "CLUSTER MIGRATION <IMPORT start-slot end-slot\n  [start-slot end-slot ...] | CANCEL <ID task-id | ALL> |\n  STATUS <[ID task-id] | [ALL]>>",
+  "complexity": "O(N) where N is the total number of the slots between the start slot and end slot arguments.",
+  "since": "8.4.0",
+  "arity": -4,
+  "aclCategories": [
+    "@admin",
+    "@slow",
+    "@dangerous"
+  ],
+  "commandFlags": [
+    "admin",
+    "stale",
+    "no_async_loading"
+  ],
+  "arguments": [
+    {
+      "arguments": [
+        {
+          "arguments": [
+            {
+              "display_text": "start-slot",
+              "name": "start-slot",
+              "type": "integer"
+            },
+            {
+              "display_text": "end-slot",
+              "name": "end-slot",
+              "type": "integer"
+            }
+          ],
+          "multiple": true,
+          "name": "import",
+          "token": "IMPORT",
+          "type": "block"
+        },
+        {
+          "arguments": [
+            {
+              "display_text": "task-id",
+              "name": "task-id",
+              "token": "ID",
+              "type": "string"
+            },
+            {
+              "display_text": "all",
+              "name": "all",
+              "token": "ALL",
+              "type": "pure-token"
+            }
+          ],
+          "name": "cancel",
+          "token": "CANCEL",
+          "type": "oneof"
+        },
+        {
+          "arguments": [
+            {
+              "display_text": "task-id",
+              "name": "task-id",
+              "optional": true,
+              "token": "ID",
+              "type": "string"
+            },
+            {
+              "display_text": "all",
+              "name": "all",
+              "optional": true,
+              "token": "ALL",
+              "type": "pure-token"
+            }
+          ],
+          "name": "status",
+          "token": "STATUS",
+          "type": "oneof"
+        }
+      ],
+      "name": "subcommand",
+      "type": "oneof"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      },
+      {
+        "id": "notes",
+        "title": "Notes"
+      },
+      {
+        "id": "key-visibility-during-migration",
+        "title": "Key visibility during migration"
+      },
+      {
+        "id": "related-configuration",
+        "title": "Related configuration"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "The `CLUSTER MIGRATION` command provides atomic slot migration functionality for Redis Cluster. This command allows you to import slots from other nodes, monitor the progress of migration tasks, and cancel ongoing migrations.\n\n## Required arguments\n\n<details open><summary><code>subcommand</code></summary>\n\nThe subcommand specifies the operation to perform:\n\n- `IMPORT <start-slot> <end-slot> [<start-slot> <end-slot> ...]`: Executes on the destination master. Accepts multiple slot ranges and triggers atomic migration for the specified ranges. Returns a task ID that you can use to monitor the status of the task.\n\n- `CANCEL <ID <task-id> | ALL>`: Cancels an ongoing migration task by its ID or cancels all tasks if `ALL` is specified. Note: Cancelling a task on the source node does not stop the migration on the destination node, which will continue retrying until it is also cancelled there.\n\n- `STATUS [ID <task-id> | ALL]`: Displays the status of current and completed atomic slot migration tasks. If a specific task ID is provided, it returns detailed information for that task only. If `ALL` is specified, it returns the status of all ongoing and completed tasks.\n\n</details>\n\n## Examples\n\nImport slots 0-1000 and 2000-3000 to the current node:\n\n```bash\nCLUSTER MIGRATION IMPORT 0 1000 2000 3000\n```\n\nCheck the status of all migration tasks:\n\n```bash\nCLUSTER MIGRATION STATUS ALL\n```\n\nCheck the status of a specific migration task:\n\n```bash\nCLUSTER MIGRATION STATUS ID 24cf41718b20f7f05901743dffc40bc9b15db339\n```\n\nCancel a specific migration task:\n\n```bash\nCLUSTER MIGRATION CANCEL ID 24cf41718b20f7f05901743dffc40bc9b15db339\n```\n\nCancel all migration tasks:\n\n```bash\nCLUSTER MIGRATION CANCEL ALL\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nFor the `IMPORT` subcommand:\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): task ID on success, or error message on failure.\n\nFor the `CANCEL` subcommand:\n[Integer reply](../../develop/reference/protocol-spec#integers): number of cancelled tasks.\n\nFor the `STATUS` subcommand:\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of migration task details. Each task is represented as an array containing field-value pairs:\n- `id`: Task identifier\n- `slots`: Slot range being imported or migrated\n- `source`: Source node ID\n- `dest`: Destination node ID\n- `operation`: Operation type (\"import\" or \"migrate\")\n- `state`: Current state (\"completed\", \"in_progress\", etc.)\n- `last_error`: Last error message (empty if none)\n- `retries`: Number of retry attempts\n- `create_time`: Task creation timestamp\n- `start_time`: Task start timestamp\n- `end_time`: Task completion timestamp (if completed)\n- `write_pause_ms`: Write pause duration in milliseconds\n\n**RESP3:**\n\nFor the `IMPORT` subcommand:\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): task ID on success, or error message on failure.\n\nFor the `CANCEL` subcommand:\n[Integer reply](../../develop/reference/protocol-spec#integers): number of cancelled tasks.\n\nFor the `STATUS` subcommand:\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of migration task details. Each task is represented as an array containing field-value pairs:\n- `id`: Task identifier\n- `slots`: Slot range being migrated\n- `source`: Source node ID\n- `dest`: Destination node ID\n- `operation`: Operation type (typically \"migrate\")\n- `state`: Current state (\"completed\", \"in_progress\", etc.)\n- `last_error`: Last error message (empty if none)\n- `retries`: Number of retry attempts\n- `create_time`: Task creation timestamp\n- `start_time`: Task start timestamp\n- `end_time`: Task completion timestamp (if completed)\n- `write_pause_ms`: Write pause duration in milliseconds\n\n\n\n## Notes\n\n- The atomic slot migration feature is available starting from Redis 8.4.0.\n- Cancelling a task on the source node does not automatically stop the migration on the destination node.\n- In `CLUSTER MIGRATION STATUS` output, the \"state\" field will show `completed` for successful operations.\n- Tasks with empty \"last_error\" fields indicate no errors occurred during the migration process.\n\n## Key visibility during migration\n\nDuring atomic slot migration operations, keys in unowned slots may be filtered out from the following commands while importing or trimming is in progress:\n\n- [`KEYS`]()\n- [`SCAN`]()\n- [`RANDOMKEY`]()\n- [`CLUSTER GETKEYSINSLOT`]()\n- [`DBSIZE`]()\n- [`CLUSTER COUNTKEYSINSLOT`]()\n\nThe [`INFO KEYSPACE`]() command will continue to reflect the actual number of keys, including those being imported.\n\n## Related configuration\n\n- `cluster-slot-migration-handoff-max-lag-bytes`: After slot snapshot completion, if remaining replication stream size falls below this threshold, the source node pauses writes to hand off slot ownership. Higher values trigger handoff earlier but may cause longer write pauses. Lower values result in shorter write pauses but may be harder to reach with steady incoming writes (default: 1MB).\n- `cluster-slot-migration-write-pause-timeout`: Maximum duration that the source node pauses writes during ASM handoff. If the destination fails to take over slots within this timeout, the source assumes migration failed and resumes writes (default: 10 seconds).",
+  "intro": "The `CLUSTER MIGRATION` command provides atomic slot migration functionality for Redis Cluster. This command allows you to import slots from other nodes, monitor the progress of migration tasks, and cancel ongoing migrations.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "The `CLUSTER MIGRATION` command provides atomic slot migration functionality for Redis Cluster. This command allows you to import slots from other nodes, monitor the progress of migration tasks, and cancel ongoing migrations."
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open><summary><code>subcommand</code></summary>\n\nThe subcommand specifies the operation to perform:\n\n- `IMPORT <start-slot> <end-slot> [<start-slot> <end-slot> ...]`: Executes on the destination master. Accepts multiple slot ranges and triggers atomic migration for the specified ranges. Returns a task ID that you can use to monitor the status of the task.\n\n- `CANCEL <ID <task-id> | ALL>`: Cancels an ongoing migration task by its ID or cancels all tasks if `ALL` is specified. Note: Cancelling a task on the source node does not stop the migration on the destination node, which will continue retrying until it is also cancelled there.\n\n- `STATUS [ID <task-id> | ALL]`: Displays the status of current and completed atomic slot migration tasks. If a specific task ID is provided, it returns detailed information for that task only. If `ALL` is specified, it returns the status of all ongoing and completed tasks.\n\n</details>"
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "Import slots 0-1000 and 2000-3000 to the current node:\n\n```bash\nCLUSTER MIGRATION IMPORT 0 1000 2000 3000\n```\n\nCheck the status of all migration tasks:\n\n```bash\nCLUSTER MIGRATION STATUS ALL\n```\n\nCheck the status of a specific migration task:\n\n```bash\nCLUSTER MIGRATION STATUS ID 24cf41718b20f7f05901743dffc40bc9b15db339\n```\n\nCancel a specific migration task:\n\n```bash\nCLUSTER MIGRATION CANCEL ID 24cf41718b20f7f05901743dffc40bc9b15db339\n```\n\nCancel all migration tasks:\n\n```bash\nCLUSTER MIGRATION CANCEL ALL\n```"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nFor the `IMPORT` subcommand:\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): task ID on success, or error message on failure.\n\nFor the `CANCEL` subcommand:\n[Integer reply](../../develop/reference/protocol-spec#integers): number of cancelled tasks.\n\nFor the `STATUS` subcommand:\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of migration task details. Each task is represented as an array containing field-value pairs:\n- `id`: Task identifier\n- `slots`: Slot range being imported or migrated\n- `source`: Source node ID\n- `dest`: Destination node ID\n- `operation`: Operation type (\"import\" or \"migrate\")\n- `state`: Current state (\"completed\", \"in_progress\", etc.)\n- `last_error`: Last error message (empty if none)\n- `retries`: Number of retry attempts\n- `create_time`: Task creation timestamp\n- `start_time`: Task start timestamp\n- `end_time`: Task completion timestamp (if completed)\n- `write_pause_ms`: Write pause duration in milliseconds\n\n**RESP3:**\n\nFor the `IMPORT` subcommand:\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): task ID on success, or error message on failure.\n\nFor the `CANCEL` subcommand:\n[Integer reply](../../develop/reference/protocol-spec#integers): number of cancelled tasks.\n\nFor the `STATUS` subcommand:\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of migration task details. Each task is represented as an array containing field-value pairs:\n- `id`: Task identifier\n- `slots`: Slot range being migrated\n- `source`: Source node ID\n- `dest`: Destination node ID\n- `operation`: Operation type (typically \"migrate\")\n- `state`: Current state (\"completed\", \"in_progress\", etc.)\n- `last_error`: Last error message (empty if none)\n- `retries`: Number of retry attempts\n- `create_time`: Task creation timestamp\n- `start_time`: Task start timestamp\n- `end_time`: Task completion timestamp (if completed)\n- `write_pause_ms`: Write pause duration in milliseconds"
+    },
+    {
+      "title": "Notes",
+      "level": 2,
+      "content": "- The atomic slot migration feature is available starting from Redis 8.4.0.\n- Cancelling a task on the source node does not automatically stop the migration on the destination node.\n- In `CLUSTER MIGRATION STATUS` output, the \"state\" field will show `completed` for successful operations.\n- Tasks with empty \"last_error\" fields indicate no errors occurred during the migration process."
+    },
+    {
+      "title": "Key visibility during migration",
+      "level": 2,
+      "content": "During atomic slot migration operations, keys in unowned slots may be filtered out from the following commands while importing or trimming is in progress:\n\n- [`KEYS`]()\n- [`SCAN`]()\n- [`RANDOMKEY`]()\n- [`CLUSTER GETKEYSINSLOT`]()\n- [`DBSIZE`]()\n- [`CLUSTER COUNTKEYSINSLOT`]()\n\nThe [`INFO KEYSPACE`]() command will continue to reflect the actual number of keys, including those being imported."
+    },
+    {
+      "title": "Related configuration",
+      "level": 2,
+      "content": "- `cluster-slot-migration-handoff-max-lag-bytes`: After slot snapshot completion, if remaining replication stream size falls below this threshold, the source node pauses writes to hand off slot ownership. Higher values trigger handoff earlier but may cause longer write pauses. Lower values result in shorter write pauses but may be harder to reach with steady incoming writes (default: 1MB).\n- `cluster-slot-migration-write-pause-timeout`: Maximum duration that the source node pauses writes during ASM handoff. If the destination fails to take over slots within this timeout, the source assumes migration failed and resumes writes (default: 10 seconds)."
+    }
+  ]
+}

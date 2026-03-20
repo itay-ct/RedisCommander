@@ -1,0 +1,119 @@
+{
+  "slug": "xgroup-setid",
+  "title": "XGROUP SETID",
+  "description": "Sets the last-delivered ID of a consumer group.",
+  "docsUrl": "https://redis.io/docs/latest/commands/xgroup-setid/",
+  "group": "stream",
+  "groupLabel": "Streams",
+  "syntax": "XGROUP SETID key group <id | $> [ENTRIESREAD entries-read]",
+  "complexity": "O(1)",
+  "since": "5.0.0",
+  "arity": -5,
+  "aclCategories": [
+    "@write",
+    "@stream",
+    "@slow"
+  ],
+  "commandFlags": [
+    "write"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "group",
+      "name": "group",
+      "type": "string"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "id",
+          "name": "id",
+          "type": "string"
+        },
+        {
+          "display_text": "new-id",
+          "name": "new-id",
+          "token": "$",
+          "type": "pure-token"
+        }
+      ],
+      "name": "id-selector",
+      "type": "oneof"
+    },
+    {
+      "display_text": "entries-read",
+      "name": "entriesread",
+      "optional": true,
+      "token": "ENTRIESREAD",
+      "type": "integer"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "begin_search": {
+        "spec": {
+          "index": 2
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      },
+      "update": true
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Set the **last delivered ID** for a consumer group.\n\nNormally, a consumer group's last delivered ID is set when the group is created with [`XGROUP CREATE`]().\nThe `XGROUP SETID` command allows modifying the group's last delivered ID, without having to delete and recreate the group.\nFor instance if you want the consumers in a consumer group to re-process all the messages in a stream, you may want to set its next ID to 0:\n\n    XGROUP SETID mystream mygroup 0\n\nThe optional `entries_read` argument can be specified to enable consumer group lag tracking for an arbitrary ID.\nAn arbitrary ID is any ID that isn't the ID of the stream's first entry, its last entry or the zero (\"0-0\") ID.\nThis can be useful you know exactly how many entries are between the arbitrary ID (excluding it) and the stream's last entry.\nIn such cases, the `entries_read` can be set to the stream's `entries_added` subtracted with the number of entries.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.",
+  "intro": "Set the **last delivered ID** for a consumer group.\n\nNormally, a consumer group's last delivered ID is set when the group is created with [`XGROUP CREATE`]().\nThe `XGROUP SETID` command allows modifying the group's last delivered ID, without having to delete and recreate the group.\nFor instance if you want the consumers in a consumer group to re-process all the messages in a stream, you may want to set its next ID to 0:\n\n    XGROUP SETID mystream mygroup 0\n\nThe optional `entries_read` argument can be specified to enable consumer group lag tracking for an arbitrary ID.\nAn arbitrary ID is any ID that isn't the ID of the stream's first entry, its last entry or the zero (\"0-0\") ID.\nThis can be useful you know exactly how many entries are between the arbitrary ID (excluding it) and the stream's last entry.\nIn such cases, the `entries_read` can be set to the stream's `entries_added` subtracted with the number of entries.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Set the **last delivered ID** for a consumer group.\n\nNormally, a consumer group's last delivered ID is set when the group is created with [`XGROUP CREATE`]().\nThe `XGROUP SETID` command allows modifying the group's last delivered ID, without having to delete and recreate the group.\nFor instance if you want the consumers in a consumer group to re-process all the messages in a stream, you may want to set its next ID to 0:\n\n    XGROUP SETID mystream mygroup 0\n\nThe optional `entries_read` argument can be specified to enable consumer group lag tracking for an arbitrary ID.\nAn arbitrary ID is any ID that isn't the ID of the stream's first entry, its last entry or the zero (\"0-0\") ID.\nThis can be useful you know exactly how many entries are between the arbitrary ID (excluding it) and the stream's last entry.\nIn such cases, the `entries_read` can be set to the stream's `entries_added` subtracted with the number of entries."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`."
+    }
+  ]
+}

@@ -1,0 +1,403 @@
+{
+  "slug": "zrange",
+  "title": "ZRANGE",
+  "description": "Returns members in a sorted set within a range of indexes.",
+  "docsUrl": "https://redis.io/docs/latest/commands/zrange/",
+  "group": "sorted-set",
+  "groupLabel": "Sorted Sets",
+  "syntax": "ZRANGE key start stop [BYSCORE | BYLEX] [REV] [LIMIT offset count]\n  [WITHSCORES]",
+  "complexity": "O(log(N)+M) with N being the number of elements in the sorted set and M the number of elements returned.",
+  "since": "1.2.0",
+  "arity": -4,
+  "aclCategories": [
+    "@read",
+    "@sortedset",
+    "@slow"
+  ],
+  "commandFlags": [
+    "readonly"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "start",
+      "name": "start",
+      "type": "string"
+    },
+    {
+      "display_text": "stop",
+      "name": "stop",
+      "type": "string"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "byscore",
+          "name": "byscore",
+          "token": "BYSCORE",
+          "type": "pure-token"
+        },
+        {
+          "display_text": "bylex",
+          "name": "bylex",
+          "token": "BYLEX",
+          "type": "pure-token"
+        }
+      ],
+      "name": "sortby",
+      "optional": true,
+      "since": "6.2.0",
+      "type": "oneof"
+    },
+    {
+      "display_text": "rev",
+      "name": "rev",
+      "optional": true,
+      "since": "6.2.0",
+      "token": "REV",
+      "type": "pure-token"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "offset",
+          "name": "offset",
+          "type": "integer"
+        },
+        {
+          "display_text": "count",
+          "name": "count",
+          "type": "integer"
+        }
+      ],
+      "name": "limit",
+      "optional": true,
+      "since": "6.2.0",
+      "token": "LIMIT",
+      "type": "block"
+    },
+    {
+      "display_text": "withscores",
+      "name": "withscores",
+      "optional": true,
+      "token": "WITHSCORES",
+      "type": "pure-token"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RO": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "common-behavior-and-options",
+        "title": "Common behavior and options"
+      },
+      {
+        "id": "index-ranges",
+        "title": "Index ranges"
+      },
+      {
+        "id": "score-ranges",
+        "title": "Score ranges"
+      },
+      {
+        "id": "reverse-ranges",
+        "title": "Reverse ranges"
+      },
+      {
+        "children": [
+          {
+            "id": "lexicographical-comparison-of-strings",
+            "title": "Lexicographical comparison of strings"
+          }
+        ],
+        "id": "lexicographical-ranges",
+        "title": "Lexicographical ranges"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [
+    {
+      "codetabsId": "cmds_sorted_set-stepzrange1",
+      "commands": [
+        {
+          "acl_categories": [
+            "@write",
+            "@sortedset",
+            "@fast"
+          ],
+          "complexity": "O(log(N)",
+          "name": "ZADD"
+        },
+        {
+          "acl_categories": [
+            "@read",
+            "@sortedset",
+            "@slow"
+          ],
+          "complexity": "O(log(N)",
+          "name": "ZRANGE"
+        }
+      ],
+      "description": "Foundational: Retrieve a range of members from a sorted set by index using ZRANGE (supports negative indexes, inclusive range)",
+      "difficulty": "beginner",
+      "id": "zrange1",
+      "languages": [
+        {
+          "id": "redis-cli",
+          "panelId": "panel_redis-cli_cmds_sorted_set-stepzrange1"
+        },
+        {
+          "clientId": "redis-py",
+          "clientName": "redis-py",
+          "id": "Python",
+          "langId": "python",
+          "panelId": "panel_Python_cmds_sorted_set-stepzrange1"
+        },
+        {
+          "id": "Node-js",
+          "panelId": "panel_Nodejs_cmds_sorted_set-stepzrange1"
+        },
+        {
+          "clientId": "jedis",
+          "clientName": "Jedis",
+          "id": "Java-Sync",
+          "langId": "java",
+          "panelId": "panel_Java-Sync_cmds_sorted_set-stepzrange1"
+        },
+        {
+          "clientId": "go-redis",
+          "clientName": "go-redis",
+          "id": "Go",
+          "langId": "go",
+          "panelId": "panel_Go_cmds_sorted_set-stepzrange1"
+        },
+        {
+          "id": "dotnet-Sync",
+          "panelId": "panel_Csharp-Sync_cmds_sorted_set-stepzrange1"
+        }
+      ]
+    },
+    {
+      "codetabsId": "cmds_sorted_set-stepzrange2",
+      "commands": [
+        {
+          "acl_categories": [
+            "@write",
+            "@sortedset",
+            "@fast"
+          ],
+          "complexity": "O(log(N)",
+          "name": "ZADD"
+        },
+        {
+          "acl_categories": [
+            "@read",
+            "@sortedset",
+            "@slow"
+          ],
+          "complexity": "O(log(N)",
+          "name": "ZRANGE"
+        }
+      ],
+      "description": "Return scores with members: Retrieve members with their scores from a sorted set using ZRANGE with WITHSCORES option",
+      "difficulty": "intermediate",
+      "id": "zrange2",
+      "languages": [
+        {
+          "id": "redis-cli",
+          "panelId": "panel_redis-cli_cmds_sorted_set-stepzrange2"
+        },
+        {
+          "clientId": "redis-py",
+          "clientName": "redis-py",
+          "id": "Python",
+          "langId": "python",
+          "panelId": "panel_Python_cmds_sorted_set-stepzrange2"
+        },
+        {
+          "id": "Node-js",
+          "panelId": "panel_Nodejs_cmds_sorted_set-stepzrange2"
+        },
+        {
+          "clientId": "jedis",
+          "clientName": "Jedis",
+          "id": "Java-Sync",
+          "langId": "java",
+          "panelId": "panel_Java-Sync_cmds_sorted_set-stepzrange2"
+        },
+        {
+          "clientId": "go-redis",
+          "clientName": "go-redis",
+          "id": "Go",
+          "langId": "go",
+          "panelId": "panel_Go_cmds_sorted_set-stepzrange2"
+        },
+        {
+          "id": "dotnet-Sync",
+          "panelId": "panel_Csharp-Sync_cmds_sorted_set-stepzrange2"
+        }
+      ]
+    },
+    {
+      "codetabsId": "cmds_sorted_set-stepzrange3",
+      "commands": [
+        {
+          "acl_categories": [
+            "@write",
+            "@sortedset",
+            "@fast"
+          ],
+          "complexity": "O(log(N)",
+          "name": "ZADD"
+        },
+        {
+          "acl_categories": [
+            "@read",
+            "@sortedset",
+            "@slow"
+          ],
+          "complexity": "O(log(N)",
+          "name": "ZRANGE"
+        }
+      ],
+      "description": "Query by score: Query a sorted set by score range using ZRANGE with BYSCORE and LIMIT options (supports exclusive ranges and pagination)",
+      "difficulty": "intermediate",
+      "id": "zrange3",
+      "languages": [
+        {
+          "id": "redis-cli",
+          "panelId": "panel_redis-cli_cmds_sorted_set-stepzrange3"
+        },
+        {
+          "clientId": "redis-py",
+          "clientName": "redis-py",
+          "id": "Python",
+          "langId": "python",
+          "panelId": "panel_Python_cmds_sorted_set-stepzrange3"
+        },
+        {
+          "id": "Node-js",
+          "panelId": "panel_Nodejs_cmds_sorted_set-stepzrange3"
+        },
+        {
+          "clientId": "jedis",
+          "clientName": "Jedis",
+          "id": "Java-Sync",
+          "langId": "java",
+          "panelId": "panel_Java-Sync_cmds_sorted_set-stepzrange3"
+        },
+        {
+          "clientId": "go-redis",
+          "clientName": "go-redis",
+          "id": "Go",
+          "langId": "go",
+          "panelId": "panel_Go_cmds_sorted_set-stepzrange3"
+        },
+        {
+          "id": "dotnet-Sync",
+          "panelId": "panel_Csharp-Sync_cmds_sorted_set-stepzrange3"
+        }
+      ]
+    }
+  ],
+  "content": "Returns the specified range of elements in the sorted set stored at `<key>`.\n\n`ZRANGE` can perform different types of range queries: by index (rank), by the score, or by lexicographical order.\n\nStarting with Redis 6.2.0, this command can replace the following commands: [`ZREVRANGE`](), [`ZRANGEBYSCORE`](), [`ZREVRANGEBYSCORE`](), [`ZRANGEBYLEX`]() and [`ZREVRANGEBYLEX`]().\n\n## Common behavior and options\n\nThe order of elements is from the lowest to the highest score. Elements with the same score are ordered lexicographically.\n\nThe optional `REV` argument reverses the ordering, so elements are ordered from highest to lowest score, and score ties are resolved by reverse lexicographical ordering.\n\nThe optional `LIMIT` argument can be used to obtain a sub-range from the matching elements (similar to _SELECT LIMIT offset, count_ in SQL).\nA negative `<count>` returns all elements from the `<offset>`. Keep in mind that if `<offset>` is large, the sorted set needs to be traversed for `<offset>` elements before getting to the elements to return, which can add up to O(N) time complexity.\n\nThe optional `WITHSCORES` argument supplements the command's reply with the scores of elements returned. The returned list contains `value1,score1,...,valueN,scoreN` instead of `value1,...,valueN`. Client libraries are free to return a more appropriate data type (suggestion: an array with (value, score) arrays/tuples).\n\n## Index ranges\n\nBy default, the command performs an index range query. The `<start>` and `<stop>` arguments represent zero-based indexes, where `0` is the first element, `1` is the next element, and so on. These arguments specify an **inclusive range**, so for example, `ZRANGE myzset 0 1` will return both the first and the second element of the sorted set.\n\nThe indexes can also be negative numbers indicating offsets from the end of the sorted set, with `-1` being the last element of the sorted set, `-2` the penultimate element, and so on.\n\nOut of range indexes do not produce an error.\n\nIf `<start>` is greater than either the end index of the sorted set or `<stop>`, an empty list is returned.\n\nIf `<stop>` is greater than the end index of the sorted set, Redis will use the last element of the sorted set.\n\n## Score ranges\n\nWhen the `BYSCORE` option is provided, the command behaves like [`ZRANGEBYSCORE`]() and returns the range of elements from the sorted set having scores equal or between `<start>` and `<stop>`.\n\n`<start>` and `<stop>` can be `-inf` and `+inf`, denoting the negative and positive infinities, respectively. This means that you are not required to know the highest or lowest score in the sorted set to get all elements from or up to a certain score.\n\nBy default, the score intervals specified by `<start>` and `<stop>` are closed (inclusive).\nIt is possible to specify an open interval (exclusive) by prefixing the score\nwith the character `(`.\n\nFor example:\n\n```\nZRANGE zset (1 5 BYSCORE\n```\n\nWill return all elements with `1 < score <= 5` while:\n\n```\nZRANGE zset (5 (10 BYSCORE\n```\n\nWill return all the elements with `5 < score < 10` (5 and 10 excluded).\n\n## Reverse ranges\n\nUsing the `REV` option reverses the sorted set, with index 0 as the element with the highest score.\n\nBy default, `<start>` must be less than or equal to `<stop>` to return anything.\nHowever, if the `BYSCORE`, or `BYLEX` options are selected, the `<start>` is the highest score to consider, and `<stop>` is the lowest score to consider, therefore `<start>` must be greater than or equal to `<stop>` in order to return anything.\n\nFor example:\n\n```\nZRANGE zset 5 10 REV\n```\n\nWill return the elements between index 5 and 10 in the reversed index.\n\n```\nZRANGE zset 10 5 REV BYSCORE\n```\n\nWill return all elements with scores less than 10 and greater than 5.\n\n## Lexicographical ranges\n\nWhen the `BYLEX` option is used, the command behaves like [`ZRANGEBYLEX`]() and returns the range of elements from the sorted set between the `<start>` and `<stop>` lexicographical closed range intervals.\n\nNote that lexicographical ordering relies on all elements having the same score. The reply is unspecified when the elements have different scores.\n\nValid `<start>` and `<stop>` must start with `(` or `[`, in order to specify\nwhether the range interval is exclusive or inclusive, respectively.\n\nThe special values of `+` or `-` for `<start>` and `<stop>` mean positive and negative infinite strings, respectively, so for instance the command `ZRANGE myzset - + BYLEX` is guaranteed to return all the elements in the sorted set, providing that all the elements have the same score.\n\nThe `REV` options reverses the order of the `<start>` and `<stop>` elements, where `<start>` must be lexicographically greater than `<stop>` to produce a non-empty result.\n\n### Lexicographical comparison of strings\n\nStrings are compared as a binary array of bytes. Because of how the ASCII character set is specified, this means that usually this also have the effect of comparing normal ASCII characters in an obvious dictionary way. However, this is not true if non-plain ASCII strings are used (for example, utf8 strings).\n\nHowever, the user can apply a transformation to the encoded string so that the first part of the element inserted in the sorted set will compare as the user requires for the specific application. For example, if I want to\nadd strings that will be compared in a case-insensitive way, but I still\nwant to retrieve the real case when querying, I can add strings in the\nfollowing way:\n\n    ZADD autocomplete 0 foo:Foo 0 bar:BAR 0 zap:zap\n\nBecause of the first *normalized* part in every element (before the colon character), we are forcing a given comparison. However, after the range is queried using `ZRANGE ... BYLEX`, the application can display to the user the second part of the string, after the colon.\n\nThe binary nature of the comparison allows to use sorted sets as a general purpose index, for example, the first part of the element can be a 64-bit big-endian number. Since big-endian numbers have the most significant bytes in the initial positions, the binary comparison will match the numerical comparison of the numbers. This can be used in order to implement range queries on 64-bit values. As in the example below, after the first 8 bytes, we can store the value of the element we are indexing.\n\n## Examples\n\n#### Code Examples\n\nFoundational: Retrieve a range of members from a sorted set by index using ZRANGE (supports negative indexes, inclusive range)\n\n**Difficulty:** Beginner\n\n**Commands:** ZADD, ZRANGE\n\n**Complexity:**\n- ZADD: O(log(N)\n- ZRANGE: O(log(N)\n\n**Redis CLI:**\n\n```\n> ZADD myzset 1 \"one\" 2 \"two\" 3 \"three\"\n(integer) 3\n> ZRANGE myzset 0 -1\n1) \"one\"\n2) \"two\"\n3) \"three\"\n> ZRANGE myzset 2 3\n1) \"three\"\n> ZRANGE myzset -2 -1\n1) \"two\"\n2) \"three\"\n```\n\n**Available in:** Redis CLI, C# (Synchronous), Go, Java (Synchronous - Jedis), JavaScript (Node.js), Python\n\n**C# (Synchronous):**\n\n```csharp\n        long zRangeResult1 = db.SortedSetAdd(\n            \"myzset\",\n            [\n                new(\"one\", 1),\n                new(\"two\", 2),\n                new(\"three\", 3)\n            ]\n        );\n        Console.WriteLine(zRangeResult1);   // >>> 3\n\n        RedisValue[] zRangeResult2 = db.SortedSetRangeByRank(\"myzset\", 0, -1);\n        Console.WriteLine(string.Join(\", \", zRangeResult2));\n        // >>> one, two, three\n\n        RedisValue[] zRangeResult3 = db.SortedSetRangeByRank(\"myzset\", 2, 3);\n        Console.WriteLine(string.Join(\", \", zRangeResult3));\n        // >>> three\n\n        RedisValue[] zRangeResult4 = db.SortedSetRangeByRank(\"myzset\", -2, -1);\n        Console.WriteLine(string.Join(\", \", zRangeResult4));\n        // >>> two, three\n```\n\n**Go:**\n\n```go\n\tzrangeResult1, err := rdb.ZAdd(ctx, \"myzset\",\n\t\tredis.Z{Member: \"one\", Score: 1},\n\t\tredis.Z{Member: \"two\", Score: 2},\n\t\tredis.Z{Member: \"three\", Score: 3},\n\t).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(zrangeResult1) // >>> 3\n\n\tzrangeResult2, err := rdb.ZRange(ctx, \"myzset\", 0, -1).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(zrangeResult2) // >>> [one two three]\n\n\tzrangeResult3, err := rdb.ZRange(ctx, \"myzset\", 2, 3).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(zrangeResult3) // >>> [three]\n\n\tzrangeResult4, err := rdb.ZRange(ctx, \"myzset\", -2, -1).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(zrangeResult4) // >>> [two three]\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n        Map<String, Double> zRangeExampleParams1 = new HashMap<>();\n        zRangeExampleParams1.put(\"one\", 1.0);\n        zRangeExampleParams1.put(\"two\", 2.0);\n        zRangeExampleParams1.put(\"three\", 3.0);\n        long zRangeResult1 = jedis.zadd(\"myzset\", zRangeExampleParams1);\n        System.out.println(zRangeResult1);  // >>> 3\n\n        List<String> zRangeResult2 = jedis.zrange(\"myzset\", new ZRangeParams(0, -1));\n        System.out.println(String.join(\", \", zRangeResult2));   // >>> one, two, three\n\n        List<String> zRangeResult3 = jedis.zrange(\"myzset\", new ZRangeParams(2, 3));\n        System.out.println(String.join(\", \", zRangeResult3));   // >> three\n\n        List<String> zRangeResult4 = jedis.zrange(\"myzset\", new ZRangeParams(-2, -1));\n        System.out.println(String.join(\", \", zRangeResult4));   // >> two, three\n```\n\n**JavaScript (Node.js):**\n\n```javascript\nconst val5 = await client.zAdd(\"myzset\", [\n  { value: 'one', score: 1 },\n  { value: 'two', score: 2 },\n  { value: 'three', score: 3 }\n]);\nconsole.log(val5);\n// returns 3\n\nconst val6 = await client.zRange('myzset', 0, -1);\nconsole.log(val6);\n// returns ['one', 'two', 'three']\n\nconst val7 = await client.zRange('myzset', 2, 3);\nconsole.log(val7);\n// returns ['three']\n\nconst val8 = await client.zRange('myzset', -2, -1);\nconsole.log(val8);\n// returns ['two', 'three']\n```\n\n**Python:**\n\n```python\nres = r.zadd(\"myzset\", {\"one\": 1, \"two\":2, \"three\":3})\nprint(res)\n# >>> 3\n\nres = r.zrange(\"myzset\", 0, -1)\nprint(res)\n# >>> ['one', 'two', 'three']\n\nres = r.zrange(\"myzset\", 2, 3)\nprint(res)\n# >>> ['three']\n\nres = r.zrange(\"myzset\", -2, -1)\nprint(res)\n# >>> ['two', 'three']\n```\n\n\n\nThe following example using `WITHSCORES` shows how the command returns always an array, but this time, populated with *element_1*, *score_1*, *element_2*, *score_2*, ..., *element_N*, *score_N*.\n\n#### Code Examples\n\nReturn scores with members: Retrieve members with their scores from a sorted set using ZRANGE with WITHSCORES option\n\n**Difficulty:** Intermediate\n\n**Commands:** ZADD, ZRANGE\n\n**Complexity:**\n- ZADD: O(log(N)\n- ZRANGE: O(log(N)\n\n**Redis CLI:**\n\n```\n> ZADD myzset 1 \"one\" 2 \"two\" 3 \"three\"\n(integer) 3\n> ZRANGE myzset 0 1 WITHSCORES\n1) \"one\"\n2) \"1\"\n3) \"two\"\n4) \"2\"\n```\n\n**Available in:** Redis CLI, C# (Synchronous), Go, Java (Synchronous - Jedis), JavaScript (Node.js), Python\n\n**C# (Synchronous):**\n\n```csharp\n        long zRangeResult5 = db.SortedSetAdd(\n            \"myzset\",\n            [\n                new(\"one\", 1),\n                new(\"two\", 2),\n                new(\"three\", 3)\n            ]\n        );\n\n        SortedSetEntry[] zRangeResult6 = db.SortedSetRangeByRankWithScores(\"myzset\", 0, 1);\n        Console.WriteLine($\"{string.Join(\", \", zRangeResult6.Select(b => $\"{b.Element}: {b.Score}\"))}\");\n        // >>> one: 1, two: 2\n```\n\n**Go:**\n\n```go\n\tzRangeResult5, err := rdb.ZAdd(ctx, \"myzset\",\n\t\tredis.Z{Member: \"one\", Score: 1},\n\t\tredis.Z{Member: \"two\", Score: 2},\n\t\tredis.Z{Member: \"three\", Score: 3},\n\t).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(zRangeResult5) // >>> 3\n\n\tzRangeResult6, err := rdb.ZRangeWithScores(ctx, \"myzset\", 0, 1).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(zRangeResult6) // >>> [{1 one} {2 two}]\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n        Map<String, Double> zRangeExampleParams2 = new HashMap<>();\n        zRangeExampleParams2.put(\"one\", 1.0);\n        zRangeExampleParams2.put(\"two\", 2.0);\n        zRangeExampleParams2.put(\"three\", 3.0);\n        long zRangeResult5 = jedis.zadd(\"myzset\", zRangeExampleParams2);\n        System.out.println(zRangeResult5);  // >>> 3\n\n        List<Tuple> zRangeResult6 = jedis.zrangeWithScores(\"myzset\", new ZRangeParams(0, 1));\n\n        for (Tuple item: zRangeResult6) {\n            System.out.println(\"Element: \" + item.getElement() + \", Score: \" + item.getScore());\n        }\n        // >>> Element: one, Score: 1.0\n        // >>> Element: two, Score: 2.0\n```\n\n**JavaScript (Node.js):**\n\n```javascript\nconst val9 = await client.zAdd(\"myzset\", [\n  { value: 'one', score: 1 },\n  { value: 'two', score: 2 },\n  { value: 'three', score: 3 }\n]);\nconsole.log(val9);\n// returns 3\n\nconst val10 = await client.zRangeWithScores('myzset', 0, 1);\nconsole.log(val10);\n// returns [{value: 'one', score: 1}, {value: 'two', score: 2}]\n```\n\n**Python:**\n\n```python\nres = r.zadd(\"myzset\", {\"one\": 1, \"two\":2, \"three\":3})\nres = r.zrange(\"myzset\", 0, 1, withscores=True)\nprint(res)\n# >>> [('one', 1.0), ('two', 2.0)]\n```\n\n\n\nThis example shows how to query the sorted set by score, excluding the value `1` and up to infinity, returning only the second element of the result:\n\n#### Code Examples\n\nQuery by score: Query a sorted set by score range using ZRANGE with BYSCORE and LIMIT options (supports exclusive ranges and pagination)\n\n**Difficulty:** Intermediate\n\n**Commands:** ZADD, ZRANGE\n\n**Complexity:**\n- ZADD: O(log(N)\n- ZRANGE: O(log(N)\n\n**Redis CLI:**\n\n```\n> ZADD myzset 1 \"one\" 2 \"two\" 3 \"three\"\n(integer) 3\n> ZRANGE myzset (1 +inf BYSCORE LIMIT 1 1\n1) \"three\"\n```\n\n**Available in:** Redis CLI, C# (Synchronous), Go, Java (Synchronous - Jedis), JavaScript (Node.js), Python\n\n**C# (Synchronous):**\n\n```csharp\n        long zRangeResult7 = db.SortedSetAdd(\n            \"myzset\",\n            [\n                new(\"one\", 1),\n                new(\"two\", 2),\n                new(\"three\", 3)\n            ]\n        );\n\n        RedisValue[] zRangeResult8 = db.SortedSetRangeByScore(\n            \"myzset\",\n            1,\n            double.PositiveInfinity,\n            Exclude.Start,\n            skip: 1, take: 1\n        );\n        Console.WriteLine(string.Join(\", \", zRangeResult8));\n        // >>> three\n```\n\n**Go:**\n\n```go\n\tzRangeResult7, err := rdb.ZAdd(ctx, \"myzset\",\n\t\tredis.Z{Member: \"one\", Score: 1},\n\t\tredis.Z{Member: \"two\", Score: 2},\n\t\tredis.Z{Member: \"three\", Score: 3},\n\t).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(zRangeResult7) // >>> 3\n\n\tzRangeResult8, err := rdb.ZRangeArgs(ctx,\n\t\tredis.ZRangeArgs{\n\t\t\tKey:     \"myzset\",\n\t\t\tByScore: true,\n\t\t\tStart:   \"(1\",\n\t\t\tStop:    \"+inf\",\n\t\t\tOffset:  1,\n\t\t\tCount:   1,\n\t\t},\n\t).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(zRangeResult8) // >>> [three]\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n        Map<String, Double> zRangeExampleParams3 = new HashMap<>();\n        zRangeExampleParams3.put(\"one\", 1.0);\n        zRangeExampleParams3.put(\"two\", 2.0);\n        zRangeExampleParams3.put(\"three\", 3.0);\n        long zRangeResult7 = jedis.zadd(\"myzset\", zRangeExampleParams3);\n        System.out.println(zRangeResult7);  // >>> 3\n\n        List<String> zRangeResult8 = jedis.zrangeByScore(\"myzset\", \"(1\", \"+inf\", 1, 1);\n        System.out.println(String.join(\", \", zRangeResult8));   // >>> three\n```\n\n**JavaScript (Node.js):**\n\n```javascript\nconst val11 = await client.zAdd(\"myzset\", [\n  { value: 'one', score: 1 },\n  { value: 'two', score: 2 },\n  { value: 'three', score: 3 }\n]);\nconsole.log(val11);\n// returns 3\n\nconst val12 = await client.zRange('myzset', 2, 3, { BY: 'SCORE', LIMIT: { offset: 1, count: 1 } });\nconsole.log(val12);\n// >>> ['three']\n```\n\n**Python:**\n\n```python\nres = r.zadd(\"myzset\", {\"one\": 1, \"two\":2, \"three\":3})\nres = r.zrange(\"myzset\", 2, 3, byscore=True, offset=1, num=1)\nprint(res)\n# >>> ['three']\n```\n\n\n\nGive these commands a try in the interactive console:\n\n\nZADD myzset 1 \"one\" 2 \"two\" 3 \"three\"\nZRANGE myzset 0 -1\nZRANGE myzset 2 3\nZRANGE myzset -2 -1\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of members in the specified range with, optionally, their scores when the _WITHSCORES_ option is given.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of members in the specified range with, optionally, their scores when the _WITHSCORES_ option is given.",
+  "intro": "Returns the specified range of elements in the sorted set stored at `<key>`.\n\n`ZRANGE` can perform different types of range queries: by index (rank), by the score, or by lexicographical order.\n\nStarting with Redis 6.2.0, this command can replace the following commands: [`ZREVRANGE`](), [`ZRANGEBYSCORE`](), [`ZREVRANGEBYSCORE`](), [`ZRANGEBYLEX`]() and [`ZREVRANGEBYLEX`]().",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Returns the specified range of elements in the sorted set stored at `<key>`.\n\n`ZRANGE` can perform different types of range queries: by index (rank), by the score, or by lexicographical order.\n\nStarting with Redis 6.2.0, this command can replace the following commands: [`ZREVRANGE`](), [`ZRANGEBYSCORE`](), [`ZREVRANGEBYSCORE`](), [`ZRANGEBYLEX`]() and [`ZREVRANGEBYLEX`]()."
+    },
+    {
+      "title": "Common behavior and options",
+      "level": 2,
+      "content": "The order of elements is from the lowest to the highest score. Elements with the same score are ordered lexicographically.\n\nThe optional `REV` argument reverses the ordering, so elements are ordered from highest to lowest score, and score ties are resolved by reverse lexicographical ordering.\n\nThe optional `LIMIT` argument can be used to obtain a sub-range from the matching elements (similar to _SELECT LIMIT offset, count_ in SQL).\nA negative `<count>` returns all elements from the `<offset>`. Keep in mind that if `<offset>` is large, the sorted set needs to be traversed for `<offset>` elements before getting to the elements to return, which can add up to O(N) time complexity.\n\nThe optional `WITHSCORES` argument supplements the command's reply with the scores of elements returned. The returned list contains `value1,score1,...,valueN,scoreN` instead of `value1,...,valueN`. Client libraries are free to return a more appropriate data type (suggestion: an array with (value, score) arrays/tuples)."
+    },
+    {
+      "title": "Index ranges",
+      "level": 2,
+      "content": "By default, the command performs an index range query. The `<start>` and `<stop>` arguments represent zero-based indexes, where `0` is the first element, `1` is the next element, and so on. These arguments specify an **inclusive range**, so for example, `ZRANGE myzset 0 1` will return both the first and the second element of the sorted set.\n\nThe indexes can also be negative numbers indicating offsets from the end of the sorted set, with `-1` being the last element of the sorted set, `-2` the penultimate element, and so on.\n\nOut of range indexes do not produce an error.\n\nIf `<start>` is greater than either the end index of the sorted set or `<stop>`, an empty list is returned.\n\nIf `<stop>` is greater than the end index of the sorted set, Redis will use the last element of the sorted set."
+    },
+    {
+      "title": "Score ranges",
+      "level": 2,
+      "content": "When the `BYSCORE` option is provided, the command behaves like [`ZRANGEBYSCORE`]() and returns the range of elements from the sorted set having scores equal or between `<start>` and `<stop>`.\n\n`<start>` and `<stop>` can be `-inf` and `+inf`, denoting the negative and positive infinities, respectively. This means that you are not required to know the highest or lowest score in the sorted set to get all elements from or up to a certain score.\n\nBy default, the score intervals specified by `<start>` and `<stop>` are closed (inclusive).\nIt is possible to specify an open interval (exclusive) by prefixing the score\nwith the character `(`.\n\nFor example:\n\n```\nZRANGE zset (1 5 BYSCORE\n```\n\nWill return all elements with `1 < score <= 5` while:\n\n```\nZRANGE zset (5 (10 BYSCORE\n```\n\nWill return all the elements with `5 < score < 10` (5 and 10 excluded)."
+    },
+    {
+      "title": "Reverse ranges",
+      "level": 2,
+      "content": "Using the `REV` option reverses the sorted set, with index 0 as the element with the highest score.\n\nBy default, `<start>` must be less than or equal to `<stop>` to return anything.\nHowever, if the `BYSCORE`, or `BYLEX` options are selected, the `<start>` is the highest score to consider, and `<stop>` is the lowest score to consider, therefore `<start>` must be greater than or equal to `<stop>` in order to return anything.\n\nFor example:\n\n```\nZRANGE zset 5 10 REV\n```\n\nWill return the elements between index 5 and 10 in the reversed index.\n\n```\nZRANGE zset 10 5 REV BYSCORE\n```\n\nWill return all elements with scores less than 10 and greater than 5."
+    },
+    {
+      "title": "Lexicographical ranges",
+      "level": 2,
+      "content": "When the `BYLEX` option is used, the command behaves like [`ZRANGEBYLEX`]() and returns the range of elements from the sorted set between the `<start>` and `<stop>` lexicographical closed range intervals.\n\nNote that lexicographical ordering relies on all elements having the same score. The reply is unspecified when the elements have different scores.\n\nValid `<start>` and `<stop>` must start with `(` or `[`, in order to specify\nwhether the range interval is exclusive or inclusive, respectively.\n\nThe special values of `+` or `-` for `<start>` and `<stop>` mean positive and negative infinite strings, respectively, so for instance the command `ZRANGE myzset - + BYLEX` is guaranteed to return all the elements in the sorted set, providing that all the elements have the same score.\n\nThe `REV` options reverses the order of the `<start>` and `<stop>` elements, where `<start>` must be lexicographically greater than `<stop>` to produce a non-empty result."
+    },
+    {
+      "title": "Lexicographical comparison of strings",
+      "level": 3,
+      "content": "Strings are compared as a binary array of bytes. Because of how the ASCII character set is specified, this means that usually this also have the effect of comparing normal ASCII characters in an obvious dictionary way. However, this is not true if non-plain ASCII strings are used (for example, utf8 strings).\n\nHowever, the user can apply a transformation to the encoded string so that the first part of the element inserted in the sorted set will compare as the user requires for the specific application. For example, if I want to\nadd strings that will be compared in a case-insensitive way, but I still\nwant to retrieve the real case when querying, I can add strings in the\nfollowing way:\n\n    ZADD autocomplete 0 foo:Foo 0 bar:BAR 0 zap:zap\n\nBecause of the first *normalized* part in every element (before the colon character), we are forcing a given comparison. However, after the range is queried using `ZRANGE ... BYLEX`, the application can display to the user the second part of the string, after the colon.\n\nThe binary nature of the comparison allows to use sorted sets as a general purpose index, for example, the first part of the element can be a 64-bit big-endian number. Since big-endian numbers have the most significant bytes in the initial positions, the binary comparison will match the numerical comparison of the numbers. This can be used in order to implement range queries on 64-bit values. As in the example below, after the first 8 bytes, we can store the value of the element we are indexing."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "#### Code Examples\n\nFoundational: Retrieve a range of members from a sorted set by index using ZRANGE (supports negative indexes, inclusive range)\n\n**Difficulty:** Beginner\n\n**Commands:** ZADD, ZRANGE\n\n**Complexity:**\n- ZADD: O(log(N)\n- ZRANGE: O(log(N)\n\n**Redis CLI:**\n\n```\n> ZADD myzset 1 \"one\" 2 \"two\" 3 \"three\"\n(integer) 3\n> ZRANGE myzset 0 -1\n1) \"one\"\n2) \"two\"\n3) \"three\"\n> ZRANGE myzset 2 3\n1) \"three\"\n> ZRANGE myzset -2 -1\n1) \"two\"\n2) \"three\"\n```\n\n**Available in:** Redis CLI, C# (Synchronous), Go, Java (Synchronous - Jedis), JavaScript (Node.js), Python\n\n**C# (Synchronous):**\n\n```csharp\n        long zRangeResult1 = db.SortedSetAdd(\n            \"myzset\",\n            [\n                new(\"one\", 1),\n                new(\"two\", 2),\n                new(\"three\", 3)\n            ]\n        );\n        Console.WriteLine(zRangeResult1);   // >>> 3\n\n        RedisValue[] zRangeResult2 = db.SortedSetRangeByRank(\"myzset\", 0, -1);\n        Console.WriteLine(string.Join(\", \", zRangeResult2));\n        // >>> one, two, three\n\n        RedisValue[] zRangeResult3 = db.SortedSetRangeByRank(\"myzset\", 2, 3);\n        Console.WriteLine(string.Join(\", \", zRangeResult3));\n        // >>> three\n\n        RedisValue[] zRangeResult4 = db.SortedSetRangeByRank(\"myzset\", -2, -1);\n        Console.WriteLine(string.Join(\", \", zRangeResult4));\n        // >>> two, three\n```\n\n**Go:**\n\n```go\n\tzrangeResult1, err := rdb.ZAdd(ctx, \"myzset\",\n\t\tredis.Z{Member: \"one\", Score: 1},\n\t\tredis.Z{Member: \"two\", Score: 2},\n\t\tredis.Z{Member: \"three\", Score: 3},\n\t).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(zrangeResult1) // >>> 3\n\n\tzrangeResult2, err := rdb.ZRange(ctx, \"myzset\", 0, -1).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(zrangeResult2) // >>> [one two three]\n\n\tzrangeResult3, err := rdb.ZRange(ctx, \"myzset\", 2, 3).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(zrangeResult3) // >>> [three]\n\n\tzrangeResult4, err := rdb.ZRange(ctx, \"myzset\", -2, -1).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(zrangeResult4) // >>> [two three]\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n        Map<String, Double> zRangeExampleParams1 = new HashMap<>();\n        zRangeExampleParams1.put(\"one\", 1.0);\n        zRangeExampleParams1.put(\"two\", 2.0);\n        zRangeExampleParams1.put(\"three\", 3.0);\n        long zRangeResult1 = jedis.zadd(\"myzset\", zRangeExampleParams1);\n        System.out.println(zRangeResult1);  // >>> 3\n\n        List<String> zRangeResult2 = jedis.zrange(\"myzset\", new ZRangeParams(0, -1));\n        System.out.println(String.join(\", \", zRangeResult2));   // >>> one, two, three\n\n        List<String> zRangeResult3 = jedis.zrange(\"myzset\", new ZRangeParams(2, 3));\n        System.out.println(String.join(\", \", zRangeResult3));   // >> three\n\n        List<String> zRangeResult4 = jedis.zrange(\"myzset\", new ZRangeParams(-2, -1));\n        System.out.println(String.join(\", \", zRangeResult4));   // >> two, three\n```\n\n**JavaScript (Node.js):**\n\n```javascript\nconst val5 = await client.zAdd(\"myzset\", [\n  { value: 'one', score: 1 },\n  { value: 'two', score: 2 },\n  { value: 'three', score: 3 }\n]);\nconsole.log(val5);\n// returns 3\n\nconst val6 = await client.zRange('myzset', 0, -1);\nconsole.log(val6);\n// returns ['one', 'two', 'three']\n\nconst val7 = await client.zRange('myzset', 2, 3);\nconsole.log(val7);\n// returns ['three']\n\nconst val8 = await client.zRange('myzset', -2, -1);\nconsole.log(val8);\n// returns ['two', 'three']\n```\n\n**Python:**\n\n```python\nres = r.zadd(\"myzset\", {\"one\": 1, \"two\":2, \"three\":3})\nprint(res)\n# >>> 3\n\nres = r.zrange(\"myzset\", 0, -1)\nprint(res)\n# >>> ['one', 'two', 'three']\n\nres = r.zrange(\"myzset\", 2, 3)\nprint(res)\n# >>> ['three']\n\nres = r.zrange(\"myzset\", -2, -1)\nprint(res)\n# >>> ['two', 'three']\n```\n\n\n\nThe following example using `WITHSCORES` shows how the command returns always an array, but this time, populated with *element_1*, *score_1*, *element_2*, *score_2*, ..., *element_N*, *score_N*.\n\n#### Code Examples\n\nReturn scores with members: Retrieve members with their scores from a sorted set using ZRANGE with WITHSCORES option\n\n**Difficulty:** Intermediate\n\n**Commands:** ZADD, ZRANGE\n\n**Complexity:**\n- ZADD: O(log(N)\n- ZRANGE: O(log(N)\n\n**Redis CLI:**\n\n```\n> ZADD myzset 1 \"one\" 2 \"two\" 3 \"three\"\n(integer) 3\n> ZRANGE myzset 0 1 WITHSCORES\n1) \"one\"\n2) \"1\"\n3) \"two\"\n4) \"2\"\n```\n\n**Available in:** Redis CLI, C# (Synchronous), Go, Java (Synchronous - Jedis), JavaScript (Node.js), Python\n\n**C# (Synchronous):**\n\n```csharp\n        long zRangeResult5 = db.SortedSetAdd(\n            \"myzset\",\n            [\n                new(\"one\", 1),\n                new(\"two\", 2),\n                new(\"three\", 3)\n            ]\n        );\n\n        SortedSetEntry[] zRangeResult6 = db.SortedSetRangeByRankWithScores(\"myzset\", 0, 1);\n        Console.WriteLine($\"{string.Join(\", \", zRangeResult6.Select(b => $\"{b.Element}: {b.Score}\"))}\");\n        // >>> one: 1, two: 2\n```\n\n**Go:**\n\n```go\n\tzRangeResult5, err := rdb.ZAdd(ctx, \"myzset\",\n\t\tredis.Z{Member: \"one\", Score: 1},\n\t\tredis.Z{Member: \"two\", Score: 2},\n\t\tredis.Z{Member: \"three\", Score: 3},\n\t).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(zRangeResult5) // >>> 3\n\n\tzRangeResult6, err := rdb.ZRangeWithScores(ctx, \"myzset\", 0, 1).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(zRangeResult6) // >>> [{1 one} {2 two}]\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n        Map<String, Double> zRangeExampleParams2 = new HashMap<>();\n        zRangeExampleParams2.put(\"one\", 1.0);\n        zRangeExampleParams2.put(\"two\", 2.0);\n        zRangeExampleParams2.put(\"three\", 3.0);\n        long zRangeResult5 = jedis.zadd(\"myzset\", zRangeExampleParams2);\n        System.out.println(zRangeResult5);  // >>> 3\n\n        List<Tuple> zRangeResult6 = jedis.zrangeWithScores(\"myzset\", new ZRangeParams(0, 1));\n\n        for (Tuple item: zRangeResult6) {\n            System.out.println(\"Element: \" + item.getElement() + \", Score: \" + item.getScore());\n        }\n        // >>> Element: one, Score: 1.0\n        // >>> Element: two, Score: 2.0\n```\n\n**JavaScript (Node.js):**\n\n```javascript\nconst val9 = await client.zAdd(\"myzset\", [\n  { value: 'one', score: 1 },\n  { value: 'two', score: 2 },\n  { value: 'three', score: 3 }\n]);\nconsole.log(val9);\n// returns 3\n\nconst val10 = await client.zRangeWithScores('myzset', 0, 1);\nconsole.log(val10);\n// returns [{value: 'one', score: 1}, {value: 'two', score: 2}]\n```\n\n**Python:**\n\n```python\nres = r.zadd(\"myzset\", {\"one\": 1, \"two\":2, \"three\":3})\nres = r.zrange(\"myzset\", 0, 1, withscores=True)\nprint(res)\n# >>> [('one', 1.0), ('two', 2.0)]\n```\n\n\n\nThis example shows how to query the sorted set by score, excluding the value `1` and up to infinity, returning only the second element of the result:\n\n#### Code Examples\n\nQuery by score: Query a sorted set by score range using ZRANGE with BYSCORE and LIMIT options (supports exclusive ranges and pagination)\n\n**Difficulty:** Intermediate\n\n**Commands:** ZADD, ZRANGE\n\n**Complexity:**\n- ZADD: O(log(N)\n- ZRANGE: O(log(N)\n\n**Redis CLI:**\n\n```\n> ZADD myzset 1 \"one\" 2 \"two\" 3 \"three\"\n(integer) 3\n> ZRANGE myzset (1 +inf BYSCORE LIMIT 1 1\n1) \"three\"\n```\n\n**Available in:** Redis CLI, C# (Synchronous), Go, Java (Synchronous - Jedis), JavaScript (Node.js), Python\n\n**C# (Synchronous):**\n\n```csharp\n        long zRangeResult7 = db.SortedSetAdd(\n            \"myzset\",\n            [\n                new(\"one\", 1),\n                new(\"two\", 2),\n                new(\"three\", 3)\n            ]\n        );\n\n        RedisValue[] zRangeResult8 = db.SortedSetRangeByScore(\n            \"myzset\",\n            1,\n            double.PositiveInfinity,\n            Exclude.Start,\n            skip: 1, take: 1\n        );\n        Console.WriteLine(string.Join(\", \", zRangeResult8));\n        // >>> three\n```\n\n**Go:**\n\n```go\n\tzRangeResult7, err := rdb.ZAdd(ctx, \"myzset\",\n\t\tredis.Z{Member: \"one\", Score: 1},\n\t\tredis.Z{Member: \"two\", Score: 2},\n\t\tredis.Z{Member: \"three\", Score: 3},\n\t).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(zRangeResult7) // >>> 3\n\n\tzRangeResult8, err := rdb.ZRangeArgs(ctx,\n\t\tredis.ZRangeArgs{\n\t\t\tKey:     \"myzset\",\n\t\t\tByScore: true,\n\t\t\tStart:   \"(1\",\n\t\t\tStop:    \"+inf\",\n\t\t\tOffset:  1,\n\t\t\tCount:   1,\n\t\t},\n\t).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(zRangeResult8) // >>> [three]\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n        Map<String, Double> zRangeExampleParams3 = new HashMap<>();\n        zRangeExampleParams3.put(\"one\", 1.0);\n        zRangeExampleParams3.put(\"two\", 2.0);\n        zRangeExampleParams3.put(\"three\", 3.0);\n        long zRangeResult7 = jedis.zadd(\"myzset\", zRangeExampleParams3);\n        System.out.println(zRangeResult7);  // >>> 3\n\n        List<String> zRangeResult8 = jedis.zrangeByScore(\"myzset\", \"(1\", \"+inf\", 1, 1);\n        System.out.println(String.join(\", \", zRangeResult8));   // >>> three\n```\n\n**JavaScript (Node.js):**\n\n```javascript\nconst val11 = await client.zAdd(\"myzset\", [\n  { value: 'one', score: 1 },\n  { value: 'two', score: 2 },\n  { value: 'three', score: 3 }\n]);\nconsole.log(val11);\n// returns 3\n\nconst val12 = await client.zRange('myzset', 2, 3, { BY: 'SCORE', LIMIT: { offset: 1, count: 1 } });\nconsole.log(val12);\n// >>> ['three']\n```\n\n**Python:**\n\n```python\nres = r.zadd(\"myzset\", {\"one\": 1, \"two\":2, \"three\":3})\nres = r.zrange(\"myzset\", 2, 3, byscore=True, offset=1, num=1)\nprint(res)\n# >>> ['three']\n```\n\n\n\nGive these commands a try in the interactive console:\n\n\nZADD myzset 1 \"one\" 2 \"two\" 3 \"three\"\nZRANGE myzset 0 -1\nZRANGE myzset 2 3\nZRANGE myzset -2 -1"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of members in the specified range with, optionally, their scores when the _WITHSCORES_ option is given.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of members in the specified range with, optionally, their scores when the _WITHSCORES_ option is given."
+    }
+  ]
+}

@@ -1,0 +1,127 @@
+{
+  "slug": "xgroup-create",
+  "title": "XGROUP CREATE",
+  "description": "Creates a consumer group.",
+  "docsUrl": "https://redis.io/docs/latest/commands/xgroup-create/",
+  "group": "stream",
+  "groupLabel": "Streams",
+  "syntax": "XGROUP CREATE key group <id | $> [MKSTREAM]\n  [ENTRIESREAD entries-read]",
+  "complexity": "O(1)",
+  "since": "5.0.0",
+  "arity": -5,
+  "aclCategories": [
+    "@write",
+    "@stream",
+    "@slow"
+  ],
+  "commandFlags": [
+    "write",
+    "denyoom"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "group",
+      "name": "group",
+      "type": "string"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "id",
+          "name": "id",
+          "type": "string"
+        },
+        {
+          "display_text": "new-id",
+          "name": "new-id",
+          "token": "$",
+          "type": "pure-token"
+        }
+      ],
+      "name": "id-selector",
+      "type": "oneof"
+    },
+    {
+      "display_text": "mkstream",
+      "name": "mkstream",
+      "optional": true,
+      "token": "MKSTREAM",
+      "type": "pure-token"
+    },
+    {
+      "display_text": "entries-read",
+      "name": "entriesread",
+      "optional": true,
+      "token": "ENTRIESREAD",
+      "type": "integer"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "begin_search": {
+        "spec": {
+          "index": 2
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      },
+      "insert": true
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Create a new consumer group uniquely identified by `<groupname>` for the stream stored at `<key>`\n\nEvery group has a unique name in a given stream. \nWhen a consumer group with the same name already exists, the command returns a `-BUSYGROUP` error.\n\nThe command's `<id>` argument specifies the last delivered entry in the stream from the new group's perspective.\nThe special ID `$` is the ID of the last entry in the stream, but you can substitute it with any valid ID.\n\nFor example, if you want the group's consumers to fetch the entire stream from the beginning, use zero as the starting ID for the consumer group:\n\n    XGROUP CREATE mystream mygroup 0\n\nBy default, the `XGROUP CREATE` command expects that the target stream exists, and returns an error when it doesn't.\nIf a stream does not exist, you can create it automatically with length of 0 by using the optional `MKSTREAM` subcommand as the last argument after the `<id>`:\n\n    XGROUP CREATE mystream mygroup $ MKSTREAM\n\nTo enable consumer group lag tracking, specify the optional `entries_read` named argument with an arbitrary ID.\nAn arbitrary ID is any ID that isn't the ID of the stream's first entry, last entry, or zero (\"0-0\") ID.\nUse it to find out how many entries are between the arbitrary ID (excluding it) and the stream's last entry.\nSet the `entries_read` the stream's `entries_added` subtracted by the number of entries.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.",
+  "intro": "Create a new consumer group uniquely identified by `<groupname>` for the stream stored at `<key>`\n\nEvery group has a unique name in a given stream. \nWhen a consumer group with the same name already exists, the command returns a `-BUSYGROUP` error.\n\nThe command's `<id>` argument specifies the last delivered entry in the stream from the new group's perspective.\nThe special ID `$` is the ID of the last entry in the stream, but you can substitute it with any valid ID.\n\nFor example, if you want the group's consumers to fetch the entire stream from the beginning, use zero as the starting ID for the consumer group:\n\n    XGROUP CREATE mystream mygroup 0\n\nBy default, the `XGROUP CREATE` command expects that the target stream exists, and returns an error when it doesn't.\nIf a stream does not exist, you can create it automatically with length of 0 by using the optional `MKSTREAM` subcommand as the last argument after the `<id>`:\n\n    XGROUP CREATE mystream mygroup $ MKSTREAM\n\nTo enable consumer group lag tracking, specify the optional `entries_read` named argument with an arbitrary ID.\nAn arbitrary ID is any ID that isn't the ID of the stream's first entry, last entry, or zero (\"0-0\") ID.\nUse it to find out how many entries are between the arbitrary ID (excluding it) and the stream's last entry.\nSet the `entries_read` the stream's `entries_added` subtracted by the number of entries.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Create a new consumer group uniquely identified by `<groupname>` for the stream stored at `<key>`\n\nEvery group has a unique name in a given stream. \nWhen a consumer group with the same name already exists, the command returns a `-BUSYGROUP` error.\n\nThe command's `<id>` argument specifies the last delivered entry in the stream from the new group's perspective.\nThe special ID `$` is the ID of the last entry in the stream, but you can substitute it with any valid ID.\n\nFor example, if you want the group's consumers to fetch the entire stream from the beginning, use zero as the starting ID for the consumer group:\n\n    XGROUP CREATE mystream mygroup 0\n\nBy default, the `XGROUP CREATE` command expects that the target stream exists, and returns an error when it doesn't.\nIf a stream does not exist, you can create it automatically with length of 0 by using the optional `MKSTREAM` subcommand as the last argument after the `<id>`:\n\n    XGROUP CREATE mystream mygroup $ MKSTREAM\n\nTo enable consumer group lag tracking, specify the optional `entries_read` named argument with an arbitrary ID.\nAn arbitrary ID is any ID that isn't the ID of the stream's first entry, last entry, or zero (\"0-0\") ID.\nUse it to find out how many entries are between the arbitrary ID (excluding it) and the stream's last entry.\nSet the `entries_read` the stream's `entries_added` subtracted by the number of entries."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`."
+    }
+  ]
+}

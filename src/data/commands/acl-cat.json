@@ -1,0 +1,71 @@
+{
+  "slug": "acl-cat",
+  "title": "ACL CAT",
+  "description": "Lists the ACL categories, or the commands inside a category.",
+  "docsUrl": "https://redis.io/docs/latest/commands/acl-cat/",
+  "group": "server",
+  "groupLabel": "Server",
+  "syntax": "ACL CAT [category]",
+  "complexity": "O(1) since the categories and commands are a fixed set.",
+  "since": "6.0.0",
+  "arity": -2,
+  "aclCategories": [
+    "@slow"
+  ],
+  "commandFlags": [
+    "noscript",
+    "loading",
+    "stale"
+  ],
+  "arguments": [
+    {
+      "display_text": "category",
+      "name": "category",
+      "optional": true,
+      "type": "string"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "The command shows the available ACL categories if called without arguments.\nIf a category name is given, the command shows all the Redis commands in\nthe specified category.\n\nACL categories are very useful in order to create ACL rules that include or\nexclude a large set of commands at once, without specifying every single\ncommand. For instance, the following rule will let the user `karin` perform\neverything but the most dangerous operations that may affect the server\nstability:\n\n    ACL SETUSER karin on +@all -@dangerous\n\nWe first add all the commands to the set of commands that `karin` is able\nto execute, but then we remove all the dangerous commands.\n\nChecking for all the available categories is as simple as:\n\n```\n> ACL CAT\n 1) \"keyspace\"\n 2) \"read\"\n 3) \"write\"\n 4) \"set\"\n 5) \"sortedset\"\n 6) \"list\"\n 7) \"hash\"\n 8) \"string\"\n 9) \"bitmap\"\n10) \"hyperloglog\"\n11) \"geo\"\n12) \"stream\"\n13) \"pubsub\"\n14) \"admin\"\n15) \"fast\"\n16) \"slow\"\n17) \"blocking\"\n18) \"dangerous\"\n19) \"connection\"\n20) \"transaction\"\n21) \"scripting\"\n22) \"json\"\n23) \"search\"\n24) \"tdigest\"\n25) \"cms\"\n26) \"bloom\"\n27) \"cuckoo\"\n28) \"topk\"\n29) \"timeseries\"\n```\n\nThen we may want to know what commands are part of a given category:\n\n```\n> ACL CAT dangerous\n 1) \"flushdb\"\n 2) \"acl\"\n 3) \"slowlog\"\n 4) \"debug\"\n 5) \"role\"\n 6) \"keys\"\n 7) \"pfselftest\"\n 8) \"client\"\n 9) \"bgrewriteaof\"\n10) \"replicaof\"\n11) \"monitor\"\n12) \"restore-asking\"\n13) \"latency\"\n14) \"replconf\"\n15) \"pfdebug\"\n16) \"bgsave\"\n17) \"sync\"\n18) \"config\"\n19) \"flushall\"\n20) \"cluster\"\n21) \"info\"\n22) \"lastsave\"\n23) \"slaveof\"\n24) \"swapdb\"\n25) \"module\"\n26) \"restore\"\n27) \"migrate\"\n28) \"save\"\n29) \"shutdown\"\n30) \"psync\"\n31) \"sort\"\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Not supported for [scripts](). |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays): an array of [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) elements representing ACL categories or commands in a given category.\n* [Simple error reply](../../develop/reference/protocol-spec#simple-errors): the command returns an error if an invalid category name is given.\n\n**RESP3:**\n\nOne of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays): an array of [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) elements representing ACL categories or commands in a given category.\n* [Simple error reply](../../develop/reference/protocol-spec#simple-errors): the command returns an error if an invalid category name is given.",
+  "intro": "The command shows the available ACL categories if called without arguments.\nIf a category name is given, the command shows all the Redis commands in\nthe specified category.\n\nACL categories are very useful in order to create ACL rules that include or\nexclude a large set of commands at once, without specifying every single\ncommand. For instance, the following rule will let the user `karin` perform\neverything but the most dangerous operations that may affect the server\nstability:\n\n    ACL SETUSER karin on +@all -@dangerous\n\nWe first add all the commands to the set of commands that `karin` is able\nto execute, but then we remove all the dangerous commands.\n\nChecking for all the available categories is as simple as:\n\n```\n> ACL CAT\n 1) \"keyspace\"\n 2) \"read\"\n 3) \"write\"\n 4) \"set\"\n 5) \"sortedset\"\n 6) \"list\"\n 7) \"hash\"\n 8) \"string\"\n 9) \"bitmap\"\n10) \"hyperloglog\"\n11) \"geo\"\n12) \"stream\"\n13) \"pubsub\"\n14) \"admin\"\n15) \"fast\"\n16) \"slow\"\n17) \"blocking\"\n18) \"dangerous\"\n19) \"connection\"\n20) \"transaction\"\n21) \"scripting\"\n22) \"json\"\n23) \"search\"\n24) \"tdigest\"\n25) \"cms\"\n26) \"bloom\"\n27) \"cuckoo\"\n28) \"topk\"\n29) \"timeseries\"\n```\n\nThen we may want to know what commands are part of a given category:\n\n```\n> ACL CAT dangerous\n 1) \"flushdb\"\n 2) \"acl\"\n 3) \"slowlog\"\n 4) \"debug\"\n 5) \"role\"\n 6) \"keys\"\n 7) \"pfselftest\"\n 8) \"client\"\n 9) \"bgrewriteaof\"\n10) \"replicaof\"\n11) \"monitor\"\n12) \"restore-asking\"\n13) \"latency\"\n14) \"replconf\"\n15) \"pfdebug\"\n16) \"bgsave\"\n17) \"sync\"\n18) \"config\"\n19) \"flushall\"\n20) \"cluster\"\n21) \"info\"\n22) \"lastsave\"\n23) \"slaveof\"\n24) \"swapdb\"\n25) \"module\"\n26) \"restore\"\n27) \"migrate\"\n28) \"save\"\n29) \"shutdown\"\n30) \"psync\"\n31) \"sort\"\n```",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "The command shows the available ACL categories if called without arguments.\nIf a category name is given, the command shows all the Redis commands in\nthe specified category.\n\nACL categories are very useful in order to create ACL rules that include or\nexclude a large set of commands at once, without specifying every single\ncommand. For instance, the following rule will let the user `karin` perform\neverything but the most dangerous operations that may affect the server\nstability:\n\n    ACL SETUSER karin on +@all -@dangerous\n\nWe first add all the commands to the set of commands that `karin` is able\nto execute, but then we remove all the dangerous commands.\n\nChecking for all the available categories is as simple as:\n\n```\n> ACL CAT\n 1) \"keyspace\"\n 2) \"read\"\n 3) \"write\"\n 4) \"set\"\n 5) \"sortedset\"\n 6) \"list\"\n 7) \"hash\"\n 8) \"string\"\n 9) \"bitmap\"\n10) \"hyperloglog\"\n11) \"geo\"\n12) \"stream\"\n13) \"pubsub\"\n14) \"admin\"\n15) \"fast\"\n16) \"slow\"\n17) \"blocking\"\n18) \"dangerous\"\n19) \"connection\"\n20) \"transaction\"\n21) \"scripting\"\n22) \"json\"\n23) \"search\"\n24) \"tdigest\"\n25) \"cms\"\n26) \"bloom\"\n27) \"cuckoo\"\n28) \"topk\"\n29) \"timeseries\"\n```\n\nThen we may want to know what commands are part of a given category:\n\n```\n> ACL CAT dangerous\n 1) \"flushdb\"\n 2) \"acl\"\n 3) \"slowlog\"\n 4) \"debug\"\n 5) \"role\"\n 6) \"keys\"\n 7) \"pfselftest\"\n 8) \"client\"\n 9) \"bgrewriteaof\"\n10) \"replicaof\"\n11) \"monitor\"\n12) \"restore-asking\"\n13) \"latency\"\n14) \"replconf\"\n15) \"pfdebug\"\n16) \"bgsave\"\n17) \"sync\"\n18) \"config\"\n19) \"flushall\"\n20) \"cluster\"\n21) \"info\"\n22) \"lastsave\"\n23) \"slaveof\"\n24) \"swapdb\"\n25) \"module\"\n26) \"restore\"\n27) \"migrate\"\n28) \"save\"\n29) \"shutdown\"\n30) \"psync\"\n31) \"sort\"\n```"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Not supported for [scripts](). |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays): an array of [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) elements representing ACL categories or commands in a given category.\n* [Simple error reply](../../develop/reference/protocol-spec#simple-errors): the command returns an error if an invalid category name is given.\n\n**RESP3:**\n\nOne of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays): an array of [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) elements representing ACL categories or commands in a given category.\n* [Simple error reply](../../develop/reference/protocol-spec#simple-errors): the command returns an error if an invalid category name is given."
+    }
+  ]
+}

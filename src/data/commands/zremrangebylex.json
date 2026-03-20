@@ -1,0 +1,109 @@
+{
+  "slug": "zremrangebylex",
+  "title": "ZREMRANGEBYLEX",
+  "description": "Removes members in a sorted set within a lexicographical range. Deletes the sorted set if all members were removed.",
+  "docsUrl": "https://redis.io/docs/latest/commands/zremrangebylex/",
+  "group": "sorted-set",
+  "groupLabel": "Sorted Sets",
+  "syntax": "ZREMRANGEBYLEX key min max",
+  "complexity": "O(log(N)+M) with N being the number of elements in the sorted set and M the number of elements removed by the operation.",
+  "since": "2.8.9",
+  "arity": 4,
+  "aclCategories": [
+    "@write",
+    "@sortedset",
+    "@slow"
+  ],
+  "commandFlags": [
+    "write"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "min",
+      "name": "min",
+      "type": "string"
+    },
+    {
+      "display_text": "max",
+      "name": "max",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "delete": true,
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "When all the elements in a sorted set are inserted with the same score, in order to force lexicographical ordering, this command removes all elements in the sorted set stored at `key` between the lexicographical range specified by `min` and `max`.\n\nThe meaning of `min` and `max` are the same of the [`ZRANGEBYLEX`]() command. Similarly, this command actually removes the same elements that [`ZRANGEBYLEX`]() would return if called with the same `min` and `max` arguments.\n\n## Examples\n\n\nZADD myzset 0 aaaa 0 b 0 c 0 d 0 e\nZADD myzset 0 foo 0 zap 0 zip 0 ALPHA 0 alpha\nZRANGE myzset 0 -1\nZREMRANGEBYLEX myzset [alpha [omega\nZRANGE myzset 0 -1\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of members removed.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): Number of members removed.",
+  "intro": "When all the elements in a sorted set are inserted with the same score, in order to force lexicographical ordering, this command removes all elements in the sorted set stored at `key` between the lexicographical range specified by `min` and `max`.\n\nThe meaning of `min` and `max` are the same of the [`ZRANGEBYLEX`]() command. Similarly, this command actually removes the same elements that [`ZRANGEBYLEX`]() would return if called with the same `min` and `max` arguments.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "When all the elements in a sorted set are inserted with the same score, in order to force lexicographical ordering, this command removes all elements in the sorted set stored at `key` between the lexicographical range specified by `min` and `max`.\n\nThe meaning of `min` and `max` are the same of the [`ZRANGEBYLEX`]() command. Similarly, this command actually removes the same elements that [`ZRANGEBYLEX`]() would return if called with the same `min` and `max` arguments."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "ZADD myzset 0 aaaa 0 b 0 c 0 d 0 e\nZADD myzset 0 foo 0 zap 0 zip 0 ALPHA 0 alpha\nZRANGE myzset 0 -1\nZREMRANGEBYLEX myzset [alpha [omega\nZRANGE myzset 0 -1"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of members removed.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): Number of members removed."
+    }
+  ]
+}

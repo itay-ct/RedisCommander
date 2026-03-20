@@ -1,0 +1,64 @@
+{
+  "slug": "script-kill",
+  "title": "SCRIPT KILL",
+  "description": "Terminates a server-side Lua script during execution.",
+  "docsUrl": "https://redis.io/docs/latest/commands/script-kill/",
+  "group": "scripting",
+  "groupLabel": "Scripting",
+  "syntax": "SCRIPT KILL",
+  "complexity": "O(1)",
+  "since": "2.6.0",
+  "arity": 2,
+  "aclCategories": [
+    "@slow",
+    "@scripting"
+  ],
+  "commandFlags": [
+    "noscript",
+    "allow_busy"
+  ],
+  "arguments": [],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Kills the currently executing [`EVAL`]() script, assuming no write operation was yet\nperformed by the script.\n\nThis command is mainly useful to kill a script that is running for too much\ntime(for instance, because it entered an infinite loop because of a bug).\nThe script will be killed, and the client currently blocked into EVAL will see\nthe command returning with an error.\n\nIf the script has already performed write operations, it can not be killed in this\nway because it would violate Lua's script atomicity contract.\nIn such a case, only `SHUTDOWN NOSAVE` can kill the script, killing\nthe Redis process in a hard way and preventing it from persisting with half-written\ninformation.\n\nFor more information about [`EVAL`]() scripts please refer to [Introduction to Eval Scripts]().\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.",
+  "intro": "Kills the currently executing [`EVAL`]() script, assuming no write operation was yet\nperformed by the script.\n\nThis command is mainly useful to kill a script that is running for too much\ntime(for instance, because it entered an infinite loop because of a bug).\nThe script will be killed, and the client currently blocked into EVAL will see\nthe command returning with an error.\n\nIf the script has already performed write operations, it can not be killed in this\nway because it would violate Lua's script atomicity contract.\nIn such a case, only `SHUTDOWN NOSAVE` can kill the script, killing\nthe Redis process in a hard way and preventing it from persisting with half-written\ninformation.\n\nFor more information about [`EVAL`]() scripts please refer to [Introduction to Eval Scripts]().",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Kills the currently executing [`EVAL`]() script, assuming no write operation was yet\nperformed by the script.\n\nThis command is mainly useful to kill a script that is running for too much\ntime(for instance, because it entered an infinite loop because of a bug).\nThe script will be killed, and the client currently blocked into EVAL will see\nthe command returning with an error.\n\nIf the script has already performed write operations, it can not be killed in this\nway because it would violate Lua's script atomicity contract.\nIn such a case, only `SHUTDOWN NOSAVE` can kill the script, killing\nthe Redis process in a hard way and preventing it from persisting with half-written\ninformation.\n\nFor more information about [`EVAL`]() scripts please refer to [Introduction to Eval Scripts]()."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`."
+    }
+  ]
+}

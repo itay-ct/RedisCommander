@@ -1,0 +1,100 @@
+{
+  "slug": "module-loadex",
+  "title": "MODULE LOADEX",
+  "description": "Loads a module using extended parameters.",
+  "docsUrl": "https://redis.io/docs/latest/commands/module-loadex/",
+  "group": "server",
+  "groupLabel": "Server",
+  "syntax": "MODULE LOADEX path [CONFIG name value [CONFIG name value ...]]\n  [ARGS args [args ...]]",
+  "complexity": "O(1)",
+  "since": "7.0.0",
+  "arity": -3,
+  "aclCategories": [
+    "@admin",
+    "@slow",
+    "@dangerous"
+  ],
+  "commandFlags": [
+    "admin",
+    "noscript",
+    "no_async_loading"
+  ],
+  "arguments": [
+    {
+      "display_text": "path",
+      "name": "path",
+      "type": "string"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "name",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "display_text": "value",
+          "name": "value",
+          "type": "string"
+        }
+      ],
+      "multiple": true,
+      "multiple_token": true,
+      "name": "configs",
+      "optional": true,
+      "token": "CONFIG",
+      "type": "block"
+    },
+    {
+      "display_text": "args",
+      "multiple": true,
+      "name": "args",
+      "optional": true,
+      "token": "ARGS",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Loads a module from a dynamic library at runtime with configuration directives.\n\nThis is an extended version of the [`MODULE LOAD`]() command.\n\nIt loads and initializes the Redis module from the dynamic library specified by the `path` argument. The `path` should be the absolute path of the library, including the full filename.\n\nYou can use the optional `CONFIG` argument to provide the module with configuration directives.\nAny additional arguments that follow the `ARGS` keyword are passed unmodified to the module.\n\n**Note**: modules can also be loaded at server startup with `loadmodule`\nconfiguration directive in `redis.conf`.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the module was loaded.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the module was loaded.",
+  "intro": "Loads a module from a dynamic library at runtime with configuration directives.\n\nThis is an extended version of the [`MODULE LOAD`]() command.\n\nIt loads and initializes the Redis module from the dynamic library specified by the `path` argument. The `path` should be the absolute path of the library, including the full filename.\n\nYou can use the optional `CONFIG` argument to provide the module with configuration directives.\nAny additional arguments that follow the `ARGS` keyword are passed unmodified to the module.\n\n**Note**: modules can also be loaded at server startup with `loadmodule`\nconfiguration directive in `redis.conf`.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Loads a module from a dynamic library at runtime with configuration directives.\n\nThis is an extended version of the [`MODULE LOAD`]() command.\n\nIt loads and initializes the Redis module from the dynamic library specified by the `path` argument. The `path` should be the absolute path of the library, including the full filename.\n\nYou can use the optional `CONFIG` argument to provide the module with configuration directives.\nAny additional arguments that follow the `ARGS` keyword are passed unmodified to the module.\n\n**Note**: modules can also be loaded at server startup with `loadmodule`\nconfiguration directive in `redis.conf`."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the module was loaded.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the module was loaded."
+    }
+  ]
+}

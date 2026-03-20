@@ -1,0 +1,128 @@
+{
+  "slug": "json.arrpop",
+  "title": "JSON.ARRPOP",
+  "description": "Removes and returns the element at the specified index in the array at path",
+  "docsUrl": "https://redis.io/docs/latest/commands/json.arrpop/",
+  "group": "json",
+  "groupLabel": "JSON",
+  "syntax": "JSON.ARRPOP key [path [index]]",
+  "complexity": "O(N) when path is evaluated to a single value where N is the size of the array and the specified index is not the last element, O(1) when path is evaluated to a single value and the specified index is the last element, or O(N) when path is evaluated to multiple values, where N is the size of the key",
+  "since": "1.0.0",
+  "arity": null,
+  "aclCategories": [
+    "@json",
+    "@write",
+    "@slow"
+  ],
+  "commandFlags": [],
+  "arguments": [
+    {
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "arguments": [
+        {
+          "name": "path",
+          "type": "string"
+        },
+        {
+          "name": "index",
+          "optional": true,
+          "type": "integer"
+        }
+      ],
+      "name": "path",
+      "optional": true,
+      "type": "block"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "optional-arguments",
+        "title": "Optional arguments"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      },
+      {
+        "id": "see-also",
+        "title": "See also"
+      },
+      {
+        "id": "related-topics",
+        "title": "Related topics"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Remove and return an element from the index in the array\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open><summary><code>key</code></summary> \n\nis key to modify.\n</details>\n\n<details open><summary><code>index</code></summary> \n\nis position in the array to start popping from. Default is `-1`, meaning the last element. Out-of-range indexes round to their respective array ends. Popping an empty array returns null.\n</details>\n\n## Optional arguments\n\n<details open><summary><code>path</code></summary> \n\nis JSONPath to specify. Default is root `$`.\n</details>\n\n## Examples\n\n<details open>\n<summary><b>Pop a value from an index and insert a new value</b></summary>\n\nCreate two headphone products with maximum sound levels.\n\n\nredis> JSON.SET key $ '[{\"name\":\"Healthy headphones\",\"description\":\"Wireless Bluetooth headphones with noise-cancelling technology\",\"connection\":{\"wireless\":true,\"type\":\"Bluetooth\"},\"price\":99.98,\"stock\":25,\"colors\":[\"black\",\"silver\"],\"max_level\":[60,70,80]},{\"name\":\"Noisy headphones\",\"description\":\"Wireless Bluetooth headphones with noise-cancelling technology\",\"connection\":{\"wireless\":true,\"type\":\"Bluetooth\"},\"price\":99.98,\"stock\":25,\"colors\":[\"black\",\"silver\"],\"max_level\":[80,90,100,120]}]'\nOK\n\n\nGet all maximum values for the second product.\n\n\nredis> JSON.GET key $.[1].max_level\n\"[[80,90,100,120]]\"\n\n\nUpdate the `max_level` field of the product: remove an unavailable value and add a newly available value.\n\n\nredis> JSON.ARRPOP key $.[1].max_level 0\n1) \"80\"\n\n\nGet the updated array.\n\n\nredis> JSON.GET key $.[1].max_level\n\"[[90,100,120]]\"\n\n\nNow insert a new lowest value.\n\n\nredis> JSON.ARRINSERT key $.[1].max_level 0 85\n1) (integer) 4\n\n\nGet the updated array.\n\n\nredis> JSON.GET key $.[1].max_level\n\"[[85,90,100,120]]\"\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply]() of [bulk string replies]() or [null replies](), where each element is the popped JSON value as a string, or `null` if the matching value is not an array.\n\n**RESP3:**\n\n[Array reply]() of [bulk string replies]() or [null replies](), where each element is the popped JSON value as a string, or `null` if the matching value is not an array.\n\n\n\n## See also\n\n[`JSON.ARRAPPEND`]() | [`JSON.ARRINDEX`]() \n\n## Related topics\n\n* [RedisJSON]()\n* [Index and search JSON documents]()",
+  "intro": "Remove and return an element from the index in the array\n\n[Examples](#examples)",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Remove and return an element from the index in the array\n\n[Examples](#examples)"
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open><summary><code>key</code></summary> \n\nis key to modify.\n</details>\n\n<details open><summary><code>index</code></summary> \n\nis position in the array to start popping from. Default is `-1`, meaning the last element. Out-of-range indexes round to their respective array ends. Popping an empty array returns null.\n</details>"
+    },
+    {
+      "title": "Optional arguments",
+      "level": 2,
+      "content": "<details open><summary><code>path</code></summary> \n\nis JSONPath to specify. Default is root `$`.\n</details>"
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "<details open>\n<summary><b>Pop a value from an index and insert a new value</b></summary>\n\nCreate two headphone products with maximum sound levels.\n\n\nredis> JSON.SET key $ '[{\"name\":\"Healthy headphones\",\"description\":\"Wireless Bluetooth headphones with noise-cancelling technology\",\"connection\":{\"wireless\":true,\"type\":\"Bluetooth\"},\"price\":99.98,\"stock\":25,\"colors\":[\"black\",\"silver\"],\"max_level\":[60,70,80]},{\"name\":\"Noisy headphones\",\"description\":\"Wireless Bluetooth headphones with noise-cancelling technology\",\"connection\":{\"wireless\":true,\"type\":\"Bluetooth\"},\"price\":99.98,\"stock\":25,\"colors\":[\"black\",\"silver\"],\"max_level\":[80,90,100,120]}]'\nOK\n\n\nGet all maximum values for the second product.\n\n\nredis> JSON.GET key $.[1].max_level\n\"[[80,90,100,120]]\"\n\n\nUpdate the `max_level` field of the product: remove an unavailable value and add a newly available value.\n\n\nredis> JSON.ARRPOP key $.[1].max_level 0\n1) \"80\"\n\n\nGet the updated array.\n\n\nredis> JSON.GET key $.[1].max_level\n\"[[90,100,120]]\"\n\n\nNow insert a new lowest value.\n\n\nredis> JSON.ARRINSERT key $.[1].max_level 0 85\n1) (integer) 4\n\n\nGet the updated array.\n\n\nredis> JSON.GET key $.[1].max_level\n\"[[85,90,100,120]]\"\n\n</details>"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Array reply]() of [bulk string replies]() or [null replies](), where each element is the popped JSON value as a string, or `null` if the matching value is not an array.\n\n**RESP3:**\n\n[Array reply]() of [bulk string replies]() or [null replies](), where each element is the popped JSON value as a string, or `null` if the matching value is not an array."
+    },
+    {
+      "title": "See also",
+      "level": 2,
+      "content": "[`JSON.ARRAPPEND`]() | [`JSON.ARRINDEX`]()"
+    },
+    {
+      "title": "Related topics",
+      "level": 2,
+      "content": "* [RedisJSON]()\n* [Index and search JSON documents]()"
+    }
+  ]
+}

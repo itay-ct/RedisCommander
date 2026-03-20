@@ -1,0 +1,89 @@
+{
+  "slug": "waitaof",
+  "title": "WAITAOF",
+  "description": "Blocks until all of the preceding write commands sent by the connection are written to the append-only file of the master and/or replicas.",
+  "docsUrl": "https://redis.io/docs/latest/commands/waitaof/",
+  "group": "generic",
+  "groupLabel": "Generic",
+  "syntax": "WAITAOF numlocal numreplicas timeout",
+  "complexity": "O(1)",
+  "since": "7.2.0",
+  "arity": 4,
+  "aclCategories": [
+    "@slow",
+    "@blocking",
+    "@connection"
+  ],
+  "commandFlags": [
+    "blocking"
+  ],
+  "arguments": [
+    {
+      "display_text": "numlocal",
+      "name": "numlocal",
+      "type": "integer"
+    },
+    {
+      "display_text": "numreplicas",
+      "name": "numreplicas",
+      "type": "integer"
+    },
+    {
+      "display_text": "timeout",
+      "name": "timeout",
+      "type": "integer"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "This command blocks the current client until all previous write commands by that client are acknowledged as having been fsynced to the AOF of the local Redis and/or at least the specified number of replicas.\n\n`numlocal` represents the number of local fsyncs required to be confirmed before proceeding.\nWhen `numlocal` is set to 1, the command blocks until the data written to the Redis instance is confirmed to be persisted to the local AOF file.\nThe value 0 disables this check.\n\nIf the timeout, specified in milliseconds, is reached, the command returns even if the specified number of acknowledgments has not been met.\n\nThe command **will always return** the number of masters and replicas that have fsynced all write commands sent by the current client before the `WAITAOF` command, both in the case where the specified thresholds were met, and when the timeout is reached.\n\nA few remarks:\n\n1. When `WAITAOF` returns, all the previous write commands sent in the context of the current connection are guaranteed to be fsynced to the AOF of at least the number of masters and replicas returned by `WAITAOF`.\n2. If the command is sent as part of a [`MULTI`]() transaction (or any other context that does not allow blocking, such as inside scripts), the command does not block but instead returns immediately the number of masters and replicas that fsynced all previous write commands.\n3. A timeout of 0 means to block forever.\n4. Since `WAITAOF` returns the number of fsyncs completed both in case of success and timeout, the client should check that the returned values are equal or greater than the persistence level required.\n5. `WAITAOF` cannot be used on replica instances, and the `numlocal` argument cannot be non-zero if the local Redis does not have AOF enabled.\n\nLimitations\n---\nIt is possible to write a module or Lua script that propagate writes to the AOF but not the replication stream.\n(For modules, this is done using the `fmt` argument to `RedisModule_Call` or `RedisModule_Replicate`; For Lua scripts, this is achieved using `redis.set_repl`.)\n\nThese features are incompatible with the `WAITAOF` command as it is currently implemented, and using them in combination may result in incorrect behavior.\n\nConsistency and WAITAOF\n---\n\nNote that, similarly to [`WAIT`](), `WAITAOF` does not make Redis a strongly-consistent store.\nUnless waiting for all members of a cluster to fsync writes to disk, data can still be lost during a failover or a Redis restart.\nHowever, `WAITAOF` does improve real-world data safety.\n\nImplementation details\n---\n\nSince Redis 7.2, Redis tracks and increments the replication offset even when no replicas are configured (as long as AOF exists).\n\nIn addition, Redis replicas asynchronously ping their master with two replication offsets: the offset they have processed in the replication stream, and the offset they have fsynced to their AOF.\n\nRedis remembers, for each client, the replication offset of the produced replication stream when the last write command was executed in the context of that client.\nWhen `WAITAOF` is called, Redis checks if the local Redis and/or the specified number of replicas have confirmed fsyncing this offset or a greater one to their AOF.\n\n## Examples\n\n```\n> SET foo bar\nOK\n> WAITAOF 1 0 0\n1) (integer) 1\n2) (integer) 0\n> WAITAOF 0 1 1000\n1) (integer) 1\n2) (integer) 0\n```\n\nIn the above example, the first call to `WAITAOF` does not use a timeout and asks for the write to be fsynced to the local Redis only; it returns with [1, 0] when this is completed.\n\nIn the second attempt we instead specify a timeout, and ask for the write to be confirmed as fsynced by a single replica.\nSince there are no connected replicas, the `WAITAOF` command unblocks after one second and again returns [1, 0], indicating the write has been fsynced on the local Redis but no replicas.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): The command returns an array of two integers:\n1. The first is the number of local Redises (0 or 1) that have fsynced to AOF  all writes performed in the context of the current connection\n2. The second is the number of replicas that have acknowledged doing the same.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): The command returns an array of two integers:\n1. The first is the number of local Redises (0 or 1) that have fsynced to AOF  all writes performed in the context of the current connection\n2. The second is the number of replicas that have acknowledged doing the same.",
+  "intro": "This command blocks the current client until all previous write commands by that client are acknowledged as having been fsynced to the AOF of the local Redis and/or at least the specified number of replicas.\n\n`numlocal` represents the number of local fsyncs required to be confirmed before proceeding.\nWhen `numlocal` is set to 1, the command blocks until the data written to the Redis instance is confirmed to be persisted to the local AOF file.\nThe value 0 disables this check.\n\nIf the timeout, specified in milliseconds, is reached, the command returns even if the specified number of acknowledgments has not been met.\n\nThe command **will always return** the number of masters and replicas that have fsynced all write commands sent by the current client before the `WAITAOF` command, both in the case where the specified thresholds were met, and when the timeout is reached.\n\nA few remarks:\n\n1. When `WAITAOF` returns, all the previous write commands sent in the context of the current connection are guaranteed to be fsynced to the AOF of at least the number of masters and replicas returned by `WAITAOF`.\n2. If the command is sent as part of a [`MULTI`]() transaction (or any other context that does not allow blocking, such as inside scripts), the command does not block but instead returns immediately the number of masters and replicas that fsynced all previous write commands.\n3. A timeout of 0 means to block forever.\n4. Since `WAITAOF` returns the number of fsyncs completed both in case of success and timeout, the client should check that the returned values are equal or greater than the persistence level required.\n5. `WAITAOF` cannot be used on replica instances, and the `numlocal` argument cannot be non-zero if the local Redis does not have AOF enabled.\n\nLimitations\n---\nIt is possible to write a module or Lua script that propagate writes to the AOF but not the replication stream.\n(For modules, this is done using the `fmt` argument to `RedisModule_Call` or `RedisModule_Replicate`; For Lua scripts, this is achieved using `redis.set_repl`.)\n\nThese features are incompatible with the `WAITAOF` command as it is currently implemented, and using them in combination may result in incorrect behavior.\n\nConsistency and WAITAOF\n---\n\nNote that, similarly to [`WAIT`](), `WAITAOF` does not make Redis a strongly-consistent store.\nUnless waiting for all members of a cluster to fsync writes to disk, data can still be lost during a failover or a Redis restart.\nHowever, `WAITAOF` does improve real-world data safety.\n\nImplementation details\n---\n\nSince Redis 7.2, Redis tracks and increments the replication offset even when no replicas are configured (as long as AOF exists).\n\nIn addition, Redis replicas asynchronously ping their master with two replication offsets: the offset they have processed in the replication stream, and the offset they have fsynced to their AOF.\n\nRedis remembers, for each client, the replication offset of the produced replication stream when the last write command was executed in the context of that client.\nWhen `WAITAOF` is called, Redis checks if the local Redis and/or the specified number of replicas have confirmed fsyncing this offset or a greater one to their AOF.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "This command blocks the current client until all previous write commands by that client are acknowledged as having been fsynced to the AOF of the local Redis and/or at least the specified number of replicas.\n\n`numlocal` represents the number of local fsyncs required to be confirmed before proceeding.\nWhen `numlocal` is set to 1, the command blocks until the data written to the Redis instance is confirmed to be persisted to the local AOF file.\nThe value 0 disables this check.\n\nIf the timeout, specified in milliseconds, is reached, the command returns even if the specified number of acknowledgments has not been met.\n\nThe command **will always return** the number of masters and replicas that have fsynced all write commands sent by the current client before the `WAITAOF` command, both in the case where the specified thresholds were met, and when the timeout is reached.\n\nA few remarks:\n\n1. When `WAITAOF` returns, all the previous write commands sent in the context of the current connection are guaranteed to be fsynced to the AOF of at least the number of masters and replicas returned by `WAITAOF`.\n2. If the command is sent as part of a [`MULTI`]() transaction (or any other context that does not allow blocking, such as inside scripts), the command does not block but instead returns immediately the number of masters and replicas that fsynced all previous write commands.\n3. A timeout of 0 means to block forever.\n4. Since `WAITAOF` returns the number of fsyncs completed both in case of success and timeout, the client should check that the returned values are equal or greater than the persistence level required.\n5. `WAITAOF` cannot be used on replica instances, and the `numlocal` argument cannot be non-zero if the local Redis does not have AOF enabled.\n\nLimitations\n---\nIt is possible to write a module or Lua script that propagate writes to the AOF but not the replication stream.\n(For modules, this is done using the `fmt` argument to `RedisModule_Call` or `RedisModule_Replicate`; For Lua scripts, this is achieved using `redis.set_repl`.)\n\nThese features are incompatible with the `WAITAOF` command as it is currently implemented, and using them in combination may result in incorrect behavior.\n\nConsistency and WAITAOF\n---\n\nNote that, similarly to [`WAIT`](), `WAITAOF` does not make Redis a strongly-consistent store.\nUnless waiting for all members of a cluster to fsync writes to disk, data can still be lost during a failover or a Redis restart.\nHowever, `WAITAOF` does improve real-world data safety.\n\nImplementation details\n---\n\nSince Redis 7.2, Redis tracks and increments the replication offset even when no replicas are configured (as long as AOF exists).\n\nIn addition, Redis replicas asynchronously ping their master with two replication offsets: the offset they have processed in the replication stream, and the offset they have fsynced to their AOF.\n\nRedis remembers, for each client, the replication offset of the produced replication stream when the last write command was executed in the context of that client.\nWhen `WAITAOF` is called, Redis checks if the local Redis and/or the specified number of replicas have confirmed fsyncing this offset or a greater one to their AOF."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "```\n> SET foo bar\nOK\n> WAITAOF 1 0 0\n1) (integer) 1\n2) (integer) 0\n> WAITAOF 0 1 1000\n1) (integer) 1\n2) (integer) 0\n```\n\nIn the above example, the first call to `WAITAOF` does not use a timeout and asks for the write to be fsynced to the local Redis only; it returns with [1, 0] when this is completed.\n\nIn the second attempt we instead specify a timeout, and ask for the write to be confirmed as fsynced by a single replica.\nSince there are no connected replicas, the `WAITAOF` command unblocks after one second and again returns [1, 0], indicating the write has been fsynced on the local Redis but no replicas."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): The command returns an array of two integers:\n1. The first is the number of local Redises (0 or 1) that have fsynced to AOF  all writes performed in the context of the current connection\n2. The second is the number of replicas that have acknowledged doing the same.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): The command returns an array of two integers:\n1. The first is the number of local Redises (0 or 1) that have fsynced to AOF  all writes performed in the context of the current connection\n2. The second is the number of replicas that have acknowledged doing the same."
+    }
+  ]
+}

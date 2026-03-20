@@ -1,0 +1,127 @@
+{
+  "slug": "ft.synupdate",
+  "title": "FT.SYNUPDATE",
+  "description": "Creates or updates a synonym group with additional terms",
+  "docsUrl": "https://redis.io/docs/latest/commands/ft.synupdate/",
+  "group": "search",
+  "groupLabel": "Search",
+  "syntax": "FT.SYNUPDATE index synonym_group_id [SKIPINITIALSCAN] term [term\n  ...]",
+  "complexity": "O(1)",
+  "since": "1.2.0",
+  "arity": null,
+  "aclCategories": [
+    "@search"
+  ],
+  "commandFlags": [
+    "readonly"
+  ],
+  "arguments": [
+    {
+      "name": "index",
+      "type": "string"
+    },
+    {
+      "name": "synonym_group_id",
+      "type": "string"
+    },
+    {
+      "name": "skipinitialscan",
+      "optional": true,
+      "token": "SKIPINITIALSCAN",
+      "type": "pure-token"
+    },
+    {
+      "multiple": true,
+      "name": "term",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "optional-parameters",
+        "title": "Optional parameters"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      },
+      {
+        "id": "see-also",
+        "title": "See also"
+      },
+      {
+        "id": "related-topics",
+        "title": "Related topics"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Update a synonym group\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open>\n<summary><code>index</code></summary>\n\nis index name.\n</details>\n\n<details open>\n<summary><code>synonym_group_id</code></summary>\n\nis synonym group to return.\n</details>\n\nUse FT.SYNUPDATE to create or update a synonym group with additional terms. The command triggers a scan of all documents.\n\n## Optional parameters\n\n<details open>\n<summary><code>SKIPINITIALSCAN</code></summary>\n\ndoes not scan and index, and only documents that are indexed after the update are affected.\n</details>\n\n## Examples\n\n<details open>\n<summary><b>Update a synonym group</b></summary>\n\n\n127.0.0.1:6379> FT.SYNUPDATE idx synonym hello hi shalom\nOK\n\n\n\n127.0.0.1:6379> FT.SYNUPDATE idx synonym SKIPINITIALSCAN hello hi shalom\nOK\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply]() in these cases: no such index.\n\n**RESP3:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply]() in these cases: no such index.\n\n\n\n## See also\n\n[`FT.SYNDUMP`]() \n\n## Related topics\n\n[RediSearch]()",
+  "intro": "Update a synonym group\n\n[Examples](#examples)",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Update a synonym group\n\n[Examples](#examples)"
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open>\n<summary><code>index</code></summary>\n\nis index name.\n</details>\n\n<details open>\n<summary><code>synonym_group_id</code></summary>\n\nis synonym group to return.\n</details>\n\nUse FT.SYNUPDATE to create or update a synonym group with additional terms. The command triggers a scan of all documents."
+    },
+    {
+      "title": "Optional parameters",
+      "level": 2,
+      "content": "<details open>\n<summary><code>SKIPINITIALSCAN</code></summary>\n\ndoes not scan and index, and only documents that are indexed after the update are affected.\n</details>"
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "<details open>\n<summary><b>Update a synonym group</b></summary>\n\n\n127.0.0.1:6379> FT.SYNUPDATE idx synonym hello hi shalom\nOK\n\n\n\n127.0.0.1:6379> FT.SYNUPDATE idx synonym SKIPINITIALSCAN hello hi shalom\nOK\n\n</details>"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply]() in these cases: no such index.\n\n**RESP3:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply]() in these cases: no such index."
+    },
+    {
+      "title": "See also",
+      "level": 2,
+      "content": "[`FT.SYNDUMP`]()"
+    },
+    {
+      "title": "Related topics",
+      "level": 2,
+      "content": "[RediSearch]()"
+    }
+  ]
+}

@@ -1,0 +1,107 @@
+{
+  "slug": "lpushx",
+  "title": "LPUSHX",
+  "description": "Prepends one or more elements to a list only when the list exists.",
+  "docsUrl": "https://redis.io/docs/latest/commands/lpushx/",
+  "group": "list",
+  "groupLabel": "Lists",
+  "syntax": "LPUSHX key element [element ...]",
+  "complexity": "O(1) for each element added, so O(N) to add N elements when the command is called with multiple arguments.",
+  "since": "2.2.0",
+  "arity": -3,
+  "aclCategories": [
+    "@write",
+    "@list",
+    "@fast"
+  ],
+  "commandFlags": [
+    "write",
+    "denyoom",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "element",
+      "multiple": true,
+      "name": "element",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      },
+      "insert": true
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Inserts specified values at the head of the list stored at `key`, only if `key`\nalready exists and holds a list.\nIn contrary to [`LPUSH`](), no operation will be performed when `key` does not yet\nexist.\n\n## Examples\n\n\nLPUSH mylist \"World\"\nLPUSHX mylist \"Hello\"\nLPUSHX myotherlist \"Hello\"\nLRANGE mylist 0 -1\nLRANGE myotherlist 0 -1\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the length of the list after the push operation.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the length of the list after the push operation.",
+  "intro": "Inserts specified values at the head of the list stored at `key`, only if `key`\nalready exists and holds a list.\nIn contrary to [`LPUSH`](), no operation will be performed when `key` does not yet\nexist.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Inserts specified values at the head of the list stored at `key`, only if `key`\nalready exists and holds a list.\nIn contrary to [`LPUSH`](), no operation will be performed when `key` does not yet\nexist."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "LPUSH mylist \"World\"\nLPUSHX mylist \"Hello\"\nLPUSHX myotherlist \"Hello\"\nLRANGE mylist 0 -1\nLRANGE myotherlist 0 -1"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the length of the list after the push operation.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the length of the list after the push operation."
+    }
+  ]
+}

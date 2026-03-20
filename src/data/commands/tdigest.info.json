@@ -1,0 +1,84 @@
+{
+  "slug": "tdigest.info",
+  "title": "TDIGEST.INFO",
+  "description": "Returns information and statistics about a t-digest sketch",
+  "docsUrl": "https://redis.io/docs/latest/commands/tdigest.info/",
+  "group": "tdigest",
+  "groupLabel": "T-Digest",
+  "syntax": "TDIGEST.INFO key",
+  "complexity": "O(1)",
+  "since": "2.4.0",
+  "arity": null,
+  "aclCategories": [
+    "@tdigest",
+    "@read"
+  ],
+  "commandFlags": [],
+  "arguments": [
+    {
+      "name": "key",
+      "type": "key"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Returns information and statistics about a t-digest sketch.\n\n## Required arguments\n\n<details open><summary><code>key</code></summary> \n\nis the key name for an existing t-digest sketch.\n</details>\n\n## Examples\n\n\nredis> TDIGEST.CREATE t\nOK\nredis> TDIGEST.ADD t 1 2 3 4 5\nOK\nredis> TDIGEST.INFO t\n 1) Compression\n 2) (integer) 100\n 3) Capacity\n 4) (integer) 610\n 5) Merged nodes\n 6) (integer) 0\n 7) Unmerged nodes\n 8) (integer) 5\n 9) Merged weight\n10) (integer) 0\n11) Unmerged weight\n12) (integer) 5\n13) Observations\n14) (integer) 5\n15) Total compressions\n16) (integer) 0\n17) Memory usage\n18) (integer) 9768\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n\n* [Array reply]() with information about the given sketch as name-value pairs:\n\n    | Name<br>[Simple string reply]() | Description\n    | ---------------------------- | -\n    | `Compression`        | [Integer reply]()<br> The compression (controllable trade-off between accuracy and memory consumption) of the sketch \n    | `Capacity`           | [Integer reply]()<br> Size of the buffer used for storing the centroids and for the incoming unmerged observations\n    | `Merged nodes`       | [Integer reply]()<br> Number of merged observations\n    | `Unmerged nodes`     | [Integer reply]()<br> Number of buffered nodes (uncompressed observations)\n    | `Merged weight`      | [Integer reply]()<br> Weight of values of the merged nodes\n    | `Unmerged weight`    | [Integer reply]()<br> Weight of values of the unmerged nodes (uncompressed observations)\n    | `Observations`       | [Integer reply]()<br> Number of observations added to the sketch\n    | `Total compressions` | [Integer reply]()<br> Number of times this sketch compressed data together\n    | `Memory usage`       | [Integer reply]()<br> Number of bytes allocated for the sketch\n* [Simple error reply]() in these cases: the given key does not exist or is of an incorrect type or an incorrect number of arguments.\n\n**RESP3:**\n\nOne of the following:\n\n* [Map reply]() with information about the given sketch as name-value pairs:\n\n    | Name<br>[Simple string reply]() | Description\n    | ---------------------------- | -\n    | `Compression`        | [Integer reply]()<br> The compression (controllable trade-off between accuracy and memory consumption) of the sketch \n    | `Capacity`           | [Integer reply]()<br> Size of the buffer used for storing the centroids and for the incoming unmerged observations\n    | `Merged nodes`       | [Integer reply]()<br> Number of merged observations\n    | `Unmerged nodes`     | [Integer reply]()<br> Number of buffered nodes (uncompressed observations)\n    | `Merged weight`      | [Integer reply]()<br> Weight of values of the merged nodes\n    | `Unmerged weight`    | [Integer reply]()<br> Weight of values of the unmerged nodes (uncompressed observations)\n    | `Observations`       | [Integer reply]()<br> Number of observations added to the sketch\n    | `Total compressions` | [Integer reply]()<br> Number of times this sketch compressed data together\n    | `Memory usage`       | [Integer reply]()<br> Number of bytes allocated for the sketch\n* [Simple error reply]() in these cases: the given key does not exist or is of an incorrect type or an incorrect number of arguments.",
+  "intro": "Returns information and statistics about a t-digest sketch.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Returns information and statistics about a t-digest sketch."
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open><summary><code>key</code></summary> \n\nis the key name for an existing t-digest sketch.\n</details>"
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "redis> TDIGEST.CREATE t\nOK\nredis> TDIGEST.ADD t 1 2 3 4 5\nOK\nredis> TDIGEST.INFO t\n 1) Compression\n 2) (integer) 100\n 3) Capacity\n 4) (integer) 610\n 5) Merged nodes\n 6) (integer) 0\n 7) Unmerged nodes\n 8) (integer) 5\n 9) Merged weight\n10) (integer) 0\n11) Unmerged weight\n12) (integer) 5\n13) Observations\n14) (integer) 5\n15) Total compressions\n16) (integer) 0\n17) Memory usage\n18) (integer) 9768"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n\n* [Array reply]() with information about the given sketch as name-value pairs:\n\n    | Name<br>[Simple string reply]() | Description\n    | ---------------------------- | -\n    | `Compression`        | [Integer reply]()<br> The compression (controllable trade-off between accuracy and memory consumption) of the sketch \n    | `Capacity`           | [Integer reply]()<br> Size of the buffer used for storing the centroids and for the incoming unmerged observations\n    | `Merged nodes`       | [Integer reply]()<br> Number of merged observations\n    | `Unmerged nodes`     | [Integer reply]()<br> Number of buffered nodes (uncompressed observations)\n    | `Merged weight`      | [Integer reply]()<br> Weight of values of the merged nodes\n    | `Unmerged weight`    | [Integer reply]()<br> Weight of values of the unmerged nodes (uncompressed observations)\n    | `Observations`       | [Integer reply]()<br> Number of observations added to the sketch\n    | `Total compressions` | [Integer reply]()<br> Number of times this sketch compressed data together\n    | `Memory usage`       | [Integer reply]()<br> Number of bytes allocated for the sketch\n* [Simple error reply]() in these cases: the given key does not exist or is of an incorrect type or an incorrect number of arguments.\n\n**RESP3:**\n\nOne of the following:\n\n* [Map reply]() with information about the given sketch as name-value pairs:\n\n    | Name<br>[Simple string reply]() | Description\n    | ---------------------------- | -\n    | `Compression`        | [Integer reply]()<br> The compression (controllable trade-off between accuracy and memory consumption) of the sketch \n    | `Capacity`           | [Integer reply]()<br> Size of the buffer used for storing the centroids and for the incoming unmerged observations\n    | `Merged nodes`       | [Integer reply]()<br> Number of merged observations\n    | `Unmerged nodes`     | [Integer reply]()<br> Number of buffered nodes (uncompressed observations)\n    | `Merged weight`      | [Integer reply]()<br> Weight of values of the merged nodes\n    | `Unmerged weight`    | [Integer reply]()<br> Weight of values of the unmerged nodes (uncompressed observations)\n    | `Observations`       | [Integer reply]()<br> Number of observations added to the sketch\n    | `Total compressions` | [Integer reply]()<br> Number of times this sketch compressed data together\n    | `Memory usage`       | [Integer reply]()<br> Number of bytes allocated for the sketch\n* [Simple error reply]() in these cases: the given key does not exist or is of an incorrect type or an incorrect number of arguments."
+    }
+  ]
+}

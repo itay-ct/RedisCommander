@@ -1,0 +1,65 @@
+{
+  "slug": "readonly",
+  "title": "READONLY",
+  "description": "Enables read-only queries for a connection to a Redis Cluster replica node.",
+  "docsUrl": "https://redis.io/docs/latest/commands/readonly/",
+  "group": "cluster",
+  "groupLabel": "Cluster",
+  "syntax": "READONLY",
+  "complexity": "O(1)",
+  "since": "3.0.0",
+  "arity": 1,
+  "aclCategories": [
+    "@fast",
+    "@connection"
+  ],
+  "commandFlags": [
+    "loading",
+    "stale",
+    "fast"
+  ],
+  "arguments": [],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Enables read queries for a connection to a Redis Cluster replica node. \n\nNormally replica nodes will redirect clients to the authoritative master for\nthe hash slot involved in a given command, however clients can use replicas\nin order to scale reads using the `READONLY` command.\n\n`READONLY` tells a Redis Cluster replica node that the client is willing to\nread possibly stale data and is not interested in running write queries.\n\nWhen the connection is in readonly mode, the cluster will send a redirection\nto the client only if the operation involves keys not served by the replica's\nmaster node. This may happen because:\n\n1. The client sent a command about hash slots never served by the master of this replica.\n2. The cluster was reconfigured (for example resharded) and the replica is no longer able to serve commands for a given hash slot.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.",
+  "intro": "Enables read queries for a connection to a Redis Cluster replica node. \n\nNormally replica nodes will redirect clients to the authoritative master for\nthe hash slot involved in a given command, however clients can use replicas\nin order to scale reads using the `READONLY` command.\n\n`READONLY` tells a Redis Cluster replica node that the client is willing to\nread possibly stale data and is not interested in running write queries.\n\nWhen the connection is in readonly mode, the cluster will send a redirection\nto the client only if the operation involves keys not served by the replica's\nmaster node. This may happen because:\n\n1. The client sent a command about hash slots never served by the master of this replica.\n2. The cluster was reconfigured (for example resharded) and the replica is no longer able to serve commands for a given hash slot.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Enables read queries for a connection to a Redis Cluster replica node. \n\nNormally replica nodes will redirect clients to the authoritative master for\nthe hash slot involved in a given command, however clients can use replicas\nin order to scale reads using the `READONLY` command.\n\n`READONLY` tells a Redis Cluster replica node that the client is willing to\nread possibly stale data and is not interested in running write queries.\n\nWhen the connection is in readonly mode, the cluster will send a redirection\nto the client only if the operation involves keys not served by the replica's\nmaster node. This may happen because:\n\n1. The client sent a command about hash slots never served by the master of this replica.\n2. The cluster was reconfigured (for example resharded) and the replica is no longer able to serve commands for a given hash slot."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`."
+    }
+  ]
+}

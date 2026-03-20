@@ -1,0 +1,99 @@
+{
+  "slug": "dump",
+  "title": "DUMP",
+  "description": "Returns a serialized representation of the value stored at a key.",
+  "docsUrl": "https://redis.io/docs/latest/commands/dump/",
+  "group": "generic",
+  "groupLabel": "Generic",
+  "syntax": "DUMP key",
+  "complexity": "O(1) to access the key and additional O(N*M) to serialize it, where N is the number of Redis objects composing the value and M their average size. For small string values the time complexity is thus O(1)+O(1*M) where M is small, so simply O(1).",
+  "since": "2.6.0",
+  "arity": 2,
+  "aclCategories": [
+    "@keyspace",
+    "@read",
+    "@slow"
+  ],
+  "commandFlags": [
+    "readonly"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RO": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Serialize the value stored at key in a Redis-specific format and return it to\nthe user.\nThe returned value can be synthesized back into a Redis key using the [`RESTORE`]()\ncommand.\n\nThe serialization format is opaque and non-standard, however it has a few\nsemantic characteristics:\n\n* It contains a 64-bit checksum that is used to make sure errors will be\n  detected.\n  The [`RESTORE`]() command makes sure to check the checksum before synthesizing a\n  key using the serialized value.\n* Values are encoded in the same format used by RDB.\n* An RDB version is encoded inside the serialized value, so that different Redis\n  versions with incompatible RDB formats will refuse to process the serialized\n  value.\n\nThe serialized value does NOT contain expire information.\nIn order to capture the time to live of the current value the [`PTTL`]() command\nshould be used.\n\nIf `key` does not exist a nil bulk reply is returned.\n\n## Examples\n\n```\n> SET mykey 10\nOK\n> DUMP mykey\n\"\\x00\\xc0\\n\\n\\x00n\\x9fWE\\x0e\\xaec\\xbb\"\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The serialized value of the key.\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): the key does not exist.\n\n**RESP3:**\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the serialized value of the key.\n* [Null reply](../../develop/reference/protocol-spec#nulls): the key does not exist.",
+  "intro": "Serialize the value stored at key in a Redis-specific format and return it to\nthe user.\nThe returned value can be synthesized back into a Redis key using the [`RESTORE`]()\ncommand.\n\nThe serialization format is opaque and non-standard, however it has a few\nsemantic characteristics:\n\n* It contains a 64-bit checksum that is used to make sure errors will be\n  detected.\n  The [`RESTORE`]() command makes sure to check the checksum before synthesizing a\n  key using the serialized value.\n* Values are encoded in the same format used by RDB.\n* An RDB version is encoded inside the serialized value, so that different Redis\n  versions with incompatible RDB formats will refuse to process the serialized\n  value.\n\nThe serialized value does NOT contain expire information.\nIn order to capture the time to live of the current value the [`PTTL`]() command\nshould be used.\n\nIf `key` does not exist a nil bulk reply is returned.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Serialize the value stored at key in a Redis-specific format and return it to\nthe user.\nThe returned value can be synthesized back into a Redis key using the [`RESTORE`]()\ncommand.\n\nThe serialization format is opaque and non-standard, however it has a few\nsemantic characteristics:\n\n* It contains a 64-bit checksum that is used to make sure errors will be\n  detected.\n  The [`RESTORE`]() command makes sure to check the checksum before synthesizing a\n  key using the serialized value.\n* Values are encoded in the same format used by RDB.\n* An RDB version is encoded inside the serialized value, so that different Redis\n  versions with incompatible RDB formats will refuse to process the serialized\n  value.\n\nThe serialized value does NOT contain expire information.\nIn order to capture the time to live of the current value the [`PTTL`]() command\nshould be used.\n\nIf `key` does not exist a nil bulk reply is returned."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "```\n> SET mykey 10\nOK\n> DUMP mykey\n\"\\x00\\xc0\\n\\n\\x00n\\x9fWE\\x0e\\xaec\\xbb\"\n```"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The serialized value of the key.\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): the key does not exist.\n\n**RESP3:**\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the serialized value of the key.\n* [Null reply](../../develop/reference/protocol-spec#nulls): the key does not exist."
+    }
+  ]
+}

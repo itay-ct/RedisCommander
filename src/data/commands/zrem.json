@@ -1,0 +1,106 @@
+{
+  "slug": "zrem",
+  "title": "ZREM",
+  "description": "Removes one or more members from a sorted set. Deletes the sorted set if all members were removed.",
+  "docsUrl": "https://redis.io/docs/latest/commands/zrem/",
+  "group": "sorted-set",
+  "groupLabel": "Sorted Sets",
+  "syntax": "ZREM key member [member ...]",
+  "complexity": "O(M*log(N)) with N being the number of elements in the sorted set and M the number of elements to be removed.",
+  "since": "1.2.0",
+  "arity": -3,
+  "aclCategories": [
+    "@write",
+    "@sortedset",
+    "@fast"
+  ],
+  "commandFlags": [
+    "write",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "member",
+      "multiple": true,
+      "name": "member",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "delete": true,
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Removes the specified members from the sorted set stored at `key`.\nNon existing members are ignored.\n\nAn error is returned when `key` exists and does not hold a sorted set.\n\n## Examples\n\n\nZADD myzset 1 \"one\"\nZADD myzset 2 \"two\"\nZADD myzset 3 \"three\"\nZREM myzset \"two\"\nZRANGE myzset 0 -1 WITHSCORES\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of members removed from the sorted set, not including non-existing members.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of members removed from the sorted set, not including non-existing members.",
+  "intro": "Removes the specified members from the sorted set stored at `key`.\nNon existing members are ignored.\n\nAn error is returned when `key` exists and does not hold a sorted set.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Removes the specified members from the sorted set stored at `key`.\nNon existing members are ignored.\n\nAn error is returned when `key` exists and does not hold a sorted set."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "ZADD myzset 1 \"one\"\nZADD myzset 2 \"two\"\nZADD myzset 3 \"three\"\nZREM myzset \"two\"\nZRANGE myzset 0 -1 WITHSCORES"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of members removed from the sorted set, not including non-existing members.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of members removed from the sorted set, not including non-existing members."
+    }
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "slug": "zremrangebyscore",
+  "title": "ZREMRANGEBYSCORE",
+  "description": "Removes members in a sorted set within a range of scores. Deletes the sorted set if all members were removed.",
+  "docsUrl": "https://redis.io/docs/latest/commands/zremrangebyscore/",
+  "group": "sorted-set",
+  "groupLabel": "Sorted Sets",
+  "syntax": "ZREMRANGEBYSCORE key min max",
+  "complexity": "O(log(N)+M) with N being the number of elements in the sorted set and M the number of elements removed by the operation.",
+  "since": "1.2.0",
+  "arity": 4,
+  "aclCategories": [
+    "@write",
+    "@sortedset",
+    "@slow"
+  ],
+  "commandFlags": [
+    "write"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "min",
+      "name": "min",
+      "type": "double"
+    },
+    {
+      "display_text": "max",
+      "name": "max",
+      "type": "double"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "delete": true,
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Removes all elements in the sorted set stored at `key` with a score between\n`min` and `max` (inclusive).\n\n## Examples\n\n\nZADD myzset 1 \"one\"\nZADD myzset 2 \"two\"\nZADD myzset 3 \"three\"\nZREMRANGEBYSCORE myzset -inf (2\nZRANGE myzset 0 -1 WITHSCORES\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of members removed.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): Number of members removed.",
+  "intro": "Removes all elements in the sorted set stored at `key` with a score between\n`min` and `max` (inclusive).",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Removes all elements in the sorted set stored at `key` with a score between\n`min` and `max` (inclusive)."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "ZADD myzset 1 \"one\"\nZADD myzset 2 \"two\"\nZADD myzset 3 \"three\"\nZREMRANGEBYSCORE myzset -inf (2\nZRANGE myzset 0 -1 WITHSCORES"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of members removed.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): Number of members removed."
+    }
+  ]
+}

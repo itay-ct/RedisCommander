@@ -1,0 +1,105 @@
+{
+  "slug": "getbit",
+  "title": "GETBIT",
+  "description": "Returns a bit value by offset.",
+  "docsUrl": "https://redis.io/docs/latest/commands/getbit/",
+  "group": "bitmap",
+  "groupLabel": "Bitmaps",
+  "syntax": "GETBIT key offset",
+  "complexity": "O(1)",
+  "since": "2.2.0",
+  "arity": 3,
+  "aclCategories": [
+    "@read",
+    "@bitmap",
+    "@fast"
+  ],
+  "commandFlags": [
+    "readonly",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "offset",
+      "name": "offset",
+      "type": "integer"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RO": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Returns the bit value at _offset_ in the string value stored at _key_.\n\nWhen _offset_ is beyond the string length, the string is assumed to be a\ncontiguous space with 0 bits.\nWhen _key_ does not exist it is assumed to be an empty string, so _offset_ is\nalways out of range and the value is also assumed to be a contiguous space with\n0 bits.\n\n## Examples\n\n\nSETBIT mykey 7 1\nGETBIT mykey 0\nGETBIT mykey 7\nGETBIT mykey 100\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nThe bit value stored at _offset_, one of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0`.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1`.\n\n**RESP3:**\n\nThe bit value stored at _offset_, one of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0`.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1`.",
+  "intro": "Returns the bit value at _offset_ in the string value stored at _key_.\n\nWhen _offset_ is beyond the string length, the string is assumed to be a\ncontiguous space with 0 bits.\nWhen _key_ does not exist it is assumed to be an empty string, so _offset_ is\nalways out of range and the value is also assumed to be a contiguous space with\n0 bits.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Returns the bit value at _offset_ in the string value stored at _key_.\n\nWhen _offset_ is beyond the string length, the string is assumed to be a\ncontiguous space with 0 bits.\nWhen _key_ does not exist it is assumed to be an empty string, so _offset_ is\nalways out of range and the value is also assumed to be a contiguous space with\n0 bits."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "SETBIT mykey 7 1\nGETBIT mykey 0\nGETBIT mykey 7\nGETBIT mykey 100"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nThe bit value stored at _offset_, one of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0`.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1`.\n\n**RESP3:**\n\nThe bit value stored at _offset_, one of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0`.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1`."
+    }
+  ]
+}

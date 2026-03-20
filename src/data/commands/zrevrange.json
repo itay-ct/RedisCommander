@@ -1,0 +1,116 @@
+{
+  "slug": "zrevrange",
+  "title": "ZREVRANGE",
+  "description": "Returns members in a sorted set within a range of indexes in reverse order.",
+  "docsUrl": "https://redis.io/docs/latest/commands/zrevrange/",
+  "group": "sorted-set",
+  "groupLabel": "Sorted Sets",
+  "syntax": "ZREVRANGE key start stop [WITHSCORES]",
+  "complexity": "O(log(N)+M) with N being the number of elements in the sorted set and M the number of elements returned.",
+  "since": "1.2.0",
+  "arity": -4,
+  "aclCategories": [
+    "@read",
+    "@sortedset",
+    "@slow"
+  ],
+  "commandFlags": [
+    "readonly"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "start",
+      "name": "start",
+      "type": "integer"
+    },
+    {
+      "display_text": "stop",
+      "name": "stop",
+      "type": "integer"
+    },
+    {
+      "display_text": "withscores",
+      "name": "withscores",
+      "optional": true,
+      "token": "WITHSCORES",
+      "type": "pure-token"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RO": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Returns the specified range of elements in the sorted set stored at `key`.\nThe elements are considered to be ordered from the highest to the lowest score.\nDescending lexicographical order is used for elements with equal score.\n\nApart from the reversed ordering, `ZREVRANGE` is similar to [`ZRANGE`]().\n\n## Examples\n\n\nZADD myzset 1 \"one\"\nZADD myzset 2 \"two\"\nZADD myzset 3 \"three\"\nZREVRANGE myzset 0 -1\nZREVRANGE myzset 2 3\nZREVRANGE myzset -2 -1\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v6.2.0. |\n\n## Return information\n\n**RESP2:**\n\n* [Array reply](../../develop/reference/protocol-spec#arrays): a list of members in the specified range, optionally with their scores if _WITHSCORE_ was used.\n\n**RESP3:**\n\n* [Array reply](../../develop/reference/protocol-spec#arrays): a list of members in the specified range, optionally with their scores if _WITHSCORE_ was used.",
+  "intro": "Returns the specified range of elements in the sorted set stored at `key`.\nThe elements are considered to be ordered from the highest to the lowest score.\nDescending lexicographical order is used for elements with equal score.\n\nApart from the reversed ordering, `ZREVRANGE` is similar to [`ZRANGE`]().",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Returns the specified range of elements in the sorted set stored at `key`.\nThe elements are considered to be ordered from the highest to the lowest score.\nDescending lexicographical order is used for elements with equal score.\n\nApart from the reversed ordering, `ZREVRANGE` is similar to [`ZRANGE`]()."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "ZADD myzset 1 \"one\"\nZADD myzset 2 \"two\"\nZADD myzset 3 \"three\"\nZREVRANGE myzset 0 -1\nZREVRANGE myzset 2 3\nZREVRANGE myzset -2 -1"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v6.2.0. |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n* [Array reply](../../develop/reference/protocol-spec#arrays): a list of members in the specified range, optionally with their scores if _WITHSCORE_ was used.\n\n**RESP3:**\n\n* [Array reply](../../develop/reference/protocol-spec#arrays): a list of members in the specified range, optionally with their scores if _WITHSCORE_ was used."
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "slug": "config-set",
+  "title": "CONFIG SET",
+  "description": "Sets configuration parameters in-flight.",
+  "docsUrl": "https://redis.io/docs/latest/commands/config-set/",
+  "group": "server",
+  "groupLabel": "Server",
+  "syntax": "CONFIG SET parameter value [parameter value ...]",
+  "complexity": "O(N) when N is the number of configuration parameters provided",
+  "since": "2.0.0",
+  "arity": -4,
+  "aclCategories": [
+    "@admin",
+    "@slow",
+    "@dangerous"
+  ],
+  "commandFlags": [
+    "admin",
+    "noscript",
+    "loading",
+    "stale"
+  ],
+  "arguments": [
+    {
+      "arguments": [
+        {
+          "display_text": "parameter",
+          "name": "parameter",
+          "type": "string"
+        },
+        {
+          "display_text": "value",
+          "name": "value",
+          "type": "string"
+        }
+      ],
+      "multiple": true,
+      "name": "data",
+      "type": "block"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "The `CONFIG SET` command is used in order to reconfigure the server at run time\nwithout the need to restart Redis.\nYou can change both trivial parameters or switch from one to another persistence\noption using this command.\n\nThe list of configuration parameters supported by `CONFIG SET` can be obtained\nissuing a `CONFIG GET *` command, that is the symmetrical command used to obtain\ninformation about the configuration of a running Redis instance.\n\nAll the configuration parameters set using `CONFIG SET` are immediately loaded\nby Redis and will take effect starting with the next command executed.\n\nAll the supported parameters have the same meaning of the equivalent\nconfiguration parameter used in the [redis.conf][hgcarr22rc] file.\n\n[hgcarr22rc]: http://github.com/redis/redis/raw/unstable/redis.conf\n\nNote that you should look at the redis.conf file relevant to the version you're\nworking with as configuration options might change between versions. The link\nabove is to the latest development version.\n\nIt is possible to switch persistence from RDB snapshotting to append-only file\n(and the other way around) using the `CONFIG SET` command.\nSee the [persistence page]() for more information.\n\n```\nCONFIG SET appendonly yes\n```\n\nSetting the `appendonly` parameter as shown above will start a background process to save the initial append-only file\n(obtained from the in memory data set), and will append all the subsequent\ncommands on the append-only file, thus obtaining exactly the same effect of a\nRedis server that started with AOF turned on since the start.\n\nYou can have both the AOF enabled with RDB snapshotting if you want, the two\noptions are not mutually exclusive.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | [Only supports a subset of configuration settings.]() |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` when the configuration was set properly. Otherwise an error is returned.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` when the configuration was set properly. Otherwise an error is returned.",
+  "intro": "The `CONFIG SET` command is used in order to reconfigure the server at run time\nwithout the need to restart Redis.\nYou can change both trivial parameters or switch from one to another persistence\noption using this command.\n\nThe list of configuration parameters supported by `CONFIG SET` can be obtained\nissuing a `CONFIG GET *` command, that is the symmetrical command used to obtain\ninformation about the configuration of a running Redis instance.\n\nAll the configuration parameters set using `CONFIG SET` are immediately loaded\nby Redis and will take effect starting with the next command executed.\n\nAll the supported parameters have the same meaning of the equivalent\nconfiguration parameter used in the [redis.conf][hgcarr22rc] file.\n\n[hgcarr22rc]: http://github.com/redis/redis/raw/unstable/redis.conf\n\nNote that you should look at the redis.conf file relevant to the version you're\nworking with as configuration options might change between versions. The link\nabove is to the latest development version.\n\nIt is possible to switch persistence from RDB snapshotting to append-only file\n(and the other way around) using the `CONFIG SET` command.\nSee the [persistence page]() for more information.\n\n```\nCONFIG SET appendonly yes\n```\n\nSetting the `appendonly` parameter as shown above will start a background process to save the initial append-only file\n(obtained from the in memory data set), and will append all the subsequent\ncommands on the append-only file, thus obtaining exactly the same effect of a\nRedis server that started with AOF turned on since the start.\n\nYou can have both the AOF enabled with RDB snapshotting if you want, the two\noptions are not mutually exclusive.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "The `CONFIG SET` command is used in order to reconfigure the server at run time\nwithout the need to restart Redis.\nYou can change both trivial parameters or switch from one to another persistence\noption using this command.\n\nThe list of configuration parameters supported by `CONFIG SET` can be obtained\nissuing a `CONFIG GET *` command, that is the symmetrical command used to obtain\ninformation about the configuration of a running Redis instance.\n\nAll the configuration parameters set using `CONFIG SET` are immediately loaded\nby Redis and will take effect starting with the next command executed.\n\nAll the supported parameters have the same meaning of the equivalent\nconfiguration parameter used in the [redis.conf][hgcarr22rc] file.\n\n[hgcarr22rc]: http://github.com/redis/redis/raw/unstable/redis.conf\n\nNote that you should look at the redis.conf file relevant to the version you're\nworking with as configuration options might change between versions. The link\nabove is to the latest development version.\n\nIt is possible to switch persistence from RDB snapshotting to append-only file\n(and the other way around) using the `CONFIG SET` command.\nSee the [persistence page]() for more information.\n\n```\nCONFIG SET appendonly yes\n```\n\nSetting the `appendonly` parameter as shown above will start a background process to save the initial append-only file\n(obtained from the in memory data set), and will append all the subsequent\ncommands on the append-only file, thus obtaining exactly the same effect of a\nRedis server that started with AOF turned on since the start.\n\nYou can have both the AOF enabled with RDB snapshotting if you want, the two\noptions are not mutually exclusive."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | [Only supports a subset of configuration settings.]() |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` when the configuration was set properly. Otherwise an error is returned.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` when the configuration was set properly. Otherwise an error is returned."
+    }
+  ]
+}

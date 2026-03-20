@@ -1,0 +1,111 @@
+{
+  "slug": "json.merge",
+  "title": "JSON.MERGE",
+  "description": "Merges a given JSON value into matching paths. Consequently, JSON values at matching paths are updated, deleted, or expanded with new children",
+  "docsUrl": "https://redis.io/docs/latest/commands/json.merge/",
+  "group": "json",
+  "groupLabel": "JSON",
+  "syntax": "JSON.MERGE key path value",
+  "complexity": "O(M+N) when path is evaluated to a single value where M is the size of the original value (if it exists) and N is the size of the new value, O(M+N) when path is evaluated to multiple values where M is the size of the key and N is the size of the new value * the number of original values in the key",
+  "since": "2.6.0",
+  "arity": null,
+  "aclCategories": [
+    "@json",
+    "@write",
+    "@slow"
+  ],
+  "commandFlags": [],
+  "arguments": [
+    {
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "name": "path",
+      "type": "string"
+    },
+    {
+      "name": "value",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      },
+      {
+        "id": "see-also",
+        "title": "See also"
+      },
+      {
+        "id": "related-topics",
+        "title": "Related topics"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Merge a given JSON value into matching paths. Consequently, JSON values at matching paths are updated, deleted, or expanded with new children.\n\nThis command complies with [RFC7396](https://datatracker.ietf.org/doc/html/rfc7396) Json Merge Patch\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open><summary><code>key</code></summary>\n\nis the key to merge into.\n</details>\n\n<details open><summary><code>path</code></summary>\n\nspecifies the JSONPath. For non-existing keys the `path` must be `$`. For existing keys, for each matched `path`, the value that matches the `path` is merged with the JSON `value`. For existing keys, when the path exists, except for the last element, a new child is added with the JSON `value`.\n\n</details>\n\n<details open><summary><code>value</code></summary>\n\nis the JSON value to merge with at the specified path. Merging is done according to the following rules per JSON value in the `value` argument while considering the corresponding original value if it exists:\n*   merging an existing object key with a `null` value deletes the key\n*   merging an existing object key with non-null value updates the value\n*   merging a non-existing object key adds the key and value\n*   merging an existing array with any merged value, replaces the entire array with the value\n</details>\n\n## Examples\n\nJSON.MERGE provides four different behaviors to merge changes on a given key: create a non-existent path, update an existing path with a new value, delete an existing path, or replace an array with a new array\n\n<details open>\n<summary><b>Create a non-existent path-value</b></summary>\n\n\nredis> JSON.SET doc $ '{\"a\":2}'\nOK\nredis> JSON.MERGE doc $.b '8'\nOK\nredis> JSON.GET doc $\n\"[{\\\"a\\\":2,\\\"b\\\":8}]\"\n\n\n</details>\n\n<details open>\n<summary><b>Replace an existing value</b></summary>\n\n\nredis> JSON.SET doc $ '{\"a\":2}'\nOK\nredis> JSON.MERGE doc $.a '3'\nOK\nredis> JSON.GET doc $\n\"[{\\\"a\\\":3}]\"\n\n\n</details>\n\n<details open>\n<summary><b>Delete an existing value</b></summary>\n\n\nredis> JSON.SET doc $ '{\"a\":2}'\nOK\nredis> JSON.MERGE doc $ '{\"a\":null}'\nOK\nredis> JSON.GET doc $\n\"[{}]\"\n\n\n</details>\n\n<details open>\n<summary><b>Replace an Array</b></summary>\n\n\nredis> JSON.SET doc $ '{\"a\":[2,4,6,8]}'\nOK\nredis> JSON.MERGE doc $.a '[10,12]'\nOK\nredis> JSON.GET doc $\n\"[{\\\"a\\\":[10,12]}]\"\n\n\n</details>\n\n<details open>\n<summary><b>Merge changes in multi-paths</b></summary>\n\n\nredis> JSON.SET doc $ '{\"f1\": {\"a\":1}, \"f2\":{\"a\":2}}'\nOK\nredis> JSON.GET doc\n\"{\\\"f1\\\":{\\\"a\\\":1},\\\"f2\\\":{\\\"a\\\":2}}\"\nredis> JSON.MERGE doc $ '{\"f1\": null, \"f2\":{\"a\":3, \"b\":4}, \"f3\":[2,4,6]}'\nOK\nredis> JSON.GET doc\n\"{\\\"f2\\\":{\\\"a\\\":3,\\\"b\\\":4},\\\"f3\\\":[2,4,6]}\"\n\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply](): if the operation fails to set the new values.\n\n**RESP3:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply](): if the operation fails to set the new values.\n\n\n\n## See also\n\n[`JSON.GET`]() | [`JSON.MGET`]() | [`JSON.SET`]() | [`JSON.MSET`]()\n\n## Related topics\n\n* [RedisJSON]()\n* [Index and search JSON documents]()",
+  "intro": "Merge a given JSON value into matching paths. Consequently, JSON values at matching paths are updated, deleted, or expanded with new children.\n\nThis command complies with [RFC7396](https://datatracker.ietf.org/doc/html/rfc7396) Json Merge Patch\n\n[Examples](#examples)",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Merge a given JSON value into matching paths. Consequently, JSON values at matching paths are updated, deleted, or expanded with new children.\n\nThis command complies with [RFC7396](https://datatracker.ietf.org/doc/html/rfc7396) Json Merge Patch\n\n[Examples](#examples)"
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open><summary><code>key</code></summary>\n\nis the key to merge into.\n</details>\n\n<details open><summary><code>path</code></summary>\n\nspecifies the JSONPath. For non-existing keys the `path` must be `$`. For existing keys, for each matched `path`, the value that matches the `path` is merged with the JSON `value`. For existing keys, when the path exists, except for the last element, a new child is added with the JSON `value`.\n\n</details>\n\n<details open><summary><code>value</code></summary>\n\nis the JSON value to merge with at the specified path. Merging is done according to the following rules per JSON value in the `value` argument while considering the corresponding original value if it exists:\n*   merging an existing object key with a `null` value deletes the key\n*   merging an existing object key with non-null value updates the value\n*   merging a non-existing object key adds the key and value\n*   merging an existing array with any merged value, replaces the entire array with the value\n</details>"
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "JSON.MERGE provides four different behaviors to merge changes on a given key: create a non-existent path, update an existing path with a new value, delete an existing path, or replace an array with a new array\n\n<details open>\n<summary><b>Create a non-existent path-value</b></summary>\n\n\nredis> JSON.SET doc $ '{\"a\":2}'\nOK\nredis> JSON.MERGE doc $.b '8'\nOK\nredis> JSON.GET doc $\n\"[{\\\"a\\\":2,\\\"b\\\":8}]\"\n\n\n</details>\n\n<details open>\n<summary><b>Replace an existing value</b></summary>\n\n\nredis> JSON.SET doc $ '{\"a\":2}'\nOK\nredis> JSON.MERGE doc $.a '3'\nOK\nredis> JSON.GET doc $\n\"[{\\\"a\\\":3}]\"\n\n\n</details>\n\n<details open>\n<summary><b>Delete an existing value</b></summary>\n\n\nredis> JSON.SET doc $ '{\"a\":2}'\nOK\nredis> JSON.MERGE doc $ '{\"a\":null}'\nOK\nredis> JSON.GET doc $\n\"[{}]\"\n\n\n</details>\n\n<details open>\n<summary><b>Replace an Array</b></summary>\n\n\nredis> JSON.SET doc $ '{\"a\":[2,4,6,8]}'\nOK\nredis> JSON.MERGE doc $.a '[10,12]'\nOK\nredis> JSON.GET doc $\n\"[{\\\"a\\\":[10,12]}]\"\n\n\n</details>\n\n<details open>\n<summary><b>Merge changes in multi-paths</b></summary>\n\n\nredis> JSON.SET doc $ '{\"f1\": {\"a\":1}, \"f2\":{\"a\":2}}'\nOK\nredis> JSON.GET doc\n\"{\\\"f1\\\":{\\\"a\\\":1},\\\"f2\\\":{\\\"a\\\":2}}\"\nredis> JSON.MERGE doc $ '{\"f1\": null, \"f2\":{\"a\":3, \"b\":4}, \"f3\":[2,4,6]}'\nOK\nredis> JSON.GET doc\n\"{\\\"f2\\\":{\\\"a\\\":3,\\\"b\\\":4},\\\"f3\\\":[2,4,6]}\"\n\n\n</details>"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply](): if the operation fails to set the new values.\n\n**RESP3:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply](): if the operation fails to set the new values."
+    },
+    {
+      "title": "See also",
+      "level": 2,
+      "content": "[`JSON.GET`]() | [`JSON.MGET`]() | [`JSON.SET`]() | [`JSON.MSET`]()"
+    },
+    {
+      "title": "Related topics",
+      "level": 2,
+      "content": "* [RedisJSON]()\n* [Index and search JSON documents]()"
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "slug": "cf.insert",
+  "title": "CF.INSERT",
+  "description": "Adds one or more items to a Cuckoo Filter. A filter will be created if it does not exist",
+  "docsUrl": "https://redis.io/docs/latest/commands/cf.insert/",
+  "group": "cf",
+  "groupLabel": "Cuckoo",
+  "syntax": "CF.INSERT key [CAPACITY capacity] [NOCREATE] ITEMS item [item ...]",
+  "complexity": "O(n * (k + i)), where n is the number of items, k is the number of sub-filters and i is maxIterations",
+  "since": "1.0.0",
+  "arity": null,
+  "aclCategories": [
+    "@cuckoo",
+    "@write",
+    "@slow"
+  ],
+  "commandFlags": [],
+  "arguments": [
+    {
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "name": "capacity",
+      "optional": true,
+      "token": "CAPACITY",
+      "type": "integer"
+    },
+    {
+      "name": "nocreate",
+      "optional": true,
+      "token": "NOCREATE",
+      "type": "pure-token"
+    },
+    {
+      "name": "items",
+      "token": "ITEMS",
+      "type": "pure-token"
+    },
+    {
+      "multiple": true,
+      "name": "item",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "optional-arguments",
+        "title": "Optional arguments"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Adds one or more items to a cuckoo filter, allowing the filter to be created with a custom capacity if it does not exist yet.\n\nThis command is similar to [`CF.ADD`](), except that more than one item can be added and capacity can be specified.\n\n## Required arguments\n\n<details open><summary><code>key</code></summary>\n\nis key name for a cuckoo filter to add items to.\n\nIf `key` does not exist - a new cuckoo filter is created.\n</details>\n\n<details open><summary><code>ITEMS item...</code></summary>\n\nOne or more items to add.\n</details>\n\n## Optional arguments\n\n<details open><summary><code>CAPACITY capacity</code></summary>\n    \nSpecifies the desired capacity of the new filter, if this filter does not exist yet.\n    \nIf the filter already exists, then this parameter is ignored.\n    \nIf the filter does not exist yet and this parameter is *not* specified, then the filter is created with the module-level default capacity which is 1024.\n\nSee [`CF.RESERVE`]() for more information on cuckoo filter capacities.\n</details>\n    \n<details open><summary><code>NOCREATE</code></summary>\n  \nIf specified, prevents automatic filter creation if the filter does not exist (Instead, an error is returned).\n    \nThis option is mutually exclusive with `CAPACITY`.\n</details>\n\n## Examples\n\n\nredis> CF.INSERT cf CAPACITY 1000 ITEMS item1 item2 \n1) (integer) 1\n2) (integer) 1\n\n\n\nredis> CF.INSERT cf1 CAPACITY 1000 NOCREATE ITEMS item1 item2 \n(error) ERR not found\n\n\n\nredis> CF.RESERVE cf2 2 BUCKETSIZE 1 EXPANSION 0\nOK\nredis> CF.INSERT cf2 ITEMS 1 1 1 1\n1) (integer) 1\n2) (integer) 1\n3) (integer) -1\n4) (integer) -1\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n\n* [Array reply](), where each element is an [Integer reply]() of `1` for successfully adding an item, or `-1` when the item cannot be added because the filter is full.\n* [Simple error reply]() when the number of arguments or key type is incorrect, and also when `NOCREATE` is specified and `key` does not exist.\n\n**RESP3:**\n\n* [Array reply](), where each element is a [boolean reply]() of `1` for successfully adding an item, or `-1` when the item cannot be added because the filter is full.\n* [Simple error reply]() when the number of arguments or key type is incorrect, and also when `NOCREATE` is specified and `key` does not exist.",
+  "intro": "Adds one or more items to a cuckoo filter, allowing the filter to be created with a custom capacity if it does not exist yet.\n\nThis command is similar to [`CF.ADD`](), except that more than one item can be added and capacity can be specified.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Adds one or more items to a cuckoo filter, allowing the filter to be created with a custom capacity if it does not exist yet.\n\nThis command is similar to [`CF.ADD`](), except that more than one item can be added and capacity can be specified."
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open><summary><code>key</code></summary>\n\nis key name for a cuckoo filter to add items to.\n\nIf `key` does not exist - a new cuckoo filter is created.\n</details>\n\n<details open><summary><code>ITEMS item...</code></summary>\n\nOne or more items to add.\n</details>"
+    },
+    {
+      "title": "Optional arguments",
+      "level": 2,
+      "content": "<details open><summary><code>CAPACITY capacity</code></summary>\n    \nSpecifies the desired capacity of the new filter, if this filter does not exist yet.\n    \nIf the filter already exists, then this parameter is ignored.\n    \nIf the filter does not exist yet and this parameter is *not* specified, then the filter is created with the module-level default capacity which is 1024.\n\nSee [`CF.RESERVE`]() for more information on cuckoo filter capacities.\n</details>\n    \n<details open><summary><code>NOCREATE</code></summary>\n  \nIf specified, prevents automatic filter creation if the filter does not exist (Instead, an error is returned).\n    \nThis option is mutually exclusive with `CAPACITY`.\n</details>"
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "redis> CF.INSERT cf CAPACITY 1000 ITEMS item1 item2 \n1) (integer) 1\n2) (integer) 1\n\n\n\nredis> CF.INSERT cf1 CAPACITY 1000 NOCREATE ITEMS item1 item2 \n(error) ERR not found\n\n\n\nredis> CF.RESERVE cf2 2 BUCKETSIZE 1 EXPANSION 0\nOK\nredis> CF.INSERT cf2 ITEMS 1 1 1 1\n1) (integer) 1\n2) (integer) 1\n3) (integer) -1\n4) (integer) -1"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n\n* [Array reply](), where each element is an [Integer reply]() of `1` for successfully adding an item, or `-1` when the item cannot be added because the filter is full.\n* [Simple error reply]() when the number of arguments or key type is incorrect, and also when `NOCREATE` is specified and `key` does not exist.\n\n**RESP3:**\n\n* [Array reply](), where each element is a [boolean reply]() of `1` for successfully adding an item, or `-1` when the item cannot be added because the filter is full.\n* [Simple error reply]() when the number of arguments or key type is incorrect, and also when `NOCREATE` is specified and `key` does not exist."
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "slug": "vrandmember",
+  "title": "VRANDMEMBER",
+  "description": "Return one or multiple random members from a vector set.",
+  "docsUrl": "https://redis.io/docs/latest/commands/vrandmember/",
+  "group": "vector_set",
+  "groupLabel": "Vector Sets",
+  "syntax": "VRANDMEMBER key [count]",
+  "complexity": "O(N) where N is the absolute value of the count argument.",
+  "since": "8.0.0",
+  "arity": null,
+  "aclCategories": [],
+  "commandFlags": [],
+  "arguments": [],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "optional-arguments",
+        "title": "Optional arguments"
+      },
+      {
+        "id": "related-topics",
+        "title": "Related topics"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Return one or more random elements from a vector set.\n\nThe behavior is similar to the `SRANDMEMBER` command:\n\n- When called without a count, returns a single element as a bulk string.\n- When called with a positive count, returns up to that many distinct elements (no duplicates).\n- When called with a negative count, returns that many elements, possibly with duplicates.\n- If the count exceeds the number of elements, the entire set is returned.\n- If the key does not exist, the command returns `null` if no count is given, or an empty array if a count is provided.\n\n```shell\nVADD vset VALUES 3 1 0 0 elem1\nVADD vset VALUES 3 0 1 0 elem2\nVADD vset VALUES 3 0 0 1 elem3\n```\n\nReturn a single random element:\n\n```shell\nVRANDMEMBER vset\n\"elem2\"\n```\n\nReturn two distinct random elements:\n\n```shell\nVRANDMEMBER vset 2\n1) \"elem1\"\n2) \"elem3\"\n```\n\nReturn 3 random elements with possible duplicates:\n\n```shell\nVRANDMEMBER vset -3\n1) \"elem2\"\n2) \"elem2\"\n3) \"elem1\"\n```\n\nRequest more elements than exist in the set:\n\n```shell\nVRANDMEMBER vset 10\n1) \"elem1\"\n2) \"elem2\"\n3) \"elem3\"\n```\n\nWhen the key doesn't exist:\n\n```shell\nVRANDMEMBER nonexistent\n(nil)\n```\n\n```shell\nVRANDMEMBER nonexistent 3\n(empty array)\n```\n\nThis command is useful for:\n\n- Sampling elements for testing or training.\n- Generating random queries for performance testing.\n\nInternally:\n\n- For small counts (less than 20% of the set size), a dictionary is used to ensure uniqueness.\n- For large counts (more than 20% of the set size), a linear scan provides faster performance, though results may be less random.\n\n## Required arguments\n\n<details open>\n<summary><code>key</code></summary>\n\nis the name of the key that holds the vector set.\n</details>\n\n## Optional arguments\n\n<details open>\n<summary><code>count</code></summary>\n\nspecifies the number of elements to return. Positive values return distinct elements; negative values allow duplicates.\n</details>\n\n## Related topics\n\n- [Vector sets]()\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays) containing the names of count random elements as [strings](../../develop/reference/protocol-spec#simple-strings).\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) (null bulk string) for unknown keys.\n* [Array reply](../../develop/reference/protocol-spec#arrays) (empty array) for unknown keys when a count is specified.\n\n**RESP3:**\n\nOne of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays) containing the names of *count* random elements as [strings](../../develop/reference/protocol-spec#simple-strings).\n* [Null reply](../../develop/reference/protocol-spec#nulls) for unknown keys.\n* [Array reply](../../develop/reference/protocol-spec#arrays) (empty array) for unknown keys when a count is specified.",
+  "intro": "Return one or more random elements from a vector set.\n\nThe behavior is similar to the `SRANDMEMBER` command:\n\n- When called without a count, returns a single element as a bulk string.\n- When called with a positive count, returns up to that many distinct elements (no duplicates).\n- When called with a negative count, returns that many elements, possibly with duplicates.\n- If the count exceeds the number of elements, the entire set is returned.\n- If the key does not exist, the command returns `null` if no count is given, or an empty array if a count is provided.\n\n```shell\nVADD vset VALUES 3 1 0 0 elem1\nVADD vset VALUES 3 0 1 0 elem2\nVADD vset VALUES 3 0 0 1 elem3\n```\n\nReturn a single random element:\n\n```shell\nVRANDMEMBER vset\n\"elem2\"\n```\n\nReturn two distinct random elements:\n\n```shell\nVRANDMEMBER vset 2\n1) \"elem1\"\n2) \"elem3\"\n```\n\nReturn 3 random elements with possible duplicates:\n\n```shell\nVRANDMEMBER vset -3\n1) \"elem2\"\n2) \"elem2\"\n3) \"elem1\"\n```\n\nRequest more elements than exist in the set:\n\n```shell\nVRANDMEMBER vset 10\n1) \"elem1\"\n2) \"elem2\"\n3) \"elem3\"\n```\n\nWhen the key doesn't exist:\n\n```shell\nVRANDMEMBER nonexistent\n(nil)\n```\n\n```shell\nVRANDMEMBER nonexistent 3\n(empty array)\n```\n\nThis command is useful for:\n\n- Sampling elements for testing or training.\n- Generating random queries for performance testing.\n\nInternally:\n\n- For small counts (less than 20% of the set size), a dictionary is used to ensure uniqueness.\n- For large counts (more than 20% of the set size), a linear scan provides faster performance, though results may be less random.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Return one or more random elements from a vector set.\n\nThe behavior is similar to the `SRANDMEMBER` command:\n\n- When called without a count, returns a single element as a bulk string.\n- When called with a positive count, returns up to that many distinct elements (no duplicates).\n- When called with a negative count, returns that many elements, possibly with duplicates.\n- If the count exceeds the number of elements, the entire set is returned.\n- If the key does not exist, the command returns `null` if no count is given, or an empty array if a count is provided.\n\n```shell\nVADD vset VALUES 3 1 0 0 elem1\nVADD vset VALUES 3 0 1 0 elem2\nVADD vset VALUES 3 0 0 1 elem3\n```\n\nReturn a single random element:\n\n```shell\nVRANDMEMBER vset\n\"elem2\"\n```\n\nReturn two distinct random elements:\n\n```shell\nVRANDMEMBER vset 2\n1) \"elem1\"\n2) \"elem3\"\n```\n\nReturn 3 random elements with possible duplicates:\n\n```shell\nVRANDMEMBER vset -3\n1) \"elem2\"\n2) \"elem2\"\n3) \"elem1\"\n```\n\nRequest more elements than exist in the set:\n\n```shell\nVRANDMEMBER vset 10\n1) \"elem1\"\n2) \"elem2\"\n3) \"elem3\"\n```\n\nWhen the key doesn't exist:\n\n```shell\nVRANDMEMBER nonexistent\n(nil)\n```\n\n```shell\nVRANDMEMBER nonexistent 3\n(empty array)\n```\n\nThis command is useful for:\n\n- Sampling elements for testing or training.\n- Generating random queries for performance testing.\n\nInternally:\n\n- For small counts (less than 20% of the set size), a dictionary is used to ensure uniqueness.\n- For large counts (more than 20% of the set size), a linear scan provides faster performance, though results may be less random."
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open>\n<summary><code>key</code></summary>\n\nis the name of the key that holds the vector set.\n</details>"
+    },
+    {
+      "title": "Optional arguments",
+      "level": 2,
+      "content": "<details open>\n<summary><code>count</code></summary>\n\nspecifies the number of elements to return. Positive values return distinct elements; negative values allow duplicates.\n</details>"
+    },
+    {
+      "title": "Related topics",
+      "level": 2,
+      "content": "- [Vector sets]()"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays) containing the names of count random elements as [strings](../../develop/reference/protocol-spec#simple-strings).\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) (null bulk string) for unknown keys.\n* [Array reply](../../develop/reference/protocol-spec#arrays) (empty array) for unknown keys when a count is specified.\n\n**RESP3:**\n\nOne of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays) containing the names of *count* random elements as [strings](../../develop/reference/protocol-spec#simple-strings).\n* [Null reply](../../develop/reference/protocol-spec#nulls) for unknown keys.\n* [Array reply](../../develop/reference/protocol-spec#arrays) (empty array) for unknown keys when a count is specified."
+    }
+  ]
+}

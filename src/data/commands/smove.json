@@ -1,0 +1,130 @@
+{
+  "slug": "smove",
+  "title": "SMOVE",
+  "description": "Moves a member from one set to another.",
+  "docsUrl": "https://redis.io/docs/latest/commands/smove/",
+  "group": "set",
+  "groupLabel": "Sets",
+  "syntax": "SMOVE source destination member",
+  "complexity": "O(1)",
+  "since": "1.0.0",
+  "arity": 4,
+  "aclCategories": [
+    "@write",
+    "@set",
+    "@fast"
+  ],
+  "commandFlags": [
+    "write",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "source",
+      "key_spec_index": 0,
+      "name": "source",
+      "type": "key"
+    },
+    {
+      "display_text": "destination",
+      "key_spec_index": 1,
+      "name": "destination",
+      "type": "key"
+    },
+    {
+      "display_text": "member",
+      "name": "member",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "delete": true,
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    },
+    {
+      "RW": true,
+      "begin_search": {
+        "spec": {
+          "index": 2
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      },
+      "insert": true
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nMove `member` from the set at `source` to the set at `destination`.\nThis operation is atomic.\nIn every given moment the element will appear to be a member of `source` **or**\n`destination` for other clients.\n\nIf the source set does not exist or does not contain the specified element, no\noperation is performed and `0` is returned.\nOtherwise, the element is removed from the source set and added to the\ndestination set.\nWhen the specified element already exists in the destination set, it is only\nremoved from the source set.\n\n## Examples\n\n\nSADD myset \"one\"\nSADD myset \"two\"\nSADD myotherset \"three\"\nSMOVE myset myotherset \"two\"\nSMEMBERS myset\nSMEMBERS myotherset\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the element is moved.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the element is not a member of _source_ and no operation was performed.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the element is moved.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the element is not a member of _source_ and no operation was performed.",
+  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nMove `member` from the set at `source` to the set at `destination`.\nThis operation is atomic.\nIn every given moment the element will appear to be a member of `source` **or**\n`destination` for other clients.\n\nIf the source set does not exist or does not contain the specified element, no\noperation is performed and `0` is returned.\nOtherwise, the element is removed from the source set and added to the\ndestination set.\nWhen the specified element already exists in the destination set, it is only\nremoved from the source set.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nMove `member` from the set at `source` to the set at `destination`.\nThis operation is atomic.\nIn every given moment the element will appear to be a member of `source` **or**\n`destination` for other clients.\n\nIf the source set does not exist or does not contain the specified element, no\noperation is performed and `0` is returned.\nOtherwise, the element is removed from the source set and added to the\ndestination set.\nWhen the specified element already exists in the destination set, it is only\nremoved from the source set."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "SADD myset \"one\"\nSADD myset \"two\"\nSADD myotherset \"three\"\nSMOVE myset myotherset \"two\"\nSMEMBERS myset\nSMEMBERS myotherset"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the element is moved.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the element is not a member of _source_ and no operation was performed.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the element is moved.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the element is not a member of _source_ and no operation was performed."
+    }
+  ]
+}

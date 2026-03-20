@@ -1,0 +1,148 @@
+{
+  "slug": "getex",
+  "title": "GETEX",
+  "description": "Returns the string value of a key after setting its expiration time.",
+  "docsUrl": "https://redis.io/docs/latest/commands/getex/",
+  "group": "string",
+  "groupLabel": "Strings",
+  "syntax": "GETEX key [EX seconds | PX milliseconds | EXAT unix-time-seconds |\n  PXAT unix-time-milliseconds | PERSIST]",
+  "complexity": "O(1)",
+  "since": "6.2.0",
+  "arity": -2,
+  "aclCategories": [
+    "@write",
+    "@string",
+    "@fast"
+  ],
+  "commandFlags": [
+    "write",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "seconds",
+          "name": "seconds",
+          "token": "EX",
+          "type": "integer"
+        },
+        {
+          "display_text": "milliseconds",
+          "name": "milliseconds",
+          "token": "PX",
+          "type": "integer"
+        },
+        {
+          "display_text": "unix-time-seconds",
+          "name": "unix-time-seconds",
+          "token": "EXAT",
+          "type": "unix-time"
+        },
+        {
+          "display_text": "unix-time-milliseconds",
+          "name": "unix-time-milliseconds",
+          "token": "PXAT",
+          "type": "unix-time"
+        },
+        {
+          "display_text": "persist",
+          "name": "persist",
+          "token": "PERSIST",
+          "type": "pure-token"
+        }
+      ],
+      "name": "expiration",
+      "optional": true,
+      "type": "oneof"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      },
+      "notes": "RW and UPDATE because it changes the TTL",
+      "update": true
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "options",
+        "title": "Options"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Get the value of `key` and optionally set its expiration.\n`GETEX` is similar to [`GET`](), but is a write command with additional options.\n\n## Options\n\nThe `GETEX` command supports a set of options that modify its behavior:\n\n* `EX` *seconds* -- Set the specified expire time, in seconds.\n* `PX` *milliseconds* -- Set the specified expire time, in milliseconds.\n* `EXAT` *timestamp-seconds* -- Set the specified Unix time at which the key will expire, in seconds.\n* `PXAT` *timestamp-milliseconds* -- Set the specified Unix time at which the key will expire, in milliseconds.\n* [`PERSIST`]() -- Remove the time to live associated with the key.\n\n## Examples\n\n\nSET mykey \"Hello\"\nGETEX mykey\nTTL mykey\nGETEX mykey EX 60\nTTL mykey\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active\\*</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active\\*</nobr></span> | \\*Not supported for HyperLogLog. |\n\n## Return information\n\n**RESP2:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the value of `key`\n[Nil reply](../../develop/reference/protocol-spec#bulk-strings): if `key` does not exist.\n\n**RESP3:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the value of `key`\n[Null reply](../../develop/reference/protocol-spec#nulls): if `key` does not exist.",
+  "intro": "Get the value of `key` and optionally set its expiration.\n`GETEX` is similar to [`GET`](), but is a write command with additional options.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Get the value of `key` and optionally set its expiration.\n`GETEX` is similar to [`GET`](), but is a write command with additional options."
+    },
+    {
+      "title": "Options",
+      "level": 2,
+      "content": "The `GETEX` command supports a set of options that modify its behavior:\n\n* `EX` *seconds* -- Set the specified expire time, in seconds.\n* `PX` *milliseconds* -- Set the specified expire time, in milliseconds.\n* `EXAT` *timestamp-seconds* -- Set the specified Unix time at which the key will expire, in seconds.\n* `PXAT` *timestamp-milliseconds* -- Set the specified Unix time at which the key will expire, in milliseconds.\n* [`PERSIST`]() -- Remove the time to live associated with the key."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "SET mykey \"Hello\"\nGETEX mykey\nTTL mykey\nGETEX mykey EX 60\nTTL mykey"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active\\*</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active\\*</nobr></span> | \\*Not supported for HyperLogLog. |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the value of `key`\n[Nil reply](../../develop/reference/protocol-spec#bulk-strings): if `key` does not exist.\n\n**RESP3:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the value of `key`\n[Null reply](../../develop/reference/protocol-spec#nulls): if `key` does not exist."
+    }
+  ]
+}

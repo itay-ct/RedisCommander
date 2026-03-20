@@ -1,0 +1,116 @@
+{
+  "slug": "xrevrange",
+  "title": "XREVRANGE",
+  "description": "Returns the messages from a stream within a range of IDs in reverse order.",
+  "docsUrl": "https://redis.io/docs/latest/commands/xrevrange/",
+  "group": "stream",
+  "groupLabel": "Streams",
+  "syntax": "XREVRANGE key end start [COUNT count]",
+  "complexity": "O(N) with N being the number of elements returned. If N is constant (e.g. always asking for the first 10 elements with COUNT), you can consider it O(1).",
+  "since": "5.0.0",
+  "arity": -4,
+  "aclCategories": [
+    "@read",
+    "@stream",
+    "@slow"
+  ],
+  "commandFlags": [
+    "readonly"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "end",
+      "name": "end",
+      "type": "string"
+    },
+    {
+      "display_text": "start",
+      "name": "start",
+      "type": "string"
+    },
+    {
+      "display_text": "count",
+      "name": "count",
+      "optional": true,
+      "token": "COUNT",
+      "type": "integer"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RO": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "This command is exactly like [`XRANGE`](), but with the notable difference of\nreturning the entries in reverse order, and also taking the start-end\nrange in reverse order: in `XREVRANGE` you need to state the *end* ID\nand later the *start* ID, and the command will produce all the element\nbetween (or exactly like) the two IDs, starting from the *end* side.\n\nSo for instance, to get all the elements from the higher ID to the lower\nID one could use:\n\n    XREVRANGE somestream + -\n\nSimilarly to get just the last element added into the stream it is\nenough to send:\n\n    XREVRANGE somestream + - COUNT 1\n\n## Examples\n\n\nXADD writers * name Virginia surname Woolf\nXADD writers * name Jane surname Austen\nXADD writers * name Toni surname Morrison\nXADD writers * name Agatha surname Christie\nXADD writers * name Ngozi surname Adichie\nXLEN writers\nXREVRANGE writers + - COUNT 1\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): The command returns the entries with IDs matching the specified range. The returned entries are complete, which means that the ID and all the fields they are composed of are returned. Moreover, the entries are returned with their fields and values in the same order as `XADD` added them.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): The command returns the entries with IDs matching the specified range. The returned entries are complete, which means that the ID and all the fields they are composed of are returned. Moreover, the entries are returned with their fields and values in the same order as `XADD` added them.",
+  "intro": "This command is exactly like [`XRANGE`](), but with the notable difference of\nreturning the entries in reverse order, and also taking the start-end\nrange in reverse order: in `XREVRANGE` you need to state the *end* ID\nand later the *start* ID, and the command will produce all the element\nbetween (or exactly like) the two IDs, starting from the *end* side.\n\nSo for instance, to get all the elements from the higher ID to the lower\nID one could use:\n\n    XREVRANGE somestream + -\n\nSimilarly to get just the last element added into the stream it is\nenough to send:\n\n    XREVRANGE somestream + - COUNT 1",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "This command is exactly like [`XRANGE`](), but with the notable difference of\nreturning the entries in reverse order, and also taking the start-end\nrange in reverse order: in `XREVRANGE` you need to state the *end* ID\nand later the *start* ID, and the command will produce all the element\nbetween (or exactly like) the two IDs, starting from the *end* side.\n\nSo for instance, to get all the elements from the higher ID to the lower\nID one could use:\n\n    XREVRANGE somestream + -\n\nSimilarly to get just the last element added into the stream it is\nenough to send:\n\n    XREVRANGE somestream + - COUNT 1"
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "XADD writers * name Virginia surname Woolf\nXADD writers * name Jane surname Austen\nXADD writers * name Toni surname Morrison\nXADD writers * name Agatha surname Christie\nXADD writers * name Ngozi surname Adichie\nXLEN writers\nXREVRANGE writers + - COUNT 1"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): The command returns the entries with IDs matching the specified range. The returned entries are complete, which means that the ID and all the fields they are composed of are returned. Moreover, the entries are returned with their fields and values in the same order as `XADD` added them.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): The command returns the entries with IDs matching the specified range. The returned entries are complete, which means that the ID and all the fields they are composed of are returned. Moreover, the entries are returned with their fields and values in the same order as `XADD` added them."
+    }
+  ]
+}

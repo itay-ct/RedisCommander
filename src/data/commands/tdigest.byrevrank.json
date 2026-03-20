@@ -1,0 +1,89 @@
+{
+  "slug": "tdigest.byrevrank",
+  "title": "TDIGEST.BYREVRANK",
+  "description": "Returns, for each input reverse rank, an estimation of the floating-point value with that reverse rank",
+  "docsUrl": "https://redis.io/docs/latest/commands/tdigest.byrevrank/",
+  "group": "tdigest",
+  "groupLabel": "T-Digest",
+  "syntax": "TDIGEST.BYREVRANK key reverse_rank [reverse_rank ...]",
+  "complexity": "O(1)",
+  "since": "2.4.0",
+  "arity": null,
+  "aclCategories": [
+    "@tdigest",
+    "@read"
+  ],
+  "commandFlags": [],
+  "arguments": [
+    {
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "multiple": true,
+      "name": "reverse_rank",
+      "type": "double"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Returns, for each input reverse rank (`revrank`), an estimation of the floating-point value with that reverse rank.\nMultiple estimations can be retrieved in a single call.\n\n## Required arguments\n\n<details open><summary><code>key</code></summary>\n\nis the key name of an existing t-digest sketch.\n</details>\n\n<details open><summary><code>revrank</code></summary>\n\nReverse ranks for which the values should be retrieved.\n\n0 is the reverse rank of the value of the largest observation.\n  \n_n_-1 is the reverse rank of the value of the smallest observation, where _n_ denotes the number of observations added to the sketch.\n</details>\n\n## Examples\n\n\nredis> TDIGEST.CREATE t COMPRESSION 1000\nOK\nredis> TDIGEST.ADD t 1 2 2 3 3 3 4 4 4 4 5 5 5 5 5\nOK\nredis> TDIGEST.BYREVRANK t 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15\n 1) \"5\"\n 2) \"5\"\n 3) \"5\"\n 4) \"5\"\n 5) \"5\"\n 6) \"4\"\n 7) \"4\"\n 8) \"4\"\n 9) \"4\"\n10) \"3\"\n11) \"3\"\n12) \"3\"\n13) \"2\"\n14) \"2\"\n15) \"1\"\n16) \"-inf\"\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\"><nobr>&#x2705; Flexible & Annual</nobr></span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n\n* [Array]() of [bulk strings]() as floating-points, populated with value_1, value_2, ..., value_R:\n    * an accurate result when `rank` is `0`, the value of the largest observation.\n    * an accurate result when `rank` is _n_-1, the value of the smallest observation, where _n_ denotes the number of observations added to the sketch.\n    * `inf` when `rank` is equal to _n_ or larger than _n_.\n    * `nan` for all ranks when the given sketch is empty.\n* [Simple error reply]() in these cases: the given key does not exist or is of an incorrect type, rank parsing errors, or an incorrect number of arguments.\n\n**RESP3:**\n\nOne of the following:\n\n* [Array]() of [doubles]() as floating-points, populated with value_1, value_2, ..., value_R:\n    * an accurate result when `rank` is `0`, the value of the largest observation.\n    * an accurate result when `rank` is _n_-1, the value of the smallest observation, where _n_ denotes the number of observations added to the sketch.\n    * `inf` when `rank` is equal to _n_ or larger than _n_.\n    * `nan` for all ranks when the given sketch is empty.\n* [Simple error reply]() in these cases: the given key does not exist or is of an incorrect type, rank parsing errors, or an incorrect number of arguments.",
+  "intro": "Returns, for each input reverse rank (`revrank`), an estimation of the floating-point value with that reverse rank.\nMultiple estimations can be retrieved in a single call.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Returns, for each input reverse rank (`revrank`), an estimation of the floating-point value with that reverse rank.\nMultiple estimations can be retrieved in a single call."
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open><summary><code>key</code></summary>\n\nis the key name of an existing t-digest sketch.\n</details>\n\n<details open><summary><code>revrank</code></summary>\n\nReverse ranks for which the values should be retrieved.\n\n0 is the reverse rank of the value of the largest observation.\n  \n_n_-1 is the reverse rank of the value of the smallest observation, where _n_ denotes the number of observations added to the sketch.\n</details>"
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "redis> TDIGEST.CREATE t COMPRESSION 1000\nOK\nredis> TDIGEST.ADD t 1 2 2 3 3 3 4 4 4 4 5 5 5 5 5\nOK\nredis> TDIGEST.BYREVRANK t 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15\n 1) \"5\"\n 2) \"5\"\n 3) \"5\"\n 4) \"5\"\n 5) \"5\"\n 6) \"4\"\n 7) \"4\"\n 8) \"4\"\n 9) \"4\"\n10) \"3\"\n11) \"3\"\n12) \"3\"\n13) \"2\"\n14) \"2\"\n15) \"1\"\n16) \"-inf\""
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\"><nobr>&#x2705; Flexible & Annual</nobr></span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n\n* [Array]() of [bulk strings]() as floating-points, populated with value_1, value_2, ..., value_R:\n    * an accurate result when `rank` is `0`, the value of the largest observation.\n    * an accurate result when `rank` is _n_-1, the value of the smallest observation, where _n_ denotes the number of observations added to the sketch.\n    * `inf` when `rank` is equal to _n_ or larger than _n_.\n    * `nan` for all ranks when the given sketch is empty.\n* [Simple error reply]() in these cases: the given key does not exist or is of an incorrect type, rank parsing errors, or an incorrect number of arguments.\n\n**RESP3:**\n\nOne of the following:\n\n* [Array]() of [doubles]() as floating-points, populated with value_1, value_2, ..., value_R:\n    * an accurate result when `rank` is `0`, the value of the largest observation.\n    * an accurate result when `rank` is _n_-1, the value of the smallest observation, where _n_ denotes the number of observations added to the sketch.\n    * `inf` when `rank` is equal to _n_ or larger than _n_.\n    * `nan` for all ranks when the given sketch is empty.\n* [Simple error reply]() in these cases: the given key does not exist or is of an incorrect type, rank parsing errors, or an incorrect number of arguments."
+    }
+  ]
+}

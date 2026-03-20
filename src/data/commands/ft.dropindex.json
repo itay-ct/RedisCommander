@@ -1,0 +1,125 @@
+{
+  "slug": "ft.dropindex",
+  "title": "FT.DROPINDEX",
+  "description": "Deletes the index",
+  "docsUrl": "https://redis.io/docs/latest/commands/ft.dropindex/",
+  "group": "search",
+  "groupLabel": "Search",
+  "syntax": "FT.DROPINDEX index [DD]",
+  "complexity": "O(1) or O(N) if documents are deleted, where N is the number of keys in the keyspace",
+  "since": "2.0.0",
+  "arity": null,
+  "aclCategories": [
+    "@dangerous",
+    "@search",
+    "@slow",
+    "@write"
+  ],
+  "commandFlags": [],
+  "arguments": [
+    {
+      "name": "index",
+      "type": "string"
+    },
+    {
+      "arguments": [
+        {
+          "name": "delete docs",
+          "token": "DD",
+          "type": "pure-token"
+        }
+      ],
+      "name": "delete docs",
+      "optional": true,
+      "type": "oneof"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "optional-arguments",
+        "title": "Optional arguments"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      },
+      {
+        "id": "see-also",
+        "title": "See also"
+      },
+      {
+        "id": "related-topics",
+        "title": "Related topics"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Delete an index\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open>\n<summary><code>index</code></summary>\n\nis full-text index name. You must first create the index using [`FT.CREATE`]().\n</details>\n\n## Optional arguments\n\n<details open>\n<summary><code>DD</code></summary>\n\ndrop index operation that, if set, deletes the actual document keys. `FT.DROPINDEX index DD` is an asynchronous operation.\n\nBy default, FT.DROPINDEX does not delete the documents associated with the index. Adding the `DD` option deletes the documents as well. \nIf an index creation is still running ([`FT.CREATE`]() is running asynchronously), only the document hashes that have already been indexed are deleted. \nThe document hashes left to be indexed remain in the database.\nTo check the completion of the indexing, use [`FT.INFO`]().\n\n</details>\n\n## Examples\n\n<details open>\n<summary><b>Delete an index</b></summary>\n\n\n127.0.0.1:6379> FT.DROPINDEX idx DD\nOK\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply]() in these cases: no such index.\n\n**RESP3:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply]() in these cases: no such index.\n\n\n\n## See also\n\n[`FT.CREATE`]() | [`FT.INFO`]()\n\n## Related topics\n\n[RediSearch]()",
+  "intro": "Delete an index\n\n[Examples](#examples)",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Delete an index\n\n[Examples](#examples)"
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open>\n<summary><code>index</code></summary>\n\nis full-text index name. You must first create the index using [`FT.CREATE`]().\n</details>"
+    },
+    {
+      "title": "Optional arguments",
+      "level": 2,
+      "content": "<details open>\n<summary><code>DD</code></summary>\n\ndrop index operation that, if set, deletes the actual document keys. `FT.DROPINDEX index DD` is an asynchronous operation.\n\nBy default, FT.DROPINDEX does not delete the documents associated with the index. Adding the `DD` option deletes the documents as well. \nIf an index creation is still running ([`FT.CREATE`]() is running asynchronously), only the document hashes that have already been indexed are deleted. \nThe document hashes left to be indexed remain in the database.\nTo check the completion of the indexing, use [`FT.INFO`]().\n\n</details>"
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "<details open>\n<summary><b>Delete an index</b></summary>\n\n\n127.0.0.1:6379> FT.DROPINDEX idx DD\nOK\n\n</details>"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply]() in these cases: no such index.\n\n**RESP3:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply]() in these cases: no such index."
+    },
+    {
+      "title": "See also",
+      "level": 2,
+      "content": "[`FT.CREATE`]() | [`FT.INFO`]()"
+    },
+    {
+      "title": "Related topics",
+      "level": 2,
+      "content": "[RediSearch]()"
+    }
+  ]
+}

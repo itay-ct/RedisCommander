@@ -1,0 +1,115 @@
+{
+  "slug": "xdel",
+  "title": "XDEL",
+  "description": "Returns the number of messages after removing them from a stream.",
+  "docsUrl": "https://redis.io/docs/latest/commands/xdel/",
+  "group": "stream",
+  "groupLabel": "Streams",
+  "syntax": "XDEL key id [id ...]",
+  "complexity": "O(1) for each single item to delete in the stream, regardless of the stream size.",
+  "since": "5.0.0",
+  "arity": -3,
+  "aclCategories": [
+    "@write",
+    "@stream",
+    "@fast"
+  ],
+  "commandFlags": [
+    "write",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "id",
+      "multiple": true,
+      "name": "id",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "delete": true,
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "understanding-the-low-level-details-of-entries-deletion",
+        "title": "Understanding the low level details of entries deletion"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Removes the specified entries from a stream, and returns the number of entries\ndeleted.  This number may be less than the number of IDs passed to the command in\nthe case where some of the specified IDs do not exist in the stream.\n\nNormally you may think at a Redis stream as an append-only data structure,\nhowever Redis streams are represented in memory, so we are also able to \ndelete entries. This may be useful, for instance, in order to comply with\ncertain privacy policies.\n\n## Understanding the low level details of entries deletion\n\nRedis streams are represented in a way that makes them memory efficient:\na radix tree is used in order to index macro-nodes that pack linearly tens\nof stream entries. Normally what happens when you delete an entry from a stream\nis that the entry is not *really* evicted, it just gets marked as deleted.\n\nEventually if all the entries in a macro-node are marked as deleted, the whole\nnode is destroyed and the memory reclaimed. This means that if you delete\na large amount of entries from a stream, for instance more than 50% of the\nentries appended to the stream, the memory usage per entry may increment, since\nwhat happens is that the stream will become fragmented. However the stream\nperformance will remain the same.\n\nIn future versions of Redis it is possible that we'll trigger a node garbage\ncollection in case a given macro-node reaches a given amount of deleted\nentries. Currently with the usage we anticipate for this data structure, it is\nnot a good idea to add such complexity.\n\n## Examples\n\n```\n> XADD mystream * a 1\n1538561698944-0\n> XADD mystream * b 2\n1538561700640-0\n> XADD mystream * c 3\n1538561701744-0\n> XDEL mystream 1538561700640-0\n(integer) 1\n127.0.0.1:6379> XRANGE mystream - +\n1) 1) 1538561698944-0\n   2) 1) \"a\"\n      2) \"1\"\n2) 1) 1538561701744-0\n   2) 1) \"c\"\n      2) \"3\"\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of entries that were deleted.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of entries that were deleted.",
+  "intro": "Removes the specified entries from a stream, and returns the number of entries\ndeleted.  This number may be less than the number of IDs passed to the command in\nthe case where some of the specified IDs do not exist in the stream.\n\nNormally you may think at a Redis stream as an append-only data structure,\nhowever Redis streams are represented in memory, so we are also able to \ndelete entries. This may be useful, for instance, in order to comply with\ncertain privacy policies.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Removes the specified entries from a stream, and returns the number of entries\ndeleted.  This number may be less than the number of IDs passed to the command in\nthe case where some of the specified IDs do not exist in the stream.\n\nNormally you may think at a Redis stream as an append-only data structure,\nhowever Redis streams are represented in memory, so we are also able to \ndelete entries. This may be useful, for instance, in order to comply with\ncertain privacy policies."
+    },
+    {
+      "title": "Understanding the low level details of entries deletion",
+      "level": 2,
+      "content": "Redis streams are represented in a way that makes them memory efficient:\na radix tree is used in order to index macro-nodes that pack linearly tens\nof stream entries. Normally what happens when you delete an entry from a stream\nis that the entry is not *really* evicted, it just gets marked as deleted.\n\nEventually if all the entries in a macro-node are marked as deleted, the whole\nnode is destroyed and the memory reclaimed. This means that if you delete\na large amount of entries from a stream, for instance more than 50% of the\nentries appended to the stream, the memory usage per entry may increment, since\nwhat happens is that the stream will become fragmented. However the stream\nperformance will remain the same.\n\nIn future versions of Redis it is possible that we'll trigger a node garbage\ncollection in case a given macro-node reaches a given amount of deleted\nentries. Currently with the usage we anticipate for this data structure, it is\nnot a good idea to add such complexity."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "```\n> XADD mystream * a 1\n1538561698944-0\n> XADD mystream * b 2\n1538561700640-0\n> XADD mystream * c 3\n1538561701744-0\n> XDEL mystream 1538561700640-0\n(integer) 1\n127.0.0.1:6379> XRANGE mystream - +\n1) 1) 1538561698944-0\n   2) 1) \"a\"\n      2) \"1\"\n2) 1) 1538561701744-0\n   2) 1) \"c\"\n      2) \"3\"\n```"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of entries that were deleted.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of entries that were deleted."
+    }
+  ]
+}

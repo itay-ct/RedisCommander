@@ -1,0 +1,88 @@
+{
+  "slug": "function-load",
+  "title": "FUNCTION LOAD",
+  "description": "Creates a library.",
+  "docsUrl": "https://redis.io/docs/latest/commands/function-load/",
+  "group": "scripting",
+  "groupLabel": "Scripting",
+  "syntax": "FUNCTION LOAD [REPLACE] function-code",
+  "complexity": "O(1) (considering compilation time is redundant)",
+  "since": "7.0.0",
+  "arity": -3,
+  "aclCategories": [
+    "@write",
+    "@slow",
+    "@scripting"
+  ],
+  "commandFlags": [
+    "write",
+    "denyoom",
+    "noscript"
+  ],
+  "arguments": [
+    {
+      "display_text": "replace",
+      "name": "replace",
+      "optional": true,
+      "token": "REPLACE",
+      "type": "pure-token"
+    },
+    {
+      "display_text": "function-code",
+      "name": "function-code",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Load a library to Redis.\n\nThe command's gets a single mandatory parameter which is the source code that implements the library.\nThe library payload must start with Shebang statement that provides a metadata about the library (like the engine to use and the library name).\nShebang format: `#!<engine name> name=<library name>`. Currently engine name must be `lua`.\n\nFor the Lua engine, the implementation should declare one or more entry points to the library with the [`redis.register_function()` API]().\nOnce loaded, you can call the functions in the library with the [`FCALL`]() (or [`FCALL_RO`]() when applicable) command.\n\nWhen attempting to load a library with a name that already exists, the Redis server returns an error.\nThe `REPLACE` modifier changes this behavior and overwrites the existing library with the new contents.\n\nThe command will return an error in the following circumstances:\n\n* An invalid _engine-name_ was provided.\n* The library's name already exists without the `REPLACE` modifier.\n* A function in the library is created with a name that already exists in another library (even when `REPLACE` is specified).\n* The engine failed in creating the library's functions (due to a compilation error, for example).\n* No functions were declared by the library.\n\nFor more information please refer to [Introduction to Redis Functions]().\n\n## Examples\n\nThe following example will create a library named `mylib` with a single function, `myfunc`, that returns the first argument it gets.\n\n```\nredis> FUNCTION LOAD \"#!lua name=mylib \\n redis.register_function('myfunc', function(keys, args) return args[1] end)\"\nmylib\nredis> FCALL myfunc 0 hello\n\"hello\"\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the library name that was loaded.\n\n**RESP3:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the library name that was loaded.",
+  "intro": "Load a library to Redis.\n\nThe command's gets a single mandatory parameter which is the source code that implements the library.\nThe library payload must start with Shebang statement that provides a metadata about the library (like the engine to use and the library name).\nShebang format: `#!<engine name> name=<library name>`. Currently engine name must be `lua`.\n\nFor the Lua engine, the implementation should declare one or more entry points to the library with the [`redis.register_function()` API]().\nOnce loaded, you can call the functions in the library with the [`FCALL`]() (or [`FCALL_RO`]() when applicable) command.\n\nWhen attempting to load a library with a name that already exists, the Redis server returns an error.\nThe `REPLACE` modifier changes this behavior and overwrites the existing library with the new contents.\n\nThe command will return an error in the following circumstances:\n\n* An invalid _engine-name_ was provided.\n* The library's name already exists without the `REPLACE` modifier.\n* A function in the library is created with a name that already exists in another library (even when `REPLACE` is specified).\n* The engine failed in creating the library's functions (due to a compilation error, for example).\n* No functions were declared by the library.\n\nFor more information please refer to [Introduction to Redis Functions]().",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Load a library to Redis.\n\nThe command's gets a single mandatory parameter which is the source code that implements the library.\nThe library payload must start with Shebang statement that provides a metadata about the library (like the engine to use and the library name).\nShebang format: `#!<engine name> name=<library name>`. Currently engine name must be `lua`.\n\nFor the Lua engine, the implementation should declare one or more entry points to the library with the [`redis.register_function()` API]().\nOnce loaded, you can call the functions in the library with the [`FCALL`]() (or [`FCALL_RO`]() when applicable) command.\n\nWhen attempting to load a library with a name that already exists, the Redis server returns an error.\nThe `REPLACE` modifier changes this behavior and overwrites the existing library with the new contents.\n\nThe command will return an error in the following circumstances:\n\n* An invalid _engine-name_ was provided.\n* The library's name already exists without the `REPLACE` modifier.\n* A function in the library is created with a name that already exists in another library (even when `REPLACE` is specified).\n* The engine failed in creating the library's functions (due to a compilation error, for example).\n* No functions were declared by the library.\n\nFor more information please refer to [Introduction to Redis Functions]()."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "The following example will create a library named `mylib` with a single function, `myfunc`, that returns the first argument it gets.\n\n```\nredis> FUNCTION LOAD \"#!lua name=mylib \\n redis.register_function('myfunc', function(keys, args) return args[1] end)\"\nmylib\nredis> FCALL myfunc 0 hello\n\"hello\"\n```"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the library name that was loaded.\n\n**RESP3:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the library name that was loaded."
+    }
+  ]
+}

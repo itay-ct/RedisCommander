@@ -1,0 +1,200 @@
+{
+  "slug": "rpop",
+  "title": "RPOP",
+  "description": "Returns and removes the last elements of a list. Deletes the list if the last element was popped.",
+  "docsUrl": "https://redis.io/docs/latest/commands/rpop/",
+  "group": "list",
+  "groupLabel": "Lists",
+  "syntax": "RPOP key [count]",
+  "complexity": "O(N) where N is the number of elements returned",
+  "since": "1.0.0",
+  "arity": -2,
+  "aclCategories": [
+    "@write",
+    "@list",
+    "@fast"
+  ],
+  "commandFlags": [
+    "write",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "count",
+      "name": "count",
+      "optional": true,
+      "since": "6.2.0",
+      "type": "integer"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "delete": true,
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [
+    {
+      "codetabsId": "cmds_list-steprpop",
+      "commands": [
+        {
+          "acl_categories": [
+            "@write",
+            "@list",
+            "@fast"
+          ],
+          "complexity": "O(1)",
+          "name": "RPUSH"
+        },
+        {
+          "acl_categories": [
+            "@write",
+            "@list",
+            "@fast"
+          ],
+          "complexity": "O(N)",
+          "name": "RPOP"
+        },
+        {
+          "acl_categories": [
+            "@read",
+            "@list",
+            "@slow"
+          ],
+          "complexity": "O(S+N)",
+          "name": "LRANGE"
+        }
+      ],
+      "description": "Foundational: Remove and return the last element(s) from a list using RPOP (supports optional count parameter to pop multiple elements from tail)",
+      "difficulty": "beginner",
+      "id": "rpop",
+      "languages": [
+        {
+          "id": "redis-cli",
+          "panelId": "panel_redis-cli_cmds_list-steprpop"
+        },
+        {
+          "clientId": "redis-py",
+          "clientName": "redis-py",
+          "id": "Python",
+          "langId": "python",
+          "panelId": "panel_Python_cmds_list-steprpop"
+        },
+        {
+          "id": "Node-js",
+          "panelId": "panel_Nodejs_cmds_list-steprpop"
+        },
+        {
+          "clientId": "jedis",
+          "clientName": "Jedis",
+          "id": "Java-Sync",
+          "langId": "java",
+          "panelId": "panel_Java-Sync_cmds_list-steprpop"
+        },
+        {
+          "clientId": "lettuce",
+          "clientName": "Lettuce",
+          "id": "Java-Async",
+          "langId": "java",
+          "panelId": "panel_Java-Async_cmds_list-steprpop"
+        },
+        {
+          "clientId": "lettuce",
+          "clientName": "Lettuce",
+          "id": "Java-Reactive",
+          "langId": "java",
+          "panelId": "panel_Java-Reactive_cmds_list-steprpop"
+        },
+        {
+          "clientId": "go-redis",
+          "clientName": "go-redis",
+          "id": "Go",
+          "langId": "go",
+          "panelId": "panel_Go_cmds_list-steprpop"
+        },
+        {
+          "id": "dotnet-Sync",
+          "panelId": "panel_Csharp-Sync_cmds_list-steprpop"
+        },
+        {
+          "clientId": "predis",
+          "clientName": "Predis",
+          "id": "PHP",
+          "langId": "php",
+          "panelId": "panel_PHP_cmds_list-steprpop"
+        }
+      ]
+    }
+  ],
+  "content": "Removes and returns the last elements of the list stored at `key`.\n\nBy default, the command pops a single element from the end of the list.\nWhen provided with the optional `count` argument, the reply will consist of up\nto `count` elements, depending on the list's length.\n\n## Examples\n\n#### Code Examples\n\nFoundational: Remove and return the last element(s) from a list using RPOP (supports optional count parameter to pop multiple elements from tail)\n\n**Difficulty:** Beginner\n\n**Commands:** RPUSH, RPOP, LRANGE\n\n**Complexity:**\n- RPUSH: O(1)\n- RPOP: O(N)\n- LRANGE: O(S+N)\n\n**Redis CLI:**\n\n```\nredis> RPUSH mylist \"one\" \"two\" \"three\" \"four\" \"five\"\n(integer) 5\nredis> RPOP mylist\n\"five\"\nredis> RPOP mylist 2\n1) \"four\"\n2) \"three\"\nredis> LRANGE mylist 0 -1\n1) \"one\"\n2) \"two\"\n```\n\n**Available in:** Redis CLI, C# (Synchronous), Go, Java (Asynchronous - Lettuce), Java (Reactive - Lettuce), Java (Synchronous - Jedis), JavaScript (Node.js), PHP, Python\n\n**C# (Synchronous):**\n\n```csharp\n        long rPopResult1 = db.ListRightPush(\"mylist\", [\"one\", \"two\", \"three\", \"four\", \"five\"]);\n        Console.WriteLine(rPopResult1); // >>> 5\n\n        RedisValue rPopResult2 = db.ListRightPop(\"mylist\");\n        Console.WriteLine(rPopResult2); // >>> five\n\n        RedisValue[] rPopResult3 = db.ListRightPop(\"mylist\", 2);\n        Console.WriteLine($\"[{string.Join(\", \", rPopResult3)}]\");\n        // >>> [four, three]\n\n        RedisValue[] rPopResult4 = db.ListRange(\"mylist\", 0, -1);\n        Console.WriteLine($\"[{string.Join(\", \", rPopResult4)}]\");\n        // >>> [one, two]\n```\n\n**Go:**\n\n```go\n\trPushResult, err := rdb.RPush(ctx, \"mylist\",\n\t\t\"one\", \"two\", \"three\", \"four\", \"five\",\n\t).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(rPushResult) // >>> 5\n\n\trPopResult, err := rdb.RPop(ctx, \"mylist\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(rPopResult) // >>> five\n\n\trPopCountResult, err := rdb.RPopCount(ctx, \"mylist\", 2).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(rPopCountResult) // >>> [four three]\n\n\tlRangeResult, err := rdb.LRange(ctx, \"mylist\", 0, -1).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(lRangeResult) // >>> [one two]\n```\n\n**Java (Asynchronous - Lettuce):**\n\n```java\n            CompletableFuture<Void> rpop = asyncCommands.rpush(\"mylist\", \"one\", \"two\", \"three\", \"four\", \"five\")\n                    .thenCompose(res18 -> {\n                        System.out.println(res18); // >>> 5\n\n                        return asyncCommands.rpop(\"mylist\");\n                    }).thenCompose(res19 -> {\n                        System.out.println(res19); // >>> five\n\n                        return asyncCommands.rpop(\"mylist\", 2);\n                    }).thenCompose(res20 -> {\n                        System.out.println(res20); // >>> [four, three]\n\n                        return asyncCommands.lrange(\"mylist\", 0, -1);\n                    })\n                    .thenAccept(res21 -> System.out.println(res21)) // >>> [one, two]\n                    .toCompletableFuture();\n```\n\n**Java (Reactive - Lettuce):**\n\n```java\n            Mono<Void> rpop = reactiveCommands.rpush(\"mylist\", \"one\", \"two\", \"three\", \"four\", \"five\").doOnNext(res18 -> {\n                System.out.println(res18); // >>> 5\n            }).flatMap(res18 -> reactiveCommands.rpop(\"mylist\")).doOnNext(res19 -> {\n                System.out.println(res19); // >>> five\n            }).flatMap(res19 -> reactiveCommands.rpop(\"mylist\", 2).collectList()).doOnNext(res20 -> {\n                System.out.println(res20); // >>> [four, three]\n            }).flatMap(res20 -> reactiveCommands.lrange(\"mylist\", 0, -1).collectList()).doOnNext(res21 -> {\n                System.out.println(res21); // >>> [one, two]\n            }).then();\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n        long rPopResult1 = jedis.rpush(\n            \"mylist\", \"one\", \"two\", \"three\", \"four\", \"five\"\n        );\n        System.out.println(rPopResult1); // >>> 5\n\n        String rPopResult2 = jedis.rpop(\"mylist\");\n        System.out.println(rPopResult2); // >>> five\n\n        List<String> rPopResult3 = jedis.rpop(\"mylist\", 2);\n        System.out.println(rPopResult3); // >>> [four, three]\n\n        List<String> rPopResult4 = jedis.lrange(\"mylist\", 0, -1);\n        System.out.println(rPopResult4); // >>> [one, two]\n```\n\n**JavaScript (Node.js):**\n\n```javascript\nconst res21 = await client.rPush('mylist', [\"one\", \"two\", \"three\", \"four\", \"five\"]);\nconsole.log(res21); // 5\n\nconst res22 = await client.rPop('mylist');\nconsole.log(res22); // 'five'\n\nconst res23 = await client.rPopCount('mylist', 2);\nconsole.log(res23); // [ 'four', 'three' ]\n\nconst res24 = await client.lRange('mylist', 0, -1);\nconsole.log(res24); // [ 'one', 'two' ]\n\n```\n\n**PHP:**\n\n```php\n        $res21 = $r->rpush('mylist', 'one', 'two', 'three', 'four', 'five');\n        echo $res21 . PHP_EOL;\n        // >>> 5\n\n        $res22 = $r->rpop('mylist');\n        echo $res22 . PHP_EOL;\n        // >>> five\n\n        $res23 = $r->rpop('mylist', 2);\n        echo json_encode($res23) . PHP_EOL;\n        // >>> [\"four\",\"three\"]\n\n        $res24 = $r->lrange('mylist', 0, -1);\n        echo json_encode($res24) . PHP_EOL;\n        // >>> [\"one\",\"two\"]\n```\n\n**Python:**\n\n```python\nres18 = r.rpush(\"mylist\", *[\"one\", \"two\", \"three\", \"four\", \"five\"])\nprint(res18) # >>> 5\n\nres19 = r.rpop(\"mylist\")\nprint(res19) # >>> \"five\"\n\nres20 = r.rpop(\"mylist\", 2)\nprint(res20) # >>> ['four', 'three']\n\nres21 = r.lrange(\"mylist\", 0, -1)\nprint(res21)  # >>> [ \"one\", \"two\" ]\n\n```\n\n\n\nGive these commands a try in the interactive console:\n\n\nRPUSH mylist \"one\" \"two\" \"three\" \"four\" \"five\"\nRPOP mylist\nRPOP mylist 2\nLRANGE mylist 0 -1\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the key does not exist.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): when called without the _count_ argument, the value of the last element.\n* [Array reply](../../develop/reference/protocol-spec#arrays): when called with the _count_ argument, a list of popped elements.\n\n**RESP3:**\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): if the key does not exist.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): when called without the _count_ argument, the value of the last element.\n* [Array reply](../../develop/reference/protocol-spec#arrays): when called with the _count_ argument, a list of popped elements.",
+  "intro": "Removes and returns the last elements of the list stored at `key`.\n\nBy default, the command pops a single element from the end of the list.\nWhen provided with the optional `count` argument, the reply will consist of up\nto `count` elements, depending on the list's length.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Removes and returns the last elements of the list stored at `key`.\n\nBy default, the command pops a single element from the end of the list.\nWhen provided with the optional `count` argument, the reply will consist of up\nto `count` elements, depending on the list's length."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "#### Code Examples\n\nFoundational: Remove and return the last element(s) from a list using RPOP (supports optional count parameter to pop multiple elements from tail)\n\n**Difficulty:** Beginner\n\n**Commands:** RPUSH, RPOP, LRANGE\n\n**Complexity:**\n- RPUSH: O(1)\n- RPOP: O(N)\n- LRANGE: O(S+N)\n\n**Redis CLI:**\n\n```\nredis> RPUSH mylist \"one\" \"two\" \"three\" \"four\" \"five\"\n(integer) 5\nredis> RPOP mylist\n\"five\"\nredis> RPOP mylist 2\n1) \"four\"\n2) \"three\"\nredis> LRANGE mylist 0 -1\n1) \"one\"\n2) \"two\"\n```\n\n**Available in:** Redis CLI, C# (Synchronous), Go, Java (Asynchronous - Lettuce), Java (Reactive - Lettuce), Java (Synchronous - Jedis), JavaScript (Node.js), PHP, Python\n\n**C# (Synchronous):**\n\n```csharp\n        long rPopResult1 = db.ListRightPush(\"mylist\", [\"one\", \"two\", \"three\", \"four\", \"five\"]);\n        Console.WriteLine(rPopResult1); // >>> 5\n\n        RedisValue rPopResult2 = db.ListRightPop(\"mylist\");\n        Console.WriteLine(rPopResult2); // >>> five\n\n        RedisValue[] rPopResult3 = db.ListRightPop(\"mylist\", 2);\n        Console.WriteLine($\"[{string.Join(\", \", rPopResult3)}]\");\n        // >>> [four, three]\n\n        RedisValue[] rPopResult4 = db.ListRange(\"mylist\", 0, -1);\n        Console.WriteLine($\"[{string.Join(\", \", rPopResult4)}]\");\n        // >>> [one, two]\n```\n\n**Go:**\n\n```go\n\trPushResult, err := rdb.RPush(ctx, \"mylist\",\n\t\t\"one\", \"two\", \"three\", \"four\", \"five\",\n\t).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(rPushResult) // >>> 5\n\n\trPopResult, err := rdb.RPop(ctx, \"mylist\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(rPopResult) // >>> five\n\n\trPopCountResult, err := rdb.RPopCount(ctx, \"mylist\", 2).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(rPopCountResult) // >>> [four three]\n\n\tlRangeResult, err := rdb.LRange(ctx, \"mylist\", 0, -1).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(lRangeResult) // >>> [one two]\n```\n\n**Java (Asynchronous - Lettuce):**\n\n```java\n            CompletableFuture<Void> rpop = asyncCommands.rpush(\"mylist\", \"one\", \"two\", \"three\", \"four\", \"five\")\n                    .thenCompose(res18 -> {\n                        System.out.println(res18); // >>> 5\n\n                        return asyncCommands.rpop(\"mylist\");\n                    }).thenCompose(res19 -> {\n                        System.out.println(res19); // >>> five\n\n                        return asyncCommands.rpop(\"mylist\", 2);\n                    }).thenCompose(res20 -> {\n                        System.out.println(res20); // >>> [four, three]\n\n                        return asyncCommands.lrange(\"mylist\", 0, -1);\n                    })\n                    .thenAccept(res21 -> System.out.println(res21)) // >>> [one, two]\n                    .toCompletableFuture();\n```\n\n**Java (Reactive - Lettuce):**\n\n```java\n            Mono<Void> rpop = reactiveCommands.rpush(\"mylist\", \"one\", \"two\", \"three\", \"four\", \"five\").doOnNext(res18 -> {\n                System.out.println(res18); // >>> 5\n            }).flatMap(res18 -> reactiveCommands.rpop(\"mylist\")).doOnNext(res19 -> {\n                System.out.println(res19); // >>> five\n            }).flatMap(res19 -> reactiveCommands.rpop(\"mylist\", 2).collectList()).doOnNext(res20 -> {\n                System.out.println(res20); // >>> [four, three]\n            }).flatMap(res20 -> reactiveCommands.lrange(\"mylist\", 0, -1).collectList()).doOnNext(res21 -> {\n                System.out.println(res21); // >>> [one, two]\n            }).then();\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n        long rPopResult1 = jedis.rpush(\n            \"mylist\", \"one\", \"two\", \"three\", \"four\", \"five\"\n        );\n        System.out.println(rPopResult1); // >>> 5\n\n        String rPopResult2 = jedis.rpop(\"mylist\");\n        System.out.println(rPopResult2); // >>> five\n\n        List<String> rPopResult3 = jedis.rpop(\"mylist\", 2);\n        System.out.println(rPopResult3); // >>> [four, three]\n\n        List<String> rPopResult4 = jedis.lrange(\"mylist\", 0, -1);\n        System.out.println(rPopResult4); // >>> [one, two]\n```\n\n**JavaScript (Node.js):**\n\n```javascript\nconst res21 = await client.rPush('mylist', [\"one\", \"two\", \"three\", \"four\", \"five\"]);\nconsole.log(res21); // 5\n\nconst res22 = await client.rPop('mylist');\nconsole.log(res22); // 'five'\n\nconst res23 = await client.rPopCount('mylist', 2);\nconsole.log(res23); // [ 'four', 'three' ]\n\nconst res24 = await client.lRange('mylist', 0, -1);\nconsole.log(res24); // [ 'one', 'two' ]\n\n```\n\n**PHP:**\n\n```php\n        $res21 = $r->rpush('mylist', 'one', 'two', 'three', 'four', 'five');\n        echo $res21 . PHP_EOL;\n        // >>> 5\n\n        $res22 = $r->rpop('mylist');\n        echo $res22 . PHP_EOL;\n        // >>> five\n\n        $res23 = $r->rpop('mylist', 2);\n        echo json_encode($res23) . PHP_EOL;\n        // >>> [\"four\",\"three\"]\n\n        $res24 = $r->lrange('mylist', 0, -1);\n        echo json_encode($res24) . PHP_EOL;\n        // >>> [\"one\",\"two\"]\n```\n\n**Python:**\n\n```python\nres18 = r.rpush(\"mylist\", *[\"one\", \"two\", \"three\", \"four\", \"five\"])\nprint(res18) # >>> 5\n\nres19 = r.rpop(\"mylist\")\nprint(res19) # >>> \"five\"\n\nres20 = r.rpop(\"mylist\", 2)\nprint(res20) # >>> ['four', 'three']\n\nres21 = r.lrange(\"mylist\", 0, -1)\nprint(res21)  # >>> [ \"one\", \"two\" ]\n\n```\n\n\n\nGive these commands a try in the interactive console:\n\n\nRPUSH mylist \"one\" \"two\" \"three\" \"four\" \"five\"\nRPOP mylist\nRPOP mylist 2\nLRANGE mylist 0 -1"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the key does not exist.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): when called without the _count_ argument, the value of the last element.\n* [Array reply](../../develop/reference/protocol-spec#arrays): when called with the _count_ argument, a list of popped elements.\n\n**RESP3:**\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): if the key does not exist.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): when called without the _count_ argument, the value of the last element.\n* [Array reply](../../develop/reference/protocol-spec#arrays): when called with the _count_ argument, a list of popped elements."
+    }
+  ]
+}

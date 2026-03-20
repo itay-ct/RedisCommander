@@ -1,0 +1,137 @@
+{
+  "slug": "ft.sugadd",
+  "title": "FT.SUGADD",
+  "description": "Adds a suggestion string to an auto-complete suggestion dictionary",
+  "docsUrl": "https://redis.io/docs/latest/commands/ft.sugadd/",
+  "group": "suggestion",
+  "groupLabel": "Suggestions",
+  "syntax": "FT.SUGADD key string score [INCR] [PAYLOAD payload]",
+  "complexity": "O(1)",
+  "since": "1.0.0",
+  "arity": null,
+  "aclCategories": [
+    "@search",
+    "@write"
+  ],
+  "commandFlags": [],
+  "arguments": [
+    {
+      "name": "key",
+      "type": "string"
+    },
+    {
+      "name": "string",
+      "type": "string"
+    },
+    {
+      "name": "score",
+      "type": "double"
+    },
+    {
+      "arguments": [
+        {
+          "name": "incr",
+          "token": "INCR",
+          "type": "pure-token"
+        }
+      ],
+      "name": "increment score",
+      "optional": true,
+      "type": "oneof"
+    },
+    {
+      "name": "payload",
+      "optional": true,
+      "token": "PAYLOAD",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "optional-arguments",
+        "title": "Optional arguments"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      },
+      {
+        "id": "see-also",
+        "title": "See also"
+      },
+      {
+        "id": "related-topics",
+        "title": "Related topics"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Add a suggestion string to an auto-complete suggestion dictionary\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open>\n<summary><code>key</code></summary>\n\nis suggestion dictionary key.\n</details>\n\n<details open>\n<summary><code>string</code></summary> \n\nis suggestion string to index.\n</details>\n\n<details open>\n<summary><code>score</code></summary> \n\nis floating point number of the suggestion string's weight.\n</details>\n\nThe auto-complete suggestion dictionary is disconnected from the index definitions and leaves creating and updating suggestions dictionaries to the user.\n\n## Optional arguments\n\n<details open>\n<summary><code>INCR</code></summary> \n\nincrements the existing entry of the suggestion by the given score, instead of replacing the score. This is useful for updating the dictionary based on user queries in real time.\n</details>\n\n<details open>\n<summary><code>PAYLOAD {payload}</code></summary> \n\nsaves an extra payload with the suggestion, that can be fetched by adding the `WITHPAYLOADS` argument to [`FT.SUGGET`]().\n</details>\n\n## Examples\n\n<details open>\n<summary><b>Add a suggestion string to an auto-complete suggestion dictionary</b></summary>\n\n\n127.0.0.1:6379> FT.SUGADD sug \"hello world\" 1\n(integer) 3\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | Not supported on clustered databases. |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](): number of elements added to the suggestion dictionary.\n\n**RESP3:**\n\n[Integer reply](): number of elements added to the suggestion dictionary.\n\n\n\n## See also\n\n[`FT.SUGGET`]() | [`FT.SUGDEL`]() | [`FT.SUGLEN`]() \n\n## Related topics\n\n[RediSearch]()",
+  "intro": "Add a suggestion string to an auto-complete suggestion dictionary\n\n[Examples](#examples)",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Add a suggestion string to an auto-complete suggestion dictionary\n\n[Examples](#examples)"
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open>\n<summary><code>key</code></summary>\n\nis suggestion dictionary key.\n</details>\n\n<details open>\n<summary><code>string</code></summary> \n\nis suggestion string to index.\n</details>\n\n<details open>\n<summary><code>score</code></summary> \n\nis floating point number of the suggestion string's weight.\n</details>\n\nThe auto-complete suggestion dictionary is disconnected from the index definitions and leaves creating and updating suggestions dictionaries to the user."
+    },
+    {
+      "title": "Optional arguments",
+      "level": 2,
+      "content": "<details open>\n<summary><code>INCR</code></summary> \n\nincrements the existing entry of the suggestion by the given score, instead of replacing the score. This is useful for updating the dictionary based on user queries in real time.\n</details>\n\n<details open>\n<summary><code>PAYLOAD {payload}</code></summary> \n\nsaves an extra payload with the suggestion, that can be fetched by adding the `WITHPAYLOADS` argument to [`FT.SUGGET`]().\n</details>"
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "<details open>\n<summary><b>Add a suggestion string to an auto-complete suggestion dictionary</b></summary>\n\n\n127.0.0.1:6379> FT.SUGADD sug \"hello world\" 1\n(integer) 3\n\n</details>"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | Not supported on clustered databases. |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Integer reply](): number of elements added to the suggestion dictionary.\n\n**RESP3:**\n\n[Integer reply](): number of elements added to the suggestion dictionary."
+    },
+    {
+      "title": "See also",
+      "level": 2,
+      "content": "[`FT.SUGGET`]() | [`FT.SUGDEL`]() | [`FT.SUGLEN`]()"
+    },
+    {
+      "title": "Related topics",
+      "level": 2,
+      "content": "[RediSearch]()"
+    }
+  ]
+}

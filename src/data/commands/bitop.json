@@ -1,0 +1,182 @@
+{
+  "slug": "bitop",
+  "title": "BITOP",
+  "description": "Performs bitwise operations on multiple strings, and stores the result.",
+  "docsUrl": "https://redis.io/docs/latest/commands/bitop/",
+  "group": "bitmap",
+  "groupLabel": "Bitmaps",
+  "syntax": "BITOP <AND | OR | XOR | NOT | DIFF | DIFF1 | ANDOR | ONE> destkey key [key ...]",
+  "complexity": "O(N)",
+  "since": "2.6.0",
+  "arity": -4,
+  "aclCategories": [
+    "@write",
+    "@bitmap",
+    "@slow"
+  ],
+  "commandFlags": [
+    "write",
+    "denyoom"
+  ],
+  "arguments": [
+    {
+      "arguments": [
+        {
+          "display_text": "and",
+          "name": "and",
+          "token": "AND",
+          "type": "pure-token"
+        },
+        {
+          "display_text": "or",
+          "name": "or",
+          "token": "OR",
+          "type": "pure-token"
+        },
+        {
+          "display_text": "xor",
+          "name": "xor",
+          "token": "XOR",
+          "type": "pure-token"
+        },
+        {
+          "display_text": "not",
+          "name": "not",
+          "token": "NOT",
+          "type": "pure-token"
+        }
+      ],
+      "name": "operation",
+      "type": "oneof"
+    },
+    {
+      "display_text": "destkey",
+      "key_spec_index": 0,
+      "name": "destkey",
+      "type": "key"
+    },
+    {
+      "display_text": "key",
+      "key_spec_index": 1,
+      "multiple": true,
+      "name": "key",
+      "type": "key"
+    }
+  ],
+  "keySpecs": [
+    {
+      "OW": true,
+      "begin_search": {
+        "spec": {
+          "index": 2
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      },
+      "update": true
+    },
+    {
+      "RO": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 3
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": -1,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "handling-of-strings-with-different-lengths",
+        "title": "Handling of strings with different lengths"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "pattern-real-time-metrics-using-bitmaps",
+        "title": "Pattern: real time metrics using bitmaps"
+      },
+      {
+        "id": "performance-considerations",
+        "title": "Performance considerations"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nPerform a bitwise operation between multiple keys (containing string values) and\nstore the result in the destination key.\n\nThe `BITOP` command supports eight bitwise operations: `AND`, `OR`, `XOR`,\n`NOT`, `DIFF`, `DIFF1`, `ANDOR`, and `ONE`. The valid forms to call the command are:\n\n* `BITOP AND destkey srckey1 srckey2 srckey3 ... srckeyN`\n\n    A bit in `destkey` is set only if it is set in all source bitmaps.\n* `BITOP OR  destkey srckey1 srckey2 srckey3 ... srckeyN`\n\n    A bit in `destkey` is set only if it is set in at least one source bitmap.\n* `BITOP XOR destkey srckey1 srckey2 srckey3 ... srckeyN`\n\n    Mostly used with two source bitmaps, a bit in `destkey` is set only if its value differs between the two source bitmaps.\n* `BITOP NOT destkey srckey`\n\n    `NOT` is a unary operator and only supports a single source bitmap; set the bit to the inverse of its value in the source bitmap.\n* `BITOP DIFF destkey X [Y1 Y2 ...]` <sup>[1](#list-note-1)</sup>\n\n    A bit in `destkey` is set if it is set in `X`, but not in any of `Y1, Y2, ...` .\n* `BITOP DIFF1 destkey X [Y1 Y2 ...]` <sup>[1](#list-note-1)</sup>\n\n    A bit in `destkey` is set if it is set in one or more of `Y1, Y2, ...`, but not in `X`.\n* `BITOP ANDOR destkey X [Y1 Y2 ...]` <sup>[1](#list-note-1)</sup>\n\n    A bit in `destkey` is set if it is set in `X` and also in one or more of `Y1, Y2, ...`.\n* `BITOP ONE destkey X1 [X2 X3 ...]` <sup>[1](#list-note-1)</sup>\n\n    A bit in `destkey` is set if it is set in exactly one of `X1, X2, ...`.\n\nThe result of each operation is always stored at `destkey`.\n\n1. <a name=\"list-note-1\"></a> Added in Redis 8.2.\n\n## Handling of strings with different lengths\n\nWhen an operation is performed between strings having different lengths, all the\nstrings shorter than the longest string in the set are treated as if they were\nzero-padded up to the length of the longest string.\n\nThe same holds true for non-existent keys, that are considered as a stream of\nzero bytes up to the length of the longest string.\n\n## Examples\n\n1. Basic usage example using the `AND` operator:\n\n\nBITFIELD key1 SET i8 #0 255\nBITFIELD key2 SET i8 #0 85\nBITOP AND dest key1 key2\nBITFIELD dest GET i8 #0\n\n\n2. Suppose you want to expose people to a book-related ad. The target audience is people who love to read books and are interested in fantasy, adventure, or science fiction. Assume you have the following bitmaps:\n\n* `LRB` - people who love to read books.\n* `B:F` - people interested in fantasy.\n* `B:A` - people interested in adventure.\n* `B:SF` - people interested in science fiction.\n\nTo create a bitmap representing the target audience, use the following command:\n\n```\nBITOP ANDOR TA LRB B:F B:A B:SF\n```\n\n## Pattern: real time metrics using bitmaps\n\n`BITOP` is a good complement to the pattern documented in the [`BITCOUNT`]() command\ndocumentation.\nDifferent bitmaps can be combined in order to obtain a target bitmap where\nthe population counting operation is performed.\n\nSee the article called \"[Fast easy realtime metrics using Redis\nbitmaps][hbgc212fermurb]\" for an interesting use cases.\n\n[hbgc212fermurb]: http://blog.getspool.com/2011/11/29/fast-easy-realtime-metrics-using-redis-bitmaps\n\n## Performance considerations\n\n`BITOP` is a potentially slow command as it runs in O(N) time.\nCare should be taken when running it against long input strings.\n\nFor real-time metrics and statistics involving large inputs a good approach is\nto use a replica (with replica-read-only option enabled) where the bit-wise\noperations are performed to avoid blocking the master instance.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the size of the string stored in the destination key is equal to the size of the longest input string.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the size of the string stored in the destination key is equal to the size of the longest input string.",
+  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nPerform a bitwise operation between multiple keys (containing string values) and\nstore the result in the destination key.\n\nThe `BITOP` command supports eight bitwise operations: `AND`, `OR`, `XOR`,\n`NOT`, `DIFF`, `DIFF1`, `ANDOR`, and `ONE`. The valid forms to call the command are:\n\n* `BITOP AND destkey srckey1 srckey2 srckey3 ... srckeyN`\n\n    A bit in `destkey` is set only if it is set in all source bitmaps.\n* `BITOP OR  destkey srckey1 srckey2 srckey3 ... srckeyN`\n\n    A bit in `destkey` is set only if it is set in at least one source bitmap.\n* `BITOP XOR destkey srckey1 srckey2 srckey3 ... srckeyN`\n\n    Mostly used with two source bitmaps, a bit in `destkey` is set only if its value differs between the two source bitmaps.\n* `BITOP NOT destkey srckey`\n\n    `NOT` is a unary operator and only supports a single source bitmap; set the bit to the inverse of its value in the source bitmap.\n* `BITOP DIFF destkey X [Y1 Y2 ...]` <sup>[1](#list-note-1)</sup>\n\n    A bit in `destkey` is set if it is set in `X`, but not in any of `Y1, Y2, ...` .\n* `BITOP DIFF1 destkey X [Y1 Y2 ...]` <sup>[1](#list-note-1)</sup>\n\n    A bit in `destkey` is set if it is set in one or more of `Y1, Y2, ...`, but not in `X`.\n* `BITOP ANDOR destkey X [Y1 Y2 ...]` <sup>[1](#list-note-1)</sup>\n\n    A bit in `destkey` is set if it is set in `X` and also in one or more of `Y1, Y2, ...`.\n* `BITOP ONE destkey X1 [X2 X3 ...]` <sup>[1](#list-note-1)</sup>\n\n    A bit in `destkey` is set if it is set in exactly one of `X1, X2, ...`.\n\nThe result of each operation is always stored at `destkey`.\n\n1. <a name=\"list-note-1\"></a> Added in Redis 8.2.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nPerform a bitwise operation between multiple keys (containing string values) and\nstore the result in the destination key.\n\nThe `BITOP` command supports eight bitwise operations: `AND`, `OR`, `XOR`,\n`NOT`, `DIFF`, `DIFF1`, `ANDOR`, and `ONE`. The valid forms to call the command are:\n\n* `BITOP AND destkey srckey1 srckey2 srckey3 ... srckeyN`\n\n    A bit in `destkey` is set only if it is set in all source bitmaps.\n* `BITOP OR  destkey srckey1 srckey2 srckey3 ... srckeyN`\n\n    A bit in `destkey` is set only if it is set in at least one source bitmap.\n* `BITOP XOR destkey srckey1 srckey2 srckey3 ... srckeyN`\n\n    Mostly used with two source bitmaps, a bit in `destkey` is set only if its value differs between the two source bitmaps.\n* `BITOP NOT destkey srckey`\n\n    `NOT` is a unary operator and only supports a single source bitmap; set the bit to the inverse of its value in the source bitmap.\n* `BITOP DIFF destkey X [Y1 Y2 ...]` <sup>[1](#list-note-1)</sup>\n\n    A bit in `destkey` is set if it is set in `X`, but not in any of `Y1, Y2, ...` .\n* `BITOP DIFF1 destkey X [Y1 Y2 ...]` <sup>[1](#list-note-1)</sup>\n\n    A bit in `destkey` is set if it is set in one or more of `Y1, Y2, ...`, but not in `X`.\n* `BITOP ANDOR destkey X [Y1 Y2 ...]` <sup>[1](#list-note-1)</sup>\n\n    A bit in `destkey` is set if it is set in `X` and also in one or more of `Y1, Y2, ...`.\n* `BITOP ONE destkey X1 [X2 X3 ...]` <sup>[1](#list-note-1)</sup>\n\n    A bit in `destkey` is set if it is set in exactly one of `X1, X2, ...`.\n\nThe result of each operation is always stored at `destkey`.\n\n1. <a name=\"list-note-1\"></a> Added in Redis 8.2."
+    },
+    {
+      "title": "Handling of strings with different lengths",
+      "level": 2,
+      "content": "When an operation is performed between strings having different lengths, all the\nstrings shorter than the longest string in the set are treated as if they were\nzero-padded up to the length of the longest string.\n\nThe same holds true for non-existent keys, that are considered as a stream of\nzero bytes up to the length of the longest string."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "1. Basic usage example using the `AND` operator:\n\n\nBITFIELD key1 SET i8 #0 255\nBITFIELD key2 SET i8 #0 85\nBITOP AND dest key1 key2\nBITFIELD dest GET i8 #0\n\n\n2. Suppose you want to expose people to a book-related ad. The target audience is people who love to read books and are interested in fantasy, adventure, or science fiction. Assume you have the following bitmaps:\n\n* `LRB` - people who love to read books.\n* `B:F` - people interested in fantasy.\n* `B:A` - people interested in adventure.\n* `B:SF` - people interested in science fiction.\n\nTo create a bitmap representing the target audience, use the following command:\n\n```\nBITOP ANDOR TA LRB B:F B:A B:SF\n```"
+    },
+    {
+      "title": "Pattern: real time metrics using bitmaps",
+      "level": 2,
+      "content": "`BITOP` is a good complement to the pattern documented in the [`BITCOUNT`]() command\ndocumentation.\nDifferent bitmaps can be combined in order to obtain a target bitmap where\nthe population counting operation is performed.\n\nSee the article called \"[Fast easy realtime metrics using Redis\nbitmaps][hbgc212fermurb]\" for an interesting use cases.\n\n[hbgc212fermurb]: http://blog.getspool.com/2011/11/29/fast-easy-realtime-metrics-using-redis-bitmaps"
+    },
+    {
+      "title": "Performance considerations",
+      "level": 2,
+      "content": "`BITOP` is a potentially slow command as it runs in O(N) time.\nCare should be taken when running it against long input strings.\n\nFor real-time metrics and statistics involving large inputs a good approach is\nto use a replica (with replica-read-only option enabled) where the bit-wise\noperations are performed to avoid blocking the master instance."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the size of the string stored in the destination key is equal to the size of the longest input string.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the size of the string stored in the destination key is equal to the size of the longest input string."
+    }
+  ]
+}

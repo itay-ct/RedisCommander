@@ -1,0 +1,113 @@
+{
+  "slug": "evalsha_ro",
+  "title": "EVALSHA_RO",
+  "description": "Executes a read-only server-side Lua script by SHA1 digest.",
+  "docsUrl": "https://redis.io/docs/latest/commands/evalsha_ro/",
+  "group": "scripting",
+  "groupLabel": "Scripting",
+  "syntax": "EVALSHA_RO sha1 numkeys [key [key ...]] [arg [arg ...]]",
+  "complexity": "Depends on the script that is executed.",
+  "since": "7.0.0",
+  "arity": -3,
+  "aclCategories": [
+    "@slow",
+    "@scripting"
+  ],
+  "commandFlags": [
+    "readonly",
+    "noscript",
+    "stale",
+    "skip_monitor",
+    "no_mandatory_keys",
+    "movablekeys"
+  ],
+  "arguments": [
+    {
+      "display_text": "sha1",
+      "name": "sha1",
+      "type": "string"
+    },
+    {
+      "display_text": "numkeys",
+      "name": "numkeys",
+      "type": "integer"
+    },
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "multiple": true,
+      "name": "key",
+      "optional": true,
+      "type": "key"
+    },
+    {
+      "display_text": "arg",
+      "multiple": true,
+      "name": "arg",
+      "optional": true,
+      "type": "string"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RO": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 2
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "firstkey": 1,
+          "keynumidx": 0,
+          "keystep": 1
+        },
+        "type": "keynum"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "This is a read-only variant of the [`EVALSHA`]() command that cannot execute commands that modify data.\n\nFor more information about when to use this command vs [`EVALSHA`](), please refer to [Read-only scripts]().\n\nFor more information about [`EVALSHA`]() scripts please refer to [Introduction to Eval Scripts]().\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nThe return value depends on the script that was executed.\n\n**RESP3:**\n\nThe return value depends on the script that was executed.",
+  "intro": "This is a read-only variant of the [`EVALSHA`]() command that cannot execute commands that modify data.\n\nFor more information about when to use this command vs [`EVALSHA`](), please refer to [Read-only scripts]().\n\nFor more information about [`EVALSHA`]() scripts please refer to [Introduction to Eval Scripts]().",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "This is a read-only variant of the [`EVALSHA`]() command that cannot execute commands that modify data.\n\nFor more information about when to use this command vs [`EVALSHA`](), please refer to [Read-only scripts]().\n\nFor more information about [`EVALSHA`]() scripts please refer to [Introduction to Eval Scripts]()."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nThe return value depends on the script that was executed.\n\n**RESP3:**\n\nThe return value depends on the script that was executed."
+    }
+  ]
+}

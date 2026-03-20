@@ -1,0 +1,81 @@
+{
+  "slug": "command-docs",
+  "title": "COMMAND DOCS",
+  "description": "Returns documentary information about one, multiple or all commands.",
+  "docsUrl": "https://redis.io/docs/latest/commands/command-docs/",
+  "group": "server",
+  "groupLabel": "Server",
+  "syntax": "COMMAND DOCS [command-name [command-name ...]]",
+  "complexity": "O(N) where N is the number of commands to look up",
+  "since": "7.0.0",
+  "arity": -2,
+  "aclCategories": [
+    "@slow",
+    "@connection"
+  ],
+  "commandFlags": [
+    "loading",
+    "stale"
+  ],
+  "arguments": [
+    {
+      "display_text": "command-name",
+      "multiple": true,
+      "name": "command-name",
+      "optional": true,
+      "type": "string"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Return documentary information about commands.\n\nBy default, the reply includes all of the server's commands.\nYou can use the optional _command-name_ argument to specify the names of one or more commands.\n\nThe reply includes a map for each returned command.\nThe following keys may be included in the mapped reply:\n\n* **summary:** short command description.\n* **since:** the Redis version that added the command (or for module commands, the module version).\n* **group:** the functional group to which the command belongs.\n  Possible values are:\n  - _bitmap_\n  - _cluster_\n  - _connection_\n  - _generic_\n  - _geo_\n  - _hash_\n  - _hyperloglog_\n  - _list_\n  - _module_\n  - _pubsub_\n  - _scripting_\n  - _sentinel_\n  - _server_\n  - _set_\n  - _sorted-set_\n  - _stream_\n  - _string_\n  - _transactions_\n* **complexity:** a short explanation about the command's time complexity.\n* **doc_flags:** an array of documentation flags.\n  Possible values are:\n  - _deprecated:_ the command is deprecated.\n  - _syscmd:_ a system command that isn't meant to be called by users.\n* **deprecated_since:** the Redis version that deprecated the command (or for module commands, the module version)..\n* **replaced_by:** the alternative for a deprecated command.\n* **history:** an array of historical notes describing changes to the command's output or arguments. It should not contain information about behavioral changes.\n  Each entry is an array itself, made up of two elements:\n  1. The Redis version that the entry applies to.\n  2. The description of the change.\n* **arguments:** an array of maps that describe the command's arguments.\n  Please refer to the [Redis command arguments][td] page for more information.\n\n[td]: /develop/reference/command-arguments\n\n## Examples\n\n\nCOMMAND DOCS SET\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a map, as a flattened array, where each key is a command name, and each value is the documentary information.\n\n**RESP3:**\n\n[Map reply](../../develop/reference/protocol-spec#maps): a map where each key is a command name, and each value is the documentary information.",
+  "intro": "Return documentary information about commands.\n\nBy default, the reply includes all of the server's commands.\nYou can use the optional _command-name_ argument to specify the names of one or more commands.\n\nThe reply includes a map for each returned command.\nThe following keys may be included in the mapped reply:\n\n* **summary:** short command description.\n* **since:** the Redis version that added the command (or for module commands, the module version).\n* **group:** the functional group to which the command belongs.\n  Possible values are:\n  - _bitmap_\n  - _cluster_\n  - _connection_\n  - _generic_\n  - _geo_\n  - _hash_\n  - _hyperloglog_\n  - _list_\n  - _module_\n  - _pubsub_\n  - _scripting_\n  - _sentinel_\n  - _server_\n  - _set_\n  - _sorted-set_\n  - _stream_\n  - _string_\n  - _transactions_\n* **complexity:** a short explanation about the command's time complexity.\n* **doc_flags:** an array of documentation flags.\n  Possible values are:\n  - _deprecated:_ the command is deprecated.\n  - _syscmd:_ a system command that isn't meant to be called by users.\n* **deprecated_since:** the Redis version that deprecated the command (or for module commands, the module version)..\n* **replaced_by:** the alternative for a deprecated command.\n* **history:** an array of historical notes describing changes to the command's output or arguments. It should not contain information about behavioral changes.\n  Each entry is an array itself, made up of two elements:\n  1. The Redis version that the entry applies to.\n  2. The description of the change.\n* **arguments:** an array of maps that describe the command's arguments.\n  Please refer to the [Redis command arguments][td] page for more information.\n\n[td]: /develop/reference/command-arguments",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Return documentary information about commands.\n\nBy default, the reply includes all of the server's commands.\nYou can use the optional _command-name_ argument to specify the names of one or more commands.\n\nThe reply includes a map for each returned command.\nThe following keys may be included in the mapped reply:\n\n* **summary:** short command description.\n* **since:** the Redis version that added the command (or for module commands, the module version).\n* **group:** the functional group to which the command belongs.\n  Possible values are:\n  - _bitmap_\n  - _cluster_\n  - _connection_\n  - _generic_\n  - _geo_\n  - _hash_\n  - _hyperloglog_\n  - _list_\n  - _module_\n  - _pubsub_\n  - _scripting_\n  - _sentinel_\n  - _server_\n  - _set_\n  - _sorted-set_\n  - _stream_\n  - _string_\n  - _transactions_\n* **complexity:** a short explanation about the command's time complexity.\n* **doc_flags:** an array of documentation flags.\n  Possible values are:\n  - _deprecated:_ the command is deprecated.\n  - _syscmd:_ a system command that isn't meant to be called by users.\n* **deprecated_since:** the Redis version that deprecated the command (or for module commands, the module version)..\n* **replaced_by:** the alternative for a deprecated command.\n* **history:** an array of historical notes describing changes to the command's output or arguments. It should not contain information about behavioral changes.\n  Each entry is an array itself, made up of two elements:\n  1. The Redis version that the entry applies to.\n  2. The description of the change.\n* **arguments:** an array of maps that describe the command's arguments.\n  Please refer to the [Redis command arguments][td] page for more information.\n\n[td]: /develop/reference/command-arguments"
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "COMMAND DOCS SET"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a map, as a flattened array, where each key is a command name, and each value is the documentary information.\n\n**RESP3:**\n\n[Map reply](../../develop/reference/protocol-spec#maps): a map where each key is a command name, and each value is the documentary information."
+    }
+  ]
+}

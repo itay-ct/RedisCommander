@@ -1,0 +1,236 @@
+{
+  "slug": "zadd",
+  "title": "ZADD",
+  "description": "Adds one or more members to a sorted set, or updates their scores. Creates the key if it doesn't exist.",
+  "docsUrl": "https://redis.io/docs/latest/commands/zadd/",
+  "group": "sorted-set",
+  "groupLabel": "Sorted Sets",
+  "syntax": "ZADD key [NX | XX] [GT | LT] [CH] [INCR] score member [score member\n  ...]",
+  "complexity": "O(log(N)) for each item added, where N is the number of elements in the sorted set.",
+  "since": "1.2.0",
+  "arity": -4,
+  "aclCategories": [
+    "@write",
+    "@sortedset",
+    "@fast"
+  ],
+  "commandFlags": [
+    "write",
+    "denyoom",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "nx",
+          "name": "nx",
+          "token": "NX",
+          "type": "pure-token"
+        },
+        {
+          "display_text": "xx",
+          "name": "xx",
+          "token": "XX",
+          "type": "pure-token"
+        }
+      ],
+      "name": "condition",
+      "optional": true,
+      "since": "3.0.2",
+      "type": "oneof"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "gt",
+          "name": "gt",
+          "token": "GT",
+          "type": "pure-token"
+        },
+        {
+          "display_text": "lt",
+          "name": "lt",
+          "token": "LT",
+          "type": "pure-token"
+        }
+      ],
+      "name": "comparison",
+      "optional": true,
+      "since": "6.2.0",
+      "type": "oneof"
+    },
+    {
+      "display_text": "change",
+      "name": "change",
+      "optional": true,
+      "since": "3.0.2",
+      "token": "CH",
+      "type": "pure-token"
+    },
+    {
+      "display_text": "increment",
+      "name": "increment",
+      "optional": true,
+      "since": "3.0.2",
+      "token": "INCR",
+      "type": "pure-token"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "score",
+          "name": "score",
+          "type": "double"
+        },
+        {
+          "display_text": "member",
+          "name": "member",
+          "type": "string"
+        }
+      ],
+      "multiple": true,
+      "name": "data",
+      "type": "block"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      },
+      "update": true
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [
+    {
+      "codetabsId": "cmds_sorted_set-stepzadd",
+      "commands": [
+        {
+          "acl_categories": [
+            "@write",
+            "@sortedset",
+            "@fast"
+          ],
+          "complexity": "O(log(N)",
+          "name": "ZADD"
+        },
+        {
+          "acl_categories": [
+            "@read",
+            "@sortedset",
+            "@slow"
+          ],
+          "complexity": "O(log(N)",
+          "name": "ZRANGE"
+        }
+      ],
+      "description": "Foundational: Add one or more members to a sorted set with scores using ZADD (creates sorted set if needed, updates scores if member exists)",
+      "difficulty": "beginner",
+      "id": "zadd",
+      "languages": [
+        {
+          "id": "redis-cli",
+          "panelId": "panel_redis-cli_cmds_sorted_set-stepzadd"
+        },
+        {
+          "clientId": "redis-py",
+          "clientName": "redis-py",
+          "id": "Python",
+          "langId": "python",
+          "panelId": "panel_Python_cmds_sorted_set-stepzadd"
+        },
+        {
+          "id": "Node-js",
+          "panelId": "panel_Nodejs_cmds_sorted_set-stepzadd"
+        },
+        {
+          "clientId": "jedis",
+          "clientName": "Jedis",
+          "id": "Java-Sync",
+          "langId": "java",
+          "panelId": "panel_Java-Sync_cmds_sorted_set-stepzadd"
+        },
+        {
+          "clientId": "go-redis",
+          "clientName": "go-redis",
+          "id": "Go",
+          "langId": "go",
+          "panelId": "panel_Go_cmds_sorted_set-stepzadd"
+        },
+        {
+          "id": "dotnet-Sync",
+          "panelId": "panel_Csharp-Sync_cmds_sorted_set-stepzadd"
+        }
+      ]
+    }
+  ],
+  "content": "Adds all the specified members with the specified scores to the sorted set\nstored at `key`.\nIt is possible to specify multiple score / member pairs.\nIf a specified member is already a member of the sorted set, the score is\nupdated and the element reinserted at the right position to ensure the correct\nordering.\n\nIf `key` does not exist, a new sorted set with the specified members as sole\nmembers is created, like if the sorted set was empty. If the key exists but does not hold a sorted set, an error is returned.\n\nThe score values should be the string representation of a double precision floating point number. `+inf` and `-inf` values are valid values as well.\n\nZADD options\n---\n\nZADD supports a list of options, specified after the name of the key and before\nthe first score argument. Options are:\n\n* **XX**: Only update elements that already exist. Don't add new elements.\n* **NX**: Only add new elements. Don't update already existing elements.\n* **LT**: Only update existing elements if the new score is **less than** the current score. This flag doesn't prevent adding new elements.\n* **GT**: Only update existing elements if the new score is **greater than** the current score. This flag doesn't prevent adding new elements.\n* **CH**: Modify the return value from the number of new elements added, to the total number of elements changed (CH is an abbreviation of *changed*). Changed elements are **new elements added** and elements already existing for which **the score was updated**. So elements specified in the command line having the same score as they had in the past are not counted. Note: normally the return value of `ZADD` only counts the number of new elements added.\n* **INCR**: When this option is specified `ZADD` acts like [`ZINCRBY`](). Only one score-element pair can be specified in this mode.\n\nNote: The **GT**, **LT** and **NX** options are mutually exclusive.\n\nRange of integer scores that can be expressed precisely\n---\n\nRedis sorted sets use a *double 64-bit floating point number* to represent the score. In all the architectures we support, this is represented as an **IEEE 754 floating point number**, that is able to represent precisely integer numbers between `-(2^53)` and `+(2^53)` included. In more practical terms, all the integers between -9007199254740992 and 9007199254740992 are perfectly representable. Larger integers, or fractions, are internally represented in exponential form, so it is possible that you get only an approximation of the decimal number, or of the very big integer, that you set as score.\n\nSorted sets 101\n---\n\nSorted sets are sorted by their score in an ascending way.\nThe same element only exists a single time, no repeated elements are\npermitted. The score can be modified both by `ZADD` that will update the\nelement score, and as a side effect, its position on the sorted set, and\nby [`ZINCRBY`]() that can be used in order to update the score relatively to its\nprevious value.\n\nThe current score of an element can be retrieved using the [`ZSCORE`]() command,\nthat can also be used to verify if an element already exists or not.\n\nFor an introduction to sorted sets, see the data types page on [sorted\nsets][tdtss].\n\n[tdtss]: /develop/data-types#sorted-sets\n\nElements with the same score\n---\n\nWhile the same element can't be repeated in a sorted set since every element\nis unique, it is possible to add multiple different elements *having the same score*. When multiple elements have the same score, they are *ordered lexicographically* (they are still ordered by score as a first key, however, locally, all the elements with the same score are relatively ordered lexicographically).\n\nThe lexicographic ordering used is binary, it compares strings as array of bytes.\n\nIf the user inserts all the elements in a sorted set with the same score (for example 0), all the elements of the sorted set are sorted lexicographically, and range queries on elements are possible using the command [`ZRANGEBYLEX`]() (Note: it is also possible to query sorted sets by range of scores using [`ZRANGEBYSCORE`]()).\n\n## Examples\n\n#### Code Examples\n\nFoundational: Add one or more members to a sorted set with scores using ZADD (creates sorted set if needed, updates scores if member exists)\n\n**Difficulty:** Beginner\n\n**Commands:** ZADD, ZRANGE\n\n**Complexity:**\n- ZADD: O(log(N)\n- ZRANGE: O(log(N)\n\n**Redis CLI:**\n\n```\n> ZADD myzset 1 \"one\"\n(integer) 1\n> ZADD myzset 1 \"uno\"\n(integer) 1\n> ZADD myzset 2 \"two\" 3 \"three\"\n(integer) 2\n> ZRANGE myzset 0 -1 WITHSCORES\n1) \"one\"\n2) \"1\"\n3) \"uno\"\n4) \"1\"\n5) \"two\"\n6) \"2\"\n7) \"three\"\n8) \"3\"\n```\n\n**Available in:** Redis CLI, C# (Synchronous), Go, Java (Synchronous - Jedis), JavaScript (Node.js), Python\n\n**C# (Synchronous):**\n\n```csharp\n        bool zAddResult1 = db.SortedSetAdd(\"myzset\", \"one\", 1);\n        Console.WriteLine(zAddResult1); // >>> True\n\n        bool zAddResult2 = db.SortedSetAdd(\"myzset\", \"uno\", 1);\n        Console.WriteLine(zAddResult2); // >>> True\n\n        long zAddResult3 = db.SortedSetAdd(\n            \"myzset\",\n            [\n                new(\"two\", 2),\n                new(\"three\", 3)\n            ]\n        );\n        Console.WriteLine(zAddResult3); // >>> 2\n\n        SortedSetEntry[] zAddResult4 = db.SortedSetRangeByRankWithScores(\"myzset\", 0, -1);\n        Console.WriteLine($\"{string.Join(\", \", zAddResult4.Select(b => $\"{b.Element}: {b.Score}\"))}\");\n        // >>> one: 1, uno: 1, two: 2, three: 3\n```\n\n**Go:**\n\n```go\n\tzAddResult1, err := rdb.ZAdd(ctx, \"myzset\",\n\t\tredis.Z{Member: \"one\", Score: 1},\n\t).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(zAddResult1) // >>> 1\n\n\tzAddResult2, err := rdb.ZAdd(ctx, \"myzset\",\n\t\tredis.Z{Member: \"uno\", Score: 1},\n\t).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(zAddResult2)\n\n\tzAddResult3, err := rdb.ZAdd(ctx, \"myzset\",\n\t\tredis.Z{Member: \"two\", Score: 2},\n\t\tredis.Z{Member: \"three\", Score: 3},\n\t).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(zAddResult3) // >>> 2\n\n\tzAddResult4, err := rdb.ZRangeWithScores(ctx, \"myzset\", 0, -1).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(zAddResult4) // >>> [{1 one} {1 uno} {2 two} {3 three}]\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n        Map<String, Double> zAddExampleParams = new HashMap<>();\n        zAddExampleParams.put(\"one\", 1.0);\n        long zAddResult1 = jedis.zadd(\"myzset\", zAddExampleParams);\n        System.out.println(zAddResult1);    // >>> 1\n\n        zAddExampleParams.clear();\n        zAddExampleParams.put(\"uno\", 1.0);\n        long zAddResult2 = jedis.zadd(\"myzset\", zAddExampleParams);\n        System.out.println(zAddResult2);    // >>> 1\n\n        zAddExampleParams.clear();\n        zAddExampleParams.put(\"two\", 2.0);\n        zAddExampleParams.put(\"three\", 3.0);\n        long zAddResult3 = jedis.zadd(\"myzset\", zAddExampleParams);\n        System.out.println(zAddResult3);    // >>> 2\n\n        List<Tuple> zAddResult4 = jedis.zrangeWithScores(\"myzset\", new ZRangeParams(0, -1));\n\n        for (Tuple item: zAddResult4) {\n            System.out.println(\"Element: \" + item.getElement() + \", Score: \" + item.getScore());\n        }\n        // >>> Element: one, Score: 1.0\n        // >>> Element: uno, Score: 1.0\n        // >>> Element: two, Score: 2.0\n        // >>> Element: three, Score: 3.0\n```\n\n**JavaScript (Node.js):**\n\n```javascript\nconst val1 = await client.zAdd(\"myzset\", [{ value: 'one', score: 1 }]);\nconsole.log(val1);\n// returns 1\n\nconst val2 = await client.zAdd(\"myzset\", [{ value: 'uno', score: 1 }]);\nconsole.log(val2);\n// returns 1\n\nconst val3 = await client.zAdd(\"myzset\", [{ value: 'two', score: 2 }, { value: 'three', score: 3 }]);\nconsole.log(val3);\n// returns 2\n\nconst val4 = await client.zRangeWithScores(\"myzset\", 0, -1);\nconsole.log(val4);\n// returns [{value: 'one', score: 1}, {value: 'uno', score: 1}, {value: 'two', score: 2}, {value: 'three', score: 3} ]\n\n```\n\n**Python:**\n\n```python\nres = r.zadd(\"myzset\", {\"one\": 1})\nprint(res)\n# >>> 1\n\nres = r.zadd(\"myzset\", {\"uno\": 1})\nprint(res)\n# >>> 1\n\nres = r.zadd(\"myzset\", {\"two\": 2, \"three\": 3})\nprint(res)\n# >>> 2\n\nres = r.zrange(\"myzset\", 0, -1, withscores=True)\n# >>> [('one', 1.0), ('uno', 1.0), ('two', 2.0), ('three', 3.0)]\n\n```\n\n\n\nGive these commands a try in the interactive console:\n\n\nZADD myzset 1 \"one\"\nZADD myzset 1 \"uno\"\nZADD myzset 2 \"two\" 3 \"three\"\nZRANGE myzset 0 -1 WITHSCORES\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nAny of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the operation was aborted because of a conflict with one of the _XX/NX/LT/GT_ options.\n* [Integer reply](../../develop/reference/protocol-spec#integers): the number of new members when the _CH_ option is not used.\n* [Integer reply](../../develop/reference/protocol-spec#integers): the number of new or updated members when the _CH_ option is used.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the updated score of the member when the _INCR_ option is used.\n\n**RESP3:**\n\nAny of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): if the operation was aborted because of a conflict with one of the _XX/NX/LT/GT_ options.\n* [Integer reply](../../develop/reference/protocol-spec#integers): the number of new members when the _CH_ option is not used.\n* [Integer reply](../../develop/reference/protocol-spec#integers): the number of new or updated members when the _CH_ option is used.\n* [Double reply](../../develop/reference/protocol-spec#doubles): the updated score of the member when the _INCR_ option is used.",
+  "intro": "Adds all the specified members with the specified scores to the sorted set\nstored at `key`.\nIt is possible to specify multiple score / member pairs.\nIf a specified member is already a member of the sorted set, the score is\nupdated and the element reinserted at the right position to ensure the correct\nordering.\n\nIf `key` does not exist, a new sorted set with the specified members as sole\nmembers is created, like if the sorted set was empty. If the key exists but does not hold a sorted set, an error is returned.\n\nThe score values should be the string representation of a double precision floating point number. `+inf` and `-inf` values are valid values as well.\n\nZADD options\n---\n\nZADD supports a list of options, specified after the name of the key and before\nthe first score argument. Options are:\n\n* **XX**: Only update elements that already exist. Don't add new elements.\n* **NX**: Only add new elements. Don't update already existing elements.\n* **LT**: Only update existing elements if the new score is **less than** the current score. This flag doesn't prevent adding new elements.\n* **GT**: Only update existing elements if the new score is **greater than** the current score. This flag doesn't prevent adding new elements.\n* **CH**: Modify the return value from the number of new elements added, to the total number of elements changed (CH is an abbreviation of *changed*). Changed elements are **new elements added** and elements already existing for which **the score was updated**. So elements specified in the command line having the same score as they had in the past are not counted. Note: normally the return value of `ZADD` only counts the number of new elements added.\n* **INCR**: When this option is specified `ZADD` acts like [`ZINCRBY`](). Only one score-element pair can be specified in this mode.\n\nNote: The **GT**, **LT** and **NX** options are mutually exclusive.\n\nRange of integer scores that can be expressed precisely\n---\n\nRedis sorted sets use a *double 64-bit floating point number* to represent the score. In all the architectures we support, this is represented as an **IEEE 754 floating point number**, that is able to represent precisely integer numbers between `-(2^53)` and `+(2^53)` included. In more practical terms, all the integers between -9007199254740992 and 9007199254740992 are perfectly representable. Larger integers, or fractions, are internally represented in exponential form, so it is possible that you get only an approximation of the decimal number, or of the very big integer, that you set as score.\n\nSorted sets 101\n---\n\nSorted sets are sorted by their score in an ascending way.\nThe same element only exists a single time, no repeated elements are\npermitted. The score can be modified both by `ZADD` that will update the\nelement score, and as a side effect, its position on the sorted set, and\nby [`ZINCRBY`]() that can be used in order to update the score relatively to its\nprevious value.\n\nThe current score of an element can be retrieved using the [`ZSCORE`]() command,\nthat can also be used to verify if an element already exists or not.\n\nFor an introduction to sorted sets, see the data types page on [sorted\nsets][tdtss].\n\n[tdtss]: /develop/data-types#sorted-sets\n\nElements with the same score\n---\n\nWhile the same element can't be repeated in a sorted set since every element\nis unique, it is possible to add multiple different elements *having the same score*. When multiple elements have the same score, they are *ordered lexicographically* (they are still ordered by score as a first key, however, locally, all the elements with the same score are relatively ordered lexicographically).\n\nThe lexicographic ordering used is binary, it compares strings as array of bytes.\n\nIf the user inserts all the elements in a sorted set with the same score (for example 0), all the elements of the sorted set are sorted lexicographically, and range queries on elements are possible using the command [`ZRANGEBYLEX`]() (Note: it is also possible to query sorted sets by range of scores using [`ZRANGEBYSCORE`]()).",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Adds all the specified members with the specified scores to the sorted set\nstored at `key`.\nIt is possible to specify multiple score / member pairs.\nIf a specified member is already a member of the sorted set, the score is\nupdated and the element reinserted at the right position to ensure the correct\nordering.\n\nIf `key` does not exist, a new sorted set with the specified members as sole\nmembers is created, like if the sorted set was empty. If the key exists but does not hold a sorted set, an error is returned.\n\nThe score values should be the string representation of a double precision floating point number. `+inf` and `-inf` values are valid values as well.\n\nZADD options\n---\n\nZADD supports a list of options, specified after the name of the key and before\nthe first score argument. Options are:\n\n* **XX**: Only update elements that already exist. Don't add new elements.\n* **NX**: Only add new elements. Don't update already existing elements.\n* **LT**: Only update existing elements if the new score is **less than** the current score. This flag doesn't prevent adding new elements.\n* **GT**: Only update existing elements if the new score is **greater than** the current score. This flag doesn't prevent adding new elements.\n* **CH**: Modify the return value from the number of new elements added, to the total number of elements changed (CH is an abbreviation of *changed*). Changed elements are **new elements added** and elements already existing for which **the score was updated**. So elements specified in the command line having the same score as they had in the past are not counted. Note: normally the return value of `ZADD` only counts the number of new elements added.\n* **INCR**: When this option is specified `ZADD` acts like [`ZINCRBY`](). Only one score-element pair can be specified in this mode.\n\nNote: The **GT**, **LT** and **NX** options are mutually exclusive.\n\nRange of integer scores that can be expressed precisely\n---\n\nRedis sorted sets use a *double 64-bit floating point number* to represent the score. In all the architectures we support, this is represented as an **IEEE 754 floating point number**, that is able to represent precisely integer numbers between `-(2^53)` and `+(2^53)` included. In more practical terms, all the integers between -9007199254740992 and 9007199254740992 are perfectly representable. Larger integers, or fractions, are internally represented in exponential form, so it is possible that you get only an approximation of the decimal number, or of the very big integer, that you set as score.\n\nSorted sets 101\n---\n\nSorted sets are sorted by their score in an ascending way.\nThe same element only exists a single time, no repeated elements are\npermitted. The score can be modified both by `ZADD` that will update the\nelement score, and as a side effect, its position on the sorted set, and\nby [`ZINCRBY`]() that can be used in order to update the score relatively to its\nprevious value.\n\nThe current score of an element can be retrieved using the [`ZSCORE`]() command,\nthat can also be used to verify if an element already exists or not.\n\nFor an introduction to sorted sets, see the data types page on [sorted\nsets][tdtss].\n\n[tdtss]: /develop/data-types#sorted-sets\n\nElements with the same score\n---\n\nWhile the same element can't be repeated in a sorted set since every element\nis unique, it is possible to add multiple different elements *having the same score*. When multiple elements have the same score, they are *ordered lexicographically* (they are still ordered by score as a first key, however, locally, all the elements with the same score are relatively ordered lexicographically).\n\nThe lexicographic ordering used is binary, it compares strings as array of bytes.\n\nIf the user inserts all the elements in a sorted set with the same score (for example 0), all the elements of the sorted set are sorted lexicographically, and range queries on elements are possible using the command [`ZRANGEBYLEX`]() (Note: it is also possible to query sorted sets by range of scores using [`ZRANGEBYSCORE`]())."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "#### Code Examples\n\nFoundational: Add one or more members to a sorted set with scores using ZADD (creates sorted set if needed, updates scores if member exists)\n\n**Difficulty:** Beginner\n\n**Commands:** ZADD, ZRANGE\n\n**Complexity:**\n- ZADD: O(log(N)\n- ZRANGE: O(log(N)\n\n**Redis CLI:**\n\n```\n> ZADD myzset 1 \"one\"\n(integer) 1\n> ZADD myzset 1 \"uno\"\n(integer) 1\n> ZADD myzset 2 \"two\" 3 \"three\"\n(integer) 2\n> ZRANGE myzset 0 -1 WITHSCORES\n1) \"one\"\n2) \"1\"\n3) \"uno\"\n4) \"1\"\n5) \"two\"\n6) \"2\"\n7) \"three\"\n8) \"3\"\n```\n\n**Available in:** Redis CLI, C# (Synchronous), Go, Java (Synchronous - Jedis), JavaScript (Node.js), Python\n\n**C# (Synchronous):**\n\n```csharp\n        bool zAddResult1 = db.SortedSetAdd(\"myzset\", \"one\", 1);\n        Console.WriteLine(zAddResult1); // >>> True\n\n        bool zAddResult2 = db.SortedSetAdd(\"myzset\", \"uno\", 1);\n        Console.WriteLine(zAddResult2); // >>> True\n\n        long zAddResult3 = db.SortedSetAdd(\n            \"myzset\",\n            [\n                new(\"two\", 2),\n                new(\"three\", 3)\n            ]\n        );\n        Console.WriteLine(zAddResult3); // >>> 2\n\n        SortedSetEntry[] zAddResult4 = db.SortedSetRangeByRankWithScores(\"myzset\", 0, -1);\n        Console.WriteLine($\"{string.Join(\", \", zAddResult4.Select(b => $\"{b.Element}: {b.Score}\"))}\");\n        // >>> one: 1, uno: 1, two: 2, three: 3\n```\n\n**Go:**\n\n```go\n\tzAddResult1, err := rdb.ZAdd(ctx, \"myzset\",\n\t\tredis.Z{Member: \"one\", Score: 1},\n\t).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(zAddResult1) // >>> 1\n\n\tzAddResult2, err := rdb.ZAdd(ctx, \"myzset\",\n\t\tredis.Z{Member: \"uno\", Score: 1},\n\t).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(zAddResult2)\n\n\tzAddResult3, err := rdb.ZAdd(ctx, \"myzset\",\n\t\tredis.Z{Member: \"two\", Score: 2},\n\t\tredis.Z{Member: \"three\", Score: 3},\n\t).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(zAddResult3) // >>> 2\n\n\tzAddResult4, err := rdb.ZRangeWithScores(ctx, \"myzset\", 0, -1).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(zAddResult4) // >>> [{1 one} {1 uno} {2 two} {3 three}]\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n        Map<String, Double> zAddExampleParams = new HashMap<>();\n        zAddExampleParams.put(\"one\", 1.0);\n        long zAddResult1 = jedis.zadd(\"myzset\", zAddExampleParams);\n        System.out.println(zAddResult1);    // >>> 1\n\n        zAddExampleParams.clear();\n        zAddExampleParams.put(\"uno\", 1.0);\n        long zAddResult2 = jedis.zadd(\"myzset\", zAddExampleParams);\n        System.out.println(zAddResult2);    // >>> 1\n\n        zAddExampleParams.clear();\n        zAddExampleParams.put(\"two\", 2.0);\n        zAddExampleParams.put(\"three\", 3.0);\n        long zAddResult3 = jedis.zadd(\"myzset\", zAddExampleParams);\n        System.out.println(zAddResult3);    // >>> 2\n\n        List<Tuple> zAddResult4 = jedis.zrangeWithScores(\"myzset\", new ZRangeParams(0, -1));\n\n        for (Tuple item: zAddResult4) {\n            System.out.println(\"Element: \" + item.getElement() + \", Score: \" + item.getScore());\n        }\n        // >>> Element: one, Score: 1.0\n        // >>> Element: uno, Score: 1.0\n        // >>> Element: two, Score: 2.0\n        // >>> Element: three, Score: 3.0\n```\n\n**JavaScript (Node.js):**\n\n```javascript\nconst val1 = await client.zAdd(\"myzset\", [{ value: 'one', score: 1 }]);\nconsole.log(val1);\n// returns 1\n\nconst val2 = await client.zAdd(\"myzset\", [{ value: 'uno', score: 1 }]);\nconsole.log(val2);\n// returns 1\n\nconst val3 = await client.zAdd(\"myzset\", [{ value: 'two', score: 2 }, { value: 'three', score: 3 }]);\nconsole.log(val3);\n// returns 2\n\nconst val4 = await client.zRangeWithScores(\"myzset\", 0, -1);\nconsole.log(val4);\n// returns [{value: 'one', score: 1}, {value: 'uno', score: 1}, {value: 'two', score: 2}, {value: 'three', score: 3} ]\n\n```\n\n**Python:**\n\n```python\nres = r.zadd(\"myzset\", {\"one\": 1})\nprint(res)\n# >>> 1\n\nres = r.zadd(\"myzset\", {\"uno\": 1})\nprint(res)\n# >>> 1\n\nres = r.zadd(\"myzset\", {\"two\": 2, \"three\": 3})\nprint(res)\n# >>> 2\n\nres = r.zrange(\"myzset\", 0, -1, withscores=True)\n# >>> [('one', 1.0), ('uno', 1.0), ('two', 2.0), ('three', 3.0)]\n\n```\n\n\n\nGive these commands a try in the interactive console:\n\n\nZADD myzset 1 \"one\"\nZADD myzset 1 \"uno\"\nZADD myzset 2 \"two\" 3 \"three\"\nZRANGE myzset 0 -1 WITHSCORES"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nAny of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the operation was aborted because of a conflict with one of the _XX/NX/LT/GT_ options.\n* [Integer reply](../../develop/reference/protocol-spec#integers): the number of new members when the _CH_ option is not used.\n* [Integer reply](../../develop/reference/protocol-spec#integers): the number of new or updated members when the _CH_ option is used.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the updated score of the member when the _INCR_ option is used.\n\n**RESP3:**\n\nAny of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): if the operation was aborted because of a conflict with one of the _XX/NX/LT/GT_ options.\n* [Integer reply](../../develop/reference/protocol-spec#integers): the number of new members when the _CH_ option is not used.\n* [Integer reply](../../develop/reference/protocol-spec#integers): the number of new or updated members when the _CH_ option is used.\n* [Double reply](../../develop/reference/protocol-spec#doubles): the updated score of the member when the _INCR_ option is used."
+    }
+  ]
+}

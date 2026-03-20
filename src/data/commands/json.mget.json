@@ -1,0 +1,117 @@
+{
+  "slug": "json.mget",
+  "title": "JSON.MGET",
+  "description": "Returns the values at a path from one or more keys",
+  "docsUrl": "https://redis.io/docs/latest/commands/json.mget/",
+  "group": "json",
+  "groupLabel": "JSON",
+  "syntax": "JSON.MGET key [key ...] path",
+  "complexity": "O(M*N) when path is evaluated to a single value where M is the number of keys and N is the size of the value, O(N1+N2+...+Nm) when path is evaluated to multiple values where m is the number of keys and Ni is the size of the i-th key",
+  "since": "1.0.0",
+  "arity": null,
+  "aclCategories": [
+    "@json",
+    "@read",
+    "@slow"
+  ],
+  "commandFlags": [],
+  "arguments": [
+    {
+      "multiple": true,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "name": "path",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "optional-arguments",
+        "title": "Optional arguments"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      },
+      {
+        "id": "see-also",
+        "title": "See also"
+      },
+      {
+        "id": "related-topics",
+        "title": "Related topics"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nReturn the values at `path` from multiple `key` arguments\n\n\nWhen cluster mode is enabled, all specified keys must reside on the same [hash slot](https://redis.io/docs/latest/operate/oss_and_stack/reference/cluster-spec/#key-distribution-model).\n\nWhen the database has more than one shard, and the specified keys reside in different shards, Redis will not report a CROSSSLOT error (to avoid breaking changes) and the results may be partial.\n\n\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open><summary><code>key</code></summary> \n\nis key to parse. Returns `null` for nonexistent keys.\n</details>\n\n## Optional arguments\n\n<details open><summary><code>path</code></summary> \n\nis JSONPath to specify. Returns `null` for nonexistent paths.\n\n</details>\n\n## Examples\n\n<details open>\n<summary><b>Return the values at <code>path</code> from multiple <code>key</code> arguments</b></summary>\n\nCreate two JSON documents.\n\n\nredis> JSON.SET doc1 $ '{\"a\":1, \"b\": 2, \"nested\": {\"a\": 3}, \"c\": null}'\nOK\nredis> JSON.SET doc2 $ '{\"a\":4, \"b\": 5, \"nested\": {\"a\": 6}, \"c\": null}'\nOK\n\n\nGet values from all arguments in the documents.\n\n\nredis> JSON.MGET doc1 doc2 $..a\n1) \"[1,3]\"\n2) \"[4,6]\"\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply]() of [bulk string replies]() or [null replies](), where each element is the JSON serialization of the value at the corresponding key's path, or `null` if the key or path doesn't exist.\n\n**RESP3:**\n\n[Array reply]() of [bulk string replies]() or [null replies](), where each element is the JSON serialization of the value at the corresponding key's path, or `null` if the key or path doesn't exist.\n\n\n\n## See also\n\n[`JSON.SET`]() | [`JSON.GET`]() \n\n## Related topics\n\n* [RedisJSON]()\n* [Index and search JSON documents]()",
+  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nReturn the values at `path` from multiple `key` arguments\n\n\nWhen cluster mode is enabled, all specified keys must reside on the same [hash slot](https://redis.io/docs/latest/operate/oss_and_stack/reference/cluster-spec/#key-distribution-model).\n\nWhen the database has more than one shard, and the specified keys reside in different shards, Redis will not report a CROSSSLOT error (to avoid breaking changes) and the results may be partial.\n\n\n\n[Examples](#examples)",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nReturn the values at `path` from multiple `key` arguments\n\n\nWhen cluster mode is enabled, all specified keys must reside on the same [hash slot](https://redis.io/docs/latest/operate/oss_and_stack/reference/cluster-spec/#key-distribution-model).\n\nWhen the database has more than one shard, and the specified keys reside in different shards, Redis will not report a CROSSSLOT error (to avoid breaking changes) and the results may be partial.\n\n\n\n[Examples](#examples)"
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open><summary><code>key</code></summary> \n\nis key to parse. Returns `null` for nonexistent keys.\n</details>"
+    },
+    {
+      "title": "Optional arguments",
+      "level": 2,
+      "content": "<details open><summary><code>path</code></summary> \n\nis JSONPath to specify. Returns `null` for nonexistent paths.\n\n</details>"
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "<details open>\n<summary><b>Return the values at <code>path</code> from multiple <code>key</code> arguments</b></summary>\n\nCreate two JSON documents.\n\n\nredis> JSON.SET doc1 $ '{\"a\":1, \"b\": 2, \"nested\": {\"a\": 3}, \"c\": null}'\nOK\nredis> JSON.SET doc2 $ '{\"a\":4, \"b\": 5, \"nested\": {\"a\": 6}, \"c\": null}'\nOK\n\n\nGet values from all arguments in the documents.\n\n\nredis> JSON.MGET doc1 doc2 $..a\n1) \"[1,3]\"\n2) \"[4,6]\"\n\n</details>"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Array reply]() of [bulk string replies]() or [null replies](), where each element is the JSON serialization of the value at the corresponding key's path, or `null` if the key or path doesn't exist.\n\n**RESP3:**\n\n[Array reply]() of [bulk string replies]() or [null replies](), where each element is the JSON serialization of the value at the corresponding key's path, or `null` if the key or path doesn't exist."
+    },
+    {
+      "title": "See also",
+      "level": 2,
+      "content": "[`JSON.SET`]() | [`JSON.GET`]()"
+    },
+    {
+      "title": "Related topics",
+      "level": 2,
+      "content": "* [RedisJSON]()\n* [Index and search JSON documents]()"
+    }
+  ]
+}

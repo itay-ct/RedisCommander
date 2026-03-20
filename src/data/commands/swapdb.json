@@ -1,0 +1,86 @@
+{
+  "slug": "swapdb",
+  "title": "SWAPDB",
+  "description": "Swaps two Redis databases.",
+  "docsUrl": "https://redis.io/docs/latest/commands/swapdb/",
+  "group": "server",
+  "groupLabel": "Server",
+  "syntax": "SWAPDB index1 index2",
+  "complexity": "O(N) where N is the count of clients watching or blocking on keys from both databases.",
+  "since": "4.0.0",
+  "arity": 3,
+  "aclCategories": [
+    "@keyspace",
+    "@write",
+    "@fast",
+    "@dangerous"
+  ],
+  "commandFlags": [
+    "write",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "index1",
+      "name": "index1",
+      "type": "integer"
+    },
+    {
+      "display_text": "index2",
+      "name": "index2",
+      "type": "integer"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "This command swaps two Redis databases, so that immediately all the\nclients connected to a given database will see the data of the other database, and\nthe other way around. Example:\n\n    SWAPDB 0 1\n\nThis will swap database 0 with database 1. All the clients connected with database 0 will immediately see the new data, exactly like all the clients connected with database 1 will see the data that was formerly of database 0.\n\n## Examples\n\n```\nSWAPDB 0 1\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.",
+  "intro": "This command swaps two Redis databases, so that immediately all the\nclients connected to a given database will see the data of the other database, and\nthe other way around. Example:\n\n    SWAPDB 0 1\n\nThis will swap database 0 with database 1. All the clients connected with database 0 will immediately see the new data, exactly like all the clients connected with database 1 will see the data that was formerly of database 0.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "This command swaps two Redis databases, so that immediately all the\nclients connected to a given database will see the data of the other database, and\nthe other way around. Example:\n\n    SWAPDB 0 1\n\nThis will swap database 0 with database 1. All the clients connected with database 0 will immediately see the new data, exactly like all the clients connected with database 1 will see the data that was formerly of database 0."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "```\nSWAPDB 0 1\n```"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`."
+    }
+  ]
+}

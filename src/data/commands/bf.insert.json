@@ -1,0 +1,134 @@
+{
+  "slug": "bf.insert",
+  "title": "BF.INSERT",
+  "description": "Adds one or more items to a Bloom Filter. A filter will be created if it does not exist",
+  "docsUrl": "https://redis.io/docs/latest/commands/bf.insert/",
+  "group": "bf",
+  "groupLabel": "Bloom",
+  "syntax": "BF.INSERT key [CAPACITY capacity] [ERROR error]\n  [EXPANSION expansion] [NOCREATE] [NONSCALING] ITEMS item [item\n  ...]",
+  "complexity": "O(k * n), where k is the number of hash functions and n is the number of items",
+  "since": "1.0.0",
+  "arity": null,
+  "aclCategories": [
+    "@bloom",
+    "@write",
+    "@slow"
+  ],
+  "commandFlags": [],
+  "arguments": [
+    {
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "name": "capacity",
+      "optional": true,
+      "token": "CAPACITY",
+      "type": "integer"
+    },
+    {
+      "name": "error",
+      "optional": true,
+      "token": "ERROR",
+      "type": "double"
+    },
+    {
+      "name": "expansion",
+      "optional": true,
+      "token": "EXPANSION",
+      "type": "integer"
+    },
+    {
+      "name": "nocreate",
+      "optional": true,
+      "token": "NOCREATE",
+      "type": "pure-token"
+    },
+    {
+      "name": "nonscaling",
+      "optional": true,
+      "token": "NONSCALING",
+      "type": "pure-token"
+    },
+    {
+      "name": "items",
+      "token": "ITEMS",
+      "type": "pure-token"
+    },
+    {
+      "multiple": true,
+      "name": "item",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "optional-arguments",
+        "title": "Optional arguments"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Creates a new Bloom filter if the `key` does not exist using the specified error rate, capacity, and expansion, then adds all specified items to the Bloom Filter.\n\nThis command is similar to [`BF.MADD`](), except that the error rate, capacity, and expansion can be specified. It is a sugarcoated combination of [`BF.RESERVE`]() and [`BF.MADD`]().\n\n## Required arguments\n\n<details open><summary><code>key</code></summary>\n\nis key name for a Bloom filter to add items to.\n\nIf `key` does not exist, a new Bloom filter is created.\n</details>\n\n<details open><summary><code>ITEMS item...</code></summary>\n\nOne or more items to add.\n</details>\n\n## Optional arguments\n\n<details open><summary><code>NOCREATE</code></summary>\n\nIndicates that the filter should not be created if it does not already exist.\nIf the filter does not yet exist, an error is returned rather than creating it automatically.\nThis may be used where a strict separation between filter creation and filter addition is desired.\nIt is an error to specify `NOCREATE` together with either `CAPACITY` or `ERROR`.\n</details>\n\n<details open><summary><code>CAPACITY capacity</code></summary>\n\nSpecifies the desired `capacity` for the filter to be created.\nThis parameter is ignored if the filter already exists.\nIf the filter is automatically created and this parameter is absent, then the module-level `capacity` is used.\nSee [`BF.RESERVE`]() for more information about the impact of this value.\n</details>\n\n<details open><summary><code>ERROR error</code></summary>\n    \nSpecifies the `error` ratio of the newly created filter if it does not yet exist.\nIf the filter is automatically created and `error` is not specified then the module-level error rate is used.\nSee [`BF.RESERVE`]() for more information about the format of this value.\n</details>\n\n<details open><summary><code>NONSCALING</code></summary>\n\nPrevents the filter from creating additional sub-filters if initial capacity is reached.\nNon-scaling filters require slightly less memory than their scaling counterparts. The filter returns an error when `capacity` is reached.\n</details>\n\n<details open><summary><code>EXPANSION expansion</code></summary>\n\nWhen `capacity` is reached, an additional sub-filter is created.\nThe size of the new sub-filter is the size of the last sub-filter multiplied by `expansion`, specified as a positive integer.\n\nIf the number of elements to be stored in the filter is unknown, use an `expansion` of `2` or more to reduce the number of sub-filters.\nOtherwise, use an `expansion` of `1` to reduce memory consumption. The default value is `2`.\n</details>\n\n## Examples\n\nAdd three items to a filter, then create the filter with default parameters if it does not already exist.\n\n\nBF.INSERT filter ITEMS foo bar baz\n\n\nAdd one item to a filter, then create the filter with a capacity of 10000 if it does not already exist.\n\n\nBF.INSERT filter CAPACITY 10000 ITEMS hello\n\n\nAdd two items to a filter, then return error if the filter does not already exist.\n\n\nBF.INSERT filter NOCREATE ITEMS foo bar\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following: where each element is one of these options:\n* [Array reply](), where each element is one of the following options:\n  * [Integer reply]() `1` for successfully adding an item, or `0` if there's a probability that the item was already added to the filter.\n  * [Simple string reply]() when the item cannot be added because the filter is full.\n* [Simple error reply]() when the number of arguments or key type is wrong, and also when `NOCREATE` is specified and `key` does not exist.\n\n**RESP3:**\n\nOne of the following: where each element is one of these options:\n* [Array reply](), where each element is one of the following options:\n  * [Boolean reply]() `true` for successfully adding an item, or `false` if there's a probability that the item was already added to the filter.\n  * [Simple string reply]() when the item cannot be added because the filter is full.\n* [Simple error reply]() when the number of arguments or key type is wrong, and also when `NOCREATE` is specified and `key` does not exist.",
+  "intro": "Creates a new Bloom filter if the `key` does not exist using the specified error rate, capacity, and expansion, then adds all specified items to the Bloom Filter.\n\nThis command is similar to [`BF.MADD`](), except that the error rate, capacity, and expansion can be specified. It is a sugarcoated combination of [`BF.RESERVE`]() and [`BF.MADD`]().",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Creates a new Bloom filter if the `key` does not exist using the specified error rate, capacity, and expansion, then adds all specified items to the Bloom Filter.\n\nThis command is similar to [`BF.MADD`](), except that the error rate, capacity, and expansion can be specified. It is a sugarcoated combination of [`BF.RESERVE`]() and [`BF.MADD`]()."
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open><summary><code>key</code></summary>\n\nis key name for a Bloom filter to add items to.\n\nIf `key` does not exist, a new Bloom filter is created.\n</details>\n\n<details open><summary><code>ITEMS item...</code></summary>\n\nOne or more items to add.\n</details>"
+    },
+    {
+      "title": "Optional arguments",
+      "level": 2,
+      "content": "<details open><summary><code>NOCREATE</code></summary>\n\nIndicates that the filter should not be created if it does not already exist.\nIf the filter does not yet exist, an error is returned rather than creating it automatically.\nThis may be used where a strict separation between filter creation and filter addition is desired.\nIt is an error to specify `NOCREATE` together with either `CAPACITY` or `ERROR`.\n</details>\n\n<details open><summary><code>CAPACITY capacity</code></summary>\n\nSpecifies the desired `capacity` for the filter to be created.\nThis parameter is ignored if the filter already exists.\nIf the filter is automatically created and this parameter is absent, then the module-level `capacity` is used.\nSee [`BF.RESERVE`]() for more information about the impact of this value.\n</details>\n\n<details open><summary><code>ERROR error</code></summary>\n    \nSpecifies the `error` ratio of the newly created filter if it does not yet exist.\nIf the filter is automatically created and `error` is not specified then the module-level error rate is used.\nSee [`BF.RESERVE`]() for more information about the format of this value.\n</details>\n\n<details open><summary><code>NONSCALING</code></summary>\n\nPrevents the filter from creating additional sub-filters if initial capacity is reached.\nNon-scaling filters require slightly less memory than their scaling counterparts. The filter returns an error when `capacity` is reached.\n</details>\n\n<details open><summary><code>EXPANSION expansion</code></summary>\n\nWhen `capacity` is reached, an additional sub-filter is created.\nThe size of the new sub-filter is the size of the last sub-filter multiplied by `expansion`, specified as a positive integer.\n\nIf the number of elements to be stored in the filter is unknown, use an `expansion` of `2` or more to reduce the number of sub-filters.\nOtherwise, use an `expansion` of `1` to reduce memory consumption. The default value is `2`.\n</details>"
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "Add three items to a filter, then create the filter with default parameters if it does not already exist.\n\n\nBF.INSERT filter ITEMS foo bar baz\n\n\nAdd one item to a filter, then create the filter with a capacity of 10000 if it does not already exist.\n\n\nBF.INSERT filter CAPACITY 10000 ITEMS hello\n\n\nAdd two items to a filter, then return error if the filter does not already exist.\n\n\nBF.INSERT filter NOCREATE ITEMS foo bar"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following: where each element is one of these options:\n* [Array reply](), where each element is one of the following options:\n  * [Integer reply]() `1` for successfully adding an item, or `0` if there's a probability that the item was already added to the filter.\n  * [Simple string reply]() when the item cannot be added because the filter is full.\n* [Simple error reply]() when the number of arguments or key type is wrong, and also when `NOCREATE` is specified and `key` does not exist.\n\n**RESP3:**\n\nOne of the following: where each element is one of these options:\n* [Array reply](), where each element is one of the following options:\n  * [Boolean reply]() `true` for successfully adding an item, or `false` if there's a probability that the item was already added to the filter.\n  * [Simple string reply]() when the item cannot be added because the filter is full.\n* [Simple error reply]() when the number of arguments or key type is wrong, and also when `NOCREATE` is specified and `key` does not exist."
+    }
+  ]
+}

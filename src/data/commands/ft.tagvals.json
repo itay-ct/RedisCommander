@@ -1,0 +1,119 @@
+{
+  "slug": "ft.tagvals",
+  "title": "FT.TAGVALS",
+  "description": "Returns the distinct tags indexed in a Tag field",
+  "docsUrl": "https://redis.io/docs/latest/commands/ft.tagvals/",
+  "group": "search",
+  "groupLabel": "Search",
+  "syntax": "FT.TAGVALS index field_name",
+  "complexity": "O(N)",
+  "since": "1.0.0",
+  "arity": null,
+  "aclCategories": [
+    "@dangerous",
+    "@read",
+    "@search",
+    "@slow"
+  ],
+  "commandFlags": [
+    "readonly"
+  ],
+  "arguments": [
+    {
+      "name": "index",
+      "type": "string"
+    },
+    {
+      "name": "field_name",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "limitations",
+        "title": "Limitations"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      },
+      {
+        "id": "see-also",
+        "title": "See also"
+      },
+      {
+        "id": "related-topics",
+        "title": "Related topics"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Return a distinct set of values indexed in a Tag field\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open>\n<summary><code>index</code></summary>\n\nis full-text index name. You must first create the index using [`FT.CREATE`]().\n</details>\n\n<details open>\n<summary><code>field_name</code></summary>\n\nis name of a Tag file defined in the schema.\n</details>\n\nUse FT.TAGVALS if your tag indexes things like cities, categories, and so on.\n\n## Limitations\n\nFT.TAGVALS provides no paging or sorting, and the tags are not alphabetically sorted. FT.TAGVALS only operates on [tag fields]().\nThe returned strings are lowercase with whitespaces removed, but otherwise unchanged.\n\n## Examples\n\n<details open>\n<summary><b>Return a set of values indexed in a Tag field</b></summary>\n\n\n127.0.0.1:6379> FT.TAGVALS idx myTag\n1) \"Hello\"\n2) \"World\"\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Array]() of distinct tag values as [bulk strings]().\n* [Simple error reply]() in these cases: no such index, not a tag field.\n\n**RESP3:**\n\nOne of the following:\n* [Set]() of distinct tag values as [bulk strings]().\n* [Simple error reply]() in these cases: no such index, not a tag field.\n\n\n\n## See also\n\n[`FT.CREATE`]()\n\n## Related topics\n\n- [Tag fields]()\n- [RediSearch]()",
+  "intro": "Return a distinct set of values indexed in a Tag field\n\n[Examples](#examples)",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Return a distinct set of values indexed in a Tag field\n\n[Examples](#examples)"
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open>\n<summary><code>index</code></summary>\n\nis full-text index name. You must first create the index using [`FT.CREATE`]().\n</details>\n\n<details open>\n<summary><code>field_name</code></summary>\n\nis name of a Tag file defined in the schema.\n</details>\n\nUse FT.TAGVALS if your tag indexes things like cities, categories, and so on."
+    },
+    {
+      "title": "Limitations",
+      "level": 2,
+      "content": "FT.TAGVALS provides no paging or sorting, and the tags are not alphabetically sorted. FT.TAGVALS only operates on [tag fields]().\nThe returned strings are lowercase with whitespaces removed, but otherwise unchanged."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "<details open>\n<summary><b>Return a set of values indexed in a Tag field</b></summary>\n\n\n127.0.0.1:6379> FT.TAGVALS idx myTag\n1) \"Hello\"\n2) \"World\"\n\n</details>"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Array]() of distinct tag values as [bulk strings]().\n* [Simple error reply]() in these cases: no such index, not a tag field.\n\n**RESP3:**\n\nOne of the following:\n* [Set]() of distinct tag values as [bulk strings]().\n* [Simple error reply]() in these cases: no such index, not a tag field."
+    },
+    {
+      "title": "See also",
+      "level": 2,
+      "content": "[`FT.CREATE`]()"
+    },
+    {
+      "title": "Related topics",
+      "level": 2,
+      "content": "- [Tag fields]()\n- [RediSearch]()"
+    }
+  ]
+}

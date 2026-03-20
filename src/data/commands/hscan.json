@@ -1,0 +1,116 @@
+{
+  "slug": "hscan",
+  "title": "HSCAN",
+  "description": "Iterates over fields and values of a hash.",
+  "docsUrl": "https://redis.io/docs/latest/commands/hscan/",
+  "group": "hash",
+  "groupLabel": "Hashes",
+  "syntax": "HSCAN key cursor [MATCH pattern] [COUNT count] [NOVALUES]",
+  "complexity": "O(1) for every call. O(N) for a complete iteration, including enough command calls for the cursor to return back to 0. N is the number of elements inside the collection.",
+  "since": "2.8.0",
+  "arity": -3,
+  "aclCategories": [
+    "@read",
+    "@hash",
+    "@slow"
+  ],
+  "commandFlags": [
+    "readonly"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "cursor",
+      "name": "cursor",
+      "type": "integer"
+    },
+    {
+      "display_text": "pattern",
+      "name": "pattern",
+      "optional": true,
+      "token": "MATCH",
+      "type": "pattern"
+    },
+    {
+      "display_text": "count",
+      "name": "count",
+      "optional": true,
+      "token": "COUNT",
+      "type": "integer"
+    },
+    {
+      "display_text": "novalues",
+      "name": "novalues",
+      "optional": true,
+      "token": "NOVALUES",
+      "type": "pure-token"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RO": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "See [`SCAN`]() for `HSCAN` documentation.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a two-element array.\n* The first element is a [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) that represents an unsigned 64-bit number, the cursor.\n* The second element is an [Array reply](../../develop/reference/protocol-spec#arrays) of field/value pairs that were scanned. When the `NOVALUES` flag (since Redis 7.4) is used, only the field names are returned.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a two-element array.\n* The first element is a [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) that represents an unsigned 64-bit number, the cursor.\n* The second element is an [Array reply](../../develop/reference/protocol-spec#arrays) of field/value pairs that were scanned. When the `NOVALUES` flag (since Redis 7.4) is used, only the field names are returned.",
+  "intro": "See [`SCAN`]() for `HSCAN` documentation.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "See [`SCAN`]() for `HSCAN` documentation."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a two-element array.\n* The first element is a [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) that represents an unsigned 64-bit number, the cursor.\n* The second element is an [Array reply](../../develop/reference/protocol-spec#arrays) of field/value pairs that were scanned. When the `NOVALUES` flag (since Redis 7.4) is used, only the field names are returned.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a two-element array.\n* The first element is a [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) that represents an unsigned 64-bit number, the cursor.\n* The second element is an [Array reply](../../develop/reference/protocol-spec#arrays) of field/value pairs that were scanned. When the `NOVALUES` flag (since Redis 7.4) is used, only the field names are returned."
+    }
+  ]
+}

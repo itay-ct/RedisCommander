@@ -1,0 +1,183 @@
+{
+  "slug": "hdel",
+  "title": "HDEL",
+  "description": "Deletes one or more fields and their values from a hash. Deletes the hash if no fields remain.",
+  "docsUrl": "https://redis.io/docs/latest/commands/hdel/",
+  "group": "hash",
+  "groupLabel": "Hashes",
+  "syntax": "HDEL key field [field ...]",
+  "complexity": "O(N) where N is the number of fields to be removed.",
+  "since": "2.0.0",
+  "arity": -3,
+  "aclCategories": [
+    "@write",
+    "@hash",
+    "@fast"
+  ],
+  "commandFlags": [
+    "write",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "field",
+      "multiple": true,
+      "name": "field",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "delete": true,
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [
+    {
+      "codetabsId": "cmds_hash-stephdel",
+      "description": "Foundational: Delete one or more fields from a hash using HDEL (returns count of deleted fields, ignores non-existent fields)",
+      "difficulty": "beginner",
+      "id": "hdel",
+      "languages": [
+        {
+          "id": "redis-cli",
+          "panelId": "panel_redis-cli_cmds_hash-stephdel"
+        },
+        {
+          "clientId": "redis-py",
+          "clientName": "redis-py",
+          "id": "Python",
+          "langId": "python",
+          "panelId": "panel_Python_cmds_hash-stephdel"
+        },
+        {
+          "id": "Node-js",
+          "panelId": "panel_Nodejs_cmds_hash-stephdel"
+        },
+        {
+          "clientId": "jedis",
+          "clientName": "Jedis",
+          "id": "Java-Sync",
+          "langId": "java",
+          "panelId": "panel_Java-Sync_cmds_hash-stephdel"
+        },
+        {
+          "clientId": "lettuce",
+          "clientName": "Lettuce",
+          "id": "Java-Async",
+          "langId": "java",
+          "panelId": "panel_Java-Async_cmds_hash-stephdel"
+        },
+        {
+          "clientId": "lettuce",
+          "clientName": "Lettuce",
+          "id": "Java-Reactive",
+          "langId": "java",
+          "panelId": "panel_Java-Reactive_cmds_hash-stephdel"
+        },
+        {
+          "clientId": "go-redis",
+          "clientName": "go-redis",
+          "id": "Go",
+          "langId": "go",
+          "panelId": "panel_Go_cmds_hash-stephdel"
+        },
+        {
+          "id": "dotnet-Sync",
+          "panelId": "panel_Csharp-Sync_cmds_hash-stephdel"
+        },
+        {
+          "clientId": "predis",
+          "clientName": "Predis",
+          "id": "PHP",
+          "langId": "php",
+          "panelId": "panel_PHP_cmds_hash-stephdel"
+        },
+        {
+          "clientId": "redis-rs",
+          "clientName": "redis-rs",
+          "id": "Rust-Sync",
+          "langId": "rust",
+          "panelId": "panel_Rust-Sync_cmds_hash-stephdel"
+        },
+        {
+          "clientId": "redis-rs",
+          "clientName": "redis-rs",
+          "id": "Rust-Async",
+          "langId": "rust",
+          "panelId": "panel_Rust-Async_cmds_hash-stephdel"
+        }
+      ]
+    }
+  ],
+  "content": "Removes the specified fields from the hash stored at `key`.\nSpecified fields that do not exist within this hash are ignored.\nDeletes the hash if no fields remain.\nIf `key` does not exist, it is treated as an empty hash and this command returns\n`0`.\n\n## Examples\n\n#### Code Examples\n\nFoundational: Delete one or more fields from a hash using HDEL (returns count of deleted fields, ignores non-existent fields)\n\n**Difficulty:** Beginner\n\n**Redis CLI:**\n\n```\nHSET myhash field1 \"foo\"\n(integer) 1\nHDEL myhash field1\n(integer) 1\nHDEL myhash field2\n(integer) 0\n```\n\n**Available in:** Redis CLI, C# (Synchronous), Go, Java (Asynchronous - Lettuce), Java (Reactive - Lettuce), Java (Synchronous - Jedis), JavaScript (Node.js), PHP, Python, Rust (Asynchronous), Rust (Synchronous)\n\n**C# (Synchronous):**\n\n```csharp\n\n// HIDE_START\npublic class CmdsHashExample\n// REMOVE_START\n: AbstractNRedisStackTest, IDisposable\n// REMOVE_END\n{\n```\n\n**Go:**\n\n```go\n\thdel1, err := rdb.HSet(ctx, \"myhash\", \"field1\", \"foo\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(hdel1) // >>> 1\n\n\thdel2, err := rdb.HDel(ctx, \"myhash\", \"field1\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(hdel2) // >>> 1\n\n\thdel3, err := rdb.HDel(ctx, \"myhash\", \"field2\").Result()\n\n\tif err != nil {\n\t\tfmt.Println(err)\n\t}\n\n\tfmt.Println(hdel3) // >>> 0\n```\n\n**Java (Asynchronous - Lettuce):**\n\n```java\n            Map<String, String> hDelExampleParams = new HashMap<>();\n            hDelExampleParams.put(\"field1\", \"foo\");\n\n            CompletableFuture<Void> hDelExample = asyncCommands.hset(\"myhash\", hDelExampleParams).thenCompose(res1 -> {\n                System.out.println(res1); // >>> 1\n                return asyncCommands.hdel(\"myhash\", \"field1\");\n            }).thenCompose(res2 -> {\n                System.out.println(res2); // >>> 1\n                return asyncCommands.hdel(\"myhash\", \"field2\");\n            }).thenAccept(res3 -> {\n                System.out.println(res3); // >>> 0\n            }).toCompletableFuture();\n```\n\n**Java (Reactive - Lettuce):**\n\n```java\n            Map<String, String> hDelExampleParams = new HashMap<>();\n            hDelExampleParams.put(\"field1\", \"foo\");\n\n            Mono<Long> hDelExample1 = reactiveCommands.hset(\"myhash\", hDelExampleParams).doOnNext(result -> {\n                System.out.println(result); // >>> 1\n            });\n\n            hDelExample1.block();\n\n            Mono<Long> hDelExample2 = reactiveCommands.hdel(\"myhash\", \"field1\").doOnNext(result -> {\n                System.out.println(result); // >>> 1\n            });\n\n            hDelExample2.block();\n\n            Mono<Long> hDelExample3 = reactiveCommands.hdel(\"myhash\", \"field2\").doOnNext(result -> {\n                System.out.println(result); // >>> 0\n            });\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n        Map<String, String> hDelExampleParams = new HashMap<>();\n        hDelExampleParams.put(\"field1\", \"foo\");\n\n        long hDelResult1 = jedis.hset(\"myhash\", hDelExampleParams);\n        System.out.println(hDelResult1);    // >>> 1\n\n        long hDelResult2 = jedis.hdel(\"myhash\", \"field1\");\n        System.out.println(hDelResult2);    // >>> 1\n\n        long hDelResult3 = jedis.hdel(\"myhash\", \"field2\");\n        System.out.println(hDelResult3);    // >>> 0\n```\n\n**JavaScript (Node.js):**\n\n```javascript\nconst hDel1 = await client.hSet('myhash', 'field1', 'Hello')\nconsole.log(hDel1) // 1\n\nconst hDel2 = await client.hDel('myhash', 'field1')\nconsole.log(hDel2) // 1\n\nconst hDel3 = await client.hDel('myhash', 'field2')\nconsole.log(hDel3) // 0\n\n```\n\n**PHP:**\n\n```php\n        $hDelResult1 = $this->redis->hset('myhash', 'field1', 'foo');\n        echo \"HSET myhash field1 foo: \" . $hDelResult1 . \"\\n\"; // >>> 1\n\n        $hDelResult2 = $this->redis->hdel('myhash', 'field1');\n        echo \"HDEL myhash field1: \" . $hDelResult2 . \"\\n\"; // >>> 1\n\n        $hDelResult3 = $this->redis->hdel('myhash', 'field2');\n        echo \"HDEL myhash field2: \" . $hDelResult3 . \"\\n\"; // >>> 0\n```\n\n**Python:**\n\n```python\nhdel1 = r.hset(\"myhash\", \"field1\", \"foo\")\nprint(hdel1)\n# >>> 1\n\nhdel2 = r.hdel(\"myhash\", \"field1\")\nprint(hdel2)\n# >>> 1\n\nhdel3 = r.hdel(\"myhash\", \"field2\")\nprint(hdel3)\n# >>> 0\n\n```\n\n**Rust (Asynchronous):**\n\n```rust\n        match r.hset(\"myhash\", \"field1\", \"foo\").await {\n            Ok(hdel1) => {\n                let hdel1: i32 = hdel1;\n                println!(\"{hdel1}\");    // >>> 1\n            },\n            Err(e) => {\n                println!(\"Error setting hash field: {e}\");\n                return;\n            }\n        }\n\n        match r.hdel(\"myhash\", \"field1\").await {\n            Ok(hdel2) => {\n                let hdel2: Option<i32> = hdel2;\n                match hdel2 {\n                    Some(value) => {\n                        println!(\"{value}\");    // >>> 1\n                    },\n                    None => {\n                        println!(\"None\");\n                    }\n                }\n            },\n            Err(e) => {\n                println!(\"Error getting hash field: {e}\");\n                return;\n            }\n        }\n\n        match r.hdel(\"myhash\", \"field2\").await {\n            Ok(hdel3) => {\n                let hdel3: Option<i32> = hdel3;\n                match hdel3 {\n                    Some(value) => {\n                        println!(\"{value}\");    // >>> 0\n                    },\n                    None => {\n                        println!(\"None\");\n                    }\n                }\n            },\n            Err(e) => {\n                println!(\"Error getting hash field: {e}\");\n                return;\n            }\n        }\n\n```\n\n**Rust (Synchronous):**\n\n```rust\n        match r.hset(\"myhash\", \"field1\", \"foo\") {\n            Ok(hdel1) => {\n                let hdel1: i32 = hdel1;\n                println!(\"{hdel1}\");    // >>> 1\n            },\n            Err(e) => {\n                println!(\"Error setting hash field: {e}\");\n                return;\n            }\n        }\n\n        match r.hdel(\"myhash\", \"field1\") {\n            Ok(hdel2) => {\n                let hdel2: Option<i32> = hdel2;\n                match hdel2 {\n                    Some(value) => {\n                        println!(\"{value}\");    // >>> 1\n                    },\n                    None => {\n                        println!(\"None\");\n                    }\n                }\n            },\n            Err(e) => {\n                println!(\"Error getting hash field: {e}\");\n                return;\n            }\n        }\n\n        match r.hdel(\"myhash\", \"field2\") {\n            Ok(hdel3) => {\n                let hdel3: Option<i32> = hdel3;\n                match hdel3 {\n                    Some(value) => {\n                        println!(\"{value}\");    // >>> 0\n                    },\n                    None => {\n                        println!(\"None\");\n                    }\n                }\n            },\n            Err(e) => {\n                println!(\"Error getting hash field: {e}\");\n                return;\n            }\n        }\n\n```\n\n\n\nGive these commands a try in the interactive console:\n\n\nHSET myhash field1 \"foo\"\nHDEL myhash field1\nHDEL myhash field2\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of fields that were removed from the hash, excluding any specified but non-existing fields.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): The number of fields that were removed from the hash, excluding any specified but non-existing fields.",
+  "intro": "Removes the specified fields from the hash stored at `key`.\nSpecified fields that do not exist within this hash are ignored.\nDeletes the hash if no fields remain.\nIf `key` does not exist, it is treated as an empty hash and this command returns\n`0`.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Removes the specified fields from the hash stored at `key`.\nSpecified fields that do not exist within this hash are ignored.\nDeletes the hash if no fields remain.\nIf `key` does not exist, it is treated as an empty hash and this command returns\n`0`."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "#### Code Examples\n\nFoundational: Delete one or more fields from a hash using HDEL (returns count of deleted fields, ignores non-existent fields)\n\n**Difficulty:** Beginner\n\n**Redis CLI:**\n\n```\nHSET myhash field1 \"foo\"\n(integer) 1\nHDEL myhash field1\n(integer) 1\nHDEL myhash field2\n(integer) 0\n```\n\n**Available in:** Redis CLI, C# (Synchronous), Go, Java (Asynchronous - Lettuce), Java (Reactive - Lettuce), Java (Synchronous - Jedis), JavaScript (Node.js), PHP, Python, Rust (Asynchronous), Rust (Synchronous)\n\n**C# (Synchronous):**\n\n```csharp\n\n// HIDE_START\npublic class CmdsHashExample\n// REMOVE_START\n: AbstractNRedisStackTest, IDisposable\n// REMOVE_END\n{\n```\n\n**Go:**\n\n```go\n\thdel1, err := rdb.HSet(ctx, \"myhash\", \"field1\", \"foo\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(hdel1) // >>> 1\n\n\thdel2, err := rdb.HDel(ctx, \"myhash\", \"field1\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(hdel2) // >>> 1\n\n\thdel3, err := rdb.HDel(ctx, \"myhash\", \"field2\").Result()\n\n\tif err != nil {\n\t\tfmt.Println(err)\n\t}\n\n\tfmt.Println(hdel3) // >>> 0\n```\n\n**Java (Asynchronous - Lettuce):**\n\n```java\n            Map<String, String> hDelExampleParams = new HashMap<>();\n            hDelExampleParams.put(\"field1\", \"foo\");\n\n            CompletableFuture<Void> hDelExample = asyncCommands.hset(\"myhash\", hDelExampleParams).thenCompose(res1 -> {\n                System.out.println(res1); // >>> 1\n                return asyncCommands.hdel(\"myhash\", \"field1\");\n            }).thenCompose(res2 -> {\n                System.out.println(res2); // >>> 1\n                return asyncCommands.hdel(\"myhash\", \"field2\");\n            }).thenAccept(res3 -> {\n                System.out.println(res3); // >>> 0\n            }).toCompletableFuture();\n```\n\n**Java (Reactive - Lettuce):**\n\n```java\n            Map<String, String> hDelExampleParams = new HashMap<>();\n            hDelExampleParams.put(\"field1\", \"foo\");\n\n            Mono<Long> hDelExample1 = reactiveCommands.hset(\"myhash\", hDelExampleParams).doOnNext(result -> {\n                System.out.println(result); // >>> 1\n            });\n\n            hDelExample1.block();\n\n            Mono<Long> hDelExample2 = reactiveCommands.hdel(\"myhash\", \"field1\").doOnNext(result -> {\n                System.out.println(result); // >>> 1\n            });\n\n            hDelExample2.block();\n\n            Mono<Long> hDelExample3 = reactiveCommands.hdel(\"myhash\", \"field2\").doOnNext(result -> {\n                System.out.println(result); // >>> 0\n            });\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n        Map<String, String> hDelExampleParams = new HashMap<>();\n        hDelExampleParams.put(\"field1\", \"foo\");\n\n        long hDelResult1 = jedis.hset(\"myhash\", hDelExampleParams);\n        System.out.println(hDelResult1);    // >>> 1\n\n        long hDelResult2 = jedis.hdel(\"myhash\", \"field1\");\n        System.out.println(hDelResult2);    // >>> 1\n\n        long hDelResult3 = jedis.hdel(\"myhash\", \"field2\");\n        System.out.println(hDelResult3);    // >>> 0\n```\n\n**JavaScript (Node.js):**\n\n```javascript\nconst hDel1 = await client.hSet('myhash', 'field1', 'Hello')\nconsole.log(hDel1) // 1\n\nconst hDel2 = await client.hDel('myhash', 'field1')\nconsole.log(hDel2) // 1\n\nconst hDel3 = await client.hDel('myhash', 'field2')\nconsole.log(hDel3) // 0\n\n```\n\n**PHP:**\n\n```php\n        $hDelResult1 = $this->redis->hset('myhash', 'field1', 'foo');\n        echo \"HSET myhash field1 foo: \" . $hDelResult1 . \"\\n\"; // >>> 1\n\n        $hDelResult2 = $this->redis->hdel('myhash', 'field1');\n        echo \"HDEL myhash field1: \" . $hDelResult2 . \"\\n\"; // >>> 1\n\n        $hDelResult3 = $this->redis->hdel('myhash', 'field2');\n        echo \"HDEL myhash field2: \" . $hDelResult3 . \"\\n\"; // >>> 0\n```\n\n**Python:**\n\n```python\nhdel1 = r.hset(\"myhash\", \"field1\", \"foo\")\nprint(hdel1)\n# >>> 1\n\nhdel2 = r.hdel(\"myhash\", \"field1\")\nprint(hdel2)\n# >>> 1\n\nhdel3 = r.hdel(\"myhash\", \"field2\")\nprint(hdel3)\n# >>> 0\n\n```\n\n**Rust (Asynchronous):**\n\n```rust\n        match r.hset(\"myhash\", \"field1\", \"foo\").await {\n            Ok(hdel1) => {\n                let hdel1: i32 = hdel1;\n                println!(\"{hdel1}\");    // >>> 1\n            },\n            Err(e) => {\n                println!(\"Error setting hash field: {e}\");\n                return;\n            }\n        }\n\n        match r.hdel(\"myhash\", \"field1\").await {\n            Ok(hdel2) => {\n                let hdel2: Option<i32> = hdel2;\n                match hdel2 {\n                    Some(value) => {\n                        println!(\"{value}\");    // >>> 1\n                    },\n                    None => {\n                        println!(\"None\");\n                    }\n                }\n            },\n            Err(e) => {\n                println!(\"Error getting hash field: {e}\");\n                return;\n            }\n        }\n\n        match r.hdel(\"myhash\", \"field2\").await {\n            Ok(hdel3) => {\n                let hdel3: Option<i32> = hdel3;\n                match hdel3 {\n                    Some(value) => {\n                        println!(\"{value}\");    // >>> 0\n                    },\n                    None => {\n                        println!(\"None\");\n                    }\n                }\n            },\n            Err(e) => {\n                println!(\"Error getting hash field: {e}\");\n                return;\n            }\n        }\n\n```\n\n**Rust (Synchronous):**\n\n```rust\n        match r.hset(\"myhash\", \"field1\", \"foo\") {\n            Ok(hdel1) => {\n                let hdel1: i32 = hdel1;\n                println!(\"{hdel1}\");    // >>> 1\n            },\n            Err(e) => {\n                println!(\"Error setting hash field: {e}\");\n                return;\n            }\n        }\n\n        match r.hdel(\"myhash\", \"field1\") {\n            Ok(hdel2) => {\n                let hdel2: Option<i32> = hdel2;\n                match hdel2 {\n                    Some(value) => {\n                        println!(\"{value}\");    // >>> 1\n                    },\n                    None => {\n                        println!(\"None\");\n                    }\n                }\n            },\n            Err(e) => {\n                println!(\"Error getting hash field: {e}\");\n                return;\n            }\n        }\n\n        match r.hdel(\"myhash\", \"field2\") {\n            Ok(hdel3) => {\n                let hdel3: Option<i32> = hdel3;\n                match hdel3 {\n                    Some(value) => {\n                        println!(\"{value}\");    // >>> 0\n                    },\n                    None => {\n                        println!(\"None\");\n                    }\n                }\n            },\n            Err(e) => {\n                println!(\"Error getting hash field: {e}\");\n                return;\n            }\n        }\n\n```\n\n\n\nGive these commands a try in the interactive console:\n\n\nHSET myhash field1 \"foo\"\nHDEL myhash field1\nHDEL myhash field2"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of fields that were removed from the hash, excluding any specified but non-existing fields.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): The number of fields that were removed from the hash, excluding any specified but non-existing fields."
+    }
+  ]
+}

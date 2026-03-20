@@ -1,0 +1,117 @@
+{
+  "slug": "json.type",
+  "title": "JSON.TYPE",
+  "description": "Returns the type of the JSON value at path",
+  "docsUrl": "https://redis.io/docs/latest/commands/json.type/",
+  "group": "json",
+  "groupLabel": "JSON",
+  "syntax": "JSON.TYPE key [path]",
+  "complexity": "O(1) when path is evaluated to a single value, O(N) when path is evaluated to multiple values, where N is the size of the key",
+  "since": "1.0.0",
+  "arity": null,
+  "aclCategories": [
+    "@json",
+    "@read",
+    "@slow"
+  ],
+  "commandFlags": [],
+  "arguments": [
+    {
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "name": "path",
+      "optional": true,
+      "type": "string"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "optional-arguments",
+        "title": "Optional arguments"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      },
+      {
+        "id": "see-also",
+        "title": "See also"
+      },
+      {
+        "id": "related-topics",
+        "title": "Related topics"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Report the type of JSON value at `path`\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open><summary><code>key</code></summary> \n\nis key to parse.\n</details>\n\n## Optional arguments\n\n<details open><summary><code>path</code></summary> \n\nis JSONPath to specify. Default is root `$`. Returns null if the `key` or `path` do not exist.\n\n</details>\n\n## Examples\n\n\nredis> JSON.SET doc $ '{\"a\":2, \"nested\": {\"a\": true}, \"foo\": \"bar\"}'\nOK\nredis> JSON.TYPE doc $..foo\n1) \"string\"\nredis> JSON.TYPE doc $..a\n1) \"integer\"\n2) \"boolean\"\nredis> JSON.TYPE doc $..dummy\n(empty array)\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nWith `$`-based path argument: [Array reply]() of [bulk string replies](), where each element is the type of the matching value.\n\nWith `.`-based path argument: [Bulk string reply]() representing the type of the matching value.\n\n**RESP3:**\n\nWith `$`-based path argument (default): [Array reply]() of [array replies]() of [bulk string replies](), where each nested array contains the type of the matching value.\n\nWith `.`-based path argument: [Array reply]() of [bulk string replies]() representing the type of the matching value.\n\n\n\n## See also\n\n[`JSON.SET`]() | [`JSON.ARRLEN`]() \n\n## Related topics\n\n* [RedisJSON]()\n* [Index and search JSON documents]()",
+  "intro": "Report the type of JSON value at `path`\n\n[Examples](#examples)",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Report the type of JSON value at `path`\n\n[Examples](#examples)"
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open><summary><code>key</code></summary> \n\nis key to parse.\n</details>"
+    },
+    {
+      "title": "Optional arguments",
+      "level": 2,
+      "content": "<details open><summary><code>path</code></summary> \n\nis JSONPath to specify. Default is root `$`. Returns null if the `key` or `path` do not exist.\n\n</details>"
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "redis> JSON.SET doc $ '{\"a\":2, \"nested\": {\"a\": true}, \"foo\": \"bar\"}'\nOK\nredis> JSON.TYPE doc $..foo\n1) \"string\"\nredis> JSON.TYPE doc $..a\n1) \"integer\"\n2) \"boolean\"\nredis> JSON.TYPE doc $..dummy\n(empty array)"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nWith `$`-based path argument: [Array reply]() of [bulk string replies](), where each element is the type of the matching value.\n\nWith `.`-based path argument: [Bulk string reply]() representing the type of the matching value.\n\n**RESP3:**\n\nWith `$`-based path argument (default): [Array reply]() of [array replies]() of [bulk string replies](), where each nested array contains the type of the matching value.\n\nWith `.`-based path argument: [Array reply]() of [bulk string replies]() representing the type of the matching value."
+    },
+    {
+      "title": "See also",
+      "level": 2,
+      "content": "[`JSON.SET`]() | [`JSON.ARRLEN`]()"
+    },
+    {
+      "title": "Related topics",
+      "level": 2,
+      "content": "* [RedisJSON]()\n* [Index and search JSON documents]()"
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "slug": "cluster-saveconfig",
+  "title": "CLUSTER SAVECONFIG",
+  "description": "Forces a node to save the cluster configuration to disk.",
+  "docsUrl": "https://redis.io/docs/latest/commands/cluster-saveconfig/",
+  "group": "cluster",
+  "groupLabel": "Cluster",
+  "syntax": "CLUSTER SAVECONFIG",
+  "complexity": "O(1)",
+  "since": "3.0.0",
+  "arity": 2,
+  "aclCategories": [
+    "@admin",
+    "@slow",
+    "@dangerous"
+  ],
+  "commandFlags": [
+    "admin",
+    "stale",
+    "no_async_loading"
+  ],
+  "arguments": [],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Forces a node to save the `nodes.conf` configuration on disk. Before to return\nthe command calls `fsync(2)` in order to make sure the configuration is\nflushed on the computer disk.\n\nThis command is mainly used in the event a `nodes.conf` node state file\ngets lost / deleted for some reason, and we want to generate it again from\nscratch. It can also be useful in case of mundane alterations of a node cluster\nconfiguration via the [`CLUSTER`]() command in order to ensure the new configuration\nis persisted on disk, however all the commands should normally be able to\nauto schedule to persist the configuration on disk when it is important\nto do so for the correctness of the system in the event of a restart.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.",
+  "intro": "Forces a node to save the `nodes.conf` configuration on disk. Before to return\nthe command calls `fsync(2)` in order to make sure the configuration is\nflushed on the computer disk.\n\nThis command is mainly used in the event a `nodes.conf` node state file\ngets lost / deleted for some reason, and we want to generate it again from\nscratch. It can also be useful in case of mundane alterations of a node cluster\nconfiguration via the [`CLUSTER`]() command in order to ensure the new configuration\nis persisted on disk, however all the commands should normally be able to\nauto schedule to persist the configuration on disk when it is important\nto do so for the correctness of the system in the event of a restart.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Forces a node to save the `nodes.conf` configuration on disk. Before to return\nthe command calls `fsync(2)` in order to make sure the configuration is\nflushed on the computer disk.\n\nThis command is mainly used in the event a `nodes.conf` node state file\ngets lost / deleted for some reason, and we want to generate it again from\nscratch. It can also be useful in case of mundane alterations of a node cluster\nconfiguration via the [`CLUSTER`]() command in order to ensure the new configuration\nis persisted on disk, however all the commands should normally be able to\nauto schedule to persist the configuration on disk when it is important\nto do so for the correctness of the system in the event of a restart."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned."
+    }
+  ]
+}

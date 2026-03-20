@@ -1,0 +1,202 @@
+{
+  "slug": "ts.decrby",
+  "title": "TS.DECRBY",
+  "description": "Decrease the value of the sample with the maximum existing timestamp, or create a new sample with a value equal to the value of the sample with the maximum existing timestamp with a given decrement",
+  "docsUrl": "https://redis.io/docs/latest/commands/ts.decrby/",
+  "group": "timeseries",
+  "groupLabel": "Time Series",
+  "syntax": "TS.DECRBY key value [TIMESTAMP timestamp]\n  [RETENTION retentionPeriod] [UNCOMPRESSED] [CHUNK_SIZE size]\n  [LABELS label value [label value ...]]",
+  "complexity": "O(M) when M is the amount of compaction rules or O(1) with no compaction",
+  "since": "1.0.0",
+  "arity": null,
+  "aclCategories": [
+    "@timeseries",
+    "@write",
+    "@slow"
+  ],
+  "commandFlags": [],
+  "arguments": [
+    {
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "name": "value",
+      "type": "double"
+    },
+    {
+      "name": "timestamp",
+      "optional": true,
+      "token": "TIMESTAMP",
+      "type": "string"
+    },
+    {
+      "name": "retentionPeriod",
+      "optional": true,
+      "token": "RETENTION",
+      "type": "integer"
+    },
+    {
+      "name": "uncompressed",
+      "optional": true,
+      "token": "UNCOMPRESSED",
+      "type": "pure-token"
+    },
+    {
+      "name": "size",
+      "optional": true,
+      "token": "CHUNK_SIZE",
+      "type": "integer"
+    },
+    {
+      "arguments": [
+        {
+          "name": "block",
+          "token": "BLOCK",
+          "type": "pure-token"
+        },
+        {
+          "name": "first",
+          "token": "FIRST",
+          "type": "pure-token"
+        },
+        {
+          "name": "last",
+          "token": "LAST",
+          "type": "pure-token"
+        },
+        {
+          "name": "min",
+          "token": "MIN",
+          "type": "pure-token"
+        },
+        {
+          "name": "max",
+          "token": "MAX",
+          "type": "pure-token"
+        },
+        {
+          "name": "sum",
+          "token": "SUM",
+          "type": "pure-token"
+        }
+      ],
+      "name": "policy",
+      "optional": true,
+      "token": "DUPLICATE_POLICY",
+      "type": "oneof"
+    },
+    {
+      "arguments": [
+        {
+          "name": "ignoreMaxTimediff",
+          "type": "integer"
+        },
+        {
+          "name": "ignoreMaxValDiff",
+          "type": "double"
+        }
+      ],
+      "name": "ignore",
+      "optional": true,
+      "token": "IGNORE",
+      "type": "block"
+    },
+    {
+      "arguments": [
+        {
+          "name": "label",
+          "type": "string"
+        },
+        {
+          "name": "value",
+          "type": "string"
+        }
+      ],
+      "multiple": true,
+      "name": "labels",
+      "optional": true,
+      "token": "LABELS",
+      "type": "block"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "optional-arguments",
+        "title": "Optional arguments"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      },
+      {
+        "id": "see-also",
+        "title": "See also"
+      },
+      {
+        "id": "related-topics",
+        "title": "Related topics"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Decrease the value of the sample with the maximum existing timestamp, or create a new sample with a value equal to the value of the sample with the maximum existing timestamp with a given decrement\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open><summary><code>key</code></summary> \n\nis key name for the time series.\n</details>\n\n<details open><summary><code>subtrahend</code></summary> \n\nis numeric value of the subtrahend (double). An error is returned if the subtrahend is NaN.\n</details>\n\n<note><b>Notes</b>\n- When specified key does not exist, a new time series is created.\n- You can use this command as a counter or gauge that automatically gets history as a time series.\n- If a policy for handling duplicate samples (`IGNORE`) is defined for this time series - `TS.DECRBY` operations are affected as well (sample additions/modifications can be filtered).\n- Explicitly adding samples to a compacted time series (using [`TS.ADD`](), [`TS.MADD`](), [`TS.INCRBY`](), or `TS.DECRBY`) may result in inconsistencies between the raw and the compacted data. The compaction process may override such samples.\n</note>\n\n## Optional arguments\n\n<details open><summary><code>TIMESTAMP timestamp</code></summary> \n\nis Unix time (integer, in milliseconds) specifying the sample timestamp or `*` to set the sample timestamp to the Unix time of the server's clock.\n\nUnix time is the number of milliseconds that have elapsed since 00:00:00 UTC on 1 January 1970, the Unix epoch, without adjustments made due to leap seconds.\n\n`timestamp` must be equal to or higher than the maximum existing timestamp. When equal, the value of the sample with the maximum existing timestamp is decreased. If it is higher, a new sample with a timestamp set to `timestamp` is created, and its value is set to the value of the sample with the maximum existing timestamp minus `subtrahend`. \n\nIf the time series is empty, the value is set to `subtrahend`.\n\nWhen not specified, the timestamp is set to the Unix time of the server's clock.\n\n<note><b>NaN Handling (Redis 8.6+):</b> An error is returned if the current value at the maximum existing timestamp is NaN.</note>\n</details>\n\n<details open><summary><code>RETENTION retentionPeriod</code></summary> \n\nis maximum retention period, compared to the maximum existing timestamp, in milliseconds.\n\nUse it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `RETENTION` in [`TS.CREATE`]().\n</details>\n\n<details open><summary><code>ENCODING enc</code></summary> \n\nspecifies the series sample encoding format.\n\nUse it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `ENCODING` in [`TS.CREATE`]().\n</details>\n\n<details open><summary><code>CHUNK_SIZE size</code></summary> \n\nis memory size, in bytes, allocated for each data chunk.\n\nUse it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `CHUNK_SIZE` in [`TS.CREATE`]().\n</details>\n\n<details open><summary><code>DUPLICATE_POLICY policy</code></summary>\n\nis policy for handling insertion ([`TS.ADD`]() and [`TS.MADD`]()) of multiple samples with identical timestamps.\n\nUse it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `DUPLICATE_POLICY` in [`TS.CREATE`]().\n</details>\n\n<details open><summary><code>IGNORE ignoreMaxTimediff ignoreMaxValDiff</code></summary> \n\nis the policy for handling duplicate samples. A new sample is considered a duplicate and is ignored if the following conditions are met:\n\n  - The time series is not a compaction;\n  - The time series' `DUPLICATE_POLICY` IS `LAST`;\n  - The sample is added in-order (`timestamp ≥ max_timestamp`);\n  - The difference of the current timestamp from the previous timestamp (`timestamp - max_timestamp`) is less than or equal to `IGNORE_MAX_TIME_DIFF`;\n  - The absolute value difference of the current value from the value at the previous maximum timestamp (`abs(value - value_at_max_timestamp`) is less than or equal to `IGNORE_MAX_VAL_DIFF`.\n\nwhere `max_timestamp` is the timestamp of the sample with the largest timestamp in the time series, and `value_at_max_timestamp` is the value at `max_timestamp`.\n\nWhen not specified: set to the global [IGNORE_MAX_TIME_DIFF]() and [IGNORE_MAX_VAL_DIFF](), which are, by default, both set to 0.\n\nThese parameters are used when creating a new time series to set the per-key parameters, and are ignored when called with an existing time series (the existing per-key configuration parameters are used).\n</details>\n\n<details open><summary><code>LABELS [{label value}...]</code></summary> \n\nis set of label-value pairs that represent metadata labels of the key and serve as a secondary index.\n\nUse it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `LABELS` in [`TS.CREATE`]().\n</details>\n\n<note><b>Notes</b>\n- You can use this command to create a new time series and add a sample to it in a single command.\n  `RETENTION`, `ENCODING`, `CHUNK_SIZE`, `DUPLICATE_POLICY`, `IGNORE`, and `LABELS` are used only when creating a new time series, and ignored when adding or modifying samples in an existing time series.\n- Setting `RETENTION` and `LABELS` introduces additional time complexity.\n</note>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Integer reply](): the timestamp of the upserted sample. If the sample is ignored (see `IGNORE` in [`TS.CREATE`]()), the reply will be the largest timestamp in the time series.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, or when `timestamp` is not equal to or higher than the maximum existing timestamp.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](): the timestamp of the upserted sample. If the sample is ignored (see `IGNORE` in [`TS.CREATE`]()), the reply will be the largest timestamp in the time series.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, or when `timestamp` is not equal to or higher than the maximum existing timestamp.\n\n\n\n## See also\n\n[`TS.INCRBY`]() | [`TS.CREATE`]() \n\n## Related topics\n\n[RedisTimeSeries]()",
+  "intro": "Decrease the value of the sample with the maximum existing timestamp, or create a new sample with a value equal to the value of the sample with the maximum existing timestamp with a given decrement\n\n[Examples](#examples)",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Decrease the value of the sample with the maximum existing timestamp, or create a new sample with a value equal to the value of the sample with the maximum existing timestamp with a given decrement\n\n[Examples](#examples)"
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open><summary><code>key</code></summary> \n\nis key name for the time series.\n</details>\n\n<details open><summary><code>subtrahend</code></summary> \n\nis numeric value of the subtrahend (double). An error is returned if the subtrahend is NaN.\n</details>\n\n<note><b>Notes</b>\n- When specified key does not exist, a new time series is created.\n- You can use this command as a counter or gauge that automatically gets history as a time series.\n- If a policy for handling duplicate samples (`IGNORE`) is defined for this time series - `TS.DECRBY` operations are affected as well (sample additions/modifications can be filtered).\n- Explicitly adding samples to a compacted time series (using [`TS.ADD`](), [`TS.MADD`](), [`TS.INCRBY`](), or `TS.DECRBY`) may result in inconsistencies between the raw and the compacted data. The compaction process may override such samples.\n</note>"
+    },
+    {
+      "title": "Optional arguments",
+      "level": 2,
+      "content": "<details open><summary><code>TIMESTAMP timestamp</code></summary> \n\nis Unix time (integer, in milliseconds) specifying the sample timestamp or `*` to set the sample timestamp to the Unix time of the server's clock.\n\nUnix time is the number of milliseconds that have elapsed since 00:00:00 UTC on 1 January 1970, the Unix epoch, without adjustments made due to leap seconds.\n\n`timestamp` must be equal to or higher than the maximum existing timestamp. When equal, the value of the sample with the maximum existing timestamp is decreased. If it is higher, a new sample with a timestamp set to `timestamp` is created, and its value is set to the value of the sample with the maximum existing timestamp minus `subtrahend`. \n\nIf the time series is empty, the value is set to `subtrahend`.\n\nWhen not specified, the timestamp is set to the Unix time of the server's clock.\n\n<note><b>NaN Handling (Redis 8.6+):</b> An error is returned if the current value at the maximum existing timestamp is NaN.</note>\n</details>\n\n<details open><summary><code>RETENTION retentionPeriod</code></summary> \n\nis maximum retention period, compared to the maximum existing timestamp, in milliseconds.\n\nUse it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `RETENTION` in [`TS.CREATE`]().\n</details>\n\n<details open><summary><code>ENCODING enc</code></summary> \n\nspecifies the series sample encoding format.\n\nUse it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `ENCODING` in [`TS.CREATE`]().\n</details>\n\n<details open><summary><code>CHUNK_SIZE size</code></summary> \n\nis memory size, in bytes, allocated for each data chunk.\n\nUse it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `CHUNK_SIZE` in [`TS.CREATE`]().\n</details>\n\n<details open><summary><code>DUPLICATE_POLICY policy</code></summary>\n\nis policy for handling insertion ([`TS.ADD`]() and [`TS.MADD`]()) of multiple samples with identical timestamps.\n\nUse it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `DUPLICATE_POLICY` in [`TS.CREATE`]().\n</details>\n\n<details open><summary><code>IGNORE ignoreMaxTimediff ignoreMaxValDiff</code></summary> \n\nis the policy for handling duplicate samples. A new sample is considered a duplicate and is ignored if the following conditions are met:\n\n  - The time series is not a compaction;\n  - The time series' `DUPLICATE_POLICY` IS `LAST`;\n  - The sample is added in-order (`timestamp ≥ max_timestamp`);\n  - The difference of the current timestamp from the previous timestamp (`timestamp - max_timestamp`) is less than or equal to `IGNORE_MAX_TIME_DIFF`;\n  - The absolute value difference of the current value from the value at the previous maximum timestamp (`abs(value - value_at_max_timestamp`) is less than or equal to `IGNORE_MAX_VAL_DIFF`.\n\nwhere `max_timestamp` is the timestamp of the sample with the largest timestamp in the time series, and `value_at_max_timestamp` is the value at `max_timestamp`.\n\nWhen not specified: set to the global [IGNORE_MAX_TIME_DIFF]() and [IGNORE_MAX_VAL_DIFF](), which are, by default, both set to 0.\n\nThese parameters are used when creating a new time series to set the per-key parameters, and are ignored when called with an existing time series (the existing per-key configuration parameters are used).\n</details>\n\n<details open><summary><code>LABELS [{label value}...]</code></summary> \n\nis set of label-value pairs that represent metadata labels of the key and serve as a secondary index.\n\nUse it only if you are creating a new time series. It is ignored if you are adding samples to an existing time series. See `LABELS` in [`TS.CREATE`]().\n</details>\n\n<note><b>Notes</b>\n- You can use this command to create a new time series and add a sample to it in a single command.\n  `RETENTION`, `ENCODING`, `CHUNK_SIZE`, `DUPLICATE_POLICY`, `IGNORE`, and `LABELS` are used only when creating a new time series, and ignored when adding or modifying samples in an existing time series.\n- Setting `RETENTION` and `LABELS` introduces additional time complexity.\n</note>"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Integer reply](): the timestamp of the upserted sample. If the sample is ignored (see `IGNORE` in [`TS.CREATE`]()), the reply will be the largest timestamp in the time series.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, or when `timestamp` is not equal to or higher than the maximum existing timestamp.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](): the timestamp of the upserted sample. If the sample is ignored (see `IGNORE` in [`TS.CREATE`]()), the reply will be the largest timestamp in the time series.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, or when `timestamp` is not equal to or higher than the maximum existing timestamp."
+    },
+    {
+      "title": "See also",
+      "level": 2,
+      "content": "[`TS.INCRBY`]() | [`TS.CREATE`]()"
+    },
+    {
+      "title": "Related topics",
+      "level": 2,
+      "content": "[RedisTimeSeries]()"
+    }
+  ]
+}

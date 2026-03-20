@@ -1,0 +1,102 @@
+{
+  "slug": "cluster-addslotsrange",
+  "title": "CLUSTER ADDSLOTSRANGE",
+  "description": "Assigns new hash slot ranges to a node.",
+  "docsUrl": "https://redis.io/docs/latest/commands/cluster-addslotsrange/",
+  "group": "cluster",
+  "groupLabel": "Cluster",
+  "syntax": "CLUSTER ADDSLOTSRANGE start-slot end-slot [start-slot end-slot ...]",
+  "complexity": "O(N) where N is the total number of the slots between the start slot and end slot arguments.",
+  "since": "7.0.0",
+  "arity": -4,
+  "aclCategories": [
+    "@admin",
+    "@slow",
+    "@dangerous"
+  ],
+  "commandFlags": [
+    "admin",
+    "stale",
+    "no_async_loading"
+  ],
+  "arguments": [
+    {
+      "arguments": [
+        {
+          "display_text": "start-slot",
+          "name": "start-slot",
+          "type": "integer"
+        },
+        {
+          "display_text": "end-slot",
+          "name": "end-slot",
+          "type": "integer"
+        }
+      ],
+      "multiple": true,
+      "name": "range",
+      "type": "block"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "example",
+        "title": "Example"
+      },
+      {
+        "id": "usage-in-redis-cluster",
+        "title": "Usage in Redis Cluster"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "The `CLUSTER ADDSLOTSRANGE` is similar to the [`CLUSTER ADDSLOTS`]() command in that they both assign hash slots to nodes.\n\nThe difference between the two commands is that [`CLUSTER ADDSLOTS`]() takes a list of slots to assign to the node, while `CLUSTER ADDSLOTSRANGE` takes a list of slot ranges (specified by start and end slots) to assign to the node.\n\n## Example\n\nTo assign slots 1 2 3 4 5 to the node, the [`CLUSTER ADDSLOTS`]() command is:\n\n    > CLUSTER ADDSLOTS 1 2 3 4 5\n    OK\n\nThe same operation can be completed with the following `CLUSTER ADDSLOTSRANGE` command:\n\n    > CLUSTER ADDSLOTSRANGE 1 5\n    OK\n\n## Usage in Redis Cluster\n\nThis command only works in cluster mode and is useful in the following Redis Cluster operations:\n\n1. To create a new cluster, `CLUSTER ADDSLOTSRANGE` is used to initially set up master nodes splitting the available hash slots among them.\n2. In order to fix a broken cluster where certain slots are unassigned.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.",
+  "intro": "The `CLUSTER ADDSLOTSRANGE` is similar to the [`CLUSTER ADDSLOTS`]() command in that they both assign hash slots to nodes.\n\nThe difference between the two commands is that [`CLUSTER ADDSLOTS`]() takes a list of slots to assign to the node, while `CLUSTER ADDSLOTSRANGE` takes a list of slot ranges (specified by start and end slots) to assign to the node.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "The `CLUSTER ADDSLOTSRANGE` is similar to the [`CLUSTER ADDSLOTS`]() command in that they both assign hash slots to nodes.\n\nThe difference between the two commands is that [`CLUSTER ADDSLOTS`]() takes a list of slots to assign to the node, while `CLUSTER ADDSLOTSRANGE` takes a list of slot ranges (specified by start and end slots) to assign to the node."
+    },
+    {
+      "title": "Example",
+      "level": 2,
+      "content": "To assign slots 1 2 3 4 5 to the node, the [`CLUSTER ADDSLOTS`]() command is:\n\n    > CLUSTER ADDSLOTS 1 2 3 4 5\n    OK\n\nThe same operation can be completed with the following `CLUSTER ADDSLOTSRANGE` command:\n\n    > CLUSTER ADDSLOTSRANGE 1 5\n    OK"
+    },
+    {
+      "title": "Usage in Redis Cluster",
+      "level": 2,
+      "content": "This command only works in cluster mode and is useful in the following Redis Cluster operations:\n\n1. To create a new cluster, `CLUSTER ADDSLOTSRANGE` is used to initially set up master nodes splitting the available hash slots among them.\n2. In order to fix a broken cluster where certain slots are unassigned."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned."
+    }
+  ]
+}

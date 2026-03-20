@@ -1,0 +1,5120 @@
+{
+  "generatedAt": "2026-03-20T13:04:23.840Z",
+  "sourceDate": "2026-03-18T12:31:15-05:00",
+  "sourceUrl": "https://redis.io/docs/latest/commands/",
+  "commandCount": 498,
+  "categories": [
+    {
+      "group": "server",
+      "label": "Server",
+      "count": 67
+    },
+    {
+      "group": "sorted-set",
+      "label": "Sorted Sets",
+      "count": 35
+    },
+    {
+      "group": "cluster",
+      "label": "Cluster",
+      "count": 32
+    },
+    {
+      "group": "generic",
+      "label": "Generic",
+      "count": 32
+    },
+    {
+      "group": "hash",
+      "label": "Hashes",
+      "count": 28
+    },
+    {
+      "group": "json",
+      "label": "JSON",
+      "count": 25
+    },
+    {
+      "group": "search",
+      "label": "Search",
+      "count": 25
+    },
+    {
+      "group": "string",
+      "label": "Strings",
+      "count": 25
+    },
+    {
+      "group": "connection",
+      "label": "Connection",
+      "count": 24
+    },
+    {
+      "group": "stream",
+      "label": "Streams",
+      "count": 24
+    },
+    {
+      "group": "list",
+      "label": "Lists",
+      "count": 22
+    },
+    {
+      "group": "scripting",
+      "label": "Scripting",
+      "count": 19
+    },
+    {
+      "group": "set",
+      "label": "Sets",
+      "count": 17
+    },
+    {
+      "group": "timeseries",
+      "label": "Time Series",
+      "count": 17
+    },
+    {
+      "group": "tdigest",
+      "label": "T-Digest",
+      "count": 14
+    },
+    {
+      "group": "pubsub",
+      "label": "Pub/Sub",
+      "count": 13
+    },
+    {
+      "group": "vector_set",
+      "label": "Vector Sets",
+      "count": 13
+    },
+    {
+      "group": "cf",
+      "label": "Cuckoo",
+      "count": 12
+    },
+    {
+      "group": "bf",
+      "label": "Bloom",
+      "count": 10
+    },
+    {
+      "group": "geo",
+      "label": "Geo",
+      "count": 10
+    },
+    {
+      "group": "bitmap",
+      "label": "Bitmaps",
+      "count": 7
+    },
+    {
+      "group": "topk",
+      "label": "Top-K",
+      "count": 7
+    },
+    {
+      "group": "cms",
+      "label": "Count-Min Sketch",
+      "count": 6
+    },
+    {
+      "group": "hyperloglog",
+      "label": "HyperLogLog",
+      "count": 5
+    },
+    {
+      "group": "transactions",
+      "label": "Transactions",
+      "count": 5
+    },
+    {
+      "group": "suggestion",
+      "label": "Suggestions",
+      "count": 4
+    }
+  ],
+  "commands": [
+    {
+      "arity": null,
+      "complexity": "O(k), where k is the number of hash functions used by the last sub-filter",
+      "description": "Adds an item to a Bloom Filter",
+      "group": "bf",
+      "since": "1.0.0",
+      "slug": "bf.add",
+      "syntax": "BF.ADD key item",
+      "title": "BF.ADD"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Returns the cardinality of a Bloom filter",
+      "group": "bf",
+      "since": "2.4.4",
+      "slug": "bf.card",
+      "syntax": "BF.CARD key",
+      "title": "BF.CARD"
+    },
+    {
+      "arity": null,
+      "complexity": "O(k), where k is the number of hash functions used by the last sub-filter",
+      "description": "Checks whether an item exists in a Bloom Filter",
+      "group": "bf",
+      "since": "1.0.0",
+      "slug": "bf.exists",
+      "syntax": "BF.EXISTS key item",
+      "title": "BF.EXISTS"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Returns information about a Bloom Filter",
+      "group": "bf",
+      "since": "1.0.0",
+      "slug": "bf.info",
+      "syntax": "BF.INFO key [CAPACITY | SIZE | FILTERS | ITEMS | EXPANSION]",
+      "title": "BF.INFO"
+    },
+    {
+      "arity": null,
+      "complexity": "O(k * n), where k is the number of hash functions and n is the number of items",
+      "description": "Adds one or more items to a Bloom Filter. A filter will be created if it does not exist",
+      "group": "bf",
+      "since": "1.0.0",
+      "slug": "bf.insert",
+      "syntax": "BF.INSERT key [CAPACITY capacity] [ERROR error]\n  [EXPANSION expansion] [NOCREATE] [NONSCALING] ITEMS item [item\n  ...]",
+      "title": "BF.INSERT"
+    },
+    {
+      "arity": null,
+      "complexity": "O(n), where n is the capacity",
+      "description": "Restores a filter previously saved using SCANDUMP",
+      "group": "bf",
+      "since": "1.0.0",
+      "slug": "bf.loadchunk",
+      "syntax": "BF.LOADCHUNK key iterator data",
+      "title": "BF.LOADCHUNK"
+    },
+    {
+      "arity": null,
+      "complexity": "O(k * n), where k is the number of hash functions and n is the number of items",
+      "description": "Adds one or more items to a Bloom Filter. A filter will be created if it does not exist",
+      "group": "bf",
+      "since": "1.0.0",
+      "slug": "bf.madd",
+      "syntax": "BF.MADD key item [item ...]",
+      "title": "BF.MADD"
+    },
+    {
+      "arity": null,
+      "complexity": "O(k * n), where k is the number of hash functions and n is the number of items",
+      "description": "Checks whether one or more items exist in a Bloom Filter",
+      "group": "bf",
+      "since": "1.0.0",
+      "slug": "bf.mexists",
+      "syntax": "BF.MEXISTS key item [item ...]",
+      "title": "BF.MEXISTS"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Creates a new Bloom Filter",
+      "group": "bf",
+      "since": "1.0.0",
+      "slug": "bf.reserve",
+      "syntax": "BF.RESERVE key error_rate capacity [EXPANSION expansion]\n  [NONSCALING]",
+      "title": "BF.RESERVE"
+    },
+    {
+      "arity": null,
+      "complexity": "O(n), where n is the capacity",
+      "description": "Begins an incremental save of the bloom filter",
+      "group": "bf",
+      "since": "1.0.0",
+      "slug": "bf.scandump",
+      "syntax": "BF.SCANDUMP key iterator",
+      "title": "BF.SCANDUMP"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(N)",
+      "description": "Counts the number of set bits (population counting) in a string.",
+      "group": "bitmap",
+      "since": "2.6.0",
+      "slug": "bitcount",
+      "syntax": "BITCOUNT key [start end [BYTE | BIT]]",
+      "title": "BITCOUNT"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(1) for each subcommand specified",
+      "description": "Performs arbitrary bitfield integer operations on strings.",
+      "group": "bitmap",
+      "since": "3.2.0",
+      "slug": "bitfield",
+      "syntax": "BITFIELD key [GET encoding offset | [OVERFLOW <WRAP | SAT | FAIL>]\n  <SET encoding offset value | INCRBY encoding offset increment>\n  [GET encoding offset | [OVERFLOW <WRAP | SAT | FAIL>]\n  <SET encoding offset value | INCRBY encoding offset increment>\n  ...]]",
+      "title": "BITFIELD"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(1) for each subcommand specified",
+      "description": "Performs arbitrary read-only bitfield integer operations on strings.",
+      "group": "bitmap",
+      "since": "6.0.0",
+      "slug": "bitfield_ro",
+      "syntax": "BITFIELD_RO key [GET encoding offset [GET encoding offset ...]]",
+      "title": "BITFIELD_RO"
+    },
+    {
+      "arity": -4,
+      "complexity": "O(N)",
+      "description": "Performs bitwise operations on multiple strings, and stores the result.",
+      "group": "bitmap",
+      "since": "2.6.0",
+      "slug": "bitop",
+      "syntax": "BITOP <AND | OR | XOR | NOT | DIFF | DIFF1 | ANDOR | ONE> destkey key [key ...]",
+      "title": "BITOP"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(N)",
+      "description": "Finds the first set (1) or clear (0) bit in a string.",
+      "group": "bitmap",
+      "since": "2.8.7",
+      "slug": "bitpos",
+      "syntax": "BITPOS key bit [start [end [BYTE | BIT]]]",
+      "title": "BITPOS"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1)",
+      "description": "Returns a bit value by offset.",
+      "group": "bitmap",
+      "since": "2.2.0",
+      "slug": "getbit",
+      "syntax": "GETBIT key offset",
+      "title": "GETBIT"
+    },
+    {
+      "arity": 4,
+      "complexity": "O(1)",
+      "description": "Sets or clears the bit at offset of the string value. Creates the key if it doesn't exist.",
+      "group": "bitmap",
+      "since": "2.2.0",
+      "slug": "setbit",
+      "syntax": "SETBIT key offset value",
+      "title": "SETBIT"
+    },
+    {
+      "arity": null,
+      "complexity": "O(k + i), where k is the number of sub-filters and i is maxIterations",
+      "description": "Adds an item to a Cuckoo Filter",
+      "group": "cf",
+      "since": "1.0.0",
+      "slug": "cf.add",
+      "syntax": "CF.ADD key item",
+      "title": "CF.ADD"
+    },
+    {
+      "arity": null,
+      "complexity": "O(k + i), where k is the number of sub-filters and i is maxIterations",
+      "description": "Adds an item to a Cuckoo Filter if the item did not exist previously.",
+      "group": "cf",
+      "since": "1.0.0",
+      "slug": "cf.addnx",
+      "syntax": "CF.ADDNX key item",
+      "title": "CF.ADDNX"
+    },
+    {
+      "arity": null,
+      "complexity": "O(k), where k is the number of sub-filters",
+      "description": "Return the number of times an item might be in a Cuckoo Filter",
+      "group": "cf",
+      "since": "1.0.0",
+      "slug": "cf.count",
+      "syntax": "CF.COUNT key item",
+      "title": "CF.COUNT"
+    },
+    {
+      "arity": null,
+      "complexity": "O(k), where k is the number of sub-filters",
+      "description": "Deletes an item from a Cuckoo Filter",
+      "group": "cf",
+      "since": "1.0.0",
+      "slug": "cf.del",
+      "syntax": "CF.DEL key item",
+      "title": "CF.DEL"
+    },
+    {
+      "arity": null,
+      "complexity": "O(k), where k is the number of sub-filters",
+      "description": "Checks whether one or more items exist in a Cuckoo Filter",
+      "group": "cf",
+      "since": "1.0.0",
+      "slug": "cf.exists",
+      "syntax": "CF.EXISTS key item",
+      "title": "CF.EXISTS"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Returns information about a Cuckoo Filter",
+      "group": "cf",
+      "since": "1.0.0",
+      "slug": "cf.info",
+      "syntax": "CF.INFO key",
+      "title": "CF.INFO"
+    },
+    {
+      "arity": null,
+      "complexity": "O(n * (k + i)), where n is the number of items, k is the number of sub-filters and i is maxIterations",
+      "description": "Adds one or more items to a Cuckoo Filter. A filter will be created if it does not exist",
+      "group": "cf",
+      "since": "1.0.0",
+      "slug": "cf.insert",
+      "syntax": "CF.INSERT key [CAPACITY capacity] [NOCREATE] ITEMS item [item ...]",
+      "title": "CF.INSERT"
+    },
+    {
+      "arity": null,
+      "complexity": "O(n * (k + i)), where n is the number of items, k is the number of sub-filters and i is maxIterations",
+      "description": "Adds one or more items to a Cuckoo Filter if the items did not exist previously. A filter will be created if it does not exist",
+      "group": "cf",
+      "since": "1.0.0",
+      "slug": "cf.insertnx",
+      "syntax": "CF.INSERTNX key [CAPACITY capacity] [NOCREATE] ITEMS item [item ...]",
+      "title": "CF.INSERTNX"
+    },
+    {
+      "arity": null,
+      "complexity": "O(n), where n is the capacity",
+      "description": "Restores a filter previously saved using SCANDUMP",
+      "group": "cf",
+      "since": "1.0.0",
+      "slug": "cf.loadchunk",
+      "syntax": "CF.LOADCHUNK key iterator data",
+      "title": "CF.LOADCHUNK"
+    },
+    {
+      "arity": null,
+      "complexity": "O(k * n), where k is the number of sub-filters and n is the number of items",
+      "description": "Checks whether one or more items exist in a Cuckoo Filter",
+      "group": "cf",
+      "since": "1.0.0",
+      "slug": "cf.mexists",
+      "syntax": "CF.MEXISTS key item [item ...]",
+      "title": "CF.MEXISTS"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Creates a new Cuckoo Filter",
+      "group": "cf",
+      "since": "1.0.0",
+      "slug": "cf.reserve",
+      "syntax": "CF.RESERVE key capacity [BUCKETSIZE bucketsize]\n  [MAXITERATIONS maxiterations] [EXPANSION expansion]",
+      "title": "CF.RESERVE"
+    },
+    {
+      "arity": null,
+      "complexity": "O(n), where n is the capacity",
+      "description": "Begins an incremental save of the bloom filter",
+      "group": "cf",
+      "since": "1.0.0",
+      "slug": "cf.scandump",
+      "syntax": "CF.SCANDUMP key iterator",
+      "title": "CF.SCANDUMP"
+    },
+    {
+      "arity": 1,
+      "complexity": "O(1)",
+      "description": "Signals that a cluster client is following an -ASK redirect.",
+      "group": "cluster",
+      "since": "3.0.0",
+      "slug": "asking",
+      "syntax": "ASKING",
+      "title": "ASKING"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(N) where N is the total number of hash slot arguments",
+      "description": "Assigns new hash slots to a node.",
+      "group": "cluster",
+      "since": "3.0.0",
+      "slug": "cluster-addslots",
+      "syntax": "CLUSTER ADDSLOTS slot [slot ...]",
+      "title": "CLUSTER ADDSLOTS"
+    },
+    {
+      "arity": -4,
+      "complexity": "O(N) where N is the total number of the slots between the start slot and end slot arguments.",
+      "description": "Assigns new hash slot ranges to a node.",
+      "group": "cluster",
+      "since": "7.0.0",
+      "slug": "cluster-addslotsrange",
+      "syntax": "CLUSTER ADDSLOTSRANGE start-slot end-slot [start-slot end-slot ...]",
+      "title": "CLUSTER ADDSLOTSRANGE"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Advances the cluster config epoch.",
+      "group": "cluster",
+      "since": "3.0.0",
+      "slug": "cluster-bumpepoch",
+      "syntax": "CLUSTER BUMPEPOCH",
+      "title": "CLUSTER BUMPEPOCH"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(N) where N is the number of failure reports",
+      "description": "Returns the number of active failure reports active for a node.",
+      "group": "cluster",
+      "since": "3.0.0",
+      "slug": "cluster-count-failure-reports",
+      "syntax": "CLUSTER COUNT-FAILURE-REPORTS node-id",
+      "title": "CLUSTER COUNT-FAILURE-REPORTS"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1)",
+      "description": "Returns the number of keys in a hash slot.",
+      "group": "cluster",
+      "since": "3.0.0",
+      "slug": "cluster-countkeysinslot",
+      "syntax": "CLUSTER COUNTKEYSINSLOT slot",
+      "title": "CLUSTER COUNTKEYSINSLOT"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(N) where N is the total number of hash slot arguments",
+      "description": "Sets hash slots as unbound for a node.",
+      "group": "cluster",
+      "since": "3.0.0",
+      "slug": "cluster-delslots",
+      "syntax": "CLUSTER DELSLOTS slot [slot ...]",
+      "title": "CLUSTER DELSLOTS"
+    },
+    {
+      "arity": -4,
+      "complexity": "O(N) where N is the total number of the slots between the start slot and end slot arguments.",
+      "description": "Sets hash slot ranges as unbound for a node.",
+      "group": "cluster",
+      "since": "7.0.0",
+      "slug": "cluster-delslotsrange",
+      "syntax": "CLUSTER DELSLOTSRANGE start-slot end-slot [start-slot end-slot ...]",
+      "title": "CLUSTER DELSLOTSRANGE"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(1)",
+      "description": "Forces a replica to perform a manual failover of its master.",
+      "group": "cluster",
+      "since": "3.0.0",
+      "slug": "cluster-failover",
+      "syntax": "CLUSTER FAILOVER [FORCE | TAKEOVER]",
+      "title": "CLUSTER FAILOVER"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Deletes all slots information from a node.",
+      "group": "cluster",
+      "since": "3.0.0",
+      "slug": "cluster-flushslots",
+      "syntax": "CLUSTER FLUSHSLOTS",
+      "title": "CLUSTER FLUSHSLOTS"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1)",
+      "description": "Removes a node from the nodes table.",
+      "group": "cluster",
+      "since": "3.0.0",
+      "slug": "cluster-forget",
+      "syntax": "CLUSTER FORGET node-id",
+      "title": "CLUSTER FORGET"
+    },
+    {
+      "arity": 4,
+      "complexity": "O(N) where N is the number of requested keys",
+      "description": "Returns the key names in a hash slot.",
+      "group": "cluster",
+      "since": "3.0.0",
+      "slug": "cluster-getkeysinslot",
+      "syntax": "CLUSTER GETKEYSINSLOT slot count",
+      "title": "CLUSTER GETKEYSINSLOT"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Returns information about the state of a node.",
+      "group": "cluster",
+      "since": "3.0.0",
+      "slug": "cluster-info",
+      "syntax": "CLUSTER INFO",
+      "title": "CLUSTER INFO"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(N) where N is the number of bytes in the key",
+      "description": "Returns the hash slot for a key.",
+      "group": "cluster",
+      "since": "3.0.0",
+      "slug": "cluster-keyslot",
+      "syntax": "CLUSTER KEYSLOT key",
+      "title": "CLUSTER KEYSLOT"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(N) where N is the total number of Cluster nodes",
+      "description": "Returns a list of all TCP links to and from peer nodes.",
+      "group": "cluster",
+      "since": "7.0.0",
+      "slug": "cluster-links",
+      "syntax": "CLUSTER LINKS",
+      "title": "CLUSTER LINKS"
+    },
+    {
+      "arity": -4,
+      "complexity": "O(1)",
+      "description": "Forces a node to handshake with another node.",
+      "group": "cluster",
+      "since": "3.0.0",
+      "slug": "cluster-meet",
+      "syntax": "CLUSTER MEET ip port [cluster-bus-port]",
+      "title": "CLUSTER MEET"
+    },
+    {
+      "arity": -4,
+      "complexity": "O(N) where N is the total number of the slots between the start slot and end slot arguments.",
+      "description": "Start, monitor, and cancel atomic slot migration tasks.",
+      "group": "cluster",
+      "since": "8.4.0",
+      "slug": "cluster-migration",
+      "syntax": "CLUSTER MIGRATION <IMPORT start-slot end-slot\n  [start-slot end-slot ...] | CANCEL <ID task-id | ALL> |\n  STATUS <[ID task-id] | [ALL]>>",
+      "title": "CLUSTER MIGRATION"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Returns the ID of a node.",
+      "group": "cluster",
+      "since": "3.0.0",
+      "slug": "cluster-myid",
+      "syntax": "CLUSTER MYID",
+      "title": "CLUSTER MYID"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Returns the shard ID of a node.",
+      "group": "cluster",
+      "since": "7.2.0",
+      "slug": "cluster-myshardid",
+      "syntax": "CLUSTER MYSHARDID",
+      "title": "CLUSTER MYSHARDID"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(N) where N is the total number of Cluster nodes",
+      "description": "Returns the cluster configuration for a node.",
+      "group": "cluster",
+      "since": "3.0.0",
+      "slug": "cluster-nodes",
+      "syntax": "CLUSTER NODES",
+      "title": "CLUSTER NODES"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(N) where N is the number of replicas.",
+      "description": "Lists the replica nodes of a master node.",
+      "group": "cluster",
+      "since": "5.0.0",
+      "slug": "cluster-replicas",
+      "syntax": "CLUSTER REPLICAS node-id",
+      "title": "CLUSTER REPLICAS"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1)",
+      "description": "Configure a node as replica of a master node.",
+      "group": "cluster",
+      "since": "3.0.0",
+      "slug": "cluster-replicate",
+      "syntax": "CLUSTER REPLICATE node-id",
+      "title": "CLUSTER REPLICATE"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(N) where N is the number of known nodes. The command may execute a FLUSHALL as a side effect.",
+      "description": "Resets a node.",
+      "group": "cluster",
+      "since": "3.0.0",
+      "slug": "cluster-reset",
+      "syntax": "CLUSTER RESET [HARD | SOFT]",
+      "title": "CLUSTER RESET"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Forces a node to save the cluster configuration to disk.",
+      "group": "cluster",
+      "since": "3.0.0",
+      "slug": "cluster-saveconfig",
+      "syntax": "CLUSTER SAVECONFIG",
+      "title": "CLUSTER SAVECONFIG"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1)",
+      "description": "Sets the configuration epoch for a new node.",
+      "group": "cluster",
+      "since": "3.0.0",
+      "slug": "cluster-set-config-epoch",
+      "syntax": "CLUSTER SET-CONFIG-EPOCH config-epoch",
+      "title": "CLUSTER SET-CONFIG-EPOCH"
+    },
+    {
+      "arity": -4,
+      "complexity": "O(1)",
+      "description": "Binds a hash slot to a node.",
+      "group": "cluster",
+      "since": "3.0.0",
+      "slug": "cluster-setslot",
+      "syntax": "CLUSTER SETSLOT slot <IMPORTING node-id | MIGRATING node-id |\n  NODE node-id | STABLE>",
+      "title": "CLUSTER SETSLOT"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(N) where N is the total number of cluster nodes",
+      "description": "Returns the mapping of cluster slots to shards.",
+      "group": "cluster",
+      "since": "7.0.0",
+      "slug": "cluster-shards",
+      "syntax": "CLUSTER SHARDS",
+      "title": "CLUSTER SHARDS"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(N) where N is the number of replicas.",
+      "description": "Lists the replica nodes of a master node.",
+      "group": "cluster",
+      "since": "3.0.0",
+      "slug": "cluster-slaves",
+      "syntax": "CLUSTER SLAVES node-id",
+      "title": "CLUSTER SLAVES"
+    },
+    {
+      "arity": -4,
+      "complexity": "O(N) where N is the total number of slots based on arguments. O(N*log(N)) with ORDERBY subcommand.",
+      "description": "Return an array of slot usage statistics for slots assigned to the current node.",
+      "group": "cluster",
+      "since": "8.2.0",
+      "slug": "cluster-slot-stats",
+      "syntax": "CLUSTER SLOT-STATS <SLOTSRANGE start-slot end-slot | ORDERBY metric\n  [LIMIT limit] [ASC | DESC]>",
+      "title": "CLUSTER SLOT-STATS"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(N) where N is the total number of Cluster nodes",
+      "description": "Returns the mapping of cluster slots to nodes.",
+      "group": "cluster",
+      "since": "3.0.0",
+      "slug": "cluster-slots",
+      "syntax": "CLUSTER SLOTS",
+      "title": "CLUSTER SLOTS"
+    },
+    {
+      "arity": 1,
+      "complexity": "O(1)",
+      "description": "Enables read-only queries for a connection to a Redis Cluster replica node.",
+      "group": "cluster",
+      "since": "3.0.0",
+      "slug": "readonly",
+      "syntax": "READONLY",
+      "title": "READONLY"
+    },
+    {
+      "arity": 1,
+      "complexity": "O(1)",
+      "description": "Enables read-write queries for a connection to a Redis Cluster replica node.",
+      "group": "cluster",
+      "since": "3.0.0",
+      "slug": "readwrite",
+      "syntax": "READWRITE",
+      "title": "READWRITE"
+    },
+    {
+      "arity": null,
+      "complexity": "O(n) where n is the number of items",
+      "description": "Increases the count of one or more items by increment",
+      "group": "cms",
+      "since": "2.0.0",
+      "slug": "cms.incrby",
+      "syntax": "CMS.INCRBY key item increment [item increment ...]",
+      "title": "CMS.INCRBY"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Returns information about a sketch",
+      "group": "cms",
+      "since": "2.0.0",
+      "slug": "cms.info",
+      "syntax": "CMS.INFO key",
+      "title": "CMS.INFO"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Initializes a Count-Min Sketch to dimensions specified by user",
+      "group": "cms",
+      "since": "2.0.0",
+      "slug": "cms.initbydim",
+      "syntax": "CMS.INITBYDIM key width depth",
+      "title": "CMS.INITBYDIM"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Initializes a Count-Min Sketch to accommodate requested tolerances.",
+      "group": "cms",
+      "since": "2.0.0",
+      "slug": "cms.initbyprob",
+      "syntax": "CMS.INITBYPROB key error probability",
+      "title": "CMS.INITBYPROB"
+    },
+    {
+      "arity": null,
+      "complexity": "O(n) where n is the number of sketches",
+      "description": "Merges several sketches into one sketch",
+      "group": "cms",
+      "since": "2.0.0",
+      "slug": "cms.merge",
+      "syntax": "CMS.MERGE destination numKeys source [source ...] [WEIGHTS weight\n  [weight ...]]",
+      "title": "CMS.MERGE"
+    },
+    {
+      "arity": null,
+      "complexity": "O(n) where n is the number of items",
+      "description": "Returns the count for one or more items in a sketch",
+      "group": "cms",
+      "since": "2.0.0",
+      "slug": "cms.query",
+      "syntax": "CMS.QUERY key item [item ...]",
+      "title": "CMS.QUERY"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(N) where N is the number of passwords defined for the user",
+      "description": "Authenticates the connection.",
+      "group": "connection",
+      "since": "1.0.0",
+      "slug": "auth",
+      "syntax": "AUTH [username] password",
+      "title": "AUTH"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1)",
+      "description": "Instructs the server whether to track the keys in the next request.",
+      "group": "connection",
+      "since": "6.0.0",
+      "slug": "client-caching",
+      "syntax": "CLIENT CACHING <YES | NO>",
+      "title": "CLIENT CACHING"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Returns the name of the connection.",
+      "group": "connection",
+      "since": "2.6.9",
+      "slug": "client-getname",
+      "syntax": "CLIENT GETNAME",
+      "title": "CLIENT GETNAME"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Returns the client ID to which the connection's tracking notifications are redirected.",
+      "group": "connection",
+      "since": "6.0.0",
+      "slug": "client-getredir",
+      "syntax": "CLIENT GETREDIR",
+      "title": "CLIENT GETREDIR"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Returns the unique client ID of the connection.",
+      "group": "connection",
+      "since": "5.0.0",
+      "slug": "client-id",
+      "syntax": "CLIENT ID",
+      "title": "CLIENT ID"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Returns information about the connection.",
+      "group": "connection",
+      "since": "6.2.0",
+      "slug": "client-info",
+      "syntax": "CLIENT INFO",
+      "title": "CLIENT INFO"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(N) where N is the number of client connections",
+      "description": "Terminates open connections.",
+      "group": "connection",
+      "since": "2.4.0",
+      "slug": "client-kill",
+      "syntax": "CLIENT KILL <ip:port | <[ID client-id] | [TYPE <NORMAL | MASTER |\n  SLAVE | REPLICA | PUBSUB>] | [USER username] | [ADDR ip:port] |\n  [LADDR ip:port] | [SKIPME <YES | NO>] | [MAXAGE maxage]\n  [[ID client-id] | [TYPE <NORMAL | MASTER | SLAVE | REPLICA |\n  PUBSUB>] | [USER username] | [ADDR ip:port] | [LADDR ip:port] |\n  [SKIPME <YES | NO>] | [MAXAGE maxage] ...]>>",
+      "title": "CLIENT KILL"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(N) where N is the number of client connections",
+      "description": "Lists open connections.",
+      "group": "connection",
+      "since": "2.4.0",
+      "slug": "client-list",
+      "syntax": "CLIENT LIST [TYPE <NORMAL | MASTER | REPLICA | PUBSUB>]\n  [ID client-id [client-id ...]]",
+      "title": "CLIENT LIST"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1)",
+      "description": "Sets the client eviction mode of the connection.",
+      "group": "connection",
+      "since": "7.0.0",
+      "slug": "client-no-evict",
+      "syntax": "CLIENT NO-EVICT <ON | OFF>",
+      "title": "CLIENT NO-EVICT"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1)",
+      "description": "Controls whether commands sent by the client affect the LRU/LFU of accessed keys.",
+      "group": "connection",
+      "since": "7.2.0",
+      "slug": "client-no-touch",
+      "syntax": "CLIENT NO-TOUCH <ON | OFF>",
+      "title": "CLIENT NO-TOUCH"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(1)",
+      "description": "Suspends commands processing.",
+      "group": "connection",
+      "since": "3.0.0",
+      "slug": "client-pause",
+      "syntax": "CLIENT PAUSE timeout [WRITE | ALL]",
+      "title": "CLIENT PAUSE"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1)",
+      "description": "Instructs the server whether to reply to commands.",
+      "group": "connection",
+      "since": "3.2.0",
+      "slug": "client-reply",
+      "syntax": "CLIENT REPLY <ON | OFF | SKIP>",
+      "title": "CLIENT REPLY"
+    },
+    {
+      "arity": 4,
+      "complexity": "O(1)",
+      "description": "Sets information specific to the client or connection.",
+      "group": "connection",
+      "since": "7.2.0",
+      "slug": "client-setinfo",
+      "syntax": "CLIENT SETINFO <LIB-NAME libname | LIB-VER libver>",
+      "title": "CLIENT SETINFO"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1)",
+      "description": "Sets the connection name.",
+      "group": "connection",
+      "since": "2.6.9",
+      "slug": "client-setname",
+      "syntax": "CLIENT SETNAME connection-name",
+      "title": "CLIENT SETNAME"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(1). Some options may introduce additional complexity.",
+      "description": "Controls server-assisted client-side caching for the connection.",
+      "group": "connection",
+      "since": "6.0.0",
+      "slug": "client-tracking",
+      "syntax": "CLIENT TRACKING <ON | OFF> [REDIRECT client-id] [PREFIX prefix\n  [PREFIX prefix ...]] [BCAST] [OPTIN] [OPTOUT] [NOLOOP]",
+      "title": "CLIENT TRACKING"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Returns information about server-assisted client-side caching for the connection.",
+      "group": "connection",
+      "since": "6.2.0",
+      "slug": "client-trackinginfo",
+      "syntax": "CLIENT TRACKINGINFO",
+      "title": "CLIENT TRACKINGINFO"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(log N) where N is the number of client connections",
+      "description": "Unblocks a client blocked by a blocking command from a different connection.",
+      "group": "connection",
+      "since": "5.0.0",
+      "slug": "client-unblock",
+      "syntax": "CLIENT UNBLOCK client-id [TIMEOUT | ERROR]",
+      "title": "CLIENT UNBLOCK"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(N) Where N is the number of paused clients",
+      "description": "Resumes processing commands from paused clients.",
+      "group": "connection",
+      "since": "6.2.0",
+      "slug": "client-unpause",
+      "syntax": "CLIENT UNPAUSE",
+      "title": "CLIENT UNPAUSE"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Returns the given string.",
+      "group": "connection",
+      "since": "1.0.0",
+      "slug": "echo",
+      "syntax": "ECHO message",
+      "title": "ECHO"
+    },
+    {
+      "arity": -1,
+      "complexity": "O(1)",
+      "description": "Handshakes with the Redis server.",
+      "group": "connection",
+      "since": "6.0.0",
+      "slug": "hello",
+      "syntax": "HELLO [protover [AUTH username password] [SETNAME clientname]]",
+      "title": "HELLO"
+    },
+    {
+      "arity": -1,
+      "complexity": "O(1)",
+      "description": "Returns the server's liveliness response.",
+      "group": "connection",
+      "since": "1.0.0",
+      "slug": "ping",
+      "syntax": "PING [message]",
+      "title": "PING"
+    },
+    {
+      "arity": -1,
+      "complexity": "O(1)",
+      "description": "Closes the connection.",
+      "group": "connection",
+      "since": "1.0.0",
+      "slug": "quit",
+      "syntax": "QUIT",
+      "title": "QUIT"
+    },
+    {
+      "arity": 1,
+      "complexity": "O(1)",
+      "description": "Resets the connection.",
+      "group": "connection",
+      "since": "6.2.0",
+      "slug": "reset",
+      "syntax": "RESET",
+      "title": "RESET"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Changes the selected database.",
+      "group": "connection",
+      "since": "1.0.0",
+      "slug": "select",
+      "syntax": "SELECT index",
+      "title": "SELECT"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(N) worst case for collections, where N is the number of nested items. O(1) for string values.",
+      "description": "Copies the value of a key to a new key.",
+      "group": "generic",
+      "since": "6.2.0",
+      "slug": "copy",
+      "syntax": "COPY source destination [DB destination-db] [REPLACE]",
+      "title": "COPY"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(N) where N is the number of keys that will be removed. When a key to remove holds a value other than a string, the individual complexity for this key is O(M) where M is the number of elements in the list, set, sorted set or hash. Removing a single key that holds a string value is O(1).",
+      "description": "Deletes one or more keys.",
+      "group": "generic",
+      "since": "1.0.0",
+      "slug": "del",
+      "syntax": "DEL key [key ...]",
+      "title": "DEL"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1) to access the key and additional O(N*M) to serialize it, where N is the number of Redis objects composing the value and M their average size. For small string values the time complexity is thus O(1)+O(1*M) where M is small, so simply O(1).",
+      "description": "Returns a serialized representation of the value stored at a key.",
+      "group": "generic",
+      "since": "2.6.0",
+      "slug": "dump",
+      "syntax": "DUMP key",
+      "title": "DUMP"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(N) where N is the number of keys to check.",
+      "description": "Determines whether one or more keys exist.",
+      "group": "generic",
+      "since": "1.0.0",
+      "slug": "exists",
+      "syntax": "EXISTS key [key ...]",
+      "title": "EXISTS"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(1)",
+      "description": "Sets the expiration time of a key in seconds.",
+      "group": "generic",
+      "since": "1.0.0",
+      "slug": "expire",
+      "syntax": "EXPIRE key seconds [NX | XX | GT | LT]",
+      "title": "EXPIRE"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(1)",
+      "description": "Sets the expiration time of a key to a Unix timestamp.",
+      "group": "generic",
+      "since": "1.2.0",
+      "slug": "expireat",
+      "syntax": "EXPIREAT key unix-time-seconds [NX | XX | GT | LT]",
+      "title": "EXPIREAT"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Returns the expiration time of a key as a Unix timestamp.",
+      "group": "generic",
+      "since": "7.0.0",
+      "slug": "expiretime",
+      "syntax": "EXPIRETIME key",
+      "title": "EXPIRETIME"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(N) with N being the number of keys in the database, under the assumption that the key names in the database and the given pattern have limited length.",
+      "description": "Returns all key names that match a pattern.",
+      "group": "generic",
+      "since": "1.0.0",
+      "slug": "keys",
+      "syntax": "KEYS pattern",
+      "title": "KEYS"
+    },
+    {
+      "arity": -6,
+      "complexity": "This command actually executes a DUMP+DEL in the source instance, and a RESTORE in the target instance. See the pages of these commands for time complexity. Also an O(N) data transfer between the two instances is performed.",
+      "description": "Atomically transfers a key from one Redis instance to another.",
+      "group": "generic",
+      "since": "2.6.0",
+      "slug": "migrate",
+      "syntax": "MIGRATE host port <key | \"\"> destination-db timeout [COPY] [REPLACE]\n  [AUTH password | AUTH2 username password] [KEYS key [key ...]]",
+      "title": "MIGRATE"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1)",
+      "description": "Moves a key to another database.",
+      "group": "generic",
+      "since": "1.0.0",
+      "slug": "move",
+      "syntax": "MOVE key db",
+      "title": "MOVE"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1)",
+      "description": "Returns the internal encoding of a Redis object.",
+      "group": "generic",
+      "since": "2.2.3",
+      "slug": "object-encoding",
+      "syntax": "OBJECT ENCODING key",
+      "title": "OBJECT ENCODING"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1)",
+      "description": "Returns the logarithmic access frequency counter of a Redis object.",
+      "group": "generic",
+      "since": "4.0.0",
+      "slug": "object-freq",
+      "syntax": "OBJECT FREQ key",
+      "title": "OBJECT FREQ"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1)",
+      "description": "Returns the time since the last access to a Redis object.",
+      "group": "generic",
+      "since": "2.2.3",
+      "slug": "object-idletime",
+      "syntax": "OBJECT IDLETIME key",
+      "title": "OBJECT IDLETIME"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1)",
+      "description": "Returns the reference count of a value of a key.",
+      "group": "generic",
+      "since": "2.2.3",
+      "slug": "object-refcount",
+      "syntax": "OBJECT REFCOUNT key",
+      "title": "OBJECT REFCOUNT"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Removes the expiration time of a key.",
+      "group": "generic",
+      "since": "2.2.0",
+      "slug": "persist",
+      "syntax": "PERSIST key",
+      "title": "PERSIST"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(1)",
+      "description": "Sets the expiration time of a key in milliseconds.",
+      "group": "generic",
+      "since": "2.6.0",
+      "slug": "pexpire",
+      "syntax": "PEXPIRE key milliseconds [NX | XX | GT | LT]",
+      "title": "PEXPIRE"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(1)",
+      "description": "Sets the expiration time of a key to a Unix milliseconds timestamp.",
+      "group": "generic",
+      "since": "2.6.0",
+      "slug": "pexpireat",
+      "syntax": "PEXPIREAT key unix-time-milliseconds [NX | XX | GT | LT]",
+      "title": "PEXPIREAT"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Returns the expiration time of a key as a Unix milliseconds timestamp.",
+      "group": "generic",
+      "since": "7.0.0",
+      "slug": "pexpiretime",
+      "syntax": "PEXPIRETIME key",
+      "title": "PEXPIRETIME"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Returns the expiration time in milliseconds of a key.",
+      "group": "generic",
+      "since": "2.6.0",
+      "slug": "pttl",
+      "syntax": "PTTL key",
+      "title": "PTTL"
+    },
+    {
+      "arity": 1,
+      "complexity": "O(1)",
+      "description": "Returns a random key name from the database.",
+      "group": "generic",
+      "since": "1.0.0",
+      "slug": "randomkey",
+      "syntax": "RANDOMKEY",
+      "title": "RANDOMKEY"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1)",
+      "description": "Renames a key and overwrites the destination.",
+      "group": "generic",
+      "since": "1.0.0",
+      "slug": "rename",
+      "syntax": "RENAME key newkey",
+      "title": "RENAME"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1)",
+      "description": "Renames a key only when the target key name doesn't exist.",
+      "group": "generic",
+      "since": "1.0.0",
+      "slug": "renamenx",
+      "syntax": "RENAMENX key newkey",
+      "title": "RENAMENX"
+    },
+    {
+      "arity": -4,
+      "complexity": "O(1) to create the new key and additional O(N*M) to reconstruct the serialized value, where N is the number of Redis objects composing the value and M their average size. For small string values the time complexity is thus O(1)+O(1*M) where M is small, so simply O(1). However for sorted set values the complexity is O(N*M*log(N)) because inserting values into sorted sets is O(log(N)).",
+      "description": "Creates a key from the serialized representation of a value.",
+      "group": "generic",
+      "since": "2.6.0",
+      "slug": "restore",
+      "syntax": "RESTORE key ttl serialized-value [REPLACE] [ABSTTL]\n  [IDLETIME seconds] [FREQ frequency]",
+      "title": "RESTORE"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(1) for every call. O(N) for a complete iteration, including enough command calls for the cursor to return back to 0. N is the number of elements inside the collection.",
+      "description": "Iterates over the key names in the database.",
+      "group": "generic",
+      "since": "2.8.0",
+      "slug": "scan",
+      "syntax": "SCAN cursor [MATCH pattern] [COUNT count] [TYPE type]",
+      "title": "SCAN"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(N+M*log(M)) where N is the number of elements in the list or set to sort, and M the number of returned elements. When the elements are not sorted, complexity is O(N).",
+      "description": "Sorts the elements in a list, a set, or a sorted set, optionally storing the result.",
+      "group": "generic",
+      "since": "1.0.0",
+      "slug": "sort",
+      "syntax": "SORT key [BY pattern] [LIMIT offset count] [GET pattern [GET pattern\n  ...]] [ASC | DESC] [ALPHA] [STORE destination]",
+      "title": "SORT"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(N+M*log(M)) where N is the number of elements in the list or set to sort, and M the number of returned elements. When the elements are not sorted, complexity is O(N).",
+      "description": "Returns the sorted elements of a list, a set, or a sorted set.",
+      "group": "generic",
+      "since": "7.0.0",
+      "slug": "sort_ro",
+      "syntax": "SORT_RO key [BY pattern] [LIMIT offset count] [GET pattern [GET\n  pattern ...]] [ASC | DESC] [ALPHA]",
+      "title": "SORT_RO"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(N) where N is the number of keys that will be touched.",
+      "description": "Returns the number of existing keys out of those specified after updating the time they were last accessed.",
+      "group": "generic",
+      "since": "3.2.1",
+      "slug": "touch",
+      "syntax": "TOUCH key [key ...]",
+      "title": "TOUCH"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Returns the expiration time in seconds of a key.",
+      "group": "generic",
+      "since": "1.0.0",
+      "slug": "ttl",
+      "syntax": "TTL key",
+      "title": "TTL"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Determines the type of value stored at a key.",
+      "group": "generic",
+      "since": "1.0.0",
+      "slug": "type",
+      "syntax": "TYPE key",
+      "title": "TYPE"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(1) for each key removed regardless of its size. Then the command does O(N) work in a different thread in order to reclaim memory, where N is the number of allocations the deleted objects where composed of.",
+      "description": "Asynchronously deletes one or more keys.",
+      "group": "generic",
+      "since": "4.0.0",
+      "slug": "unlink",
+      "syntax": "UNLINK key [key ...]",
+      "title": "UNLINK"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1)",
+      "description": "Blocks until the asynchronous replication of all preceding write commands sent by the connection is completed.",
+      "group": "generic",
+      "since": "3.0.0",
+      "slug": "wait",
+      "syntax": "WAIT numreplicas timeout",
+      "title": "WAIT"
+    },
+    {
+      "arity": 4,
+      "complexity": "O(1)",
+      "description": "Blocks until all of the preceding write commands sent by the connection are written to the append-only file of the master and/or replicas.",
+      "group": "generic",
+      "since": "7.2.0",
+      "slug": "waitaof",
+      "syntax": "WAITAOF numlocal numreplicas timeout",
+      "title": "WAITAOF"
+    },
+    {
+      "arity": -5,
+      "complexity": "O(log(N)) for each item added, where N is the number of elements in the sorted set.",
+      "description": "Adds one or more members to a geospatial index. The key is created if it doesn't exist.",
+      "group": "geo",
+      "since": "3.2.0",
+      "slug": "geoadd",
+      "syntax": "GEOADD key [NX | XX] [CH] longitude latitude member [longitude\n  latitude member ...]",
+      "title": "GEOADD"
+    },
+    {
+      "arity": -4,
+      "complexity": "O(1)",
+      "description": "Returns the distance between two members of a geospatial index.",
+      "group": "geo",
+      "since": "3.2.0",
+      "slug": "geodist",
+      "syntax": "GEODIST key member1 member2 [M | KM | FT | MI]",
+      "title": "GEODIST"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(1) for each member requested.",
+      "description": "Returns members from a geospatial index as geohash strings.",
+      "group": "geo",
+      "since": "3.2.0",
+      "slug": "geohash",
+      "syntax": "GEOHASH key [member [member ...]]",
+      "title": "GEOHASH"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(1) for each member requested.",
+      "description": "Returns the longitude and latitude of members from a geospatial index.",
+      "group": "geo",
+      "since": "3.2.0",
+      "slug": "geopos",
+      "syntax": "GEOPOS key [member [member ...]]",
+      "title": "GEOPOS"
+    },
+    {
+      "arity": -6,
+      "complexity": "O(N+log(M)) where N is the number of elements inside the bounding box of the circular area delimited by center and radius and M is the number of items inside the index.",
+      "description": "Queries a geospatial index for members within a distance from a coordinate, optionally stores the result.",
+      "group": "geo",
+      "since": "3.2.0",
+      "slug": "georadius",
+      "syntax": "GEORADIUS key longitude latitude radius <M | KM | FT | MI>\n  [WITHCOORD] [WITHDIST] [WITHHASH] [COUNT count [ANY]] [ASC | DESC]\n  [STORE key | STOREDIST key]",
+      "title": "GEORADIUS"
+    },
+    {
+      "arity": -6,
+      "complexity": "O(N+log(M)) where N is the number of elements inside the bounding box of the circular area delimited by center and radius and M is the number of items inside the index.",
+      "description": "Returns members from a geospatial index that are within a distance from a coordinate.",
+      "group": "geo",
+      "since": "3.2.10",
+      "slug": "georadius_ro",
+      "syntax": "GEORADIUS_RO key longitude latitude radius <M | KM | FT | MI>\n  [WITHCOORD] [WITHDIST] [WITHHASH] [COUNT count [ANY]] [ASC | DESC]",
+      "title": "GEORADIUS_RO"
+    },
+    {
+      "arity": -5,
+      "complexity": "O(N+log(M)) where N is the number of elements inside the bounding box of the circular area delimited by center and radius and M is the number of items inside the index.",
+      "description": "Queries a geospatial index for members within a distance from a member, optionally stores the result.",
+      "group": "geo",
+      "since": "3.2.0",
+      "slug": "georadiusbymember",
+      "syntax": "GEORADIUSBYMEMBER key member radius <M | KM | FT | MI> [WITHCOORD]\n  [WITHDIST] [WITHHASH] [COUNT count [ANY]] [ASC | DESC] [STORE key\n  | STOREDIST key]",
+      "title": "GEORADIUSBYMEMBER"
+    },
+    {
+      "arity": -5,
+      "complexity": "O(N+log(M)) where N is the number of elements inside the bounding box of the circular area delimited by center and radius and M is the number of items inside the index.",
+      "description": "Returns members from a geospatial index that are within a distance from a member.",
+      "group": "geo",
+      "since": "3.2.10",
+      "slug": "georadiusbymember_ro",
+      "syntax": "GEORADIUSBYMEMBER_RO key member radius <M | KM | FT | MI>\n  [WITHCOORD] [WITHDIST] [WITHHASH] [COUNT count [ANY]] [ASC | DESC]",
+      "title": "GEORADIUSBYMEMBER_RO"
+    },
+    {
+      "arity": -7,
+      "complexity": "O(N+log(M)) where N is the number of elements in the grid-aligned bounding box area around the shape provided as the filter and M is the number of items inside the shape",
+      "description": "Queries a geospatial index for members inside an area of a box or a circle.",
+      "group": "geo",
+      "since": "6.2.0",
+      "slug": "geosearch",
+      "syntax": "GEOSEARCH key <FROMMEMBER member | FROMLONLAT longitude latitude>\n  <BYRADIUS radius <M | KM | FT | MI> | BYBOX width height <M | KM |\n  FT | MI>> [ASC | DESC] [COUNT count [ANY]] [WITHCOORD] [WITHDIST]\n  [WITHHASH]",
+      "title": "GEOSEARCH"
+    },
+    {
+      "arity": -8,
+      "complexity": "O(N+log(M)) where N is the number of elements in the grid-aligned bounding box area around the shape provided as the filter and M is the number of items inside the shape",
+      "description": "Queries a geospatial index for members inside an area of a box or a circle, optionally stores the result.",
+      "group": "geo",
+      "since": "6.2.0",
+      "slug": "geosearchstore",
+      "syntax": "GEOSEARCHSTORE destination source <FROMMEMBER member |\n  FROMLONLAT longitude latitude> <BYRADIUS radius <M | KM | FT | MI>\n  | BYBOX width height <M | KM | FT | MI>> [ASC | DESC] [COUNT count\n  [ANY]] [STOREDIST]",
+      "title": "GEOSEARCHSTORE"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(N) where N is the number of fields to be removed.",
+      "description": "Deletes one or more fields and their values from a hash. Deletes the hash if no fields remain.",
+      "group": "hash",
+      "since": "2.0.0",
+      "slug": "hdel",
+      "syntax": "HDEL key field [field ...]",
+      "title": "HDEL"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1)",
+      "description": "Determines whether a field exists in a hash.",
+      "group": "hash",
+      "since": "2.0.0",
+      "slug": "hexists",
+      "syntax": "HEXISTS key field",
+      "title": "HEXISTS"
+    },
+    {
+      "arity": -6,
+      "complexity": "O(N) where N is the number of specified fields",
+      "description": "Set expiration for hash fields using relative time to expire (seconds)",
+      "group": "hash",
+      "since": "7.4.0",
+      "slug": "hexpire",
+      "syntax": "HEXPIRE key seconds [NX | XX | GT | LT] FIELDS numfields field\n  [field ...]",
+      "title": "HEXPIRE"
+    },
+    {
+      "arity": -6,
+      "complexity": "O(N) where N is the number of specified fields",
+      "description": "Set expiration for hash fields using an absolute Unix timestamp (seconds)",
+      "group": "hash",
+      "since": "7.4.0",
+      "slug": "hexpireat",
+      "syntax": "HEXPIREAT key unix-time-seconds [NX | XX | GT | LT] FIELDS numfields\n  field [field ...]",
+      "title": "HEXPIREAT"
+    },
+    {
+      "arity": -5,
+      "complexity": "O(N) where N is the number of specified fields",
+      "description": "Returns the expiration time of a hash field as a Unix timestamp, in seconds.",
+      "group": "hash",
+      "since": "7.4.0",
+      "slug": "hexpiretime",
+      "syntax": "HEXPIRETIME key FIELDS numfields field [field ...]",
+      "title": "HEXPIRETIME"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1)",
+      "description": "Returns the value of a field in a hash.",
+      "group": "hash",
+      "since": "2.0.0",
+      "slug": "hget",
+      "syntax": "HGET key field",
+      "title": "HGET"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(N) where N is the size of the hash.",
+      "description": "Returns all fields and values in a hash.",
+      "group": "hash",
+      "since": "2.0.0",
+      "slug": "hgetall",
+      "syntax": "HGETALL key",
+      "title": "HGETALL"
+    },
+    {
+      "arity": -5,
+      "complexity": "O(N) where N is the number of specified fields",
+      "description": "Returns the value of a field and deletes it from the hash.",
+      "group": "hash",
+      "since": "8.0.0",
+      "slug": "hgetdel",
+      "syntax": "HGETDEL key FIELDS numfields field [field ...]",
+      "title": "HGETDEL"
+    },
+    {
+      "arity": -5,
+      "complexity": "O(N) where N is the number of specified fields",
+      "description": "Get the value of one or more fields of a given hash key, and optionally set their expiration.",
+      "group": "hash",
+      "since": "8.0.0",
+      "slug": "hgetex",
+      "syntax": "HGETEX key [EX seconds | PX milliseconds | EXAT unix-time-seconds |\n  PXAT unix-time-milliseconds | PERSIST] FIELDS numfields field\n  [field ...]",
+      "title": "HGETEX"
+    },
+    {
+      "arity": 4,
+      "complexity": "O(1)",
+      "description": "Increments the integer value of a field in a hash by a number. Uses 0 as initial value if the field doesn't exist.",
+      "group": "hash",
+      "since": "2.0.0",
+      "slug": "hincrby",
+      "syntax": "HINCRBY key field increment",
+      "title": "HINCRBY"
+    },
+    {
+      "arity": 4,
+      "complexity": "O(1)",
+      "description": "Increments the floating point value of a field by a number. Uses 0 as initial value if the field doesn't exist.",
+      "group": "hash",
+      "since": "2.6.0",
+      "slug": "hincrbyfloat",
+      "syntax": "HINCRBYFLOAT key field increment",
+      "title": "HINCRBYFLOAT"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(N) where N is the size of the hash.",
+      "description": "Returns all fields in a hash.",
+      "group": "hash",
+      "since": "2.0.0",
+      "slug": "hkeys",
+      "syntax": "HKEYS key",
+      "title": "HKEYS"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Returns the number of fields in a hash.",
+      "group": "hash",
+      "since": "2.0.0",
+      "slug": "hlen",
+      "syntax": "HLEN key",
+      "title": "HLEN"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(N) where N is the number of fields being requested.",
+      "description": "Returns the values of all fields in a hash.",
+      "group": "hash",
+      "since": "2.0.0",
+      "slug": "hmget",
+      "syntax": "HMGET key field [field ...]",
+      "title": "HMGET"
+    },
+    {
+      "arity": -4,
+      "complexity": "O(N) where N is the number of fields being set.",
+      "description": "Sets the values of multiple fields.",
+      "group": "hash",
+      "since": "2.0.0",
+      "slug": "hmset",
+      "syntax": "HMSET key field value [field value ...]",
+      "title": "HMSET"
+    },
+    {
+      "arity": -5,
+      "complexity": "O(N) where N is the number of specified fields",
+      "description": "Removes the expiration time for each specified field",
+      "group": "hash",
+      "since": "7.4.0",
+      "slug": "hpersist",
+      "syntax": "HPERSIST key FIELDS numfields field [field ...]",
+      "title": "HPERSIST"
+    },
+    {
+      "arity": -6,
+      "complexity": "O(N) where N is the number of specified fields",
+      "description": "Set expiration for hash fields using relative time to expire (milliseconds)",
+      "group": "hash",
+      "since": "7.4.0",
+      "slug": "hpexpire",
+      "syntax": "HPEXPIRE key milliseconds [NX | XX | GT | LT] FIELDS numfields field\n  [field ...]",
+      "title": "HPEXPIRE"
+    },
+    {
+      "arity": -6,
+      "complexity": "O(N) where N is the number of specified fields",
+      "description": "Set expiration for hash fields using an absolute Unix timestamp (milliseconds)",
+      "group": "hash",
+      "since": "7.4.0",
+      "slug": "hpexpireat",
+      "syntax": "HPEXPIREAT key unix-time-milliseconds [NX | XX | GT | LT]\n  FIELDS numfields field [field ...]",
+      "title": "HPEXPIREAT"
+    },
+    {
+      "arity": -5,
+      "complexity": "O(N) where N is the number of specified fields",
+      "description": "Returns the expiration time of a hash field as a Unix timestamp, in msec.",
+      "group": "hash",
+      "since": "7.4.0",
+      "slug": "hpexpiretime",
+      "syntax": "HPEXPIRETIME key FIELDS numfields field [field ...]",
+      "title": "HPEXPIRETIME"
+    },
+    {
+      "arity": -5,
+      "complexity": "O(N) where N is the number of specified fields",
+      "description": "Returns the TTL in milliseconds of a hash field.",
+      "group": "hash",
+      "since": "7.4.0",
+      "slug": "hpttl",
+      "syntax": "HPTTL key FIELDS numfields field [field ...]",
+      "title": "HPTTL"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(N) where N is the number of fields returned",
+      "description": "Returns one or more random fields from a hash.",
+      "group": "hash",
+      "since": "6.2.0",
+      "slug": "hrandfield",
+      "syntax": "HRANDFIELD key [count [WITHVALUES]]",
+      "title": "HRANDFIELD"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(1) for every call. O(N) for a complete iteration, including enough command calls for the cursor to return back to 0. N is the number of elements inside the collection.",
+      "description": "Iterates over fields and values of a hash.",
+      "group": "hash",
+      "since": "2.8.0",
+      "slug": "hscan",
+      "syntax": "HSCAN key cursor [MATCH pattern] [COUNT count] [NOVALUES]",
+      "title": "HSCAN"
+    },
+    {
+      "arity": -4,
+      "complexity": "O(1) for each field/value pair added, so O(N) to add N field/value pairs when the command is called with multiple field/value pairs.",
+      "description": "Creates or modifies the value of a field in a hash.",
+      "group": "hash",
+      "since": "2.0.0",
+      "slug": "hset",
+      "syntax": "HSET key field value [field value ...]",
+      "title": "HSET"
+    },
+    {
+      "arity": -6,
+      "complexity": "O(N) where N is the number of fields being set.",
+      "description": "Set the value of one or more fields of a given hash key, and optionally set their expiration.",
+      "group": "hash",
+      "since": "8.0.0",
+      "slug": "hsetex",
+      "syntax": "HSETEX key [FNX | FXX] [EX seconds | PX milliseconds |\n  EXAT unix-time-seconds | PXAT unix-time-milliseconds | KEEPTTL]\n  FIELDS numfields field value [field value ...]",
+      "title": "HSETEX"
+    },
+    {
+      "arity": 4,
+      "complexity": "O(1)",
+      "description": "Sets the value of a field in a hash only when the field doesn't exist.",
+      "group": "hash",
+      "since": "2.0.0",
+      "slug": "hsetnx",
+      "syntax": "HSETNX key field value",
+      "title": "HSETNX"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1)",
+      "description": "Returns the length of the value of a field.",
+      "group": "hash",
+      "since": "3.2.0",
+      "slug": "hstrlen",
+      "syntax": "HSTRLEN key field",
+      "title": "HSTRLEN"
+    },
+    {
+      "arity": -5,
+      "complexity": "O(N) where N is the number of specified fields",
+      "description": "Returns the TTL in seconds of a hash field.",
+      "group": "hash",
+      "since": "7.4.0",
+      "slug": "httl",
+      "syntax": "HTTL key FIELDS numfields field [field ...]",
+      "title": "HTTL"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(N) where N is the size of the hash.",
+      "description": "Returns all values in a hash.",
+      "group": "hash",
+      "since": "2.0.0",
+      "slug": "hvals",
+      "syntax": "HVALS key",
+      "title": "HVALS"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(1) to add every element.",
+      "description": "Adds elements to a HyperLogLog key. Creates the key if it doesn't exist.",
+      "group": "hyperloglog",
+      "since": "2.8.9",
+      "slug": "pfadd",
+      "syntax": "PFADD key [element [element ...]]",
+      "title": "PFADD"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(1) with a very small average constant time when called with a single key. O(N) with N being the number of keys, and much bigger constant times, when called with multiple keys.",
+      "description": "Returns the approximated cardinality of the set(s) observed by the HyperLogLog key(s).",
+      "group": "hyperloglog",
+      "since": "2.8.9",
+      "slug": "pfcount",
+      "syntax": "PFCOUNT key [key ...]",
+      "title": "PFCOUNT"
+    },
+    {
+      "arity": 3,
+      "complexity": "N/A",
+      "description": "Internal commands for debugging HyperLogLog values.",
+      "group": "hyperloglog",
+      "since": "2.8.9",
+      "slug": "pfdebug",
+      "syntax": "PFDEBUG subcommand key",
+      "title": "PFDEBUG"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(N) to merge N HyperLogLogs, but with high constant times.",
+      "description": "Merges one or more HyperLogLog values into a single key.",
+      "group": "hyperloglog",
+      "since": "2.8.9",
+      "slug": "pfmerge",
+      "syntax": "PFMERGE destkey [sourcekey [sourcekey ...]]",
+      "title": "PFMERGE"
+    },
+    {
+      "arity": 1,
+      "complexity": "N/A",
+      "description": "An internal command for testing HyperLogLog values.",
+      "group": "hyperloglog",
+      "since": "2.8.9",
+      "slug": "pfselftest",
+      "syntax": "PFSELFTEST",
+      "title": "PFSELFTEST"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1) when path is evaluated to a single value, O(N) when path is evaluated to multiple values, where N is the size of the key",
+      "description": "Append one or more JSON values into the array at path after the last element in it.",
+      "group": "json",
+      "since": "1.0.0",
+      "slug": "json.arrappend",
+      "syntax": "JSON.ARRAPPEND key [path] value [value ...]",
+      "title": "JSON.ARRAPPEND"
+    },
+    {
+      "arity": null,
+      "complexity": "O(N) when path is evaluated to a single value where N is the size of the array, O(N) when path is evaluated to multiple values, where N is the size of the key",
+      "description": "Returns the index of the first occurrence of a JSON scalar value in the array at path",
+      "group": "json",
+      "since": "1.0.0",
+      "slug": "json.arrindex",
+      "syntax": "JSON.ARRINDEX key path value [start [stop]]",
+      "title": "JSON.ARRINDEX"
+    },
+    {
+      "arity": null,
+      "complexity": "O(N) when path is evaluated to a single value where N is the size of the array, O(N) when path is evaluated to multiple values, where N is the size of the key",
+      "description": "Inserts the JSON scalar(s) value at the specified index in the array at path",
+      "group": "json",
+      "since": "1.0.0",
+      "slug": "json.arrinsert",
+      "syntax": "JSON.ARRINSERT key path index value [value ...]",
+      "title": "JSON.ARRINSERT"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1) where path is evaluated to a single value, O(N) where path is evaluated to multiple values, where N is the size of the key",
+      "description": "Returns the length of the array at path",
+      "group": "json",
+      "since": "1.0.0",
+      "slug": "json.arrlen",
+      "syntax": "JSON.ARRLEN key [path]",
+      "title": "JSON.ARRLEN"
+    },
+    {
+      "arity": null,
+      "complexity": "O(N) when path is evaluated to a single value where N is the size of the array and the specified index is not the last element, O(1) when path is evaluated to a single value and the specified index is the last element, or O(N) when path is evaluated to multiple values, where N is the size of the key",
+      "description": "Removes and returns the element at the specified index in the array at path",
+      "group": "json",
+      "since": "1.0.0",
+      "slug": "json.arrpop",
+      "syntax": "JSON.ARRPOP key [path [index]]",
+      "title": "JSON.ARRPOP"
+    },
+    {
+      "arity": null,
+      "complexity": "O(N) when path is evaluated to a single value where N is the size of the array, O(N) when path is evaluated to multiple values, where N is the size of the key",
+      "description": "Trims the array at path to contain only the specified inclusive range of indices from start to stop",
+      "group": "json",
+      "since": "1.0.0",
+      "slug": "json.arrtrim",
+      "syntax": "JSON.ARRTRIM key path start stop",
+      "title": "JSON.ARRTRIM"
+    },
+    {
+      "arity": null,
+      "complexity": "O(N) when path is evaluated to a single value where N is the size of the values, O(N) when path is evaluated to multiple values, where N is the size of the key",
+      "description": "Clears all values from an array or an object and sets numeric values to `0`",
+      "group": "json",
+      "since": "2.0.0",
+      "slug": "json.clear",
+      "syntax": "JSON.CLEAR key [path]",
+      "title": "JSON.CLEAR"
+    },
+    {
+      "arity": null,
+      "complexity": "N/A",
+      "description": "Debugging container command",
+      "group": "json",
+      "since": "1.0.0",
+      "slug": "json.debug",
+      "syntax": "JSON.DEBUG",
+      "title": "JSON.DEBUG"
+    },
+    {
+      "arity": null,
+      "complexity": "O(N) when path is evaluated to a single value, where N is the size of the value, O(N) when path is evaluated to multiple values, where N is the size of the key",
+      "description": "Reports the size in bytes of a key",
+      "group": "json",
+      "since": "1.0.0",
+      "slug": "json.debug-memory",
+      "syntax": "JSON.DEBUG MEMORY key [path]",
+      "title": "JSON.DEBUG MEMORY"
+    },
+    {
+      "arity": null,
+      "complexity": "O(N) when path is evaluated to a single value where N is the size of the deleted value, O(N) when path is evaluated to multiple values, where N is the size of the key",
+      "description": "Deletes a value",
+      "group": "json",
+      "since": "1.0.0",
+      "slug": "json.del",
+      "syntax": "JSON.DEL key [path]",
+      "title": "JSON.DEL"
+    },
+    {
+      "arity": null,
+      "complexity": "O(N) when path is evaluated to a single value where N is the size of the deleted value, O(N) when path is evaluated to multiple values, where N is the size of the key",
+      "description": "Deletes a value",
+      "group": "json",
+      "since": "1.0.0",
+      "slug": "json.forget",
+      "syntax": "JSON.FORGET key [path]",
+      "title": "JSON.FORGET"
+    },
+    {
+      "arity": null,
+      "complexity": "O(N) when path is evaluated to a single value where N is the size of the value, O(N) when path is evaluated to multiple values, where N is the size of the key",
+      "description": "Gets the value at one or more paths in JSON serialized form",
+      "group": "json",
+      "since": "1.0.0",
+      "slug": "json.get",
+      "syntax": "JSON.GET key [INDENT indent] [NEWLINE newline] [SPACE space] [path\n  [path ...]]",
+      "title": "JSON.GET"
+    },
+    {
+      "arity": null,
+      "complexity": "O(M+N) when path is evaluated to a single value where M is the size of the original value (if it exists) and N is the size of the new value, O(M+N) when path is evaluated to multiple values where M is the size of the key and N is the size of the new value * the number of original values in the key",
+      "description": "Merges a given JSON value into matching paths. Consequently, JSON values at matching paths are updated, deleted, or expanded with new children",
+      "group": "json",
+      "since": "2.6.0",
+      "slug": "json.merge",
+      "syntax": "JSON.MERGE key path value",
+      "title": "JSON.MERGE"
+    },
+    {
+      "arity": null,
+      "complexity": "O(M*N) when path is evaluated to a single value where M is the number of keys and N is the size of the value, O(N1+N2+...+Nm) when path is evaluated to multiple values where m is the number of keys and Ni is the size of the i-th key",
+      "description": "Returns the values at a path from one or more keys",
+      "group": "json",
+      "since": "1.0.0",
+      "slug": "json.mget",
+      "syntax": "JSON.MGET key [key ...] path",
+      "title": "JSON.MGET"
+    },
+    {
+      "arity": null,
+      "complexity": "O(K*(M+N)) where k is the number of keys in the command, when path is evaluated to a single value where M is the size of the original value (if it exists) and N is the size of the new value, or O(K*(M+N)) when path is evaluated to multiple values where M is the size of the key and N is the size of the new value * the number of original values in the key",
+      "description": "Sets or updates the JSON value of one or more keys",
+      "group": "json",
+      "since": "2.6.0",
+      "slug": "json.mset",
+      "syntax": "JSON.MSET key path value [key path value ...]",
+      "title": "JSON.MSET"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1) when path is evaluated to a single value, O(N) when path is evaluated to multiple values, where N is the size of the key",
+      "description": "Increments the numeric value at path by a value",
+      "group": "json",
+      "since": "1.0.0",
+      "slug": "json.numincrby",
+      "syntax": "JSON.NUMINCRBY key path value",
+      "title": "JSON.NUMINCRBY"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1) when path is evaluated to a single value, O(N) when path is evaluated to multiple values, where N is the size of the key",
+      "description": "Multiplies the numeric value at path by a value",
+      "group": "json",
+      "since": "1.0.0",
+      "slug": "json.nummultby",
+      "syntax": "JSON.NUMMULTBY key path value",
+      "title": "JSON.NUMMULTBY"
+    },
+    {
+      "arity": null,
+      "complexity": "O(N) when path is evaluated to a single value, where N is the number of keys in the object, O(N) when path is evaluated to multiple values, where N is the size of the key",
+      "description": "Returns the JSON keys of the object at path",
+      "group": "json",
+      "since": "1.0.0",
+      "slug": "json.objkeys",
+      "syntax": "JSON.OBJKEYS key [path]",
+      "title": "JSON.OBJKEYS"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1) when path is evaluated to a single value, O(N) when path is evaluated to multiple values, where N is the size of the key",
+      "description": "Returns the number of keys of the object at path",
+      "group": "json",
+      "since": "1.0.0",
+      "slug": "json.objlen",
+      "syntax": "JSON.OBJLEN key [path]",
+      "title": "JSON.OBJLEN"
+    },
+    {
+      "arity": null,
+      "complexity": "O(N) when path is evaluated to a single value, where N is the size of the value, O(N) when path is evaluated to multiple values, where N is the size of the key",
+      "description": "Returns the JSON value at path in Redis Serialization Protocol (RESP)",
+      "group": "json",
+      "since": "1.0.0",
+      "slug": "json.resp",
+      "syntax": "JSON.RESP key [path]",
+      "title": "JSON.RESP"
+    },
+    {
+      "arity": null,
+      "complexity": "O(M+N) when path is evaluated to a single value where M is the size of the original value (if it exists) and N is the size of the new value, O(M+N) when path is evaluated to multiple values where M is the size of the key and N is the size of the new value * the number of original values in the key",
+      "description": "Sets or updates the JSON value at a path",
+      "group": "json",
+      "since": "1.0.0",
+      "slug": "json.set",
+      "syntax": "JSON.SET key path value [NX | XX]",
+      "title": "JSON.SET"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1) when path is evaluated to a single value, O(N) when path is evaluated to multiple values, where N is the size of the key",
+      "description": "Appends a string to a JSON string value at path",
+      "group": "json",
+      "since": "1.0.0",
+      "slug": "json.strappend",
+      "syntax": "JSON.STRAPPEND key [path] value",
+      "title": "JSON.STRAPPEND"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1) when path is evaluated to a single value, O(N) when path is evaluated to multiple values, where N is the size of the key",
+      "description": "Returns the length of the JSON String at path in key",
+      "group": "json",
+      "since": "1.0.0",
+      "slug": "json.strlen",
+      "syntax": "JSON.STRLEN key [path]",
+      "title": "JSON.STRLEN"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1) when path is evaluated to a single value, O(N) when path is evaluated to multiple values, where N is the size of the key",
+      "description": "Toggles a boolean value",
+      "group": "json",
+      "since": "2.0.0",
+      "slug": "json.toggle",
+      "syntax": "JSON.TOGGLE key path",
+      "title": "JSON.TOGGLE"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1) when path is evaluated to a single value, O(N) when path is evaluated to multiple values, where N is the size of the key",
+      "description": "Returns the type of the JSON value at path",
+      "group": "json",
+      "since": "1.0.0",
+      "slug": "json.type",
+      "syntax": "JSON.TYPE key [path]",
+      "title": "JSON.TYPE"
+    },
+    {
+      "arity": 6,
+      "complexity": "O(1)",
+      "description": "Pops an element from a list, pushes it to another list and returns it. Blocks until an element is available otherwise. Deletes the list if the last element was moved.",
+      "group": "list",
+      "since": "6.2.0",
+      "slug": "blmove",
+      "syntax": "BLMOVE source destination <LEFT | RIGHT> <LEFT | RIGHT> timeout",
+      "title": "BLMOVE"
+    },
+    {
+      "arity": -5,
+      "complexity": "O(N+M) where N is the number of provided keys and M is the number of elements returned.",
+      "description": "Pops the first element from one of multiple lists. Blocks until an element is available otherwise. Deletes the list if the last element was popped.",
+      "group": "list",
+      "since": "7.0.0",
+      "slug": "blmpop",
+      "syntax": "BLMPOP timeout numkeys key [key ...] <LEFT | RIGHT> [COUNT count]",
+      "title": "BLMPOP"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(N) where N is the number of provided keys.",
+      "description": "Removes and returns the first element in a list. Blocks until an element is available otherwise. Deletes the list if the last element was popped.",
+      "group": "list",
+      "since": "2.0.0",
+      "slug": "blpop",
+      "syntax": "BLPOP key [key ...] timeout",
+      "title": "BLPOP"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(N) where N is the number of provided keys.",
+      "description": "Removes and returns the last element in a list. Blocks until an element is available otherwise. Deletes the list if the last element was popped.",
+      "group": "list",
+      "since": "2.0.0",
+      "slug": "brpop",
+      "syntax": "BRPOP key [key ...] timeout",
+      "title": "BRPOP"
+    },
+    {
+      "arity": 4,
+      "complexity": "O(1)",
+      "description": "Pops an element from a list, pushes it to another list and returns it. Block until an element is available otherwise. Deletes the list if the last element was popped.",
+      "group": "list",
+      "since": "2.2.0",
+      "slug": "brpoplpush",
+      "syntax": "BRPOPLPUSH source destination timeout",
+      "title": "BRPOPLPUSH"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(N) where N is the number of elements to traverse to get to the element at index. This makes asking for the first or the last element of the list O(1).",
+      "description": "Returns an element from a list by its index.",
+      "group": "list",
+      "since": "1.0.0",
+      "slug": "lindex",
+      "syntax": "LINDEX key index",
+      "title": "LINDEX"
+    },
+    {
+      "arity": 5,
+      "complexity": "O(N) where N is the number of elements to traverse before seeing the value pivot. This means that inserting somewhere on the left end on the list (head) can be considered O(1) and inserting somewhere on the right end (tail) is O(N).",
+      "description": "Inserts an element before or after another element in a list.",
+      "group": "list",
+      "since": "2.2.0",
+      "slug": "linsert",
+      "syntax": "LINSERT key <BEFORE | AFTER> pivot element",
+      "title": "LINSERT"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Returns the length of a list.",
+      "group": "list",
+      "since": "1.0.0",
+      "slug": "llen",
+      "syntax": "LLEN key",
+      "title": "LLEN"
+    },
+    {
+      "arity": 5,
+      "complexity": "O(1)",
+      "description": "Returns an element after popping it from one list and pushing it to another. Deletes the list if the last element was moved.",
+      "group": "list",
+      "since": "6.2.0",
+      "slug": "lmove",
+      "syntax": "LMOVE source destination <LEFT | RIGHT> <LEFT | RIGHT>",
+      "title": "LMOVE"
+    },
+    {
+      "arity": -4,
+      "complexity": "O(N+M) where N is the number of provided keys and M is the number of elements returned.",
+      "description": "Returns multiple elements from a list after removing them. Deletes the list if the last element was popped.",
+      "group": "list",
+      "since": "7.0.0",
+      "slug": "lmpop",
+      "syntax": "LMPOP numkeys key [key ...] <LEFT | RIGHT> [COUNT count]",
+      "title": "LMPOP"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(N) where N is the number of elements returned",
+      "description": "Returns the first elements in a list after removing it. Deletes the list if the last element was popped.",
+      "group": "list",
+      "since": "1.0.0",
+      "slug": "lpop",
+      "syntax": "LPOP key [count]",
+      "title": "LPOP"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(N) where N is the number of elements in the list, for the average case. When searching for elements near the head or the tail of the list, or when the MAXLEN option is provided, the command may run in constant time.",
+      "description": "Returns the index of matching elements in a list.",
+      "group": "list",
+      "since": "6.0.6",
+      "slug": "lpos",
+      "syntax": "LPOS key element [RANK rank] [COUNT num-matches] [MAXLEN len]",
+      "title": "LPOS"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(1) for each element added, so O(N) to add N elements when the command is called with multiple arguments.",
+      "description": "Prepends one or more elements to a list. Creates the key if it doesn't exist.",
+      "group": "list",
+      "since": "1.0.0",
+      "slug": "lpush",
+      "syntax": "LPUSH key element [element ...]",
+      "title": "LPUSH"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(1) for each element added, so O(N) to add N elements when the command is called with multiple arguments.",
+      "description": "Prepends one or more elements to a list only when the list exists.",
+      "group": "list",
+      "since": "2.2.0",
+      "slug": "lpushx",
+      "syntax": "LPUSHX key element [element ...]",
+      "title": "LPUSHX"
+    },
+    {
+      "arity": 4,
+      "complexity": "O(S+N) where S is the distance of start offset from HEAD for small lists, from nearest end (HEAD or TAIL) for large lists; and N is the number of elements in the specified range.",
+      "description": "Returns a range of elements from a list.",
+      "group": "list",
+      "since": "1.0.0",
+      "slug": "lrange",
+      "syntax": "LRANGE key start stop",
+      "title": "LRANGE"
+    },
+    {
+      "arity": 4,
+      "complexity": "O(N+M) where N is the length of the list and M is the number of elements removed.",
+      "description": "Removes elements from a list. Deletes the list if the last element was removed.",
+      "group": "list",
+      "since": "1.0.0",
+      "slug": "lrem",
+      "syntax": "LREM key count element",
+      "title": "LREM"
+    },
+    {
+      "arity": 4,
+      "complexity": "O(N) where N is the length of the list. Setting either the first or the last element of the list is O(1).",
+      "description": "Sets the value of an element in a list by its index.",
+      "group": "list",
+      "since": "1.0.0",
+      "slug": "lset",
+      "syntax": "LSET key index element",
+      "title": "LSET"
+    },
+    {
+      "arity": 4,
+      "complexity": "O(N) where N is the number of elements to be removed by the operation.",
+      "description": "Removes elements from both ends a list. Deletes the list if all elements were trimmed.",
+      "group": "list",
+      "since": "1.0.0",
+      "slug": "ltrim",
+      "syntax": "LTRIM key start stop",
+      "title": "LTRIM"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(N) where N is the number of elements returned",
+      "description": "Returns and removes the last elements of a list. Deletes the list if the last element was popped.",
+      "group": "list",
+      "since": "1.0.0",
+      "slug": "rpop",
+      "syntax": "RPOP key [count]",
+      "title": "RPOP"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1)",
+      "description": "Returns the last element of a list after removing and pushing it to another list. Deletes the list if the last element was popped.",
+      "group": "list",
+      "since": "1.2.0",
+      "slug": "rpoplpush",
+      "syntax": "RPOPLPUSH source destination",
+      "title": "RPOPLPUSH"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(1) for each element added, so O(N) to add N elements when the command is called with multiple arguments.",
+      "description": "Appends one or more elements to a list. Creates the key if it doesn't exist.",
+      "group": "list",
+      "since": "1.0.0",
+      "slug": "rpush",
+      "syntax": "RPUSH key element [element ...]",
+      "title": "RPUSH"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(1) for each element added, so O(N) to add N elements when the command is called with multiple arguments.",
+      "description": "Appends an element to a list only when the list exists.",
+      "group": "list",
+      "since": "2.2.0",
+      "slug": "rpushx",
+      "syntax": "RPUSHX key element [element ...]",
+      "title": "RPUSHX"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(N) where N is the number of patterns to subscribe to.",
+      "description": "Listens for messages published to channels that match one or more patterns.",
+      "group": "pubsub",
+      "since": "2.0.0",
+      "slug": "psubscribe",
+      "syntax": "PSUBSCRIBE pattern [pattern ...]",
+      "title": "PSUBSCRIBE"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(N+M) where N is the number of clients subscribed to the receiving channel and M is the total number of subscribed patterns (by any client).",
+      "description": "Posts a message to a channel.",
+      "group": "pubsub",
+      "since": "2.0.0",
+      "slug": "publish",
+      "syntax": "PUBLISH channel message",
+      "title": "PUBLISH"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(N) where N is the number of active channels, and assuming constant time pattern matching (relatively short channels and patterns)",
+      "description": "Returns the active channels.",
+      "group": "pubsub",
+      "since": "2.8.0",
+      "slug": "pubsub-channels",
+      "syntax": "PUBSUB CHANNELS [pattern]",
+      "title": "PUBSUB CHANNELS"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Returns a count of unique pattern subscriptions.",
+      "group": "pubsub",
+      "since": "2.8.0",
+      "slug": "pubsub-numpat",
+      "syntax": "PUBSUB NUMPAT",
+      "title": "PUBSUB NUMPAT"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(N) for the NUMSUB subcommand, where N is the number of requested channels",
+      "description": "Returns a count of subscribers to channels.",
+      "group": "pubsub",
+      "since": "2.8.0",
+      "slug": "pubsub-numsub",
+      "syntax": "PUBSUB NUMSUB [channel [channel ...]]",
+      "title": "PUBSUB NUMSUB"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(N) where N is the number of active shard channels, and assuming constant time pattern matching (relatively short shard channels).",
+      "description": "Returns the active shard channels.",
+      "group": "pubsub",
+      "since": "7.0.0",
+      "slug": "pubsub-shardchannels",
+      "syntax": "PUBSUB SHARDCHANNELS [pattern]",
+      "title": "PUBSUB SHARDCHANNELS"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(N) for the SHARDNUMSUB subcommand, where N is the number of requested shard channels",
+      "description": "Returns the count of subscribers of shard channels.",
+      "group": "pubsub",
+      "since": "7.0.0",
+      "slug": "pubsub-shardnumsub",
+      "syntax": "PUBSUB SHARDNUMSUB [shardchannel [shardchannel ...]]",
+      "title": "PUBSUB SHARDNUMSUB"
+    },
+    {
+      "arity": -1,
+      "complexity": "O(N) where N is the number of patterns to unsubscribe.",
+      "description": "Stops listening to messages published to channels that match one or more patterns.",
+      "group": "pubsub",
+      "since": "2.0.0",
+      "slug": "punsubscribe",
+      "syntax": "PUNSUBSCRIBE [pattern [pattern ...]]",
+      "title": "PUNSUBSCRIBE"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(N) where N is the number of clients subscribed to the receiving shard channel.",
+      "description": "Post a message to a shard channel",
+      "group": "pubsub",
+      "since": "7.0.0",
+      "slug": "spublish",
+      "syntax": "SPUBLISH shardchannel message",
+      "title": "SPUBLISH"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(N) where N is the number of shard channels to subscribe to.",
+      "description": "Listens for messages published to shard channels.",
+      "group": "pubsub",
+      "since": "7.0.0",
+      "slug": "ssubscribe",
+      "syntax": "SSUBSCRIBE shardchannel [shardchannel ...]",
+      "title": "SSUBSCRIBE"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(N) where N is the number of channels to subscribe to.",
+      "description": "Listens for messages published to channels.",
+      "group": "pubsub",
+      "since": "2.0.0",
+      "slug": "subscribe",
+      "syntax": "SUBSCRIBE channel [channel ...]",
+      "title": "SUBSCRIBE"
+    },
+    {
+      "arity": -1,
+      "complexity": "O(N) where N is the number of shard channels to unsubscribe.",
+      "description": "Stops listening to messages posted to shard channels.",
+      "group": "pubsub",
+      "since": "7.0.0",
+      "slug": "sunsubscribe",
+      "syntax": "SUNSUBSCRIBE [shardchannel [shardchannel ...]]",
+      "title": "SUNSUBSCRIBE"
+    },
+    {
+      "arity": -1,
+      "complexity": "O(N) where N is the number of channels to unsubscribe.",
+      "description": "Stops listening to messages posted to channels.",
+      "group": "pubsub",
+      "since": "2.0.0",
+      "slug": "unsubscribe",
+      "syntax": "UNSUBSCRIBE [channel [channel ...]]",
+      "title": "UNSUBSCRIBE"
+    },
+    {
+      "arity": -3,
+      "complexity": "Depends on the script that is executed.",
+      "description": "Executes a server-side Lua script.",
+      "group": "scripting",
+      "since": "2.6.0",
+      "slug": "eval",
+      "syntax": "EVAL script numkeys [key [key ...]] [arg [arg ...]]",
+      "title": "EVAL"
+    },
+    {
+      "arity": -3,
+      "complexity": "Depends on the script that is executed.",
+      "description": "Executes a read-only server-side Lua script.",
+      "group": "scripting",
+      "since": "7.0.0",
+      "slug": "eval_ro",
+      "syntax": "EVAL_RO script numkeys [key [key ...]] [arg [arg ...]]",
+      "title": "EVAL_RO"
+    },
+    {
+      "arity": -3,
+      "complexity": "Depends on the script that is executed.",
+      "description": "Executes a server-side Lua script by SHA1 digest.",
+      "group": "scripting",
+      "since": "2.6.0",
+      "slug": "evalsha",
+      "syntax": "EVALSHA sha1 numkeys [key [key ...]] [arg [arg ...]]",
+      "title": "EVALSHA"
+    },
+    {
+      "arity": -3,
+      "complexity": "Depends on the script that is executed.",
+      "description": "Executes a read-only server-side Lua script by SHA1 digest.",
+      "group": "scripting",
+      "since": "7.0.0",
+      "slug": "evalsha_ro",
+      "syntax": "EVALSHA_RO sha1 numkeys [key [key ...]] [arg [arg ...]]",
+      "title": "EVALSHA_RO"
+    },
+    {
+      "arity": -3,
+      "complexity": "Depends on the function that is executed.",
+      "description": "Invokes a function.",
+      "group": "scripting",
+      "since": "7.0.0",
+      "slug": "fcall",
+      "syntax": "FCALL function numkeys [key [key ...]] [arg [arg ...]]",
+      "title": "FCALL"
+    },
+    {
+      "arity": -3,
+      "complexity": "Depends on the function that is executed.",
+      "description": "Invokes a read-only function.",
+      "group": "scripting",
+      "since": "7.0.0",
+      "slug": "fcall_ro",
+      "syntax": "FCALL_RO function numkeys [key [key ...]] [arg [arg ...]]",
+      "title": "FCALL_RO"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1)",
+      "description": "Deletes a library and its functions.",
+      "group": "scripting",
+      "since": "7.0.0",
+      "slug": "function-delete",
+      "syntax": "FUNCTION DELETE library-name",
+      "title": "FUNCTION DELETE"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(N) where N is the number of functions",
+      "description": "Dumps all libraries into a serialized binary payload.",
+      "group": "scripting",
+      "since": "7.0.0",
+      "slug": "function-dump",
+      "syntax": "FUNCTION DUMP",
+      "title": "FUNCTION DUMP"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(N) where N is the number of functions deleted",
+      "description": "Deletes all libraries and functions.",
+      "group": "scripting",
+      "since": "7.0.0",
+      "slug": "function-flush",
+      "syntax": "FUNCTION FLUSH [ASYNC | SYNC]",
+      "title": "FUNCTION FLUSH"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Terminates a function during execution.",
+      "group": "scripting",
+      "since": "7.0.0",
+      "slug": "function-kill",
+      "syntax": "FUNCTION KILL",
+      "title": "FUNCTION KILL"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(N) where N is the number of functions",
+      "description": "Returns information about all libraries.",
+      "group": "scripting",
+      "since": "7.0.0",
+      "slug": "function-list",
+      "syntax": "FUNCTION LIST [LIBRARYNAME library-name-pattern] [WITHCODE]",
+      "title": "FUNCTION LIST"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(1) (considering compilation time is redundant)",
+      "description": "Creates a library.",
+      "group": "scripting",
+      "since": "7.0.0",
+      "slug": "function-load",
+      "syntax": "FUNCTION LOAD [REPLACE] function-code",
+      "title": "FUNCTION LOAD"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(N) where N is the number of functions on the payload",
+      "description": "Restores all libraries from a payload.",
+      "group": "scripting",
+      "since": "7.0.0",
+      "slug": "function-restore",
+      "syntax": "FUNCTION RESTORE serialized-value [FLUSH | APPEND | REPLACE]",
+      "title": "FUNCTION RESTORE"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Returns information about a function during execution.",
+      "group": "scripting",
+      "since": "7.0.0",
+      "slug": "function-stats",
+      "syntax": "FUNCTION STATS",
+      "title": "FUNCTION STATS"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1)",
+      "description": "Sets the debug mode of server-side Lua scripts.",
+      "group": "scripting",
+      "since": "3.2.0",
+      "slug": "script-debug",
+      "syntax": "SCRIPT DEBUG <YES | SYNC | NO>",
+      "title": "SCRIPT DEBUG"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(N) with N being the number of scripts to check (so checking a single script is an O(1) operation).",
+      "description": "Determines whether server-side Lua scripts exist in the script cache.",
+      "group": "scripting",
+      "since": "2.6.0",
+      "slug": "script-exists",
+      "syntax": "SCRIPT EXISTS sha1 [sha1 ...]",
+      "title": "SCRIPT EXISTS"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(N) with N being the number of scripts in cache",
+      "description": "Removes all server-side Lua scripts from the script cache.",
+      "group": "scripting",
+      "since": "2.6.0",
+      "slug": "script-flush",
+      "syntax": "SCRIPT FLUSH [ASYNC | SYNC]",
+      "title": "SCRIPT FLUSH"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Terminates a server-side Lua script during execution.",
+      "group": "scripting",
+      "since": "2.6.0",
+      "slug": "script-kill",
+      "syntax": "SCRIPT KILL",
+      "title": "SCRIPT KILL"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(N) with N being the length in bytes of the script body.",
+      "description": "Loads a server-side Lua script to the script cache.",
+      "group": "scripting",
+      "since": "2.6.0",
+      "slug": "script-load",
+      "syntax": "SCRIPT LOAD script",
+      "title": "SCRIPT LOAD"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Returns a list of all existing indexes",
+      "group": "search",
+      "since": "2.0.0",
+      "slug": "ft._list",
+      "syntax": "FT._LIST",
+      "title": "FT._LIST"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Run a search query on an index and perform aggregate transformations on the results",
+      "group": "search",
+      "since": "1.1.0",
+      "slug": "ft.aggregate",
+      "syntax": "FT.AGGREGATE index query [VERBATIM] [LOAD count field [field ...]]\n  [TIMEOUT timeout] [LOAD *] [GROUPBY nargs property [property ...]\n  [REDUCE function nargs arg [arg ...] [AS name] [REDUCE function\n  nargs arg [arg ...] [AS name] ...]] [GROUPBY nargs property\n  [property ...] [REDUCE function nargs arg [arg ...] [AS name]\n  [REDUCE function nargs arg [arg ...] [AS name] ...]] ...]]\n  [SORTBY nargs [property <ASC | DESC> [property <ASC | DESC> ...]]\n  [MAX num]] [APPLY expression AS name [APPLY expression AS name\n  ...]] [LIMIT offset num] [FILTER filter] [WITHCURSOR\n  [COUNT read_size] [MAXIDLE idle_time]] [PARAMS nargs name value\n  [name value ...]] [DIALECT dialect]",
+      "title": "FT.AGGREGATE"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Adds an alias to the index",
+      "group": "search",
+      "since": "1.0.0",
+      "slug": "ft.aliasadd",
+      "syntax": "FT.ALIASADD alias index",
+      "title": "FT.ALIASADD"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Deletes an alias from the index",
+      "group": "search",
+      "since": "1.0.0",
+      "slug": "ft.aliasdel",
+      "syntax": "FT.ALIASDEL alias",
+      "title": "FT.ALIASDEL"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Adds or updates an alias to the index",
+      "group": "search",
+      "since": "1.0.0",
+      "slug": "ft.aliasupdate",
+      "syntax": "FT.ALIASUPDATE alias index",
+      "title": "FT.ALIASUPDATE"
+    },
+    {
+      "arity": null,
+      "complexity": "O(N) where N is the number of keys in the keyspace",
+      "description": "Adds a new field to the index",
+      "group": "search",
+      "since": "1.0.0",
+      "slug": "ft.alter",
+      "syntax": "FT.ALTER index [SKIPINITIALSCAN] SCHEMA ADD field options",
+      "title": "FT.ALTER"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Retrieves runtime configuration options",
+      "group": "search",
+      "since": "1.0.0",
+      "slug": "ft.config-get",
+      "syntax": "FT.CONFIG GET option",
+      "title": "FT.CONFIG GET"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Sets runtime configuration options",
+      "group": "search",
+      "since": "1.0.0",
+      "slug": "ft.config-set",
+      "syntax": "FT.CONFIG SET option value",
+      "title": "FT.CONFIG SET"
+    },
+    {
+      "arity": null,
+      "complexity": "O(K) at creation where K is the number of fields, O(N) if scanning the keyspace is triggered, where N is the number of keys in the keyspace",
+      "description": "Creates an index with the given spec",
+      "group": "search",
+      "since": "1.0.0",
+      "slug": "ft.create",
+      "syntax": "FT.CREATE index [ON <HASH | JSON>] [PREFIX count prefix [prefix\n  ...]] [FILTER filter] [LANGUAGE default_lang]\n  [LANGUAGE_FIELD lang_attribute] [SCORE default_score]\n  [SCORE_FIELD score_attribute] [PAYLOAD_FIELD payload_attribute]\n  [MAXTEXTFIELDS] [TEMPORARY seconds] [NOOFFSETS] [NOHL] [NOFIELDS]\n  [NOFREQS] [STOPWORDS count [stopword [stopword ...]]]\n  [SKIPINITIALSCAN] [INDEXALL <ENABLE | DISABLE>] SCHEMA field_name [AS alias] <TEXT | TAG |\n  NUMERIC | GEO | VECTOR> [WITHSUFFIXTRIE] [INDEXEMPTY]\n  [INDEXMISSING] [SORTABLE [UNF]] [NOINDEX] [field_name [AS alias]\n  <TEXT | TAG | NUMERIC | GEO | VECTOR> [WITHSUFFIXTRIE]\n  [INDEXEMPTY] [INDEXMISSING] [SORTABLE [UNF]] [NOINDEX] ...]",
+      "title": "FT.CREATE"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Deletes a cursor",
+      "group": "search",
+      "since": "1.1.0",
+      "slug": "ft.cursor-del",
+      "syntax": "FT.CURSOR DEL index cursor_id",
+      "title": "FT.CURSOR DEL"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Reads from a cursor",
+      "group": "search",
+      "since": "1.1.0",
+      "slug": "ft.cursor-read",
+      "syntax": "FT.CURSOR READ index cursor_id [COUNT read size]",
+      "title": "FT.CURSOR READ"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Adds terms to a dictionary",
+      "group": "search",
+      "since": "1.4.0",
+      "slug": "ft.dictadd",
+      "syntax": "FT.DICTADD dict term [term ...]",
+      "title": "FT.DICTADD"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Deletes terms from a dictionary",
+      "group": "search",
+      "since": "1.4.0",
+      "slug": "ft.dictdel",
+      "syntax": "FT.DICTDEL dict term [term ...]",
+      "title": "FT.DICTDEL"
+    },
+    {
+      "arity": null,
+      "complexity": "O(N), where N is the size of the dictionary",
+      "description": "Dumps all terms in the given dictionary",
+      "group": "search",
+      "since": "1.4.0",
+      "slug": "ft.dictdump",
+      "syntax": "FT.DICTDUMP dict",
+      "title": "FT.DICTDUMP"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1) or O(N) if documents are deleted, where N is the number of keys in the keyspace",
+      "description": "Deletes the index",
+      "group": "search",
+      "since": "2.0.0",
+      "slug": "ft.dropindex",
+      "syntax": "FT.DROPINDEX index [DD]",
+      "title": "FT.DROPINDEX"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Returns the execution plan for a complex query",
+      "group": "search",
+      "since": "1.0.0",
+      "slug": "ft.explain",
+      "syntax": "FT.EXPLAIN index query [DIALECT dialect]",
+      "title": "FT.EXPLAIN"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Returns the execution plan for a complex query",
+      "group": "search",
+      "since": "1.0.0",
+      "slug": "ft.explaincli",
+      "syntax": "FT.EXPLAINCLI index query [DIALECT dialect]",
+      "title": "FT.EXPLAINCLI"
+    },
+    {
+      "arity": null,
+      "complexity": "O(N+M) where N is the complexity of the text search and M is the complexity of the vector search",
+      "description": "Performs hybrid search combining text search and vector similarity search",
+      "group": "search",
+      "since": "8.4.0",
+      "slug": "ft.hybrid",
+      "syntax": "FT.HYBRID index\n  SEARCH query\n    [SCORER scorer]\n    [YIELD_SCORE_AS name]\n  VSIM vector_field $vector_param\n    [KNN count K k [EF_RUNTIME ef_runtime]]\n    [RANGE count RADIUS radius [EPSILON epsilon]]\n    [YIELD_SCORE_AS name]\n    [FILTER filter]\n  [COMBINE RRF count [CONSTANT constant] [WINDOW window] [YIELD_SCORE_AS name]]\n  [COMBINE LINEAR count [[ALPHA alpha] [BETA beta]] [WINDOW window] [YIELD_SCORE_AS name]]\n  [LIMIT offset num]\n  [SORTBY count sortby [ASC | DESC]]\n  [NOSORT]\n  [LOAD count field [field ...]]\n  [LOAD *]\n  [GROUPBY nargs property [property ...]\n  [GROUPBY nargs property [property ...]\n    [REDUCE function nargs arg [arg ...] [AS name]\n    [REDUCE function nargs arg [arg ...] [AS name] ...]] ...]]\n  [APPLY expression AS name [APPLY expression AS name ...]]\n  [FILTER filter]\n  PARAMS nargs vector_param vector_blob [name value ...]\n  [TIMEOUT timeout]",
+      "title": "FT.HYBRID"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Returns information and statistics on the index",
+      "group": "search",
+      "since": "1.0.0",
+      "slug": "ft.info",
+      "syntax": "FT.INFO index",
+      "title": "FT.INFO"
+    },
+    {
+      "arity": null,
+      "complexity": "O(N)",
+      "description": "Performs a `FT.SEARCH` or `FT.AGGREGATE` command and collects performance information",
+      "group": "search",
+      "since": "2.2.0",
+      "slug": "ft.profile",
+      "syntax": "FT.PROFILE index <SEARCH | AGGREGATE> [LIMITED] QUERY query",
+      "title": "FT.PROFILE"
+    },
+    {
+      "arity": null,
+      "complexity": "O(N)",
+      "description": "Searches the index with a textual query, returning either documents or just ids",
+      "group": "search",
+      "since": "1.0.0",
+      "slug": "ft.search",
+      "syntax": "FT.SEARCH index query [NOCONTENT] [VERBATIM] [NOSTOPWORDS]\n  [WITHSCORES] [WITHPAYLOADS] [WITHSORTKEYS] [FILTER numeric_field\n  min max [FILTER numeric_field min max ...]] [GEOFILTER geo_field\n  lon lat radius <m | km | mi | ft> [GEOFILTER geo_field lon lat\n  radius <m | km | mi | ft> ...]] [INKEYS count key [key ...]]\n  [INFIELDS count field [field ...]] [RETURN count identifier\n  [AS property] [identifier [AS property] ...]] [SUMMARIZE\n  [FIELDS count field [field ...]] [FRAGS num] [LEN fragsize]\n  [SEPARATOR separator]] [HIGHLIGHT [FIELDS count field [field ...]]\n  [TAGS open close]] [SLOP slop] [TIMEOUT timeout] [INORDER]\n  [LANGUAGE language] [EXPANDER expander] [SCORER scorer]\n  [EXPLAINSCORE] [PAYLOAD payload] [SORTBY sortby [ASC | DESC]]\n  [LIMIT offset num] [PARAMS nargs name value [name value ...]]\n  [DIALECT dialect]",
+      "title": "FT.SEARCH"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Performs spelling correction on a query, returning suggestions for misspelled terms",
+      "group": "search",
+      "since": "1.4.0",
+      "slug": "ft.spellcheck",
+      "syntax": "FT.SPELLCHECK index query [DISTANCE distance] [TERMS <INCLUDE |\n  EXCLUDE> dictionary [terms [terms ...]]] [DIALECT dialect]",
+      "title": "FT.SPELLCHECK"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Dumps the contents of a synonym group",
+      "group": "search",
+      "since": "1.2.0",
+      "slug": "ft.syndump",
+      "syntax": "FT.SYNDUMP index",
+      "title": "FT.SYNDUMP"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Creates or updates a synonym group with additional terms",
+      "group": "search",
+      "since": "1.2.0",
+      "slug": "ft.synupdate",
+      "syntax": "FT.SYNUPDATE index synonym_group_id [SKIPINITIALSCAN] term [term\n  ...]",
+      "title": "FT.SYNUPDATE"
+    },
+    {
+      "arity": null,
+      "complexity": "O(N)",
+      "description": "Returns the distinct tags indexed in a Tag field",
+      "group": "search",
+      "since": "1.0.0",
+      "slug": "ft.tagvals",
+      "syntax": "FT.TAGVALS index field_name",
+      "title": "FT.TAGVALS"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(1) since the categories and commands are a fixed set.",
+      "description": "Lists the ACL categories, or the commands inside a category.",
+      "group": "server",
+      "since": "6.0.0",
+      "slug": "acl-cat",
+      "syntax": "ACL CAT [category]",
+      "title": "ACL CAT"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(1) amortized time considering the typical user.",
+      "description": "Deletes ACL users, and terminates their connections.",
+      "group": "server",
+      "since": "6.0.0",
+      "slug": "acl-deluser",
+      "syntax": "ACL DELUSER username [username ...]",
+      "title": "ACL DELUSER"
+    },
+    {
+      "arity": -4,
+      "complexity": "O(1).",
+      "description": "Simulates the execution of a command by a user, without executing the command.",
+      "group": "server",
+      "since": "7.0.0",
+      "slug": "acl-dryrun",
+      "syntax": "ACL DRYRUN username command [arg [arg ...]]",
+      "title": "ACL DRYRUN"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(1)",
+      "description": "Generates a pseudorandom, secure password that can be used to identify ACL users.",
+      "group": "server",
+      "since": "6.0.0",
+      "slug": "acl-genpass",
+      "syntax": "ACL GENPASS [bits]",
+      "title": "ACL GENPASS"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(N). Where N is the number of password, command and pattern rules that the user has.",
+      "description": "Lists the ACL rules of a user.",
+      "group": "server",
+      "since": "6.0.0",
+      "slug": "acl-getuser",
+      "syntax": "ACL GETUSER username",
+      "title": "ACL GETUSER"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(N). Where N is the number of configured users.",
+      "description": "Dumps the effective rules in ACL file format.",
+      "group": "server",
+      "since": "6.0.0",
+      "slug": "acl-list",
+      "syntax": "ACL LIST",
+      "title": "ACL LIST"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(N). Where N is the number of configured users.",
+      "description": "Reloads the rules from the configured ACL file.",
+      "group": "server",
+      "since": "6.0.0",
+      "slug": "acl-load",
+      "syntax": "ACL LOAD",
+      "title": "ACL LOAD"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(N) with N being the number of entries shown.",
+      "description": "Lists recent security events generated due to ACL rules.",
+      "group": "server",
+      "since": "6.0.0",
+      "slug": "acl-log",
+      "syntax": "ACL LOG [count | RESET]",
+      "title": "ACL LOG"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(N). Where N is the number of configured users.",
+      "description": "Saves the effective ACL rules in the configured ACL file.",
+      "group": "server",
+      "since": "6.0.0",
+      "slug": "acl-save",
+      "syntax": "ACL SAVE",
+      "title": "ACL SAVE"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(N). Where N is the number of rules provided.",
+      "description": "Creates and modifies an ACL user and its rules.",
+      "group": "server",
+      "since": "6.0.0",
+      "slug": "acl-setuser",
+      "syntax": "ACL SETUSER username [rule [rule ...]]",
+      "title": "ACL SETUSER"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(N). Where N is the number of configured users.",
+      "description": "Lists all ACL users.",
+      "group": "server",
+      "since": "6.0.0",
+      "slug": "acl-users",
+      "syntax": "ACL USERS",
+      "title": "ACL USERS"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Returns the authenticated username of the current connection.",
+      "group": "server",
+      "since": "6.0.0",
+      "slug": "acl-whoami",
+      "syntax": "ACL WHOAMI",
+      "title": "ACL WHOAMI"
+    },
+    {
+      "arity": 1,
+      "complexity": "O(1)",
+      "description": "Asynchronously rewrites the append-only file to disk.",
+      "group": "server",
+      "since": "1.0.0",
+      "slug": "bgrewriteaof",
+      "syntax": "BGREWRITEAOF",
+      "title": "BGREWRITEAOF"
+    },
+    {
+      "arity": -1,
+      "complexity": "O(1)",
+      "description": "Asynchronously saves the database(s) to disk.",
+      "group": "server",
+      "since": "1.0.0",
+      "slug": "bgsave",
+      "syntax": "BGSAVE [SCHEDULE]",
+      "title": "BGSAVE"
+    },
+    {
+      "arity": -1,
+      "complexity": "O(N) where N is the total number of Redis commands",
+      "description": "Returns detailed information about all commands.",
+      "group": "server",
+      "since": "2.8.13",
+      "slug": "command",
+      "syntax": "COMMAND",
+      "title": "COMMAND"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Returns a count of commands.",
+      "group": "server",
+      "since": "2.8.13",
+      "slug": "command-count",
+      "syntax": "COMMAND COUNT",
+      "title": "COMMAND COUNT"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(N) where N is the number of commands to look up",
+      "description": "Returns documentary information about one, multiple or all commands.",
+      "group": "server",
+      "since": "7.0.0",
+      "slug": "command-docs",
+      "syntax": "COMMAND DOCS [command-name [command-name ...]]",
+      "title": "COMMAND DOCS"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(N) where N is the number of arguments to the command",
+      "description": "Extracts the key names from an arbitrary command.",
+      "group": "server",
+      "since": "2.8.13",
+      "slug": "command-getkeys",
+      "syntax": "COMMAND GETKEYS command [arg [arg ...]]",
+      "title": "COMMAND GETKEYS"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(N) where N is the number of arguments to the command",
+      "description": "Extracts the key names and access flags for an arbitrary command.",
+      "group": "server",
+      "since": "7.0.0",
+      "slug": "command-getkeysandflags",
+      "syntax": "COMMAND GETKEYSANDFLAGS command [arg [arg ...]]",
+      "title": "COMMAND GETKEYSANDFLAGS"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(N) where N is the number of commands to look up",
+      "description": "Returns information about one, multiple or all commands.",
+      "group": "server",
+      "since": "2.8.13",
+      "slug": "command-info",
+      "syntax": "COMMAND INFO [command-name [command-name ...]]",
+      "title": "COMMAND INFO"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(N) where N is the total number of Redis commands",
+      "description": "Returns a list of command names.",
+      "group": "server",
+      "since": "7.0.0",
+      "slug": "command-list",
+      "syntax": "COMMAND LIST [FILTERBY <MODULE module-name | ACLCAT category |\n  PATTERN pattern>]",
+      "title": "COMMAND LIST"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(N) when N is the number of configuration parameters provided",
+      "description": "Returns the effective values of configuration parameters.",
+      "group": "server",
+      "since": "2.0.0",
+      "slug": "config-get",
+      "syntax": "CONFIG GET parameter [parameter ...]",
+      "title": "CONFIG GET"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Resets the server's statistics.",
+      "group": "server",
+      "since": "2.0.0",
+      "slug": "config-resetstat",
+      "syntax": "CONFIG RESETSTAT",
+      "title": "CONFIG RESETSTAT"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Persists the effective configuration to file.",
+      "group": "server",
+      "since": "2.8.0",
+      "slug": "config-rewrite",
+      "syntax": "CONFIG REWRITE",
+      "title": "CONFIG REWRITE"
+    },
+    {
+      "arity": -4,
+      "complexity": "O(N) when N is the number of configuration parameters provided",
+      "description": "Sets configuration parameters in-flight.",
+      "group": "server",
+      "since": "2.0.0",
+      "slug": "config-set",
+      "syntax": "CONFIG SET parameter value [parameter value ...]",
+      "title": "CONFIG SET"
+    },
+    {
+      "arity": 1,
+      "complexity": "O(1)",
+      "description": "Returns the number of keys in the database.",
+      "group": "server",
+      "since": "1.0.0",
+      "slug": "dbsize",
+      "syntax": "DBSIZE",
+      "title": "DBSIZE"
+    },
+    {
+      "arity": -1,
+      "complexity": "O(1)",
+      "description": "Starts a coordinated failover from a server to one of its replicas.",
+      "group": "server",
+      "since": "6.2.0",
+      "slug": "failover",
+      "syntax": "FAILOVER [TO host port [FORCE]] [ABORT] [TIMEOUT milliseconds]",
+      "title": "FAILOVER"
+    },
+    {
+      "arity": -1,
+      "complexity": "O(N) where N is the total number of keys in all databases",
+      "description": "Removes all keys from all databases.",
+      "group": "server",
+      "since": "1.0.0",
+      "slug": "flushall",
+      "syntax": "FLUSHALL [ASYNC | SYNC]",
+      "title": "FLUSHALL"
+    },
+    {
+      "arity": -1,
+      "complexity": "O(N) where N is the number of keys in the selected database",
+      "description": "Remove all keys from the current database.",
+      "group": "server",
+      "since": "1.0.0",
+      "slug": "flushdb",
+      "syntax": "FLUSHDB [ASYNC | SYNC]",
+      "title": "FLUSHDB"
+    },
+    {
+      "arity": -2,
+      "complexity": "Depends on subcommand.",
+      "description": "A container for hotkeys tracking commands.",
+      "group": "server",
+      "since": "8.6.0",
+      "slug": "hotkeys",
+      "syntax": "HOTKEYS",
+      "title": "HOTKEYS"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(K) where K is the number of hotkeys returned.",
+      "description": "Returns lists of top K hotkeys depending on metrics chosen in HOTKEYS START command.",
+      "group": "server",
+      "since": "8.6.0",
+      "slug": "hotkeys-get",
+      "syntax": "HOTKEYS GET",
+      "title": "HOTKEYS GET"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Release the resources used for hotkey tracking.",
+      "group": "server",
+      "since": "8.6.0",
+      "slug": "hotkeys-reset",
+      "syntax": "HOTKEYS RESET",
+      "title": "HOTKEYS RESET"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(1)",
+      "description": "Starts hotkeys tracking.",
+      "group": "server",
+      "since": "8.6.0",
+      "slug": "hotkeys-start",
+      "syntax": "HOTKEYS START METRICS count [CPU] [NET] [COUNT k] [DURATION seconds] [SAMPLE ratio] [SLOTS count slot [slot ...]]",
+      "title": "HOTKEYS START"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Stops hotkeys tracking.",
+      "group": "server",
+      "since": "8.6.0",
+      "slug": "hotkeys-stop",
+      "syntax": "HOTKEYS STOP",
+      "title": "HOTKEYS STOP"
+    },
+    {
+      "arity": -1,
+      "complexity": "O(1)",
+      "description": "Returns information and statistics about the server.",
+      "group": "server",
+      "since": "1.0.0",
+      "slug": "info",
+      "syntax": "INFO [section [section ...]]",
+      "title": "INFO"
+    },
+    {
+      "arity": 1,
+      "complexity": "O(1)",
+      "description": "Returns the Unix timestamp of the last successful save to disk.",
+      "group": "server",
+      "since": "1.0.0",
+      "slug": "lastsave",
+      "syntax": "LASTSAVE",
+      "title": "LASTSAVE"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Returns a human-readable latency analysis report.",
+      "group": "server",
+      "since": "2.8.13",
+      "slug": "latency-doctor",
+      "syntax": "LATENCY DOCTOR",
+      "title": "LATENCY DOCTOR"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1)",
+      "description": "Returns a latency graph for an event.",
+      "group": "server",
+      "since": "2.8.13",
+      "slug": "latency-graph",
+      "syntax": "LATENCY GRAPH event",
+      "title": "LATENCY GRAPH"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(N) where N is the number of commands with latency information being retrieved.",
+      "description": "Returns the cumulative distribution of latencies of a subset or all commands.",
+      "group": "server",
+      "since": "7.0.0",
+      "slug": "latency-histogram",
+      "syntax": "LATENCY HISTOGRAM [command [command ...]]",
+      "title": "LATENCY HISTOGRAM"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1)",
+      "description": "Returns timestamp-latency samples for an event.",
+      "group": "server",
+      "since": "2.8.13",
+      "slug": "latency-history",
+      "syntax": "LATENCY HISTORY event",
+      "title": "LATENCY HISTORY"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Returns the latest latency samples for all events.",
+      "group": "server",
+      "since": "2.8.13",
+      "slug": "latency-latest",
+      "syntax": "LATENCY LATEST",
+      "title": "LATENCY LATEST"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(1)",
+      "description": "Resets the latency data for one or more events.",
+      "group": "server",
+      "since": "2.8.13",
+      "slug": "latency-reset",
+      "syntax": "LATENCY RESET [event [event ...]]",
+      "title": "LATENCY RESET"
+    },
+    {
+      "arity": -1,
+      "complexity": null,
+      "description": "Displays computer art and the Redis version",
+      "group": "server",
+      "since": "5.0.0",
+      "slug": "lolwut",
+      "syntax": "LOLWUT [VERSION version]",
+      "title": "LOLWUT"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Outputs a memory problems report.",
+      "group": "server",
+      "since": "4.0.0",
+      "slug": "memory-doctor",
+      "syntax": "MEMORY DOCTOR",
+      "title": "MEMORY DOCTOR"
+    },
+    {
+      "arity": 2,
+      "complexity": "Depends on how much memory is allocated, could be slow",
+      "description": "Returns the allocator statistics.",
+      "group": "server",
+      "since": "4.0.0",
+      "slug": "memory-malloc-stats",
+      "syntax": "MEMORY MALLOC-STATS",
+      "title": "MEMORY MALLOC-STATS"
+    },
+    {
+      "arity": 2,
+      "complexity": "Depends on how much memory is allocated, could be slow",
+      "description": "Asks the allocator to release memory.",
+      "group": "server",
+      "since": "4.0.0",
+      "slug": "memory-purge",
+      "syntax": "MEMORY PURGE",
+      "title": "MEMORY PURGE"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Returns details about memory usage.",
+      "group": "server",
+      "since": "4.0.0",
+      "slug": "memory-stats",
+      "syntax": "MEMORY STATS",
+      "title": "MEMORY STATS"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(N) where N is the number of samples.",
+      "description": "Estimates the memory usage of a key.",
+      "group": "server",
+      "since": "4.0.0",
+      "slug": "memory-usage",
+      "syntax": "MEMORY USAGE key [SAMPLES count]",
+      "title": "MEMORY USAGE"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(N) where N is the number of loaded modules.",
+      "description": "Returns all loaded modules.",
+      "group": "server",
+      "since": "4.0.0",
+      "slug": "module-list",
+      "syntax": "MODULE LIST",
+      "title": "MODULE LIST"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(1)",
+      "description": "Loads a module.",
+      "group": "server",
+      "since": "4.0.0",
+      "slug": "module-load",
+      "syntax": "MODULE LOAD path [arg [arg ...]]",
+      "title": "MODULE LOAD"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(1)",
+      "description": "Loads a module using extended parameters.",
+      "group": "server",
+      "since": "7.0.0",
+      "slug": "module-loadex",
+      "syntax": "MODULE LOADEX path [CONFIG name value [CONFIG name value ...]]\n  [ARGS args [args ...]]",
+      "title": "MODULE LOADEX"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1)",
+      "description": "Unloads a module.",
+      "group": "server",
+      "since": "4.0.0",
+      "slug": "module-unload",
+      "syntax": "MODULE UNLOAD name",
+      "title": "MODULE UNLOAD"
+    },
+    {
+      "arity": 1,
+      "complexity": null,
+      "description": "Listens for all requests received by the server in real-time.",
+      "group": "server",
+      "since": "1.0.0",
+      "slug": "monitor",
+      "syntax": "MONITOR",
+      "title": "MONITOR"
+    },
+    {
+      "arity": -3,
+      "complexity": null,
+      "description": "An internal command used in replication.",
+      "group": "server",
+      "since": "2.8.0",
+      "slug": "psync",
+      "syntax": "PSYNC replicationid offset",
+      "title": "PSYNC"
+    },
+    {
+      "arity": -1,
+      "complexity": "O(1)",
+      "description": "An internal command for configuring the replication stream.",
+      "group": "server",
+      "since": "3.0.0",
+      "slug": "replconf",
+      "syntax": "REPLCONF",
+      "title": "REPLCONF"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1)",
+      "description": "Configures a server as replica of another, or promotes it to a master.",
+      "group": "server",
+      "since": "5.0.0",
+      "slug": "replicaof",
+      "syntax": "REPLICAOF <host port | NO ONE>",
+      "title": "REPLICAOF"
+    },
+    {
+      "arity": -4,
+      "complexity": "O(1) to create the new key and additional O(N*M) to reconstruct the serialized value, where N is the number of Redis objects composing the value and M their average size. For small string values the time complexity is thus O(1)+O(1*M) where M is small, so simply O(1). However for sorted set values the complexity is O(N*M*log(N)) because inserting values into sorted sets is O(log(N)).",
+      "description": "An internal command for migrating keys in a cluster.",
+      "group": "server",
+      "since": "3.0.0",
+      "slug": "restore-asking",
+      "syntax": "RESTORE-ASKING key ttl serialized-value [REPLACE] [ABSTTL]\n  [IDLETIME seconds] [FREQ frequency]",
+      "title": "RESTORE-ASKING"
+    },
+    {
+      "arity": 1,
+      "complexity": "O(1)",
+      "description": "Returns the replication role.",
+      "group": "server",
+      "since": "2.8.12",
+      "slug": "role",
+      "syntax": "ROLE",
+      "title": "ROLE"
+    },
+    {
+      "arity": 1,
+      "complexity": "O(N) where N is the total number of keys in all databases",
+      "description": "Synchronously saves the database(s) to disk.",
+      "group": "server",
+      "since": "1.0.0",
+      "slug": "save",
+      "syntax": "SAVE",
+      "title": "SAVE"
+    },
+    {
+      "arity": -1,
+      "complexity": "O(N) when saving, where N is the total number of keys in all databases when saving data, otherwise O(1)",
+      "description": "Synchronously saves the database(s) to disk and shuts down the Redis server.",
+      "group": "server",
+      "since": "1.0.0",
+      "slug": "shutdown",
+      "syntax": "SHUTDOWN [NOSAVE | SAVE] [NOW] [FORCE] [ABORT]",
+      "title": "SHUTDOWN"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1)",
+      "description": "Sets a Redis server as a replica of another, or promotes it to being a master.",
+      "group": "server",
+      "since": "1.0.0",
+      "slug": "slaveof",
+      "syntax": "SLAVEOF <host port | NO ONE>",
+      "title": "SLAVEOF"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(N) where N is the number of entries returned",
+      "description": "Returns the slow log's entries.",
+      "group": "server",
+      "since": "2.2.12",
+      "slug": "slowlog-get",
+      "syntax": "SLOWLOG GET [count]",
+      "title": "SLOWLOG GET"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Returns the number of entries in the slow log.",
+      "group": "server",
+      "since": "2.2.12",
+      "slug": "slowlog-len",
+      "syntax": "SLOWLOG LEN",
+      "title": "SLOWLOG LEN"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(N) where N is the number of entries in the slowlog",
+      "description": "Clears all entries from the slow log.",
+      "group": "server",
+      "since": "2.2.12",
+      "slug": "slowlog-reset",
+      "syntax": "SLOWLOG RESET",
+      "title": "SLOWLOG RESET"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(N) where N is the count of clients watching or blocking on keys from both databases.",
+      "description": "Swaps two Redis databases.",
+      "group": "server",
+      "since": "4.0.0",
+      "slug": "swapdb",
+      "syntax": "SWAPDB index1 index2",
+      "title": "SWAPDB"
+    },
+    {
+      "arity": 1,
+      "complexity": null,
+      "description": "An internal command used in replication.",
+      "group": "server",
+      "since": "1.0.0",
+      "slug": "sync",
+      "syntax": "SYNC",
+      "title": "SYNC"
+    },
+    {
+      "arity": 1,
+      "complexity": "O(1)",
+      "description": "Returns the server time.",
+      "group": "server",
+      "since": "2.6.0",
+      "slug": "time",
+      "syntax": "TIME",
+      "title": "TIME"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(1) for each element added, so O(N) to add N elements when the command is called with multiple arguments.",
+      "description": "Adds one or more members to a set. Creates the key if it doesn't exist.",
+      "group": "set",
+      "since": "1.0.0",
+      "slug": "sadd",
+      "syntax": "SADD key member [member ...]",
+      "title": "SADD"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Returns the number of members in a set.",
+      "group": "set",
+      "since": "1.0.0",
+      "slug": "scard",
+      "syntax": "SCARD key",
+      "title": "SCARD"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(N) where N is the total number of elements in all given sets.",
+      "description": "Returns the difference of multiple sets.",
+      "group": "set",
+      "since": "1.0.0",
+      "slug": "sdiff",
+      "syntax": "SDIFF key [key ...]",
+      "title": "SDIFF"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(N) where N is the total number of elements in all given sets.",
+      "description": "Stores the difference of multiple sets in a key.",
+      "group": "set",
+      "since": "1.0.0",
+      "slug": "sdiffstore",
+      "syntax": "SDIFFSTORE destination key [key ...]",
+      "title": "SDIFFSTORE"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(N*M) worst case where N is the cardinality of the smallest set and M is the number of sets.",
+      "description": "Returns the intersect of multiple sets.",
+      "group": "set",
+      "since": "1.0.0",
+      "slug": "sinter",
+      "syntax": "SINTER key [key ...]",
+      "title": "SINTER"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(N*M) worst case where N is the cardinality of the smallest set and M is the number of sets.",
+      "description": "Returns the number of members of the intersect of multiple sets.",
+      "group": "set",
+      "since": "7.0.0",
+      "slug": "sintercard",
+      "syntax": "SINTERCARD numkeys key [key ...] [LIMIT limit]",
+      "title": "SINTERCARD"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(N*M) worst case where N is the cardinality of the smallest set and M is the number of sets.",
+      "description": "Stores the intersect of multiple sets in a key.",
+      "group": "set",
+      "since": "1.0.0",
+      "slug": "sinterstore",
+      "syntax": "SINTERSTORE destination key [key ...]",
+      "title": "SINTERSTORE"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1)",
+      "description": "Determines whether a member belongs to a set.",
+      "group": "set",
+      "since": "1.0.0",
+      "slug": "sismember",
+      "syntax": "SISMEMBER key member",
+      "title": "SISMEMBER"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(N) where N is the set cardinality.",
+      "description": "Returns all members of a set.",
+      "group": "set",
+      "since": "1.0.0",
+      "slug": "smembers",
+      "syntax": "SMEMBERS key",
+      "title": "SMEMBERS"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(N) where N is the number of elements being checked for membership",
+      "description": "Determines whether multiple members belong to a set.",
+      "group": "set",
+      "since": "6.2.0",
+      "slug": "smismember",
+      "syntax": "SMISMEMBER key member [member ...]",
+      "title": "SMISMEMBER"
+    },
+    {
+      "arity": 4,
+      "complexity": "O(1)",
+      "description": "Moves a member from one set to another.",
+      "group": "set",
+      "since": "1.0.0",
+      "slug": "smove",
+      "syntax": "SMOVE source destination member",
+      "title": "SMOVE"
+    },
+    {
+      "arity": -2,
+      "complexity": "Without the count argument O(1), otherwise O(N) where N is the value of the passed count.",
+      "description": "Returns one or more random members from a set after removing them. Deletes the set if the last member was popped.",
+      "group": "set",
+      "since": "1.0.0",
+      "slug": "spop",
+      "syntax": "SPOP key [count]",
+      "title": "SPOP"
+    },
+    {
+      "arity": -2,
+      "complexity": "Without the count argument O(1), otherwise O(N) where N is the absolute value of the passed count.",
+      "description": "Get one or multiple random members from a set",
+      "group": "set",
+      "since": "1.0.0",
+      "slug": "srandmember",
+      "syntax": "SRANDMEMBER key [count]",
+      "title": "SRANDMEMBER"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(N) where N is the number of members to be removed.",
+      "description": "Removes one or more members from a set. Deletes the set if the last member was removed.",
+      "group": "set",
+      "since": "1.0.0",
+      "slug": "srem",
+      "syntax": "SREM key member [member ...]",
+      "title": "SREM"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(1) for every call. O(N) for a complete iteration, including enough command calls for the cursor to return back to 0. N is the number of elements inside the collection.",
+      "description": "Iterates over members of a set.",
+      "group": "set",
+      "since": "2.8.0",
+      "slug": "sscan",
+      "syntax": "SSCAN key cursor [MATCH pattern] [COUNT count]",
+      "title": "SSCAN"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(N) where N is the total number of elements in all given sets.",
+      "description": "Returns the union of multiple sets.",
+      "group": "set",
+      "since": "1.0.0",
+      "slug": "sunion",
+      "syntax": "SUNION key [key ...]",
+      "title": "SUNION"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(N) where N is the total number of elements in all given sets.",
+      "description": "Stores the union of multiple sets in a key.",
+      "group": "set",
+      "since": "1.0.0",
+      "slug": "sunionstore",
+      "syntax": "SUNIONSTORE destination key [key ...]",
+      "title": "SUNIONSTORE"
+    },
+    {
+      "arity": -5,
+      "complexity": "O(K) + O(M*log(N)) where K is the number of provided keys, N being the number of elements in the sorted set, and M being the number of elements popped.",
+      "description": "Removes and returns a member by score from one or more sorted sets. Blocks until a member is available otherwise. Deletes the sorted set if the last element was popped.",
+      "group": "sorted-set",
+      "since": "7.0.0",
+      "slug": "bzmpop",
+      "syntax": "BZMPOP timeout numkeys key [key ...] <MIN | MAX> [COUNT count]",
+      "title": "BZMPOP"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(log(N)) with N being the number of elements in the sorted set.",
+      "description": "Removes and returns the member with the highest score from one or more sorted sets. Blocks until a member available otherwise. Deletes the sorted set if the last element was popped.",
+      "group": "sorted-set",
+      "since": "5.0.0",
+      "slug": "bzpopmax",
+      "syntax": "BZPOPMAX key [key ...] timeout",
+      "title": "BZPOPMAX"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(log(N)) with N being the number of elements in the sorted set.",
+      "description": "Removes and returns the member with the lowest score from one or more sorted sets. Blocks until a member is available otherwise. Deletes the sorted set if the last element was popped.",
+      "group": "sorted-set",
+      "since": "5.0.0",
+      "slug": "bzpopmin",
+      "syntax": "BZPOPMIN key [key ...] timeout",
+      "title": "BZPOPMIN"
+    },
+    {
+      "arity": -4,
+      "complexity": "O(log(N)) for each item added, where N is the number of elements in the sorted set.",
+      "description": "Adds one or more members to a sorted set, or updates their scores. Creates the key if it doesn't exist.",
+      "group": "sorted-set",
+      "since": "1.2.0",
+      "slug": "zadd",
+      "syntax": "ZADD key [NX | XX] [GT | LT] [CH] [INCR] score member [score member\n  ...]",
+      "title": "ZADD"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Returns the number of members in a sorted set.",
+      "group": "sorted-set",
+      "since": "1.2.0",
+      "slug": "zcard",
+      "syntax": "ZCARD key",
+      "title": "ZCARD"
+    },
+    {
+      "arity": 4,
+      "complexity": "O(log(N)) with N being the number of elements in the sorted set.",
+      "description": "Returns the count of members in a sorted set that have scores within a range.",
+      "group": "sorted-set",
+      "since": "2.0.0",
+      "slug": "zcount",
+      "syntax": "ZCOUNT key min max",
+      "title": "ZCOUNT"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(L + (N-K)log(N)) worst case where L is the total number of elements in all the sets, N is the size of the first set, and K is the size of the result set.",
+      "description": "Returns the difference between multiple sorted sets.",
+      "group": "sorted-set",
+      "since": "6.2.0",
+      "slug": "zdiff",
+      "syntax": "ZDIFF numkeys key [key ...] [WITHSCORES]",
+      "title": "ZDIFF"
+    },
+    {
+      "arity": -4,
+      "complexity": "O(L + (N-K)log(N)) worst case where L is the total number of elements in all the sets, N is the size of the first set, and K is the size of the result set.",
+      "description": "Stores the difference of multiple sorted sets in a key.",
+      "group": "sorted-set",
+      "since": "6.2.0",
+      "slug": "zdiffstore",
+      "syntax": "ZDIFFSTORE destination numkeys key [key ...]",
+      "title": "ZDIFFSTORE"
+    },
+    {
+      "arity": 4,
+      "complexity": "O(log(N)) where N is the number of elements in the sorted set.",
+      "description": "Increments the score of a member in a sorted set.",
+      "group": "sorted-set",
+      "since": "1.2.0",
+      "slug": "zincrby",
+      "syntax": "ZINCRBY key increment member",
+      "title": "ZINCRBY"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(N*K)+O(M*log(M)) worst case with N being the smallest input sorted set, K being the number of input sorted sets and M being the number of elements in the resulting sorted set.",
+      "description": "Returns the intersect of multiple sorted sets.",
+      "group": "sorted-set",
+      "since": "6.2.0",
+      "slug": "zinter",
+      "syntax": "ZINTER numkeys key [key ...] [WEIGHTS weight [weight ...]]\n  [AGGREGATE <SUM | MIN | MAX>] [WITHSCORES]",
+      "title": "ZINTER"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(N*K) worst case with N being the smallest input sorted set, K being the number of input sorted sets.",
+      "description": "Returns the number of members of the intersect of multiple sorted sets.",
+      "group": "sorted-set",
+      "since": "7.0.0",
+      "slug": "zintercard",
+      "syntax": "ZINTERCARD numkeys key [key ...] [LIMIT limit]",
+      "title": "ZINTERCARD"
+    },
+    {
+      "arity": -4,
+      "complexity": "O(N*K)+O(M*log(M)) worst case with N being the smallest input sorted set, K being the number of input sorted sets and M being the number of elements in the resulting sorted set.",
+      "description": "Stores the intersect of multiple sorted sets in a key.",
+      "group": "sorted-set",
+      "since": "2.0.0",
+      "slug": "zinterstore",
+      "syntax": "ZINTERSTORE destination numkeys key [key ...] [WEIGHTS weight\n  [weight ...]] [AGGREGATE <SUM | MIN | MAX>]",
+      "title": "ZINTERSTORE"
+    },
+    {
+      "arity": 4,
+      "complexity": "O(log(N)) with N being the number of elements in the sorted set.",
+      "description": "Returns the number of members in a sorted set within a lexicographical range.",
+      "group": "sorted-set",
+      "since": "2.8.9",
+      "slug": "zlexcount",
+      "syntax": "ZLEXCOUNT key min max",
+      "title": "ZLEXCOUNT"
+    },
+    {
+      "arity": -4,
+      "complexity": "O(K) + O(M*log(N)) where K is the number of provided keys, N being the number of elements in the sorted set, and M being the number of elements popped.",
+      "description": "Returns the highest- or lowest-scoring members from one or more sorted sets after removing them. Deletes the sorted set if the last member was popped.",
+      "group": "sorted-set",
+      "since": "7.0.0",
+      "slug": "zmpop",
+      "syntax": "ZMPOP numkeys key [key ...] <MIN | MAX> [COUNT count]",
+      "title": "ZMPOP"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(N) where N is the number of members being requested.",
+      "description": "Returns the score of one or more members in a sorted set.",
+      "group": "sorted-set",
+      "since": "6.2.0",
+      "slug": "zmscore",
+      "syntax": "ZMSCORE key member [member ...]",
+      "title": "ZMSCORE"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(log(N)*M) with N being the number of elements in the sorted set, and M being the number of elements popped.",
+      "description": "Returns the highest-scoring members from a sorted set after removing them. Deletes the sorted set if the last member was popped.",
+      "group": "sorted-set",
+      "since": "5.0.0",
+      "slug": "zpopmax",
+      "syntax": "ZPOPMAX key [count]",
+      "title": "ZPOPMAX"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(log(N)*M) with N being the number of elements in the sorted set, and M being the number of elements popped.",
+      "description": "Returns the lowest-scoring members from a sorted set after removing them. Deletes the sorted set if the last member was popped.",
+      "group": "sorted-set",
+      "since": "5.0.0",
+      "slug": "zpopmin",
+      "syntax": "ZPOPMIN key [count]",
+      "title": "ZPOPMIN"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(N) where N is the number of members returned",
+      "description": "Returns one or more random members from a sorted set.",
+      "group": "sorted-set",
+      "since": "6.2.0",
+      "slug": "zrandmember",
+      "syntax": "ZRANDMEMBER key [count [WITHSCORES]]",
+      "title": "ZRANDMEMBER"
+    },
+    {
+      "arity": -4,
+      "complexity": "O(log(N)+M) with N being the number of elements in the sorted set and M the number of elements returned.",
+      "description": "Returns members in a sorted set within a range of indexes.",
+      "group": "sorted-set",
+      "since": "1.2.0",
+      "slug": "zrange",
+      "syntax": "ZRANGE key start stop [BYSCORE | BYLEX] [REV] [LIMIT offset count]\n  [WITHSCORES]",
+      "title": "ZRANGE"
+    },
+    {
+      "arity": -4,
+      "complexity": "O(log(N)+M) with N being the number of elements in the sorted set and M the number of elements being returned. If M is constant (e.g. always asking for the first 10 elements with LIMIT), you can consider it O(log(N)).",
+      "description": "Returns members in a sorted set within a lexicographical range.",
+      "group": "sorted-set",
+      "since": "2.8.9",
+      "slug": "zrangebylex",
+      "syntax": "ZRANGEBYLEX key min max [LIMIT offset count]",
+      "title": "ZRANGEBYLEX"
+    },
+    {
+      "arity": -4,
+      "complexity": "O(log(N)+M) with N being the number of elements in the sorted set and M the number of elements being returned. If M is constant (e.g. always asking for the first 10 elements with LIMIT), you can consider it O(log(N)).",
+      "description": "Returns members in a sorted set within a range of scores.",
+      "group": "sorted-set",
+      "since": "1.0.5",
+      "slug": "zrangebyscore",
+      "syntax": "ZRANGEBYSCORE key min max [WITHSCORES] [LIMIT offset count]",
+      "title": "ZRANGEBYSCORE"
+    },
+    {
+      "arity": -5,
+      "complexity": "O(log(N)+M) with N being the number of elements in the sorted set and M the number of elements stored into the destination key.",
+      "description": "Stores a range of members from sorted set in a key.",
+      "group": "sorted-set",
+      "since": "6.2.0",
+      "slug": "zrangestore",
+      "syntax": "ZRANGESTORE dst src min max [BYSCORE | BYLEX] [REV] [LIMIT offset\n  count]",
+      "title": "ZRANGESTORE"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(log(N))",
+      "description": "Returns the index of a member in a sorted set ordered by ascending scores.",
+      "group": "sorted-set",
+      "since": "2.0.0",
+      "slug": "zrank",
+      "syntax": "ZRANK key member [WITHSCORE]",
+      "title": "ZRANK"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(M*log(N)) with N being the number of elements in the sorted set and M the number of elements to be removed.",
+      "description": "Removes one or more members from a sorted set. Deletes the sorted set if all members were removed.",
+      "group": "sorted-set",
+      "since": "1.2.0",
+      "slug": "zrem",
+      "syntax": "ZREM key member [member ...]",
+      "title": "ZREM"
+    },
+    {
+      "arity": 4,
+      "complexity": "O(log(N)+M) with N being the number of elements in the sorted set and M the number of elements removed by the operation.",
+      "description": "Removes members in a sorted set within a lexicographical range. Deletes the sorted set if all members were removed.",
+      "group": "sorted-set",
+      "since": "2.8.9",
+      "slug": "zremrangebylex",
+      "syntax": "ZREMRANGEBYLEX key min max",
+      "title": "ZREMRANGEBYLEX"
+    },
+    {
+      "arity": 4,
+      "complexity": "O(log(N)+M) with N being the number of elements in the sorted set and M the number of elements removed by the operation.",
+      "description": "Removes members in a sorted set within a range of indexes. Deletes the sorted set if all members were removed.",
+      "group": "sorted-set",
+      "since": "2.0.0",
+      "slug": "zremrangebyrank",
+      "syntax": "ZREMRANGEBYRANK key start stop",
+      "title": "ZREMRANGEBYRANK"
+    },
+    {
+      "arity": 4,
+      "complexity": "O(log(N)+M) with N being the number of elements in the sorted set and M the number of elements removed by the operation.",
+      "description": "Removes members in a sorted set within a range of scores. Deletes the sorted set if all members were removed.",
+      "group": "sorted-set",
+      "since": "1.2.0",
+      "slug": "zremrangebyscore",
+      "syntax": "ZREMRANGEBYSCORE key min max",
+      "title": "ZREMRANGEBYSCORE"
+    },
+    {
+      "arity": -4,
+      "complexity": "O(log(N)+M) with N being the number of elements in the sorted set and M the number of elements returned.",
+      "description": "Returns members in a sorted set within a range of indexes in reverse order.",
+      "group": "sorted-set",
+      "since": "1.2.0",
+      "slug": "zrevrange",
+      "syntax": "ZREVRANGE key start stop [WITHSCORES]",
+      "title": "ZREVRANGE"
+    },
+    {
+      "arity": -4,
+      "complexity": "O(log(N)+M) with N being the number of elements in the sorted set and M the number of elements being returned. If M is constant (e.g. always asking for the first 10 elements with LIMIT), you can consider it O(log(N)).",
+      "description": "Returns members in a sorted set within a lexicographical range in reverse order.",
+      "group": "sorted-set",
+      "since": "2.8.9",
+      "slug": "zrevrangebylex",
+      "syntax": "ZREVRANGEBYLEX key max min [LIMIT offset count]",
+      "title": "ZREVRANGEBYLEX"
+    },
+    {
+      "arity": -4,
+      "complexity": "O(log(N)+M) with N being the number of elements in the sorted set and M the number of elements being returned. If M is constant (e.g. always asking for the first 10 elements with LIMIT), you can consider it O(log(N)).",
+      "description": "Returns members in a sorted set within a range of scores in reverse order.",
+      "group": "sorted-set",
+      "since": "2.2.0",
+      "slug": "zrevrangebyscore",
+      "syntax": "ZREVRANGEBYSCORE key max min [WITHSCORES] [LIMIT offset count]",
+      "title": "ZREVRANGEBYSCORE"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(log(N))",
+      "description": "Returns the index of a member in a sorted set ordered by descending scores.",
+      "group": "sorted-set",
+      "since": "2.0.0",
+      "slug": "zrevrank",
+      "syntax": "ZREVRANK key member [WITHSCORE]",
+      "title": "ZREVRANK"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(1) for every call. O(N) for a complete iteration, including enough command calls for the cursor to return back to 0. N is the number of elements inside the collection.",
+      "description": "Iterates over members and scores of a sorted set.",
+      "group": "sorted-set",
+      "since": "2.8.0",
+      "slug": "zscan",
+      "syntax": "ZSCAN key cursor [MATCH pattern] [COUNT count]",
+      "title": "ZSCAN"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1)",
+      "description": "Returns the score of a member in a sorted set.",
+      "group": "sorted-set",
+      "since": "1.2.0",
+      "slug": "zscore",
+      "syntax": "ZSCORE key member",
+      "title": "ZSCORE"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(N)+O(M*log(M)) with N being the sum of the sizes of the input sorted sets, and M being the number of elements in the resulting sorted set.",
+      "description": "Returns the union of multiple sorted sets.",
+      "group": "sorted-set",
+      "since": "6.2.0",
+      "slug": "zunion",
+      "syntax": "ZUNION numkeys key [key ...] [WEIGHTS weight [weight ...]]\n  [AGGREGATE <SUM | MIN | MAX>] [WITHSCORES]",
+      "title": "ZUNION"
+    },
+    {
+      "arity": -4,
+      "complexity": "O(N)+O(M log(M)) with N being the sum of the sizes of the input sorted sets, and M being the number of elements in the resulting sorted set.",
+      "description": "Stores the union of multiple sorted sets in a key.",
+      "group": "sorted-set",
+      "since": "2.0.0",
+      "slug": "zunionstore",
+      "syntax": "ZUNIONSTORE destination numkeys key [key ...] [WEIGHTS weight\n  [weight ...]] [AGGREGATE <SUM | MIN | MAX>]",
+      "title": "ZUNIONSTORE"
+    },
+    {
+      "arity": -4,
+      "complexity": "O(1) for each message ID processed.",
+      "description": "Returns the number of messages that were successfully acknowledged by the consumer group member of a stream.",
+      "group": "stream",
+      "since": "5.0.0",
+      "slug": "xack",
+      "syntax": "XACK key group id [id ...]",
+      "title": "XACK"
+    },
+    {
+      "arity": -6,
+      "complexity": "O(1) for each entry ID processed.",
+      "description": "Acknowledges and conditionally deletes one or multiple entries for a stream consumer group.",
+      "group": "stream",
+      "since": "8.2.0",
+      "slug": "xackdel",
+      "syntax": "XACKDEL key group [KEEPREF | DELREF | ACKED] IDS numids id [id ...]",
+      "title": "XACKDEL"
+    },
+    {
+      "arity": -5,
+      "complexity": "O(1) when adding a new entry, O(N) when trimming where N being the number of entries evicted.",
+      "description": "Appends a new message to a stream. Creates the key if it doesn't exist.",
+      "group": "stream",
+      "since": "5.0.0",
+      "slug": "xadd",
+      "syntax": "XADD key [NOMKSTREAM] [KEEPREF | DELREF | ACKED]\n  [IDMPAUTO producer-id | IDMP producer-id idempotent-id]\n  [<MAXLEN | MINID> [= | ~] threshold [LIMIT count]] <* | id>\n  field value [field value ...]",
+      "title": "XADD"
+    },
+    {
+      "arity": -6,
+      "complexity": "O(1) if COUNT is small.",
+      "description": "Changes, or acquires, ownership of messages in a consumer group, as if the messages were delivered to as consumer group member.",
+      "group": "stream",
+      "since": "6.2.0",
+      "slug": "xautoclaim",
+      "syntax": "XAUTOCLAIM key group consumer min-idle-time start [COUNT count]\n  [JUSTID]",
+      "title": "XAUTOCLAIM"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(1)",
+      "description": "Sets the IDMP configuration parameters for a stream.",
+      "group": "stream",
+      "since": "8.6.0",
+      "slug": "xcfgset",
+      "syntax": "XCFGSET key [IDMP-DURATION duration] [IDMP-MAXSIZE maxsize]",
+      "title": "XCFGSET"
+    },
+    {
+      "arity": -6,
+      "complexity": "O(log N) with N being the number of messages in the PEL of the consumer group.",
+      "description": "Changes, or acquires, ownership of a message in a consumer group, as if the message was delivered a consumer group member.",
+      "group": "stream",
+      "since": "5.0.0",
+      "slug": "xclaim",
+      "syntax": "XCLAIM key group consumer min-idle-time id [id ...] [IDLE ms]\n  [TIME unix-time-milliseconds] [RETRYCOUNT count] [FORCE] [JUSTID]\n  [LASTID lastid]",
+      "title": "XCLAIM"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(1) for each single item to delete in the stream, regardless of the stream size.",
+      "description": "Returns the number of messages after removing them from a stream.",
+      "group": "stream",
+      "since": "5.0.0",
+      "slug": "xdel",
+      "syntax": "XDEL key id [id ...]",
+      "title": "XDEL"
+    },
+    {
+      "arity": -5,
+      "complexity": "O(1) for each single item to delete in the stream, regardless of the stream size.",
+      "description": "Deletes one or multiple entries from the stream.",
+      "group": "stream",
+      "since": "8.2.0",
+      "slug": "xdelex",
+      "syntax": "XDELEX key [KEEPREF | DELREF | ACKED] IDS numids id [id ...]",
+      "title": "XDELEX"
+    },
+    {
+      "arity": -5,
+      "complexity": "O(1)",
+      "description": "Creates a consumer group.",
+      "group": "stream",
+      "since": "5.0.0",
+      "slug": "xgroup-create",
+      "syntax": "XGROUP CREATE key group <id | $> [MKSTREAM]\n  [ENTRIESREAD entries-read]",
+      "title": "XGROUP CREATE"
+    },
+    {
+      "arity": 5,
+      "complexity": "O(1)",
+      "description": "Creates a consumer in a consumer group.",
+      "group": "stream",
+      "since": "6.2.0",
+      "slug": "xgroup-createconsumer",
+      "syntax": "XGROUP CREATECONSUMER key group consumer",
+      "title": "XGROUP CREATECONSUMER"
+    },
+    {
+      "arity": 5,
+      "complexity": "O(1)",
+      "description": "Deletes a consumer from a consumer group.",
+      "group": "stream",
+      "since": "5.0.0",
+      "slug": "xgroup-delconsumer",
+      "syntax": "XGROUP DELCONSUMER key group consumer",
+      "title": "XGROUP DELCONSUMER"
+    },
+    {
+      "arity": 4,
+      "complexity": "O(N) where N is the number of entries in the group's pending entries list (PEL).",
+      "description": "Destroys a consumer group.",
+      "group": "stream",
+      "since": "5.0.0",
+      "slug": "xgroup-destroy",
+      "syntax": "XGROUP DESTROY key group",
+      "title": "XGROUP DESTROY"
+    },
+    {
+      "arity": -5,
+      "complexity": "O(1)",
+      "description": "Sets the last-delivered ID of a consumer group.",
+      "group": "stream",
+      "since": "5.0.0",
+      "slug": "xgroup-setid",
+      "syntax": "XGROUP SETID key group <id | $> [ENTRIESREAD entries-read]",
+      "title": "XGROUP SETID"
+    },
+    {
+      "arity": 4,
+      "complexity": "O(1)",
+      "description": "Returns a list of the consumers in a consumer group.",
+      "group": "stream",
+      "since": "5.0.0",
+      "slug": "xinfo-consumers",
+      "syntax": "XINFO CONSUMERS key group",
+      "title": "XINFO CONSUMERS"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1)",
+      "description": "Returns a list of the consumer groups of a stream.",
+      "group": "stream",
+      "since": "5.0.0",
+      "slug": "xinfo-groups",
+      "syntax": "XINFO GROUPS key",
+      "title": "XINFO GROUPS"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(1)",
+      "description": "Returns information about a stream.",
+      "group": "stream",
+      "since": "5.0.0",
+      "slug": "xinfo-stream",
+      "syntax": "XINFO STREAM key [FULL [COUNT count]]",
+      "title": "XINFO STREAM"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Return the number of messages in a stream.",
+      "group": "stream",
+      "since": "5.0.0",
+      "slug": "xlen",
+      "syntax": "XLEN key",
+      "title": "XLEN"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(N) with N being the number of elements returned, so asking for a small fixed number of entries per call is O(1). O(M), where M is the total number of entries scanned when used with the IDLE filter. When the command returns just the summary and the list of consumers is small, it runs in O(1) time; otherwise, an additional O(N) time for iterating every consumer.",
+      "description": "Returns the information and entries from a stream consumer group's pending entries list.",
+      "group": "stream",
+      "since": "5.0.0",
+      "slug": "xpending",
+      "syntax": "XPENDING key group [[IDLE min-idle-time] start end count [consumer]]",
+      "title": "XPENDING"
+    },
+    {
+      "arity": -4,
+      "complexity": "O(N) with N being the number of elements being returned. If N is constant (e.g. always asking for the first 10 elements with COUNT), you can consider it O(1).",
+      "description": "Returns the messages from a stream within a range of IDs.",
+      "group": "stream",
+      "since": "5.0.0",
+      "slug": "xrange",
+      "syntax": "XRANGE key start end [COUNT count]",
+      "title": "XRANGE"
+    },
+    {
+      "arity": -4,
+      "complexity": "For each stream mentioned: O(M) with M being the number of elements returned. If M is constant (for example, always asking for the first 10 elements with COUNT), you can consider it O(1). On the other side when XREADGROUP blocks, XADD will pay the O(N) time in order to serve the N clients blocked on the stream getting new data.",
+      "description": "Returns messages from multiple streams with IDs greater than the ones requested. Blocks until a message is available otherwise.",
+      "group": "stream",
+      "since": "5.0.0",
+      "slug": "xread",
+      "syntax": "XREAD [COUNT count] [BLOCK milliseconds] STREAMS key [key ...] id\n  [id ...]",
+      "title": "XREAD"
+    },
+    {
+      "arity": -7,
+      "complexity": "For each stream mentioned: O(M) with M being the number of elements returned. If M is constant (e.g. always asking for the first 10 elements with COUNT), you can consider it O(1). On the other side when XREADGROUP blocks, XADD will pay the O(N) time in order to serve the N clients blocked on the stream getting new data.",
+      "description": "Returns new or historical messages from a stream for a consumer in a group. Blocks until a message is available otherwise.",
+      "group": "stream",
+      "since": "5.0.0",
+      "slug": "xreadgroup",
+      "syntax": "XREADGROUP GROUP group consumer [COUNT count] [BLOCK milliseconds]\n  [CLAIM min-idle-time] [NOACK] STREAMS key [key ...] id [id ...]",
+      "title": "XREADGROUP"
+    },
+    {
+      "arity": -4,
+      "complexity": "O(N) with N being the number of elements returned. If N is constant (e.g. always asking for the first 10 elements with COUNT), you can consider it O(1).",
+      "description": "Returns the messages from a stream within a range of IDs in reverse order.",
+      "group": "stream",
+      "since": "5.0.0",
+      "slug": "xrevrange",
+      "syntax": "XREVRANGE key end start [COUNT count]",
+      "title": "XREVRANGE"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(1)",
+      "description": "An internal command for replicating stream values.",
+      "group": "stream",
+      "since": "5.0.0",
+      "slug": "xsetid",
+      "syntax": "XSETID key last-id [ENTRIESADDED entries-added]\n  [MAXDELETEDID max-deleted-id]",
+      "title": "XSETID"
+    },
+    {
+      "arity": -4,
+      "complexity": "O(N), with N being the number of evicted entries. Constant times are very small however, since entries are organized in macro nodes containing multiple entries that can be released with a single deallocation.",
+      "description": "Deletes messages from the beginning of a stream.",
+      "group": "stream",
+      "since": "5.0.0",
+      "slug": "xtrim",
+      "syntax": "XTRIM key <MAXLEN | MINID> [= | ~] threshold [LIMIT count] [KEEPREF | DELREF | ACKED]",
+      "title": "XTRIM"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1). The amortized time complexity is O(1) assuming the appended value is small and the already present value is of any size, since the dynamic string library used by Redis will double the free space available on every reallocation.",
+      "description": "Appends a string to the value of a key. Creates the key if it doesn't exist.",
+      "group": "string",
+      "since": "2.0.0",
+      "slug": "append",
+      "syntax": "APPEND key value",
+      "title": "APPEND"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Decrements the integer value of a key by one. Uses 0 as initial value if the key doesn't exist.",
+      "group": "string",
+      "since": "1.0.0",
+      "slug": "decr",
+      "syntax": "DECR key",
+      "title": "DECR"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1)",
+      "description": "Decrements a number from the integer value of a key. Uses 0 as initial value if the key doesn't exist.",
+      "group": "string",
+      "since": "1.0.0",
+      "slug": "decrby",
+      "syntax": "DECRBY key decrement",
+      "title": "DECRBY"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(1) for IFEQ/IFNE, O(N) for IFDEQ/IFDNE where N is the length of the string value.",
+      "description": "Conditionally removes the specified key based on value or hash digest comparison.",
+      "group": "string",
+      "since": "8.4.0",
+      "slug": "delex",
+      "syntax": "DELEX key [IFEQ ifeq-value | IFNE ifne-value | IFDEQ ifdeq-digest |\n  IFDNE ifdne-digest]",
+      "title": "DELEX"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(N) where N is the length of the string value.",
+      "description": "Returns the hash digest of a string value.",
+      "group": "string",
+      "since": "8.4.0",
+      "slug": "digest",
+      "syntax": "DIGEST key",
+      "title": "DIGEST"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Returns the string value of a key.",
+      "group": "string",
+      "since": "1.0.0",
+      "slug": "get",
+      "syntax": "GET key",
+      "title": "GET"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Returns the string value of a key after deleting the key.",
+      "group": "string",
+      "since": "6.2.0",
+      "slug": "getdel",
+      "syntax": "GETDEL key",
+      "title": "GETDEL"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(1)",
+      "description": "Returns the string value of a key after setting its expiration time.",
+      "group": "string",
+      "since": "6.2.0",
+      "slug": "getex",
+      "syntax": "GETEX key [EX seconds | PX milliseconds | EXAT unix-time-seconds |\n  PXAT unix-time-milliseconds | PERSIST]",
+      "title": "GETEX"
+    },
+    {
+      "arity": 4,
+      "complexity": "O(N) where N is the length of the returned string. The complexity is ultimately determined by the returned length, but because creating a substring from an existing string is very cheap, it can be considered O(1) for small strings.",
+      "description": "Returns a substring of the string stored at a key.",
+      "group": "string",
+      "since": "2.4.0",
+      "slug": "getrange",
+      "syntax": "GETRANGE key start end",
+      "title": "GETRANGE"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1)",
+      "description": "Returns the previous string value of a key after setting it to a new value.",
+      "group": "string",
+      "since": "1.0.0",
+      "slug": "getset",
+      "syntax": "GETSET key value",
+      "title": "GETSET"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Increments the integer value of a key by one. Uses 0 as initial value if the key doesn't exist.",
+      "group": "string",
+      "since": "1.0.0",
+      "slug": "incr",
+      "syntax": "INCR key",
+      "title": "INCR"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1)",
+      "description": "Increments the integer value of a key by a number. Uses 0 as initial value if the key doesn't exist.",
+      "group": "string",
+      "since": "1.0.0",
+      "slug": "incrby",
+      "syntax": "INCRBY key increment",
+      "title": "INCRBY"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1)",
+      "description": "Increment the floating point value of a key by a number. Uses 0 as initial value if the key doesn't exist.",
+      "group": "string",
+      "since": "2.6.0",
+      "slug": "incrbyfloat",
+      "syntax": "INCRBYFLOAT key increment",
+      "title": "INCRBYFLOAT"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(N*M) where N and M are the lengths of s1 and s2, respectively",
+      "description": "Finds the longest common substring.",
+      "group": "string",
+      "since": "7.0.0",
+      "slug": "lcs",
+      "syntax": "LCS key1 key2 [LEN] [IDX] [MINMATCHLEN min-match-len] [WITHMATCHLEN]",
+      "title": "LCS"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(N) where N is the number of keys to retrieve.",
+      "description": "Atomically returns the string values of one or more keys.",
+      "group": "string",
+      "since": "1.0.0",
+      "slug": "mget",
+      "syntax": "MGET key [key ...]",
+      "title": "MGET"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(N) where N is the number of keys to set.",
+      "description": "Atomically creates or modifies the string values of one or more keys.",
+      "group": "string",
+      "since": "1.0.1",
+      "slug": "mset",
+      "syntax": "MSET key value [key value ...]",
+      "title": "MSET"
+    },
+    {
+      "arity": -4,
+      "complexity": "O(N) where N is the number of keys to set.",
+      "description": "Atomically sets multiple string keys with a shared expiration in a single operation. Supports flexible argument parsing where condition and expiration flags can appear in any order.",
+      "group": "string",
+      "since": "8.4.0",
+      "slug": "msetex",
+      "syntax": "MSETEX numkeys key value [key value ...] [NX | XX] [EX seconds |\n  PX milliseconds | EXAT unix-time-seconds |\n  PXAT unix-time-milliseconds | KEEPTTL]",
+      "title": "MSETEX"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(N) where N is the number of keys to set.",
+      "description": "Atomically modifies the string values of one or more keys only when all keys don't exist.",
+      "group": "string",
+      "since": "1.0.1",
+      "slug": "msetnx",
+      "syntax": "MSETNX key value [key value ...]",
+      "title": "MSETNX"
+    },
+    {
+      "arity": 4,
+      "complexity": "O(1)",
+      "description": "Sets both string value and expiration time in milliseconds of a key. The key is created if it doesn't exist.",
+      "group": "string",
+      "since": "2.6.0",
+      "slug": "psetex",
+      "syntax": "PSETEX key milliseconds value",
+      "title": "PSETEX"
+    },
+    {
+      "arity": -3,
+      "complexity": "O(1)",
+      "description": "Sets the string value of a key, ignoring its type. The key is created if it doesn't exist.",
+      "group": "string",
+      "since": "1.0.0",
+      "slug": "set",
+      "syntax": "SET key value [NX | XX | IFEQ ifeq-value | IFNE ifne-value |\n  IFDEQ ifdeq-digest | IFDNE ifdne-digest] [GET] [EX seconds |\n  PX milliseconds | EXAT unix-time-seconds |\n  PXAT unix-time-milliseconds | KEEPTTL]",
+      "title": "SET"
+    },
+    {
+      "arity": 4,
+      "complexity": "O(1)",
+      "description": "Sets the string value and expiration time of a key. Creates the key if it doesn't exist.",
+      "group": "string",
+      "since": "2.0.0",
+      "slug": "setex",
+      "syntax": "SETEX key seconds value",
+      "title": "SETEX"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1)",
+      "description": "Set the string value of a key only when the key doesn't exist.",
+      "group": "string",
+      "since": "1.0.0",
+      "slug": "setnx",
+      "syntax": "SETNX key value",
+      "title": "SETNX"
+    },
+    {
+      "arity": 4,
+      "complexity": "O(1), not counting the time taken to copy the new string in place. Usually, this string is very small so the amortized complexity is O(1). Otherwise, complexity is O(M) with M being the length of the value argument.",
+      "description": "Overwrites a part of a string value with another by an offset. Creates the key if it doesn't exist.",
+      "group": "string",
+      "since": "2.2.0",
+      "slug": "setrange",
+      "syntax": "SETRANGE key offset value",
+      "title": "SETRANGE"
+    },
+    {
+      "arity": 2,
+      "complexity": "O(1)",
+      "description": "Returns the length of a string value.",
+      "group": "string",
+      "since": "2.2.0",
+      "slug": "strlen",
+      "syntax": "STRLEN key",
+      "title": "STRLEN"
+    },
+    {
+      "arity": 4,
+      "complexity": "O(N) where N is the length of the returned string. The complexity is ultimately determined by the returned length, but because creating a substring from an existing string is very cheap, it can be considered O(1) for small strings.",
+      "description": "Returns a substring from a string value.",
+      "group": "string",
+      "since": "1.0.0",
+      "slug": "substr",
+      "syntax": "SUBSTR key start end",
+      "title": "SUBSTR"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Adds a suggestion string to an auto-complete suggestion dictionary",
+      "group": "suggestion",
+      "since": "1.0.0",
+      "slug": "ft.sugadd",
+      "syntax": "FT.SUGADD key string score [INCR] [PAYLOAD payload]",
+      "title": "FT.SUGADD"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Deletes a string from a suggestion index",
+      "group": "suggestion",
+      "since": "1.0.0",
+      "slug": "ft.sugdel",
+      "syntax": "FT.SUGDEL key string",
+      "title": "FT.SUGDEL"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Gets completion suggestions for a prefix",
+      "group": "suggestion",
+      "since": "1.0.0",
+      "slug": "ft.sugget",
+      "syntax": "FT.SUGGET key prefix [FUZZY] [WITHSCORES] [WITHPAYLOADS] [MAX max]",
+      "title": "FT.SUGGET"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Gets the size of an auto-complete suggestion dictionary",
+      "group": "suggestion",
+      "since": "1.0.0",
+      "slug": "ft.suglen",
+      "syntax": "FT.SUGLEN key",
+      "title": "FT.SUGLEN"
+    },
+    {
+      "arity": null,
+      "complexity": "O(N), where N is the number of samples to add",
+      "description": "Adds one or more observations to a t-digest sketch",
+      "group": "tdigest",
+      "since": "2.4.0",
+      "slug": "tdigest.add",
+      "syntax": "TDIGEST.ADD key value [value ...]",
+      "title": "TDIGEST.ADD"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Returns, for each input rank, a floating-point estimation of the value with that rank",
+      "group": "tdigest",
+      "since": "2.4.0",
+      "slug": "tdigest.byrank",
+      "syntax": "TDIGEST.BYRANK key rank [rank ...]",
+      "title": "TDIGEST.BYRANK"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Returns, for each input reverse rank, an estimation of the floating-point value with that reverse rank",
+      "group": "tdigest",
+      "since": "2.4.0",
+      "slug": "tdigest.byrevrank",
+      "syntax": "TDIGEST.BYREVRANK key reverse_rank [reverse_rank ...]",
+      "title": "TDIGEST.BYREVRANK"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Returns, for each input value, an estimation of the floating-point fraction of (observations smaller than the given value + half the observations equal to the given value)",
+      "group": "tdigest",
+      "since": "2.4.0",
+      "slug": "tdigest.cdf",
+      "syntax": "TDIGEST.CDF key value [value ...]",
+      "title": "TDIGEST.CDF"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Allocates memory and initializes a new t-digest sketch",
+      "group": "tdigest",
+      "since": "2.4.0",
+      "slug": "tdigest.create",
+      "syntax": "TDIGEST.CREATE key [COMPRESSION compression]",
+      "title": "TDIGEST.CREATE"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Returns information and statistics about a t-digest sketch",
+      "group": "tdigest",
+      "since": "2.4.0",
+      "slug": "tdigest.info",
+      "syntax": "TDIGEST.INFO key",
+      "title": "TDIGEST.INFO"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Returns the maximum observation value from a t-digest sketch",
+      "group": "tdigest",
+      "since": "2.4.0",
+      "slug": "tdigest.max",
+      "syntax": "TDIGEST.MAX key",
+      "title": "TDIGEST.MAX"
+    },
+    {
+      "arity": null,
+      "complexity": "O(N*K), where N is the number of centroids and K being the number of input sketches",
+      "description": "Merges multiple t-digest sketches into a single sketch",
+      "group": "tdigest",
+      "since": "2.4.0",
+      "slug": "tdigest.merge",
+      "syntax": "TDIGEST.MERGE destination-key numkeys source-key [source-key ...]\n  [COMPRESSION compression] [OVERRIDE]",
+      "title": "TDIGEST.MERGE"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Returns the minimum observation value from a t-digest sketch",
+      "group": "tdigest",
+      "since": "2.4.0",
+      "slug": "tdigest.min",
+      "syntax": "TDIGEST.MIN key",
+      "title": "TDIGEST.MIN"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Returns, for each input fraction, a floating-point estimation of the value that is smaller than the given fraction of observations",
+      "group": "tdigest",
+      "since": "2.4.0",
+      "slug": "tdigest.quantile",
+      "syntax": "TDIGEST.QUANTILE key quantile [quantile ...]",
+      "title": "TDIGEST.QUANTILE"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Returns, for each floating-point input value, the estimated rank of the value (the number of observations in the sketch that are smaller than the value + half the number of observations that are equal to the value)",
+      "group": "tdigest",
+      "since": "2.4.0",
+      "slug": "tdigest.rank",
+      "syntax": "TDIGEST.RANK key value [value ...]",
+      "title": "TDIGEST.RANK"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Resets a t-digest sketch (empties the sketch and re-initializes it).",
+      "group": "tdigest",
+      "since": "2.4.0",
+      "slug": "tdigest.reset",
+      "syntax": "TDIGEST.RESET key",
+      "title": "TDIGEST.RESET"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Returns, for each floating-point input value, the estimated reverse rank of the value (the number of observations in the sketch that are larger than the value + half the number of observations that are equal to the value)",
+      "group": "tdigest",
+      "since": "2.4.0",
+      "slug": "tdigest.revrank",
+      "syntax": "TDIGEST.REVRANK key value [value ...]",
+      "title": "TDIGEST.REVRANK"
+    },
+    {
+      "arity": null,
+      "complexity": "O(N) where N is the number of centroids",
+      "description": "Returns an estimation of the mean value from the sketch, excluding observation values outside the low and high cutoff quantiles",
+      "group": "tdigest",
+      "since": "2.4.0",
+      "slug": "tdigest.trimmed_mean",
+      "syntax": "TDIGEST.TRIMMED_MEAN key low_cut_quantile high_cut_quantile",
+      "title": "TDIGEST.TRIMMED_MEAN"
+    },
+    {
+      "arity": null,
+      "complexity": "O(M) when M is the amount of compaction rules or O(1) with no compaction",
+      "description": "Append a sample to a time series",
+      "group": "timeseries",
+      "since": "1.0.0",
+      "slug": "ts.add",
+      "syntax": "TS.ADD key timestamp value [RETENTION retentionPeriod]\n  [ENCODING <UNCOMPRESSED | COMPRESSED>] [CHUNK_SIZE size]\n  [ON_DUPLICATE <BLOCK | FIRST | LAST | MIN | MAX | SUM>]\n  [LABELS label value [label value ...]]",
+      "title": "TS.ADD"
+    },
+    {
+      "arity": null,
+      "complexity": "O(N) where N is the number of labels requested to update",
+      "description": "Update the retention, chunk size, duplicate policy, and labels of an existing time series",
+      "group": "timeseries",
+      "since": "1.0.0",
+      "slug": "ts.alter",
+      "syntax": "TS.ALTER key [RETENTION retentionPeriod] [CHUNK_SIZE size]\n  [DUPLICATE_POLICY <BLOCK | FIRST | LAST | MIN | MAX | SUM>] [LABELS label value\n  [label value ...]]",
+      "title": "TS.ALTER"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Create a new time series",
+      "group": "timeseries",
+      "since": "1.0.0",
+      "slug": "ts.create",
+      "syntax": "TS.CREATE key [RETENTION retentionPeriod] [ENCODING <UNCOMPRESSED |\n  COMPRESSED>] [CHUNK_SIZE size] [DUPLICATE_POLICY <BLOCK | FIRST |\n  LAST | MIN | MAX | SUM>] [LABELS label value [label value ...]]",
+      "title": "TS.CREATE"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Create a compaction rule.",
+      "group": "timeseries",
+      "since": "1.0.0",
+      "slug": "ts.createrule",
+      "syntax": "TS.CREATERULE sourceKey destKey AGGREGATION <AVG | FIRST | LAST |\n  MIN | MAX | SUM | RANGE | COUNT | STD.P | STD.S | VAR.P | VAR.S |\n  TWA> bucketDuration [alignTimestamp]",
+      "title": "TS.CREATERULE"
+    },
+    {
+      "arity": null,
+      "complexity": "O(M) when M is the amount of compaction rules or O(1) with no compaction",
+      "description": "Decrease the value of the sample with the maximum existing timestamp, or create a new sample with a value equal to the value of the sample with the maximum existing timestamp with a given decrement",
+      "group": "timeseries",
+      "since": "1.0.0",
+      "slug": "ts.decrby",
+      "syntax": "TS.DECRBY key value [TIMESTAMP timestamp]\n  [RETENTION retentionPeriod] [UNCOMPRESSED] [CHUNK_SIZE size]\n  [LABELS label value [label value ...]]",
+      "title": "TS.DECRBY"
+    },
+    {
+      "arity": null,
+      "complexity": "O(N) where N is the number of data points that will be removed",
+      "description": "Delete all samples between two timestamps for a given time series",
+      "group": "timeseries",
+      "since": "1.6.0",
+      "slug": "ts.del",
+      "syntax": "TS.DEL key from_timestamp to_timestamp",
+      "title": "TS.DEL"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Delete a compaction rule",
+      "group": "timeseries",
+      "since": "1.0.0",
+      "slug": "ts.deleterule",
+      "syntax": "TS.DELETERULE sourceKey destKey",
+      "title": "TS.DELETERULE"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Get the sample with the highest timestamp from a given time series",
+      "group": "timeseries",
+      "since": "1.0.0",
+      "slug": "ts.get",
+      "syntax": "TS.GET key [LATEST]",
+      "title": "TS.GET"
+    },
+    {
+      "arity": null,
+      "complexity": "O(M) when M is the amount of compaction rules or O(1) with no compaction",
+      "description": "Increase the value of the sample with the maximum existing timestamp, or create a new sample with a value equal to the value of the sample with the maximum existing timestamp with a given increment",
+      "group": "timeseries",
+      "since": "1.0.0",
+      "slug": "ts.incrby",
+      "syntax": "TS.INCRBY key value [TIMESTAMP timestamp]\n  [RETENTION retentionPeriod] [UNCOMPRESSED] [CHUNK_SIZE size]\n  [LABELS label value [label value ...]]",
+      "title": "TS.INCRBY"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Returns information and statistics for a time series",
+      "group": "timeseries",
+      "since": "1.0.0",
+      "slug": "ts.info",
+      "syntax": "TS.INFO key [DEBUG]",
+      "title": "TS.INFO"
+    },
+    {
+      "arity": null,
+      "complexity": "O(N*M) when N is the amount of series updated and M is the amount of compaction rules or O(N) with no compaction",
+      "description": "Append new samples to one or more time series",
+      "group": "timeseries",
+      "since": "1.0.0",
+      "slug": "ts.madd",
+      "syntax": "TS.MADD key timestamp value [key timestamp value ...]",
+      "title": "TS.MADD"
+    },
+    {
+      "arity": null,
+      "complexity": "O(n) where n is the number of time-series that match the filters",
+      "description": "Get the sample with the highest timestamp from each time series matching a specific filter",
+      "group": "timeseries",
+      "since": "1.0.0",
+      "slug": "ts.mget",
+      "syntax": "TS.MGET [LATEST] [WITHLABELS | SELECTED_LABELS label1 [label1 ...]]\n  FILTER <l=v | l!=v | l= | l!= | l=(v1,v2,...) | l!=(v1,v2,...)\n  [l=v | l!=v | l= | l!= | l=(v1,v2,...) | l!=(v1,v2,...) ...]>",
+      "title": "TS.MGET"
+    },
+    {
+      "arity": null,
+      "complexity": "O(n/m+k) where n = Number of data points, m = Chunk size (data points per chunk), k = Number of data points that are in the requested ranges",
+      "description": "Query a range across multiple time series by filters in forward direction",
+      "group": "timeseries",
+      "since": "1.0.0",
+      "slug": "ts.mrange",
+      "syntax": "TS.MRANGE fromTimestamp toTimestamp [LATEST] [FILTER_BY_TS Timestamp\n  [Timestamp ...]] [FILTER_BY_VALUE min max] [WITHLABELS |\n  SELECTED_LABELS label1 [label1 ...]] [COUNT count] [[ALIGN value]\n  AGGREGATION <AVG | FIRST | LAST | MIN | MAX | SUM | RANGE | COUNT\n  | STD.P | STD.S | VAR.P | VAR.S | TWA> bucketDuration\n  [BUCKETTIMESTAMP] [EMPTY]] FILTER <l=v | l!=v | l= | l!= |\n  l=(v1,v2,...) | l!=(v1,v2,...) [l=v | l!=v | l= | l!= |\n  l=(v1,v2,...) | l!=(v1,v2,...) ...]> [GROUPBY label REDUCE\n  reducer]",
+      "title": "TS.MRANGE"
+    },
+    {
+      "arity": null,
+      "complexity": "O(n/m+k) where n = Number of data points, m = Chunk size (data points per chunk), k = Number of data points that are in the requested ranges",
+      "description": "Query a range across multiple time-series by filters in reverse direction",
+      "group": "timeseries",
+      "since": "1.4.0",
+      "slug": "ts.mrevrange",
+      "syntax": "TS.MREVRANGE fromTimestamp toTimestamp [LATEST]\n  [FILTER_BY_TS Timestamp [Timestamp ...]] [FILTER_BY_VALUE min max]\n  [WITHLABELS | SELECTED_LABELS label1 [label1 ...]] [COUNT count]\n  [[ALIGN value] AGGREGATION <AVG | FIRST | LAST | MIN | MAX | SUM |\n  RANGE | COUNT | STD.P | STD.S | VAR.P | VAR.S | TWA>\n  bucketDuration [BUCKETTIMESTAMP] [EMPTY]] FILTER <l=v | l!=v | l=\n  | l!= | l=(v1,v2,...) | l!=(v1,v2,...) [l=v | l!=v | l= | l!= |\n  l=(v1,v2,...) | l!=(v1,v2,...) ...]> [GROUPBY label REDUCE\n  reducer]",
+      "title": "TS.MREVRANGE"
+    },
+    {
+      "arity": null,
+      "complexity": "O(n) where n is the number of time-series that match the filters",
+      "description": "Get all time series keys matching a filter list",
+      "group": "timeseries",
+      "since": "1.0.0",
+      "slug": "ts.queryindex",
+      "syntax": "TS.QUERYINDEX <l=v | l!=v | l= | l!= | l=(v1,v2,...) |\n  l!=(v1,v2,...) [l=v | l!=v | l= | l!= | l=(v1,v2,...) |\n  l!=(v1,v2,...) ...]>",
+      "title": "TS.QUERYINDEX"
+    },
+    {
+      "arity": null,
+      "complexity": "O(n/m+k) where n = Number of data points, m = Chunk size (data points per chunk), k = Number of data points that are in the requested range",
+      "description": "Query a range in forward direction",
+      "group": "timeseries",
+      "since": "1.0.0",
+      "slug": "ts.range",
+      "syntax": "TS.RANGE key fromTimestamp toTimestamp [LATEST]\n  [FILTER_BY_TS Timestamp [Timestamp ...]] [FILTER_BY_VALUE min max]\n  [COUNT count] [[ALIGN value] AGGREGATION <AVG | FIRST | LAST | MIN\n  | MAX | SUM | RANGE | COUNT | STD.P | STD.S | VAR.P | VAR.S | TWA>\n  bucketDuration [BUCKETTIMESTAMP] [EMPTY]]",
+      "title": "TS.RANGE"
+    },
+    {
+      "arity": null,
+      "complexity": "O(n/m+k) where n = Number of data points, m = Chunk size (data points per chunk), k = Number of data points that are in the requested range",
+      "description": "Query a range in reverse direction",
+      "group": "timeseries",
+      "since": "1.4.0",
+      "slug": "ts.revrange",
+      "syntax": "TS.REVRANGE key fromTimestamp toTimestamp [LATEST]\n  [FILTER_BY_TS Timestamp [Timestamp ...]] [FILTER_BY_VALUE min max]\n  [COUNT count] [[ALIGN value] AGGREGATION <AVG | FIRST | LAST | MIN\n  | MAX | SUM | RANGE | COUNT | STD.P | STD.S | VAR.P | VAR.S | TWA>\n  bucketDuration [BUCKETTIMESTAMP] [EMPTY]]",
+      "title": "TS.REVRANGE"
+    },
+    {
+      "arity": null,
+      "complexity": "O(n * k) where n is the number of items and k is the depth",
+      "description": "Adds an item to a Top-k sketch. Multiple items can be added at the same time.",
+      "group": "topk",
+      "since": "2.0.0",
+      "slug": "topk.add",
+      "syntax": "TOPK.ADD key items [items ...]",
+      "title": "TOPK.ADD"
+    },
+    {
+      "arity": null,
+      "complexity": "O(n) where n is the number of items",
+      "description": "Return the count for one or more items in a sketch",
+      "group": "topk",
+      "since": "2.0.0",
+      "slug": "topk.count",
+      "syntax": "TOPK.COUNT key item [item ...]",
+      "title": "TOPK.COUNT"
+    },
+    {
+      "arity": null,
+      "complexity": "O(n * k * incr) where n is the number of items, k is the depth and incr is the increment",
+      "description": "Increases the count of one or more items by increment",
+      "group": "topk",
+      "since": "2.0.0",
+      "slug": "topk.incrby",
+      "syntax": "TOPK.INCRBY key item increment [item increment ...]",
+      "title": "TOPK.INCRBY"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Returns information about a sketch",
+      "group": "topk",
+      "since": "2.0.0",
+      "slug": "topk.info",
+      "syntax": "TOPK.INFO key",
+      "title": "TOPK.INFO"
+    },
+    {
+      "arity": null,
+      "complexity": "O(k) where k is the value of top-k",
+      "description": "Return the full list of items in the Top-K sketch",
+      "group": "topk",
+      "since": "2.0.0",
+      "slug": "topk.list",
+      "syntax": "TOPK.LIST key [WITHCOUNT]",
+      "title": "TOPK.LIST"
+    },
+    {
+      "arity": null,
+      "complexity": "O(n) where n is the number of items",
+      "description": "Checks whether one or more items are in a sketch",
+      "group": "topk",
+      "since": "2.0.0",
+      "slug": "topk.query",
+      "syntax": "TOPK.QUERY key item [item ...]",
+      "title": "TOPK.QUERY"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Initializes a Top-K sketch with specified parameters",
+      "group": "topk",
+      "since": "2.0.0",
+      "slug": "topk.reserve",
+      "syntax": "TOPK.RESERVE key topk [width depth decay]",
+      "title": "TOPK.RESERVE"
+    },
+    {
+      "arity": 1,
+      "complexity": "O(N), when N is the number of queued commands",
+      "description": "Discards a transaction.",
+      "group": "transactions",
+      "since": "2.0.0",
+      "slug": "discard",
+      "syntax": "DISCARD",
+      "title": "DISCARD"
+    },
+    {
+      "arity": 1,
+      "complexity": "Depends on commands in the transaction",
+      "description": "Executes all commands in a transaction.",
+      "group": "transactions",
+      "since": "1.2.0",
+      "slug": "exec",
+      "syntax": "EXEC",
+      "title": "EXEC"
+    },
+    {
+      "arity": 1,
+      "complexity": "O(1)",
+      "description": "Starts a transaction.",
+      "group": "transactions",
+      "since": "1.2.0",
+      "slug": "multi",
+      "syntax": "MULTI",
+      "title": "MULTI"
+    },
+    {
+      "arity": 1,
+      "complexity": "O(1)",
+      "description": "Forgets about watched keys of a transaction.",
+      "group": "transactions",
+      "since": "2.2.0",
+      "slug": "unwatch",
+      "syntax": "UNWATCH",
+      "title": "UNWATCH"
+    },
+    {
+      "arity": -2,
+      "complexity": "O(1) for every key.",
+      "description": "Monitors changes to keys to determine the execution of a transaction.",
+      "group": "transactions",
+      "since": "2.2.0",
+      "slug": "watch",
+      "syntax": "WATCH key [key ...]",
+      "title": "WATCH"
+    },
+    {
+      "arity": null,
+      "complexity": "O(log(N)) for each element added, where N is the number of elements in the vector set.",
+      "description": "Add a new element to a vector set, or update its vector if it already exists.",
+      "group": "vector_set",
+      "since": "8.0.0",
+      "slug": "vadd",
+      "syntax": "VADD key [REDUCE dim] (FP32 | VALUES num) vector element [CAS] [NOQUANT | Q8 | BIN]\n  [EF build-exploration-factor] [SETATTR attributes] [M numlinks]",
+      "title": "VADD"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Return the number of elements in a vector set.",
+      "group": "vector_set",
+      "since": "8.0.0",
+      "slug": "vcard",
+      "syntax": "VCARD key",
+      "title": "VCARD"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Return the dimension of vectors in the vector set.",
+      "group": "vector_set",
+      "since": "8.0.0",
+      "slug": "vdim",
+      "syntax": "VDIM key",
+      "title": "VDIM"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Return the vector associated with an element.",
+      "group": "vector_set",
+      "since": "8.0.0",
+      "slug": "vemb",
+      "syntax": "VEMB key element [RAW]",
+      "title": "VEMB"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Retrieve the JSON attributes of elements.",
+      "group": "vector_set",
+      "since": "8.0.0",
+      "slug": "vgetattr",
+      "syntax": "VGETATTR key element",
+      "title": "VGETATTR"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Return information about a vector set.",
+      "group": "vector_set",
+      "since": "8.0.0",
+      "slug": "vinfo",
+      "syntax": "VINFO key",
+      "title": "VINFO"
+    },
+    {
+      "arity": 3,
+      "complexity": "O(1)",
+      "description": "Check if an element exists in a vector set.",
+      "group": "vector_set",
+      "since": "8.0.0",
+      "slug": "vismember",
+      "syntax": "VISMEMBER key element",
+      "title": "VISMEMBER"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Return the neighbors of an element at each layer in the HNSW graph.",
+      "group": "vector_set",
+      "since": "8.0.0",
+      "slug": "vlinks",
+      "syntax": "VLINKS key element [WITHSCORES]",
+      "title": "VLINKS"
+    },
+    {
+      "arity": null,
+      "complexity": "O(N) where N is the absolute value of the count argument.",
+      "description": "Return one or multiple random members from a vector set.",
+      "group": "vector_set",
+      "since": "8.0.0",
+      "slug": "vrandmember",
+      "syntax": "VRANDMEMBER key [count]",
+      "title": "VRANDMEMBER"
+    },
+    {
+      "arity": -4,
+      "complexity": "O(log(K)+M) where K is the number of elements in the start prefix, and M is the number of elements returned. In practical terms, the command is just O(M)",
+      "description": "Return elements in a lexicographical range",
+      "group": "vector_set",
+      "since": "8.4.0",
+      "slug": "vrange",
+      "syntax": "VRANGE key start end [count]",
+      "title": "VRANGE"
+    },
+    {
+      "arity": null,
+      "complexity": "O(log(N)) for each element removed, where N is the number of elements in the vector set.",
+      "description": "Remove an element from a vector set.",
+      "group": "vector_set",
+      "since": "8.0.0",
+      "slug": "vrem",
+      "syntax": "VREM key element",
+      "title": "VREM"
+    },
+    {
+      "arity": null,
+      "complexity": "O(1)",
+      "description": "Associate or remove the JSON attributes of elements.",
+      "group": "vector_set",
+      "since": "8.0.0",
+      "slug": "vsetattr",
+      "syntax": "VSETATTR key element \"{ JSON obj }\"",
+      "title": "VSETATTR"
+    },
+    {
+      "arity": null,
+      "complexity": "O(log(N)) where N is the number of elements in the vector set.",
+      "description": "Return elements by vector similarity.",
+      "group": "vector_set",
+      "since": "8.0.0",
+      "slug": "vsim",
+      "syntax": "VSIM key (ELE | FP32 | VALUES num) (vector | element) [WITHSCORES] [WITHATTRIBS] [COUNT num]\n  [EPSILON delta] [EF search-exploration-factor] [FILTER expression] [FILTER-EF max-filtering-effort]\n  [TRUTH] [NOTHREAD]",
+      "title": "VSIM"
+    }
+  ]
+}

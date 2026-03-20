@@ -1,0 +1,73 @@
+{
+  "slug": "pubsub-numsub",
+  "title": "PUBSUB NUMSUB",
+  "description": "Returns a count of subscribers to channels.",
+  "docsUrl": "https://redis.io/docs/latest/commands/pubsub-numsub/",
+  "group": "pubsub",
+  "groupLabel": "Pub/Sub",
+  "syntax": "PUBSUB NUMSUB [channel [channel ...]]",
+  "complexity": "O(N) for the NUMSUB subcommand, where N is the number of requested channels",
+  "since": "2.8.0",
+  "arity": -2,
+  "aclCategories": [
+    "@pubsub",
+    "@slow"
+  ],
+  "commandFlags": [
+    "pubsub",
+    "loading",
+    "stale"
+  ],
+  "arguments": [
+    {
+      "display_text": "channel",
+      "multiple": true,
+      "name": "channel",
+      "optional": true,
+      "type": "string"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Returns the number of subscribers (exclusive of clients subscribed to patterns) for the specified channels.\n\nNote that it is valid to call this command without channels. In this case it will just return an empty list.\n\nCluster note: in a Redis Cluster clients can subscribe to every node, and can also publish to every other node. The cluster will make sure that published messages are forwarded as needed. That said, [`PUBSUB`]()'s replies in a cluster only report information from the node's Pub/Sub context, rather than the entire cluster.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): the number of subscribers per channel, each even element (including the 0th) is channel name, each odd element is the number of subscribers\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): the number of subscribers per channel, each even element (including the 0th) is channel name, each odd element is the number of subscribers",
+  "intro": "Returns the number of subscribers (exclusive of clients subscribed to patterns) for the specified channels.\n\nNote that it is valid to call this command without channels. In this case it will just return an empty list.\n\nCluster note: in a Redis Cluster clients can subscribe to every node, and can also publish to every other node. The cluster will make sure that published messages are forwarded as needed. That said, [`PUBSUB`]()'s replies in a cluster only report information from the node's Pub/Sub context, rather than the entire cluster.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Returns the number of subscribers (exclusive of clients subscribed to patterns) for the specified channels.\n\nNote that it is valid to call this command without channels. In this case it will just return an empty list.\n\nCluster note: in a Redis Cluster clients can subscribe to every node, and can also publish to every other node. The cluster will make sure that published messages are forwarded as needed. That said, [`PUBSUB`]()'s replies in a cluster only report information from the node's Pub/Sub context, rather than the entire cluster."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): the number of subscribers per channel, each even element (including the 0th) is channel name, each odd element is the number of subscribers\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): the number of subscribers per channel, each even element (including the 0th) is channel name, each odd element is the number of subscribers"
+    }
+  ]
+}

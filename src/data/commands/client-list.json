@@ -1,0 +1,120 @@
+{
+  "slug": "client-list",
+  "title": "CLIENT LIST",
+  "description": "Lists open connections.",
+  "docsUrl": "https://redis.io/docs/latest/commands/client-list/",
+  "group": "connection",
+  "groupLabel": "Connection",
+  "syntax": "CLIENT LIST [TYPE <NORMAL | MASTER | REPLICA | PUBSUB>]\n  [ID client-id [client-id ...]]",
+  "complexity": "O(N) where N is the number of client connections",
+  "since": "2.4.0",
+  "arity": -2,
+  "aclCategories": [
+    "@admin",
+    "@slow",
+    "@dangerous",
+    "@connection"
+  ],
+  "commandFlags": [
+    "admin",
+    "noscript",
+    "loading",
+    "stale"
+  ],
+  "arguments": [
+    {
+      "arguments": [
+        {
+          "display_text": "normal",
+          "name": "normal",
+          "token": "NORMAL",
+          "type": "pure-token"
+        },
+        {
+          "display_text": "master",
+          "name": "master",
+          "token": "MASTER",
+          "type": "pure-token"
+        },
+        {
+          "display_text": "replica",
+          "name": "replica",
+          "token": "REPLICA",
+          "type": "pure-token"
+        },
+        {
+          "display_text": "pubsub",
+          "name": "pubsub",
+          "token": "PUBSUB",
+          "type": "pure-token"
+        }
+      ],
+      "name": "client-type",
+      "optional": true,
+      "since": "5.0.0",
+      "token": "TYPE",
+      "type": "oneof"
+    },
+    {
+      "display_text": "client-id",
+      "multiple": true,
+      "name": "client-id",
+      "optional": true,
+      "since": "6.2.0",
+      "token": "ID",
+      "type": "integer"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "notes",
+        "title": "Notes"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "The `CLIENT LIST` command returns information and statistics about the client\nconnections server in a mostly human readable format.\n\nYou can use one of the optional subcommands to filter the list. The `TYPE type` subcommand filters the list by clients' type, where *type* is one of `normal`, `master`, `replica`, and `pubsub`. Note that clients blocked by the [`MONITOR`]() command belong to the `normal` class.\n\nThe `ID` filter only returns entries for clients with IDs matching the `client-id` arguments.\n\nHere is the meaning of the fields:\n\n* `id`: a unique 64-bit client ID.\n* `addr`: address/port of the client.\n* `laddr`: address/port of local address client connected to (bind address).\n* `fd`: file descriptor corresponding to the socket.\n* `name`: the name set by the client with [`CLIENT SETNAME`]().\n* `age`: total duration of the connection in seconds.\n* `idle`: idle time of the connection in seconds.\n* `flags`: client flags (see below).\n* `db`: current database ID.\n* `sub`: number of channel subscriptions.\n* `psub`: number of pattern matching subscriptions.\n* `ssub`: number of shard channel subscriptions. Added in Redis 7.0.3.\n* `multi`: number of commands in a MULTI/EXEC context.\n* `watch`: number of keys this client is currently watching. Added in Redis 7.4.\n* `qbuf`: query buffer length (0 means no query pending).\n* `qbuf-free`: free space of the query buffer (0 means the buffer is full).\n* `argv-mem`: incomplete arguments for the next command (already extracted from query buffer).\n* `multi-mem`: memory is used up by buffered multi commands. Added in Redis 7.0.\n* `obl`: output buffer length.\n* `oll`: output list length (replies are queued in this list when the buffer is full).\n* `omem`: output buffer memory usage.\n* `tot-mem`: total memory consumed by this client in its various buffers.\n* `events`: file descriptor events (see below).\n* `cmd`: last command played.\n* `user`: the authenticated username of the client.\n* `redir`: client id of current client tracking redirection.\n* `resp`: client RESP protocol version. Added in Redis 7.0.\n* `rbp`: peak size of the client's read buffer since the client connected. Added in Redis 7.0.\n* `rbs`: current size of the client's read buffer in bytes. Added in Redis 7.0.\n* `lib-name` - the name of the client library that is being used.\n* `lib-ver` - the version of the client library.\n* `io-thread`: id of I/O thread assigned to the client. Added in Redis 8.0\n* `tot-net-in`: total network input bytes read from this client.\n* `tot-net-out`: total network output bytes sent to this client.\n* `tot-cmds`: total count of commands this client executed.\n\nThe client flags can be a combination of:\n\n```\nA: connection to be closed ASAP\nb: the client is waiting in a blocking operation\nc: connection to be closed after writing entire reply\nd: a watched keys has been modified - EXEC will fail\ne: the client is excluded from the client eviction mechanism\ng: the client is responsible for migrating slots (atomic slot migration)\ni: the client is waiting for a VM I/O (deprecated)\nM: the client is a master\nN: no specific flag set\no: the client is responsible for importing slots (atomic slot migration)\nO: the client is a client in MONITOR mode\nP: the client is a Pub/Sub subscriber\nr: the client is in readonly mode against a cluster node\nS: the client is a replica node connection to this instance\nu: the client is unblocked\nU: the client is connected via a Unix domain socket\nx: the client is in a MULTI/EXEC context\nt: the client enabled keys tracking in order to perform client side caching\nT: the client will not touch the LRU/LFU of the keys it accesses\nR: the client tracking target client is invalid\nB: the client enabled broadcast tracking mode\n```\n\nThe file descriptor events can be:\n\n```\nr: the client socket is readable (event loop)\nw: the client socket is writable (event loop)\n```\n\n## Notes\n\nNew fields are regularly added for debugging purpose. Some could be removed\nin the future. A version safe Redis client using this command should parse\nthe output accordingly (i.e. handling gracefully missing fields, skipping\nunknown fields).\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): information and statistics about client connections.\n\n**RESP3:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): information and statistics about client connections.",
+  "intro": "The `CLIENT LIST` command returns information and statistics about the client\nconnections server in a mostly human readable format.\n\nYou can use one of the optional subcommands to filter the list. The `TYPE type` subcommand filters the list by clients' type, where *type* is one of `normal`, `master`, `replica`, and `pubsub`. Note that clients blocked by the [`MONITOR`]() command belong to the `normal` class.\n\nThe `ID` filter only returns entries for clients with IDs matching the `client-id` arguments.\n\nHere is the meaning of the fields:\n\n* `id`: a unique 64-bit client ID.\n* `addr`: address/port of the client.\n* `laddr`: address/port of local address client connected to (bind address).\n* `fd`: file descriptor corresponding to the socket.\n* `name`: the name set by the client with [`CLIENT SETNAME`]().\n* `age`: total duration of the connection in seconds.\n* `idle`: idle time of the connection in seconds.\n* `flags`: client flags (see below).\n* `db`: current database ID.\n* `sub`: number of channel subscriptions.\n* `psub`: number of pattern matching subscriptions.\n* `ssub`: number of shard channel subscriptions. Added in Redis 7.0.3.\n* `multi`: number of commands in a MULTI/EXEC context.\n* `watch`: number of keys this client is currently watching. Added in Redis 7.4.\n* `qbuf`: query buffer length (0 means no query pending).\n* `qbuf-free`: free space of the query buffer (0 means the buffer is full).\n* `argv-mem`: incomplete arguments for the next command (already extracted from query buffer).\n* `multi-mem`: memory is used up by buffered multi commands. Added in Redis 7.0.\n* `obl`: output buffer length.\n* `oll`: output list length (replies are queued in this list when the buffer is full).\n* `omem`: output buffer memory usage.\n* `tot-mem`: total memory consumed by this client in its various buffers.\n* `events`: file descriptor events (see below).\n* `cmd`: last command played.\n* `user`: the authenticated username of the client.\n* `redir`: client id of current client tracking redirection.\n* `resp`: client RESP protocol version. Added in Redis 7.0.\n* `rbp`: peak size of the client's read buffer since the client connected. Added in Redis 7.0.\n* `rbs`: current size of the client's read buffer in bytes. Added in Redis 7.0.\n* `lib-name` - the name of the client library that is being used.\n* `lib-ver` - the version of the client library.\n* `io-thread`: id of I/O thread assigned to the client. Added in Redis 8.0\n* `tot-net-in`: total network input bytes read from this client.\n* `tot-net-out`: total network output bytes sent to this client.\n* `tot-cmds`: total count of commands this client executed.\n\nThe client flags can be a combination of:\n\n```\nA: connection to be closed ASAP\nb: the client is waiting in a blocking operation\nc: connection to be closed after writing entire reply\nd: a watched keys has been modified - EXEC will fail\ne: the client is excluded from the client eviction mechanism\ng: the client is responsible for migrating slots (atomic slot migration)\ni: the client is waiting for a VM I/O (deprecated)\nM: the client is a master\nN: no specific flag set\no: the client is responsible for importing slots (atomic slot migration)\nO: the client is a client in MONITOR mode\nP: the client is a Pub/Sub subscriber\nr: the client is in readonly mode against a cluster node\nS: the client is a replica node connection to this instance\nu: the client is unblocked\nU: the client is connected via a Unix domain socket\nx: the client is in a MULTI/EXEC context\nt: the client enabled keys tracking in order to perform client side caching\nT: the client will not touch the LRU/LFU of the keys it accesses\nR: the client tracking target client is invalid\nB: the client enabled broadcast tracking mode\n```\n\nThe file descriptor events can be:\n\n```\nr: the client socket is readable (event loop)\nw: the client socket is writable (event loop)\n```",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "The `CLIENT LIST` command returns information and statistics about the client\nconnections server in a mostly human readable format.\n\nYou can use one of the optional subcommands to filter the list. The `TYPE type` subcommand filters the list by clients' type, where *type* is one of `normal`, `master`, `replica`, and `pubsub`. Note that clients blocked by the [`MONITOR`]() command belong to the `normal` class.\n\nThe `ID` filter only returns entries for clients with IDs matching the `client-id` arguments.\n\nHere is the meaning of the fields:\n\n* `id`: a unique 64-bit client ID.\n* `addr`: address/port of the client.\n* `laddr`: address/port of local address client connected to (bind address).\n* `fd`: file descriptor corresponding to the socket.\n* `name`: the name set by the client with [`CLIENT SETNAME`]().\n* `age`: total duration of the connection in seconds.\n* `idle`: idle time of the connection in seconds.\n* `flags`: client flags (see below).\n* `db`: current database ID.\n* `sub`: number of channel subscriptions.\n* `psub`: number of pattern matching subscriptions.\n* `ssub`: number of shard channel subscriptions. Added in Redis 7.0.3.\n* `multi`: number of commands in a MULTI/EXEC context.\n* `watch`: number of keys this client is currently watching. Added in Redis 7.4.\n* `qbuf`: query buffer length (0 means no query pending).\n* `qbuf-free`: free space of the query buffer (0 means the buffer is full).\n* `argv-mem`: incomplete arguments for the next command (already extracted from query buffer).\n* `multi-mem`: memory is used up by buffered multi commands. Added in Redis 7.0.\n* `obl`: output buffer length.\n* `oll`: output list length (replies are queued in this list when the buffer is full).\n* `omem`: output buffer memory usage.\n* `tot-mem`: total memory consumed by this client in its various buffers.\n* `events`: file descriptor events (see below).\n* `cmd`: last command played.\n* `user`: the authenticated username of the client.\n* `redir`: client id of current client tracking redirection.\n* `resp`: client RESP protocol version. Added in Redis 7.0.\n* `rbp`: peak size of the client's read buffer since the client connected. Added in Redis 7.0.\n* `rbs`: current size of the client's read buffer in bytes. Added in Redis 7.0.\n* `lib-name` - the name of the client library that is being used.\n* `lib-ver` - the version of the client library.\n* `io-thread`: id of I/O thread assigned to the client. Added in Redis 8.0\n* `tot-net-in`: total network input bytes read from this client.\n* `tot-net-out`: total network output bytes sent to this client.\n* `tot-cmds`: total count of commands this client executed.\n\nThe client flags can be a combination of:\n\n```\nA: connection to be closed ASAP\nb: the client is waiting in a blocking operation\nc: connection to be closed after writing entire reply\nd: a watched keys has been modified - EXEC will fail\ne: the client is excluded from the client eviction mechanism\ng: the client is responsible for migrating slots (atomic slot migration)\ni: the client is waiting for a VM I/O (deprecated)\nM: the client is a master\nN: no specific flag set\no: the client is responsible for importing slots (atomic slot migration)\nO: the client is a client in MONITOR mode\nP: the client is a Pub/Sub subscriber\nr: the client is in readonly mode against a cluster node\nS: the client is a replica node connection to this instance\nu: the client is unblocked\nU: the client is connected via a Unix domain socket\nx: the client is in a MULTI/EXEC context\nt: the client enabled keys tracking in order to perform client side caching\nT: the client will not touch the LRU/LFU of the keys it accesses\nR: the client tracking target client is invalid\nB: the client enabled broadcast tracking mode\n```\n\nThe file descriptor events can be:\n\n```\nr: the client socket is readable (event loop)\nw: the client socket is writable (event loop)\n```"
+    },
+    {
+      "title": "Notes",
+      "level": 2,
+      "content": "New fields are regularly added for debugging purpose. Some could be removed\nin the future. A version safe Redis client using this command should parse\nthe output accordingly (i.e. handling gracefully missing fields, skipping\nunknown fields)."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): information and statistics about client connections.\n\n**RESP3:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): information and statistics about client connections."
+    }
+  ]
+}

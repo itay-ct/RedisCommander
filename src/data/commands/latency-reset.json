@@ -1,0 +1,75 @@
+{
+  "slug": "latency-reset",
+  "title": "LATENCY RESET",
+  "description": "Resets the latency data for one or more events.",
+  "docsUrl": "https://redis.io/docs/latest/commands/latency-reset/",
+  "group": "server",
+  "groupLabel": "Server",
+  "syntax": "LATENCY RESET [event [event ...]]",
+  "complexity": "O(1)",
+  "since": "2.8.13",
+  "arity": -2,
+  "aclCategories": [
+    "@admin",
+    "@slow",
+    "@dangerous"
+  ],
+  "commandFlags": [
+    "admin",
+    "noscript",
+    "loading",
+    "stale"
+  ],
+  "arguments": [
+    {
+      "display_text": "event",
+      "multiple": true,
+      "name": "event",
+      "optional": true,
+      "type": "string"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "The `LATENCY RESET` command resets the latency spikes time series of all, or only some, events.\n\nWhen the command is called without arguments, it resets all the\nevents, discarding the currently logged latency spike events, and resetting\nthe maximum event time register.\n\nIt is possible to reset only specific events by providing the `event` names\nas arguments.\n\nValid values for `event` are:\n* `active-defrag-cycle`\n* `aof-fsync-always`\n* `aof-stat`\n* `aof-rewrite-diff-write`\n* `aof-rename`\n* `aof-write`\n* `aof-write-active-child`\n* `aof-write-alone`\n* `aof-write-pending-fsync`\n* `command`\n* `expire-cycle`\n* `eviction-cycle`\n* `eviction-del`\n* `fast-command`\n* `fork`\n* `rdb-unlink-temp-file`\n\nFor more information refer to the [Latency Monitoring Framework page][lm].\n\n[lm]: /operate/oss_and_stack/management/optimization/latency-monitor.md\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of event time series that were reset.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of event time series that were reset.",
+  "intro": "The `LATENCY RESET` command resets the latency spikes time series of all, or only some, events.\n\nWhen the command is called without arguments, it resets all the\nevents, discarding the currently logged latency spike events, and resetting\nthe maximum event time register.\n\nIt is possible to reset only specific events by providing the `event` names\nas arguments.\n\nValid values for `event` are:\n* `active-defrag-cycle`\n* `aof-fsync-always`\n* `aof-stat`\n* `aof-rewrite-diff-write`\n* `aof-rename`\n* `aof-write`\n* `aof-write-active-child`\n* `aof-write-alone`\n* `aof-write-pending-fsync`\n* `command`\n* `expire-cycle`\n* `eviction-cycle`\n* `eviction-del`\n* `fast-command`\n* `fork`\n* `rdb-unlink-temp-file`\n\nFor more information refer to the [Latency Monitoring Framework page][lm].\n\n[lm]: /operate/oss_and_stack/management/optimization/latency-monitor.md",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "The `LATENCY RESET` command resets the latency spikes time series of all, or only some, events.\n\nWhen the command is called without arguments, it resets all the\nevents, discarding the currently logged latency spike events, and resetting\nthe maximum event time register.\n\nIt is possible to reset only specific events by providing the `event` names\nas arguments.\n\nValid values for `event` are:\n* `active-defrag-cycle`\n* `aof-fsync-always`\n* `aof-stat`\n* `aof-rewrite-diff-write`\n* `aof-rename`\n* `aof-write`\n* `aof-write-active-child`\n* `aof-write-alone`\n* `aof-write-pending-fsync`\n* `command`\n* `expire-cycle`\n* `eviction-cycle`\n* `eviction-del`\n* `fast-command`\n* `fork`\n* `rdb-unlink-temp-file`\n\nFor more information refer to the [Latency Monitoring Framework page][lm].\n\n[lm]: /operate/oss_and_stack/management/optimization/latency-monitor.md"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of event time series that were reset.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of event time series that were reset."
+    }
+  ]
+}

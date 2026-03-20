@@ -1,0 +1,132 @@
+{
+  "slug": "zmpop",
+  "title": "ZMPOP",
+  "description": "Returns the highest- or lowest-scoring members from one or more sorted sets after removing them. Deletes the sorted set if the last member was popped.",
+  "docsUrl": "https://redis.io/docs/latest/commands/zmpop/",
+  "group": "sorted-set",
+  "groupLabel": "Sorted Sets",
+  "syntax": "ZMPOP numkeys key [key ...] <MIN | MAX> [COUNT count]",
+  "complexity": "O(K) + O(M*log(N)) where K is the number of provided keys, N being the number of elements in the sorted set, and M being the number of elements popped.",
+  "since": "7.0.0",
+  "arity": -4,
+  "aclCategories": [
+    "@write",
+    "@sortedset",
+    "@slow"
+  ],
+  "commandFlags": [
+    "write",
+    "movablekeys"
+  ],
+  "arguments": [
+    {
+      "display_text": "numkeys",
+      "name": "numkeys",
+      "type": "integer"
+    },
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "multiple": true,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "min",
+          "name": "min",
+          "token": "MIN",
+          "type": "pure-token"
+        },
+        {
+          "display_text": "max",
+          "name": "max",
+          "token": "MAX",
+          "type": "pure-token"
+        }
+      ],
+      "name": "where",
+      "type": "oneof"
+    },
+    {
+      "display_text": "count",
+      "name": "count",
+      "optional": true,
+      "token": "COUNT",
+      "type": "integer"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "delete": true,
+      "find_keys": {
+        "spec": {
+          "firstkey": 1,
+          "keynumidx": 0,
+          "keystep": 1
+        },
+        "type": "keynum"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nPops one or more elements, that are member-score pairs, from the first non-empty sorted set in the provided list of key names.\n\n`ZMPOP` and [`BZMPOP`]() are similar to the following, more limited, commands:\n\n- [`ZPOPMIN`]() or [`ZPOPMAX`]() which take only one key, and can return multiple elements.\n- [`BZPOPMIN`]() or [`BZPOPMAX`]() which take multiple keys, but return only one element from just one key.\n\nSee [`BZMPOP`]() for the blocking variant of this command.\n\nWhen the `MIN` modifier is used, the elements popped are those with the lowest scores from the first non-empty sorted set. The `MAX` modifier causes elements with the highest scores to be popped.\nThe optional `COUNT` can be used to specify the number of elements to pop, and is set to 1 by default.\n\nThe number of popped elements is the minimum from the sorted set's cardinality and `COUNT`'s value.\n\n## Examples\n\n\nZMPOP 1 notsuchkey MIN\nZADD myzset 1 \"one\" 2 \"two\" 3 \"three\"\nZMPOP 1 myzset MIN\nZRANGE myzset 0 -1 WITHSCORES\nZMPOP 1 myzset MAX COUNT 10\nZADD myzset2 4 \"four\" 5 \"five\" 6 \"six\"\nZMPOP 2 myzset myzset2 MIN COUNT 10\nZRANGE myzset 0 -1 WITHSCORES\nZMPOP 2 myzset myzset2 MAX COUNT 10\nZRANGE myzset2 0 -1 WITHSCORES\nEXISTS myzset myzset2\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): when no element could be popped.\n* [Array reply](../../develop/reference/protocol-spec#arrays): A two-element array with the first element being the name of the key from which elements were popped, and the second element is an array of the popped elements. Every entry in the elements array is also an array that contains the member and its score.\n\n**RESP3:**\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): when no element could be popped.\n* [Array reply](../../develop/reference/protocol-spec#arrays): A two-element array with the first element being the name of the key from which elements were popped, and the second element is an array of the popped elements. Every entry in the elements array is also an array that contains the member and its score.",
+  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nPops one or more elements, that are member-score pairs, from the first non-empty sorted set in the provided list of key names.\n\n`ZMPOP` and [`BZMPOP`]() are similar to the following, more limited, commands:\n\n- [`ZPOPMIN`]() or [`ZPOPMAX`]() which take only one key, and can return multiple elements.\n- [`BZPOPMIN`]() or [`BZPOPMAX`]() which take multiple keys, but return only one element from just one key.\n\nSee [`BZMPOP`]() for the blocking variant of this command.\n\nWhen the `MIN` modifier is used, the elements popped are those with the lowest scores from the first non-empty sorted set. The `MAX` modifier causes elements with the highest scores to be popped.\nThe optional `COUNT` can be used to specify the number of elements to pop, and is set to 1 by default.\n\nThe number of popped elements is the minimum from the sorted set's cardinality and `COUNT`'s value.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nPops one or more elements, that are member-score pairs, from the first non-empty sorted set in the provided list of key names.\n\n`ZMPOP` and [`BZMPOP`]() are similar to the following, more limited, commands:\n\n- [`ZPOPMIN`]() or [`ZPOPMAX`]() which take only one key, and can return multiple elements.\n- [`BZPOPMIN`]() or [`BZPOPMAX`]() which take multiple keys, but return only one element from just one key.\n\nSee [`BZMPOP`]() for the blocking variant of this command.\n\nWhen the `MIN` modifier is used, the elements popped are those with the lowest scores from the first non-empty sorted set. The `MAX` modifier causes elements with the highest scores to be popped.\nThe optional `COUNT` can be used to specify the number of elements to pop, and is set to 1 by default.\n\nThe number of popped elements is the minimum from the sorted set's cardinality and `COUNT`'s value."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "ZMPOP 1 notsuchkey MIN\nZADD myzset 1 \"one\" 2 \"two\" 3 \"three\"\nZMPOP 1 myzset MIN\nZRANGE myzset 0 -1 WITHSCORES\nZMPOP 1 myzset MAX COUNT 10\nZADD myzset2 4 \"four\" 5 \"five\" 6 \"six\"\nZMPOP 2 myzset myzset2 MIN COUNT 10\nZRANGE myzset 0 -1 WITHSCORES\nZMPOP 2 myzset myzset2 MAX COUNT 10\nZRANGE myzset2 0 -1 WITHSCORES\nEXISTS myzset myzset2"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): when no element could be popped.\n* [Array reply](../../develop/reference/protocol-spec#arrays): A two-element array with the first element being the name of the key from which elements were popped, and the second element is an array of the popped elements. Every entry in the elements array is also an array that contains the member and its score.\n\n**RESP3:**\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): when no element could be popped.\n* [Array reply](../../develop/reference/protocol-spec#arrays): A two-element array with the first element being the name of the key from which elements were popped, and the second element is an array of the popped elements. Every entry in the elements array is also an array that contains the member and its score."
+    }
+  ]
+}

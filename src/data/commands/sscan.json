@@ -1,0 +1,109 @@
+{
+  "slug": "sscan",
+  "title": "SSCAN",
+  "description": "Iterates over members of a set.",
+  "docsUrl": "https://redis.io/docs/latest/commands/sscan/",
+  "group": "set",
+  "groupLabel": "Sets",
+  "syntax": "SSCAN key cursor [MATCH pattern] [COUNT count]",
+  "complexity": "O(1) for every call. O(N) for a complete iteration, including enough command calls for the cursor to return back to 0. N is the number of elements inside the collection.",
+  "since": "2.8.0",
+  "arity": -3,
+  "aclCategories": [
+    "@read",
+    "@set",
+    "@slow"
+  ],
+  "commandFlags": [
+    "readonly"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "cursor",
+      "name": "cursor",
+      "type": "integer"
+    },
+    {
+      "display_text": "pattern",
+      "name": "pattern",
+      "optional": true,
+      "token": "MATCH",
+      "type": "pattern"
+    },
+    {
+      "display_text": "count",
+      "name": "count",
+      "optional": true,
+      "token": "COUNT",
+      "type": "integer"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RO": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "See [`SCAN`]() for `SSCAN` documentation.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): specifically, an array with two elements:\n* The first element is a [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) that represents an unsigned 64-bit number, the cursor.\n* The second element is an [Array reply](../../develop/reference/protocol-spec#arrays) with the names of scanned members.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): specifically, an array with two elements:\n* The first element is a [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) that represents an unsigned 64-bit number, the cursor.\n* The second element is an [Array reply](../../develop/reference/protocol-spec#arrays) with the names of scanned members.",
+  "intro": "See [`SCAN`]() for `SSCAN` documentation.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "See [`SCAN`]() for `SSCAN` documentation."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): specifically, an array with two elements:\n* The first element is a [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) that represents an unsigned 64-bit number, the cursor.\n* The second element is an [Array reply](../../develop/reference/protocol-spec#arrays) with the names of scanned members.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): specifically, an array with two elements:\n* The first element is a [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) that represents an unsigned 64-bit number, the cursor.\n* The second element is an [Array reply](../../develop/reference/protocol-spec#arrays) with the names of scanned members."
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "slug": "pubsub-shardnumsub",
+  "title": "PUBSUB SHARDNUMSUB",
+  "description": "Returns the count of subscribers of shard channels.",
+  "docsUrl": "https://redis.io/docs/latest/commands/pubsub-shardnumsub/",
+  "group": "pubsub",
+  "groupLabel": "Pub/Sub",
+  "syntax": "PUBSUB SHARDNUMSUB [shardchannel [shardchannel ...]]",
+  "complexity": "O(N) for the SHARDNUMSUB subcommand, where N is the number of requested shard channels",
+  "since": "7.0.0",
+  "arity": -2,
+  "aclCategories": [
+    "@pubsub",
+    "@slow"
+  ],
+  "commandFlags": [
+    "pubsub",
+    "loading",
+    "stale"
+  ],
+  "arguments": [
+    {
+      "display_text": "shardchannel",
+      "multiple": true,
+      "name": "shardchannel",
+      "optional": true,
+      "type": "string"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Returns the number of subscribers for the specified shard channels.\n\nNote that it is valid to call this command without channels, in this case it will just return an empty list.\n\nCluster note: in a Redis Cluster, [`PUBSUB`]()'s replies in a cluster only report information from the node's Pub/Sub context, rather than the entire cluster.\n\n## Examples\n\n```\n> PUBSUB SHARDNUMSUB orders\n1) \"orders\"\n2) (integer) 1\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): the number of subscribers per shard channel, each even element (including the 0th) is channel name, each odd element is the number of subscribers.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): the number of subscribers per shard channel, each even element (including the 0th) is channel name, each odd element is the number of subscribers.",
+  "intro": "Returns the number of subscribers for the specified shard channels.\n\nNote that it is valid to call this command without channels, in this case it will just return an empty list.\n\nCluster note: in a Redis Cluster, [`PUBSUB`]()'s replies in a cluster only report information from the node's Pub/Sub context, rather than the entire cluster.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Returns the number of subscribers for the specified shard channels.\n\nNote that it is valid to call this command without channels, in this case it will just return an empty list.\n\nCluster note: in a Redis Cluster, [`PUBSUB`]()'s replies in a cluster only report information from the node's Pub/Sub context, rather than the entire cluster."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "```\n> PUBSUB SHARDNUMSUB orders\n1) \"orders\"\n2) (integer) 1\n```"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): the number of subscribers per shard channel, each even element (including the 0th) is channel name, each odd element is the number of subscribers.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): the number of subscribers per shard channel, each even element (including the 0th) is channel name, each odd element is the number of subscribers."
+    }
+  ]
+}

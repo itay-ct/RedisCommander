@@ -1,0 +1,118 @@
+{
+  "slug": "json.mset",
+  "title": "JSON.MSET",
+  "description": "Sets or updates the JSON value of one or more keys",
+  "docsUrl": "https://redis.io/docs/latest/commands/json.mset/",
+  "group": "json",
+  "groupLabel": "JSON",
+  "syntax": "JSON.MSET key path value [key path value ...]",
+  "complexity": "O(K*(M+N)) where k is the number of keys in the command, when path is evaluated to a single value where M is the size of the original value (if it exists) and N is the size of the new value, or O(K*(M+N)) when path is evaluated to multiple values where M is the size of the key and N is the size of the new value * the number of original values in the key",
+  "since": "2.6.0",
+  "arity": null,
+  "aclCategories": [
+    "@json",
+    "@write",
+    "@slow"
+  ],
+  "commandFlags": [],
+  "arguments": [
+    {
+      "arguments": [
+        {
+          "name": "key",
+          "type": "key"
+        },
+        {
+          "name": "path",
+          "type": "string"
+        },
+        {
+          "name": "value",
+          "type": "string"
+        }
+      ],
+      "multiple": true,
+      "name": "triplet",
+      "type": "block"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      },
+      {
+        "id": "see-also",
+        "title": "See also"
+      },
+      {
+        "id": "related-topics",
+        "title": "Related topics"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nSet or update one or more JSON values according to the specified `key`-`path`-`value` triplets\n\n`JSON.MSET` is atomic, hence, all given additions or updates are either applied or not. It is not possible for clients to see that some of the keys were updated while others are unchanged.\n\nA JSON value is a hierarchical structure. If you change a value in a specific path - nested values are affected.\n\n\nWhen cluster mode is enabled, all specified keys must reside on the same [hash slot](https://redis.io/docs/latest/operate/oss_and_stack/reference/cluster-spec/#key-distribution-model).\n\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open><summary><code>key</code></summary>\n\nis key to modify.\n</details>\n\n<details open><summary><code>path</code></summary>\n\nis JSONPath to specify. For new Redis keys the `path` must be the root. For existing keys, when the entire `path` exists, the value that it contains is replaced with the `json` value. For existing keys, when the `path` exists, except for the last element, a new child is added with the `json` value.\n\n</details>\n\n<details open><summary><code>value</code></summary>\n\nis value to set at the specified path\n</details>\n\n## Examples\n\n<details open>\n<summary><b>Add a new values in multiple keys</b></summary>\n\n\nredis> JSON.MSET doc1 $ '{\"a\":1}' doc2 $ '{\"f\":{\"a\":2}}' doc3 $ '{\"f1\":{\"a\":0},\"f2\":{\"a\":0}}'\nOK\nredis> JSON.MSET doc1 $ '{\"a\":2}' doc2 $.f.a '3' doc3 $ '{\"f1\":{\"a\":1},\"f2\":{\"a\":2}}'\nOK\nredis> JSON.GET doc1 $\n\"[{\\\"a\\\":2}]\"\nredis> JSON.GET doc2 $\n\"[{\\\"f\\\":{\\\"a\\\":3}}]\"\nredis> JSON.GET doc3\n\"{\\\"f1\\\":{\\\"a\\\":1},\\\"f2\\\":{\\\"a\\\":2}}\"\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply](): if the operation fails to set the new values.\n\n**RESP3:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply](): if the operation fails to set the new values.\n\n\n\n## See also\n\n[`JSON.SET`]() | [`JSON.MGET`]() | [`JSON.GET`]() \n\n## Related topics\n\n* [RedisJSON]()\n* [Index and search JSON documents]()",
+  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nSet or update one or more JSON values according to the specified `key`-`path`-`value` triplets\n\n`JSON.MSET` is atomic, hence, all given additions or updates are either applied or not. It is not possible for clients to see that some of the keys were updated while others are unchanged.\n\nA JSON value is a hierarchical structure. If you change a value in a specific path - nested values are affected.\n\n\nWhen cluster mode is enabled, all specified keys must reside on the same [hash slot](https://redis.io/docs/latest/operate/oss_and_stack/reference/cluster-spec/#key-distribution-model).\n\n\n[Examples](#examples)",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nSet or update one or more JSON values according to the specified `key`-`path`-`value` triplets\n\n`JSON.MSET` is atomic, hence, all given additions or updates are either applied or not. It is not possible for clients to see that some of the keys were updated while others are unchanged.\n\nA JSON value is a hierarchical structure. If you change a value in a specific path - nested values are affected.\n\n\nWhen cluster mode is enabled, all specified keys must reside on the same [hash slot](https://redis.io/docs/latest/operate/oss_and_stack/reference/cluster-spec/#key-distribution-model).\n\n\n[Examples](#examples)"
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open><summary><code>key</code></summary>\n\nis key to modify.\n</details>\n\n<details open><summary><code>path</code></summary>\n\nis JSONPath to specify. For new Redis keys the `path` must be the root. For existing keys, when the entire `path` exists, the value that it contains is replaced with the `json` value. For existing keys, when the `path` exists, except for the last element, a new child is added with the `json` value.\n\n</details>\n\n<details open><summary><code>value</code></summary>\n\nis value to set at the specified path\n</details>"
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "<details open>\n<summary><b>Add a new values in multiple keys</b></summary>\n\n\nredis> JSON.MSET doc1 $ '{\"a\":1}' doc2 $ '{\"f\":{\"a\":2}}' doc3 $ '{\"f1\":{\"a\":0},\"f2\":{\"a\":0}}'\nOK\nredis> JSON.MSET doc1 $ '{\"a\":2}' doc2 $.f.a '3' doc3 $ '{\"f1\":{\"a\":1},\"f2\":{\"a\":2}}'\nOK\nredis> JSON.GET doc1 $\n\"[{\\\"a\\\":2}]\"\nredis> JSON.GET doc2 $\n\"[{\\\"f\\\":{\\\"a\\\":3}}]\"\nredis> JSON.GET doc3\n\"{\\\"f1\\\":{\\\"a\\\":1},\\\"f2\\\":{\\\"a\\\":2}}\"\n\n</details>"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply](): if the operation fails to set the new values.\n\n**RESP3:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply](): if the operation fails to set the new values."
+    },
+    {
+      "title": "See also",
+      "level": 2,
+      "content": "[`JSON.SET`]() | [`JSON.MGET`]() | [`JSON.GET`]()"
+    },
+    {
+      "title": "Related topics",
+      "level": 2,
+      "content": "* [RedisJSON]()\n* [Index and search JSON documents]()"
+    }
+  ]
+}

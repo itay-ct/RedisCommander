@@ -1,0 +1,196 @@
+{
+  "slug": "hvals",
+  "title": "HVALS",
+  "description": "Returns all values in a hash.",
+  "docsUrl": "https://redis.io/docs/latest/commands/hvals/",
+  "group": "hash",
+  "groupLabel": "Hashes",
+  "syntax": "HVALS key",
+  "complexity": "O(N) where N is the size of the hash.",
+  "since": "2.0.0",
+  "arity": 2,
+  "aclCategories": [
+    "@read",
+    "@hash",
+    "@slow"
+  ],
+  "commandFlags": [
+    "readonly"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RO": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [
+    {
+      "codetabsId": "cmds_hash-stephvals",
+      "commands": [
+        {
+          "acl_categories": [
+            "@write",
+            "@hash",
+            "@fast"
+          ],
+          "complexity": "O(1)",
+          "name": "HSET"
+        },
+        {
+          "acl_categories": [
+            "@read",
+            "@hash",
+            "@slow"
+          ],
+          "complexity": "O(N)",
+          "name": "HVALS"
+        }
+      ],
+      "description": "Foundational: Retrieve all values from a hash using HVALS (returns only values without field names, useful when you only need the data)",
+      "difficulty": "beginner",
+      "id": "hvals",
+      "languages": [
+        {
+          "id": "redis-cli",
+          "panelId": "panel_redis-cli_cmds_hash-stephvals"
+        },
+        {
+          "clientId": "redis-py",
+          "clientName": "redis-py",
+          "id": "Python",
+          "langId": "python",
+          "panelId": "panel_Python_cmds_hash-stephvals"
+        },
+        {
+          "id": "Node-js",
+          "panelId": "panel_Nodejs_cmds_hash-stephvals"
+        },
+        {
+          "clientId": "jedis",
+          "clientName": "Jedis",
+          "id": "Java-Sync",
+          "langId": "java",
+          "panelId": "panel_Java-Sync_cmds_hash-stephvals"
+        },
+        {
+          "clientId": "lettuce",
+          "clientName": "Lettuce",
+          "id": "Java-Async",
+          "langId": "java",
+          "panelId": "panel_Java-Async_cmds_hash-stephvals"
+        },
+        {
+          "clientId": "lettuce",
+          "clientName": "Lettuce",
+          "id": "Java-Reactive",
+          "langId": "java",
+          "panelId": "panel_Java-Reactive_cmds_hash-stephvals"
+        },
+        {
+          "clientId": "go-redis",
+          "clientName": "go-redis",
+          "id": "Go",
+          "langId": "go",
+          "panelId": "panel_Go_cmds_hash-stephvals"
+        },
+        {
+          "id": "dotnet-Sync",
+          "panelId": "panel_Csharp-Sync_cmds_hash-stephvals"
+        },
+        {
+          "clientId": "predis",
+          "clientName": "Predis",
+          "id": "PHP",
+          "langId": "php",
+          "panelId": "panel_PHP_cmds_hash-stephvals"
+        },
+        {
+          "clientId": "redis-rs",
+          "clientName": "redis-rs",
+          "id": "Rust-Sync",
+          "langId": "rust",
+          "panelId": "panel_Rust-Sync_cmds_hash-stephvals"
+        },
+        {
+          "clientId": "redis-rs",
+          "clientName": "redis-rs",
+          "id": "Rust-Async",
+          "langId": "rust",
+          "panelId": "panel_Rust-Async_cmds_hash-stephvals"
+        }
+      ]
+    }
+  ],
+  "content": "Returns all values in the hash stored at `key`.\n\n## Examples\n\n#### Code Examples\n\nFoundational: Retrieve all values from a hash using HVALS (returns only values without field names, useful when you only need the data)\n\n**Difficulty:** Beginner\n\n**Commands:** HSET, HVALS\n\n**Complexity:**\n- HSET: O(1)\n- HVALS: O(N)\n\n**Redis CLI:**\n\n```\nredis> HSET myhash field1 \"Hello\"\n(integer) 1\nredis> HSET myhash field2 \"World\"\n(integer) 1\nredis> HVALS myhash\n1) \"Hello\"\n2) \"World\"\n```\n\n**Available in:** Redis CLI, C# (Synchronous), Go, Java (Asynchronous - Lettuce), Java (Reactive - Lettuce), Java (Synchronous - Jedis), JavaScript (Node.js), PHP, Python, Rust (Asynchronous), Rust (Synchronous)\n\n**C# (Synchronous):**\n\n```csharp\n        // REMOVE_END\n\n        // STEP_START hset\n        bool hsetRes1 = db.HashSet(\"myhash\", \"field1\", \"Hello\");\n        RedisValue hsetRes2 = db.HashGet(\"myhash\", \"field1\");\n        Console.WriteLine(hsetRes2);    // >>> Hello\n\n        db.HashSet(\n            \"myhash\",\n            [\n                new(\"field2\", \"Hi\"),\n```\n\n**Go:**\n\n```go\n\thValsResult1, err := rdb.HSet(ctx, \"myhash\",\n\t\t\"field1\", \"Hello\",\n\t\t\"field2\", \"World\",\n\t).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(hValsResult1) // >>> 2\n\n\thValsResult2, err := rdb.HVals(ctx, \"myhash\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tsort.Strings(hValsResult2)\n\n\tfmt.Println(hValsResult2) // >>> [Hello World]\n```\n\n**Java (Asynchronous - Lettuce):**\n\n```java\n            Map<String, String> hValsExampleParams = new HashMap<>();\n            hValsExampleParams.put(\"field1\", \"Hello\");\n            hValsExampleParams.put(\"field2\", \"World\");\n\n            CompletableFuture<Void> hValsExample = asyncCommands.hset(\"myhash\", hValsExampleParams).thenCompose(res1 -> {\n                return asyncCommands.hvals(\"myhash\");\n            }).thenAccept(res2 -> {\n                List<String> sortedValues = new ArrayList<>(res2);\n                Collections.sort(sortedValues);\n                System.out.println(sortedValues);\n                // >>> [Hello, World]\n            }).toCompletableFuture();\n```\n\n**Java (Reactive - Lettuce):**\n\n```java\n            Map<String, String> hValsExampleParams = new HashMap<>();\n            hValsExampleParams.put(\"field1\", \"Hello\");\n            hValsExampleParams.put(\"field2\", \"World\");\n\n            Mono<Long> hValsExample1 = reactiveCommands.hset(\"myhash\", hValsExampleParams).doOnNext(result -> {\n            });\n\n            hValsExample1.block();\n\n            Mono<List<String>> hValsExample2 = reactiveCommands.hvals(\"myhash\").collectList().doOnNext(result -> {\n                List<String> sortedValues = new ArrayList<>(result);\n                Collections.sort(sortedValues);\n                System.out.println(sortedValues);\n                // >>> [Hello, World]\n            });\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n        Map<String, String> hValsExampleParams = new HashMap<>();\n        hValsExampleParams.put(\"field1\", \"Hello\");\n        hValsExampleParams.put(\"field2\", \"World\");\n\n        long hValsResult1 = jedis.hset(\"myhash\", hValsExampleParams);\n        System.out.println(hValsResult1); // >>> 2\n\n        List<String> hValsResult2 = jedis.hvals(\"myhash\");\n        Collections.sort(hValsResult2);\n        System.out.println(hValsResult2);\n        // >>> [Hello, World]\n```\n\n**JavaScript (Node.js):**\n\n```javascript\nconst res12 = await client.hSet(\n  'myhash',\n  {\n    'field1': 'Hello',\n    'field2': 'World'\n  }\n)\n\nconst res13 = await client.hVals('myhash')\nconsole.log(res13) // [ 'Hello', 'World' ]\n\n```\n\n**PHP:**\n\n```php\n\n        $hValsResult1 = $this->redis->hmset('myhash', ['field1' => 'Hello', 'field2' => 'World']);\n        echo \"HMSET myhash field1 Hello field2 World: \" . ($hValsResult1 ? 'OK' : 'FAIL') . \"\\n\"; // >>> OK\n\n        $hValsResult2 = $this->redis->hvals('myhash');\n        echo \"HVALS myhash: \" . json_encode($hValsResult2) . \"\\n\"; // >>> [\"Hello\",\"World\"]\n```\n\n**Python:**\n\n```python\nres10 = r.hset(\"myhash\", mapping={\"field1\": \"Hello\", \"field2\": \"World\"})\n\nres11 = r.hvals(\"myhash\")\nprint(res11) # >>> [ \"Hello\", \"World\" ]\n\n```\n\n**Rust (Asynchronous):**\n\n```rust\n        let hash_fields = [\n            (\"field1\", \"Hello\"),\n            (\"field2\", \"World\"),\n        ];\n\n        if let Ok(_) = r.hset_multiple::<&str, &str, &str, String>(\"myhash\", &hash_fields).await {\n            // Fields set successfully\n        }\n\n        match r.hvals(\"myhash\").await {\n            Ok(res11) => {\n                let res11: Vec<String> = res11;\n                println!(\"{res11:?}\");    // >>> [\"Hello\", \"World\"]\n            },\n            Err(e) => {\n                println!(\"Error getting hash values: {e}\");\n                return;\n            }\n        }\n\n```\n\n**Rust (Synchronous):**\n\n```rust\n        let hash_fields = [\n            (\"field1\", \"Hello\"),\n            (\"field2\", \"World\"),\n        ];\n\n        if let Ok(_) = r.hset_multiple::<&str, &str, &str, String>(\"myhash\", &hash_fields) {\n            // Fields set successfully\n        }\n\n        match r.hvals(\"myhash\") {\n            Ok(res11) => {\n                let res11: Vec<String> = res11;\n                println!(\"{res11:?}\");    // >>> [\"Hello\", \"World\"]\n            },\n            Err(e) => {\n                println!(\"Error getting hash values: {e}\");\n                return;\n            }\n        }\n\n```\n\n\n\nGive these commands a try in the interactive console:\n\n\nHSET myhash field1 \"Hello\"\nHSET myhash field2 \"World\"\nHVALS myhash\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of values in the hash, or an empty list when the key does not exist\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of values in the hash, or an empty list when the key does not exist.",
+  "intro": "Returns all values in the hash stored at `key`.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Returns all values in the hash stored at `key`."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "#### Code Examples\n\nFoundational: Retrieve all values from a hash using HVALS (returns only values without field names, useful when you only need the data)\n\n**Difficulty:** Beginner\n\n**Commands:** HSET, HVALS\n\n**Complexity:**\n- HSET: O(1)\n- HVALS: O(N)\n\n**Redis CLI:**\n\n```\nredis> HSET myhash field1 \"Hello\"\n(integer) 1\nredis> HSET myhash field2 \"World\"\n(integer) 1\nredis> HVALS myhash\n1) \"Hello\"\n2) \"World\"\n```\n\n**Available in:** Redis CLI, C# (Synchronous), Go, Java (Asynchronous - Lettuce), Java (Reactive - Lettuce), Java (Synchronous - Jedis), JavaScript (Node.js), PHP, Python, Rust (Asynchronous), Rust (Synchronous)\n\n**C# (Synchronous):**\n\n```csharp\n        // REMOVE_END\n\n        // STEP_START hset\n        bool hsetRes1 = db.HashSet(\"myhash\", \"field1\", \"Hello\");\n        RedisValue hsetRes2 = db.HashGet(\"myhash\", \"field1\");\n        Console.WriteLine(hsetRes2);    // >>> Hello\n\n        db.HashSet(\n            \"myhash\",\n            [\n                new(\"field2\", \"Hi\"),\n```\n\n**Go:**\n\n```go\n\thValsResult1, err := rdb.HSet(ctx, \"myhash\",\n\t\t\"field1\", \"Hello\",\n\t\t\"field2\", \"World\",\n\t).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(hValsResult1) // >>> 2\n\n\thValsResult2, err := rdb.HVals(ctx, \"myhash\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tsort.Strings(hValsResult2)\n\n\tfmt.Println(hValsResult2) // >>> [Hello World]\n```\n\n**Java (Asynchronous - Lettuce):**\n\n```java\n            Map<String, String> hValsExampleParams = new HashMap<>();\n            hValsExampleParams.put(\"field1\", \"Hello\");\n            hValsExampleParams.put(\"field2\", \"World\");\n\n            CompletableFuture<Void> hValsExample = asyncCommands.hset(\"myhash\", hValsExampleParams).thenCompose(res1 -> {\n                return asyncCommands.hvals(\"myhash\");\n            }).thenAccept(res2 -> {\n                List<String> sortedValues = new ArrayList<>(res2);\n                Collections.sort(sortedValues);\n                System.out.println(sortedValues);\n                // >>> [Hello, World]\n            }).toCompletableFuture();\n```\n\n**Java (Reactive - Lettuce):**\n\n```java\n            Map<String, String> hValsExampleParams = new HashMap<>();\n            hValsExampleParams.put(\"field1\", \"Hello\");\n            hValsExampleParams.put(\"field2\", \"World\");\n\n            Mono<Long> hValsExample1 = reactiveCommands.hset(\"myhash\", hValsExampleParams).doOnNext(result -> {\n            });\n\n            hValsExample1.block();\n\n            Mono<List<String>> hValsExample2 = reactiveCommands.hvals(\"myhash\").collectList().doOnNext(result -> {\n                List<String> sortedValues = new ArrayList<>(result);\n                Collections.sort(sortedValues);\n                System.out.println(sortedValues);\n                // >>> [Hello, World]\n            });\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n        Map<String, String> hValsExampleParams = new HashMap<>();\n        hValsExampleParams.put(\"field1\", \"Hello\");\n        hValsExampleParams.put(\"field2\", \"World\");\n\n        long hValsResult1 = jedis.hset(\"myhash\", hValsExampleParams);\n        System.out.println(hValsResult1); // >>> 2\n\n        List<String> hValsResult2 = jedis.hvals(\"myhash\");\n        Collections.sort(hValsResult2);\n        System.out.println(hValsResult2);\n        // >>> [Hello, World]\n```\n\n**JavaScript (Node.js):**\n\n```javascript\nconst res12 = await client.hSet(\n  'myhash',\n  {\n    'field1': 'Hello',\n    'field2': 'World'\n  }\n)\n\nconst res13 = await client.hVals('myhash')\nconsole.log(res13) // [ 'Hello', 'World' ]\n\n```\n\n**PHP:**\n\n```php\n\n        $hValsResult1 = $this->redis->hmset('myhash', ['field1' => 'Hello', 'field2' => 'World']);\n        echo \"HMSET myhash field1 Hello field2 World: \" . ($hValsResult1 ? 'OK' : 'FAIL') . \"\\n\"; // >>> OK\n\n        $hValsResult2 = $this->redis->hvals('myhash');\n        echo \"HVALS myhash: \" . json_encode($hValsResult2) . \"\\n\"; // >>> [\"Hello\",\"World\"]\n```\n\n**Python:**\n\n```python\nres10 = r.hset(\"myhash\", mapping={\"field1\": \"Hello\", \"field2\": \"World\"})\n\nres11 = r.hvals(\"myhash\")\nprint(res11) # >>> [ \"Hello\", \"World\" ]\n\n```\n\n**Rust (Asynchronous):**\n\n```rust\n        let hash_fields = [\n            (\"field1\", \"Hello\"),\n            (\"field2\", \"World\"),\n        ];\n\n        if let Ok(_) = r.hset_multiple::<&str, &str, &str, String>(\"myhash\", &hash_fields).await {\n            // Fields set successfully\n        }\n\n        match r.hvals(\"myhash\").await {\n            Ok(res11) => {\n                let res11: Vec<String> = res11;\n                println!(\"{res11:?}\");    // >>> [\"Hello\", \"World\"]\n            },\n            Err(e) => {\n                println!(\"Error getting hash values: {e}\");\n                return;\n            }\n        }\n\n```\n\n**Rust (Synchronous):**\n\n```rust\n        let hash_fields = [\n            (\"field1\", \"Hello\"),\n            (\"field2\", \"World\"),\n        ];\n\n        if let Ok(_) = r.hset_multiple::<&str, &str, &str, String>(\"myhash\", &hash_fields) {\n            // Fields set successfully\n        }\n\n        match r.hvals(\"myhash\") {\n            Ok(res11) => {\n                let res11: Vec<String> = res11;\n                println!(\"{res11:?}\");    // >>> [\"Hello\", \"World\"]\n            },\n            Err(e) => {\n                println!(\"Error getting hash values: {e}\");\n                return;\n            }\n        }\n\n```\n\n\n\nGive these commands a try in the interactive console:\n\n\nHSET myhash field1 \"Hello\"\nHSET myhash field2 \"World\"\nHVALS myhash"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of values in the hash, or an empty list when the key does not exist\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of values in the hash, or an empty list when the key does not exist."
+    }
+  ]
+}

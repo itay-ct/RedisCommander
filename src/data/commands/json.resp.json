@@ -1,0 +1,117 @@
+{
+  "slug": "json.resp",
+  "title": "JSON.RESP",
+  "description": "Returns the JSON value at path in Redis Serialization Protocol (RESP)",
+  "docsUrl": "https://redis.io/docs/latest/commands/json.resp/",
+  "group": "json",
+  "groupLabel": "JSON",
+  "syntax": "JSON.RESP key [path]",
+  "complexity": "O(N) when path is evaluated to a single value, where N is the size of the value, O(N) when path is evaluated to multiple values, where N is the size of the key",
+  "since": "1.0.0",
+  "arity": null,
+  "aclCategories": [
+    "@json",
+    "@read",
+    "@slow"
+  ],
+  "commandFlags": [],
+  "arguments": [
+    {
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "name": "path",
+      "optional": true,
+      "type": "string"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "optional-arguments",
+        "title": "Optional arguments"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      },
+      {
+        "id": "see-also",
+        "title": "See also"
+      },
+      {
+        "id": "related-topics",
+        "title": "Related topics"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Return the JSON in `key` in [Redis serialization protocol specification]() form \n\n[Examples](#examples)\n\n## Required arguments\n\n<details open><summary><code>key</code></summary> \n\nis key to parse.\n</details>\n\n## Optional arguments\n\n<details open><summary><code>path</code></summary> \n\nis JSONPath to specify. Default is root `$`. This command uses the following mapping from JSON to RESP:\n\n*   JSON `null` maps to the bulk string reply.\n*   JSON `false` and `true` values map to the simple string reply.\n*   JSON number maps to the integer reply or bulk string reply, depending on type.\n*   JSON string maps to the bulk string reply.\n*   JSON array is represented as an array reply in which the first element is the simple string reply `[`, followed by the array's elements.\n*   JSON object is represented as an array reply in which the first element is the simple string reply `{`. Each successive entry represents a key-value pair as a two-entry array reply of the bulk string reply.\n\nFor more information about replies, see [Redis serialization protocol specification]().\n</details>\n\n## Examples\n\n<details open>\n<summary><b>Return an array of RESP details about a document</b></summary>\n\nCreate a JSON document.\n\n\nredis> JSON.SET item:2 $ '{\"name\":\"Wireless earbuds\",\"description\":\"Wireless Bluetooth in-ear headphones\",\"connection\":{\"wireless\":true,\"type\":\"Bluetooth\"},\"price\":64.99,\"stock\":17,\"colors\":[\"black\",\"white\"], \"max_level\":[80, 100, 120]}'\nOK\n\n\nGet all RESP details about the document.\n\n\nredis> JSON.RESP item:2\n 1) {\n 2) \"name\"\n 3) \"Wireless earbuds\"\n 4) \"description\"\n 5) \"Wireless Bluetooth in-ear headphones\"\n 6) \"connection\"\n 7) 1) {\n    2) \"wireless\"\n    3) true\n    4) \"type\"\n    5) \"Bluetooth\"\n 8) \"price\"\n 9) \"64.989999999999995\"\n10) \"stock\"\n11) (integer) 17\n12) \"colors\"\n13) 1) [\n    2) \"black\"\n    3) \"white\"\n14) \"max_level\"\n15) 1) [\n    2) (integer) 80\n    3) (integer) 100\n    4) (integer) 120\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply]() representing the JSON value in RESP form, as detailed in the [Redis serialization protocol specification](). The mapping from JSON to RESP follows the rules described in the command arguments.\n\n**RESP3:**\n\n[Array reply]() representing the JSON value in RESP form, as detailed in the [Redis serialization protocol specification](). The mapping from JSON to RESP follows the rules described in the command arguments.\n\n\n\n## See also\n\n[`JSON.SET`]() | [`JSON.ARRLEN`]() \n\n## Related topics\n\n* [RedisJSON]()\n* [Index and search JSON documents]()",
+  "intro": "Return the JSON in `key` in [Redis serialization protocol specification]() form \n\n[Examples](#examples)",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Return the JSON in `key` in [Redis serialization protocol specification]() form \n\n[Examples](#examples)"
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open><summary><code>key</code></summary> \n\nis key to parse.\n</details>"
+    },
+    {
+      "title": "Optional arguments",
+      "level": 2,
+      "content": "<details open><summary><code>path</code></summary> \n\nis JSONPath to specify. Default is root `$`. This command uses the following mapping from JSON to RESP:\n\n*   JSON `null` maps to the bulk string reply.\n*   JSON `false` and `true` values map to the simple string reply.\n*   JSON number maps to the integer reply or bulk string reply, depending on type.\n*   JSON string maps to the bulk string reply.\n*   JSON array is represented as an array reply in which the first element is the simple string reply `[`, followed by the array's elements.\n*   JSON object is represented as an array reply in which the first element is the simple string reply `{`. Each successive entry represents a key-value pair as a two-entry array reply of the bulk string reply.\n\nFor more information about replies, see [Redis serialization protocol specification]().\n</details>"
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "<details open>\n<summary><b>Return an array of RESP details about a document</b></summary>\n\nCreate a JSON document.\n\n\nredis> JSON.SET item:2 $ '{\"name\":\"Wireless earbuds\",\"description\":\"Wireless Bluetooth in-ear headphones\",\"connection\":{\"wireless\":true,\"type\":\"Bluetooth\"},\"price\":64.99,\"stock\":17,\"colors\":[\"black\",\"white\"], \"max_level\":[80, 100, 120]}'\nOK\n\n\nGet all RESP details about the document.\n\n\nredis> JSON.RESP item:2\n 1) {\n 2) \"name\"\n 3) \"Wireless earbuds\"\n 4) \"description\"\n 5) \"Wireless Bluetooth in-ear headphones\"\n 6) \"connection\"\n 7) 1) {\n    2) \"wireless\"\n    3) true\n    4) \"type\"\n    5) \"Bluetooth\"\n 8) \"price\"\n 9) \"64.989999999999995\"\n10) \"stock\"\n11) (integer) 17\n12) \"colors\"\n13) 1) [\n    2) \"black\"\n    3) \"white\"\n14) \"max_level\"\n15) 1) [\n    2) (integer) 80\n    3) (integer) 100\n    4) (integer) 120\n\n</details>"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Array reply]() representing the JSON value in RESP form, as detailed in the [Redis serialization protocol specification](). The mapping from JSON to RESP follows the rules described in the command arguments.\n\n**RESP3:**\n\n[Array reply]() representing the JSON value in RESP form, as detailed in the [Redis serialization protocol specification](). The mapping from JSON to RESP follows the rules described in the command arguments."
+    },
+    {
+      "title": "See also",
+      "level": 2,
+      "content": "[`JSON.SET`]() | [`JSON.ARRLEN`]()"
+    },
+    {
+      "title": "Related topics",
+      "level": 2,
+      "content": "* [RedisJSON]()\n* [Index and search JSON documents]()"
+    }
+  ]
+}

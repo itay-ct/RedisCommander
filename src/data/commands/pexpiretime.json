@@ -1,0 +1,100 @@
+{
+  "slug": "pexpiretime",
+  "title": "PEXPIRETIME",
+  "description": "Returns the expiration time of a key as a Unix milliseconds timestamp.",
+  "docsUrl": "https://redis.io/docs/latest/commands/pexpiretime/",
+  "group": "generic",
+  "groupLabel": "Generic",
+  "syntax": "PEXPIRETIME key",
+  "complexity": "O(1)",
+  "since": "7.0.0",
+  "arity": 2,
+  "aclCategories": [
+    "@keyspace",
+    "@read",
+    "@fast"
+  ],
+  "commandFlags": [
+    "readonly",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RO": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "`PEXPIRETIME` has the same semantic as [`EXPIRETIME`](), but returns the absolute Unix expiration timestamp in milliseconds instead of seconds.\n\n## Examples\n\n\nSET mykey \"Hello\"\nPEXPIREAT mykey 33177117420000\nPEXPIRETIME mykey\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): Expiration Unix timestamp in milliseconds.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the key exists but has no associated expiration time.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if the key does not exist.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): Expiration Unix timestamp in milliseconds.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the key exists but has no associated expiration time.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if the key does not exist.",
+  "intro": "`PEXPIRETIME` has the same semantic as [`EXPIRETIME`](), but returns the absolute Unix expiration timestamp in milliseconds instead of seconds.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "`PEXPIRETIME` has the same semantic as [`EXPIRETIME`](), but returns the absolute Unix expiration timestamp in milliseconds instead of seconds."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "SET mykey \"Hello\"\nPEXPIREAT mykey 33177117420000\nPEXPIRETIME mykey"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): Expiration Unix timestamp in milliseconds.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the key exists but has no associated expiration time.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if the key does not exist.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): Expiration Unix timestamp in milliseconds.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the key exists but has no associated expiration time.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if the key does not exist."
+    }
+  ]
+}

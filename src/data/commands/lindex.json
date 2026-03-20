@@ -1,0 +1,104 @@
+{
+  "slug": "lindex",
+  "title": "LINDEX",
+  "description": "Returns an element from a list by its index.",
+  "docsUrl": "https://redis.io/docs/latest/commands/lindex/",
+  "group": "list",
+  "groupLabel": "Lists",
+  "syntax": "LINDEX key index",
+  "complexity": "O(N) where N is the number of elements to traverse to get to the element at index. This makes asking for the first or the last element of the list O(1).",
+  "since": "1.0.0",
+  "arity": 3,
+  "aclCategories": [
+    "@read",
+    "@list",
+    "@slow"
+  ],
+  "commandFlags": [
+    "readonly"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "index",
+      "name": "index",
+      "type": "integer"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RO": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Returns the element at index `index` in the list stored at `key`.\nThe index is zero-based, so `0` means the first element, `1` the second element\nand so on.\nNegative indices can be used to designate elements starting at the tail of the\nlist.\nHere, `-1` means the last element, `-2` means the penultimate and so forth.\n\nWhen the value at `key` is not a list, an error is returned.\n\n## Examples\n\n\nLPUSH mylist \"World\"\nLPUSH mylist \"Hello\"\nLINDEX mylist 0\nLINDEX mylist -1\nLINDEX mylist 3\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): when _index_ is out of range.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the requested element.\n\n**RESP3:**\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): when _index_ is out of range.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the requested element.",
+  "intro": "Returns the element at index `index` in the list stored at `key`.\nThe index is zero-based, so `0` means the first element, `1` the second element\nand so on.\nNegative indices can be used to designate elements starting at the tail of the\nlist.\nHere, `-1` means the last element, `-2` means the penultimate and so forth.\n\nWhen the value at `key` is not a list, an error is returned.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Returns the element at index `index` in the list stored at `key`.\nThe index is zero-based, so `0` means the first element, `1` the second element\nand so on.\nNegative indices can be used to designate elements starting at the tail of the\nlist.\nHere, `-1` means the last element, `-2` means the penultimate and so forth.\n\nWhen the value at `key` is not a list, an error is returned."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "LPUSH mylist \"World\"\nLPUSH mylist \"Hello\"\nLINDEX mylist 0\nLINDEX mylist -1\nLINDEX mylist 3"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): when _index_ is out of range.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the requested element.\n\n**RESP3:**\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): when _index_ is out of range.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the requested element."
+    }
+  ]
+}

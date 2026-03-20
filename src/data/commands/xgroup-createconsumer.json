@@ -1,0 +1,101 @@
+{
+  "slug": "xgroup-createconsumer",
+  "title": "XGROUP CREATECONSUMER",
+  "description": "Creates a consumer in a consumer group.",
+  "docsUrl": "https://redis.io/docs/latest/commands/xgroup-createconsumer/",
+  "group": "stream",
+  "groupLabel": "Streams",
+  "syntax": "XGROUP CREATECONSUMER key group consumer",
+  "complexity": "O(1)",
+  "since": "6.2.0",
+  "arity": 5,
+  "aclCategories": [
+    "@write",
+    "@stream",
+    "@slow"
+  ],
+  "commandFlags": [
+    "write",
+    "denyoom"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "group",
+      "name": "group",
+      "type": "string"
+    },
+    {
+      "display_text": "consumer",
+      "name": "consumer",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "begin_search": {
+        "spec": {
+          "index": 2
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      },
+      "insert": true
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Create a consumer named `<consumername>` in the consumer group `<groupname>` of the stream that's stored at `<key>`.\n\nConsumers are also created automatically whenever an operation, such as [`XREADGROUP`](), references a consumer that doesn't exist.\nThis is valid for [`XREADGROUP`]() only when there is data in the stream.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of created consumers, either 0 or 1.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of created consumers, either 0 or 1.",
+  "intro": "Create a consumer named `<consumername>` in the consumer group `<groupname>` of the stream that's stored at `<key>`.\n\nConsumers are also created automatically whenever an operation, such as [`XREADGROUP`](), references a consumer that doesn't exist.\nThis is valid for [`XREADGROUP`]() only when there is data in the stream.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Create a consumer named `<consumername>` in the consumer group `<groupname>` of the stream that's stored at `<key>`.\n\nConsumers are also created automatically whenever an operation, such as [`XREADGROUP`](), references a consumer that doesn't exist.\nThis is valid for [`XREADGROUP`]() only when there is data in the stream."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of created consumers, either 0 or 1.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of created consumers, either 0 or 1."
+    }
+  ]
+}

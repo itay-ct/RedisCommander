@@ -1,0 +1,148 @@
+{
+  "slug": "bitpos",
+  "title": "BITPOS",
+  "description": "Finds the first set (1) or clear (0) bit in a string.",
+  "docsUrl": "https://redis.io/docs/latest/commands/bitpos/",
+  "group": "bitmap",
+  "groupLabel": "Bitmaps",
+  "syntax": "BITPOS key bit [start [end [BYTE | BIT]]]",
+  "complexity": "O(N)",
+  "since": "2.8.7",
+  "arity": -3,
+  "aclCategories": [
+    "@read",
+    "@bitmap",
+    "@slow"
+  ],
+  "commandFlags": [
+    "readonly"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "bit",
+      "name": "bit",
+      "type": "integer"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "start",
+          "name": "start",
+          "type": "integer"
+        },
+        {
+          "arguments": [
+            {
+              "display_text": "end",
+              "name": "end",
+              "type": "integer"
+            },
+            {
+              "arguments": [
+                {
+                  "display_text": "byte",
+                  "name": "byte",
+                  "token": "BYTE",
+                  "type": "pure-token"
+                },
+                {
+                  "display_text": "bit",
+                  "name": "bit",
+                  "token": "BIT",
+                  "type": "pure-token"
+                }
+              ],
+              "name": "unit",
+              "optional": true,
+              "since": "7.0.0",
+              "type": "oneof"
+            }
+          ],
+          "name": "end-unit-block",
+          "optional": true,
+          "type": "block"
+        }
+      ],
+      "name": "range",
+      "optional": true,
+      "type": "block"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RO": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Return the position of the first bit set to 1 or 0 in a string.\n\nThe position is returned, thinking of the string as an array of bits from left to\nright, where the first byte's most significant bit is at position 0, the second\nbyte's most significant bit is at position 8, and so forth.\n\nThe same bit position convention is followed by [`GETBIT`]() and [`SETBIT`]().\n\nBy default, all the bytes contained in the string are examined.\nIt is possible to look for bits only in a specified interval passing the additional arguments _start_ and _end_ (it is possible to just pass _start_, the operation will assume that the end is the last byte of the string. However there are semantic differences as explained later).\nBy default, the range is interpreted as a range of bytes and not a range of bits, so `start=0` and `end=2` means to look at the first three bytes.\n\nYou can use the optional `BIT` modifier to specify that the range should be interpreted as a range of bits.\nSo `start=0` and `end=2` means to look at the first three bits.\n\nNote that bit positions are returned always as absolute values starting from bit zero even when _start_ and _end_ are used to specify a range.\n\nLike for the [`GETRANGE`]() command start and end can contain negative values in\norder to index bytes starting from the end of the string, where -1 is the last\nbyte, -2 is the penultimate, and so forth. When `BIT` is specified, -1 is the last\nbit, -2 is the penultimate, and so forth.\n\nNon-existent keys are treated as empty strings.\n\n## Examples\n\n```redis\nredis> SET mykey \"\\xff\\xf0\\x00\"\nOK\nredis> BITPOS mykey 0\n(integer) 12\nredis> SET mykey \"\\x00\\xff\\xf0\"\nOK\nredis> BITPOS mykey 1 0\n(integer) 8\nredis> BITPOS mykey 1 2\n(integer) 16\nredis> BITPOS mykey 1 2 -1 BYTE\n(integer) 16\nredis> BITPOS mykey 1 7 15 BIT\n(integer) 8\nredis> set mykey \"\\x00\\x00\\x00\"\nOK\nredis> BITPOS mykey 1\n(integer) -1\nredis> BITPOS mykey 1 7 -3 BIT\n(integer) -1\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): the position of the first bit set to 1 or 0 according to the request\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-1`. In case the `bit` argument is 1 and the string is empty or composed of just zero bytes\nIf we look for set bits (the bit argument is 1) and the string is empty or composed of just zero bytes, -1 is returned.\nIf we look for clear bits (the bit argument is 0) and the string only contains bits set to 1, the function returns the first bit not part of the string on the right. So if the string is three bytes set to the value `0xff` the command `BITPOS key 0` will return 24, since up to bit 23 all the bits are 1.\nThe function considers the right of the string as padded with zeros if you look for clear bits and specify no range or the _start_ argument **only**.\nHowever, this behavior changes if you are looking for clear bits and specify a range with both _start_ and _end_.\nIf a clear bit isn't found in the specified range, the function returns -1 as the user specified a clear range and there are no 0 bits in that range.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): the position of the first bit set to 1 or 0 according to the request\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-1`. In case the `bit` argument is 1 and the string is empty or composed of just zero bytes\nIf we look for set bits (the bit argument is 1) and the string is empty or composed of just zero bytes, -1 is returned.\nIf we look for clear bits (the bit argument is 0) and the string only contains bits set to 1, the function returns the first bit not part of the string on the right. So if the string is three bytes set to the value `0xff` the command `BITPOS key 0` will return 24, since up to bit 23 all the bits are 1.\nThe function considers the right of the string as padded with zeros if you look for clear bits and specify no range or the _start_ argument **only**.\nHowever, this behavior changes if you are looking for clear bits and specify a range with both _start_ and _end_.\nIf a clear bit isn't found in the specified range, the function returns -1 as the user specified a clear range and there are no 0 bits in that range.",
+  "intro": "Return the position of the first bit set to 1 or 0 in a string.\n\nThe position is returned, thinking of the string as an array of bits from left to\nright, where the first byte's most significant bit is at position 0, the second\nbyte's most significant bit is at position 8, and so forth.\n\nThe same bit position convention is followed by [`GETBIT`]() and [`SETBIT`]().\n\nBy default, all the bytes contained in the string are examined.\nIt is possible to look for bits only in a specified interval passing the additional arguments _start_ and _end_ (it is possible to just pass _start_, the operation will assume that the end is the last byte of the string. However there are semantic differences as explained later).\nBy default, the range is interpreted as a range of bytes and not a range of bits, so `start=0` and `end=2` means to look at the first three bytes.\n\nYou can use the optional `BIT` modifier to specify that the range should be interpreted as a range of bits.\nSo `start=0` and `end=2` means to look at the first three bits.\n\nNote that bit positions are returned always as absolute values starting from bit zero even when _start_ and _end_ are used to specify a range.\n\nLike for the [`GETRANGE`]() command start and end can contain negative values in\norder to index bytes starting from the end of the string, where -1 is the last\nbyte, -2 is the penultimate, and so forth. When `BIT` is specified, -1 is the last\nbit, -2 is the penultimate, and so forth.\n\nNon-existent keys are treated as empty strings.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Return the position of the first bit set to 1 or 0 in a string.\n\nThe position is returned, thinking of the string as an array of bits from left to\nright, where the first byte's most significant bit is at position 0, the second\nbyte's most significant bit is at position 8, and so forth.\n\nThe same bit position convention is followed by [`GETBIT`]() and [`SETBIT`]().\n\nBy default, all the bytes contained in the string are examined.\nIt is possible to look for bits only in a specified interval passing the additional arguments _start_ and _end_ (it is possible to just pass _start_, the operation will assume that the end is the last byte of the string. However there are semantic differences as explained later).\nBy default, the range is interpreted as a range of bytes and not a range of bits, so `start=0` and `end=2` means to look at the first three bytes.\n\nYou can use the optional `BIT` modifier to specify that the range should be interpreted as a range of bits.\nSo `start=0` and `end=2` means to look at the first three bits.\n\nNote that bit positions are returned always as absolute values starting from bit zero even when _start_ and _end_ are used to specify a range.\n\nLike for the [`GETRANGE`]() command start and end can contain negative values in\norder to index bytes starting from the end of the string, where -1 is the last\nbyte, -2 is the penultimate, and so forth. When `BIT` is specified, -1 is the last\nbit, -2 is the penultimate, and so forth.\n\nNon-existent keys are treated as empty strings."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "```redis\nredis> SET mykey \"\\xff\\xf0\\x00\"\nOK\nredis> BITPOS mykey 0\n(integer) 12\nredis> SET mykey \"\\x00\\xff\\xf0\"\nOK\nredis> BITPOS mykey 1 0\n(integer) 8\nredis> BITPOS mykey 1 2\n(integer) 16\nredis> BITPOS mykey 1 2 -1 BYTE\n(integer) 16\nredis> BITPOS mykey 1 7 15 BIT\n(integer) 8\nredis> set mykey \"\\x00\\x00\\x00\"\nOK\nredis> BITPOS mykey 1\n(integer) -1\nredis> BITPOS mykey 1 7 -3 BIT\n(integer) -1\n```"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): the position of the first bit set to 1 or 0 according to the request\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-1`. In case the `bit` argument is 1 and the string is empty or composed of just zero bytes\nIf we look for set bits (the bit argument is 1) and the string is empty or composed of just zero bytes, -1 is returned.\nIf we look for clear bits (the bit argument is 0) and the string only contains bits set to 1, the function returns the first bit not part of the string on the right. So if the string is three bytes set to the value `0xff` the command `BITPOS key 0` will return 24, since up to bit 23 all the bits are 1.\nThe function considers the right of the string as padded with zeros if you look for clear bits and specify no range or the _start_ argument **only**.\nHowever, this behavior changes if you are looking for clear bits and specify a range with both _start_ and _end_.\nIf a clear bit isn't found in the specified range, the function returns -1 as the user specified a clear range and there are no 0 bits in that range.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): the position of the first bit set to 1 or 0 according to the request\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-1`. In case the `bit` argument is 1 and the string is empty or composed of just zero bytes\nIf we look for set bits (the bit argument is 1) and the string is empty or composed of just zero bytes, -1 is returned.\nIf we look for clear bits (the bit argument is 0) and the string only contains bits set to 1, the function returns the first bit not part of the string on the right. So if the string is three bytes set to the value `0xff` the command `BITPOS key 0` will return 24, since up to bit 23 all the bits are 1.\nThe function considers the right of the string as padded with zeros if you look for clear bits and specify no range or the _start_ argument **only**.\nHowever, this behavior changes if you are looking for clear bits and specify a range with both _start_ and _end_.\nIf a clear bit isn't found in the specified range, the function returns -1 as the user specified a clear range and there are no 0 bits in that range."
+    }
+  ]
+}

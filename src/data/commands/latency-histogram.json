@@ -1,0 +1,84 @@
+{
+  "slug": "latency-histogram",
+  "title": "LATENCY HISTOGRAM",
+  "description": "Returns the cumulative distribution of latencies of a subset or all commands.",
+  "docsUrl": "https://redis.io/docs/latest/commands/latency-histogram/",
+  "group": "server",
+  "groupLabel": "Server",
+  "syntax": "LATENCY HISTOGRAM [command [command ...]]",
+  "complexity": "O(N) where N is the number of commands with latency information being retrieved.",
+  "since": "7.0.0",
+  "arity": -2,
+  "aclCategories": [
+    "@admin",
+    "@slow",
+    "@dangerous"
+  ],
+  "commandFlags": [
+    "admin",
+    "noscript",
+    "loading",
+    "stale"
+  ],
+  "arguments": [
+    {
+      "display_text": "command",
+      "multiple": true,
+      "name": "command",
+      "optional": true,
+      "type": "string"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "`LATENCY HISTOGRAM` returns a cumulative distribution of commands' latencies in histogram format.\n\nBy default, all available latency histograms are returned.\nYou can filter the reply by providing specific command names.\n\nEach histogram consists of the following fields:\n\n* Command name\n* The total calls for that command\n* A map of time buckets:\n  * Each bucket represents a latency range\n  * Each bucket covers twice the previous bucket's range\n  * Empty buckets are excluded from the reply\n  * The tracked latencies are between 1 nanosecond and roughly 1 second\n  * Everything above 1 second is considered +Inf\n  * At max, there will be log2(1,000,000,000) = 30 buckets\n\nThis command requires the extended latency monitoring feature to be enabled, which is the default.\nIf you need to enable it, call `CONFIG SET latency-tracking yes`.\n\nTo delete the latency histograms' data use the [`CONFIG RESETSTAT`]() command.\n\n## Examples\n\n```\n127.0.0.1:6379> LATENCY HISTOGRAM set\n1# \"set\" =>\n   1# \"calls\" => (integer) 100000\n   2# \"histogram_usec\" =>\n      1# (integer) 1 => (integer) 99583\n      2# (integer) 2 => (integer) 99852\n      3# (integer) 4 => (integer) 99914\n      4# (integer) 8 => (integer) 99940\n      5# (integer) 16 => (integer) 99968\n      6# (integer) 33 => (integer) 100000\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a map where each key is a command name, and each value is a map with the total calls, and an inner map of the histogram time buckets.\n\n**RESP3:**\n\n[Map reply](../../develop/reference/protocol-spec#maps): a map where each key is a command name, and each value is a map with the total calls, and an inner map of the histogram time buckets.",
+  "intro": "`LATENCY HISTOGRAM` returns a cumulative distribution of commands' latencies in histogram format.\n\nBy default, all available latency histograms are returned.\nYou can filter the reply by providing specific command names.\n\nEach histogram consists of the following fields:\n\n* Command name\n* The total calls for that command\n* A map of time buckets:\n  * Each bucket represents a latency range\n  * Each bucket covers twice the previous bucket's range\n  * Empty buckets are excluded from the reply\n  * The tracked latencies are between 1 nanosecond and roughly 1 second\n  * Everything above 1 second is considered +Inf\n  * At max, there will be log2(1,000,000,000) = 30 buckets\n\nThis command requires the extended latency monitoring feature to be enabled, which is the default.\nIf you need to enable it, call `CONFIG SET latency-tracking yes`.\n\nTo delete the latency histograms' data use the [`CONFIG RESETSTAT`]() command.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "`LATENCY HISTOGRAM` returns a cumulative distribution of commands' latencies in histogram format.\n\nBy default, all available latency histograms are returned.\nYou can filter the reply by providing specific command names.\n\nEach histogram consists of the following fields:\n\n* Command name\n* The total calls for that command\n* A map of time buckets:\n  * Each bucket represents a latency range\n  * Each bucket covers twice the previous bucket's range\n  * Empty buckets are excluded from the reply\n  * The tracked latencies are between 1 nanosecond and roughly 1 second\n  * Everything above 1 second is considered +Inf\n  * At max, there will be log2(1,000,000,000) = 30 buckets\n\nThis command requires the extended latency monitoring feature to be enabled, which is the default.\nIf you need to enable it, call `CONFIG SET latency-tracking yes`.\n\nTo delete the latency histograms' data use the [`CONFIG RESETSTAT`]() command."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "```\n127.0.0.1:6379> LATENCY HISTOGRAM set\n1# \"set\" =>\n   1# \"calls\" => (integer) 100000\n   2# \"histogram_usec\" =>\n      1# (integer) 1 => (integer) 99583\n      2# (integer) 2 => (integer) 99852\n      3# (integer) 4 => (integer) 99914\n      4# (integer) 8 => (integer) 99940\n      5# (integer) 16 => (integer) 99968\n      6# (integer) 33 => (integer) 100000\n```"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a map where each key is a command name, and each value is a map with the total calls, and an inner map of the histogram time buckets.\n\n**RESP3:**\n\n[Map reply](../../develop/reference/protocol-spec#maps): a map where each key is a command name, and each value is a map with the total calls, and an inner map of the histogram time buckets."
+    }
+  ]
+}

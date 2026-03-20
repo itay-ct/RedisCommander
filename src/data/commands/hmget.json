@@ -1,0 +1,97 @@
+{
+  "slug": "hmget",
+  "title": "HMGET",
+  "description": "Returns the values of all fields in a hash.",
+  "docsUrl": "https://redis.io/docs/latest/commands/hmget/",
+  "group": "hash",
+  "groupLabel": "Hashes",
+  "syntax": "HMGET key field [field ...]",
+  "complexity": "O(N) where N is the number of fields being requested.",
+  "since": "2.0.0",
+  "arity": -3,
+  "aclCategories": [
+    "@read",
+    "@hash",
+    "@fast"
+  ],
+  "commandFlags": [
+    "readonly",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "field",
+      "multiple": true,
+      "name": "field",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RO": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Returns the values associated with the specified `fields` in the hash stored at\n`key`.\n\nFor every `field` that does not exist in the hash, a `nil` value is returned.\nBecause non-existing keys are treated as empty hashes, running `HMGET` against\na non-existing `key` will return a list of `nil` values.\n\n\nHSET myhash field1 \"Hello\"\nHSET myhash field2 \"World\"\nHMGET myhash field1 field2 nofield\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of values associated with the given fields, in the same order as they are requested.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of values associated with the given fields, in the same order as they are requested.",
+  "intro": "Returns the values associated with the specified `fields` in the hash stored at\n`key`.\n\nFor every `field` that does not exist in the hash, a `nil` value is returned.\nBecause non-existing keys are treated as empty hashes, running `HMGET` against\na non-existing `key` will return a list of `nil` values.\n\n\nHSET myhash field1 \"Hello\"\nHSET myhash field2 \"World\"\nHMGET myhash field1 field2 nofield",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Returns the values associated with the specified `fields` in the hash stored at\n`key`.\n\nFor every `field` that does not exist in the hash, a `nil` value is returned.\nBecause non-existing keys are treated as empty hashes, running `HMGET` against\na non-existing `key` will return a list of `nil` values.\n\n\nHSET myhash field1 \"Hello\"\nHSET myhash field2 \"World\"\nHMGET myhash field1 field2 nofield"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of values associated with the given fields, in the same order as they are requested.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of values associated with the given fields, in the same order as they are requested."
+    }
+  ]
+}

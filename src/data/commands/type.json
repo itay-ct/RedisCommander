@@ -1,0 +1,99 @@
+{
+  "slug": "type",
+  "title": "TYPE",
+  "description": "Determines the type of value stored at a key.",
+  "docsUrl": "https://redis.io/docs/latest/commands/type/",
+  "group": "generic",
+  "groupLabel": "Generic",
+  "syntax": "TYPE key",
+  "complexity": "O(1)",
+  "since": "1.0.0",
+  "arity": 2,
+  "aclCategories": [
+    "@keyspace",
+    "@read",
+    "@fast"
+  ],
+  "commandFlags": [
+    "readonly",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RO": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Returns the string representation of the type of the value stored at `key`.\nThe different types that can be returned are: `string`, `list`, `set`, `zset`,\n`hash`, `stream`, and `vectorset`.\n\n## Examples\n\n\nSET key1 \"value\"\nLPUSH key2 \"value\"\nSADD key3 \"value\"\nTYPE key1\nTYPE key2\nTYPE key3\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): the type of _key_, or `none` when _key_ doesn't exist.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): the type of _key_, or `none` when _key_ doesn't exist.",
+  "intro": "Returns the string representation of the type of the value stored at `key`.\nThe different types that can be returned are: `string`, `list`, `set`, `zset`,\n`hash`, `stream`, and `vectorset`.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Returns the string representation of the type of the value stored at `key`.\nThe different types that can be returned are: `string`, `list`, `set`, `zset`,\n`hash`, `stream`, and `vectorset`."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "SET key1 \"value\"\nLPUSH key2 \"value\"\nSADD key3 \"value\"\nTYPE key1\nTYPE key2\nTYPE key3"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): the type of _key_, or `none` when _key_ doesn't exist.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): the type of _key_, or `none` when _key_ doesn't exist."
+    }
+  ]
+}

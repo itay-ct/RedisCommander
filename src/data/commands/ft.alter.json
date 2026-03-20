@@ -1,0 +1,125 @@
+{
+  "slug": "ft.alter",
+  "title": "FT.ALTER",
+  "description": "Adds a new field to the index",
+  "docsUrl": "https://redis.io/docs/latest/commands/ft.alter/",
+  "group": "search",
+  "groupLabel": "Search",
+  "syntax": "FT.ALTER index [SKIPINITIALSCAN] SCHEMA ADD field options",
+  "complexity": "O(N) where N is the number of keys in the keyspace",
+  "since": "1.0.0",
+  "arity": null,
+  "aclCategories": [
+    "@search"
+  ],
+  "commandFlags": [],
+  "arguments": [
+    {
+      "name": "index",
+      "type": "string"
+    },
+    {
+      "name": "skipinitialscan",
+      "optional": true,
+      "token": "SKIPINITIALSCAN",
+      "type": "pure-token"
+    },
+    {
+      "name": "schema",
+      "token": "SCHEMA",
+      "type": "pure-token"
+    },
+    {
+      "name": "add",
+      "token": "ADD",
+      "type": "pure-token"
+    },
+    {
+      "name": "field",
+      "type": "string"
+    },
+    {
+      "name": "options",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      },
+      {
+        "id": "see-also",
+        "title": "See also"
+      },
+      {
+        "id": "related-topics",
+        "title": "Related topics"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Add a new attribute to the index. Adding an attribute to the index causes any future document updates to use the new attribute when indexing and reindexing existing documents.\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open>\n<summary><code>index</code></summary> \n\nis index name to create. \n</details>\n\n<details open>\n<summary><code>SKIPINITIALSCAN</code></summary> \n\nif set, does not scan and index.\n</details>\n\n<details open>\n<summary><code>SCHEMA ADD {attribute} {options} ...</code></summary>\n\nafter the SCHEMA keyword, declares which fields to add:\n\n- `attribute` is attribute to add.\n- `options` are attribute options. Refer to [`FT.CREATE`]() for more information.\n\n<note><b>Note:</b>\n\nDepending on how the index was created, you may be limited by the number of additional text\nattributes which can be added to an existing index. If the current index contains fewer than 32\ntext attributes, then `SCHEMA ADD` will only be able to add attributes up to 32 total attributes (meaning that the\nindex will only ever be able to contain 32 total text attributes). If you wish for the index to\ncontain more than 32 attributes, create it with the `MAXTEXTFIELDS` option.\n</note>\n</details>\n\n## Examples\n\n<details open>\n<summary><b>Alter an index</b></summary>\n\n\n127.0.0.1:6379> FT.ALTER idx SCHEMA ADD id2 NUMERIC SORTABLE\nOK\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply]() in these cases: no such index, invalid schema syntax.\n\n**RESP3:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply]() in these cases: no such index, invalid schema syntax.\n\n\n\n## See also\n\n[`FT.CREATE`]() \n\n## Related topics\n\n- [RediSearch]()",
+  "intro": "Add a new attribute to the index. Adding an attribute to the index causes any future document updates to use the new attribute when indexing and reindexing existing documents.\n\n[Examples](#examples)",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Add a new attribute to the index. Adding an attribute to the index causes any future document updates to use the new attribute when indexing and reindexing existing documents.\n\n[Examples](#examples)"
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open>\n<summary><code>index</code></summary> \n\nis index name to create. \n</details>\n\n<details open>\n<summary><code>SKIPINITIALSCAN</code></summary> \n\nif set, does not scan and index.\n</details>\n\n<details open>\n<summary><code>SCHEMA ADD {attribute} {options} ...</code></summary>\n\nafter the SCHEMA keyword, declares which fields to add:\n\n- `attribute` is attribute to add.\n- `options` are attribute options. Refer to [`FT.CREATE`]() for more information.\n\n<note><b>Note:</b>\n\nDepending on how the index was created, you may be limited by the number of additional text\nattributes which can be added to an existing index. If the current index contains fewer than 32\ntext attributes, then `SCHEMA ADD` will only be able to add attributes up to 32 total attributes (meaning that the\nindex will only ever be able to contain 32 total text attributes). If you wish for the index to\ncontain more than 32 attributes, create it with the `MAXTEXTFIELDS` option.\n</note>\n</details>"
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "<details open>\n<summary><b>Alter an index</b></summary>\n\n\n127.0.0.1:6379> FT.ALTER idx SCHEMA ADD id2 NUMERIC SORTABLE\nOK\n\n</details>"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply]() in these cases: no such index, invalid schema syntax.\n\n**RESP3:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply]() in these cases: no such index, invalid schema syntax."
+    },
+    {
+      "title": "See also",
+      "level": 2,
+      "content": "[`FT.CREATE`]()"
+    },
+    {
+      "title": "Related topics",
+      "level": 2,
+      "content": "- [RediSearch]()"
+    }
+  ]
+}

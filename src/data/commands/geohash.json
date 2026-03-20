@@ -1,0 +1,106 @@
+{
+  "slug": "geohash",
+  "title": "GEOHASH",
+  "description": "Returns members from a geospatial index as geohash strings.",
+  "docsUrl": "https://redis.io/docs/latest/commands/geohash/",
+  "group": "geo",
+  "groupLabel": "Geo",
+  "syntax": "GEOHASH key [member [member ...]]",
+  "complexity": "O(1) for each member requested.",
+  "since": "3.2.0",
+  "arity": -2,
+  "aclCategories": [
+    "@read",
+    "@geo",
+    "@slow"
+  ],
+  "commandFlags": [
+    "readonly"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "member",
+      "multiple": true,
+      "name": "member",
+      "optional": true,
+      "type": "string"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RO": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Return valid [Geohash](https://en.wikipedia.org/wiki/Geohash) strings representing the position of one or more elements in a sorted set value representing a geospatial index (where elements were added using [`GEOADD`]()).\n\nNormally Redis represents positions of elements using a variation of the Geohash\ntechnique where positions are encoded using 52 bit integers. The encoding is\nalso different compared to the standard because the initial min and max\ncoordinates used during the encoding and decoding process are different. This\ncommand however **returns a standard Geohash** in the form of a string as\ndescribed in the [Wikipedia article](https://en.wikipedia.org/wiki/Geohash) and compatible with the [geohash.org](http://geohash.org) web site.\n\nGeohash string properties\n---\n\nThe command returns 11 characters Geohash strings, so no precision is lost\ncompared to the Redis internal 52 bit representation. The returned Geohashes\nhave the following properties:\n\n1. They can be shortened removing characters from the right. It will lose precision but will still point to the same area.\n2. It is possible to use them in `geohash.org` URLs such as `http://geohash.org/<geohash-string>`. This is an [example of such URL](http://geohash.org/sqdtr74hyu0).\n3. Strings with a similar prefix are nearby, but the contrary is not true, it is possible that strings with different prefixes are nearby too.\n\n## Examples\n\n\nGEOADD Sicily 13.361389 38.115556 \"Palermo\" 15.087269 37.502669 \"Catania\"\nGEOHASH Sicily Palermo Catania\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): an array where each element is the Geohash corresponding to each member name passed as an argument to the command.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): An array where each element is the Geohash corresponding to each member name passed as an argument to the command.",
+  "intro": "Return valid [Geohash](https://en.wikipedia.org/wiki/Geohash) strings representing the position of one or more elements in a sorted set value representing a geospatial index (where elements were added using [`GEOADD`]()).\n\nNormally Redis represents positions of elements using a variation of the Geohash\ntechnique where positions are encoded using 52 bit integers. The encoding is\nalso different compared to the standard because the initial min and max\ncoordinates used during the encoding and decoding process are different. This\ncommand however **returns a standard Geohash** in the form of a string as\ndescribed in the [Wikipedia article](https://en.wikipedia.org/wiki/Geohash) and compatible with the [geohash.org](http://geohash.org) web site.\n\nGeohash string properties\n---\n\nThe command returns 11 characters Geohash strings, so no precision is lost\ncompared to the Redis internal 52 bit representation. The returned Geohashes\nhave the following properties:\n\n1. They can be shortened removing characters from the right. It will lose precision but will still point to the same area.\n2. It is possible to use them in `geohash.org` URLs such as `http://geohash.org/<geohash-string>`. This is an [example of such URL](http://geohash.org/sqdtr74hyu0).\n3. Strings with a similar prefix are nearby, but the contrary is not true, it is possible that strings with different prefixes are nearby too.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Return valid [Geohash](https://en.wikipedia.org/wiki/Geohash) strings representing the position of one or more elements in a sorted set value representing a geospatial index (where elements were added using [`GEOADD`]()).\n\nNormally Redis represents positions of elements using a variation of the Geohash\ntechnique where positions are encoded using 52 bit integers. The encoding is\nalso different compared to the standard because the initial min and max\ncoordinates used during the encoding and decoding process are different. This\ncommand however **returns a standard Geohash** in the form of a string as\ndescribed in the [Wikipedia article](https://en.wikipedia.org/wiki/Geohash) and compatible with the [geohash.org](http://geohash.org) web site.\n\nGeohash string properties\n---\n\nThe command returns 11 characters Geohash strings, so no precision is lost\ncompared to the Redis internal 52 bit representation. The returned Geohashes\nhave the following properties:\n\n1. They can be shortened removing characters from the right. It will lose precision but will still point to the same area.\n2. It is possible to use them in `geohash.org` URLs such as `http://geohash.org/<geohash-string>`. This is an [example of such URL](http://geohash.org/sqdtr74hyu0).\n3. Strings with a similar prefix are nearby, but the contrary is not true, it is possible that strings with different prefixes are nearby too."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "GEOADD Sicily 13.361389 38.115556 \"Palermo\" 15.087269 37.502669 \"Catania\"\nGEOHASH Sicily Palermo Catania"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): an array where each element is the Geohash corresponding to each member name passed as an argument to the command.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): An array where each element is the Geohash corresponding to each member name passed as an argument to the command."
+    }
+  ]
+}

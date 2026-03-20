@@ -1,0 +1,107 @@
+{
+  "slug": "zpopmax",
+  "title": "ZPOPMAX",
+  "description": "Returns the highest-scoring members from a sorted set after removing them. Deletes the sorted set if the last member was popped.",
+  "docsUrl": "https://redis.io/docs/latest/commands/zpopmax/",
+  "group": "sorted-set",
+  "groupLabel": "Sorted Sets",
+  "syntax": "ZPOPMAX key [count]",
+  "complexity": "O(log(N)*M) with N being the number of elements in the sorted set, and M being the number of elements popped.",
+  "since": "5.0.0",
+  "arity": -2,
+  "aclCategories": [
+    "@write",
+    "@sortedset",
+    "@fast"
+  ],
+  "commandFlags": [
+    "write",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "count",
+      "name": "count",
+      "optional": true,
+      "type": "integer"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "delete": true,
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Removes and returns up to `count` members with the highest scores in the sorted\nset stored at `key`.\n\nWhen left unspecified, the default value for `count` is 1. Specifying a `count`\nvalue that is higher than the sorted set's cardinality will not produce an\nerror. When returning multiple elements, the one with the highest score will\nbe the first, followed by the elements with lower scores.\n\n## Examples\n\n\nZADD myzset 1 \"one\"\nZADD myzset 2 \"two\"\nZADD myzset 3 \"three\"\nZPOPMAX myzset\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n* [Array reply](../../develop/reference/protocol-spec#arrays): a list of popped elements and scores.\n\n**RESP3:**\n\n* [Array reply](../../develop/reference/protocol-spec#arrays): a list of popped elements and scores.",
+  "intro": "Removes and returns up to `count` members with the highest scores in the sorted\nset stored at `key`.\n\nWhen left unspecified, the default value for `count` is 1. Specifying a `count`\nvalue that is higher than the sorted set's cardinality will not produce an\nerror. When returning multiple elements, the one with the highest score will\nbe the first, followed by the elements with lower scores.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Removes and returns up to `count` members with the highest scores in the sorted\nset stored at `key`.\n\nWhen left unspecified, the default value for `count` is 1. Specifying a `count`\nvalue that is higher than the sorted set's cardinality will not produce an\nerror. When returning multiple elements, the one with the highest score will\nbe the first, followed by the elements with lower scores."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "ZADD myzset 1 \"one\"\nZADD myzset 2 \"two\"\nZADD myzset 3 \"three\"\nZPOPMAX myzset"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n* [Array reply](../../develop/reference/protocol-spec#arrays): a list of popped elements and scores.\n\n**RESP3:**\n\n* [Array reply](../../develop/reference/protocol-spec#arrays): a list of popped elements and scores."
+    }
+  ]
+}

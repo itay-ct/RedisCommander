@@ -1,0 +1,259 @@
+{
+  "slug": "hexpire",
+  "title": "HEXPIRE",
+  "description": "Set expiration for hash fields using relative time to expire (seconds)",
+  "docsUrl": "https://redis.io/docs/latest/commands/hexpire/",
+  "group": "hash",
+  "groupLabel": "Hashes",
+  "syntax": "HEXPIRE key seconds [NX | XX | GT | LT] FIELDS numfields field\n  [field ...]",
+  "complexity": "O(N) where N is the number of specified fields",
+  "since": "7.4.0",
+  "arity": -6,
+  "aclCategories": [
+    "@write",
+    "@hash",
+    "@fast"
+  ],
+  "commandFlags": [
+    "write",
+    "denyoom",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "seconds",
+      "name": "seconds",
+      "type": "integer"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "nx",
+          "name": "nx",
+          "token": "NX",
+          "type": "pure-token"
+        },
+        {
+          "display_text": "xx",
+          "name": "xx",
+          "token": "XX",
+          "type": "pure-token"
+        },
+        {
+          "display_text": "gt",
+          "name": "gt",
+          "token": "GT",
+          "type": "pure-token"
+        },
+        {
+          "display_text": "lt",
+          "name": "lt",
+          "token": "LT",
+          "type": "pure-token"
+        }
+      ],
+      "name": "condition",
+      "optional": true,
+      "type": "oneof"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "numfields",
+          "name": "numfields",
+          "type": "integer"
+        },
+        {
+          "display_text": "field",
+          "multiple": true,
+          "name": "field",
+          "type": "string"
+        }
+      ],
+      "name": "fields",
+      "token": "FIELDS",
+      "type": "block"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      },
+      "update": true
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "options",
+        "title": "Options"
+      },
+      {
+        "id": "refreshing-expires",
+        "title": "Refreshing expires"
+      },
+      {
+        "id": "redis-search-and-field-expiration",
+        "title": "Redis Search and field expiration"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [
+    {
+      "codetabsId": "cmds_hash-stephexpire",
+      "description": "Field expiration: Set TTL on individual hash fields using HEXPIRE with conditional options (NX, XX, GT, LT) when you need fine-grained control over field lifecycle",
+      "difficulty": "intermediate",
+      "id": "hexpire",
+      "languages": [
+        {
+          "id": "redis-cli",
+          "panelId": "panel_redis-cli_cmds_hash-stephexpire"
+        },
+        {
+          "clientId": "redis-py",
+          "clientName": "redis-py",
+          "id": "Python",
+          "langId": "python",
+          "panelId": "panel_Python_cmds_hash-stephexpire"
+        },
+        {
+          "id": "Node-js",
+          "panelId": "panel_Nodejs_cmds_hash-stephexpire"
+        },
+        {
+          "clientId": "jedis",
+          "clientName": "Jedis",
+          "id": "Java-Sync",
+          "langId": "java",
+          "panelId": "panel_Java-Sync_cmds_hash-stephexpire"
+        },
+        {
+          "clientId": "lettuce",
+          "clientName": "Lettuce",
+          "id": "Java-Async",
+          "langId": "java",
+          "panelId": "panel_Java-Async_cmds_hash-stephexpire"
+        },
+        {
+          "clientId": "lettuce",
+          "clientName": "Lettuce",
+          "id": "Java-Reactive",
+          "langId": "java",
+          "panelId": "panel_Java-Reactive_cmds_hash-stephexpire"
+        },
+        {
+          "clientId": "go-redis",
+          "clientName": "go-redis",
+          "id": "Go",
+          "langId": "go",
+          "panelId": "panel_Go_cmds_hash-stephexpire"
+        },
+        {
+          "id": "dotnet-Sync",
+          "panelId": "panel_Csharp-Sync_cmds_hash-stephexpire"
+        },
+        {
+          "clientId": "predis",
+          "clientName": "Predis",
+          "id": "PHP",
+          "langId": "php",
+          "panelId": "panel_PHP_cmds_hash-stephexpire"
+        },
+        {
+          "clientId": "redis-rs",
+          "clientName": "redis-rs",
+          "id": "Rust-Sync",
+          "langId": "rust",
+          "panelId": "panel_Rust-Sync_cmds_hash-stephexpire"
+        },
+        {
+          "clientId": "redis-rs",
+          "clientName": "redis-rs",
+          "id": "Rust-Async",
+          "langId": "rust",
+          "panelId": "panel_Rust-Async_cmds_hash-stephexpire"
+        }
+      ]
+    }
+  ],
+  "content": "Set an expiration (TTL or time to live) on one or more fields of a given hash key. You must specify at least one field.\nField(s) will automatically be deleted from the hash key when their TTLs expire.\n\nField expirations will only be cleared by commands that delete or overwrite the\ncontents of the hash fields, including [`HDEL`]() and [`HSET`]()\ncommands.\nThis means that all the operations that conceptually _alter_ the value stored at a hash key's field without replacing it with a new one will leave the TTL untouched.\n\nYou can clear the TTL using the [`HPERSIST`]() command, which turns the hash field back into a persistent field.\n\nNote that calling `HEXPIRE`/[`HPEXPIRE`]() with a zero TTL or\n[`HEXPIREAT`]()/[`HPEXPIREAT`]() with a time in the past will result in the hash field being deleted.\n\n## Options\n\nThe `HEXPIRE` command supports a set of options:\n\n* `NX` -- For each specified field, set expiration only when the field has no expiration.\n* `XX` -- For each specified field, set expiration only when the field has an existing expiration.\n* `GT` -- For each specified field, set expiration only when the new expiration is greater than current one.\n* `LT` -- For each specified field, set expiration only when the new expiration is less than current one.\n\nA non-volatile field is treated as an infinite TTL for the purpose of `GT` and `LT`.\nThe `NX`, `XX`, `GT`, and `LT` options are mutually exclusive.\n\n## Refreshing expires\n\nYou can call `HEXPIRE` using as argument a field that already has an\nexisting TTL set.\nIn this case, the time to live is _updated_ to the new value.\n\n## Redis Search and field expiration\n\nStarting with Redis 8, Redis Search has enhanced behavior when handling expiring hash fields. For detailed information about how [`FT.SEARCH`]() and [`FT.AGGREGATE`]() commands interact with expiring hash fields, see [Key and field expiration behavior]().\n\n## Examples\n\n#### Code Examples\n\nField expiration: Set TTL on individual hash fields using HEXPIRE with conditional options (NX, XX, GT, LT) when you need fine-grained control over field lifecycle\n\n**Difficulty:** Intermediate\n\n**Redis CLI:**\n\n```\nHEXPIRE no-key 20 NX FIELDS 2 field1 field2\n(nil)\nHSET mykey field1 \"hello\" field2 \"world\"\n(integer) 2\nHEXPIRE mykey 10 FIELDS 3 field1 field2 field3\n1) (integer) 1\n2) (integer) 1\n3) (integer) -2\nHGETALL mykey\n```\n\n**Available in:** Redis CLI, C# (Synchronous), Go, Java (Asynchronous - Lettuce), Java (Reactive - Lettuce), Java (Synchronous - Jedis), JavaScript (Node.js), PHP, Python, Rust (Asynchronous), Rust (Synchronous)\n\n**C# (Synchronous):**\n\n```csharp\n        );\n\n        RedisValue hsetRes3 = db.HashGet(\"myhash\", \"field2\");\n        Console.WriteLine(hsetRes3);    // >>> Hi\n\n        RedisValue hsetRes4 = db.HashGet(\"myhash\", \"field3\");\n        Console.WriteLine(hsetRes4);    // >>> World\n\n        HashEntry[] hsetRes5 = db.HashGetAll(\"myhash\");\n        Console.WriteLine($\"{string.Join(\", \", hsetRes5.Select(h => $\"{h.Name}: {h.Value}\"))}\");\n        // >>> field1: Hello, field2: Hi, field3: World\n        // STEP_END\n\n        // REMOVE_START\n        Assert.True(hsetRes1);\n        Assert.Equal(\"Hello\", hsetRes2);\n        Assert.Equal(\"Hi\", hsetRes3);\n        Assert.Equal(\"World\", hsetRes4);\n        Assert.Equal(\n            \"field1: Hello, field2: Hi, field3: World\",\n            string.Join(\", \", hsetRes5.Select(h => $\"{h.Name}: {h.Value}\"))\n        );\n        db.KeyDelete(\"myhash\");\n        // REMOVE_END\n\n        // STEP_START hgetall\n        db.HashSet(\"myhash\",\n            [\n                new(\"field1\", \"Hello\"),\n                new(\"field2\", \"World\")\n            ]\n```\n\n**Go:**\n\n```go\n\t// Set up hash with fields\n\trdb.HSet(ctx, \"myhash\", \"field1\", \"Hello\", \"field2\", \"World\")\n\n\t// Set expiration on hash fields\n\tres1, err := rdb.HExpire(ctx, \"myhash\", 10*time.Second, \"field1\", \"field2\").Result()\n\n\tif err != nil {\n\t\tfmt.Println(err)\n\t}\n\n\tfmt.Println(res1) // >>> [1 1]\n\n\t// Check TTL of the fields\n\tres2, err := rdb.HTTL(ctx, \"myhash\", \"field1\", \"field2\").Result()\n\n\tif err != nil {\n\t\tfmt.Println(err)\n\t}\n\n\tfmt.Println(len(res2)) // >>> 2\n\n\t// Try to set expiration on non-existent field\n\tres3, err := rdb.HExpire(ctx, \"myhash\", 10*time.Second, \"nonexistent\").Result()\n\n\tif err != nil {\n\t\tfmt.Println(err)\n\t}\n\n\tfmt.Println(res3) // >>> [-2]\n\n\t// Clean up\n\trdb.Del(ctx, \"myhash\")\n```\n\n**Java (Asynchronous - Lettuce):**\n\n```java\n            // Set up hash with fields\n            Map<String, String> hExpireExampleParams = new HashMap<>();\n            hExpireExampleParams.put(\"field1\", \"Hello\");\n            hExpireExampleParams.put(\"field2\", \"World\");\n\n            CompletableFuture<Void> hExpireExample = asyncCommands.hset(\"myhash\", hExpireExampleParams).thenCompose(res1 -> {\n                // Set expiration on hash fields\n                return asyncCommands.hexpire(\"myhash\", 10, \"field1\", \"field2\");\n            }).thenCompose(res2 -> {\n                System.out.println(res2);\n                // >>> [1, 1]\n                // Check TTL of the fields\n                return asyncCommands.httl(\"myhash\", \"field1\", \"field2\");\n            }).thenCompose(res3 -> {\n                System.out.println(res3.size());\n                // >>> 2\n                // Try to set expiration on non-existent field\n                return asyncCommands.hexpire(\"myhash\", 10, \"nonexistent\");\n            })\n                    .thenAccept(System.out::println)\n                    // >>> -2\n                    .toCompletableFuture();\n```\n\n**Java (Reactive - Lettuce):**\n\n```java\n            // Set up hash with fields\n            Map<String, String> hExpireExampleParams = new HashMap<>();\n            hExpireExampleParams.put(\"field1\", \"Hello\");\n            hExpireExampleParams.put(\"field2\", \"World\");\n\n            Mono<Long> hExpireExample1 = reactiveCommands.hset(\"myhash\", hExpireExampleParams).doOnNext(result -> {\n            });\n\n            hExpireExample1.block();\n\n            // Set expiration on hash fields\n            Mono<List<Long>> hExpireExample2 = reactiveCommands.hexpire(\"myhash\", 10, \"field1\", \"field2\").collectList().doOnNext(result -> {\n                System.out.println(result);\n                // >>> [1, 1]\n            });\n\n            hExpireExample2.block();\n\n            // Check TTL of the fields\n            Mono<List<Long>> hExpireExample3 = reactiveCommands.httl(\"myhash\", \"field1\", \"field2\").collectList().doOnNext(result -> {\n                System.out.println(result.size());\n                // >>> 2\n            });\n\n            hExpireExample3.block();\n\n            // Try to set expiration on non-existent field\n            Mono<List<Long>> hExpireExample4 = reactiveCommands.hexpire(\"myhash\", 10, \"nonexistent\").collectList().doOnNext(result -> {\n                System.out.println(result);\n                // >>> [-2]\n            });\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n        // Set up hash with fields\n        Map<String, String> hExpireExampleParams = new HashMap<>();\n        hExpireExampleParams.put(\"field1\", \"Hello\");\n        hExpireExampleParams.put(\"field2\", \"World\");\n        jedis.hset(\"myhash\", hExpireExampleParams);\n\n        // Set expiration on hash fields\n        List<Long> hExpireResult1 = jedis.hexpire(\"myhash\", 10, \"field1\", \"field2\");\n        System.out.println(hExpireResult1); // >>> [1, 1]\n\n        // Check TTL of the fields\n        List<Long> hExpireResult2 = jedis.httl(\"myhash\", \"field1\", \"field2\");\n        System.out.println(hExpireResult2.size()); // >>> 2\n\n        // Try to set expiration on non-existent field\n        List<Long> hExpireResult3 = jedis.hexpire(\"myhash\", 10, \"nonexistent\");\n        System.out.println(hExpireResult3); // >>> [-2]\n```\n\n**JavaScript (Node.js):**\n\n```javascript\n// Set up hash with fields\nawait client.hSet('myhash', {\n  'field1': 'Hello',\n  'field2': 'World'\n})\n\n// Set expiration on hash fields\nconst res14 = await client.hExpire('myhash', ['field1', 'field2'], 10)\nconsole.log(res14) // [1, 1]\n\n// Check TTL of the fields\nconst res15 = await client.hTTL('myhash', ['field1', 'field2'])\nconsole.log(res15) // [10, 10] (or close to 10)\n\n// Try to set expiration on non-existent field\nconst res16 = await client.hExpire('myhash', ['nonexistent'], 10)\nconsole.log(res16) // [-2]\n\n```\n\n**PHP:**\n\n```php\n\n        // Set up hash with fields\n        $hExpireResult1 = $this->redis->hmset('myhash', ['field1' => 'Hello', 'field2' => 'World']);\n        echo \"HMSET myhash field1 Hello field2 World: \" . ($hExpireResult1 ? 'OK' : 'FAIL') . \"\\n\"; // >>> OK\n\n        // Set expiration on hash fields\n        $hExpireResult2 = $this->redis->hexpire('myhash', 10, ['field1', 'field2']);\n        echo \"HEXPIRE myhash 10 FIELDS field1 field2: \" . json_encode($hExpireResult2) . \"\\n\"; // >>> [1,1]\n\n        // Check TTL of the fields\n        $hExpireResult3 = $this->redis->httl('myhash', ['field1', 'field2']);\n        echo \"HTTL myhash FIELDS field1 field2 count: \" . count($hExpireResult3) . \"\\n\"; // >>> 2\n\n        // Try to set expiration on non-existent field\n        $hExpireResult4 = $this->redis->hexpire('myhash', 10, ['nonexistent']);\n        echo \"HEXPIRE myhash 10 FIELDS nonexistent: \" . json_encode($hExpireResult4) . \"\\n\"; // >>> [-2]\n```\n\n**Python:**\n\n```python\n# Set up hash with fields\nr.hset(\"myhash\", mapping={\"field1\": \"Hello\", \"field2\": \"World\"})\n\n# Set expiration on hash fields\nres12 = r.hexpire(\"myhash\", 10, \"field1\", \"field2\")\nprint(res12)  # >>> [1, 1]\n\n# Check TTL of the fields\nres13 = r.httl(\"myhash\", \"field1\", \"field2\")\nprint(res13)  # >>> [10, 10] (or close to 10)\n\n# Try to set expiration on non-existent field\nres14 = r.hexpire(\"myhash\", 10, \"nonexistent\")\nprint(res14)  # >>> [-2]\n\n```\n\n**Rust (Asynchronous):**\n\n```rust\n        // Set up hash with fields\n        let hash_fields = vec![(\"field1\", \"Hello\"), (\"field2\", \"World\")];\n        if let Ok(res) = r.hset_multiple(\"myhash\", &hash_fields).await {\n            let res: String = res;\n            println!(\"{res}\");    // >>> OK\n        }\n\n        // Set expiration on hash fields\n        match r.hexpire(\"myhash\", 10, redis::ExpireOption::NONE, &[\"field1\", \"field2\"]).await {\n            Ok(res1) => {\n                let res1: Vec<i32> = res1;\n                println!(\"{:?}\", res1);    // >>> [1, 1]\n            },\n            Err(e) => {\n                println!(\"Error setting expiration: {e}\");\n                return;\n            }\n        }\n\n        // Check TTL of the fields\n        match r.httl(\"myhash\", &[\"field1\", \"field2\"]).await {\n            Ok(res2) => {\n                let res2: Vec<i32> = res2;\n                println!(\"{}\", res2.len());    // >>> 2\n            },\n            Err(e) => {\n                println!(\"Error getting TTL: {e}\");\n                return;\n            }\n        }\n\n        // Try to set expiration on non-existent field\n        match r.hexpire(\"myhash\", 10, redis::ExpireOption::NONE, &[\"nonexistent\"]).await {\n            Ok(res3) => {\n                let res3: Vec<i32> = res3;\n                println!(\"{:?}\", res3);    // >>> [-2]\n            },\n            Err(e) => {\n                println!(\"Error setting expiration on non-existent field: {e}\");\n                return;\n            }\n        }\n\n```\n\n**Rust (Synchronous):**\n\n```rust\n        // Set up hash with fields\n        let hash_fields = vec![(\"field1\", \"Hello\"), (\"field2\", \"World\")];\n        if let Ok(res) = r.hset_multiple(\"myhash\", &hash_fields) {\n            let res: String = res;\n            println!(\"{res}\");    // >>> OK\n        }\n\n        // Set expiration on hash fields\n        match r.hexpire(\"myhash\", 10, redis::ExpireOption::NONE, &[\"field1\", \"field2\"]) {\n            Ok(res1) => {\n                let res1: Vec<i32> = res1;\n                println!(\"{:?}\", res1);    // >>> [1, 1]\n            },\n            Err(e) => {\n                println!(\"Error setting expiration: {e}\");\n                return;\n            }\n        }\n\n        // Check TTL of the fields\n        match r.httl(\"myhash\", &[\"field1\", \"field2\"]) {\n            Ok(res2) => {\n                let res2: Vec<i32> = res2;\n                println!(\"{}\", res2.len());    // >>> 2\n            },\n            Err(e) => {\n                println!(\"Error getting TTL: {e}\");\n                return;\n            }\n        }\n\n        // Try to set expiration on non-existent field\n        match r.hexpire(\"myhash\", 10, redis::ExpireOption::NONE, &[\"nonexistent\"]) {\n            Ok(res3) => {\n                let res3: Vec<i32> = res3;\n                println!(\"{:?}\", res3);    // >>> [-2]\n            },\n            Err(e) => {\n                println!(\"Error setting expiration on non-existent field: {e}\");\n                return;\n            }\n        }\n\n```\n\n\n\nGive these commands a try in the interactive console:\n\n\nHEXPIRE no-key 20 NX FIELDS 2 field1 field2\nHSET mykey field1 \"hello\" field2 \"world\"\nHEXPIRE mykey 10 FIELDS 3 field1 field2 field3\nHGETALL mykey\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays). For each field:\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key, or the provided key does not exist.\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the specified NX | XX | GT | LT condition has not been met.\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the expiration time was set/updated.\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `2` when `HEXPIRE`/`HPEXPIRE` is called with 0 seconds/milliseconds or when `HEXPIREAT`/`HPEXPIREAT` is called with a past Unix time in seconds/milliseconds.\n* [Simple error reply](../../develop/reference/protocol-spec#simple-errors):\n    - if parsing failed, mandatory arguments are missing, unknown arguments are specified, or argument values are of the wrong type or out of range.\n    - if the provided key exists but is not a hash.\n\n**RESP3:**\n\nOne of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays). For each field:\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key, or the provided key does not exist.\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the specified NX | XX | GT | LT condition has not been met.\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the expiration time was set/updated.\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `2` when `HEXPIRE`/`HPEXPIRE` is called with 0 seconds/milliseconds or when `HEXPIREAT`/`HPEXPIREAT` is called with a past Unix time in seconds/milliseconds.\n* [Simple error reply](../../develop/reference/protocol-spec#simple-errors):\n    - if parsing failed, mandatory arguments are missing, unknown arguments are specified, or argument values are of the wrong type or out of range.\n    - if the provided key exists but is not a hash.",
+  "intro": "Set an expiration (TTL or time to live) on one or more fields of a given hash key. You must specify at least one field.\nField(s) will automatically be deleted from the hash key when their TTLs expire.\n\nField expirations will only be cleared by commands that delete or overwrite the\ncontents of the hash fields, including [`HDEL`]() and [`HSET`]()\ncommands.\nThis means that all the operations that conceptually _alter_ the value stored at a hash key's field without replacing it with a new one will leave the TTL untouched.\n\nYou can clear the TTL using the [`HPERSIST`]() command, which turns the hash field back into a persistent field.\n\nNote that calling `HEXPIRE`/[`HPEXPIRE`]() with a zero TTL or\n[`HEXPIREAT`]()/[`HPEXPIREAT`]() with a time in the past will result in the hash field being deleted.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Set an expiration (TTL or time to live) on one or more fields of a given hash key. You must specify at least one field.\nField(s) will automatically be deleted from the hash key when their TTLs expire.\n\nField expirations will only be cleared by commands that delete or overwrite the\ncontents of the hash fields, including [`HDEL`]() and [`HSET`]()\ncommands.\nThis means that all the operations that conceptually _alter_ the value stored at a hash key's field without replacing it with a new one will leave the TTL untouched.\n\nYou can clear the TTL using the [`HPERSIST`]() command, which turns the hash field back into a persistent field.\n\nNote that calling `HEXPIRE`/[`HPEXPIRE`]() with a zero TTL or\n[`HEXPIREAT`]()/[`HPEXPIREAT`]() with a time in the past will result in the hash field being deleted."
+    },
+    {
+      "title": "Options",
+      "level": 2,
+      "content": "The `HEXPIRE` command supports a set of options:\n\n* `NX` -- For each specified field, set expiration only when the field has no expiration.\n* `XX` -- For each specified field, set expiration only when the field has an existing expiration.\n* `GT` -- For each specified field, set expiration only when the new expiration is greater than current one.\n* `LT` -- For each specified field, set expiration only when the new expiration is less than current one.\n\nA non-volatile field is treated as an infinite TTL for the purpose of `GT` and `LT`.\nThe `NX`, `XX`, `GT`, and `LT` options are mutually exclusive."
+    },
+    {
+      "title": "Refreshing expires",
+      "level": 2,
+      "content": "You can call `HEXPIRE` using as argument a field that already has an\nexisting TTL set.\nIn this case, the time to live is _updated_ to the new value."
+    },
+    {
+      "title": "Redis Search and field expiration",
+      "level": 2,
+      "content": "Starting with Redis 8, Redis Search has enhanced behavior when handling expiring hash fields. For detailed information about how [`FT.SEARCH`]() and [`FT.AGGREGATE`]() commands interact with expiring hash fields, see [Key and field expiration behavior]()."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "#### Code Examples\n\nField expiration: Set TTL on individual hash fields using HEXPIRE with conditional options (NX, XX, GT, LT) when you need fine-grained control over field lifecycle\n\n**Difficulty:** Intermediate\n\n**Redis CLI:**\n\n```\nHEXPIRE no-key 20 NX FIELDS 2 field1 field2\n(nil)\nHSET mykey field1 \"hello\" field2 \"world\"\n(integer) 2\nHEXPIRE mykey 10 FIELDS 3 field1 field2 field3\n1) (integer) 1\n2) (integer) 1\n3) (integer) -2\nHGETALL mykey\n```\n\n**Available in:** Redis CLI, C# (Synchronous), Go, Java (Asynchronous - Lettuce), Java (Reactive - Lettuce), Java (Synchronous - Jedis), JavaScript (Node.js), PHP, Python, Rust (Asynchronous), Rust (Synchronous)\n\n**C# (Synchronous):**\n\n```csharp\n        );\n\n        RedisValue hsetRes3 = db.HashGet(\"myhash\", \"field2\");\n        Console.WriteLine(hsetRes3);    // >>> Hi\n\n        RedisValue hsetRes4 = db.HashGet(\"myhash\", \"field3\");\n        Console.WriteLine(hsetRes4);    // >>> World\n\n        HashEntry[] hsetRes5 = db.HashGetAll(\"myhash\");\n        Console.WriteLine($\"{string.Join(\", \", hsetRes5.Select(h => $\"{h.Name}: {h.Value}\"))}\");\n        // >>> field1: Hello, field2: Hi, field3: World\n        // STEP_END\n\n        // REMOVE_START\n        Assert.True(hsetRes1);\n        Assert.Equal(\"Hello\", hsetRes2);\n        Assert.Equal(\"Hi\", hsetRes3);\n        Assert.Equal(\"World\", hsetRes4);\n        Assert.Equal(\n            \"field1: Hello, field2: Hi, field3: World\",\n            string.Join(\", \", hsetRes5.Select(h => $\"{h.Name}: {h.Value}\"))\n        );\n        db.KeyDelete(\"myhash\");\n        // REMOVE_END\n\n        // STEP_START hgetall\n        db.HashSet(\"myhash\",\n            [\n                new(\"field1\", \"Hello\"),\n                new(\"field2\", \"World\")\n            ]\n```\n\n**Go:**\n\n```go\n\t// Set up hash with fields\n\trdb.HSet(ctx, \"myhash\", \"field1\", \"Hello\", \"field2\", \"World\")\n\n\t// Set expiration on hash fields\n\tres1, err := rdb.HExpire(ctx, \"myhash\", 10*time.Second, \"field1\", \"field2\").Result()\n\n\tif err != nil {\n\t\tfmt.Println(err)\n\t}\n\n\tfmt.Println(res1) // >>> [1 1]\n\n\t// Check TTL of the fields\n\tres2, err := rdb.HTTL(ctx, \"myhash\", \"field1\", \"field2\").Result()\n\n\tif err != nil {\n\t\tfmt.Println(err)\n\t}\n\n\tfmt.Println(len(res2)) // >>> 2\n\n\t// Try to set expiration on non-existent field\n\tres3, err := rdb.HExpire(ctx, \"myhash\", 10*time.Second, \"nonexistent\").Result()\n\n\tif err != nil {\n\t\tfmt.Println(err)\n\t}\n\n\tfmt.Println(res3) // >>> [-2]\n\n\t// Clean up\n\trdb.Del(ctx, \"myhash\")\n```\n\n**Java (Asynchronous - Lettuce):**\n\n```java\n            // Set up hash with fields\n            Map<String, String> hExpireExampleParams = new HashMap<>();\n            hExpireExampleParams.put(\"field1\", \"Hello\");\n            hExpireExampleParams.put(\"field2\", \"World\");\n\n            CompletableFuture<Void> hExpireExample = asyncCommands.hset(\"myhash\", hExpireExampleParams).thenCompose(res1 -> {\n                // Set expiration on hash fields\n                return asyncCommands.hexpire(\"myhash\", 10, \"field1\", \"field2\");\n            }).thenCompose(res2 -> {\n                System.out.println(res2);\n                // >>> [1, 1]\n                // Check TTL of the fields\n                return asyncCommands.httl(\"myhash\", \"field1\", \"field2\");\n            }).thenCompose(res3 -> {\n                System.out.println(res3.size());\n                // >>> 2\n                // Try to set expiration on non-existent field\n                return asyncCommands.hexpire(\"myhash\", 10, \"nonexistent\");\n            })\n                    .thenAccept(System.out::println)\n                    // >>> -2\n                    .toCompletableFuture();\n```\n\n**Java (Reactive - Lettuce):**\n\n```java\n            // Set up hash with fields\n            Map<String, String> hExpireExampleParams = new HashMap<>();\n            hExpireExampleParams.put(\"field1\", \"Hello\");\n            hExpireExampleParams.put(\"field2\", \"World\");\n\n            Mono<Long> hExpireExample1 = reactiveCommands.hset(\"myhash\", hExpireExampleParams).doOnNext(result -> {\n            });\n\n            hExpireExample1.block();\n\n            // Set expiration on hash fields\n            Mono<List<Long>> hExpireExample2 = reactiveCommands.hexpire(\"myhash\", 10, \"field1\", \"field2\").collectList().doOnNext(result -> {\n                System.out.println(result);\n                // >>> [1, 1]\n            });\n\n            hExpireExample2.block();\n\n            // Check TTL of the fields\n            Mono<List<Long>> hExpireExample3 = reactiveCommands.httl(\"myhash\", \"field1\", \"field2\").collectList().doOnNext(result -> {\n                System.out.println(result.size());\n                // >>> 2\n            });\n\n            hExpireExample3.block();\n\n            // Try to set expiration on non-existent field\n            Mono<List<Long>> hExpireExample4 = reactiveCommands.hexpire(\"myhash\", 10, \"nonexistent\").collectList().doOnNext(result -> {\n                System.out.println(result);\n                // >>> [-2]\n            });\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n        // Set up hash with fields\n        Map<String, String> hExpireExampleParams = new HashMap<>();\n        hExpireExampleParams.put(\"field1\", \"Hello\");\n        hExpireExampleParams.put(\"field2\", \"World\");\n        jedis.hset(\"myhash\", hExpireExampleParams);\n\n        // Set expiration on hash fields\n        List<Long> hExpireResult1 = jedis.hexpire(\"myhash\", 10, \"field1\", \"field2\");\n        System.out.println(hExpireResult1); // >>> [1, 1]\n\n        // Check TTL of the fields\n        List<Long> hExpireResult2 = jedis.httl(\"myhash\", \"field1\", \"field2\");\n        System.out.println(hExpireResult2.size()); // >>> 2\n\n        // Try to set expiration on non-existent field\n        List<Long> hExpireResult3 = jedis.hexpire(\"myhash\", 10, \"nonexistent\");\n        System.out.println(hExpireResult3); // >>> [-2]\n```\n\n**JavaScript (Node.js):**\n\n```javascript\n// Set up hash with fields\nawait client.hSet('myhash', {\n  'field1': 'Hello',\n  'field2': 'World'\n})\n\n// Set expiration on hash fields\nconst res14 = await client.hExpire('myhash', ['field1', 'field2'], 10)\nconsole.log(res14) // [1, 1]\n\n// Check TTL of the fields\nconst res15 = await client.hTTL('myhash', ['field1', 'field2'])\nconsole.log(res15) // [10, 10] (or close to 10)\n\n// Try to set expiration on non-existent field\nconst res16 = await client.hExpire('myhash', ['nonexistent'], 10)\nconsole.log(res16) // [-2]\n\n```\n\n**PHP:**\n\n```php\n\n        // Set up hash with fields\n        $hExpireResult1 = $this->redis->hmset('myhash', ['field1' => 'Hello', 'field2' => 'World']);\n        echo \"HMSET myhash field1 Hello field2 World: \" . ($hExpireResult1 ? 'OK' : 'FAIL') . \"\\n\"; // >>> OK\n\n        // Set expiration on hash fields\n        $hExpireResult2 = $this->redis->hexpire('myhash', 10, ['field1', 'field2']);\n        echo \"HEXPIRE myhash 10 FIELDS field1 field2: \" . json_encode($hExpireResult2) . \"\\n\"; // >>> [1,1]\n\n        // Check TTL of the fields\n        $hExpireResult3 = $this->redis->httl('myhash', ['field1', 'field2']);\n        echo \"HTTL myhash FIELDS field1 field2 count: \" . count($hExpireResult3) . \"\\n\"; // >>> 2\n\n        // Try to set expiration on non-existent field\n        $hExpireResult4 = $this->redis->hexpire('myhash', 10, ['nonexistent']);\n        echo \"HEXPIRE myhash 10 FIELDS nonexistent: \" . json_encode($hExpireResult4) . \"\\n\"; // >>> [-2]\n```\n\n**Python:**\n\n```python\n# Set up hash with fields\nr.hset(\"myhash\", mapping={\"field1\": \"Hello\", \"field2\": \"World\"})\n\n# Set expiration on hash fields\nres12 = r.hexpire(\"myhash\", 10, \"field1\", \"field2\")\nprint(res12)  # >>> [1, 1]\n\n# Check TTL of the fields\nres13 = r.httl(\"myhash\", \"field1\", \"field2\")\nprint(res13)  # >>> [10, 10] (or close to 10)\n\n# Try to set expiration on non-existent field\nres14 = r.hexpire(\"myhash\", 10, \"nonexistent\")\nprint(res14)  # >>> [-2]\n\n```\n\n**Rust (Asynchronous):**\n\n```rust\n        // Set up hash with fields\n        let hash_fields = vec![(\"field1\", \"Hello\"), (\"field2\", \"World\")];\n        if let Ok(res) = r.hset_multiple(\"myhash\", &hash_fields).await {\n            let res: String = res;\n            println!(\"{res}\");    // >>> OK\n        }\n\n        // Set expiration on hash fields\n        match r.hexpire(\"myhash\", 10, redis::ExpireOption::NONE, &[\"field1\", \"field2\"]).await {\n            Ok(res1) => {\n                let res1: Vec<i32> = res1;\n                println!(\"{:?}\", res1);    // >>> [1, 1]\n            },\n            Err(e) => {\n                println!(\"Error setting expiration: {e}\");\n                return;\n            }\n        }\n\n        // Check TTL of the fields\n        match r.httl(\"myhash\", &[\"field1\", \"field2\"]).await {\n            Ok(res2) => {\n                let res2: Vec<i32> = res2;\n                println!(\"{}\", res2.len());    // >>> 2\n            },\n            Err(e) => {\n                println!(\"Error getting TTL: {e}\");\n                return;\n            }\n        }\n\n        // Try to set expiration on non-existent field\n        match r.hexpire(\"myhash\", 10, redis::ExpireOption::NONE, &[\"nonexistent\"]).await {\n            Ok(res3) => {\n                let res3: Vec<i32> = res3;\n                println!(\"{:?}\", res3);    // >>> [-2]\n            },\n            Err(e) => {\n                println!(\"Error setting expiration on non-existent field: {e}\");\n                return;\n            }\n        }\n\n```\n\n**Rust (Synchronous):**\n\n```rust\n        // Set up hash with fields\n        let hash_fields = vec![(\"field1\", \"Hello\"), (\"field2\", \"World\")];\n        if let Ok(res) = r.hset_multiple(\"myhash\", &hash_fields) {\n            let res: String = res;\n            println!(\"{res}\");    // >>> OK\n        }\n\n        // Set expiration on hash fields\n        match r.hexpire(\"myhash\", 10, redis::ExpireOption::NONE, &[\"field1\", \"field2\"]) {\n            Ok(res1) => {\n                let res1: Vec<i32> = res1;\n                println!(\"{:?}\", res1);    // >>> [1, 1]\n            },\n            Err(e) => {\n                println!(\"Error setting expiration: {e}\");\n                return;\n            }\n        }\n\n        // Check TTL of the fields\n        match r.httl(\"myhash\", &[\"field1\", \"field2\"]) {\n            Ok(res2) => {\n                let res2: Vec<i32> = res2;\n                println!(\"{}\", res2.len());    // >>> 2\n            },\n            Err(e) => {\n                println!(\"Error getting TTL: {e}\");\n                return;\n            }\n        }\n\n        // Try to set expiration on non-existent field\n        match r.hexpire(\"myhash\", 10, redis::ExpireOption::NONE, &[\"nonexistent\"]) {\n            Ok(res3) => {\n                let res3: Vec<i32> = res3;\n                println!(\"{:?}\", res3);    // >>> [-2]\n            },\n            Err(e) => {\n                println!(\"Error setting expiration on non-existent field: {e}\");\n                return;\n            }\n        }\n\n```\n\n\n\nGive these commands a try in the interactive console:\n\n\nHEXPIRE no-key 20 NX FIELDS 2 field1 field2\nHSET mykey field1 \"hello\" field2 \"world\"\nHEXPIRE mykey 10 FIELDS 3 field1 field2 field3\nHGETALL mykey"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays). For each field:\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key, or the provided key does not exist.\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the specified NX | XX | GT | LT condition has not been met.\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the expiration time was set/updated.\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `2` when `HEXPIRE`/`HPEXPIRE` is called with 0 seconds/milliseconds or when `HEXPIREAT`/`HPEXPIREAT` is called with a past Unix time in seconds/milliseconds.\n* [Simple error reply](../../develop/reference/protocol-spec#simple-errors):\n    - if parsing failed, mandatory arguments are missing, unknown arguments are specified, or argument values are of the wrong type or out of range.\n    - if the provided key exists but is not a hash.\n\n**RESP3:**\n\nOne of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays). For each field:\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key, or the provided key does not exist.\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the specified NX | XX | GT | LT condition has not been met.\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the expiration time was set/updated.\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `2` when `HEXPIRE`/`HPEXPIRE` is called with 0 seconds/milliseconds or when `HEXPIREAT`/`HPEXPIREAT` is called with a past Unix time in seconds/milliseconds.\n* [Simple error reply](../../develop/reference/protocol-spec#simple-errors):\n    - if parsing failed, mandatory arguments are missing, unknown arguments are specified, or argument values are of the wrong type or out of range.\n    - if the provided key exists but is not a hash."
+    }
+  ]
+}

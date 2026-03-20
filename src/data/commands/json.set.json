@@ -1,0 +1,137 @@
+{
+  "slug": "json.set",
+  "title": "JSON.SET",
+  "description": "Sets or updates the JSON value at a path",
+  "docsUrl": "https://redis.io/docs/latest/commands/json.set/",
+  "group": "json",
+  "groupLabel": "JSON",
+  "syntax": "JSON.SET key path value [NX | XX]",
+  "complexity": "O(M+N) when path is evaluated to a single value where M is the size of the original value (if it exists) and N is the size of the new value, O(M+N) when path is evaluated to multiple values where M is the size of the key and N is the size of the new value * the number of original values in the key",
+  "since": "1.0.0",
+  "arity": null,
+  "aclCategories": [
+    "@json",
+    "@write",
+    "@slow"
+  ],
+  "commandFlags": [],
+  "arguments": [
+    {
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "name": "path",
+      "type": "string"
+    },
+    {
+      "name": "value",
+      "type": "string"
+    },
+    {
+      "arguments": [
+        {
+          "name": "nx",
+          "token": "NX",
+          "type": "pure-token"
+        },
+        {
+          "name": "xx",
+          "token": "XX",
+          "type": "pure-token"
+        }
+      ],
+      "name": "condition",
+      "optional": true,
+      "type": "oneof"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "optional-arguments",
+        "title": "Optional arguments"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      },
+      {
+        "id": "see-also",
+        "title": "See also"
+      },
+      {
+        "id": "related-topics",
+        "title": "Related topics"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Set or replace the value at each location resolved by `path`.\n\nIf the key does not exist, a new JSON document can be created only by setting the root path (`$` or `.`).\n\n`JSON.SET` can also create new object members when the parent object exists.\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open><summary><code>key</code></summary> \n\nis a new key to create or an existing JSON key to modify.\n</details>\n\n<details open><summary><code>path</code></summary> \n\nA JSONPath expression that resolves to zero or more locations within the JSON document.\n\n- The root of the document is specified as `$` or `.`.\n- If `path` resolves to one or more existing locations, the value at each matched location is replaced with `value`.\n- If the final token of `path` is a non-existing object member and the parent location exists and is an object, the member is created and set to `value`.\n- If any intermediate path element does not exist, the path cannot be created, and the command returns nil.\n\nOptional arguments `NX` and `XX` modify this behavior for both new keys and existing JSON keys.\n</details>\n\n<details open><summary><code>value</code></summary> \n\nA valid JSON value to set at the specified path.\n\nThe value can be a scalar (string, number, boolean, or null) or a compound value such as an object or array.\n</details>\n\n## Optional arguments\n\n<details open><summary><code>NX</code></summary> \n\nSets the value only if `path` has no matches.\n</details>\n\n<details open><summary><code>XX</code></summary> \n\nSets the value only if `path` has one or more matches.\n</details>\n\n## Examples\n\n<details open>\n<summary><b>Replace an existing value</b></summary>\n\n\nredis> JSON.SET doc $ '{\"a\":2}'\nOK\nredis> JSON.SET doc $.a '3'\nOK\nredis> JSON.GET doc $\n\"[{\\\"a\\\":3}]\"\n\n</details>\n\n<details open>\n<summary><b>Add a new value</b></summary>\n\n\nredis> JSON.SET doc $ '{\"a\":2}'\nOK\nredis> JSON.SET doc $.b '8'\nOK\nredis> JSON.GET doc $\n\"[{\\\"a\\\":2,\\\"b\\\":8}]\"\n\n</details>\n\n<details open>\n<summary><b>Update multiple matches</b></summary>\n\n\nredis> JSON.SET doc $ '{\"f1\": {\"a\":1}, \"f2\":{\"a\":2}}'\nOK\nredis> JSON.SET doc $..a 3\nOK\nredis> JSON.GET doc\n\"{\\\"f1\\\":{\\\"a\\\":3},\\\"f2\\\":{\\\"a\\\":3}}\"\n\n</details>\n\n<details open>\n<summary><b>path does not exist and cannot be created</b></summary>\n\n\nredis> JSON.SET doc $ 1\nOK\nredis> JSON.SET doc $.x.y 2\n(nil)\n\n</details>\n\n<details open>\n<summary><b>XX condition unmet</b></summary>\n\n\nredis> JSON.SET nonexistentkey $ 5 XX\n(nil)\nredis> JSON.GET nonexistentkey\n(nil)\n\n</details>\n\n<details open>\n<summary><b>key does not exist and path is not root</b></summary>\n\n\nredis> JSON.SET nonexistentkey $.x 5\n(error) ERR new objects must be created at the root\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Null reply](): if `key` exists but `path` does not exist and cannot be created, or if an `NX` or `XX` condition is unmet.\n* [Simple error reply](): `(error) expected ...` - if the value is invalid.\n* [Simple error reply](): `(error) Error occurred on position ... expected ...` - if the path is invalid.\n* [Simple error reply](): `(error) ERR new objects must be created at the root` - if `key` does not exist and `path` is not root (`$` or `.`).\n* [Simple error reply](): `(error) ERR wrong static path` - if a dynamic path expression has no matching locations.\n* [Simple error reply](): `(error) ERR index out of bounds` - if the path refers to an array index outside the array bounds.\n\n**RESP3:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Null reply](): if `key` exists but `path` does not exist and cannot be created, or if an `NX` or `XX` condition is unmet.\n* [Simple error reply](): `(error) expected ...` - if the value is invalid.\n* [Simple error reply](): `(error) Error occurred on position ... expected ...` - if the path is invalid.\n* [Simple error reply](): `(error) ERR new objects must be created at the root` - if `key` does not exist and `path` is not root (`$` or `.`).\n* [Simple error reply](): `(error) ERR wrong static path` - if a dynamic path expression has no matching locations.\n* [Simple error reply](): `(error) ERR index out of bounds` - if the path refers to an array index outside the array bounds.\n\n\n\n## See also\n\n[`JSON.GET`]() | [`JSON.MGET`]() \n\n## Related topics\n\n* [RedisJSON]()\n* [Index and search JSON documents]()",
+  "intro": "Set or replace the value at each location resolved by `path`.\n\nIf the key does not exist, a new JSON document can be created only by setting the root path (`$` or `.`).\n\n`JSON.SET` can also create new object members when the parent object exists.\n\n[Examples](#examples)",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Set or replace the value at each location resolved by `path`.\n\nIf the key does not exist, a new JSON document can be created only by setting the root path (`$` or `.`).\n\n`JSON.SET` can also create new object members when the parent object exists.\n\n[Examples](#examples)"
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open><summary><code>key</code></summary> \n\nis a new key to create or an existing JSON key to modify.\n</details>\n\n<details open><summary><code>path</code></summary> \n\nA JSONPath expression that resolves to zero or more locations within the JSON document.\n\n- The root of the document is specified as `$` or `.`.\n- If `path` resolves to one or more existing locations, the value at each matched location is replaced with `value`.\n- If the final token of `path` is a non-existing object member and the parent location exists and is an object, the member is created and set to `value`.\n- If any intermediate path element does not exist, the path cannot be created, and the command returns nil.\n\nOptional arguments `NX` and `XX` modify this behavior for both new keys and existing JSON keys.\n</details>\n\n<details open><summary><code>value</code></summary> \n\nA valid JSON value to set at the specified path.\n\nThe value can be a scalar (string, number, boolean, or null) or a compound value such as an object or array.\n</details>"
+    },
+    {
+      "title": "Optional arguments",
+      "level": 2,
+      "content": "<details open><summary><code>NX</code></summary> \n\nSets the value only if `path` has no matches.\n</details>\n\n<details open><summary><code>XX</code></summary> \n\nSets the value only if `path` has one or more matches.\n</details>"
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "<details open>\n<summary><b>Replace an existing value</b></summary>\n\n\nredis> JSON.SET doc $ '{\"a\":2}'\nOK\nredis> JSON.SET doc $.a '3'\nOK\nredis> JSON.GET doc $\n\"[{\\\"a\\\":3}]\"\n\n</details>\n\n<details open>\n<summary><b>Add a new value</b></summary>\n\n\nredis> JSON.SET doc $ '{\"a\":2}'\nOK\nredis> JSON.SET doc $.b '8'\nOK\nredis> JSON.GET doc $\n\"[{\\\"a\\\":2,\\\"b\\\":8}]\"\n\n</details>\n\n<details open>\n<summary><b>Update multiple matches</b></summary>\n\n\nredis> JSON.SET doc $ '{\"f1\": {\"a\":1}, \"f2\":{\"a\":2}}'\nOK\nredis> JSON.SET doc $..a 3\nOK\nredis> JSON.GET doc\n\"{\\\"f1\\\":{\\\"a\\\":3},\\\"f2\\\":{\\\"a\\\":3}}\"\n\n</details>\n\n<details open>\n<summary><b>path does not exist and cannot be created</b></summary>\n\n\nredis> JSON.SET doc $ 1\nOK\nredis> JSON.SET doc $.x.y 2\n(nil)\n\n</details>\n\n<details open>\n<summary><b>XX condition unmet</b></summary>\n\n\nredis> JSON.SET nonexistentkey $ 5 XX\n(nil)\nredis> JSON.GET nonexistentkey\n(nil)\n\n</details>\n\n<details open>\n<summary><b>key does not exist and path is not root</b></summary>\n\n\nredis> JSON.SET nonexistentkey $.x 5\n(error) ERR new objects must be created at the root\n\n</details>"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Null reply](): if `key` exists but `path` does not exist and cannot be created, or if an `NX` or `XX` condition is unmet.\n* [Simple error reply](): `(error) expected ...` - if the value is invalid.\n* [Simple error reply](): `(error) Error occurred on position ... expected ...` - if the path is invalid.\n* [Simple error reply](): `(error) ERR new objects must be created at the root` - if `key` does not exist and `path` is not root (`$` or `.`).\n* [Simple error reply](): `(error) ERR wrong static path` - if a dynamic path expression has no matching locations.\n* [Simple error reply](): `(error) ERR index out of bounds` - if the path refers to an array index outside the array bounds.\n\n**RESP3:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Null reply](): if `key` exists but `path` does not exist and cannot be created, or if an `NX` or `XX` condition is unmet.\n* [Simple error reply](): `(error) expected ...` - if the value is invalid.\n* [Simple error reply](): `(error) Error occurred on position ... expected ...` - if the path is invalid.\n* [Simple error reply](): `(error) ERR new objects must be created at the root` - if `key` does not exist and `path` is not root (`$` or `.`).\n* [Simple error reply](): `(error) ERR wrong static path` - if a dynamic path expression has no matching locations.\n* [Simple error reply](): `(error) ERR index out of bounds` - if the path refers to an array index outside the array bounds."
+    },
+    {
+      "title": "See also",
+      "level": 2,
+      "content": "[`JSON.GET`]() | [`JSON.MGET`]()"
+    },
+    {
+      "title": "Related topics",
+      "level": 2,
+      "content": "* [RedisJSON]()\n* [Index and search JSON documents]()"
+    }
+  ]
+}

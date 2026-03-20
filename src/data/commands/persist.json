@@ -1,0 +1,100 @@
+{
+  "slug": "persist",
+  "title": "PERSIST",
+  "description": "Removes the expiration time of a key.",
+  "docsUrl": "https://redis.io/docs/latest/commands/persist/",
+  "group": "generic",
+  "groupLabel": "Generic",
+  "syntax": "PERSIST key",
+  "complexity": "O(1)",
+  "since": "2.2.0",
+  "arity": 2,
+  "aclCategories": [
+    "@keyspace",
+    "@write",
+    "@fast"
+  ],
+  "commandFlags": [
+    "write",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      },
+      "update": true
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Remove the existing timeout on `key`, turning the key from _volatile_ (a key\nwith an expire set) to _persistent_ (a key that will never expire as no timeout\nis associated).\n\n## Examples\n\n\nSET mykey \"Hello\"\nEXPIRE mykey 10\nTTL mykey\nPERSIST mykey\nTTL mykey\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if _key_ does not exist or does not have an associated timeout.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the timeout has been removed.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if _key_ does not exist or does not have an associated timeout.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the timeout has been removed.",
+  "intro": "Remove the existing timeout on `key`, turning the key from _volatile_ (a key\nwith an expire set) to _persistent_ (a key that will never expire as no timeout\nis associated).",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Remove the existing timeout on `key`, turning the key from _volatile_ (a key\nwith an expire set) to _persistent_ (a key that will never expire as no timeout\nis associated)."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "SET mykey \"Hello\"\nEXPIRE mykey 10\nTTL mykey\nPERSIST mykey\nTTL mykey"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if _key_ does not exist or does not have an associated timeout.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the timeout has been removed.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if _key_ does not exist or does not have an associated timeout.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the timeout has been removed."
+    }
+  ]
+}

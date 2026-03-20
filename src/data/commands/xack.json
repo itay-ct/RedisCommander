@@ -1,0 +1,111 @@
+{
+  "slug": "xack",
+  "title": "XACK",
+  "description": "Returns the number of messages that were successfully acknowledged by the consumer group member of a stream.",
+  "docsUrl": "https://redis.io/docs/latest/commands/xack/",
+  "group": "stream",
+  "groupLabel": "Streams",
+  "syntax": "XACK key group id [id ...]",
+  "complexity": "O(1) for each message ID processed.",
+  "since": "5.0.0",
+  "arity": -4,
+  "aclCategories": [
+    "@write",
+    "@stream",
+    "@fast"
+  ],
+  "commandFlags": [
+    "write",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "group",
+      "name": "group",
+      "type": "string"
+    },
+    {
+      "display_text": "id",
+      "multiple": true,
+      "name": "id",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      },
+      "update": true
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "The `XACK` command removes one or multiple messages from the\n*Pending Entries List* (PEL) of a stream consumer group. A message is pending,\nand as such stored inside the PEL, when it was delivered to some consumer,\nnormally as a side effect of calling [`XREADGROUP`](), or when a consumer took\nownership of a message calling [`XCLAIM`](). The pending message was delivered to\nsome consumer but the server is yet not sure it was processed at least once.\nSo new calls to [`XREADGROUP`]() to grab the messages history for a consumer\n(for instance using an ID of 0), will return such message.\nSimilarly the pending message will be listed by the [`XPENDING`]() command,\nthat inspects the PEL.\n\nOnce a consumer *successfully* processes a message, it should call `XACK`\nso that such message does not get processed again, and as a side effect,\nthe PEL entry about this message is also purged, releasing memory from the\nRedis server.\n\n## Examples\n\n```\nredis> XACK mystream mygroup 1526569495631-0\n(integer) 1\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): The command returns the number of messages successfully acknowledged. Certain message IDs may no longer be part of the PEL (for example because they have already been acknowledged), and XACK will not count them as successfully acknowledged.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): The command returns the number of messages successfully acknowledged. Certain message IDs may no longer be part of the PEL (for example because they have already been acknowledged), and XACK will not count them as successfully acknowledged.",
+  "intro": "The `XACK` command removes one or multiple messages from the\n*Pending Entries List* (PEL) of a stream consumer group. A message is pending,\nand as such stored inside the PEL, when it was delivered to some consumer,\nnormally as a side effect of calling [`XREADGROUP`](), or when a consumer took\nownership of a message calling [`XCLAIM`](). The pending message was delivered to\nsome consumer but the server is yet not sure it was processed at least once.\nSo new calls to [`XREADGROUP`]() to grab the messages history for a consumer\n(for instance using an ID of 0), will return such message.\nSimilarly the pending message will be listed by the [`XPENDING`]() command,\nthat inspects the PEL.\n\nOnce a consumer *successfully* processes a message, it should call `XACK`\nso that such message does not get processed again, and as a side effect,\nthe PEL entry about this message is also purged, releasing memory from the\nRedis server.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "The `XACK` command removes one or multiple messages from the\n*Pending Entries List* (PEL) of a stream consumer group. A message is pending,\nand as such stored inside the PEL, when it was delivered to some consumer,\nnormally as a side effect of calling [`XREADGROUP`](), or when a consumer took\nownership of a message calling [`XCLAIM`](). The pending message was delivered to\nsome consumer but the server is yet not sure it was processed at least once.\nSo new calls to [`XREADGROUP`]() to grab the messages history for a consumer\n(for instance using an ID of 0), will return such message.\nSimilarly the pending message will be listed by the [`XPENDING`]() command,\nthat inspects the PEL.\n\nOnce a consumer *successfully* processes a message, it should call `XACK`\nso that such message does not get processed again, and as a side effect,\nthe PEL entry about this message is also purged, releasing memory from the\nRedis server."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "```\nredis> XACK mystream mygroup 1526569495631-0\n(integer) 1\n```"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): The command returns the number of messages successfully acknowledged. Certain message IDs may no longer be part of the PEL (for example because they have already been acknowledged), and XACK will not count them as successfully acknowledged.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): The command returns the number of messages successfully acknowledged. Certain message IDs may no longer be part of the PEL (for example because they have already been acknowledged), and XACK will not count them as successfully acknowledged."
+    }
+  ]
+}

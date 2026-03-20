@@ -1,0 +1,143 @@
+{
+  "slug": "flushall",
+  "title": "FLUSHALL",
+  "description": "Removes all keys from all databases.",
+  "docsUrl": "https://redis.io/docs/latest/commands/flushall/",
+  "group": "server",
+  "groupLabel": "Server",
+  "syntax": "FLUSHALL [ASYNC | SYNC]",
+  "complexity": "O(N) where N is the total number of keys in all databases",
+  "since": "1.0.0",
+  "arity": -1,
+  "aclCategories": [
+    "@keyspace",
+    "@write",
+    "@slow",
+    "@dangerous"
+  ],
+  "commandFlags": [
+    "write"
+  ],
+  "arguments": [
+    {
+      "arguments": [
+        {
+          "display_text": "async",
+          "name": "async",
+          "since": "4.0.0",
+          "token": "ASYNC",
+          "type": "pure-token"
+        },
+        {
+          "display_text": "sync",
+          "name": "sync",
+          "since": "6.2.0",
+          "token": "SYNC",
+          "type": "pure-token"
+        }
+      ],
+      "name": "flush-type",
+      "optional": true,
+      "type": "oneof"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "notes",
+        "title": "Notes"
+      },
+      {
+        "id": "behavior-change-history",
+        "title": "Behavior change history"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [
+    {
+      "codetabsId": "cmds_servermgmt-stepflushall",
+      "description": "Full delete: Delete all keys from all databases using FLUSHALL (dangerous operation, supports ASYNC/SYNC modes, clears RDB file)",
+      "difficulty": "advanced",
+      "id": "flushall",
+      "languages": [
+        {
+          "id": "redis-cli",
+          "panelId": "panel_redis-cli_cmds_servermgmt-stepflushall"
+        },
+        {
+          "clientId": "redis-py",
+          "clientName": "redis-py",
+          "id": "Python",
+          "langId": "python",
+          "panelId": "panel_Python_cmds_servermgmt-stepflushall"
+        },
+        {
+          "id": "Node-js",
+          "panelId": "panel_Nodejs_cmds_servermgmt-stepflushall"
+        },
+        {
+          "clientId": "jedis",
+          "clientName": "Jedis",
+          "id": "Java-Sync",
+          "langId": "java",
+          "panelId": "panel_Java-Sync_cmds_servermgmt-stepflushall"
+        },
+        {
+          "clientId": "go-redis",
+          "clientName": "go-redis",
+          "id": "Go",
+          "langId": "go",
+          "panelId": "panel_Go_cmds_servermgmt-stepflushall"
+        }
+      ]
+    }
+  ],
+  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nDelete all the keys of all the existing databases, not just the currently selected one.\nThis command never fails.\n\nBy default, `FLUSHALL` will synchronously flush all the databases.\nStarting with Redis 6.2, setting the **lazyfree-lazy-user-flush** configuration directive to \"yes\" changes the default flush mode to asynchronous.\n\nIt is possible to use one of the following modifiers to dictate the flushing mode explicitly:\n\n* `ASYNC`: flushes the databases asynchronously\n* `SYNC`: flushes the databases synchronously\n\n#### Code Examples\n\nFull delete: Delete all keys from all databases using FLUSHALL (dangerous operation, supports ASYNC/SYNC modes, clears RDB file)\n\n**Difficulty:** Advanced\n\n**Redis CLI:**\n\n```\nFLUSHALL SYNC\n```\n\n**Available in:** Redis CLI, Go, Java (Synchronous - Jedis), JavaScript (Node.js), Python\n\n**Go:**\n\n```go\n\tflushAllResult1, err := rdb.FlushAll(ctx).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(flushAllResult1) // >>> OK\n\n\tflushAllResult2, err := rdb.Keys(ctx, \"*\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(flushAllResult2) // >>> []\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n        String flushAllResult1 = jedis.flushAll();\n        System.out.println(flushAllResult1); // >>> OK\n\n        Set<String> flushAllResult2 = jedis.keys(\"*\");\n        System.out.println(flushAllResult2); // >>> []\n```\n\n**JavaScript (Node.js):**\n\n```javascript\nconst res1 = await client.flushAll('SYNC'); // or ASYNC\nconsole.log(res1); // OK\n\nconst res2 = await client.keys('*');\nconsole.log(res2); // []\n\n```\n\n**Python:**\n\n```python\nres1 = r.flushall(asynchronous=False)\nprint(res1) # >>> True\n\nres2 = r.keys()\nprint(res2) # >>> []\n\n```\n\n\n\n## Notes\n\n* An asynchronous `FLUSHALL` command only deletes keys that were present at the time the command was invoked. Keys created during an asynchronous flush will be unaffected.\n* This command does not delete functions.\n* Other than emptying all databases (similar to `FLUSHDB`), this command clears the RDB persistence file, aborts any snapshot that is in progress, and, if the `save` config is enabled, saves an empty RDB file.\n\n## Behavior change history\n\n*   `>= 6.2.0`: Default flush behavior now configurable by the **lazyfree-lazy-user-flush** configuration directive.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active\\*</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | \\*Can use the [Active-Active flush API request](). |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.",
+  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nDelete all the keys of all the existing databases, not just the currently selected one.\nThis command never fails.\n\nBy default, `FLUSHALL` will synchronously flush all the databases.\nStarting with Redis 6.2, setting the **lazyfree-lazy-user-flush** configuration directive to \"yes\" changes the default flush mode to asynchronous.\n\nIt is possible to use one of the following modifiers to dictate the flushing mode explicitly:\n\n* `ASYNC`: flushes the databases asynchronously\n* `SYNC`: flushes the databases synchronously\n\n#### Code Examples\n\nFull delete: Delete all keys from all databases using FLUSHALL (dangerous operation, supports ASYNC/SYNC modes, clears RDB file)\n\n**Difficulty:** Advanced\n\n**Redis CLI:**\n\n```\nFLUSHALL SYNC\n```\n\n**Available in:** Redis CLI, Go, Java (Synchronous - Jedis), JavaScript (Node.js), Python\n\n**Go:**\n\n```go\n\tflushAllResult1, err := rdb.FlushAll(ctx).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(flushAllResult1) // >>> OK\n\n\tflushAllResult2, err := rdb.Keys(ctx, \"*\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(flushAllResult2) // >>> []\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n        String flushAllResult1 = jedis.flushAll();\n        System.out.println(flushAllResult1); // >>> OK\n\n        Set<String> flushAllResult2 = jedis.keys(\"*\");\n        System.out.println(flushAllResult2); // >>> []\n```\n\n**JavaScript (Node.js):**\n\n```javascript\nconst res1 = await client.flushAll('SYNC'); // or ASYNC\nconsole.log(res1); // OK\n\nconst res2 = await client.keys('*');\nconsole.log(res2); // []\n\n```\n\n**Python:**\n\n```python\nres1 = r.flushall(asynchronous=False)\nprint(res1) # >>> True\n\nres2 = r.keys()\nprint(res2) # >>> []\n\n```",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nDelete all the keys of all the existing databases, not just the currently selected one.\nThis command never fails.\n\nBy default, `FLUSHALL` will synchronously flush all the databases.\nStarting with Redis 6.2, setting the **lazyfree-lazy-user-flush** configuration directive to \"yes\" changes the default flush mode to asynchronous.\n\nIt is possible to use one of the following modifiers to dictate the flushing mode explicitly:\n\n* `ASYNC`: flushes the databases asynchronously\n* `SYNC`: flushes the databases synchronously\n\n#### Code Examples\n\nFull delete: Delete all keys from all databases using FLUSHALL (dangerous operation, supports ASYNC/SYNC modes, clears RDB file)\n\n**Difficulty:** Advanced\n\n**Redis CLI:**\n\n```\nFLUSHALL SYNC\n```\n\n**Available in:** Redis CLI, Go, Java (Synchronous - Jedis), JavaScript (Node.js), Python\n\n**Go:**\n\n```go\n\tflushAllResult1, err := rdb.FlushAll(ctx).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(flushAllResult1) // >>> OK\n\n\tflushAllResult2, err := rdb.Keys(ctx, \"*\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(flushAllResult2) // >>> []\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n        String flushAllResult1 = jedis.flushAll();\n        System.out.println(flushAllResult1); // >>> OK\n\n        Set<String> flushAllResult2 = jedis.keys(\"*\");\n        System.out.println(flushAllResult2); // >>> []\n```\n\n**JavaScript (Node.js):**\n\n```javascript\nconst res1 = await client.flushAll('SYNC'); // or ASYNC\nconsole.log(res1); // OK\n\nconst res2 = await client.keys('*');\nconsole.log(res2); // []\n\n```\n\n**Python:**\n\n```python\nres1 = r.flushall(asynchronous=False)\nprint(res1) # >>> True\n\nres2 = r.keys()\nprint(res2) # >>> []\n\n```"
+    },
+    {
+      "title": "Notes",
+      "level": 2,
+      "content": "* An asynchronous `FLUSHALL` command only deletes keys that were present at the time the command was invoked. Keys created during an asynchronous flush will be unaffected.\n* This command does not delete functions.\n* Other than emptying all databases (similar to `FLUSHDB`), this command clears the RDB persistence file, aborts any snapshot that is in progress, and, if the `save` config is enabled, saves an empty RDB file."
+    },
+    {
+      "title": "Behavior change history",
+      "level": 2,
+      "content": "*   `>= 6.2.0`: Default flush behavior now configurable by the **lazyfree-lazy-user-flush** configuration directive."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active\\*</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | \\*Can use the [Active-Active flush API request](). |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`."
+    }
+  ]
+}

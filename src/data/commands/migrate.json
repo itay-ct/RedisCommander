@@ -1,0 +1,222 @@
+{
+  "slug": "migrate",
+  "title": "MIGRATE",
+  "description": "Atomically transfers a key from one Redis instance to another.",
+  "docsUrl": "https://redis.io/docs/latest/commands/migrate/",
+  "group": "generic",
+  "groupLabel": "Generic",
+  "syntax": "MIGRATE host port <key | \"\"> destination-db timeout [COPY] [REPLACE]\n  [AUTH password | AUTH2 username password] [KEYS key [key ...]]",
+  "complexity": "This command actually executes a DUMP+DEL in the source instance, and a RESTORE in the target instance. See the pages of these commands for time complexity. Also an O(N) data transfer between the two instances is performed.",
+  "since": "2.6.0",
+  "arity": -6,
+  "aclCategories": [
+    "@keyspace",
+    "@write",
+    "@slow",
+    "@dangerous"
+  ],
+  "commandFlags": [
+    "write",
+    "movablekeys"
+  ],
+  "arguments": [
+    {
+      "display_text": "host",
+      "name": "host",
+      "type": "string"
+    },
+    {
+      "display_text": "port",
+      "name": "port",
+      "type": "integer"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "key",
+          "key_spec_index": 0,
+          "name": "key",
+          "type": "key"
+        },
+        {
+          "display_text": "empty-string",
+          "name": "empty-string",
+          "token": "",
+          "type": "pure-token"
+        }
+      ],
+      "name": "key-selector",
+      "type": "oneof"
+    },
+    {
+      "display_text": "destination-db",
+      "name": "destination-db",
+      "type": "integer"
+    },
+    {
+      "display_text": "timeout",
+      "name": "timeout",
+      "type": "integer"
+    },
+    {
+      "display_text": "copy",
+      "name": "copy",
+      "optional": true,
+      "since": "3.0.0",
+      "token": "COPY",
+      "type": "pure-token"
+    },
+    {
+      "display_text": "replace",
+      "name": "replace",
+      "optional": true,
+      "since": "3.0.0",
+      "token": "REPLACE",
+      "type": "pure-token"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "password",
+          "name": "auth",
+          "since": "4.0.7",
+          "token": "AUTH",
+          "type": "string"
+        },
+        {
+          "arguments": [
+            {
+              "display_text": "username",
+              "name": "username",
+              "type": "string"
+            },
+            {
+              "display_text": "password",
+              "name": "password",
+              "type": "string"
+            }
+          ],
+          "name": "auth2",
+          "since": "6.0.0",
+          "token": "AUTH2",
+          "type": "block"
+        }
+      ],
+      "name": "authentication",
+      "optional": true,
+      "type": "oneof"
+    },
+    {
+      "display_text": "key",
+      "key_spec_index": 1,
+      "multiple": true,
+      "name": "keys",
+      "optional": true,
+      "since": "3.0.6",
+      "token": "KEYS",
+      "type": "key"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 3
+        },
+        "type": "index"
+      },
+      "delete": true,
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    },
+    {
+      "RW": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "keyword": "KEYS",
+          "startfrom": -2
+        },
+        "type": "keyword"
+      },
+      "delete": true,
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": -1,
+          "limit": 0
+        },
+        "type": "range"
+      },
+      "incomplete": true
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "migrating-multiple-keys-with-a-single-command-call",
+        "title": "Migrating multiple keys with a single command call"
+      },
+      {
+        "id": "options",
+        "title": "Options"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Atomically transfer a key from a source Redis instance to a destination Redis\ninstance.\nOn success the key is deleted from the original instance and is guaranteed to\nexist in the target instance.\n\nThe command is atomic and blocks the two instances for the time required to\ntransfer the key, at any given time the key will appear to exist in a given\ninstance or in the other instance, unless a timeout error occurs. In 3.2 and\nabove, multiple keys can be pipelined in a single call to `MIGRATE` by passing\nthe empty string (\"\") as key and adding the `KEYS` clause.\n\nThe command internally uses [`DUMP`]() to generate the serialized version of the key\nvalue, and [`RESTORE`]() in order to synthesize the key in the target instance.\nThe source instance acts as a client for the target instance.\nIf the target instance returns OK to the [`RESTORE`]() command, the source instance\ndeletes the key using [`DEL`]().\n\nThe timeout specifies the maximum idle time in any moment of the communication\nwith the destination instance in milliseconds.\nThis means that the operation does not need to be completed within the specified\namount of milliseconds, but that the transfer should make progresses without\nblocking for more than the specified amount of milliseconds.\n\n`MIGRATE` needs to perform I/O operations and to honor the specified timeout.\nWhen there is an I/O error during the transfer or if the timeout is reached the\noperation is aborted and the special error - `IOERR` returned.\nWhen this happens the following two cases are possible:\n\n* The key may be on both the instances.\n* The key may be only in the source instance.\n\nIt is not possible for the key to get lost in the event of a timeout, but the\nclient calling `MIGRATE`, in the event of a timeout error, should check if the\nkey is _also_ present in the target instance and act accordingly.\n\nWhen any other error is returned (starting with `ERR`) `MIGRATE` guarantees that\nthe key is still only present in the originating instance (unless a key with the\nsame name was also _already_ present on the target instance).\n\nIf there are no keys to migrate in the source instance `NOKEY` is returned.\nBecause missing keys are possible in normal conditions, from expiry for example,\n`NOKEY` isn't an error. \n\n## Migrating multiple keys with a single command call\n\nStarting with Redis 3.0.6 `MIGRATE` supports a new bulk-migration mode that\nuses pipelining in order to migrate multiple keys between instances without\nincurring in the round trip time latency and other overheads that there are\nwhen moving each key with a single `MIGRATE` call.\n\nIn order to enable this form, the `KEYS` option is used, and the normal *key*\nargument is set to an empty string. The actual key names will be provided\nafter the `KEYS` argument itself, like in the following example:\n\n    MIGRATE 192.168.1.34 6379 \"\" 0 5000 KEYS key1 key2 key3\n\nWhen this form is used the `NOKEY` status code is only returned when none\nof the keys is present in the instance, otherwise the command is executed, even if\njust a single key exists.\n\n## Options\n\n* `COPY` -- Do not remove the key from the local instance.\n* `REPLACE` -- Replace existing key on the remote instance.\n* `KEYS` -- If the key argument is an empty string, the command will instead migrate all the keys that follow the `KEYS` option (see the above section for more info).\n* `AUTH` -- Authenticate with the given password to the remote instance.\n* `AUTH2` -- Authenticate with the given username and password pair (Redis 6 or greater ACL auth style).\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` on success.\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `NOKEY` when no keys were found in the source instance.\n\n**RESP3:**\n\nOne of the following:\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` on success.\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `NOKEY` when no keys were found in the source instance.",
+  "intro": "Atomically transfer a key from a source Redis instance to a destination Redis\ninstance.\nOn success the key is deleted from the original instance and is guaranteed to\nexist in the target instance.\n\nThe command is atomic and blocks the two instances for the time required to\ntransfer the key, at any given time the key will appear to exist in a given\ninstance or in the other instance, unless a timeout error occurs. In 3.2 and\nabove, multiple keys can be pipelined in a single call to `MIGRATE` by passing\nthe empty string (\"\") as key and adding the `KEYS` clause.\n\nThe command internally uses [`DUMP`]() to generate the serialized version of the key\nvalue, and [`RESTORE`]() in order to synthesize the key in the target instance.\nThe source instance acts as a client for the target instance.\nIf the target instance returns OK to the [`RESTORE`]() command, the source instance\ndeletes the key using [`DEL`]().\n\nThe timeout specifies the maximum idle time in any moment of the communication\nwith the destination instance in milliseconds.\nThis means that the operation does not need to be completed within the specified\namount of milliseconds, but that the transfer should make progresses without\nblocking for more than the specified amount of milliseconds.\n\n`MIGRATE` needs to perform I/O operations and to honor the specified timeout.\nWhen there is an I/O error during the transfer or if the timeout is reached the\noperation is aborted and the special error - `IOERR` returned.\nWhen this happens the following two cases are possible:\n\n* The key may be on both the instances.\n* The key may be only in the source instance.\n\nIt is not possible for the key to get lost in the event of a timeout, but the\nclient calling `MIGRATE`, in the event of a timeout error, should check if the\nkey is _also_ present in the target instance and act accordingly.\n\nWhen any other error is returned (starting with `ERR`) `MIGRATE` guarantees that\nthe key is still only present in the originating instance (unless a key with the\nsame name was also _already_ present on the target instance).\n\nIf there are no keys to migrate in the source instance `NOKEY` is returned.\nBecause missing keys are possible in normal conditions, from expiry for example,\n`NOKEY` isn't an error.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Atomically transfer a key from a source Redis instance to a destination Redis\ninstance.\nOn success the key is deleted from the original instance and is guaranteed to\nexist in the target instance.\n\nThe command is atomic and blocks the two instances for the time required to\ntransfer the key, at any given time the key will appear to exist in a given\ninstance or in the other instance, unless a timeout error occurs. In 3.2 and\nabove, multiple keys can be pipelined in a single call to `MIGRATE` by passing\nthe empty string (\"\") as key and adding the `KEYS` clause.\n\nThe command internally uses [`DUMP`]() to generate the serialized version of the key\nvalue, and [`RESTORE`]() in order to synthesize the key in the target instance.\nThe source instance acts as a client for the target instance.\nIf the target instance returns OK to the [`RESTORE`]() command, the source instance\ndeletes the key using [`DEL`]().\n\nThe timeout specifies the maximum idle time in any moment of the communication\nwith the destination instance in milliseconds.\nThis means that the operation does not need to be completed within the specified\namount of milliseconds, but that the transfer should make progresses without\nblocking for more than the specified amount of milliseconds.\n\n`MIGRATE` needs to perform I/O operations and to honor the specified timeout.\nWhen there is an I/O error during the transfer or if the timeout is reached the\noperation is aborted and the special error - `IOERR` returned.\nWhen this happens the following two cases are possible:\n\n* The key may be on both the instances.\n* The key may be only in the source instance.\n\nIt is not possible for the key to get lost in the event of a timeout, but the\nclient calling `MIGRATE`, in the event of a timeout error, should check if the\nkey is _also_ present in the target instance and act accordingly.\n\nWhen any other error is returned (starting with `ERR`) `MIGRATE` guarantees that\nthe key is still only present in the originating instance (unless a key with the\nsame name was also _already_ present on the target instance).\n\nIf there are no keys to migrate in the source instance `NOKEY` is returned.\nBecause missing keys are possible in normal conditions, from expiry for example,\n`NOKEY` isn't an error."
+    },
+    {
+      "title": "Migrating multiple keys with a single command call",
+      "level": 2,
+      "content": "Starting with Redis 3.0.6 `MIGRATE` supports a new bulk-migration mode that\nuses pipelining in order to migrate multiple keys between instances without\nincurring in the round trip time latency and other overheads that there are\nwhen moving each key with a single `MIGRATE` call.\n\nIn order to enable this form, the `KEYS` option is used, and the normal *key*\nargument is set to an empty string. The actual key names will be provided\nafter the `KEYS` argument itself, like in the following example:\n\n    MIGRATE 192.168.1.34 6379 \"\" 0 5000 KEYS key1 key2 key3\n\nWhen this form is used the `NOKEY` status code is only returned when none\nof the keys is present in the instance, otherwise the command is executed, even if\njust a single key exists."
+    },
+    {
+      "title": "Options",
+      "level": 2,
+      "content": "* `COPY` -- Do not remove the key from the local instance.\n* `REPLACE` -- Replace existing key on the remote instance.\n* `KEYS` -- If the key argument is an empty string, the command will instead migrate all the keys that follow the `KEYS` option (see the above section for more info).\n* `AUTH` -- Authenticate with the given password to the remote instance.\n* `AUTH2` -- Authenticate with the given username and password pair (Redis 6 or greater ACL auth style)."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` on success.\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `NOKEY` when no keys were found in the source instance.\n\n**RESP3:**\n\nOne of the following:\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` on success.\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `NOKEY` when no keys were found in the source instance."
+    }
+  ]
+}

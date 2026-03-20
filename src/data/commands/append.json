@@ -1,0 +1,115 @@
+{
+  "slug": "append",
+  "title": "APPEND",
+  "description": "Appends a string to the value of a key. Creates the key if it doesn't exist.",
+  "docsUrl": "https://redis.io/docs/latest/commands/append/",
+  "group": "string",
+  "groupLabel": "Strings",
+  "syntax": "APPEND key value",
+  "complexity": "O(1). The amortized time complexity is O(1) assuming the appended value is small and the already present value is of any size, since the dynamic string library used by Redis will double the free space available on every reallocation.",
+  "since": "2.0.0",
+  "arity": 3,
+  "aclCategories": [
+    "@write",
+    "@string",
+    "@fast"
+  ],
+  "commandFlags": [
+    "write",
+    "denyoom",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "value",
+      "name": "value",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      },
+      "insert": true
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "pattern-time-series",
+        "title": "Pattern: Time series"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "If `key` already exists and is a string, this command appends the `value` at the\nend of the string.\nIf `key` does not exist it is created and set as an empty string, so `APPEND`\nwill be similar to [`SET`]() in this special case.\n\n## Examples\n\n\nEXISTS mykey\nAPPEND mykey \"Hello\"\nAPPEND mykey \" World\"\nGET mykey\n\n\n## Pattern: Time series\n\nThe `APPEND` command can be used to create a very compact representation of a\nlist of fixed-size samples, usually referred as _time series_.\nEvery time a new sample arrives we can store it using the command\n\n```\nAPPEND timeseries \"fixed-size sample\"\n```\n\nAccessing individual elements in the time series is not hard:\n\n* [`STRLEN`]() can be used in order to obtain the number of samples.\n* [`GETRANGE`]() allows for random access of elements.\n  If our time series have associated time information we can easily implement\n  a binary search to get range combining [`GETRANGE`]() with the Lua scripting\n  engine available in Redis 2.6.\n* [`SETRANGE`]() can be used to overwrite an existing time series.\n\nThe limitation of this pattern is that we are forced into an append-only mode\nof operation, there is no way to cut the time series to a given size easily\nbecause Redis currently lacks a command able to trim string objects.\nHowever the space efficiency of time series stored in this way is remarkable.\n\nHint: it is possible to switch to a different key based on the current Unix\ntime, in this way it is possible to have just a relatively small amount of\nsamples per key, to avoid dealing with very big keys, and to make this pattern\nmore friendly to be distributed across many Redis instances.\n\nAn example sampling the temperature of a sensor using fixed-size strings (using\na binary format is better in real implementations).\n\n\nAPPEND ts \"0043\"\nAPPEND ts \"0035\"\nGETRANGE ts 0 3\nGETRANGE ts 4 7\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the length of the string after the append operation.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the length of the string after the append operation.",
+  "intro": "If `key` already exists and is a string, this command appends the `value` at the\nend of the string.\nIf `key` does not exist it is created and set as an empty string, so `APPEND`\nwill be similar to [`SET`]() in this special case.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "If `key` already exists and is a string, this command appends the `value` at the\nend of the string.\nIf `key` does not exist it is created and set as an empty string, so `APPEND`\nwill be similar to [`SET`]() in this special case."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "EXISTS mykey\nAPPEND mykey \"Hello\"\nAPPEND mykey \" World\"\nGET mykey"
+    },
+    {
+      "title": "Pattern: Time series",
+      "level": 2,
+      "content": "The `APPEND` command can be used to create a very compact representation of a\nlist of fixed-size samples, usually referred as _time series_.\nEvery time a new sample arrives we can store it using the command\n\n```\nAPPEND timeseries \"fixed-size sample\"\n```\n\nAccessing individual elements in the time series is not hard:\n\n* [`STRLEN`]() can be used in order to obtain the number of samples.\n* [`GETRANGE`]() allows for random access of elements.\n  If our time series have associated time information we can easily implement\n  a binary search to get range combining [`GETRANGE`]() with the Lua scripting\n  engine available in Redis 2.6.\n* [`SETRANGE`]() can be used to overwrite an existing time series.\n\nThe limitation of this pattern is that we are forced into an append-only mode\nof operation, there is no way to cut the time series to a given size easily\nbecause Redis currently lacks a command able to trim string objects.\nHowever the space efficiency of time series stored in this way is remarkable.\n\nHint: it is possible to switch to a different key based on the current Unix\ntime, in this way it is possible to have just a relatively small amount of\nsamples per key, to avoid dealing with very big keys, and to make this pattern\nmore friendly to be distributed across many Redis instances.\n\nAn example sampling the temperature of a sensor using fixed-size strings (using\na binary format is better in real implementations).\n\n\nAPPEND ts \"0043\"\nAPPEND ts \"0035\"\nGETRANGE ts 0 3\nGETRANGE ts 4 7"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the length of the string after the append operation.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the length of the string after the append operation."
+    }
+  ]
+}

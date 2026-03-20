@@ -1,0 +1,127 @@
+{
+  "slug": "pfmerge",
+  "title": "PFMERGE",
+  "description": "Merges one or more HyperLogLog values into a single key.",
+  "docsUrl": "https://redis.io/docs/latest/commands/pfmerge/",
+  "group": "hyperloglog",
+  "groupLabel": "HyperLogLog",
+  "syntax": "PFMERGE destkey [sourcekey [sourcekey ...]]",
+  "complexity": "O(N) to merge N HyperLogLogs, but with high constant times.",
+  "since": "2.8.9",
+  "arity": -2,
+  "aclCategories": [
+    "@write",
+    "@hyperloglog",
+    "@slow"
+  ],
+  "commandFlags": [
+    "write",
+    "denyoom"
+  ],
+  "arguments": [
+    {
+      "display_text": "destkey",
+      "key_spec_index": 0,
+      "name": "destkey",
+      "type": "key"
+    },
+    {
+      "display_text": "sourcekey",
+      "key_spec_index": 1,
+      "multiple": true,
+      "name": "sourcekey",
+      "optional": true,
+      "type": "key"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      },
+      "insert": true
+    },
+    {
+      "RO": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 2
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": -1,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nMerge multiple HyperLogLog values into a unique value that will approximate\nthe cardinality of the union of the observed Sets of the source HyperLogLog\nstructures.\n\nThe computed merged HyperLogLog is set to the destination variable, which is\ncreated if does not exist (defaulting to an empty HyperLogLog).\n\nIf the destination variable exists, it is treated as one of the source sets \nand its cardinality will be included in the cardinality of the computed\nHyperLogLog.\n\n## Examples\n\n\nPFADD hll1 foo bar zap a\nPFADD hll2 a b c foo\nPFMERGE hll3 hll1 hll2\nPFCOUNT hll3\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.",
+  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nMerge multiple HyperLogLog values into a unique value that will approximate\nthe cardinality of the union of the observed Sets of the source HyperLogLog\nstructures.\n\nThe computed merged HyperLogLog is set to the destination variable, which is\ncreated if does not exist (defaulting to an empty HyperLogLog).\n\nIf the destination variable exists, it is treated as one of the source sets \nand its cardinality will be included in the cardinality of the computed\nHyperLogLog.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nMerge multiple HyperLogLog values into a unique value that will approximate\nthe cardinality of the union of the observed Sets of the source HyperLogLog\nstructures.\n\nThe computed merged HyperLogLog is set to the destination variable, which is\ncreated if does not exist (defaulting to an empty HyperLogLog).\n\nIf the destination variable exists, it is treated as one of the source sets \nand its cardinality will be included in the cardinality of the computed\nHyperLogLog."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "PFADD hll1 foo bar zap a\nPFADD hll2 a b c foo\nPFMERGE hll3 hll1 hll2\nPFCOUNT hll3"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`."
+    }
+  ]
+}

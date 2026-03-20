@@ -1,0 +1,80 @@
+{
+  "slug": "keys",
+  "title": "KEYS",
+  "description": "Returns all key names that match a pattern.",
+  "docsUrl": "https://redis.io/docs/latest/commands/keys/",
+  "group": "generic",
+  "groupLabel": "Generic",
+  "syntax": "KEYS pattern",
+  "complexity": "O(N) with N being the number of keys in the database, under the assumption that the key names in the database and the given pattern have limited length.",
+  "since": "1.0.0",
+  "arity": 2,
+  "aclCategories": [
+    "@keyspace",
+    "@read",
+    "@slow",
+    "@dangerous"
+  ],
+  "commandFlags": [
+    "readonly"
+  ],
+  "arguments": [
+    {
+      "display_text": "pattern",
+      "name": "pattern",
+      "type": "pattern"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nReturns all keys matching `pattern`.\n\nWhile the time complexity for this operation is O(N), the constant times are\nfairly low.\nFor example, Redis running on an entry level laptop can scan a 1 million key\ndatabase in 40 milliseconds.\n\n**Warning**: consider `KEYS` as a command that should only be used in production\nenvironments with extreme care.\nIt may ruin performance when it is executed against large databases.\nThis command is intended for debugging and special operations, such as changing\nyour keyspace layout.\nDon't use `KEYS` in your regular application code.\nIf you're looking for a way to find keys in a subset of your keyspace, consider\nusing [`SCAN`]() or [sets]().\n\nSupported glob-style patterns:\n\n* `h?llo` matches `hello`, `hallo` and `hxllo`\n* `h*llo` matches `hllo` and `heeeello`\n* `h[ae]llo` matches `hello` and `hallo,` but not `hillo`\n* `h[^e]llo` matches `hallo`, `hbllo`, ... but not `hello`\n* `h[a-b]llo` matches `hallo` and `hbllo`\n\nUse `\\` to escape special characters if you want to match them verbatim.\n\nWhen using [Redis Cluster](), the search is optimized for patterns that imply a single slot.\nIf a pattern can only match keys of one slot,\nRedis only iterates over keys in that slot, rather than the whole database,\nwhen searching for keys matching the pattern.\nFor example, with the pattern `{a}h*llo`, Redis would only try to match it with the keys in slot 15495, which hash tag `{a}` implies.\nTo use pattern with hash tag, see [Hash tags]() in the Cluster specification for more information.\n\n## Examples\n\n\nMSET firstname Jack lastname Stuntman age 35\nKEYS *name*\nKEYS a??\nKEYS *\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of keys matching _pattern_.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of keys matching _pattern_.",
+  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nReturns all keys matching `pattern`.\n\nWhile the time complexity for this operation is O(N), the constant times are\nfairly low.\nFor example, Redis running on an entry level laptop can scan a 1 million key\ndatabase in 40 milliseconds.\n\n**Warning**: consider `KEYS` as a command that should only be used in production\nenvironments with extreme care.\nIt may ruin performance when it is executed against large databases.\nThis command is intended for debugging and special operations, such as changing\nyour keyspace layout.\nDon't use `KEYS` in your regular application code.\nIf you're looking for a way to find keys in a subset of your keyspace, consider\nusing [`SCAN`]() or [sets]().\n\nSupported glob-style patterns:\n\n* `h?llo` matches `hello`, `hallo` and `hxllo`\n* `h*llo` matches `hllo` and `heeeello`\n* `h[ae]llo` matches `hello` and `hallo,` but not `hillo`\n* `h[^e]llo` matches `hallo`, `hbllo`, ... but not `hello`\n* `h[a-b]llo` matches `hallo` and `hbllo`\n\nUse `\\` to escape special characters if you want to match them verbatim.\n\nWhen using [Redis Cluster](), the search is optimized for patterns that imply a single slot.\nIf a pattern can only match keys of one slot,\nRedis only iterates over keys in that slot, rather than the whole database,\nwhen searching for keys matching the pattern.\nFor example, with the pattern `{a}h*llo`, Redis would only try to match it with the keys in slot 15495, which hash tag `{a}` implies.\nTo use pattern with hash tag, see [Hash tags]() in the Cluster specification for more information.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nReturns all keys matching `pattern`.\n\nWhile the time complexity for this operation is O(N), the constant times are\nfairly low.\nFor example, Redis running on an entry level laptop can scan a 1 million key\ndatabase in 40 milliseconds.\n\n**Warning**: consider `KEYS` as a command that should only be used in production\nenvironments with extreme care.\nIt may ruin performance when it is executed against large databases.\nThis command is intended for debugging and special operations, such as changing\nyour keyspace layout.\nDon't use `KEYS` in your regular application code.\nIf you're looking for a way to find keys in a subset of your keyspace, consider\nusing [`SCAN`]() or [sets]().\n\nSupported glob-style patterns:\n\n* `h?llo` matches `hello`, `hallo` and `hxllo`\n* `h*llo` matches `hllo` and `heeeello`\n* `h[ae]llo` matches `hello` and `hallo,` but not `hillo`\n* `h[^e]llo` matches `hallo`, `hbllo`, ... but not `hello`\n* `h[a-b]llo` matches `hallo` and `hbllo`\n\nUse `\\` to escape special characters if you want to match them verbatim.\n\nWhen using [Redis Cluster](), the search is optimized for patterns that imply a single slot.\nIf a pattern can only match keys of one slot,\nRedis only iterates over keys in that slot, rather than the whole database,\nwhen searching for keys matching the pattern.\nFor example, with the pattern `{a}h*llo`, Redis would only try to match it with the keys in slot 15495, which hash tag `{a}` implies.\nTo use pattern with hash tag, see [Hash tags]() in the Cluster specification for more information."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "MSET firstname Jack lastname Stuntman age 35\nKEYS *name*\nKEYS a??\nKEYS *"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of keys matching _pattern_.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of keys matching _pattern_."
+    }
+  ]
+}

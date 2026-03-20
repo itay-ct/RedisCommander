@@ -1,0 +1,91 @@
+{
+  "slug": "command-list",
+  "title": "COMMAND LIST",
+  "description": "Returns a list of command names.",
+  "docsUrl": "https://redis.io/docs/latest/commands/command-list/",
+  "group": "server",
+  "groupLabel": "Server",
+  "syntax": "COMMAND LIST [FILTERBY <MODULE module-name | ACLCAT category |\n  PATTERN pattern>]",
+  "complexity": "O(N) where N is the total number of Redis commands",
+  "since": "7.0.0",
+  "arity": -2,
+  "aclCategories": [
+    "@slow",
+    "@connection"
+  ],
+  "commandFlags": [
+    "loading",
+    "stale"
+  ],
+  "arguments": [
+    {
+      "arguments": [
+        {
+          "display_text": "module-name",
+          "name": "module-name",
+          "token": "MODULE",
+          "type": "string"
+        },
+        {
+          "display_text": "category",
+          "name": "category",
+          "token": "ACLCAT",
+          "type": "string"
+        },
+        {
+          "display_text": "pattern",
+          "name": "pattern",
+          "token": "PATTERN",
+          "type": "pattern"
+        }
+      ],
+      "name": "filterby",
+      "optional": true,
+      "token": "FILTERBY",
+      "type": "oneof"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Return an array of the server's command names.\n\nYou can use the optional _FILTERBY_ modifier to apply one of the following filters:\n\n - **MODULE module-name**: get the commands that belong to the module specified by _module-name_.\n - **ACLCAT category**: get the commands in the [ACL category]() specified by _category_.\n - **PATTERN pattern**: get the commands that match the given glob-like _pattern_.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of command names.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of command names.",
+  "intro": "Return an array of the server's command names.\n\nYou can use the optional _FILTERBY_ modifier to apply one of the following filters:\n\n - **MODULE module-name**: get the commands that belong to the module specified by _module-name_.\n - **ACLCAT category**: get the commands in the [ACL category]() specified by _category_.\n - **PATTERN pattern**: get the commands that match the given glob-like _pattern_.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Return an array of the server's command names.\n\nYou can use the optional _FILTERBY_ modifier to apply one of the following filters:\n\n - **MODULE module-name**: get the commands that belong to the module specified by _module-name_.\n - **ACLCAT category**: get the commands in the [ACL category]() specified by _category_.\n - **PATTERN pattern**: get the commands that match the given glob-like _pattern_."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of command names.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of command names."
+    }
+  ]
+}

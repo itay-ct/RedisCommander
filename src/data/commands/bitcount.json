@@ -1,0 +1,154 @@
+{
+  "slug": "bitcount",
+  "title": "BITCOUNT",
+  "description": "Counts the number of set bits (population counting) in a string.",
+  "docsUrl": "https://redis.io/docs/latest/commands/bitcount/",
+  "group": "bitmap",
+  "groupLabel": "Bitmaps",
+  "syntax": "BITCOUNT key [start end [BYTE | BIT]]",
+  "complexity": "O(N)",
+  "since": "2.6.0",
+  "arity": -2,
+  "aclCategories": [
+    "@read",
+    "@bitmap",
+    "@slow"
+  ],
+  "commandFlags": [
+    "readonly"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "start",
+          "name": "start",
+          "type": "integer"
+        },
+        {
+          "display_text": "end",
+          "name": "end",
+          "type": "integer"
+        },
+        {
+          "arguments": [
+            {
+              "display_text": "byte",
+              "name": "byte",
+              "token": "BYTE",
+              "type": "pure-token"
+            },
+            {
+              "display_text": "bit",
+              "name": "bit",
+              "token": "BIT",
+              "type": "pure-token"
+            }
+          ],
+          "name": "unit",
+          "optional": true,
+          "since": "7.0.0",
+          "type": "oneof"
+        }
+      ],
+      "name": "range",
+      "optional": true,
+      "type": "block"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RO": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "pattern-real-time-metrics-using-bitmaps",
+        "title": "Pattern: real-time metrics using bitmaps"
+      },
+      {
+        "id": "performance-considerations",
+        "title": "Performance considerations"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Count the number of set bits (population counting) in a string.\n\nBy default all the bytes contained in the string are examined.\nIt is possible to specify the counting operation only in an interval passing the\nadditional arguments _start_ and _end_.\n\nLike for the [`GETRANGE`]() command start and end can contain negative values in\norder to index bytes starting from the end of the string, where -1 is the last\nbyte, -2 is the penultimate, and so forth.\n\nNon-existent keys are treated as empty strings, so the command will return zero.\n\nBy default, the additional arguments _start_ and _end_ specify a byte index.\nWe can use an additional argument `BIT` to specify a bit index.\nSo 0 is the first bit, 1 is the second bit, and so forth.\nFor negative values, -1 is the last bit, -2 is the penultimate, and so forth.\n\n## Examples\n\n\nSET mykey \"foobar\"\nBITCOUNT mykey\nBITCOUNT mykey 0 0\nBITCOUNT mykey 1 1\nBITCOUNT mykey 1 1 BYTE\nBITCOUNT mykey 5 30 BIT\n\n\n## Pattern: real-time metrics using bitmaps\n\nBitmaps are a very space-efficient representation of certain kinds of\ninformation.\nOne example is a Web application that needs the history of user visits, so that\nfor instance it is possible to determine what users are good targets of beta\nfeatures.\n\nUsing the [`SETBIT`]() command this is trivial to accomplish, identifying every day\nwith a small progressive integer.\nFor instance day 0 is the first day the application was put online, day 1 the\nnext day, and so forth.\n\nEvery time a user performs a page view, the application can register that in\nthe current day the user visited the web site using the [`SETBIT`]() command setting\nthe bit corresponding to the current day.\n\nLater it will be trivial to know the number of single days the user visited the\nweb site simply calling the `BITCOUNT` command against the bitmap.\n\nA similar pattern where user IDs are used instead of days is described\nin the article called \"[Fast easy realtime metrics using Redis\nbitmaps][hbgc212fermurb]\".\n\n[hbgc212fermurb]: http://blog.getspool.com/2011/11/29/fast-easy-realtime-metrics-using-redis-bitmaps\n\n## Performance considerations\n\nIn the above example of counting days, even after 10 years the application is\nonline we still have just `365*10` bits of data per user, that is just 456 bytes\nper user.\nWith this amount of data `BITCOUNT` is still as fast as any other O(1) Redis\ncommand like [`GET`]() or [`INCR`]().\n\nWhen the bitmap is big, there are two alternatives:\n\n* Taking a separated key that is incremented every time the bitmap is modified.\n  This can be very efficient and atomic using a small Redis Lua script.\n* Running the bitmap incrementally using the `BITCOUNT` _start_ and _end_\n  optional parameters, accumulating the results client-side, and optionally\n  caching the result into a key.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of bits set to 1.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of bits set to 1.",
+  "intro": "Count the number of set bits (population counting) in a string.\n\nBy default all the bytes contained in the string are examined.\nIt is possible to specify the counting operation only in an interval passing the\nadditional arguments _start_ and _end_.\n\nLike for the [`GETRANGE`]() command start and end can contain negative values in\norder to index bytes starting from the end of the string, where -1 is the last\nbyte, -2 is the penultimate, and so forth.\n\nNon-existent keys are treated as empty strings, so the command will return zero.\n\nBy default, the additional arguments _start_ and _end_ specify a byte index.\nWe can use an additional argument `BIT` to specify a bit index.\nSo 0 is the first bit, 1 is the second bit, and so forth.\nFor negative values, -1 is the last bit, -2 is the penultimate, and so forth.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Count the number of set bits (population counting) in a string.\n\nBy default all the bytes contained in the string are examined.\nIt is possible to specify the counting operation only in an interval passing the\nadditional arguments _start_ and _end_.\n\nLike for the [`GETRANGE`]() command start and end can contain negative values in\norder to index bytes starting from the end of the string, where -1 is the last\nbyte, -2 is the penultimate, and so forth.\n\nNon-existent keys are treated as empty strings, so the command will return zero.\n\nBy default, the additional arguments _start_ and _end_ specify a byte index.\nWe can use an additional argument `BIT` to specify a bit index.\nSo 0 is the first bit, 1 is the second bit, and so forth.\nFor negative values, -1 is the last bit, -2 is the penultimate, and so forth."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "SET mykey \"foobar\"\nBITCOUNT mykey\nBITCOUNT mykey 0 0\nBITCOUNT mykey 1 1\nBITCOUNT mykey 1 1 BYTE\nBITCOUNT mykey 5 30 BIT"
+    },
+    {
+      "title": "Pattern: real-time metrics using bitmaps",
+      "level": 2,
+      "content": "Bitmaps are a very space-efficient representation of certain kinds of\ninformation.\nOne example is a Web application that needs the history of user visits, so that\nfor instance it is possible to determine what users are good targets of beta\nfeatures.\n\nUsing the [`SETBIT`]() command this is trivial to accomplish, identifying every day\nwith a small progressive integer.\nFor instance day 0 is the first day the application was put online, day 1 the\nnext day, and so forth.\n\nEvery time a user performs a page view, the application can register that in\nthe current day the user visited the web site using the [`SETBIT`]() command setting\nthe bit corresponding to the current day.\n\nLater it will be trivial to know the number of single days the user visited the\nweb site simply calling the `BITCOUNT` command against the bitmap.\n\nA similar pattern where user IDs are used instead of days is described\nin the article called \"[Fast easy realtime metrics using Redis\nbitmaps][hbgc212fermurb]\".\n\n[hbgc212fermurb]: http://blog.getspool.com/2011/11/29/fast-easy-realtime-metrics-using-redis-bitmaps"
+    },
+    {
+      "title": "Performance considerations",
+      "level": 2,
+      "content": "In the above example of counting days, even after 10 years the application is\nonline we still have just `365*10` bits of data per user, that is just 456 bytes\nper user.\nWith this amount of data `BITCOUNT` is still as fast as any other O(1) Redis\ncommand like [`GET`]() or [`INCR`]().\n\nWhen the bitmap is big, there are two alternatives:\n\n* Taking a separated key that is incremented every time the bitmap is modified.\n  This can be very efficient and atomic using a small Redis Lua script.\n* Running the bitmap incrementally using the `BITCOUNT` _start_ and _end_\n  optional parameters, accumulating the results client-side, and optionally\n  caching the result into a key."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of bits set to 1.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of bits set to 1."
+    }
+  ]
+}

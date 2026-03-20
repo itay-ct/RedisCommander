@@ -1,0 +1,101 @@
+{
+  "slug": "unlink",
+  "title": "UNLINK",
+  "description": "Asynchronously deletes one or more keys.",
+  "docsUrl": "https://redis.io/docs/latest/commands/unlink/",
+  "group": "generic",
+  "groupLabel": "Generic",
+  "syntax": "UNLINK key [key ...]",
+  "complexity": "O(1) for each key removed regardless of its size. Then the command does O(N) work in a different thread in order to reclaim memory, where N is the number of allocations the deleted objects where composed of.",
+  "since": "4.0.0",
+  "arity": -2,
+  "aclCategories": [
+    "@keyspace",
+    "@write",
+    "@fast"
+  ],
+  "commandFlags": [
+    "write",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "multiple": true,
+      "name": "key",
+      "type": "key"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RM": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "delete": true,
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": -1,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nThis command is very similar to [`DEL`](): it removes the specified keys.\nJust like [`DEL`]() a key is ignored if it does not exist. However the command\nperforms the actual memory reclaiming in a different thread, so it is not\nblocking, while [`DEL`]() is. This is where the command name comes from: the\ncommand just **unlinks** the keys from the keyspace. The actual removal\nwill happen later asynchronously.\n\n## Examples\n\n\nSET key1 \"Hello\"\nSET key2 \"World\"\nUNLINK key1 key2 key3\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of keys that were unlinked.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of keys that were unlinked.",
+  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nThis command is very similar to [`DEL`](): it removes the specified keys.\nJust like [`DEL`]() a key is ignored if it does not exist. However the command\nperforms the actual memory reclaiming in a different thread, so it is not\nblocking, while [`DEL`]() is. This is where the command name comes from: the\ncommand just **unlinks** the keys from the keyspace. The actual removal\nwill happen later asynchronously.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nThis command is very similar to [`DEL`](): it removes the specified keys.\nJust like [`DEL`]() a key is ignored if it does not exist. However the command\nperforms the actual memory reclaiming in a different thread, so it is not\nblocking, while [`DEL`]() is. This is where the command name comes from: the\ncommand just **unlinks** the keys from the keyspace. The actual removal\nwill happen later asynchronously."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "SET key1 \"Hello\"\nSET key2 \"World\"\nUNLINK key1 key2 key3"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of keys that were unlinked.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of keys that were unlinked."
+    }
+  ]
+}

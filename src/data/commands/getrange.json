@@ -1,0 +1,109 @@
+{
+  "slug": "getrange",
+  "title": "GETRANGE",
+  "description": "Returns a substring of the string stored at a key.",
+  "docsUrl": "https://redis.io/docs/latest/commands/getrange/",
+  "group": "string",
+  "groupLabel": "Strings",
+  "syntax": "GETRANGE key start end",
+  "complexity": "O(N) where N is the length of the returned string. The complexity is ultimately determined by the returned length, but because creating a substring from an existing string is very cheap, it can be considered O(1) for small strings.",
+  "since": "2.4.0",
+  "arity": 4,
+  "aclCategories": [
+    "@read",
+    "@string",
+    "@slow"
+  ],
+  "commandFlags": [
+    "readonly"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "start",
+      "name": "start",
+      "type": "integer"
+    },
+    {
+      "display_text": "end",
+      "name": "end",
+      "type": "integer"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RO": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Returns the substring of the string value stored at `key`, determined by the\noffsets `start` and `end` (both are inclusive).\nNegative offsets can be used in order to provide an offset starting from the end\nof the string.\nSo -1 means the last character, -2 the penultimate and so forth.\n\nThe function handles out of range requests by limiting the resulting range to\nthe actual length of the string.\n\n## Examples\n\n\nSET mykey \"This is a string\"\nGETRANGE mykey 0 3\nGETRANGE mykey -3 -1\nGETRANGE mykey 0 -1\nGETRANGE mykey 10 100\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The substring of the string value stored at key, determined by the offsets start and end (both are inclusive).\n\n**RESP3:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The substring of the string value stored at key, determined by the offsets start and end (both are inclusive).",
+  "intro": "Returns the substring of the string value stored at `key`, determined by the\noffsets `start` and `end` (both are inclusive).\nNegative offsets can be used in order to provide an offset starting from the end\nof the string.\nSo -1 means the last character, -2 the penultimate and so forth.\n\nThe function handles out of range requests by limiting the resulting range to\nthe actual length of the string.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Returns the substring of the string value stored at `key`, determined by the\noffsets `start` and `end` (both are inclusive).\nNegative offsets can be used in order to provide an offset starting from the end\nof the string.\nSo -1 means the last character, -2 the penultimate and so forth.\n\nThe function handles out of range requests by limiting the resulting range to\nthe actual length of the string."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "SET mykey \"This is a string\"\nGETRANGE mykey 0 3\nGETRANGE mykey -3 -1\nGETRANGE mykey 0 -1\nGETRANGE mykey 10 100"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The substring of the string value stored at key, determined by the offsets start and end (both are inclusive).\n\n**RESP3:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The substring of the string value stored at key, determined by the offsets start and end (both are inclusive)."
+    }
+  ]
+}

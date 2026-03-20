@@ -1,0 +1,118 @@
+{
+  "slug": "hpersist",
+  "title": "HPERSIST",
+  "description": "Removes the expiration time for each specified field",
+  "docsUrl": "https://redis.io/docs/latest/commands/hpersist/",
+  "group": "hash",
+  "groupLabel": "Hashes",
+  "syntax": "HPERSIST key FIELDS numfields field [field ...]",
+  "complexity": "O(N) where N is the number of specified fields",
+  "since": "7.4.0",
+  "arity": -5,
+  "aclCategories": [
+    "@write",
+    "@hash",
+    "@fast"
+  ],
+  "commandFlags": [
+    "write",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "numfields",
+          "name": "numfields",
+          "type": "integer"
+        },
+        {
+          "display_text": "field",
+          "multiple": true,
+          "name": "field",
+          "type": "string"
+        }
+      ],
+      "name": "fields",
+      "token": "FIELDS",
+      "type": "block"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      },
+      "update": true
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Remove the existing expiration on a hash key's field(s), turning the field(s) from _volatile_ (a field\nwith expiration set) to _persistent_ (a field that will never expire as no TTL (time to live)\nis associated).\n\n## Examples\n\n```\nredis> HSET mykey field1 \"hello\" field2 \"world\"\n(integer) 2\nredis> HEXPIRE mykey 300 FIELDS 2 field1 field2\n1) (integer) 1\n2) (integer) 1\nredis> HTTL mykey FIELDS 2 field1 field2\n1) (integer) 283\n2) (integer) 283\nredis> HPERSIST mykey FIELDS 1 field2\n1) (integer) 1\nredis> HTTL mykey FIELDS 2 field1 field2\n1) (integer) 268\n2) (integer) -1\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n* [Array reply](../../develop/reference/protocol-spec#arrays). For each field:\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key, or the provided key does not exist.\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the field exists but has no associated expiration set.\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `1` the expiration was removed.\n\n**RESP3:**\n\n* [Array reply](../../develop/reference/protocol-spec#arrays). For each field:\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key, or the provided key does not exist.\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the field exists but has no associated expiration set.\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `1` the expiration was removed.",
+  "intro": "Remove the existing expiration on a hash key's field(s), turning the field(s) from _volatile_ (a field\nwith expiration set) to _persistent_ (a field that will never expire as no TTL (time to live)\nis associated).",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Remove the existing expiration on a hash key's field(s), turning the field(s) from _volatile_ (a field\nwith expiration set) to _persistent_ (a field that will never expire as no TTL (time to live)\nis associated)."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "```\nredis> HSET mykey field1 \"hello\" field2 \"world\"\n(integer) 2\nredis> HEXPIRE mykey 300 FIELDS 2 field1 field2\n1) (integer) 1\n2) (integer) 1\nredis> HTTL mykey FIELDS 2 field1 field2\n1) (integer) 283\n2) (integer) 283\nredis> HPERSIST mykey FIELDS 1 field2\n1) (integer) 1\nredis> HTTL mykey FIELDS 2 field1 field2\n1) (integer) 268\n2) (integer) -1\n```"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n* [Array reply](../../develop/reference/protocol-spec#arrays). For each field:\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key, or the provided key does not exist.\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the field exists but has no associated expiration set.\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `1` the expiration was removed.\n\n**RESP3:**\n\n* [Array reply](../../develop/reference/protocol-spec#arrays). For each field:\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key, or the provided key does not exist.\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the field exists but has no associated expiration set.\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `1` the expiration was removed."
+    }
+  ]
+}

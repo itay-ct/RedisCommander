@@ -1,0 +1,85 @@
+{
+  "slug": "vemb",
+  "title": "VEMB",
+  "description": "Return the vector associated with an element.",
+  "docsUrl": "https://redis.io/docs/latest/commands/vemb/",
+  "group": "vector_set",
+  "groupLabel": "Vector Sets",
+  "syntax": "VEMB key element [RAW]",
+  "complexity": "O(1)",
+  "since": "8.0.0",
+  "arity": null,
+  "aclCategories": [],
+  "commandFlags": [],
+  "arguments": [],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "optional-arguments",
+        "title": "Optional arguments"
+      },
+      {
+        "id": "related-topics",
+        "title": "Related topics"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Return the approximate vector associated with a given element in the vector set.\n\n```shell\nVEMB word_embeddings SQL\n1) \"0.18208661675453186\"\n2) \"0.08535309880971909\"\n3) \"0.1365649551153183\"\n4) \"-0.16501599550247192\"\n5) \"0.14225517213344574\"\n... 295 more elements ...\n```\n\nVector sets normalize and may quantize vectors on insertion. `VEMB` reverses this process to approximate the original vector by de-normalizing and de-quantizing it.\n\nTo retrieve the raw internal representation, use the `RAW` option:\n\n```shell\nVEMB word_embeddings apple RAW\n1) int8\n2) \"\\xf1\\xdc\\xfd\\x1e\\xcc%E...\\xde\\x1f\\xfbN\" # artificially shortened for this example\n3) \"3.1426539421081543\"\n4) \"0.17898885905742645\"\n```\n\n## Required arguments\n\n<details open>\n<summary><code>key</code></summary>\n\nis the name of the key that holds the vector set.\n</details>\n\n<details open>\n<summary><code>element</code></summary>\n\nis the name of the element whose vector you want to retrieve.\n</details>\n\n## Optional arguments\n\n<details open>\n<summary><code>RAW</code></summary>\n\nreturns the raw vector data, its quantization type, and metadata such as norm and range.\n</details>\n\n## Related topics\n\n- [Vector sets]()\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays): of real numbers as [bulk strings](../../develop/reference/protocol-spec#bulk-strings), representing the vector.\n* [Array reply](../../develop/reference/protocol-spec#arrays): consisting of the following elements:\n    1. The quantization type as a [simple string](../../develop/reference/protocol-spec#simple-strings): `fp32`, `bin`, or `q8`.\n    1. A [bulk string](../../develop/reference/protocol-spec#bulk-strings) blob with the following raw data:\n        * 4-byte floats for fp32 (little-endian encoding)\n        * A bitmap for binary quantization\n        * A byte array for q8\n    1. The L2 norm, as a [simple string](../../develop/reference/protocol-spec#simple-strings), of the vector before normalization.\n    1. (Only for q8): The quantization range as a [simple string](../../develop/reference/protocol-spec#simple-strings). Multiply this by integer components to recover normalized values.\n\n**RESP3:**\n\nOne of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays): of [doubles](../../develop/reference/protocol-spec#doubles), representing the vector.\n* [Array reply](../../develop/reference/protocol-spec#arrays): consisting of the following elements:\n    1. The quantization type as a [simple string](../../develop/reference/protocol-spec#simple-strings): `fp32`, `bin`, or `q8`.\n    1. A [bulk string](../../develop/reference/protocol-spec#bulk-strings) blob with the following raw data:\n        * 4-byte floats for fp32 (little-endian encoding)\n        * A bitmap for binary quantization\n        * A byte array for q8\n    1. The [double](../../develop/reference/protocol-spec#doubles) L2 norm of the vector before normalization.\n    1. (Only for q8): The quantization range as a [double](../../develop/reference/protocol-spec#doubles). Multiply this by integer components to recover normalized values.",
+  "intro": "Return the approximate vector associated with a given element in the vector set.\n\n```shell\nVEMB word_embeddings SQL\n1) \"0.18208661675453186\"\n2) \"0.08535309880971909\"\n3) \"0.1365649551153183\"\n4) \"-0.16501599550247192\"\n5) \"0.14225517213344574\"\n... 295 more elements ...\n```\n\nVector sets normalize and may quantize vectors on insertion. `VEMB` reverses this process to approximate the original vector by de-normalizing and de-quantizing it.\n\nTo retrieve the raw internal representation, use the `RAW` option:\n\n```shell\nVEMB word_embeddings apple RAW\n1) int8\n2) \"\\xf1\\xdc\\xfd\\x1e\\xcc%E...\\xde\\x1f\\xfbN\" # artificially shortened for this example\n3) \"3.1426539421081543\"\n4) \"0.17898885905742645\"\n```",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Return the approximate vector associated with a given element in the vector set.\n\n```shell\nVEMB word_embeddings SQL\n1) \"0.18208661675453186\"\n2) \"0.08535309880971909\"\n3) \"0.1365649551153183\"\n4) \"-0.16501599550247192\"\n5) \"0.14225517213344574\"\n... 295 more elements ...\n```\n\nVector sets normalize and may quantize vectors on insertion. `VEMB` reverses this process to approximate the original vector by de-normalizing and de-quantizing it.\n\nTo retrieve the raw internal representation, use the `RAW` option:\n\n```shell\nVEMB word_embeddings apple RAW\n1) int8\n2) \"\\xf1\\xdc\\xfd\\x1e\\xcc%E...\\xde\\x1f\\xfbN\" # artificially shortened for this example\n3) \"3.1426539421081543\"\n4) \"0.17898885905742645\"\n```"
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open>\n<summary><code>key</code></summary>\n\nis the name of the key that holds the vector set.\n</details>\n\n<details open>\n<summary><code>element</code></summary>\n\nis the name of the element whose vector you want to retrieve.\n</details>"
+    },
+    {
+      "title": "Optional arguments",
+      "level": 2,
+      "content": "<details open>\n<summary><code>RAW</code></summary>\n\nreturns the raw vector data, its quantization type, and metadata such as norm and range.\n</details>"
+    },
+    {
+      "title": "Related topics",
+      "level": 2,
+      "content": "- [Vector sets]()"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays): of real numbers as [bulk strings](../../develop/reference/protocol-spec#bulk-strings), representing the vector.\n* [Array reply](../../develop/reference/protocol-spec#arrays): consisting of the following elements:\n    1. The quantization type as a [simple string](../../develop/reference/protocol-spec#simple-strings): `fp32`, `bin`, or `q8`.\n    1. A [bulk string](../../develop/reference/protocol-spec#bulk-strings) blob with the following raw data:\n        * 4-byte floats for fp32 (little-endian encoding)\n        * A bitmap for binary quantization\n        * A byte array for q8\n    1. The L2 norm, as a [simple string](../../develop/reference/protocol-spec#simple-strings), of the vector before normalization.\n    1. (Only for q8): The quantization range as a [simple string](../../develop/reference/protocol-spec#simple-strings). Multiply this by integer components to recover normalized values.\n\n**RESP3:**\n\nOne of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays): of [doubles](../../develop/reference/protocol-spec#doubles), representing the vector.\n* [Array reply](../../develop/reference/protocol-spec#arrays): consisting of the following elements:\n    1. The quantization type as a [simple string](../../develop/reference/protocol-spec#simple-strings): `fp32`, `bin`, or `q8`.\n    1. A [bulk string](../../develop/reference/protocol-spec#bulk-strings) blob with the following raw data:\n        * 4-byte floats for fp32 (little-endian encoding)\n        * A bitmap for binary quantization\n        * A byte array for q8\n    1. The [double](../../develop/reference/protocol-spec#doubles) L2 norm of the vector before normalization.\n    1. (Only for q8): The quantization range as a [double](../../develop/reference/protocol-spec#doubles). Multiply this by integer components to recover normalized values."
+    }
+  ]
+}

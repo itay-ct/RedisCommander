@@ -1,0 +1,123 @@
+{
+  "slug": "ft.explain",
+  "title": "FT.EXPLAIN",
+  "description": "Returns the execution plan for a complex query",
+  "docsUrl": "https://redis.io/docs/latest/commands/ft.explain/",
+  "group": "search",
+  "groupLabel": "Search",
+  "syntax": "FT.EXPLAIN index query [DIALECT dialect]",
+  "complexity": "O(1)",
+  "since": "1.0.0",
+  "arity": null,
+  "aclCategories": [
+    "@search"
+  ],
+  "commandFlags": [
+    "readonly"
+  ],
+  "arguments": [
+    {
+      "name": "index",
+      "type": "string"
+    },
+    {
+      "name": "query",
+      "type": "string"
+    },
+    {
+      "name": "dialect",
+      "optional": true,
+      "since": "2.4.3",
+      "token": "DIALECT",
+      "type": "integer"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "optional-arguments",
+        "title": "Optional arguments"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      },
+      {
+        "id": "see-also",
+        "title": "See also"
+      },
+      {
+        "id": "related-topics",
+        "title": "Related topics"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Return the execution plan for a complex query\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open>\n<summary><code>index</code></summary>\n\nis index name. You must first create the index using [`FT.CREATE`]().\n</details>\n\n<details open>\n<summary><code>query</code></summary>\n\nis query string, as if sent to FT.SEARCH`.\n</details>\n\n## Optional arguments\n\n<details open>\n<summary><code>DIALECT {dialect_version}</code></summary>\n\nis dialect version under which to execute the query. If not specified, the query executes under the default dialect version set during module initial loading or via [`FT.CONFIG SET`]() command.\n</details>\n\n\n \n- In the returned response, a `+` on a term is an indication of stemming.\n- Use `redis-cli --raw` to properly read line-breaks in the returned response.\n\n\n\n## Examples\n\n<details open>\n<summary><b>Return the execution plan for a complex query</b></summary>\n\n\n$ redis-cli --raw\n\n127.0.0.1:6379> FT.EXPLAIN rd \"(foo bar)|(hello world) @date:[100 200]|@date:[500 +inf]\"\nINTERSECT {\n  UNION {\n    INTERSECT {\n      foo\n      bar\n    }\n    INTERSECT {\n      hello\n      world\n    }\n  }\n  UNION {\n    NUMERIC {100.000000 <= x <= 200.000000}\n    NUMERIC {500.000000 <= x <= inf}\n  }\n}\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Bulk string]() containing the query execution plan.\n* [Simple error reply]() in these cases: no such index, syntax error in query.\n\n**RESP3:**\n\nOne of the following:\n* [Bulk string]() containing the query execution plan.\n* [Simple error reply]() in these cases: no such index, syntax error in query.\n\n\n\n## See also\n\n[`FT.CREATE`]() | [`FT.SEARCH`]() | [`FT.CONFIG SET`]()\n\n## Related topics\n\n[RediSearch]()",
+  "intro": "Return the execution plan for a complex query\n\n[Examples](#examples)",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Return the execution plan for a complex query\n\n[Examples](#examples)"
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open>\n<summary><code>index</code></summary>\n\nis index name. You must first create the index using [`FT.CREATE`]().\n</details>\n\n<details open>\n<summary><code>query</code></summary>\n\nis query string, as if sent to FT.SEARCH`.\n</details>"
+    },
+    {
+      "title": "Optional arguments",
+      "level": 2,
+      "content": "<details open>\n<summary><code>DIALECT {dialect_version}</code></summary>\n\nis dialect version under which to execute the query. If not specified, the query executes under the default dialect version set during module initial loading or via [`FT.CONFIG SET`]() command.\n</details>\n\n\n \n- In the returned response, a `+` on a term is an indication of stemming.\n- Use `redis-cli --raw` to properly read line-breaks in the returned response."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "<details open>\n<summary><b>Return the execution plan for a complex query</b></summary>\n\n\n$ redis-cli --raw\n\n127.0.0.1:6379> FT.EXPLAIN rd \"(foo bar)|(hello world) @date:[100 200]|@date:[500 +inf]\"\nINTERSECT {\n  UNION {\n    INTERSECT {\n      foo\n      bar\n    }\n    INTERSECT {\n      hello\n      world\n    }\n  }\n  UNION {\n    NUMERIC {100.000000 <= x <= 200.000000}\n    NUMERIC {500.000000 <= x <= inf}\n  }\n}\n\n</details>"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Bulk string]() containing the query execution plan.\n* [Simple error reply]() in these cases: no such index, syntax error in query.\n\n**RESP3:**\n\nOne of the following:\n* [Bulk string]() containing the query execution plan.\n* [Simple error reply]() in these cases: no such index, syntax error in query."
+    },
+    {
+      "title": "See also",
+      "level": 2,
+      "content": "[`FT.CREATE`]() | [`FT.SEARCH`]() | [`FT.CONFIG SET`]()"
+    },
+    {
+      "title": "Related topics",
+      "level": 2,
+      "content": "[RediSearch]()"
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "slug": "cluster-set-config-epoch",
+  "title": "CLUSTER SET-CONFIG-EPOCH",
+  "description": "Sets the configuration epoch for a new node.",
+  "docsUrl": "https://redis.io/docs/latest/commands/cluster-set-config-epoch/",
+  "group": "cluster",
+  "groupLabel": "Cluster",
+  "syntax": "CLUSTER SET-CONFIG-EPOCH config-epoch",
+  "complexity": "O(1)",
+  "since": "3.0.0",
+  "arity": 3,
+  "aclCategories": [
+    "@admin",
+    "@slow",
+    "@dangerous"
+  ],
+  "commandFlags": [
+    "admin",
+    "stale",
+    "no_async_loading"
+  ],
+  "arguments": [
+    {
+      "display_text": "config-epoch",
+      "name": "config-epoch",
+      "type": "integer"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "This command sets a specific *config epoch* in a fresh node. It only works when:\n\n1. The nodes table of the node is empty.\n2. The node current *config epoch* is zero.\n\nThese prerequisites are needed since usually, manually altering the\nconfiguration epoch of a node is unsafe, we want to be sure that the node with\nthe higher configuration epoch value (that is the last that failed over) wins\nover other nodes in claiming the hash slots ownership.\n\nHowever there is an exception to this rule, and it is when a new\ncluster is created from scratch. Redis Cluster *config epoch collision\nresolution* algorithm can deal with new nodes all configured with the\nsame configuration at startup, but this process is slow and should be\nthe exception, only to make sure that whatever happens, two more\nnodes eventually always move away from the state of having the same\nconfiguration epoch.\n\nSo, using `CLUSTER SET-CONFIG-EPOCH`, when a new cluster is created, we can\nassign a different progressive configuration epoch to each node before\njoining the cluster together.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |",
+  "intro": "This command sets a specific *config epoch* in a fresh node. It only works when:\n\n1. The nodes table of the node is empty.\n2. The node current *config epoch* is zero.\n\nThese prerequisites are needed since usually, manually altering the\nconfiguration epoch of a node is unsafe, we want to be sure that the node with\nthe higher configuration epoch value (that is the last that failed over) wins\nover other nodes in claiming the hash slots ownership.\n\nHowever there is an exception to this rule, and it is when a new\ncluster is created from scratch. Redis Cluster *config epoch collision\nresolution* algorithm can deal with new nodes all configured with the\nsame configuration at startup, but this process is slow and should be\nthe exception, only to make sure that whatever happens, two more\nnodes eventually always move away from the state of having the same\nconfiguration epoch.\n\nSo, using `CLUSTER SET-CONFIG-EPOCH`, when a new cluster is created, we can\nassign a different progressive configuration epoch to each node before\njoining the cluster together.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "This command sets a specific *config epoch* in a fresh node. It only works when:\n\n1. The nodes table of the node is empty.\n2. The node current *config epoch* is zero.\n\nThese prerequisites are needed since usually, manually altering the\nconfiguration epoch of a node is unsafe, we want to be sure that the node with\nthe higher configuration epoch value (that is the last that failed over) wins\nover other nodes in claiming the hash slots ownership.\n\nHowever there is an exception to this rule, and it is when a new\ncluster is created from scratch. Redis Cluster *config epoch collision\nresolution* algorithm can deal with new nodes all configured with the\nsame configuration at startup, but this process is slow and should be\nthe exception, only to make sure that whatever happens, two more\nnodes eventually always move away from the state of having the same\nconfiguration epoch.\n\nSo, using `CLUSTER SET-CONFIG-EPOCH`, when a new cluster is created, we can\nassign a different progressive configuration epoch to each node before\njoining the cluster together."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |"
+    }
+  ]
+}

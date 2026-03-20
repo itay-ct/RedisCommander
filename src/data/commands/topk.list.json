@@ -1,0 +1,91 @@
+{
+  "slug": "topk.list",
+  "title": "TOPK.LIST",
+  "description": "Return the full list of items in the Top-K sketch",
+  "docsUrl": "https://redis.io/docs/latest/commands/topk.list/",
+  "group": "topk",
+  "groupLabel": "Top-K",
+  "syntax": "TOPK.LIST key [WITHCOUNT]",
+  "complexity": "O(k) where k is the value of top-k",
+  "since": "2.0.0",
+  "arity": null,
+  "aclCategories": [
+    "@topk",
+    "@read",
+    "@slow"
+  ],
+  "commandFlags": [],
+  "arguments": [
+    {
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "name": "withcount",
+      "optional": true,
+      "token": "WITHCOUNT",
+      "type": "pure-token"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "parameters",
+        "title": "Parameters"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Return the full list of items in Top-K sketch.\n\n## Parameters\n\n* **key**: the name of the sketch.\n* **WITHCOUNT**: the count of each element is also returned.\n\n## Examples\n\n```\nTOPK.LIST topk\n1) foo\n2) 42\n3) bar\n```\n\n```\nTOPK.LIST topk WITHCOUNT\n1) foo\n2) (integer) 12\n3) 42\n4) (integer) 7\n5) bar\n6) (integer) 2\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\nk (or less) items in the given Top-k sketch. The list is sorted by decreased count estimation.\n\n**RESP2:**\n\nOne of the following:\n\n* [Array]() of [bulk string replies]() representing the names of items in the given sketch. If `WITHCOUNT` is requested, an [array]() of [bulk string reply]() and \n[integer reply]() pairs, representing the names of the items in the sketch together with their counts.\n* [Simple error reply]() in these cases: invalid arguments, non-existant key, or key of the incorrect type.\n\n**RESP3:**\n\nOne of the following:\n\n* [Array]() of [bulk string replies]() representing the names of items in the given sketch. If `WITHCOUNT` is requested, an [array]() of [bulk string reply]() and \n[integer reply]() pairs, representing the names of the items in the sketch together with their counts.\n* [Simple error reply]() in these cases: invalid arguments, non-existant key, or key of the incorrect type.",
+  "intro": "Return the full list of items in Top-K sketch.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Return the full list of items in Top-K sketch."
+    },
+    {
+      "title": "Parameters",
+      "level": 2,
+      "content": "* **key**: the name of the sketch.\n* **WITHCOUNT**: the count of each element is also returned."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "```\nTOPK.LIST topk\n1) foo\n2) 42\n3) bar\n```\n\n```\nTOPK.LIST topk WITHCOUNT\n1) foo\n2) (integer) 12\n3) 42\n4) (integer) 7\n5) bar\n6) (integer) 2\n```"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "k (or less) items in the given Top-k sketch. The list is sorted by decreased count estimation.\n\n**RESP2:**\n\nOne of the following:\n\n* [Array]() of [bulk string replies]() representing the names of items in the given sketch. If `WITHCOUNT` is requested, an [array]() of [bulk string reply]() and \n[integer reply]() pairs, representing the names of the items in the sketch together with their counts.\n* [Simple error reply]() in these cases: invalid arguments, non-existant key, or key of the incorrect type.\n\n**RESP3:**\n\nOne of the following:\n\n* [Array]() of [bulk string replies]() representing the names of items in the given sketch. If `WITHCOUNT` is requested, an [array]() of [bulk string reply]() and \n[integer reply]() pairs, representing the names of the items in the sketch together with their counts.\n* [Simple error reply]() in these cases: invalid arguments, non-existant key, or key of the incorrect type."
+    }
+  ]
+}

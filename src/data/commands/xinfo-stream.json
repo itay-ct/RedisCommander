@@ -1,0 +1,126 @@
+{
+  "slug": "xinfo-stream",
+  "title": "XINFO STREAM",
+  "description": "Returns information about a stream.",
+  "docsUrl": "https://redis.io/docs/latest/commands/xinfo-stream/",
+  "group": "stream",
+  "groupLabel": "Streams",
+  "syntax": "XINFO STREAM key [FULL [COUNT count]]",
+  "complexity": "O(1)",
+  "since": "5.0.0",
+  "arity": -3,
+  "aclCategories": [
+    "@read",
+    "@stream",
+    "@slow"
+  ],
+  "commandFlags": [
+    "readonly"
+  ],
+  "arguments": [
+    {
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "arguments": [
+        {
+          "name": "full",
+          "token": "FULL",
+          "type": "pure-token"
+        },
+        {
+          "name": "count",
+          "optional": true,
+          "token": "COUNT",
+          "type": "integer"
+        }
+      ],
+      "name": "full-block",
+      "optional": true,
+      "type": "block"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RO": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 2
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "This command returns information about the stream stored at `<key>`.\n\nThe informative details provided by this command are:\n\n* **length**: the number of entries in the stream (see [`XLEN`]())\n* **radix-tree-keys**: the number of keys in the underlying radix data structure\n* **radix-tree-nodes**: the number of nodes in the underlying radix data structure\n* **groups**: the number of consumer groups defined for the stream\n* **last-generated-id**: the ID of the least-recently entry that was added to the stream\n* **max-deleted-entry-id**: the maximal entry ID that was deleted from the stream\n* **entries-added**: the count of all entries added to the stream during its lifetime\n* **first-entry**: the ID and field-value tuples of the first entry in the stream\n* **last-entry**: the ID and field-value tuples of the last entry in the stream\n\n### IDMP (Idempotent Message Processing) fields\n\nWhen IDMP is configured for the stream using [`XCFGSET`](), the following additional fields are included:\n\n* **idmp-duration**: the duration in seconds that idempotent IDs are retained in the stream's IDMP map\n* **idmp-maxsize**: the maximum number of idempotent IDs kept for each producer in the stream's IDMP map\n* **pids-tracked**: the number of unique producer IDs currently being tracked\n* **iids-tracked**: the total number of idempotent IDs currently stored across all producers\n* **iids-added**: the total count of idempotent IDs that have been added to the stream during its lifetime\n* **iids-duplicates**: the total count of duplicate messages that were detected and prevented by IDMP\n\n### The `FULL` modifier\n\nThe optional `FULL` modifier provides a more verbose reply.\nWhen provided, the `FULL` reply includes an **entries** array that consists of the stream entries (ID and field-value tuples) in ascending order.\nFurthermore, **groups** is also an array, and for each of the consumer groups it consists of the information reported by [`XINFO GROUPS`]() and [`XINFO CONSUMERS`]().\n\nThe following information is provided for each of the groups:\n\n* **name**: the consumer group's name\n* **last-delivered-id**: the ID of the last entry delivered to the group's consumers\n* **entries-read**: the logical \"read counter\" of the last entry delivered to the group's consumers\n* **lag**: the number of entries in the stream that are still waiting to be delivered to the group's consumers, or a NULL when that number can't be determined.\n* **pel-count**: the length of the group's pending entries list (PEL), which are messages that were delivered but are yet to be acknowledged\n* **pending**: an array with pending entries information (see below)\n* **consumers**: an array with consumers information (see below)\n\nThe following information is provided for each pending entry:\n\n1. The ID of the message.\n2. The name of the consumer that fetched the message and has still to acknowledge it. We call it the current *owner* of the message.\n3. The UNIX timestamp of when the message was delivered to this consumer.\n4. The number of times this message was delivered.\n\nThe following information is provided for each consumer:\n\n* **name**: the consumer's name\n* **seen-time**: the UNIX timestamp of the last attempted interaction (Examples: [`XREADGROUP`](), [`XCLAIM`](), [`XAUTOCLAIM`]())\n* **active-time**: the UNIX timestamp of the last successful interaction (Examples: [`XREADGROUP`]() that actually read some entries into the PEL, [`XCLAIM`]()/[`XAUTOCLAIM`]() that actually claimed some entries)\n* **pel-count**: the number of entries in the PEL: pending messages for the consumer, which are messages that were delivered but are yet to be acknowledged\n* **pending**: an array with pending entries information, has the same structure as described above, except the consumer name is omitted (redundant, since anyway we are in a specific consumer context)\n\nNote that before Redis 7.2.0, **seen-time** used to denote the last successful interaction.\nIn 7.2.0, **active-time** was added and **seen-time** was changed to denote the last attempted interaction.\n\nThe `COUNT` option can be used to limit the number of stream and PEL entries that are returned (The first `<count>` entries are returned).\nThe default `COUNT` is 10 and a `COUNT` of 0 means that all entries will be returned (execution time may be long if the stream has a lot of entries).\n\n## Examples\n\nSetting up a stream with IDMP:\n\n```\n> XADD mystream * message apple\n\"1638125133432-0\"\n> XADD mystream * message banana\n\"1638125141232-0\"\n> XCFGSET mystream DURATION 100 MAXSIZE 100\nOK\n> XADD mystream IDMP producer1 msg1 * field value\n\"1638125150000-0\"\n```\n\nDefault reply (with IDMP configured):\n\n```\n> XINFO STREAM mystream\n 1) \"length\"\n 2) (integer) 2\n 3) \"radix-tree-keys\"\n 4) (integer) 1\n 5) \"radix-tree-nodes\"\n 6) (integer) 2\n 7) \"last-generated-id\"\n 8) \"1638125141232-0\"\n 9) \"max-deleted-entry-id\"\n10) \"0-0\"\n11) \"entries-added\"\n12) (integer) 2\n13) \"recorded-first-entry-id\"\n14) \"1719505260513-0\"\n15) \"idmp-duration\"\n16) (integer) 100\n17) \"idmp-maxsize\"\n18) (integer) 100\n19) \"pids-tracked\"\n20) (integer) 1\n21) \"iids-tracked\"\n22) (integer) 1\n23) \"iids-added\"\n24) (integer) 1\n25) \"iids-duplicates\"\n26) (integer) 0\n27) \"groups\"\n28) (integer) 1\n29) \"first-entry\"\n30) 1) \"1638125133432-0\"\n    2) 1) \"message\"\n       2) \"apple\"\n31) \"last-entry\"\n32) 1) \"1638125141232-0\"\n    2) 1) \"message\"\n       2) \"banana\"\n```\n\nFull reply:\n\n```\n> XADD mystream * foo bar\n\"1638125133432-0\"\n> XADD mystream * foo bar2\n\"1638125141232-0\"\n> XGROUP CREATE mystream mygroup 0-0\nOK\n> XREADGROUP GROUP mygroup Alice COUNT 1 STREAMS mystream >\n1) 1) \"mystream\"\n   2) 1) 1) \"1638125133432-0\"\n         2) 1) \"foo\"\n            2) \"bar\"\n> XINFO STREAM mystream FULL\n 1) \"length\"\n 2) (integer) 2\n 3) \"radix-tree-keys\"\n 4) (integer) 1\n 5) \"radix-tree-nodes\"\n 6) (integer) 2\n 7) \"last-generated-id\"\n 8) \"1638125141232-0\"\n 9) \"max-deleted-entry-id\"\n10) \"0-0\"\n11) \"entries-added\"\n12) (integer) 2\n13) \"recorded-first-entry-id\"\n14) \"1719505260513-0\"\n15) \"entries\"\n16) 1) 1) \"1638125133432-0\"\n       2) 1) \"foo\"\n          2) \"bar\"\n    2) 1) \"1638125141232-0\"\n       2) 1) \"foo\"\n          2) \"bar2\"\n17) \"groups\"\n18) 1)  1) \"name\"\n        2) \"mygroup\"\n        3) \"last-delivered-id\"\n        4) \"1638125133432-0\"\n        5) \"entries-read\"\n        6) (integer) 1\n        7) \"lag\"\n        8) (integer) 1\n        9) \"pel-count\"\n       10) (integer) 1\n       11) \"pending\"\n       12) 1) 1) \"1638125133432-0\"\n              2) \"Alice\"\n              3) (integer) 1638125153423\n              4) (integer) 1\n       13) \"consumers\"\n       14) 1) 1) \"name\"\n              2) \"Alice\"\n              3) \"seen-time\"\n              4) (integer) 1638125133422\n              5) \"active-time\"\n              6) (integer) 1638125133432\n              7) \"pel-count\"\n              8) (integer) 1\n              9) \"pending\"\n              10) 1) 1) \"1638125133432-0\"\n                     2) (integer) 1638125133432\n                     3) (integer) 1\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays): when the _FULL_ argument is used, a list of information about a stream in summary form.\n* [Array reply](../../develop/reference/protocol-spec#arrays): when the _FULL_ argument is used, a list of information about a stream in extended form.\n\n**RESP3:**\n\nOne of the following:\n* [Map reply](../../develop/reference/protocol-spec#maps): when the _FULL_ argument was not given, a list of information about a stream in summary form.\n* [Map reply](../../develop/reference/protocol-spec#maps): when the _FULL_ argument was given, a list of information about a stream in extended form.",
+  "intro": "This command returns information about the stream stored at `<key>`.\n\nThe informative details provided by this command are:\n\n* **length**: the number of entries in the stream (see [`XLEN`]())\n* **radix-tree-keys**: the number of keys in the underlying radix data structure\n* **radix-tree-nodes**: the number of nodes in the underlying radix data structure\n* **groups**: the number of consumer groups defined for the stream\n* **last-generated-id**: the ID of the least-recently entry that was added to the stream\n* **max-deleted-entry-id**: the maximal entry ID that was deleted from the stream\n* **entries-added**: the count of all entries added to the stream during its lifetime\n* **first-entry**: the ID and field-value tuples of the first entry in the stream\n* **last-entry**: the ID and field-value tuples of the last entry in the stream",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "This command returns information about the stream stored at `<key>`.\n\nThe informative details provided by this command are:\n\n* **length**: the number of entries in the stream (see [`XLEN`]())\n* **radix-tree-keys**: the number of keys in the underlying radix data structure\n* **radix-tree-nodes**: the number of nodes in the underlying radix data structure\n* **groups**: the number of consumer groups defined for the stream\n* **last-generated-id**: the ID of the least-recently entry that was added to the stream\n* **max-deleted-entry-id**: the maximal entry ID that was deleted from the stream\n* **entries-added**: the count of all entries added to the stream during its lifetime\n* **first-entry**: the ID and field-value tuples of the first entry in the stream\n* **last-entry**: the ID and field-value tuples of the last entry in the stream"
+    },
+    {
+      "title": "IDMP (Idempotent Message Processing) fields",
+      "level": 3,
+      "content": "When IDMP is configured for the stream using [`XCFGSET`](), the following additional fields are included:\n\n* **idmp-duration**: the duration in seconds that idempotent IDs are retained in the stream's IDMP map\n* **idmp-maxsize**: the maximum number of idempotent IDs kept for each producer in the stream's IDMP map\n* **pids-tracked**: the number of unique producer IDs currently being tracked\n* **iids-tracked**: the total number of idempotent IDs currently stored across all producers\n* **iids-added**: the total count of idempotent IDs that have been added to the stream during its lifetime\n* **iids-duplicates**: the total count of duplicate messages that were detected and prevented by IDMP"
+    },
+    {
+      "title": "The `FULL` modifier",
+      "level": 3,
+      "content": "The optional `FULL` modifier provides a more verbose reply.\nWhen provided, the `FULL` reply includes an **entries** array that consists of the stream entries (ID and field-value tuples) in ascending order.\nFurthermore, **groups** is also an array, and for each of the consumer groups it consists of the information reported by [`XINFO GROUPS`]() and [`XINFO CONSUMERS`]().\n\nThe following information is provided for each of the groups:\n\n* **name**: the consumer group's name\n* **last-delivered-id**: the ID of the last entry delivered to the group's consumers\n* **entries-read**: the logical \"read counter\" of the last entry delivered to the group's consumers\n* **lag**: the number of entries in the stream that are still waiting to be delivered to the group's consumers, or a NULL when that number can't be determined.\n* **pel-count**: the length of the group's pending entries list (PEL), which are messages that were delivered but are yet to be acknowledged\n* **pending**: an array with pending entries information (see below)\n* **consumers**: an array with consumers information (see below)\n\nThe following information is provided for each pending entry:\n\n1. The ID of the message.\n2. The name of the consumer that fetched the message and has still to acknowledge it. We call it the current *owner* of the message.\n3. The UNIX timestamp of when the message was delivered to this consumer.\n4. The number of times this message was delivered.\n\nThe following information is provided for each consumer:\n\n* **name**: the consumer's name\n* **seen-time**: the UNIX timestamp of the last attempted interaction (Examples: [`XREADGROUP`](), [`XCLAIM`](), [`XAUTOCLAIM`]())\n* **active-time**: the UNIX timestamp of the last successful interaction (Examples: [`XREADGROUP`]() that actually read some entries into the PEL, [`XCLAIM`]()/[`XAUTOCLAIM`]() that actually claimed some entries)\n* **pel-count**: the number of entries in the PEL: pending messages for the consumer, which are messages that were delivered but are yet to be acknowledged\n* **pending**: an array with pending entries information, has the same structure as described above, except the consumer name is omitted (redundant, since anyway we are in a specific consumer context)\n\nNote that before Redis 7.2.0, **seen-time** used to denote the last successful interaction.\nIn 7.2.0, **active-time** was added and **seen-time** was changed to denote the last attempted interaction.\n\nThe `COUNT` option can be used to limit the number of stream and PEL entries that are returned (The first `<count>` entries are returned).\nThe default `COUNT` is 10 and a `COUNT` of 0 means that all entries will be returned (execution time may be long if the stream has a lot of entries)."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "Setting up a stream with IDMP:\n\n```\n> XADD mystream * message apple\n\"1638125133432-0\"\n> XADD mystream * message banana\n\"1638125141232-0\"\n> XCFGSET mystream DURATION 100 MAXSIZE 100\nOK\n> XADD mystream IDMP producer1 msg1 * field value\n\"1638125150000-0\"\n```\n\nDefault reply (with IDMP configured):\n\n```\n> XINFO STREAM mystream\n 1) \"length\"\n 2) (integer) 2\n 3) \"radix-tree-keys\"\n 4) (integer) 1\n 5) \"radix-tree-nodes\"\n 6) (integer) 2\n 7) \"last-generated-id\"\n 8) \"1638125141232-0\"\n 9) \"max-deleted-entry-id\"\n10) \"0-0\"\n11) \"entries-added\"\n12) (integer) 2\n13) \"recorded-first-entry-id\"\n14) \"1719505260513-0\"\n15) \"idmp-duration\"\n16) (integer) 100\n17) \"idmp-maxsize\"\n18) (integer) 100\n19) \"pids-tracked\"\n20) (integer) 1\n21) \"iids-tracked\"\n22) (integer) 1\n23) \"iids-added\"\n24) (integer) 1\n25) \"iids-duplicates\"\n26) (integer) 0\n27) \"groups\"\n28) (integer) 1\n29) \"first-entry\"\n30) 1) \"1638125133432-0\"\n    2) 1) \"message\"\n       2) \"apple\"\n31) \"last-entry\"\n32) 1) \"1638125141232-0\"\n    2) 1) \"message\"\n       2) \"banana\"\n```\n\nFull reply:\n\n```\n> XADD mystream * foo bar\n\"1638125133432-0\"\n> XADD mystream * foo bar2\n\"1638125141232-0\"\n> XGROUP CREATE mystream mygroup 0-0\nOK\n> XREADGROUP GROUP mygroup Alice COUNT 1 STREAMS mystream >\n1) 1) \"mystream\"\n   2) 1) 1) \"1638125133432-0\"\n         2) 1) \"foo\"\n            2) \"bar\"\n> XINFO STREAM mystream FULL\n 1) \"length\"\n 2) (integer) 2\n 3) \"radix-tree-keys\"\n 4) (integer) 1\n 5) \"radix-tree-nodes\"\n 6) (integer) 2\n 7) \"last-generated-id\"\n 8) \"1638125141232-0\"\n 9) \"max-deleted-entry-id\"\n10) \"0-0\"\n11) \"entries-added\"\n12) (integer) 2\n13) \"recorded-first-entry-id\"\n14) \"1719505260513-0\"\n15) \"entries\"\n16) 1) 1) \"1638125133432-0\"\n       2) 1) \"foo\"\n          2) \"bar\"\n    2) 1) \"1638125141232-0\"\n       2) 1) \"foo\"\n          2) \"bar2\"\n17) \"groups\"\n18) 1)  1) \"name\"\n        2) \"mygroup\"\n        3) \"last-delivered-id\"\n        4) \"1638125133432-0\"\n        5) \"entries-read\"\n        6) (integer) 1\n        7) \"lag\"\n        8) (integer) 1\n        9) \"pel-count\"\n       10) (integer) 1\n       11) \"pending\"\n       12) 1) 1) \"1638125133432-0\"\n              2) \"Alice\"\n              3) (integer) 1638125153423\n              4) (integer) 1\n       13) \"consumers\"\n       14) 1) 1) \"name\"\n              2) \"Alice\"\n              3) \"seen-time\"\n              4) (integer) 1638125133422\n              5) \"active-time\"\n              6) (integer) 1638125133432\n              7) \"pel-count\"\n              8) (integer) 1\n              9) \"pending\"\n              10) 1) 1) \"1638125133432-0\"\n                     2) (integer) 1638125133432\n                     3) (integer) 1\n```"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays): when the _FULL_ argument is used, a list of information about a stream in summary form.\n* [Array reply](../../develop/reference/protocol-spec#arrays): when the _FULL_ argument is used, a list of information about a stream in extended form.\n\n**RESP3:**\n\nOne of the following:\n* [Map reply](../../develop/reference/protocol-spec#maps): when the _FULL_ argument was not given, a list of information about a stream in summary form.\n* [Map reply](../../develop/reference/protocol-spec#maps): when the _FULL_ argument was given, a list of information about a stream in extended form."
+    }
+  ]
+}

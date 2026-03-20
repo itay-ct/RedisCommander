@@ -1,0 +1,98 @@
+{
+  "slug": "cf.del",
+  "title": "CF.DEL",
+  "description": "Deletes an item from a Cuckoo Filter",
+  "docsUrl": "https://redis.io/docs/latest/commands/cf.del/",
+  "group": "cf",
+  "groupLabel": "Cuckoo",
+  "syntax": "CF.DEL key item",
+  "complexity": "O(k), where k is the number of sub-filters",
+  "since": "1.0.0",
+  "arity": null,
+  "aclCategories": [
+    "@cuckoo",
+    "@write",
+    "@slow"
+  ],
+  "commandFlags": [],
+  "arguments": [
+    {
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "name": "item",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "complexity",
+        "title": "Complexity"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Deletes an item once from the filter.\n\nIf the item exists only once, it will be removed from the filter. If the item was added multiple times, it will still be present.\n\n\nNever use this command to delete an item unless you are certain you've added the item to the filter. Deleting an item you didn't previously add may corrupt the filter and cause false negatives.\n\n\n## Required arguments\n\n<details open><summary><code>key</code></summary>\n\nis key name for a cuckoo filter.\n</details>\n\n<details open><summary><code>item</code></summary>\n\nis an item to delete.\n</details>\n\n## Complexity\n\nO(n), where n is the number of `sub-filters`. Both alternative locations are\nchecked on all `sub-filters`.\n\n## Examples\n\n\nredis> CF.INSERT cf ITEMS item1 item2 item2\n1) (integer) 1\n2) (integer) 1\n3) (integer) 1\nredis> CF.DEL cf item1\n(integer) 1\nredis> CF.DEL cf item1\n(integer) 0\nredis> CF.DEL cf item2\n(integer) 1\nredis> CF.DEL cf item2\n(integer) 1\nredis> CF.DEL cf item2\n(integer) 0\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Integer reply]() `1` for successfully deleting an item, or `0` if no such item was found in the filter.\n* [Simple error reply]() in these cases: invalid arguments or wrong key type.\n\n**RESP3:**\n\nOne of the following:\n* [Boolean reply]() `true` for successfully deleting an item, or `false` if no such item was found in the filter.\n* [Simple error reply]() in these cases: invalid arguments or wrong key type.",
+  "intro": "Deletes an item once from the filter.\n\nIf the item exists only once, it will be removed from the filter. If the item was added multiple times, it will still be present.\n\n\nNever use this command to delete an item unless you are certain you've added the item to the filter. Deleting an item you didn't previously add may corrupt the filter and cause false negatives.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Deletes an item once from the filter.\n\nIf the item exists only once, it will be removed from the filter. If the item was added multiple times, it will still be present.\n\n\nNever use this command to delete an item unless you are certain you've added the item to the filter. Deleting an item you didn't previously add may corrupt the filter and cause false negatives."
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open><summary><code>key</code></summary>\n\nis key name for a cuckoo filter.\n</details>\n\n<details open><summary><code>item</code></summary>\n\nis an item to delete.\n</details>"
+    },
+    {
+      "title": "Complexity",
+      "level": 2,
+      "content": "O(n), where n is the number of `sub-filters`. Both alternative locations are\nchecked on all `sub-filters`."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "redis> CF.INSERT cf ITEMS item1 item2 item2\n1) (integer) 1\n2) (integer) 1\n3) (integer) 1\nredis> CF.DEL cf item1\n(integer) 1\nredis> CF.DEL cf item1\n(integer) 0\nredis> CF.DEL cf item2\n(integer) 1\nredis> CF.DEL cf item2\n(integer) 1\nredis> CF.DEL cf item2\n(integer) 0"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Integer reply]() `1` for successfully deleting an item, or `0` if no such item was found in the filter.\n* [Simple error reply]() in these cases: invalid arguments or wrong key type.\n\n**RESP3:**\n\nOne of the following:\n* [Boolean reply]() `true` for successfully deleting an item, or `false` if no such item was found in the filter.\n* [Simple error reply]() in these cases: invalid arguments or wrong key type."
+    }
+  ]
+}

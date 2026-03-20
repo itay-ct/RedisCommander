@@ -1,0 +1,97 @@
+{
+  "slug": "function-restore",
+  "title": "FUNCTION RESTORE",
+  "description": "Restores all libraries from a payload.",
+  "docsUrl": "https://redis.io/docs/latest/commands/function-restore/",
+  "group": "scripting",
+  "groupLabel": "Scripting",
+  "syntax": "FUNCTION RESTORE serialized-value [FLUSH | APPEND | REPLACE]",
+  "complexity": "O(N) where N is the number of functions on the payload",
+  "since": "7.0.0",
+  "arity": -3,
+  "aclCategories": [
+    "@write",
+    "@slow",
+    "@scripting"
+  ],
+  "commandFlags": [
+    "write",
+    "denyoom",
+    "noscript"
+  ],
+  "arguments": [
+    {
+      "display_text": "serialized-value",
+      "name": "serialized-value",
+      "type": "string"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "flush",
+          "name": "flush",
+          "token": "FLUSH",
+          "type": "pure-token"
+        },
+        {
+          "display_text": "append",
+          "name": "append",
+          "token": "APPEND",
+          "type": "pure-token"
+        },
+        {
+          "display_text": "replace",
+          "name": "replace",
+          "token": "REPLACE",
+          "type": "pure-token"
+        }
+      ],
+      "name": "policy",
+      "optional": true,
+      "type": "oneof"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Restore libraries from the serialized payload.\n\nYou can use the optional _policy_ argument to provide a policy for handling existing libraries.\nThe following policies are allowed:\n\n* **APPEND:** appends the restored libraries to the existing libraries and aborts on collision. \n  This is the default policy.\n* **FLUSH:** deletes all existing libraries before restoring the payload.\n* **REPLACE:** appends the restored libraries to the existing libraries, replacing any existing ones in case of name collisions. Note that this policy doesn't prevent function name collisions, only libraries.\n\nFor more information please refer to [Introduction to Redis Functions]().\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.",
+  "intro": "Restore libraries from the serialized payload.\n\nYou can use the optional _policy_ argument to provide a policy for handling existing libraries.\nThe following policies are allowed:\n\n* **APPEND:** appends the restored libraries to the existing libraries and aborts on collision. \n  This is the default policy.\n* **FLUSH:** deletes all existing libraries before restoring the payload.\n* **REPLACE:** appends the restored libraries to the existing libraries, replacing any existing ones in case of name collisions. Note that this policy doesn't prevent function name collisions, only libraries.\n\nFor more information please refer to [Introduction to Redis Functions]().",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Restore libraries from the serialized payload.\n\nYou can use the optional _policy_ argument to provide a policy for handling existing libraries.\nThe following policies are allowed:\n\n* **APPEND:** appends the restored libraries to the existing libraries and aborts on collision. \n  This is the default policy.\n* **FLUSH:** deletes all existing libraries before restoring the payload.\n* **REPLACE:** appends the restored libraries to the existing libraries, replacing any existing ones in case of name collisions. Note that this policy doesn't prevent function name collisions, only libraries.\n\nFor more information please refer to [Introduction to Redis Functions]()."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`."
+    }
+  ]
+}

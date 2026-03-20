@@ -1,0 +1,94 @@
+{
+  "slug": "acl-dryrun",
+  "title": "ACL DRYRUN",
+  "description": "Simulates the execution of a command by a user, without executing the command.",
+  "docsUrl": "https://redis.io/docs/latest/commands/acl-dryrun/",
+  "group": "server",
+  "groupLabel": "Server",
+  "syntax": "ACL DRYRUN username command [arg [arg ...]]",
+  "complexity": "O(1).",
+  "since": "7.0.0",
+  "arity": -4,
+  "aclCategories": [
+    "@admin",
+    "@slow",
+    "@dangerous"
+  ],
+  "commandFlags": [
+    "admin",
+    "noscript",
+    "loading",
+    "stale"
+  ],
+  "arguments": [
+    {
+      "display_text": "username",
+      "name": "username",
+      "type": "string"
+    },
+    {
+      "display_text": "command",
+      "name": "command",
+      "type": "string"
+    },
+    {
+      "display_text": "arg",
+      "multiple": true,
+      "name": "arg",
+      "optional": true,
+      "type": "string"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Simulate the execution of a given command by a given user.\nThis command can be used to test the permissions of a given user without having to enable the user or cause the side effects of running the command.\n\n## Examples\n\n```\n> ACL SETUSER VIRGINIA +SET ~*\n\"OK\"\n> ACL DRYRUN VIRGINIA SET foo bar\n\"OK\"\n> ACL DRYRUN VIRGINIA GET foo\n\"User VIRGINIA has no permissions to run the 'get' command\"\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Might reply with \"unknown user\" for LDAP users even if `AUTH` succeeds. |\n\n## Return information\n\n**RESP2:**\n\nAny of the following:\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` on success.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): an error describing why the user can't execute the command.\n\n**RESP3:**\n\nAny of the following:\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` on success.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): an error describing why the user can't execute the command.",
+  "intro": "Simulate the execution of a given command by a given user.\nThis command can be used to test the permissions of a given user without having to enable the user or cause the side effects of running the command.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Simulate the execution of a given command by a given user.\nThis command can be used to test the permissions of a given user without having to enable the user or cause the side effects of running the command."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "```\n> ACL SETUSER VIRGINIA +SET ~*\n\"OK\"\n> ACL DRYRUN VIRGINIA SET foo bar\n\"OK\"\n> ACL DRYRUN VIRGINIA GET foo\n\"User VIRGINIA has no permissions to run the 'get' command\"\n```"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Might reply with \"unknown user\" for LDAP users even if `AUTH` succeeds. |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nAny of the following:\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` on success.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): an error describing why the user can't execute the command.\n\n**RESP3:**\n\nAny of the following:\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` on success.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): an error describing why the user can't execute the command."
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "slug": "tdigest.cdf",
+  "title": "TDIGEST.CDF",
+  "description": "Returns, for each input value, an estimation of the floating-point fraction of (observations smaller than the given value + half the observations equal to the given value)",
+  "docsUrl": "https://redis.io/docs/latest/commands/tdigest.cdf/",
+  "group": "tdigest",
+  "groupLabel": "T-Digest",
+  "syntax": "TDIGEST.CDF key value [value ...]",
+  "complexity": "O(1)",
+  "since": "2.4.0",
+  "arity": null,
+  "aclCategories": [
+    "@tdigest",
+    "@read"
+  ],
+  "commandFlags": [],
+  "arguments": [
+    {
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "multiple": true,
+      "name": "value",
+      "type": "double"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Returns, for each input value, an estimation of the floating-point fraction of (_observations smaller than the given value_ + _half the observations equal to the given value_).\nMultiple fractions can be retrieved in a single call.\n\n## Required arguments\n\n<details open><summary><code>key</code></summary>\n\nis the key name for an existing t-digest sketch.\n</details>\n\n<details open><summary><code>value</code></summary>\n\nare the values for which the CDF (Cumulative Distribution Function) should be retrieved.\n</details>\n\n## Examples\n\n\nredis> TDIGEST.CREATE t COMPRESSION 1000\nOK\nredis> TDIGEST.ADD t 1 2 2 3 3 3 4 4 4 4 5 5 5 5 5\nOK\nredis> TDIGEST.CDF t 0 1 2 3 4 5 6\n1) \"0\"\n2) \"0.033333333333333333\"\n3) \"0.13333333333333333\"\n4) \"0.29999999999999999\"\n5) \"0.53333333333333333\"\n6) \"0.83333333333333337\"\n7) \"1\"\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n\n* [Array]() of [bulk string replies]() as floating-points, populated with fraction_1, fraction_2, ..., fraction_N.\nAll values are `nan` if the given sketch is empty.\n* [Simple error reply]() in these cases: the given key does not exist or is of an incorrect type, value parsing errors, or an incorrect number of arguments.\n\n**RESP3:**\n\nOne of the following:\n\n* [Array]() of [doubles]() populated with fraction_1, fraction_2, ..., fraction_N.\nAll values are `nan` if the given sketch is empty.\n* [Simple error reply]() in these cases: the given key does not exist or is of an incorrect type, value parsing errors, or an incorrect number of arguments.",
+  "intro": "Returns, for each input value, an estimation of the floating-point fraction of (_observations smaller than the given value_ + _half the observations equal to the given value_).\nMultiple fractions can be retrieved in a single call.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Returns, for each input value, an estimation of the floating-point fraction of (_observations smaller than the given value_ + _half the observations equal to the given value_).\nMultiple fractions can be retrieved in a single call."
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open><summary><code>key</code></summary>\n\nis the key name for an existing t-digest sketch.\n</details>\n\n<details open><summary><code>value</code></summary>\n\nare the values for which the CDF (Cumulative Distribution Function) should be retrieved.\n</details>"
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "redis> TDIGEST.CREATE t COMPRESSION 1000\nOK\nredis> TDIGEST.ADD t 1 2 2 3 3 3 4 4 4 4 5 5 5 5 5\nOK\nredis> TDIGEST.CDF t 0 1 2 3 4 5 6\n1) \"0\"\n2) \"0.033333333333333333\"\n3) \"0.13333333333333333\"\n4) \"0.29999999999999999\"\n5) \"0.53333333333333333\"\n6) \"0.83333333333333337\"\n7) \"1\""
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n\n* [Array]() of [bulk string replies]() as floating-points, populated with fraction_1, fraction_2, ..., fraction_N.\nAll values are `nan` if the given sketch is empty.\n* [Simple error reply]() in these cases: the given key does not exist or is of an incorrect type, value parsing errors, or an incorrect number of arguments.\n\n**RESP3:**\n\nOne of the following:\n\n* [Array]() of [doubles]() populated with fraction_1, fraction_2, ..., fraction_N.\nAll values are `nan` if the given sketch is empty.\n* [Simple error reply]() in these cases: the given key does not exist or is of an incorrect type, value parsing errors, or an incorrect number of arguments."
+    }
+  ]
+}

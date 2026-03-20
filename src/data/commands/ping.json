@@ -1,0 +1,79 @@
+{
+  "slug": "ping",
+  "title": "PING",
+  "description": "Returns the server's liveliness response.",
+  "docsUrl": "https://redis.io/docs/latest/commands/ping/",
+  "group": "connection",
+  "groupLabel": "Connection",
+  "syntax": "PING [message]",
+  "complexity": "O(1)",
+  "since": "1.0.0",
+  "arity": -1,
+  "aclCategories": [
+    "@fast",
+    "@connection"
+  ],
+  "commandFlags": [
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "message",
+      "name": "message",
+      "optional": true,
+      "type": "string"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Returns `PONG` if no argument is provided, otherwise return a copy of the\nargument as a bulk.\nThis command is useful for:\n1. Testing whether a connection is still alive.\n1. Verifying the server's ability to serve data - an error is returned when this isn't the case (e.g., during load from persistence or accessing a stale replica).\n1. Measuring latency.\n\nIf the client is subscribed to a channel or a pattern, it will instead return a\nmulti-bulk with a \"pong\" in the first position and an empty bulk in the second\nposition, unless an argument is provided in which case it returns a copy\nof the argument.\n\n## Examples\n\n\nPING\n\nPING \"hello world\"\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nAny of the following:\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `PONG` when no argument is provided.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the provided argument.\n\n**RESP3:**\n\nAny of the following:\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `PONG` when no argument is provided.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the provided argument.",
+  "intro": "Returns `PONG` if no argument is provided, otherwise return a copy of the\nargument as a bulk.\nThis command is useful for:\n1. Testing whether a connection is still alive.\n1. Verifying the server's ability to serve data - an error is returned when this isn't the case (e.g., during load from persistence or accessing a stale replica).\n1. Measuring latency.\n\nIf the client is subscribed to a channel or a pattern, it will instead return a\nmulti-bulk with a \"pong\" in the first position and an empty bulk in the second\nposition, unless an argument is provided in which case it returns a copy\nof the argument.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Returns `PONG` if no argument is provided, otherwise return a copy of the\nargument as a bulk.\nThis command is useful for:\n1. Testing whether a connection is still alive.\n1. Verifying the server's ability to serve data - an error is returned when this isn't the case (e.g., during load from persistence or accessing a stale replica).\n1. Measuring latency.\n\nIf the client is subscribed to a channel or a pattern, it will instead return a\nmulti-bulk with a \"pong\" in the first position and an empty bulk in the second\nposition, unless an argument is provided in which case it returns a copy\nof the argument."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "PING\n\nPING \"hello world\""
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nAny of the following:\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `PONG` when no argument is provided.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the provided argument.\n\n**RESP3:**\n\nAny of the following:\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `PONG` when no argument is provided.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the provided argument."
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "slug": "pubsub-numpat",
+  "title": "PUBSUB NUMPAT",
+  "description": "Returns a count of unique pattern subscriptions.",
+  "docsUrl": "https://redis.io/docs/latest/commands/pubsub-numpat/",
+  "group": "pubsub",
+  "groupLabel": "Pub/Sub",
+  "syntax": "PUBSUB NUMPAT",
+  "complexity": "O(1)",
+  "since": "2.8.0",
+  "arity": 2,
+  "aclCategories": [
+    "@pubsub",
+    "@slow"
+  ],
+  "commandFlags": [
+    "pubsub",
+    "loading",
+    "stale"
+  ],
+  "arguments": [],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Returns the number of unique patterns that are subscribed to by clients (that are performed using the [`PSUBSCRIBE`]() command).\n\nNote that this isn't the count of clients subscribed to patterns, but the total number of unique patterns all the clients are subscribed to.\n\nCluster note: in a Redis Cluster clients can subscribe to every node, and can also publish to every other node. The cluster will make sure that published messages are forwarded as needed. That said, [`PUBSUB`]()'s replies in a cluster only report information from the node's Pub/Sub context, rather than the entire cluster.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of patterns all the clients are subscribed to.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of patterns all the clients are subscribed to.",
+  "intro": "Returns the number of unique patterns that are subscribed to by clients (that are performed using the [`PSUBSCRIBE`]() command).\n\nNote that this isn't the count of clients subscribed to patterns, but the total number of unique patterns all the clients are subscribed to.\n\nCluster note: in a Redis Cluster clients can subscribe to every node, and can also publish to every other node. The cluster will make sure that published messages are forwarded as needed. That said, [`PUBSUB`]()'s replies in a cluster only report information from the node's Pub/Sub context, rather than the entire cluster.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Returns the number of unique patterns that are subscribed to by clients (that are performed using the [`PSUBSCRIBE`]() command).\n\nNote that this isn't the count of clients subscribed to patterns, but the total number of unique patterns all the clients are subscribed to.\n\nCluster note: in a Redis Cluster clients can subscribe to every node, and can also publish to every other node. The cluster will make sure that published messages are forwarded as needed. That said, [`PUBSUB`]()'s replies in a cluster only report information from the node's Pub/Sub context, rather than the entire cluster."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of patterns all the clients are subscribed to.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of patterns all the clients are subscribed to."
+    }
+  ]
+}

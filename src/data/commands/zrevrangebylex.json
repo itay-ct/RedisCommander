@@ -1,0 +1,127 @@
+{
+  "slug": "zrevrangebylex",
+  "title": "ZREVRANGEBYLEX",
+  "description": "Returns members in a sorted set within a lexicographical range in reverse order.",
+  "docsUrl": "https://redis.io/docs/latest/commands/zrevrangebylex/",
+  "group": "sorted-set",
+  "groupLabel": "Sorted Sets",
+  "syntax": "ZREVRANGEBYLEX key max min [LIMIT offset count]",
+  "complexity": "O(log(N)+M) with N being the number of elements in the sorted set and M the number of elements being returned. If M is constant (e.g. always asking for the first 10 elements with LIMIT), you can consider it O(log(N)).",
+  "since": "2.8.9",
+  "arity": -4,
+  "aclCategories": [
+    "@read",
+    "@sortedset",
+    "@slow"
+  ],
+  "commandFlags": [
+    "readonly"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "max",
+      "name": "max",
+      "type": "string"
+    },
+    {
+      "display_text": "min",
+      "name": "min",
+      "type": "string"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "offset",
+          "name": "offset",
+          "type": "integer"
+        },
+        {
+          "display_text": "count",
+          "name": "count",
+          "type": "integer"
+        }
+      ],
+      "name": "limit",
+      "optional": true,
+      "token": "LIMIT",
+      "type": "block"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RO": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "When all the elements in a sorted set are inserted with the same score, in order to force lexicographical ordering, this command returns all the elements in the sorted set at `key` with a value between `max` and `min`.\n\nApart from the reversed ordering, `ZREVRANGEBYLEX` is similar to [`ZRANGEBYLEX`]().\n\n## Examples\n\n\nZADD myzset 0 a 0 b 0 c 0 d 0 e 0 f 0 g\nZREVRANGEBYLEX myzset [c -\nZREVRANGEBYLEX myzset (c -\nZREVRANGEBYLEX myzset (g [aaa\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v6.2.0. |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of members in the specified score range.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): List of the elements in the specified score range.",
+  "intro": "When all the elements in a sorted set are inserted with the same score, in order to force lexicographical ordering, this command returns all the elements in the sorted set at `key` with a value between `max` and `min`.\n\nApart from the reversed ordering, `ZREVRANGEBYLEX` is similar to [`ZRANGEBYLEX`]().",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "When all the elements in a sorted set are inserted with the same score, in order to force lexicographical ordering, this command returns all the elements in the sorted set at `key` with a value between `max` and `min`.\n\nApart from the reversed ordering, `ZREVRANGEBYLEX` is similar to [`ZRANGEBYLEX`]()."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "ZADD myzset 0 a 0 b 0 c 0 d 0 e 0 f 0 g\nZREVRANGEBYLEX myzset [c -\nZREVRANGEBYLEX myzset (c -\nZREVRANGEBYLEX myzset (g [aaa"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v6.2.0. |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of members in the specified score range.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): List of the elements in the specified score range."
+    }
+  ]
+}

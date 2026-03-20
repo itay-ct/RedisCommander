@@ -1,0 +1,130 @@
+{
+  "slug": "ts.queryindex",
+  "title": "TS.QUERYINDEX",
+  "description": "Get all time series keys matching a filter list",
+  "docsUrl": "https://redis.io/docs/latest/commands/ts.queryindex/",
+  "group": "timeseries",
+  "groupLabel": "Time Series",
+  "syntax": "TS.QUERYINDEX <l=v | l!=v | l= | l!= | l=(v1,v2,...) |\n  l!=(v1,v2,...) [l=v | l!=v | l= | l!= | l=(v1,v2,...) |\n  l!=(v1,v2,...) ...]>",
+  "complexity": "O(n) where n is the number of time-series that match the filters",
+  "since": "1.0.0",
+  "arity": null,
+  "aclCategories": [
+    "@timeseries",
+    "@read",
+    "@slow"
+  ],
+  "commandFlags": [],
+  "arguments": [
+    {
+      "arguments": [
+        {
+          "name": "l=v",
+          "type": "string"
+        },
+        {
+          "name": "l!=v",
+          "type": "string"
+        },
+        {
+          "name": "l=",
+          "type": "string"
+        },
+        {
+          "name": "l!=",
+          "type": "string"
+        },
+        {
+          "name": "l=(v1,v2,...)",
+          "type": "string"
+        },
+        {
+          "name": "l!=(v1,v2,...)",
+          "type": "string"
+        }
+      ],
+      "multiple": true,
+      "name": "filterExpr",
+      "type": "oneof"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      },
+      {
+        "id": "see-also",
+        "title": "See also"
+      },
+      {
+        "id": "related-topics",
+        "title": "Related topics"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\n\nGet all time series keys matching a filter list. Note: all matching keys will be listed, whether or not the user has read access.\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open>\n<summary><code>filterExpr...</code></summary>\n\nfilters time series based on their labels and label values. Each filter expression has one of the following syntaxes:\n\n  - `label!=` - the time series has a label named `label`\n  - `label=value` - the time series has a label named `label` with a value equal to `value`\n  - `label=(value1,value2,...)` - the time series has a label named `label` with a value equal to one of the values in the list\n  - `label=` - the time series does not have a label named `label`\n  - `label!=value` - the time series does not have a label named `label` with a value equal to `value`\n  - `label!=(value1,value2,...)` - the time series does not have a label named `label` with a value equal to any of the values in the list\n\n  <note><b>Notes:</b>\n   - At least one filter expression with a syntax `label=value` or `label=(value1,value2,...)` is required.\n   - Filter expressions are conjunctive. For example, the filter `type=temperature room=study` means that a time series is a temperature time series of a study room.\n   - Whitespaces are unallowed in a filter expression except between quotes or double quotes in values - e.g., `x=\"y y\"` or `x='(y y,z z)'`.\n   </note>\n</details>\n\n<note><b>Note:</b> The `QUERYINDEX` command cannot be part of a transaction when running on a Redis cluster.</note>\n\n## Examples\n\n<details open>\n<summary><b>Find keys by location and sensor type</b></summary>\n\nCreate a set of sensors to measure temperature and humidity in your study and kitchen.\n\n\n127.0.0.1:6379> TS.CREATE telemetry:study:temperature LABELS room study type temperature\nOK\n127.0.0.1:6379> TS.CREATE telemetry:study:humidity LABELS room study type humidity\nOK\n127.0.0.1:6379> TS.CREATE telemetry:kitchen:temperature LABELS room kitchen type temperature\nOK\n127.0.0.1:6379> TS.CREATE telemetry:kitchen:humidity LABELS room kitchen type humidity\nOK\n\n\nRetrieve keys of all time series representing sensors located in the kitchen. \n\n\n127.0.0.1:6379> TS.QUERYINDEX room=kitchen\n1) \"telemetry:kitchen:humidity\"\n2) \"telemetry:kitchen:temperature\"\n\n\nTo retrieve the keys of all time series representing sensors that measure temperature, use this query:\n\n\n127.0.0.1:6379> TS.QUERYINDEX type=temperature\n1) \"telemetry:kitchen:temperature\"\n2) \"telemetry:study:temperature\"\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Array reply]() where each element is a [Bulk string reply](): a time series key. The array is empty if no time series matches the filter.\n* [Simple error reply]() in these cases: invalid filter expression.\n\n**RESP3:**\n\nOne of the following:\n* [Set reply]() where each element is a [Bulk string reply](): a time series key. The set is empty if no time series matches the filter.\n* [Simple error reply]() in these cases: invalid filter expression.\n\n\n\n## See also\n\n[`TS.CREATE`]() | [`TS.MRANGE`]() | [`TS.MREVRANGE`]() | [`TS.MGET`]()\n\n## Related topics\n\n[RedisTimeSeries]()",
+  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\n\nGet all time series keys matching a filter list. Note: all matching keys will be listed, whether or not the user has read access.\n\n[Examples](#examples)",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\n\nGet all time series keys matching a filter list. Note: all matching keys will be listed, whether or not the user has read access.\n\n[Examples](#examples)"
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open>\n<summary><code>filterExpr...</code></summary>\n\nfilters time series based on their labels and label values. Each filter expression has one of the following syntaxes:\n\n  - `label!=` - the time series has a label named `label`\n  - `label=value` - the time series has a label named `label` with a value equal to `value`\n  - `label=(value1,value2,...)` - the time series has a label named `label` with a value equal to one of the values in the list\n  - `label=` - the time series does not have a label named `label`\n  - `label!=value` - the time series does not have a label named `label` with a value equal to `value`\n  - `label!=(value1,value2,...)` - the time series does not have a label named `label` with a value equal to any of the values in the list\n\n  <note><b>Notes:</b>\n   - At least one filter expression with a syntax `label=value` or `label=(value1,value2,...)` is required.\n   - Filter expressions are conjunctive. For example, the filter `type=temperature room=study` means that a time series is a temperature time series of a study room.\n   - Whitespaces are unallowed in a filter expression except between quotes or double quotes in values - e.g., `x=\"y y\"` or `x='(y y,z z)'`.\n   </note>\n</details>\n\n<note><b>Note:</b> The `QUERYINDEX` command cannot be part of a transaction when running on a Redis cluster.</note>"
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "<details open>\n<summary><b>Find keys by location and sensor type</b></summary>\n\nCreate a set of sensors to measure temperature and humidity in your study and kitchen.\n\n\n127.0.0.1:6379> TS.CREATE telemetry:study:temperature LABELS room study type temperature\nOK\n127.0.0.1:6379> TS.CREATE telemetry:study:humidity LABELS room study type humidity\nOK\n127.0.0.1:6379> TS.CREATE telemetry:kitchen:temperature LABELS room kitchen type temperature\nOK\n127.0.0.1:6379> TS.CREATE telemetry:kitchen:humidity LABELS room kitchen type humidity\nOK\n\n\nRetrieve keys of all time series representing sensors located in the kitchen. \n\n\n127.0.0.1:6379> TS.QUERYINDEX room=kitchen\n1) \"telemetry:kitchen:humidity\"\n2) \"telemetry:kitchen:temperature\"\n\n\nTo retrieve the keys of all time series representing sensors that measure temperature, use this query:\n\n\n127.0.0.1:6379> TS.QUERYINDEX type=temperature\n1) \"telemetry:kitchen:temperature\"\n2) \"telemetry:study:temperature\"\n\n</details>"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Array reply]() where each element is a [Bulk string reply](): a time series key. The array is empty if no time series matches the filter.\n* [Simple error reply]() in these cases: invalid filter expression.\n\n**RESP3:**\n\nOne of the following:\n* [Set reply]() where each element is a [Bulk string reply](): a time series key. The set is empty if no time series matches the filter.\n* [Simple error reply]() in these cases: invalid filter expression."
+    },
+    {
+      "title": "See also",
+      "level": 2,
+      "content": "[`TS.CREATE`]() | [`TS.MRANGE`]() | [`TS.MREVRANGE`]() | [`TS.MGET`]()"
+    },
+    {
+      "title": "Related topics",
+      "level": 2,
+      "content": "[RedisTimeSeries]()"
+    }
+  ]
+}

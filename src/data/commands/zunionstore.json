@@ -1,0 +1,165 @@
+{
+  "slug": "zunionstore",
+  "title": "ZUNIONSTORE",
+  "description": "Stores the union of multiple sorted sets in a key.",
+  "docsUrl": "https://redis.io/docs/latest/commands/zunionstore/",
+  "group": "sorted-set",
+  "groupLabel": "Sorted Sets",
+  "syntax": "ZUNIONSTORE destination numkeys key [key ...] [WEIGHTS weight\n  [weight ...]] [AGGREGATE <SUM | MIN | MAX>]",
+  "complexity": "O(N)+O(M log(M)) with N being the sum of the sizes of the input sorted sets, and M being the number of elements in the resulting sorted set.",
+  "since": "2.0.0",
+  "arity": -4,
+  "aclCategories": [
+    "@write",
+    "@sortedset",
+    "@slow"
+  ],
+  "commandFlags": [
+    "write",
+    "denyoom",
+    "movablekeys"
+  ],
+  "arguments": [
+    {
+      "display_text": "destination",
+      "key_spec_index": 0,
+      "name": "destination",
+      "type": "key"
+    },
+    {
+      "display_text": "numkeys",
+      "name": "numkeys",
+      "type": "integer"
+    },
+    {
+      "display_text": "key",
+      "key_spec_index": 1,
+      "multiple": true,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "weight",
+      "multiple": true,
+      "name": "weight",
+      "optional": true,
+      "token": "WEIGHTS",
+      "type": "integer"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "sum",
+          "name": "sum",
+          "token": "SUM",
+          "type": "pure-token"
+        },
+        {
+          "display_text": "min",
+          "name": "min",
+          "token": "MIN",
+          "type": "pure-token"
+        },
+        {
+          "display_text": "max",
+          "name": "max",
+          "token": "MAX",
+          "type": "pure-token"
+        }
+      ],
+      "name": "aggregate",
+      "optional": true,
+      "token": "AGGREGATE",
+      "type": "oneof"
+    }
+  ],
+  "keySpecs": [
+    {
+      "OW": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      },
+      "update": true
+    },
+    {
+      "RO": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 2
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "firstkey": 1,
+          "keynumidx": 0,
+          "keystep": 1
+        },
+        "type": "keynum"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nComputes the union of `numkeys` sorted sets given by the specified keys, and\nstores the result in `destination`.\nIt is mandatory to provide the number of input keys (`numkeys`) before passing\nthe input keys and the other (optional) arguments.\n\nBy default, the resulting score of an element is the sum of its scores in the\nsorted sets where it exists.\n\nUsing the `WEIGHTS` option, it is possible to specify a multiplication factor\nfor each input sorted set.\nThis means that the score of every element in every input sorted set is\nmultiplied by this factor before being passed to the aggregation function.\nWhen `WEIGHTS` is not given, the multiplication factors default to `1`.\n\nWith the `AGGREGATE` option, it is possible to specify how the results of the\nunion are aggregated.\nThis option defaults to `SUM`, where the score of an element is summed across\nthe inputs where it exists.\nWhen this option is set to either `MIN` or `MAX`, the resulting set will contain\nthe minimum or maximum score of an element across the inputs where it exists.\n\nIf `destination` already exists, it is overwritten.\n\n## Examples\n\n\nZADD zset1 1 \"one\"\nZADD zset1 2 \"two\"\nZADD zset2 1 \"one\"\nZADD zset2 2 \"two\"\nZADD zset2 3 \"three\"\nZUNIONSTORE out 2 zset1 zset2 WEIGHTS 2 3\nZRANGE out 0 -1 WITHSCORES\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of elements in the resulting sorted set.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of elements in the resulting sorted set.",
+  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nComputes the union of `numkeys` sorted sets given by the specified keys, and\nstores the result in `destination`.\nIt is mandatory to provide the number of input keys (`numkeys`) before passing\nthe input keys and the other (optional) arguments.\n\nBy default, the resulting score of an element is the sum of its scores in the\nsorted sets where it exists.\n\nUsing the `WEIGHTS` option, it is possible to specify a multiplication factor\nfor each input sorted set.\nThis means that the score of every element in every input sorted set is\nmultiplied by this factor before being passed to the aggregation function.\nWhen `WEIGHTS` is not given, the multiplication factors default to `1`.\n\nWith the `AGGREGATE` option, it is possible to specify how the results of the\nunion are aggregated.\nThis option defaults to `SUM`, where the score of an element is summed across\nthe inputs where it exists.\nWhen this option is set to either `MIN` or `MAX`, the resulting set will contain\nthe minimum or maximum score of an element across the inputs where it exists.\n\nIf `destination` already exists, it is overwritten.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nComputes the union of `numkeys` sorted sets given by the specified keys, and\nstores the result in `destination`.\nIt is mandatory to provide the number of input keys (`numkeys`) before passing\nthe input keys and the other (optional) arguments.\n\nBy default, the resulting score of an element is the sum of its scores in the\nsorted sets where it exists.\n\nUsing the `WEIGHTS` option, it is possible to specify a multiplication factor\nfor each input sorted set.\nThis means that the score of every element in every input sorted set is\nmultiplied by this factor before being passed to the aggregation function.\nWhen `WEIGHTS` is not given, the multiplication factors default to `1`.\n\nWith the `AGGREGATE` option, it is possible to specify how the results of the\nunion are aggregated.\nThis option defaults to `SUM`, where the score of an element is summed across\nthe inputs where it exists.\nWhen this option is set to either `MIN` or `MAX`, the resulting set will contain\nthe minimum or maximum score of an element across the inputs where it exists.\n\nIf `destination` already exists, it is overwritten."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "ZADD zset1 1 \"one\"\nZADD zset1 2 \"two\"\nZADD zset2 1 \"one\"\nZADD zset2 2 \"two\"\nZADD zset2 3 \"three\"\nZUNIONSTORE out 2 zset1 zset2 WEIGHTS 2 3\nZRANGE out 0 -1 WITHSCORES"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of elements in the resulting sorted set.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of elements in the resulting sorted set."
+    }
+  ]
+}

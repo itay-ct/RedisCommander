@@ -1,0 +1,80 @@
+{
+  "slug": "function-delete",
+  "title": "FUNCTION DELETE",
+  "description": "Deletes a library and its functions.",
+  "docsUrl": "https://redis.io/docs/latest/commands/function-delete/",
+  "group": "scripting",
+  "groupLabel": "Scripting",
+  "syntax": "FUNCTION DELETE library-name",
+  "complexity": "O(1)",
+  "since": "7.0.0",
+  "arity": 3,
+  "aclCategories": [
+    "@write",
+    "@slow",
+    "@scripting"
+  ],
+  "commandFlags": [
+    "write",
+    "noscript"
+  ],
+  "arguments": [
+    {
+      "display_text": "library-name",
+      "name": "library-name",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Delete a library and all its functions.\n\nThis command deletes the library called _library-name_ and all functions in it.\nIf the library doesn't exist, the server returns an error.\n\nFor more information please refer to [Introduction to Redis Functions]().\n\n## Examples\n\n```\nredis> FUNCTION LOAD \"#!lua name=mylib \\n redis.register_function('myfunc', function(keys, args) return 'hello' end)\"\n\"mylib\"\nredis> FCALL myfunc 0\n\"hello\"\nredis> FUNCTION DELETE mylib\nOK\nredis> FCALL myfunc 0\n(error) ERR Function not found\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.",
+  "intro": "Delete a library and all its functions.\n\nThis command deletes the library called _library-name_ and all functions in it.\nIf the library doesn't exist, the server returns an error.\n\nFor more information please refer to [Introduction to Redis Functions]().",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Delete a library and all its functions.\n\nThis command deletes the library called _library-name_ and all functions in it.\nIf the library doesn't exist, the server returns an error.\n\nFor more information please refer to [Introduction to Redis Functions]()."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "```\nredis> FUNCTION LOAD \"#!lua name=mylib \\n redis.register_function('myfunc', function(keys, args) return 'hello' end)\"\n\"mylib\"\nredis> FCALL myfunc 0\n\"hello\"\nredis> FUNCTION DELETE mylib\nOK\nredis> FCALL myfunc 0\n(error) ERR Function not found\n```"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`."
+    }
+  ]
+}

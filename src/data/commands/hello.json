@@ -1,0 +1,106 @@
+{
+  "slug": "hello",
+  "title": "HELLO",
+  "description": "Handshakes with the Redis server.",
+  "docsUrl": "https://redis.io/docs/latest/commands/hello/",
+  "group": "connection",
+  "groupLabel": "Connection",
+  "syntax": "HELLO [protover [AUTH username password] [SETNAME clientname]]",
+  "complexity": "O(1)",
+  "since": "6.0.0",
+  "arity": -1,
+  "aclCategories": [
+    "@fast",
+    "@connection"
+  ],
+  "commandFlags": [
+    "noscript",
+    "loading",
+    "stale",
+    "fast",
+    "no_auth",
+    "allow_busy"
+  ],
+  "arguments": [
+    {
+      "arguments": [
+        {
+          "display_text": "protover",
+          "name": "protover",
+          "type": "integer"
+        },
+        {
+          "arguments": [
+            {
+              "display_text": "username",
+              "name": "username",
+              "type": "string"
+            },
+            {
+              "display_text": "password",
+              "name": "password",
+              "type": "string"
+            }
+          ],
+          "name": "auth",
+          "optional": true,
+          "token": "AUTH",
+          "type": "block"
+        },
+        {
+          "display_text": "clientname",
+          "name": "clientname",
+          "optional": true,
+          "token": "SETNAME",
+          "type": "string"
+        }
+      ],
+      "name": "arguments",
+      "optional": true,
+      "type": "block"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Switch to a different protocol, optionally authenticating and setting the\nconnection's name, or provide a contextual client report.\n\nRedis version 6 and above supports two protocols: the old protocol, RESP2, and\na new one introduced with Redis 6, RESP3. RESP3 has certain advantages since\nwhen the connection is in this mode, Redis is able to reply with more semantical\nreplies: for instance, [`HGETALL`]() will return a *map type*, so a client library\nimplementation no longer requires to know in advance to translate the array into\na hash before returning it to the caller. For a full coverage of RESP3, please\ncheck the [RESP3 specification](https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md).\n\nIn Redis 6 connections start in RESP2 mode, so clients implementing RESP2 do\nnot need to updated or changed. There are no short term plans to drop support for\nRESP2, although future version may default to RESP3.\n\n`HELLO` always replies with a list of current server and connection properties,\nsuch as: versions, modules loaded, client ID, replication role and so forth.\nWhen called without any arguments in Redis 6.2 and its default use of RESP2\nprotocol, the reply looks like this:\n\n    > HELLO\n     1) \"server\"\n     2) \"redis\"\n     3) \"version\"\n     4) \"255.255.255\"\n     5) \"proto\"\n     6) (integer) 2\n     7) \"id\"\n     8) (integer) 5\n     9) \"mode\"\n    10) \"standalone\"\n    11) \"role\"\n    12) \"master\"\n    13) \"modules\"\n    14) (empty array)\n\nClients that want to handshake using the RESP3 mode need to call the `HELLO`\ncommand and specify the value \"3\" as the `protover` argument, like so:\n\n    > HELLO 3\n    1# \"server\" => \"redis\"\n    2# \"version\" => \"6.0.0\"\n    3# \"proto\" => (integer) 3\n    4# \"id\" => (integer) 10\n    5# \"mode\" => \"standalone\"\n    6# \"role\" => \"master\"\n    7# \"modules\" => (empty array)\n\nBecause `HELLO` replies with useful information, and given that `protover` is\noptional or can be set to \"2\", client library authors may consider using this\ncommand instead of the canonical [`PING`]() when setting up the connection.\n\nWhen called with the optional `protover` argument, this command switches the\nprotocol to the specified version and also accepts the following options:\n\n* `AUTH <username> <password>`: directly authenticate the connection in addition to switching to the specified protocol version. This makes calling [`AUTH`]() before `HELLO` unnecessary when setting up a new connection. Note that the `username` can be set to \"default\" to authenticate against a server that does not use ACLs, but rather the simpler `requirepass` mechanism of Redis prior to version 6.\n* `SETNAME <clientname>`: this is the equivalent of calling [`CLIENT SETNAME`]().\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Map reply](../../develop/reference/protocol-spec#maps): a list of server properties.\n[Simple error reply](../../develop/reference/protocol-spec#simple-errors): if the `protover` requested does not exist.\n\n**RESP3:**\n\n[Map reply](../../develop/reference/protocol-spec#maps): a list of server properties.\n[Simple error reply](../../develop/reference/protocol-spec#simple-errors): if the `protover` requested does not exist.",
+  "intro": "Switch to a different protocol, optionally authenticating and setting the\nconnection's name, or provide a contextual client report.\n\nRedis version 6 and above supports two protocols: the old protocol, RESP2, and\na new one introduced with Redis 6, RESP3. RESP3 has certain advantages since\nwhen the connection is in this mode, Redis is able to reply with more semantical\nreplies: for instance, [`HGETALL`]() will return a *map type*, so a client library\nimplementation no longer requires to know in advance to translate the array into\na hash before returning it to the caller. For a full coverage of RESP3, please\ncheck the [RESP3 specification](https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md).\n\nIn Redis 6 connections start in RESP2 mode, so clients implementing RESP2 do\nnot need to updated or changed. There are no short term plans to drop support for\nRESP2, although future version may default to RESP3.\n\n`HELLO` always replies with a list of current server and connection properties,\nsuch as: versions, modules loaded, client ID, replication role and so forth.\nWhen called without any arguments in Redis 6.2 and its default use of RESP2\nprotocol, the reply looks like this:\n\n    > HELLO\n     1) \"server\"\n     2) \"redis\"\n     3) \"version\"\n     4) \"255.255.255\"\n     5) \"proto\"\n     6) (integer) 2\n     7) \"id\"\n     8) (integer) 5\n     9) \"mode\"\n    10) \"standalone\"\n    11) \"role\"\n    12) \"master\"\n    13) \"modules\"\n    14) (empty array)\n\nClients that want to handshake using the RESP3 mode need to call the `HELLO`\ncommand and specify the value \"3\" as the `protover` argument, like so:\n\n    > HELLO 3\n    1# \"server\" => \"redis\"\n    2# \"version\" => \"6.0.0\"\n    3# \"proto\" => (integer) 3\n    4# \"id\" => (integer) 10\n    5# \"mode\" => \"standalone\"\n    6# \"role\" => \"master\"\n    7# \"modules\" => (empty array)\n\nBecause `HELLO` replies with useful information, and given that `protover` is\noptional or can be set to \"2\", client library authors may consider using this\ncommand instead of the canonical [`PING`]() when setting up the connection.\n\nWhen called with the optional `protover` argument, this command switches the\nprotocol to the specified version and also accepts the following options:\n\n* `AUTH <username> <password>`: directly authenticate the connection in addition to switching to the specified protocol version. This makes calling [`AUTH`]() before `HELLO` unnecessary when setting up a new connection. Note that the `username` can be set to \"default\" to authenticate against a server that does not use ACLs, but rather the simpler `requirepass` mechanism of Redis prior to version 6.\n* `SETNAME <clientname>`: this is the equivalent of calling [`CLIENT SETNAME`]().",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Switch to a different protocol, optionally authenticating and setting the\nconnection's name, or provide a contextual client report.\n\nRedis version 6 and above supports two protocols: the old protocol, RESP2, and\na new one introduced with Redis 6, RESP3. RESP3 has certain advantages since\nwhen the connection is in this mode, Redis is able to reply with more semantical\nreplies: for instance, [`HGETALL`]() will return a *map type*, so a client library\nimplementation no longer requires to know in advance to translate the array into\na hash before returning it to the caller. For a full coverage of RESP3, please\ncheck the [RESP3 specification](https://github.com/redis/redis-specifications/blob/master/protocol/RESP3.md).\n\nIn Redis 6 connections start in RESP2 mode, so clients implementing RESP2 do\nnot need to updated or changed. There are no short term plans to drop support for\nRESP2, although future version may default to RESP3.\n\n`HELLO` always replies with a list of current server and connection properties,\nsuch as: versions, modules loaded, client ID, replication role and so forth.\nWhen called without any arguments in Redis 6.2 and its default use of RESP2\nprotocol, the reply looks like this:\n\n    > HELLO\n     1) \"server\"\n     2) \"redis\"\n     3) \"version\"\n     4) \"255.255.255\"\n     5) \"proto\"\n     6) (integer) 2\n     7) \"id\"\n     8) (integer) 5\n     9) \"mode\"\n    10) \"standalone\"\n    11) \"role\"\n    12) \"master\"\n    13) \"modules\"\n    14) (empty array)\n\nClients that want to handshake using the RESP3 mode need to call the `HELLO`\ncommand and specify the value \"3\" as the `protover` argument, like so:\n\n    > HELLO 3\n    1# \"server\" => \"redis\"\n    2# \"version\" => \"6.0.0\"\n    3# \"proto\" => (integer) 3\n    4# \"id\" => (integer) 10\n    5# \"mode\" => \"standalone\"\n    6# \"role\" => \"master\"\n    7# \"modules\" => (empty array)\n\nBecause `HELLO` replies with useful information, and given that `protover` is\noptional or can be set to \"2\", client library authors may consider using this\ncommand instead of the canonical [`PING`]() when setting up the connection.\n\nWhen called with the optional `protover` argument, this command switches the\nprotocol to the specified version and also accepts the following options:\n\n* `AUTH <username> <password>`: directly authenticate the connection in addition to switching to the specified protocol version. This makes calling [`AUTH`]() before `HELLO` unnecessary when setting up a new connection. Note that the `username` can be set to \"default\" to authenticate against a server that does not use ACLs, but rather the simpler `requirepass` mechanism of Redis prior to version 6.\n* `SETNAME <clientname>`: this is the equivalent of calling [`CLIENT SETNAME`]()."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Map reply](../../develop/reference/protocol-spec#maps): a list of server properties.\n[Simple error reply](../../develop/reference/protocol-spec#simple-errors): if the `protover` requested does not exist.\n\n**RESP3:**\n\n[Map reply](../../develop/reference/protocol-spec#maps): a list of server properties.\n[Simple error reply](../../develop/reference/protocol-spec#simple-errors): if the `protover` requested does not exist."
+    }
+  ]
+}

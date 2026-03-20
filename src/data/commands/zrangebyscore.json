@@ -1,0 +1,153 @@
+{
+  "slug": "zrangebyscore",
+  "title": "ZRANGEBYSCORE",
+  "description": "Returns members in a sorted set within a range of scores.",
+  "docsUrl": "https://redis.io/docs/latest/commands/zrangebyscore/",
+  "group": "sorted-set",
+  "groupLabel": "Sorted Sets",
+  "syntax": "ZRANGEBYSCORE key min max [WITHSCORES] [LIMIT offset count]",
+  "complexity": "O(log(N)+M) with N being the number of elements in the sorted set and M the number of elements being returned. If M is constant (e.g. always asking for the first 10 elements with LIMIT), you can consider it O(log(N)).",
+  "since": "1.0.5",
+  "arity": -4,
+  "aclCategories": [
+    "@read",
+    "@sortedset",
+    "@slow"
+  ],
+  "commandFlags": [
+    "readonly"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "min",
+      "name": "min",
+      "type": "double"
+    },
+    {
+      "display_text": "max",
+      "name": "max",
+      "type": "double"
+    },
+    {
+      "display_text": "withscores",
+      "name": "withscores",
+      "optional": true,
+      "since": "2.0.0",
+      "token": "WITHSCORES",
+      "type": "pure-token"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "offset",
+          "name": "offset",
+          "type": "integer"
+        },
+        {
+          "display_text": "count",
+          "name": "count",
+          "type": "integer"
+        }
+      ],
+      "name": "limit",
+      "optional": true,
+      "token": "LIMIT",
+      "type": "block"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RO": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "exclusive-intervals-and-infinity",
+        "title": "Exclusive intervals and infinity"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "pattern-weighted-random-selection-of-an-element",
+        "title": "Pattern: weighted random selection of an element"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Returns all the elements in the sorted set at `key` with a score between `min`\nand `max` (including elements with score equal to `min` or `max`).\nThe elements are considered to be ordered from low to high scores.\n\nThe elements having the same score are returned in lexicographical order (this\nfollows from a property of the sorted set implementation in Redis and does not\ninvolve further computation).\n\nThe optional `LIMIT` argument can be used to only get a range of the matching\nelements (similar to _SELECT LIMIT offset, count_ in SQL). A negative `count`\nreturns all elements from the `offset`.\nKeep in mind that if `offset` is large, the sorted set needs to be traversed for\n`offset` elements before getting to the elements to return, which can add up to\nO(N) time complexity.\n\nThe optional `WITHSCORES` argument makes the command return both the element and\nits score, instead of the element alone.\nThis option is available since Redis 2.0.\n\n## Exclusive intervals and infinity\n\n`min` and `max` can be `-inf` and `+inf`, so that you are not required to know\nthe highest or lowest score in the sorted set to get all elements from or up to\na certain score.\n\nBy default, the interval specified by `min` and `max` is closed (inclusive).\nIt is possible to specify an open interval (exclusive) by prefixing the score\nwith the character `(`.\nFor example:\n\n```\nZRANGEBYSCORE zset (1 5\n```\n\nWill return all elements with `1 < score <= 5` while:\n\n```\nZRANGEBYSCORE zset (5 (10\n```\n\nWill return all the elements with `5 < score < 10` (5 and 10 excluded).\n\n## Examples\n\n\nZADD myzset 1 \"one\"\nZADD myzset 2 \"two\"\nZADD myzset 3 \"three\"\nZRANGEBYSCORE myzset -inf +inf\nZRANGEBYSCORE myzset 1 2\nZRANGEBYSCORE myzset (1 2\nZRANGEBYSCORE myzset (1 (2\n\n\n## Pattern: weighted random selection of an element\n\nNormally `ZRANGEBYSCORE` is simply used in order to get range of items\nwhere the score is the indexed integer key, however it is possible to do less\nobvious things with the command.\n\nFor example a common problem when implementing Markov chains and other algorithms\nis to select an element at random from a set, but different elements may have\ndifferent weights that change how likely it is they are picked.\n\nThis is how we use this command in order to mount such an algorithm:\n\nImagine you have elements A, B and C with weights 1, 2 and 3.\nYou compute the sum of the weights, which is 1+2+3 = 6\n\nAt this point you add all the elements into a sorted set using this algorithm:\n\n```\nSUM = ELEMENTS.TOTAL_WEIGHT // 6 in this case.\nSCORE = 0\nFOREACH ELE in ELEMENTS\n    SCORE += ELE.weight / SUM\n    ZADD KEY SCORE ELE\nEND\n```\n\nThis means that you set:\n\n```\nA to score 0.16\nB to score .5\nC to score 1\n```\n\nSince this involves approximations, in order to avoid C is set to,\nlike, 0.998 instead of 1, we just modify the above algorithm to make sure\nthe last score is 1 (left as an exercise for the reader...).\n\nAt this point, each time you want to get a weighted random element,\njust compute a random number between 0 and 1 (which is like calling\n`rand()` in most languages), so you can just do:\n\n    RANDOM_ELE = ZRANGEBYSCORE key RAND() +inf LIMIT 0 1\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v6.2.0. |\n\n## Return information\n\n**RESP2:**\n\n* [Array reply](../../develop/reference/protocol-spec#arrays): a list of the members with, optionally, their scores in the specified score range.\n\n**RESP3:**\n\n* [Array reply](../../develop/reference/protocol-spec#arrays): a list of the members with, optionally, their scores in the specified score range.",
+  "intro": "Returns all the elements in the sorted set at `key` with a score between `min`\nand `max` (including elements with score equal to `min` or `max`).\nThe elements are considered to be ordered from low to high scores.\n\nThe elements having the same score are returned in lexicographical order (this\nfollows from a property of the sorted set implementation in Redis and does not\ninvolve further computation).\n\nThe optional `LIMIT` argument can be used to only get a range of the matching\nelements (similar to _SELECT LIMIT offset, count_ in SQL). A negative `count`\nreturns all elements from the `offset`.\nKeep in mind that if `offset` is large, the sorted set needs to be traversed for\n`offset` elements before getting to the elements to return, which can add up to\nO(N) time complexity.\n\nThe optional `WITHSCORES` argument makes the command return both the element and\nits score, instead of the element alone.\nThis option is available since Redis 2.0.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Returns all the elements in the sorted set at `key` with a score between `min`\nand `max` (including elements with score equal to `min` or `max`).\nThe elements are considered to be ordered from low to high scores.\n\nThe elements having the same score are returned in lexicographical order (this\nfollows from a property of the sorted set implementation in Redis and does not\ninvolve further computation).\n\nThe optional `LIMIT` argument can be used to only get a range of the matching\nelements (similar to _SELECT LIMIT offset, count_ in SQL). A negative `count`\nreturns all elements from the `offset`.\nKeep in mind that if `offset` is large, the sorted set needs to be traversed for\n`offset` elements before getting to the elements to return, which can add up to\nO(N) time complexity.\n\nThe optional `WITHSCORES` argument makes the command return both the element and\nits score, instead of the element alone.\nThis option is available since Redis 2.0."
+    },
+    {
+      "title": "Exclusive intervals and infinity",
+      "level": 2,
+      "content": "`min` and `max` can be `-inf` and `+inf`, so that you are not required to know\nthe highest or lowest score in the sorted set to get all elements from or up to\na certain score.\n\nBy default, the interval specified by `min` and `max` is closed (inclusive).\nIt is possible to specify an open interval (exclusive) by prefixing the score\nwith the character `(`.\nFor example:\n\n```\nZRANGEBYSCORE zset (1 5\n```\n\nWill return all elements with `1 < score <= 5` while:\n\n```\nZRANGEBYSCORE zset (5 (10\n```\n\nWill return all the elements with `5 < score < 10` (5 and 10 excluded)."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "ZADD myzset 1 \"one\"\nZADD myzset 2 \"two\"\nZADD myzset 3 \"three\"\nZRANGEBYSCORE myzset -inf +inf\nZRANGEBYSCORE myzset 1 2\nZRANGEBYSCORE myzset (1 2\nZRANGEBYSCORE myzset (1 (2"
+    },
+    {
+      "title": "Pattern: weighted random selection of an element",
+      "level": 2,
+      "content": "Normally `ZRANGEBYSCORE` is simply used in order to get range of items\nwhere the score is the indexed integer key, however it is possible to do less\nobvious things with the command.\n\nFor example a common problem when implementing Markov chains and other algorithms\nis to select an element at random from a set, but different elements may have\ndifferent weights that change how likely it is they are picked.\n\nThis is how we use this command in order to mount such an algorithm:\n\nImagine you have elements A, B and C with weights 1, 2 and 3.\nYou compute the sum of the weights, which is 1+2+3 = 6\n\nAt this point you add all the elements into a sorted set using this algorithm:\n\n```\nSUM = ELEMENTS.TOTAL_WEIGHT // 6 in this case.\nSCORE = 0\nFOREACH ELE in ELEMENTS\n    SCORE += ELE.weight / SUM\n    ZADD KEY SCORE ELE\nEND\n```\n\nThis means that you set:\n\n```\nA to score 0.16\nB to score .5\nC to score 1\n```\n\nSince this involves approximations, in order to avoid C is set to,\nlike, 0.998 instead of 1, we just modify the above algorithm to make sure\nthe last score is 1 (left as an exercise for the reader...).\n\nAt this point, each time you want to get a weighted random element,\njust compute a random number between 0 and 1 (which is like calling\n`rand()` in most languages), so you can just do:\n\n    RANDOM_ELE = ZRANGEBYSCORE key RAND() +inf LIMIT 0 1"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v6.2.0. |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n* [Array reply](../../develop/reference/protocol-spec#arrays): a list of the members with, optionally, their scores in the specified score range.\n\n**RESP3:**\n\n* [Array reply](../../develop/reference/protocol-spec#arrays): a list of the members with, optionally, their scores in the specified score range."
+    }
+  ]
+}

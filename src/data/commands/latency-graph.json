@@ -1,0 +1,82 @@
+{
+  "slug": "latency-graph",
+  "title": "LATENCY GRAPH",
+  "description": "Returns a latency graph for an event.",
+  "docsUrl": "https://redis.io/docs/latest/commands/latency-graph/",
+  "group": "server",
+  "groupLabel": "Server",
+  "syntax": "LATENCY GRAPH event",
+  "complexity": "O(1)",
+  "since": "2.8.13",
+  "arity": 3,
+  "aclCategories": [
+    "@admin",
+    "@slow",
+    "@dangerous"
+  ],
+  "commandFlags": [
+    "admin",
+    "noscript",
+    "loading",
+    "stale"
+  ],
+  "arguments": [
+    {
+      "display_text": "event",
+      "name": "event",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Produces an ASCII-art style graph for the specified event.\n\n`LATENCY GRAPH` lets you intuitively understand the latency trend of an `event` via state-of-the-art visualization. It can be used for quickly grasping the situation before resorting to means such parsing the raw data from [`LATENCY HISTORY`]() or external tooling.\n\nValid values for `event` are:\n* `active-defrag-cycle`\n* `aof-fsync-always`\n* `aof-stat`\n* `aof-rewrite-diff-write`\n* `aof-rename`\n* `aof-write`\n* `aof-write-active-child`\n* `aof-write-alone`\n* `aof-write-pending-fsync`\n* `command`\n* `expire-cycle`\n* `eviction-cycle`\n* `eviction-del`\n* `fast-command`\n* `fork`\n* `rdb-unlink-temp-file`\n\n## Examples\n\n```\n127.0.0.1:6379> latency reset command\n(integer) 0\n127.0.0.1:6379> debug sleep .1\nOK\n127.0.0.1:6379> debug sleep .2\nOK\n127.0.0.1:6379> debug sleep .3\nOK\n127.0.0.1:6379> debug sleep .5\nOK\n127.0.0.1:6379> debug sleep .4\nOK\n127.0.0.1:6379> latency graph command\ncommand - high 500 ms, low 101 ms (all time high 500 ms)\n--------------------------------------------------------------------------------\n   #_\n  _||\n _|||\n_||||\n\n11186\n542ss\nsss\n```\n\nThe vertical labels under each graph column represent the amount of seconds,\nminutes, hours or days ago the event happened. For example \"15s\" means that the\nfirst graphed event happened 15 seconds ago.\n\nThe graph is normalized in the min-max scale so that the zero (the underscore\nin the lower row) is the minimum, and a # in the higher row is the maximum.\n\nFor more information refer to the [Latency Monitoring Framework page][lm].\n\n[lm]: /operate/oss_and_stack/management/optimization/latency-monitor.md\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): Latency graph\n\n**RESP3:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): Latency graph",
+  "intro": "Produces an ASCII-art style graph for the specified event.\n\n`LATENCY GRAPH` lets you intuitively understand the latency trend of an `event` via state-of-the-art visualization. It can be used for quickly grasping the situation before resorting to means such parsing the raw data from [`LATENCY HISTORY`]() or external tooling.\n\nValid values for `event` are:\n* `active-defrag-cycle`\n* `aof-fsync-always`\n* `aof-stat`\n* `aof-rewrite-diff-write`\n* `aof-rename`\n* `aof-write`\n* `aof-write-active-child`\n* `aof-write-alone`\n* `aof-write-pending-fsync`\n* `command`\n* `expire-cycle`\n* `eviction-cycle`\n* `eviction-del`\n* `fast-command`\n* `fork`\n* `rdb-unlink-temp-file`",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Produces an ASCII-art style graph for the specified event.\n\n`LATENCY GRAPH` lets you intuitively understand the latency trend of an `event` via state-of-the-art visualization. It can be used for quickly grasping the situation before resorting to means such parsing the raw data from [`LATENCY HISTORY`]() or external tooling.\n\nValid values for `event` are:\n* `active-defrag-cycle`\n* `aof-fsync-always`\n* `aof-stat`\n* `aof-rewrite-diff-write`\n* `aof-rename`\n* `aof-write`\n* `aof-write-active-child`\n* `aof-write-alone`\n* `aof-write-pending-fsync`\n* `command`\n* `expire-cycle`\n* `eviction-cycle`\n* `eviction-del`\n* `fast-command`\n* `fork`\n* `rdb-unlink-temp-file`"
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "```\n127.0.0.1:6379> latency reset command\n(integer) 0\n127.0.0.1:6379> debug sleep .1\nOK\n127.0.0.1:6379> debug sleep .2\nOK\n127.0.0.1:6379> debug sleep .3\nOK\n127.0.0.1:6379> debug sleep .5\nOK\n127.0.0.1:6379> debug sleep .4\nOK\n127.0.0.1:6379> latency graph command\ncommand - high 500 ms, low 101 ms (all time high 500 ms)\n--------------------------------------------------------------------------------\n   #_\n  _||\n _|||\n_||||\n\n11186\n542ss\nsss\n```\n\nThe vertical labels under each graph column represent the amount of seconds,\nminutes, hours or days ago the event happened. For example \"15s\" means that the\nfirst graphed event happened 15 seconds ago.\n\nThe graph is normalized in the min-max scale so that the zero (the underscore\nin the lower row) is the minimum, and a # in the higher row is the maximum.\n\nFor more information refer to the [Latency Monitoring Framework page][lm].\n\n[lm]: /operate/oss_and_stack/management/optimization/latency-monitor.md"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): Latency graph\n\n**RESP3:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): Latency graph"
+    }
+  ]
+}

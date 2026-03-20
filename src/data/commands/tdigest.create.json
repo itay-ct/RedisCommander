@@ -1,0 +1,99 @@
+{
+  "slug": "tdigest.create",
+  "title": "TDIGEST.CREATE",
+  "description": "Allocates memory and initializes a new t-digest sketch",
+  "docsUrl": "https://redis.io/docs/latest/commands/tdigest.create/",
+  "group": "tdigest",
+  "groupLabel": "T-Digest",
+  "syntax": "TDIGEST.CREATE key [COMPRESSION compression]",
+  "complexity": "O(1)",
+  "since": "2.4.0",
+  "arity": null,
+  "aclCategories": [
+    "@tdigest",
+    "@write"
+  ],
+  "commandFlags": [],
+  "arguments": [
+    {
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "name": "compression",
+      "optional": true,
+      "token": "COMPRESSION",
+      "type": "integer"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "optional-arguments",
+        "title": "Optional arguments"
+      },
+      {
+        "id": "example",
+        "title": "Example"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Allocates memory and initializes a new t-digest sketch.\n\n## Required arguments\n\n<details open><summary><code>key</code></summary> \n\nis the key name for this new t-digest sketch.\n</details>\n\n## Optional arguments\n\n<details open><summary><code>COMPRESSION compression</code></summary>\n\nis a controllable tradeoff between accuracy and memory consumption. 100 is a common value for normal uses and also the default if not specified. 1000 is more accurate. For more information on scaling of accuracy versus the compression value see [_The t-digest: Efficient estimates of distributions_](https://www.sciencedirect.com/science/article/pii/S2665963820300403).\n</details>\n\n## Example\n\n\nredis> TDIGEST.CREATE t COMPRESSION 100\nOK\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n\n* [Simple string reply]() `OK` if executed correctly.\n* [Simple error reply]() in these cases: incorrect key type or incorrect keyword.\n\n**RESP3:**\n\nOne of the following:\n\n* [Simple string reply]() `OK` if executed correctly.\n* [Simple error reply]() in these cases: incorrect key type or incorrect keyword.",
+  "intro": "Allocates memory and initializes a new t-digest sketch.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Allocates memory and initializes a new t-digest sketch."
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open><summary><code>key</code></summary> \n\nis the key name for this new t-digest sketch.\n</details>"
+    },
+    {
+      "title": "Optional arguments",
+      "level": 2,
+      "content": "<details open><summary><code>COMPRESSION compression</code></summary>\n\nis a controllable tradeoff between accuracy and memory consumption. 100 is a common value for normal uses and also the default if not specified. 1000 is more accurate. For more information on scaling of accuracy versus the compression value see [_The t-digest: Efficient estimates of distributions_](https://www.sciencedirect.com/science/article/pii/S2665963820300403).\n</details>"
+    },
+    {
+      "title": "Example",
+      "level": 2,
+      "content": "redis> TDIGEST.CREATE t COMPRESSION 100\nOK"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n\n* [Simple string reply]() `OK` if executed correctly.\n* [Simple error reply]() in these cases: incorrect key type or incorrect keyword.\n\n**RESP3:**\n\nOne of the following:\n\n* [Simple string reply]() `OK` if executed correctly.\n* [Simple error reply]() in these cases: incorrect key type or incorrect keyword."
+    }
+  ]
+}

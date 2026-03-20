@@ -1,0 +1,81 @@
+{
+  "slug": "command-info",
+  "title": "COMMAND INFO",
+  "description": "Returns information about one, multiple or all commands.",
+  "docsUrl": "https://redis.io/docs/latest/commands/command-info/",
+  "group": "server",
+  "groupLabel": "Server",
+  "syntax": "COMMAND INFO [command-name [command-name ...]]",
+  "complexity": "O(N) where N is the number of commands to look up",
+  "since": "2.8.13",
+  "arity": -2,
+  "aclCategories": [
+    "@slow",
+    "@connection"
+  ],
+  "commandFlags": [
+    "loading",
+    "stale"
+  ],
+  "arguments": [
+    {
+      "display_text": "command-name",
+      "multiple": true,
+      "name": "command-name",
+      "optional": true,
+      "type": "string"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Returns [Array reply]() of details about multiple Redis commands.\n\nSame result format as [`COMMAND`]() except you can specify which commands\nget returned.\n\nIf you request details about non-existing commands, their return\nposition will be nil.\n\n## Examples\n\n\nCOMMAND INFO get set eval\nCOMMAND INFO foo evalsha config bar\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a nested list of command details.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a nested list of command details.",
+  "intro": "Returns [Array reply]() of details about multiple Redis commands.\n\nSame result format as [`COMMAND`]() except you can specify which commands\nget returned.\n\nIf you request details about non-existing commands, their return\nposition will be nil.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Returns [Array reply]() of details about multiple Redis commands.\n\nSame result format as [`COMMAND`]() except you can specify which commands\nget returned.\n\nIf you request details about non-existing commands, their return\nposition will be nil."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "COMMAND INFO get set eval\nCOMMAND INFO foo evalsha config bar"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a nested list of command details.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a nested list of command details."
+    }
+  ]
+}

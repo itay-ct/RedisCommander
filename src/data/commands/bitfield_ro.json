@@ -1,0 +1,120 @@
+{
+  "slug": "bitfield_ro",
+  "title": "BITFIELD_RO",
+  "description": "Performs arbitrary read-only bitfield integer operations on strings.",
+  "docsUrl": "https://redis.io/docs/latest/commands/bitfield_ro/",
+  "group": "bitmap",
+  "groupLabel": "Bitmaps",
+  "syntax": "BITFIELD_RO key [GET encoding offset [GET encoding offset ...]]",
+  "complexity": "O(1) for each subcommand specified",
+  "since": "6.0.0",
+  "arity": -2,
+  "aclCategories": [
+    "@read",
+    "@bitmap",
+    "@fast"
+  ],
+  "commandFlags": [
+    "readonly",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "encoding",
+          "name": "encoding",
+          "type": "string"
+        },
+        {
+          "display_text": "offset",
+          "name": "offset",
+          "type": "integer"
+        }
+      ],
+      "multiple": true,
+      "multiple_token": true,
+      "name": "get-block",
+      "optional": true,
+      "token": "GET",
+      "type": "block"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RO": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Read-only variant of the [`BITFIELD`]() command.\nIt is like the original [`BITFIELD`]() but only accepts `GET` subcommand and can safely be used in read-only replicas.\n\nSince the original [`BITFIELD`]() has `SET` and `INCRBY` options it is technically flagged as a writing command in the Redis command table.\nFor this reason read-only replicas in a Redis Cluster will redirect it to the master instance even if the connection is in read-only mode (see the [`READONLY`]() command of Redis Cluster).\n\nSince Redis 6.2, the `BITFIELD_RO` variant was introduced in order to allow [`BITFIELD`]() behavior in read-only replicas without breaking compatibility on command flags.\n\nSee original [`BITFIELD`]() for more details.\n\n## Examples\n\n```\nBITFIELD_RO hello GET i8 16\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): each entry being the corresponding result of the sub-command given at the same position.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): each entry being the corresponding result of the sub-command given at the same position.",
+  "intro": "Read-only variant of the [`BITFIELD`]() command.\nIt is like the original [`BITFIELD`]() but only accepts `GET` subcommand and can safely be used in read-only replicas.\n\nSince the original [`BITFIELD`]() has `SET` and `INCRBY` options it is technically flagged as a writing command in the Redis command table.\nFor this reason read-only replicas in a Redis Cluster will redirect it to the master instance even if the connection is in read-only mode (see the [`READONLY`]() command of Redis Cluster).\n\nSince Redis 6.2, the `BITFIELD_RO` variant was introduced in order to allow [`BITFIELD`]() behavior in read-only replicas without breaking compatibility on command flags.\n\nSee original [`BITFIELD`]() for more details.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Read-only variant of the [`BITFIELD`]() command.\nIt is like the original [`BITFIELD`]() but only accepts `GET` subcommand and can safely be used in read-only replicas.\n\nSince the original [`BITFIELD`]() has `SET` and `INCRBY` options it is technically flagged as a writing command in the Redis command table.\nFor this reason read-only replicas in a Redis Cluster will redirect it to the master instance even if the connection is in read-only mode (see the [`READONLY`]() command of Redis Cluster).\n\nSince Redis 6.2, the `BITFIELD_RO` variant was introduced in order to allow [`BITFIELD`]() behavior in read-only replicas without breaking compatibility on command flags.\n\nSee original [`BITFIELD`]() for more details."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "```\nBITFIELD_RO hello GET i8 16\n```"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): each entry being the corresponding result of the sub-command given at the same position.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): each entry being the corresponding result of the sub-command given at the same position."
+    }
+  ]
+}

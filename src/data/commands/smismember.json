@@ -1,0 +1,106 @@
+{
+  "slug": "smismember",
+  "title": "SMISMEMBER",
+  "description": "Determines whether multiple members belong to a set.",
+  "docsUrl": "https://redis.io/docs/latest/commands/smismember/",
+  "group": "set",
+  "groupLabel": "Sets",
+  "syntax": "SMISMEMBER key member [member ...]",
+  "complexity": "O(N) where N is the number of elements being checked for membership",
+  "since": "6.2.0",
+  "arity": -3,
+  "aclCategories": [
+    "@read",
+    "@set",
+    "@fast"
+  ],
+  "commandFlags": [
+    "readonly",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "member",
+      "multiple": true,
+      "name": "member",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RO": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Returns whether each `member` is a member of the set stored at `key`.\n\nFor every `member`, `1` is returned if the value is a member of the set, or `0` if the element is not a member of the set or if `key` does not exist.\n\n## Examples\n\n\nSADD myset \"one\"\nSADD myset \"one\"\nSMISMEMBER myset \"one\" \"notamember\"\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list representing the membership of the given elements, in the same order as they are requested.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list representing the membership of the given elements, in the same order as they are requested.",
+  "intro": "Returns whether each `member` is a member of the set stored at `key`.\n\nFor every `member`, `1` is returned if the value is a member of the set, or `0` if the element is not a member of the set or if `key` does not exist.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Returns whether each `member` is a member of the set stored at `key`.\n\nFor every `member`, `1` is returned if the value is a member of the set, or `0` if the element is not a member of the set or if `key` does not exist."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "SADD myset \"one\"\nSADD myset \"one\"\nSMISMEMBER myset \"one\" \"notamember\""
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list representing the membership of the given elements, in the same order as they are requested.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list representing the membership of the given elements, in the same order as they are requested."
+    }
+  ]
+}

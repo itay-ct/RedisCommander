@@ -1,0 +1,112 @@
+{
+  "slug": "zrevrank",
+  "title": "ZREVRANK",
+  "description": "Returns the index of a member in a sorted set ordered by descending scores.",
+  "docsUrl": "https://redis.io/docs/latest/commands/zrevrank/",
+  "group": "sorted-set",
+  "groupLabel": "Sorted Sets",
+  "syntax": "ZREVRANK key member [WITHSCORE]",
+  "complexity": "O(log(N))",
+  "since": "2.0.0",
+  "arity": -3,
+  "aclCategories": [
+    "@read",
+    "@sortedset",
+    "@fast"
+  ],
+  "commandFlags": [
+    "readonly",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "member",
+      "name": "member",
+      "type": "string"
+    },
+    {
+      "display_text": "withscore",
+      "name": "withscore",
+      "optional": true,
+      "token": "WITHSCORE",
+      "type": "pure-token"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RO": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Returns the rank of `member` in the sorted set stored at `key`, with the scores\nordered from high to low.\nThe rank (or index) is 0-based, which means that the member with the highest\nscore has rank `0`.\n\nThe optional `WITHSCORE` argument supplements the command's reply with the score of the element returned.\n\nUse [`ZRANK`]() to get the rank of an element with the scores ordered from low to\nhigh.\n\n## Examples\n\n\nZADD myzset 1 \"one\"\nZADD myzset 2 \"two\"\nZADD myzset 3 \"three\"\nZREVRANK myzset \"one\"\nZREVRANK myzset \"four\"\nZREVRANK myzset \"three\" WITHSCORE\nZREVRANK myzset \"four\" WITHSCORE\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the key does not exist or the member does not exist in the sorted set.\n* [Integer reply](../../develop/reference/protocol-spec#integers): The rank of the member when _WITHSCORE_ is not used.\n* [Array reply](../../develop/reference/protocol-spec#arrays): The rank and score of the member when _WITHSCORE_ is used.\n\n**RESP3:**\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): if the key does not exist or the member does not exist in the sorted set.\n* [Integer reply](../../develop/reference/protocol-spec#integers): The rank of the member when _WITHSCORE_ is not used.\n* [Array reply](../../develop/reference/protocol-spec#arrays): The rank and score of the member when _WITHSCORE_ is used.",
+  "intro": "Returns the rank of `member` in the sorted set stored at `key`, with the scores\nordered from high to low.\nThe rank (or index) is 0-based, which means that the member with the highest\nscore has rank `0`.\n\nThe optional `WITHSCORE` argument supplements the command's reply with the score of the element returned.\n\nUse [`ZRANK`]() to get the rank of an element with the scores ordered from low to\nhigh.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Returns the rank of `member` in the sorted set stored at `key`, with the scores\nordered from high to low.\nThe rank (or index) is 0-based, which means that the member with the highest\nscore has rank `0`.\n\nThe optional `WITHSCORE` argument supplements the command's reply with the score of the element returned.\n\nUse [`ZRANK`]() to get the rank of an element with the scores ordered from low to\nhigh."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "ZADD myzset 1 \"one\"\nZADD myzset 2 \"two\"\nZADD myzset 3 \"three\"\nZREVRANK myzset \"one\"\nZREVRANK myzset \"four\"\nZREVRANK myzset \"three\" WITHSCORE\nZREVRANK myzset \"four\" WITHSCORE"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the key does not exist or the member does not exist in the sorted set.\n* [Integer reply](../../develop/reference/protocol-spec#integers): The rank of the member when _WITHSCORE_ is not used.\n* [Array reply](../../develop/reference/protocol-spec#arrays): The rank and score of the member when _WITHSCORE_ is used.\n\n**RESP3:**\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): if the key does not exist or the member does not exist in the sorted set.\n* [Integer reply](../../develop/reference/protocol-spec#integers): The rank of the member when _WITHSCORE_ is not used.\n* [Array reply](../../develop/reference/protocol-spec#arrays): The rank and score of the member when _WITHSCORE_ is used."
+    }
+  ]
+}

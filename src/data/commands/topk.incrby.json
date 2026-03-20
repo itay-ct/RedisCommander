@@ -1,0 +1,105 @@
+{
+  "slug": "topk.incrby",
+  "title": "TOPK.INCRBY",
+  "description": "Increases the count of one or more items by increment",
+  "docsUrl": "https://redis.io/docs/latest/commands/topk.incrby/",
+  "group": "topk",
+  "groupLabel": "Top-K",
+  "syntax": "TOPK.INCRBY key item increment [item increment ...]",
+  "complexity": "O(n * k * incr) where n is the number of items, k is the depth and incr is the increment",
+  "since": "2.0.0",
+  "arity": null,
+  "aclCategories": [
+    "@topk",
+    "@write",
+    "@slow"
+  ],
+  "commandFlags": [],
+  "arguments": [
+    {
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "arguments": [
+        {
+          "name": "item",
+          "type": "string"
+        },
+        {
+          "name": "increment",
+          "type": "integer"
+        }
+      ],
+      "multiple": true,
+      "name": "items",
+      "type": "block"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "return",
+        "title": "Return"
+      },
+      {
+        "id": "example",
+        "title": "Example"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Increase the score of an item in the data structure by `increment`. \nMultiple items' scores can be increased at once.\nIf an item enters the Top-K list, the item that is expelled (if any) is returned.\n\n### Parameters\n\n* **key**: the name of the sketch.\n* **item**: the items to be incremented.\n* **increment**: the value by which items will be incremented. The `increment` must be greater or equal to 1 and less than or equal to 100,000 to avoid server freeze.\n\n## Return\n\n[Array]() of [Simple string reply]() - if an element was dropped from the TopK list, [Nil reply]() otherwise..\n\n## Example\n\n```\nredis> TOPK.INCRBY topk foo 3 bar 2 42 30\n1) (nil)\n2) (nil)\n3) foo\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n\n* [Array]() of [bulk string replies]() containing either dropped elements or [nil (null bulk string)]().\n* [Simple error reply]() in these cases: incorrect number of arguments, non-existant key, key of the incorrect type, or an incorrect increment (less than 0 or greater than 100,000).\n\n**RESP3:**\n\nOne of the following:\n\n* [Array]() of [bulk string replies]() containing either dropped elements or [null]().\n* [Simple error reply]() in these cases: incorrect number of arguments, non-existant key, key of the incorrect type, or an incorrect increment (less than 0 or greater than 100,000).",
+  "intro": "Increase the score of an item in the data structure by `increment`. \nMultiple items' scores can be increased at once.\nIf an item enters the Top-K list, the item that is expelled (if any) is returned.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Increase the score of an item in the data structure by `increment`. \nMultiple items' scores can be increased at once.\nIf an item enters the Top-K list, the item that is expelled (if any) is returned."
+    },
+    {
+      "title": "Parameters",
+      "level": 3,
+      "content": "* **key**: the name of the sketch.\n* **item**: the items to be incremented.\n* **increment**: the value by which items will be incremented. The `increment` must be greater or equal to 1 and less than or equal to 100,000 to avoid server freeze."
+    },
+    {
+      "title": "Return",
+      "level": 2,
+      "content": "[Array]() of [Simple string reply]() - if an element was dropped from the TopK list, [Nil reply]() otherwise.."
+    },
+    {
+      "title": "Example",
+      "level": 2,
+      "content": "```\nredis> TOPK.INCRBY topk foo 3 bar 2 42 30\n1) (nil)\n2) (nil)\n3) foo\n```"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n\n* [Array]() of [bulk string replies]() containing either dropped elements or [nil (null bulk string)]().\n* [Simple error reply]() in these cases: incorrect number of arguments, non-existant key, key of the incorrect type, or an incorrect increment (less than 0 or greater than 100,000).\n\n**RESP3:**\n\nOne of the following:\n\n* [Array]() of [bulk string replies]() containing either dropped elements or [null]().\n* [Simple error reply]() in these cases: incorrect number of arguments, non-existant key, key of the incorrect type, or an incorrect increment (less than 0 or greater than 100,000)."
+    }
+  ]
+}

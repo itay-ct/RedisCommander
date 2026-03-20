@@ -1,0 +1,179 @@
+{
+  "slug": "ts.alter",
+  "title": "TS.ALTER",
+  "description": "Update the retention, chunk size, duplicate policy, and labels of an existing time series",
+  "docsUrl": "https://redis.io/docs/latest/commands/ts.alter/",
+  "group": "timeseries",
+  "groupLabel": "Time Series",
+  "syntax": "TS.ALTER key [RETENTION retentionPeriod] [CHUNK_SIZE size]\n  [DUPLICATE_POLICY <BLOCK | FIRST | LAST | MIN | MAX | SUM>] [LABELS label value\n  [label value ...]]",
+  "complexity": "O(N) where N is the number of labels requested to update",
+  "since": "1.0.0",
+  "arity": null,
+  "aclCategories": [
+    "@timeseries",
+    "@write",
+    "@slow"
+  ],
+  "commandFlags": [],
+  "arguments": [
+    {
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "name": "retentionPeriod",
+      "optional": true,
+      "token": "RETENTION",
+      "type": "integer"
+    },
+    {
+      "name": "size",
+      "optional": true,
+      "token": "CHUNK_SIZE",
+      "type": "integer"
+    },
+    {
+      "arguments": [
+        {
+          "name": "block",
+          "token": "BLOCK",
+          "type": "pure-token"
+        },
+        {
+          "name": "first",
+          "token": "FIRST",
+          "type": "pure-token"
+        },
+        {
+          "name": "last",
+          "token": "LAST",
+          "type": "pure-token"
+        },
+        {
+          "name": "min",
+          "token": "MIN",
+          "type": "pure-token"
+        },
+        {
+          "name": "max",
+          "token": "MAX",
+          "type": "pure-token"
+        },
+        {
+          "name": "sum",
+          "token": "SUM",
+          "type": "pure-token"
+        }
+      ],
+      "name": "policy",
+      "optional": true,
+      "token": "DUPLICATE_POLICY",
+      "type": "oneof"
+    },
+    {
+      "arguments": [
+        {
+          "name": "label",
+          "type": "string"
+        },
+        {
+          "name": "value",
+          "type": "string"
+        }
+      ],
+      "multiple": true,
+      "name": "labels",
+      "optional": true,
+      "token": "LABELS",
+      "type": "block"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "optional-arguments",
+        "title": "Optional arguments"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      },
+      {
+        "id": "see-also",
+        "title": "See also"
+      },
+      {
+        "id": "related-topics",
+        "title": "Related topics"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Update the retention, chunk size, duplicate policy, and labels of an existing time series\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open><summary><code>key</code></summary> \n\nis key name for the time series.\n</details>\n\n<note><b>Note:</b> This command alters only the specified element. For example, if you specify only `RETENTION` and `LABELS`, the chunk size and the duplicate policy are not altered. </note>\n\n## Optional arguments\n\n<details open><summary><code>RETENTION retentionPeriod</code></summary>\n\nis maximum retention period, compared to the maximum existing timestamp, in milliseconds. See `RETENTION` in [`TS.CREATE`]().\n</details>\n\n<details open><summary><code>CHUNK_SIZE size</code></summary> \n\nis the initial allocation size, in bytes, for the data part of each new chunk. Actual chunks may consume more memory. See `CHUNK_SIZE` in [`TS.CREATE`](). Changing this value does not affect existing chunks.\n</details>\n\n<details open><summary><code>DUPLICATE_POLICY policy</code></summary> \n\nis policy for handling multiple samples with identical timestamps. See `DUPLICATE_POLICY` in [`TS.CREATE`]().\n</details>\n\n<details open><summary><code>LABELS [{label value}...]</code></summary> \n\nis set of label-value pairs that represent metadata labels of the key and serve as a secondary index.\n\nIf `LABELS` is specified, the given label list is applied. Labels that are not present in the given list are removed implicitly. Specifying `LABELS` with no label-value pairs removes all existing labels. See `LABELS` in [`TS.CREATE`]().\n</details>\n\n## Examples\n\n<details open><summary><b>Alter a temperature time series</b></summary>\n\nCreate a temperature time series.\n\n\n127.0.0.1:6379> TS.CREATE temperature:2:32 RETENTION 60000 DUPLICATE_POLICY MAX LABELS sensor_id 2 area_id 32\nOK\n\n\nAlter the labels in the time series.\n\n\n127.0.0.1:6379> TS.ALTER temperature:2:32 LABELS sensor_id 2 area_id 32 sub_area_id 15\nOK\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Simple string reply](): `OK` when the time series is altered successfully.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, key does not exist, etc.\n\n**RESP3:**\n\nOne of the following:\n* [Simple string reply](): `OK` when the time series is altered successfully.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, key does not exist, etc.\n\n\n\n## See also\n\n[`TS.CREATE`]() \n\n## Related topics\n\n[RedisTimeSeries]()",
+  "intro": "Update the retention, chunk size, duplicate policy, and labels of an existing time series\n\n[Examples](#examples)",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Update the retention, chunk size, duplicate policy, and labels of an existing time series\n\n[Examples](#examples)"
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open><summary><code>key</code></summary> \n\nis key name for the time series.\n</details>\n\n<note><b>Note:</b> This command alters only the specified element. For example, if you specify only `RETENTION` and `LABELS`, the chunk size and the duplicate policy are not altered. </note>"
+    },
+    {
+      "title": "Optional arguments",
+      "level": 2,
+      "content": "<details open><summary><code>RETENTION retentionPeriod</code></summary>\n\nis maximum retention period, compared to the maximum existing timestamp, in milliseconds. See `RETENTION` in [`TS.CREATE`]().\n</details>\n\n<details open><summary><code>CHUNK_SIZE size</code></summary> \n\nis the initial allocation size, in bytes, for the data part of each new chunk. Actual chunks may consume more memory. See `CHUNK_SIZE` in [`TS.CREATE`](). Changing this value does not affect existing chunks.\n</details>\n\n<details open><summary><code>DUPLICATE_POLICY policy</code></summary> \n\nis policy for handling multiple samples with identical timestamps. See `DUPLICATE_POLICY` in [`TS.CREATE`]().\n</details>\n\n<details open><summary><code>LABELS [{label value}...]</code></summary> \n\nis set of label-value pairs that represent metadata labels of the key and serve as a secondary index.\n\nIf `LABELS` is specified, the given label list is applied. Labels that are not present in the given list are removed implicitly. Specifying `LABELS` with no label-value pairs removes all existing labels. See `LABELS` in [`TS.CREATE`]().\n</details>"
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "<details open><summary><b>Alter a temperature time series</b></summary>\n\nCreate a temperature time series.\n\n\n127.0.0.1:6379> TS.CREATE temperature:2:32 RETENTION 60000 DUPLICATE_POLICY MAX LABELS sensor_id 2 area_id 32\nOK\n\n\nAlter the labels in the time series.\n\n\n127.0.0.1:6379> TS.ALTER temperature:2:32 LABELS sensor_id 2 area_id 32 sub_area_id 15\nOK\n\n</details>"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Simple string reply](): `OK` when the time series is altered successfully.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, key does not exist, etc.\n\n**RESP3:**\n\nOne of the following:\n* [Simple string reply](): `OK` when the time series is altered successfully.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, key does not exist, etc."
+    },
+    {
+      "title": "See also",
+      "level": 2,
+      "content": "[`TS.CREATE`]()"
+    },
+    {
+      "title": "Related topics",
+      "level": 2,
+      "content": "[RedisTimeSeries]()"
+    }
+  ]
+}

@@ -1,0 +1,89 @@
+{
+  "slug": "tdigest.rank",
+  "title": "TDIGEST.RANK",
+  "description": "Returns, for each floating-point input value, the estimated rank of the value (the number of observations in the sketch that are smaller than the value + half the number of observations that are equal to the value)",
+  "docsUrl": "https://redis.io/docs/latest/commands/tdigest.rank/",
+  "group": "tdigest",
+  "groupLabel": "T-Digest",
+  "syntax": "TDIGEST.RANK key value [value ...]",
+  "complexity": "O(1)",
+  "since": "2.4.0",
+  "arity": null,
+  "aclCategories": [
+    "@tdigest",
+    "@read"
+  ],
+  "commandFlags": [],
+  "arguments": [
+    {
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "multiple": true,
+      "name": "value",
+      "type": "double"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Returns, for each floating-point input value, the estimated rank of the value (_the number of observations in the sketch that are smaller than the value_ + _half the number of observations that are equal to the value_).\nMultiple ranks can be retrieved in a single call.\n\n## Required arguments\n\n<details open><summary><code>key</code></summary>\n\nis the key name for an existing t-digest sketch.\n</details>\n\n<details open><summary><code>value</code></summary>\n\nis the input value for which the rank should be estimated.\n</details>\n\n## Examples\n\n\nredis> TDIGEST.CREATE s COMPRESSION 1000\nOK\nredis> TDIGEST.ADD s 10 20 30 40 50 60\nOK\nredis> TDIGEST.RANK s 0 10 20 30 40 50 60 70\n1) (integer) -1\n2) (integer) 0\n3) (integer) 1\n4) (integer) 2\n5) (integer) 3\n6) (integer) 4\n7) (integer) 5\n8) (integer) 6\nredis> TDIGEST.REVRANK s 0 10 20 30 40 50 60 70\n1) (integer) 6\n2) (integer) 5\n3) (integer) 4\n4) (integer) 3\n5) (integer) 2\n6) (integer) 1\n7) (integer) 0\n8) (integer) -1  \n\n  \n\nredis> TDIGEST.CREATE s COMPRESSION 1000\nOK\nredis> TDIGEST.ADD s 10 10 10 10 20 20\nOK\nredis> TDIGEST.RANK s 10 20\n1) (integer) 2\n2) (integer) 5\nredis> TDIGEST.REVRANK s 10 20\n1) (integer) 4\n2) (integer) 1\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\"><nobr>&#x2705; Flexible & Annual</nobr></span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n\n* [Array]() of [integers]() populated with rank_1, rank_2, ..., rank_V:\n    * `-1` when `value` is smaller than the value of the smallest observation.\n    * The number of observations when `value` is larger than the value of the largest observation.\n    * Otherwise, an estimation of the number of (_observations smaller than `value`_ + _half the observations equal to `value`_).\n\n    `0` is the rank of the value of the smallest observation.\n\n    _n_-1 is the rank of the value of the largest observation, where _n_ denotes the number of observations added to the sketch.\n\n    All values are `-2` if the sketch is empty.\n* [Simple error reply]() in these cases: the given key does not exist or is of an incorrect type, quantile parsing errors, or incorrect number of arguments.\n\n**RESP3:**\n\nOne of the following:\n\n* [Array]() of [integers]() populated with rank_1, rank_2, ..., rank_V:\n    * `-1` when `value` is smaller than the value of the smallest observation.\n    * The number of observations when `value` is larger than the value of the largest observation.\n    * Otherwise, an estimation of the number of (_observations smaller than `value`_ + _half the observations equal to `value`_).\n\n    `0` is the rank of the value of the smallest observation.\n\n    _n_-1 is the rank of the value of the largest observation, where _n_ denotes the number of observations added to the sketch.\n\n    All values are `-2` if the sketch is empty.\n* [Simple error reply]() in these cases: the given key does not exist or is of an incorrect type, quantile parsing errors, or incorrect number of arguments.",
+  "intro": "Returns, for each floating-point input value, the estimated rank of the value (_the number of observations in the sketch that are smaller than the value_ + _half the number of observations that are equal to the value_).\nMultiple ranks can be retrieved in a single call.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Returns, for each floating-point input value, the estimated rank of the value (_the number of observations in the sketch that are smaller than the value_ + _half the number of observations that are equal to the value_).\nMultiple ranks can be retrieved in a single call."
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open><summary><code>key</code></summary>\n\nis the key name for an existing t-digest sketch.\n</details>\n\n<details open><summary><code>value</code></summary>\n\nis the input value for which the rank should be estimated.\n</details>"
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "redis> TDIGEST.CREATE s COMPRESSION 1000\nOK\nredis> TDIGEST.ADD s 10 20 30 40 50 60\nOK\nredis> TDIGEST.RANK s 0 10 20 30 40 50 60 70\n1) (integer) -1\n2) (integer) 0\n3) (integer) 1\n4) (integer) 2\n5) (integer) 3\n6) (integer) 4\n7) (integer) 5\n8) (integer) 6\nredis> TDIGEST.REVRANK s 0 10 20 30 40 50 60 70\n1) (integer) 6\n2) (integer) 5\n3) (integer) 4\n4) (integer) 3\n5) (integer) 2\n6) (integer) 1\n7) (integer) 0\n8) (integer) -1  \n\n  \n\nredis> TDIGEST.CREATE s COMPRESSION 1000\nOK\nredis> TDIGEST.ADD s 10 10 10 10 20 20\nOK\nredis> TDIGEST.RANK s 10 20\n1) (integer) 2\n2) (integer) 5\nredis> TDIGEST.REVRANK s 10 20\n1) (integer) 4\n2) (integer) 1"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\"><nobr>&#x2705; Flexible & Annual</nobr></span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n\n* [Array]() of [integers]() populated with rank_1, rank_2, ..., rank_V:\n    * `-1` when `value` is smaller than the value of the smallest observation.\n    * The number of observations when `value` is larger than the value of the largest observation.\n    * Otherwise, an estimation of the number of (_observations smaller than `value`_ + _half the observations equal to `value`_).\n\n    `0` is the rank of the value of the smallest observation.\n\n    _n_-1 is the rank of the value of the largest observation, where _n_ denotes the number of observations added to the sketch.\n\n    All values are `-2` if the sketch is empty.\n* [Simple error reply]() in these cases: the given key does not exist or is of an incorrect type, quantile parsing errors, or incorrect number of arguments.\n\n**RESP3:**\n\nOne of the following:\n\n* [Array]() of [integers]() populated with rank_1, rank_2, ..., rank_V:\n    * `-1` when `value` is smaller than the value of the smallest observation.\n    * The number of observations when `value` is larger than the value of the largest observation.\n    * Otherwise, an estimation of the number of (_observations smaller than `value`_ + _half the observations equal to `value`_).\n\n    `0` is the rank of the value of the smallest observation.\n\n    _n_-1 is the rank of the value of the largest observation, where _n_ denotes the number of observations added to the sketch.\n\n    All values are `-2` if the sketch is empty.\n* [Simple error reply]() in these cases: the given key does not exist or is of an incorrect type, quantile parsing errors, or incorrect number of arguments."
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "slug": "script-exists",
+  "title": "SCRIPT EXISTS",
+  "description": "Determines whether server-side Lua scripts exist in the script cache.",
+  "docsUrl": "https://redis.io/docs/latest/commands/script-exists/",
+  "group": "scripting",
+  "groupLabel": "Scripting",
+  "syntax": "SCRIPT EXISTS sha1 [sha1 ...]",
+  "complexity": "O(N) with N being the number of scripts to check (so checking a single script is an O(1) operation).",
+  "since": "2.6.0",
+  "arity": -3,
+  "aclCategories": [
+    "@slow",
+    "@scripting"
+  ],
+  "commandFlags": [
+    "noscript"
+  ],
+  "arguments": [
+    {
+      "display_text": "sha1",
+      "multiple": true,
+      "name": "sha1",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Returns information about the existence of the scripts in the script cache.\n\nThis command accepts one or more SHA1 digests and returns a list of ones or\nzeros to signal if the scripts are already defined or not inside the script\ncache.\nThis can be useful before a pipelining operation to ensure that scripts are\nloaded (and if not, to load them using [`SCRIPT LOAD`]()) so that the pipelining\noperation can be performed solely using [`EVALSHA`]() instead of [`EVAL`]() to save\nbandwidth.\n\nFor more information about [`EVAL`]() scripts please refer to [Introduction to Eval Scripts]().\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): an array of integers that correspond to the specified SHA1 digest arguments.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): an array of integers that correspond to the specified SHA1 digest arguments.",
+  "intro": "Returns information about the existence of the scripts in the script cache.\n\nThis command accepts one or more SHA1 digests and returns a list of ones or\nzeros to signal if the scripts are already defined or not inside the script\ncache.\nThis can be useful before a pipelining operation to ensure that scripts are\nloaded (and if not, to load them using [`SCRIPT LOAD`]()) so that the pipelining\noperation can be performed solely using [`EVALSHA`]() instead of [`EVAL`]() to save\nbandwidth.\n\nFor more information about [`EVAL`]() scripts please refer to [Introduction to Eval Scripts]().",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Returns information about the existence of the scripts in the script cache.\n\nThis command accepts one or more SHA1 digests and returns a list of ones or\nzeros to signal if the scripts are already defined or not inside the script\ncache.\nThis can be useful before a pipelining operation to ensure that scripts are\nloaded (and if not, to load them using [`SCRIPT LOAD`]()) so that the pipelining\noperation can be performed solely using [`EVALSHA`]() instead of [`EVAL`]() to save\nbandwidth.\n\nFor more information about [`EVAL`]() scripts please refer to [Introduction to Eval Scripts]()."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): an array of integers that correspond to the specified SHA1 digest arguments.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): an array of integers that correspond to the specified SHA1 digest arguments."
+    }
+  ]
+}

@@ -1,0 +1,202 @@
+{
+  "slug": "hget",
+  "title": "HGET",
+  "description": "Returns the value of a field in a hash.",
+  "docsUrl": "https://redis.io/docs/latest/commands/hget/",
+  "group": "hash",
+  "groupLabel": "Hashes",
+  "syntax": "HGET key field",
+  "complexity": "O(1)",
+  "since": "2.0.0",
+  "arity": 3,
+  "aclCategories": [
+    "@read",
+    "@hash",
+    "@fast"
+  ],
+  "commandFlags": [
+    "readonly",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "field",
+      "name": "field",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RO": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [
+    {
+      "codetabsId": "cmds_hash-stephget",
+      "commands": [
+        {
+          "acl_categories": [
+            "@write",
+            "@hash",
+            "@fast"
+          ],
+          "complexity": "O(1)",
+          "name": "HSET"
+        },
+        {
+          "acl_categories": [
+            "@read",
+            "@hash",
+            "@fast"
+          ],
+          "complexity": "O(1)",
+          "name": "HGET"
+        }
+      ],
+      "description": "Foundational: Retrieve a single field value from a hash using HGET (returns nil if field or key doesn&amp;#39;t exist)",
+      "difficulty": "beginner",
+      "id": "hget",
+      "languages": [
+        {
+          "id": "redis-cli",
+          "panelId": "panel_redis-cli_cmds_hash-stephget"
+        },
+        {
+          "clientId": "redis-py",
+          "clientName": "redis-py",
+          "id": "Python",
+          "langId": "python",
+          "panelId": "panel_Python_cmds_hash-stephget"
+        },
+        {
+          "id": "Node-js",
+          "panelId": "panel_Nodejs_cmds_hash-stephget"
+        },
+        {
+          "clientId": "jedis",
+          "clientName": "Jedis",
+          "id": "Java-Sync",
+          "langId": "java",
+          "panelId": "panel_Java-Sync_cmds_hash-stephget"
+        },
+        {
+          "clientId": "lettuce",
+          "clientName": "Lettuce",
+          "id": "Java-Async",
+          "langId": "java",
+          "panelId": "panel_Java-Async_cmds_hash-stephget"
+        },
+        {
+          "clientId": "lettuce",
+          "clientName": "Lettuce",
+          "id": "Java-Reactive",
+          "langId": "java",
+          "panelId": "panel_Java-Reactive_cmds_hash-stephget"
+        },
+        {
+          "clientId": "go-redis",
+          "clientName": "go-redis",
+          "id": "Go",
+          "langId": "go",
+          "panelId": "panel_Go_cmds_hash-stephget"
+        },
+        {
+          "id": "dotnet-Sync",
+          "panelId": "panel_Csharp-Sync_cmds_hash-stephget"
+        },
+        {
+          "clientId": "predis",
+          "clientName": "Predis",
+          "id": "PHP",
+          "langId": "php",
+          "panelId": "panel_PHP_cmds_hash-stephget"
+        },
+        {
+          "clientId": "redis-rs",
+          "clientName": "redis-rs",
+          "id": "Rust-Sync",
+          "langId": "rust",
+          "panelId": "panel_Rust-Sync_cmds_hash-stephget"
+        },
+        {
+          "clientId": "redis-rs",
+          "clientName": "redis-rs",
+          "id": "Rust-Async",
+          "langId": "rust",
+          "panelId": "panel_Rust-Async_cmds_hash-stephget"
+        }
+      ]
+    }
+  ],
+  "content": "Returns the value associated with `field` in the hash stored at `key`.\n\n## Examples\n\n#### Code Examples\n\nFoundational: Retrieve a single field value from a hash using HGET (returns nil if field or key doesn't exist)\n\n**Difficulty:** Beginner\n\n**Commands:** HSET, HGET\n\n**Complexity:**\n- HSET: O(1)\n- HGET: O(1)\n\n**Redis CLI:**\n\n```\n> HSET myhash field1 \"foo\"\n(integer) 1\n> HGET myhash field1\n\"foo\"\n> HGET myhash field2\n(nil)\n```\n\n**Available in:** Redis CLI, C# (Synchronous), Go, Java (Asynchronous - Lettuce), Java (Reactive - Lettuce), Java (Synchronous - Jedis), JavaScript (Node.js), PHP, Python, Rust (Asynchronous), Rust (Synchronous)\n\n**C# (Synchronous):**\n\n```csharp\n\n    [SkippableFact]\n    // REMOVE_END\n    public void Run()\n    {\n        //REMOVE_START\n        // This is needed because we're constructing ConfigurationOptions in the test before calling GetConnection\n```\n\n**Go:**\n\n```go\n\tres7, err := rdb.HSet(ctx, \"myhash\", \"field1\", \"foo\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(res7) // >>> 1\n\n\tres8, err := rdb.HGet(ctx, \"myhash\", \"field1\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(res8) // >>> foo\n\n\tres9, err := rdb.HGet(ctx, \"myhash\", \"field2\").Result()\n\n\tif err != nil {\n\t\tfmt.Println(err)\n\t}\n\n\tfmt.Println(res9) // >>> <empty string>\n```\n\n**Java (Asynchronous - Lettuce):**\n\n```java\n            Map<String, String> hGetExampleParams = new HashMap<>();\n            hGetExampleParams.put(\"field1\", \"foo\");\n\n            CompletableFuture<Void> hGetExample = asyncCommands.hset(\"myhash\", hGetExampleParams).thenCompose(res1 -> {\n                System.out.println(res1); // >>> 1\n                return asyncCommands.hget(\"myhash\", \"field1\");\n            }).thenCompose(res2 -> {\n                System.out.println(res2); // >>> foo\n                return asyncCommands.hget(\"myhash\", \"field2\");\n            }).thenAccept(res3 -> {\n                System.out.println(res3); // >>> null\n            }).toCompletableFuture();\n```\n\n**Java (Reactive - Lettuce):**\n\n```java\n            Map<String, String> hGetExampleParams = new HashMap<>();\n            hGetExampleParams.put(\"field1\", \"foo\");\n\n            Mono<Long> hGetExample1 = reactiveCommands.hset(\"myhash\", hGetExampleParams).doOnNext(result -> {\n                System.out.println(result); // >>> 1\n            });\n\n            hGetExample1.block();\n\n            Mono<String> hGetExample2 = reactiveCommands.hget(\"myhash\", \"field1\").doOnNext(result -> {\n                System.out.println(result); // >>> foo\n            });\n\n            hGetExample2.block();\n\n            Mono<String> hGetExample3 = reactiveCommands.hget(\"myhash\", \"field2\").doOnNext(result -> {\n                System.out.println(result); // >>> null\n            });\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n        Map<String, String> hGetExampleParams = new HashMap<>();\n        hGetExampleParams.put(\"field1\", \"foo\");\n\n        long hGetResult1 = jedis.hset(\"myhash\", hGetExampleParams);\n        System.out.println(hGetResult1);    // >>> 1\n\n        String hGetResult2 = jedis.hget(\"myhash\", \"field1\");\n        System.out.println(hGetResult2);    // >>> foo\n\n        String hGetResult3 = jedis.hget(\"myhash\", \"field2\");\n        System.out.println(hGetResult3);    // >>> null\n```\n\n**JavaScript (Node.js):**\n\n```javascript\nconst res7 = await client.hSet('myhash', 'field1', 'foo')\nconsole.log(res7) // 1\n\nconst res8 = await client.hGet('myhash', 'field1')\nconsole.log(res8) // foo\n\nconst res9 = await client.hGet('myhash', 'field2')\nconsole.log(res9) // null\n\n```\n\n**PHP:**\n\n```php\n        $hGetResult1 = $this->redis->hset('myhash', 'field1', 'foo');\n        echo \"HSET myhash field1 foo: \" . $hGetResult1 . \"\\n\"; // >>> 1\n\n        $hGetResult2 = $this->redis->hget('myhash', 'field1');\n        echo \"HGET myhash field1: \" . ($hGetResult2 ?? 'null') . \"\\n\"; // >>> foo\n\n        $hGetResult3 = $this->redis->hget('myhash', 'field2');\n        echo \"HGET myhash field2: \" . ($hGetResult3 ?? 'null') . \"\\n\"; // >>> null\n```\n\n**Python:**\n\n```python\nres7 = r.hset(\"myhash\", \"field1\", \"foo\")\nprint(res7)\n# >>> 1\n\nres8 = r.hget(\"myhash\", \"field1\")\nprint(res8)\n# >>> foo\n\nres9 = r.hget(\"myhash\", \"field2\")\nprint(res9)\n# >>> None\n\n```\n\n**Rust (Asynchronous):**\n\n```rust\n        match r.hset(\"myhash\", \"field1\", \"foo\").await {\n            Ok(res7) => {\n                let res7: i32 = res7;\n                println!(\"{res7}\");    // >>> 1\n            },\n            Err(e) => {\n                println!(\"Error setting hash field: {e}\");\n                return;\n            }\n        }\n\n        match r.hget(\"myhash\", \"field1\").await {\n            Ok(res8) => {\n                let res8: Option<String> = res8;\n                match res8 {\n                    Some(value) => {\n                        println!(\"{value}\");    // >>> foo\n                    },\n                    None => {\n                        println!(\"None\");\n                    }\n                }\n            },\n            Err(e) => {\n                println!(\"Error getting hash field: {e}\");\n                return;\n            }\n        }\n\n        match r.hget(\"myhash\", \"field2\").await {\n            Ok(res9) => {\n                let res9: Option<String> = res9;\n                match res9 {\n                    Some(_) => {\n                        println!(\"Some value\");\n                    },\n                    None => {\n                        println!(\"None\");    // >>> None\n                    }\n                }\n            },\n            Err(e) => {\n                println!(\"Error getting hash field: {e}\");\n                return;\n            }\n        }\n\n```\n\n**Rust (Synchronous):**\n\n```rust\n        match r.hset(\"myhash\", \"field1\", \"foo\") {\n            Ok(res7) => {\n                let res7: i32 = res7;\n                println!(\"{res7}\");    // >>> 1\n            },\n            Err(e) => {\n                println!(\"Error setting hash field: {e}\");\n                return;\n            }\n        }\n\n        match r.hget(\"myhash\", \"field1\") {\n            Ok(res8) => {\n                let res8: Option<String> = res8;\n                match res8 {\n                    Some(value) => {\n                        println!(\"{value}\");    // >>> foo\n                    },\n                    None => {\n                        println!(\"None\");\n                    }\n                }\n            },\n            Err(e) => {\n                println!(\"Error getting hash field: {e}\");\n                return;\n            }\n        }\n\n        match r.hget(\"myhash\", \"field2\") {\n            Ok(res9) => {\n                let res9: Option<String> = res9;\n                match res9 {\n                    Some(_) => {\n                        println!(\"Some value\");\n                    },\n                    None => {\n                        println!(\"None\");    // >>> None\n                    }\n                }\n            },\n            Err(e) => {\n                println!(\"Error getting hash field: {e}\");\n                return;\n            }\n        }\n\n```\n\n\n\nGive these commands a try in the interactive console:\n\n\nHSET myhash field1 \"foo\"\nHGET myhash field1\nHGET myhash field2\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The value associated with the field.\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): If the field is not present in the hash or key does not exist.\n\n**RESP3:**\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The value associated with the field.\n* [Null reply](../../develop/reference/protocol-spec#nulls): If the field is not present in the hash or key does not exist.",
+  "intro": "Returns the value associated with `field` in the hash stored at `key`.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Returns the value associated with `field` in the hash stored at `key`."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "#### Code Examples\n\nFoundational: Retrieve a single field value from a hash using HGET (returns nil if field or key doesn't exist)\n\n**Difficulty:** Beginner\n\n**Commands:** HSET, HGET\n\n**Complexity:**\n- HSET: O(1)\n- HGET: O(1)\n\n**Redis CLI:**\n\n```\n> HSET myhash field1 \"foo\"\n(integer) 1\n> HGET myhash field1\n\"foo\"\n> HGET myhash field2\n(nil)\n```\n\n**Available in:** Redis CLI, C# (Synchronous), Go, Java (Asynchronous - Lettuce), Java (Reactive - Lettuce), Java (Synchronous - Jedis), JavaScript (Node.js), PHP, Python, Rust (Asynchronous), Rust (Synchronous)\n\n**C# (Synchronous):**\n\n```csharp\n\n    [SkippableFact]\n    // REMOVE_END\n    public void Run()\n    {\n        //REMOVE_START\n        // This is needed because we're constructing ConfigurationOptions in the test before calling GetConnection\n```\n\n**Go:**\n\n```go\n\tres7, err := rdb.HSet(ctx, \"myhash\", \"field1\", \"foo\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(res7) // >>> 1\n\n\tres8, err := rdb.HGet(ctx, \"myhash\", \"field1\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(res8) // >>> foo\n\n\tres9, err := rdb.HGet(ctx, \"myhash\", \"field2\").Result()\n\n\tif err != nil {\n\t\tfmt.Println(err)\n\t}\n\n\tfmt.Println(res9) // >>> <empty string>\n```\n\n**Java (Asynchronous - Lettuce):**\n\n```java\n            Map<String, String> hGetExampleParams = new HashMap<>();\n            hGetExampleParams.put(\"field1\", \"foo\");\n\n            CompletableFuture<Void> hGetExample = asyncCommands.hset(\"myhash\", hGetExampleParams).thenCompose(res1 -> {\n                System.out.println(res1); // >>> 1\n                return asyncCommands.hget(\"myhash\", \"field1\");\n            }).thenCompose(res2 -> {\n                System.out.println(res2); // >>> foo\n                return asyncCommands.hget(\"myhash\", \"field2\");\n            }).thenAccept(res3 -> {\n                System.out.println(res3); // >>> null\n            }).toCompletableFuture();\n```\n\n**Java (Reactive - Lettuce):**\n\n```java\n            Map<String, String> hGetExampleParams = new HashMap<>();\n            hGetExampleParams.put(\"field1\", \"foo\");\n\n            Mono<Long> hGetExample1 = reactiveCommands.hset(\"myhash\", hGetExampleParams).doOnNext(result -> {\n                System.out.println(result); // >>> 1\n            });\n\n            hGetExample1.block();\n\n            Mono<String> hGetExample2 = reactiveCommands.hget(\"myhash\", \"field1\").doOnNext(result -> {\n                System.out.println(result); // >>> foo\n            });\n\n            hGetExample2.block();\n\n            Mono<String> hGetExample3 = reactiveCommands.hget(\"myhash\", \"field2\").doOnNext(result -> {\n                System.out.println(result); // >>> null\n            });\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n        Map<String, String> hGetExampleParams = new HashMap<>();\n        hGetExampleParams.put(\"field1\", \"foo\");\n\n        long hGetResult1 = jedis.hset(\"myhash\", hGetExampleParams);\n        System.out.println(hGetResult1);    // >>> 1\n\n        String hGetResult2 = jedis.hget(\"myhash\", \"field1\");\n        System.out.println(hGetResult2);    // >>> foo\n\n        String hGetResult3 = jedis.hget(\"myhash\", \"field2\");\n        System.out.println(hGetResult3);    // >>> null\n```\n\n**JavaScript (Node.js):**\n\n```javascript\nconst res7 = await client.hSet('myhash', 'field1', 'foo')\nconsole.log(res7) // 1\n\nconst res8 = await client.hGet('myhash', 'field1')\nconsole.log(res8) // foo\n\nconst res9 = await client.hGet('myhash', 'field2')\nconsole.log(res9) // null\n\n```\n\n**PHP:**\n\n```php\n        $hGetResult1 = $this->redis->hset('myhash', 'field1', 'foo');\n        echo \"HSET myhash field1 foo: \" . $hGetResult1 . \"\\n\"; // >>> 1\n\n        $hGetResult2 = $this->redis->hget('myhash', 'field1');\n        echo \"HGET myhash field1: \" . ($hGetResult2 ?? 'null') . \"\\n\"; // >>> foo\n\n        $hGetResult3 = $this->redis->hget('myhash', 'field2');\n        echo \"HGET myhash field2: \" . ($hGetResult3 ?? 'null') . \"\\n\"; // >>> null\n```\n\n**Python:**\n\n```python\nres7 = r.hset(\"myhash\", \"field1\", \"foo\")\nprint(res7)\n# >>> 1\n\nres8 = r.hget(\"myhash\", \"field1\")\nprint(res8)\n# >>> foo\n\nres9 = r.hget(\"myhash\", \"field2\")\nprint(res9)\n# >>> None\n\n```\n\n**Rust (Asynchronous):**\n\n```rust\n        match r.hset(\"myhash\", \"field1\", \"foo\").await {\n            Ok(res7) => {\n                let res7: i32 = res7;\n                println!(\"{res7}\");    // >>> 1\n            },\n            Err(e) => {\n                println!(\"Error setting hash field: {e}\");\n                return;\n            }\n        }\n\n        match r.hget(\"myhash\", \"field1\").await {\n            Ok(res8) => {\n                let res8: Option<String> = res8;\n                match res8 {\n                    Some(value) => {\n                        println!(\"{value}\");    // >>> foo\n                    },\n                    None => {\n                        println!(\"None\");\n                    }\n                }\n            },\n            Err(e) => {\n                println!(\"Error getting hash field: {e}\");\n                return;\n            }\n        }\n\n        match r.hget(\"myhash\", \"field2\").await {\n            Ok(res9) => {\n                let res9: Option<String> = res9;\n                match res9 {\n                    Some(_) => {\n                        println!(\"Some value\");\n                    },\n                    None => {\n                        println!(\"None\");    // >>> None\n                    }\n                }\n            },\n            Err(e) => {\n                println!(\"Error getting hash field: {e}\");\n                return;\n            }\n        }\n\n```\n\n**Rust (Synchronous):**\n\n```rust\n        match r.hset(\"myhash\", \"field1\", \"foo\") {\n            Ok(res7) => {\n                let res7: i32 = res7;\n                println!(\"{res7}\");    // >>> 1\n            },\n            Err(e) => {\n                println!(\"Error setting hash field: {e}\");\n                return;\n            }\n        }\n\n        match r.hget(\"myhash\", \"field1\") {\n            Ok(res8) => {\n                let res8: Option<String> = res8;\n                match res8 {\n                    Some(value) => {\n                        println!(\"{value}\");    // >>> foo\n                    },\n                    None => {\n                        println!(\"None\");\n                    }\n                }\n            },\n            Err(e) => {\n                println!(\"Error getting hash field: {e}\");\n                return;\n            }\n        }\n\n        match r.hget(\"myhash\", \"field2\") {\n            Ok(res9) => {\n                let res9: Option<String> = res9;\n                match res9 {\n                    Some(_) => {\n                        println!(\"Some value\");\n                    },\n                    None => {\n                        println!(\"None\");    // >>> None\n                    }\n                }\n            },\n            Err(e) => {\n                println!(\"Error getting hash field: {e}\");\n                return;\n            }\n        }\n\n```\n\n\n\nGive these commands a try in the interactive console:\n\n\nHSET myhash field1 \"foo\"\nHGET myhash field1\nHGET myhash field2"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The value associated with the field.\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): If the field is not present in the hash or key does not exist.\n\n**RESP3:**\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The value associated with the field.\n* [Null reply](../../develop/reference/protocol-spec#nulls): If the field is not present in the hash or key does not exist."
+    }
+  ]
+}

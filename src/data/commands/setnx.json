@@ -1,0 +1,126 @@
+{
+  "slug": "setnx",
+  "title": "SETNX",
+  "description": "Set the string value of a key only when the key doesn't exist.",
+  "docsUrl": "https://redis.io/docs/latest/commands/setnx/",
+  "group": "string",
+  "groupLabel": "Strings",
+  "syntax": "SETNX key value",
+  "complexity": "O(1)",
+  "since": "1.0.0",
+  "arity": 3,
+  "aclCategories": [
+    "@write",
+    "@string",
+    "@fast"
+  ],
+  "commandFlags": [
+    "write",
+    "denyoom",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "value",
+      "name": "value",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [
+    {
+      "OW": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      },
+      "insert": true
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "children": [
+          {
+            "id": "handling-deadlocks",
+            "title": "Handling deadlocks"
+          }
+        ],
+        "id": "design-pattern-locking-with-setnx",
+        "title": "Design pattern: Locking with SETNX"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Set `key` to hold string `value` if `key` does not exist.\nIn that case, it is equal to [`SET`]().\nWhen `key` already holds a value, no operation is performed.\n`SETNX` is short for \"**SET** if **N**ot e**X**ists\".\n\n## Examples\n\n\nSETNX mykey \"Hello\"\nSETNX mykey \"World\"\nGET mykey\n\n\n## Design pattern: Locking with `SETNX`\n\n**Please note that:**\n\n1. The following pattern is discouraged in favor of [the Redlock algorithm]() which is only a bit more complex to implement, but offers better guarantees and is fault tolerant.\n2. We document the old pattern anyway because certain existing implementations link to this page as a reference. Moreover it is an interesting example of how Redis commands can be used in order to mount programming primitives.\n3. Anyway even assuming a single-instance locking primitive, starting with 2.6.12 it is possible to create a much simpler locking primitive, equivalent to the one discussed here, using the [`SET`]() command to acquire the lock, and a simple Lua script to release the lock. The pattern is documented in the [`SET`]() command page.\n\nThat said, `SETNX` can be used, and was historically used, as a locking primitive. For example, to acquire the lock of the key `foo`, the client could try the\nfollowing:\n\n```\nSETNX lock.foo <current Unix time + lock timeout + 1>\n```\n\nIf `SETNX` returns `1` the client acquired the lock, setting the `lock.foo` key\nto the Unix time at which the lock should no longer be considered valid.\nThe client will later use `DEL lock.foo` in order to release the lock.\n\nIf `SETNX` returns `0` the key is already locked by some other client.\nWe can either return to the caller if it's a non blocking lock, or enter a loop\nretrying to hold the lock until we succeed or some kind of timeout expires.\n\n### Handling deadlocks\n\nIn the above locking algorithm there is a problem: what happens if a client\nfails, crashes, or is otherwise not able to release the lock?\nIt's possible to detect this condition because the lock key contains a UNIX\ntimestamp.\nIf such a timestamp is equal to the current Unix time the lock is no longer\nvalid.\n\nWhen this happens we can't just call [`DEL`]() against the key to remove the lock\nand then try to issue a `SETNX`, as there is a race condition here, when\nmultiple clients detected an expired lock and are trying to release it.\n\n* C1 and C2 read `lock.foo` to check the timestamp, because they both received\n  `0` after executing `SETNX`, as the lock is still held by C3 that crashed\n  after holding the lock.\n* C1 sends `DEL lock.foo`\n* C1 sends `SETNX lock.foo` and it succeeds\n* C2 sends `DEL lock.foo`\n* C2 sends `SETNX lock.foo` and it succeeds\n* **ERROR**: both C1 and C2 acquired the lock because of the race condition.\n\nFortunately, it's possible to avoid this issue using the following algorithm.\nLet's see how C4, our sane client, uses the good algorithm:\n\n*   C4 sends `SETNX lock.foo` in order to acquire the lock\n\n*   The crashed client C3 still holds it, so Redis will reply with `0` to C4.\n\n*   C4 sends `GET lock.foo` to check if the lock expired.\n    If it is not, it will sleep for some time and retry from the start.\n\n*   Instead, if the lock is expired because the Unix time at `lock.foo` is older\n    than the current Unix time, C4 tries to perform:\n\n    ```\n    GETSET lock.foo <current Unix timestamp + lock timeout + 1>\n    ```\n\n*   Because of the [`GETSET`]() semantic, C4 can check if the old value stored at\n    `key` is still an expired timestamp.\n    If it is, the lock was acquired.\n\n*   If another client, for instance C5, was faster than C4 and acquired the lock\n    with the [`GETSET`]() operation, the C4 [`GETSET`]() operation will return a non\n    expired timestamp.\n    C4 will simply restart from the first step.\n    Note that even if C4 set the key a bit a few seconds in the future this is\n    not a problem.\n\nIn order to make this locking algorithm more robust, a\nclient holding a lock should always check the timeout didn't expire before\nunlocking the key with [`DEL`]() because client failures can be complex, not just\ncrashing but also blocking a lot of time against some operations and trying\nto issue [`DEL`]() after a lot of time (when the LOCK is already held by another\nclient).\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the key was not set.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the key was set.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the key was not set.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the key was set.",
+  "intro": "Set `key` to hold string `value` if `key` does not exist.\nIn that case, it is equal to [`SET`]().\nWhen `key` already holds a value, no operation is performed.\n`SETNX` is short for \"**SET** if **N**ot e**X**ists\".",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Set `key` to hold string `value` if `key` does not exist.\nIn that case, it is equal to [`SET`]().\nWhen `key` already holds a value, no operation is performed.\n`SETNX` is short for \"**SET** if **N**ot e**X**ists\"."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "SETNX mykey \"Hello\"\nSETNX mykey \"World\"\nGET mykey"
+    },
+    {
+      "title": "Design pattern: Locking with `SETNX`",
+      "level": 2,
+      "content": "**Please note that:**\n\n1. The following pattern is discouraged in favor of [the Redlock algorithm]() which is only a bit more complex to implement, but offers better guarantees and is fault tolerant.\n2. We document the old pattern anyway because certain existing implementations link to this page as a reference. Moreover it is an interesting example of how Redis commands can be used in order to mount programming primitives.\n3. Anyway even assuming a single-instance locking primitive, starting with 2.6.12 it is possible to create a much simpler locking primitive, equivalent to the one discussed here, using the [`SET`]() command to acquire the lock, and a simple Lua script to release the lock. The pattern is documented in the [`SET`]() command page.\n\nThat said, `SETNX` can be used, and was historically used, as a locking primitive. For example, to acquire the lock of the key `foo`, the client could try the\nfollowing:\n\n```\nSETNX lock.foo <current Unix time + lock timeout + 1>\n```\n\nIf `SETNX` returns `1` the client acquired the lock, setting the `lock.foo` key\nto the Unix time at which the lock should no longer be considered valid.\nThe client will later use `DEL lock.foo` in order to release the lock.\n\nIf `SETNX` returns `0` the key is already locked by some other client.\nWe can either return to the caller if it's a non blocking lock, or enter a loop\nretrying to hold the lock until we succeed or some kind of timeout expires."
+    },
+    {
+      "title": "Handling deadlocks",
+      "level": 3,
+      "content": "In the above locking algorithm there is a problem: what happens if a client\nfails, crashes, or is otherwise not able to release the lock?\nIt's possible to detect this condition because the lock key contains a UNIX\ntimestamp.\nIf such a timestamp is equal to the current Unix time the lock is no longer\nvalid.\n\nWhen this happens we can't just call [`DEL`]() against the key to remove the lock\nand then try to issue a `SETNX`, as there is a race condition here, when\nmultiple clients detected an expired lock and are trying to release it.\n\n* C1 and C2 read `lock.foo` to check the timestamp, because they both received\n  `0` after executing `SETNX`, as the lock is still held by C3 that crashed\n  after holding the lock.\n* C1 sends `DEL lock.foo`\n* C1 sends `SETNX lock.foo` and it succeeds\n* C2 sends `DEL lock.foo`\n* C2 sends `SETNX lock.foo` and it succeeds\n* **ERROR**: both C1 and C2 acquired the lock because of the race condition.\n\nFortunately, it's possible to avoid this issue using the following algorithm.\nLet's see how C4, our sane client, uses the good algorithm:\n\n*   C4 sends `SETNX lock.foo` in order to acquire the lock\n\n*   The crashed client C3 still holds it, so Redis will reply with `0` to C4.\n\n*   C4 sends `GET lock.foo` to check if the lock expired.\n    If it is not, it will sleep for some time and retry from the start.\n\n*   Instead, if the lock is expired because the Unix time at `lock.foo` is older\n    than the current Unix time, C4 tries to perform:\n\n    ```\n    GETSET lock.foo <current Unix timestamp + lock timeout + 1>\n    ```\n\n*   Because of the [`GETSET`]() semantic, C4 can check if the old value stored at\n    `key` is still an expired timestamp.\n    If it is, the lock was acquired.\n\n*   If another client, for instance C5, was faster than C4 and acquired the lock\n    with the [`GETSET`]() operation, the C4 [`GETSET`]() operation will return a non\n    expired timestamp.\n    C4 will simply restart from the first step.\n    Note that even if C4 set the key a bit a few seconds in the future this is\n    not a problem.\n\nIn order to make this locking algorithm more robust, a\nclient holding a lock should always check the timeout didn't expire before\nunlocking the key with [`DEL`]() because client failures can be complex, not just\ncrashing but also blocking a lot of time against some operations and trying\nto issue [`DEL`]() after a lot of time (when the LOCK is already held by another\nclient)."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the key was not set.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the key was set.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the key was not set.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the key was set."
+    }
+  ]
+}

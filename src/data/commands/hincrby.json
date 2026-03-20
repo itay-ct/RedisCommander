@@ -1,0 +1,112 @@
+{
+  "slug": "hincrby",
+  "title": "HINCRBY",
+  "description": "Increments the integer value of a field in a hash by a number. Uses 0 as initial value if the field doesn't exist.",
+  "docsUrl": "https://redis.io/docs/latest/commands/hincrby/",
+  "group": "hash",
+  "groupLabel": "Hashes",
+  "syntax": "HINCRBY key field increment",
+  "complexity": "O(1)",
+  "since": "2.0.0",
+  "arity": 4,
+  "aclCategories": [
+    "@write",
+    "@hash",
+    "@fast"
+  ],
+  "commandFlags": [
+    "write",
+    "denyoom",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "field",
+      "name": "field",
+      "type": "string"
+    },
+    {
+      "display_text": "increment",
+      "name": "increment",
+      "type": "integer"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      },
+      "update": true
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Increments the number stored at `field` in the hash stored at `key` by\n`increment`.\nIf `key` does not exist, a new key holding a hash is created.\nIf `field` does not exist the value is set to `0` before the operation is\nperformed.\n\nThe range of values supported by `HINCRBY` is limited to 64 bit signed integers.\n\n## Examples\n\nSince the `increment` argument is signed, both increment and decrement\noperations can be performed:\n\n\nHSET myhash field 5\nHINCRBY myhash field 1\nHINCRBY myhash field -1\nHINCRBY myhash field -10\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the value of the field after the increment operation.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the value of the field after the increment operation.",
+  "intro": "Increments the number stored at `field` in the hash stored at `key` by\n`increment`.\nIf `key` does not exist, a new key holding a hash is created.\nIf `field` does not exist the value is set to `0` before the operation is\nperformed.\n\nThe range of values supported by `HINCRBY` is limited to 64 bit signed integers.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Increments the number stored at `field` in the hash stored at `key` by\n`increment`.\nIf `key` does not exist, a new key holding a hash is created.\nIf `field` does not exist the value is set to `0` before the operation is\nperformed.\n\nThe range of values supported by `HINCRBY` is limited to 64 bit signed integers."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "Since the `increment` argument is signed, both increment and decrement\noperations can be performed:\n\n\nHSET myhash field 5\nHINCRBY myhash field 1\nHINCRBY myhash field -1\nHINCRBY myhash field -10"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the value of the field after the increment operation.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the value of the field after the increment operation."
+    }
+  ]
+}

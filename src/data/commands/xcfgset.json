@@ -1,0 +1,165 @@
+{
+  "slug": "xcfgset",
+  "title": "XCFGSET",
+  "description": "Sets the IDMP configuration parameters for a stream.",
+  "docsUrl": "https://redis.io/docs/latest/commands/xcfgset/",
+  "group": "stream",
+  "groupLabel": "Streams",
+  "syntax": "XCFGSET key [IDMP-DURATION duration] [IDMP-MAXSIZE maxsize]",
+  "complexity": "O(1)",
+  "since": "8.6.0",
+  "arity": -2,
+  "aclCategories": [
+    "STREAM"
+  ],
+  "commandFlags": [
+    "WRITE",
+    "FAST"
+  ],
+  "arguments": [
+    {
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "arguments": [
+        {
+          "name": "duration-token",
+          "token": "IDMP-DURATION",
+          "type": "pure-token"
+        },
+        {
+          "name": "duration",
+          "type": "integer"
+        }
+      ],
+      "name": "duration-block",
+      "optional": true,
+      "type": "block"
+    },
+    {
+      "arguments": [
+        {
+          "name": "maxsize-token",
+          "token": "IDMP-MAXSIZE",
+          "type": "pure-token"
+        },
+        {
+          "name": "maxsize",
+          "type": "integer"
+        }
+      ],
+      "name": "maxsize-block",
+      "optional": true,
+      "type": "block"
+    }
+  ],
+  "keySpecs": [
+    {
+      "begin_search": {
+        "index": {
+          "pos": 1
+        }
+      },
+      "find_keys": {
+        "range": {
+          "lastkey": 0,
+          "limit": 0,
+          "step": 1
+        }
+      },
+      "flags": [
+        "RW",
+        "UPDATE"
+      ]
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "optional-arguments",
+        "title": "Optional arguments"
+      },
+      {
+        "id": "behavior",
+        "title": "Behavior"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      },
+      {
+        "id": "error-conditions",
+        "title": "Error conditions"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Sets the IDMP (Idempotent Message Processing) configuration parameters for a stream. This command configures how long idempotent IDs are retained and the maximum number of idempotent IDs tracked per producer.\n\n## Required arguments\n\n<details open><summary><code>key</code></summary>\n\nThe name of the stream key. The stream must already exist.\n\n</details>\n\n## Optional arguments\n\n<details open><summary><code>IDMP-DURATION duration</code></summary>\n\nSets the duration in seconds that each idempotent ID (iid) is kept in the stream's IDMP map. Valid range: 1-86,400 seconds. Default: 100 seconds.\n\nWhen an idempotent ID expires, it can be reused for new messages. This provides an operational guarantee that Redis will not forget an idempotency ID before the duration elapses (unless capacity is reached).\n\n</details>\n\n<details open><summary><code>IDMP-MAXSIZE maxsize</code></summary>\n\nSets the maximum number of most recent idempotent IDs kept for each producer in the stream's IDMP map. Valid range: 1-10,000 entries. Default: 100 entries.\n\nWhen the capacity is reached, the oldest idempotent IDs for that producer are evicted regardless of remaining duration. This prevents unbounded memory growth.\n\n</details>\n\n## Behavior\n\n- Calling `XCFGSET` clears all existing producer IDMP maps for the stream.\n- At least one of `IDMP-DURATION` or `IDMP-MAXSIZE` must be specified.\n- The stream must exist before calling this command.\n- Configuration changes apply immediately to all future IDMP operations.\n\n## Examples\n\n```redis-cli\nXADD mystream * field value\nXCFGSET mystream IDMP-DURATION 300\nXCFGSET mystream IDMP-MAXSIZE 1000\nXCFGSET mystream IDMP-DURATION 600 IDMP-MAXSIZE 500\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the configuration was set successfully.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the configuration was set successfully.\n\n\n\n## Error conditions\n\nThe command returns an error in the following cases:\n\n- **WRONGTYPE**: The key exists but is not a stream\n- **ERR no such key**: The stream does not exist\n- **ERR syntax error**: Invalid command syntax or missing required arguments\n- **ERR invalid duration**: Duration value is outside the valid range (1-86,400)\n- **ERR invalid maxsize**: Maxsize value is outside the valid range (1-10,000)",
+  "intro": "Sets the IDMP (Idempotent Message Processing) configuration parameters for a stream. This command configures how long idempotent IDs are retained and the maximum number of idempotent IDs tracked per producer.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Sets the IDMP (Idempotent Message Processing) configuration parameters for a stream. This command configures how long idempotent IDs are retained and the maximum number of idempotent IDs tracked per producer."
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open><summary><code>key</code></summary>\n\nThe name of the stream key. The stream must already exist.\n\n</details>"
+    },
+    {
+      "title": "Optional arguments",
+      "level": 2,
+      "content": "<details open><summary><code>IDMP-DURATION duration</code></summary>\n\nSets the duration in seconds that each idempotent ID (iid) is kept in the stream's IDMP map. Valid range: 1-86,400 seconds. Default: 100 seconds.\n\nWhen an idempotent ID expires, it can be reused for new messages. This provides an operational guarantee that Redis will not forget an idempotency ID before the duration elapses (unless capacity is reached).\n\n</details>\n\n<details open><summary><code>IDMP-MAXSIZE maxsize</code></summary>\n\nSets the maximum number of most recent idempotent IDs kept for each producer in the stream's IDMP map. Valid range: 1-10,000 entries. Default: 100 entries.\n\nWhen the capacity is reached, the oldest idempotent IDs for that producer are evicted regardless of remaining duration. This prevents unbounded memory growth.\n\n</details>"
+    },
+    {
+      "title": "Behavior",
+      "level": 2,
+      "content": "- Calling `XCFGSET` clears all existing producer IDMP maps for the stream.\n- At least one of `IDMP-DURATION` or `IDMP-MAXSIZE` must be specified.\n- The stream must exist before calling this command.\n- Configuration changes apply immediately to all future IDMP operations."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "```redis-cli\nXADD mystream * field value\nXCFGSET mystream IDMP-DURATION 300\nXCFGSET mystream IDMP-MAXSIZE 1000\nXCFGSET mystream IDMP-DURATION 600 IDMP-MAXSIZE 500\n```"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the configuration was set successfully.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the configuration was set successfully."
+    },
+    {
+      "title": "Error conditions",
+      "level": 2,
+      "content": "The command returns an error in the following cases:\n\n- **WRONGTYPE**: The key exists but is not a stream\n- **ERR no such key**: The stream does not exist\n- **ERR syntax error**: Invalid command syntax or missing required arguments\n- **ERR invalid duration**: Duration value is outside the valid range (1-86,400)\n- **ERR invalid maxsize**: Maxsize value is outside the valid range (1-10,000)"
+    }
+  ]
+}

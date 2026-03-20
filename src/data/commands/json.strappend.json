@@ -1,0 +1,121 @@
+{
+  "slug": "json.strappend",
+  "title": "JSON.STRAPPEND",
+  "description": "Appends a string to a JSON string value at path",
+  "docsUrl": "https://redis.io/docs/latest/commands/json.strappend/",
+  "group": "json",
+  "groupLabel": "JSON",
+  "syntax": "JSON.STRAPPEND key [path] value",
+  "complexity": "O(1) when path is evaluated to a single value, O(N) when path is evaluated to multiple values, where N is the size of the key",
+  "since": "1.0.0",
+  "arity": null,
+  "aclCategories": [
+    "@json",
+    "@write",
+    "@slow"
+  ],
+  "commandFlags": [],
+  "arguments": [
+    {
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "name": "path",
+      "optional": true,
+      "type": "string"
+    },
+    {
+      "name": "value",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "optional-arguments",
+        "title": "Optional arguments"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      },
+      {
+        "id": "see-also",
+        "title": "See also"
+      },
+      {
+        "id": "related-topics",
+        "title": "Related topics"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Append the `json-string` values to the string at `path`\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open><summary><code>key</code></summary> \n\nis key to modify.\n</details>\n\n<details open><summary><code>value</code></summary> \n\nis value to append to one or more strings. \n\n\nTo specify a string as an array value to append, wrap the quoted string with an additional set of single quotes. Example: `'\"silver\"'`. For more detailed use, see [Examples](#examples).\n\n</details>\n\n## Optional arguments\n\n<details open><summary><code>path</code></summary> \n\nis JSONPath to specify. Default is root `$`.\n</details>\n\n## Examples\n\n\nredis> JSON.SET doc $ '{\"a\":\"foo\", \"nested\": {\"a\": \"hello\"}, \"nested2\": {\"a\": 31}}'\nOK\nredis> JSON.STRAPPEND doc $..a '\"baz\"'\n1) (integer) 6\n2) (integer) 8\n3) (nil)\nredis> JSON.GET doc $\n\"[{\\\"a\\\":\\\"foobaz\\\",\\\"nested\\\":{\\\"a\\\":\\\"hellobaz\\\"},\\\"nested2\\\":{\\\"a\\\":31}}]\"\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nWith `$`-based path argument: [Array reply]() of [integer replies]() or [null replies](), where each element is the string's new length, or `null` if the matching value is not a string.\n\nWith `.`-based path argument: [Integer reply]() representing the string's new length, or [null reply]() if the matching value is not a string.\n\n**RESP3:**\n\nWith `$`-based path argument (default): [Array reply]() of [integer replies]() or [null replies](), where each element is the string's new length, or `null` if the matching value is not a string.\n\nWith `.`-based path argument: [Integer reply]() representing the string's new length, or [null reply]() if the matching value is not a string.\n\n\n\n## See also\n\n`JSON.ARRAPEND` | [`JSON.ARRINSERT`]() \n\n## Related topics\n\n* [RedisJSON]()\n* [Index and search JSON documents]()",
+  "intro": "Append the `json-string` values to the string at `path`\n\n[Examples](#examples)",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Append the `json-string` values to the string at `path`\n\n[Examples](#examples)"
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open><summary><code>key</code></summary> \n\nis key to modify.\n</details>\n\n<details open><summary><code>value</code></summary> \n\nis value to append to one or more strings. \n\n\nTo specify a string as an array value to append, wrap the quoted string with an additional set of single quotes. Example: `'\"silver\"'`. For more detailed use, see [Examples](#examples).\n\n</details>"
+    },
+    {
+      "title": "Optional arguments",
+      "level": 2,
+      "content": "<details open><summary><code>path</code></summary> \n\nis JSONPath to specify. Default is root `$`.\n</details>"
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "redis> JSON.SET doc $ '{\"a\":\"foo\", \"nested\": {\"a\": \"hello\"}, \"nested2\": {\"a\": 31}}'\nOK\nredis> JSON.STRAPPEND doc $..a '\"baz\"'\n1) (integer) 6\n2) (integer) 8\n3) (nil)\nredis> JSON.GET doc $\n\"[{\\\"a\\\":\\\"foobaz\\\",\\\"nested\\\":{\\\"a\\\":\\\"hellobaz\\\"},\\\"nested2\\\":{\\\"a\\\":31}}]\""
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nWith `$`-based path argument: [Array reply]() of [integer replies]() or [null replies](), where each element is the string's new length, or `null` if the matching value is not a string.\n\nWith `.`-based path argument: [Integer reply]() representing the string's new length, or [null reply]() if the matching value is not a string.\n\n**RESP3:**\n\nWith `$`-based path argument (default): [Array reply]() of [integer replies]() or [null replies](), where each element is the string's new length, or `null` if the matching value is not a string.\n\nWith `.`-based path argument: [Integer reply]() representing the string's new length, or [null reply]() if the matching value is not a string."
+    },
+    {
+      "title": "See also",
+      "level": 2,
+      "content": "`JSON.ARRAPEND` | [`JSON.ARRINSERT`]()"
+    },
+    {
+      "title": "Related topics",
+      "level": 2,
+      "content": "* [RedisJSON]()\n* [Index and search JSON documents]()"
+    }
+  ]
+}

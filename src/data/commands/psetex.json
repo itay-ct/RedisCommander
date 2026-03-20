@@ -1,0 +1,110 @@
+{
+  "slug": "psetex",
+  "title": "PSETEX",
+  "description": "Sets both string value and expiration time in milliseconds of a key. The key is created if it doesn't exist.",
+  "docsUrl": "https://redis.io/docs/latest/commands/psetex/",
+  "group": "string",
+  "groupLabel": "Strings",
+  "syntax": "PSETEX key milliseconds value",
+  "complexity": "O(1)",
+  "since": "2.6.0",
+  "arity": 4,
+  "aclCategories": [
+    "@write",
+    "@string",
+    "@slow"
+  ],
+  "commandFlags": [
+    "write",
+    "denyoom"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "milliseconds",
+      "name": "milliseconds",
+      "type": "integer"
+    },
+    {
+      "display_text": "value",
+      "name": "value",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [
+    {
+      "OW": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      },
+      "update": true
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "`PSETEX` works exactly like [`SETEX`]() with the sole difference that the expire\ntime is specified in milliseconds instead of seconds.\n\n## Examples\n\n\nPSETEX mykey 1000 \"Hello\"\nPTTL mykey\nGET mykey\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.",
+  "intro": "`PSETEX` works exactly like [`SETEX`]() with the sole difference that the expire\ntime is specified in milliseconds instead of seconds.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "`PSETEX` works exactly like [`SETEX`]() with the sole difference that the expire\ntime is specified in milliseconds instead of seconds."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "PSETEX mykey 1000 \"Hello\"\nPTTL mykey\nGET mykey"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`."
+    }
+  ]
+}

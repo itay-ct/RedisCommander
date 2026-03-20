@@ -1,0 +1,108 @@
+{
+  "slug": "pfadd",
+  "title": "PFADD",
+  "description": "Adds elements to a HyperLogLog key. Creates the key if it doesn't exist.",
+  "docsUrl": "https://redis.io/docs/latest/commands/pfadd/",
+  "group": "hyperloglog",
+  "groupLabel": "HyperLogLog",
+  "syntax": "PFADD key [element [element ...]]",
+  "complexity": "O(1) to add every element.",
+  "since": "2.8.9",
+  "arity": -2,
+  "aclCategories": [
+    "@write",
+    "@hyperloglog",
+    "@fast"
+  ],
+  "commandFlags": [
+    "write",
+    "denyoom",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "element",
+      "multiple": true,
+      "name": "element",
+      "optional": true,
+      "type": "string"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      },
+      "insert": true
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Adds all the element arguments to the HyperLogLog data structure stored at the variable name specified as first argument.\n\nAs a side effect of this command the HyperLogLog internals may be updated to reflect a different estimation of the number of unique items added so far (the cardinality of the set).\n\nIf the approximated cardinality estimated by the HyperLogLog changed after executing the command, `PFADD` returns 1, otherwise 0 is returned. The command automatically creates an empty HyperLogLog structure (that is, a Redis String of a specified length and with a given encoding) if the specified key does not exist.\n\nTo call the command without elements but just the variable name is valid, this will result into no operation performed if the variable already exists, or just the creation of the data structure if the key does not exist (in the latter case 1 is returned).\n\nFor an introduction to HyperLogLog data structure check the [`PFCOUNT`]() command page.\n\n## Examples\n\n\nPFADD hll a b c d e f g\nPFCOUNT hll\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if at least one HyperLogLog internal register was altered.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if no HyperLogLog internal registers were altered.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if at least one HyperLogLog internal register was altered.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if no HyperLogLog internal registers were altered.",
+  "intro": "Adds all the element arguments to the HyperLogLog data structure stored at the variable name specified as first argument.\n\nAs a side effect of this command the HyperLogLog internals may be updated to reflect a different estimation of the number of unique items added so far (the cardinality of the set).\n\nIf the approximated cardinality estimated by the HyperLogLog changed after executing the command, `PFADD` returns 1, otherwise 0 is returned. The command automatically creates an empty HyperLogLog structure (that is, a Redis String of a specified length and with a given encoding) if the specified key does not exist.\n\nTo call the command without elements but just the variable name is valid, this will result into no operation performed if the variable already exists, or just the creation of the data structure if the key does not exist (in the latter case 1 is returned).\n\nFor an introduction to HyperLogLog data structure check the [`PFCOUNT`]() command page.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Adds all the element arguments to the HyperLogLog data structure stored at the variable name specified as first argument.\n\nAs a side effect of this command the HyperLogLog internals may be updated to reflect a different estimation of the number of unique items added so far (the cardinality of the set).\n\nIf the approximated cardinality estimated by the HyperLogLog changed after executing the command, `PFADD` returns 1, otherwise 0 is returned. The command automatically creates an empty HyperLogLog structure (that is, a Redis String of a specified length and with a given encoding) if the specified key does not exist.\n\nTo call the command without elements but just the variable name is valid, this will result into no operation performed if the variable already exists, or just the creation of the data structure if the key does not exist (in the latter case 1 is returned).\n\nFor an introduction to HyperLogLog data structure check the [`PFCOUNT`]() command page."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "PFADD hll a b c d e f g\nPFCOUNT hll"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if at least one HyperLogLog internal register was altered.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if no HyperLogLog internal registers were altered.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if at least one HyperLogLog internal register was altered.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if no HyperLogLog internal registers were altered."
+    }
+  ]
+}

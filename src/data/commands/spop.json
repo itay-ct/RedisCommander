@@ -1,0 +1,117 @@
+{
+  "slug": "spop",
+  "title": "SPOP",
+  "description": "Returns one or more random members from a set after removing them. Deletes the set if the last member was popped.",
+  "docsUrl": "https://redis.io/docs/latest/commands/spop/",
+  "group": "set",
+  "groupLabel": "Sets",
+  "syntax": "SPOP key [count]",
+  "complexity": "Without the count argument O(1), otherwise O(N) where N is the value of the passed count.",
+  "since": "1.0.0",
+  "arity": -2,
+  "aclCategories": [
+    "@write",
+    "@set",
+    "@fast"
+  ],
+  "commandFlags": [
+    "write",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "count",
+      "name": "count",
+      "optional": true,
+      "since": "3.2.0",
+      "type": "integer"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "delete": true,
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "distribution-of-returned-elements",
+        "title": "Distribution of returned elements"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Removes and returns one or more random members from the set value store at `key`.\n\nThis operation is similar to [`SRANDMEMBER`](), that returns one or more random elements from a set but does not remove it.\n\nBy default, the command pops a single member from the set. When provided with\nthe optional `count` argument, the reply will consist of up to `count` members,\ndepending on the set's cardinality.\n\n## Examples\n\n\nSADD myset \"one\"\nSADD myset \"two\"\nSADD myset \"three\"\nSPOP myset\nSMEMBERS myset\nSADD myset \"four\"\nSADD myset \"five\"\nSPOP myset 3\nSMEMBERS myset\n\n\n## Distribution of returned elements\n\nNote that this command is not suitable when you need a guaranteed uniform distribution of the returned elements. For more information about the algorithms used for `SPOP`, look up both the Knuth sampling and Floyd sampling algorithms.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the key does not exist.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): when called without the _count_ argument, the removed member.\n* [Array reply](../../develop/reference/protocol-spec#arrays): when called with the _count_ argument, a list of the removed members.\n\n**RESP3:**\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): if the key does not exist.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): when called without the _count_ argument, the removed member.\n* [Array reply](../../develop/reference/protocol-spec#arrays): when called with the _count_ argument, a list of the removed members.",
+  "intro": "Removes and returns one or more random members from the set value store at `key`.\n\nThis operation is similar to [`SRANDMEMBER`](), that returns one or more random elements from a set but does not remove it.\n\nBy default, the command pops a single member from the set. When provided with\nthe optional `count` argument, the reply will consist of up to `count` members,\ndepending on the set's cardinality.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Removes and returns one or more random members from the set value store at `key`.\n\nThis operation is similar to [`SRANDMEMBER`](), that returns one or more random elements from a set but does not remove it.\n\nBy default, the command pops a single member from the set. When provided with\nthe optional `count` argument, the reply will consist of up to `count` members,\ndepending on the set's cardinality."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "SADD myset \"one\"\nSADD myset \"two\"\nSADD myset \"three\"\nSPOP myset\nSMEMBERS myset\nSADD myset \"four\"\nSADD myset \"five\"\nSPOP myset 3\nSMEMBERS myset"
+    },
+    {
+      "title": "Distribution of returned elements",
+      "level": 2,
+      "content": "Note that this command is not suitable when you need a guaranteed uniform distribution of the returned elements. For more information about the algorithms used for `SPOP`, look up both the Knuth sampling and Floyd sampling algorithms."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the key does not exist.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): when called without the _count_ argument, the removed member.\n* [Array reply](../../develop/reference/protocol-spec#arrays): when called with the _count_ argument, a list of the removed members.\n\n**RESP3:**\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): if the key does not exist.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): when called without the _count_ argument, the removed member.\n* [Array reply](../../develop/reference/protocol-spec#arrays): when called with the _count_ argument, a list of the removed members."
+    }
+  ]
+}

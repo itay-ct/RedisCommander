@@ -1,0 +1,71 @@
+{
+  "slug": "cluster-links",
+  "title": "CLUSTER LINKS",
+  "description": "Returns a list of all TCP links to and from peer nodes.",
+  "docsUrl": "https://redis.io/docs/latest/commands/cluster-links/",
+  "group": "cluster",
+  "groupLabel": "Cluster",
+  "syntax": "CLUSTER LINKS",
+  "complexity": "O(N) where N is the total number of Cluster nodes",
+  "since": "7.0.0",
+  "arity": 2,
+  "aclCategories": [
+    "@slow"
+  ],
+  "commandFlags": [
+    "stale"
+  ],
+  "arguments": [],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Each node in a Redis Cluster maintains a pair of long-lived TCP link with each peer in the cluster: One for sending outbound messages towards the peer and one for receiving inbound messages from the peer.\n\n`CLUSTER LINKS` outputs information of all such peer links as an array, where each array element is a map that contains attributes and their values for an individual link.\n\n## Examples\n\nThe following is an example output:\n\n```\n> CLUSTER LINKS\n1)  1) \"direction\"\n    2) \"to\"\n    3) \"node\"\n    4) \"8149d745fa551e40764fecaf7cab9dbdf6b659ae\"\n    5) \"create-time\"\n    6) (integer) 1639442739375\n    7) \"events\"\n    8) \"rw\"\n    9) \"send-buffer-allocated\"\n   10) (integer) 4512\n   11) \"send-buffer-used\"\n   12) (integer) 0\n2)  1) \"direction\"\n    2) \"from\"\n    3) \"node\"\n    4) \"8149d745fa551e40764fecaf7cab9dbdf6b659ae\"\n    5) \"create-time\"\n    6) (integer) 1639442739411\n    7) \"events\"\n    8) \"r\"\n    9) \"send-buffer-allocated\"\n   10) (integer) 0\n   11) \"send-buffer-used\"\n   12) (integer) 0\n```\n\nEach map is composed of the following attributes of the corresponding cluster link and their values:\n\n1. `direction`: This link is established by the local node `to` the peer, or accepted by the local node `from` the peer.\n2. `node`: The node id of the peer.\n3. `create-time`: Creation time of the link. (In the case of a `to` link, this is the time when the TCP link is created by the local node, not the time when it is actually established.)\n4. `events`: Events currently registered for the link. `r` means readable event, `w` means writable event.\n5. `send-buffer-allocated`: Allocated size of the link's send buffer, which is used to buffer outgoing messages toward the peer.\n6. `send-buffer-used`: Size of the portion of the link's send buffer that is currently holding data(messages).\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): an array of maps where each map contains various attributes and their values of a cluster link.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): an array of [Map reply](../../develop/reference/protocol-spec#maps) where each map contains various attributes and their values of a cluster link.",
+  "intro": "Each node in a Redis Cluster maintains a pair of long-lived TCP link with each peer in the cluster: One for sending outbound messages towards the peer and one for receiving inbound messages from the peer.\n\n`CLUSTER LINKS` outputs information of all such peer links as an array, where each array element is a map that contains attributes and their values for an individual link.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Each node in a Redis Cluster maintains a pair of long-lived TCP link with each peer in the cluster: One for sending outbound messages towards the peer and one for receiving inbound messages from the peer.\n\n`CLUSTER LINKS` outputs information of all such peer links as an array, where each array element is a map that contains attributes and their values for an individual link."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "The following is an example output:\n\n```\n> CLUSTER LINKS\n1)  1) \"direction\"\n    2) \"to\"\n    3) \"node\"\n    4) \"8149d745fa551e40764fecaf7cab9dbdf6b659ae\"\n    5) \"create-time\"\n    6) (integer) 1639442739375\n    7) \"events\"\n    8) \"rw\"\n    9) \"send-buffer-allocated\"\n   10) (integer) 4512\n   11) \"send-buffer-used\"\n   12) (integer) 0\n2)  1) \"direction\"\n    2) \"from\"\n    3) \"node\"\n    4) \"8149d745fa551e40764fecaf7cab9dbdf6b659ae\"\n    5) \"create-time\"\n    6) (integer) 1639442739411\n    7) \"events\"\n    8) \"r\"\n    9) \"send-buffer-allocated\"\n   10) (integer) 0\n   11) \"send-buffer-used\"\n   12) (integer) 0\n```\n\nEach map is composed of the following attributes of the corresponding cluster link and their values:\n\n1. `direction`: This link is established by the local node `to` the peer, or accepted by the local node `from` the peer.\n2. `node`: The node id of the peer.\n3. `create-time`: Creation time of the link. (In the case of a `to` link, this is the time when the TCP link is created by the local node, not the time when it is actually established.)\n4. `events`: Events currently registered for the link. `r` means readable event, `w` means writable event.\n5. `send-buffer-allocated`: Allocated size of the link's send buffer, which is used to buffer outgoing messages toward the peer.\n6. `send-buffer-used`: Size of the portion of the link's send buffer that is currently holding data(messages)."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): an array of maps where each map contains various attributes and their values of a cluster link.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): an array of [Map reply](../../develop/reference/protocol-spec#maps) where each map contains various attributes and their values of a cluster link."
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "slug": "vrem",
+  "title": "VREM",
+  "description": "Remove an element from a vector set.",
+  "docsUrl": "https://redis.io/docs/latest/commands/vrem/",
+  "group": "vector_set",
+  "groupLabel": "Vector Sets",
+  "syntax": "VREM key element",
+  "complexity": "O(log(N)) for each element removed, where N is the number of elements in the vector set.",
+  "since": "8.0.0",
+  "arity": null,
+  "aclCategories": [],
+  "commandFlags": [],
+  "arguments": [],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "related-topics",
+        "title": "Related topics"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Remove an element from a vector set.\n\n```shell\nVADD vset VALUES 3 1 0 1 bar\n(integer) 1\n\nVREM vset bar\n(integer) 1\n\nVREM vset bar\n(integer) 0\n```\n\n`VREM` reclaims memory immediately. It does not use tombstones or logical deletions, making it safe to use in long-running applications that frequently update the same vector set.\n\n## Required arguments\n\n<details open>\n<summary><code>key</code></summary>\n\nis the name of the key that holds the vector set.\n</details>\n\n<details open>\n<summary><code>element</code></summary>\n\nis the name of the element to remove from the vector set.\n</details>\n\n## Related topics\n\n- [Vector sets]()\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): 0 if either element or key do not exist; 1 if the element was removed.\n\n**RESP3:**\n\n[Boolean reply](../../develop/reference/protocol-spec#booleans): false if either element or key do not exist; true if the element was removed.",
+  "intro": "Remove an element from a vector set.\n\n```shell\nVADD vset VALUES 3 1 0 1 bar\n(integer) 1\n\nVREM vset bar\n(integer) 1\n\nVREM vset bar\n(integer) 0\n```\n\n`VREM` reclaims memory immediately. It does not use tombstones or logical deletions, making it safe to use in long-running applications that frequently update the same vector set.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Remove an element from a vector set.\n\n```shell\nVADD vset VALUES 3 1 0 1 bar\n(integer) 1\n\nVREM vset bar\n(integer) 1\n\nVREM vset bar\n(integer) 0\n```\n\n`VREM` reclaims memory immediately. It does not use tombstones or logical deletions, making it safe to use in long-running applications that frequently update the same vector set."
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open>\n<summary><code>key</code></summary>\n\nis the name of the key that holds the vector set.\n</details>\n\n<details open>\n<summary><code>element</code></summary>\n\nis the name of the element to remove from the vector set.\n</details>"
+    },
+    {
+      "title": "Related topics",
+      "level": 2,
+      "content": "- [Vector sets]()"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): 0 if either element or key do not exist; 1 if the element was removed.\n\n**RESP3:**\n\n[Boolean reply](../../develop/reference/protocol-spec#booleans): false if either element or key do not exist; true if the element was removed."
+    }
+  ]
+}

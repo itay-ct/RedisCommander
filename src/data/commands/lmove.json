@@ -1,0 +1,179 @@
+{
+  "slug": "lmove",
+  "title": "LMOVE",
+  "description": "Returns an element after popping it from one list and pushing it to another. Deletes the list if the last element was moved.",
+  "docsUrl": "https://redis.io/docs/latest/commands/lmove/",
+  "group": "list",
+  "groupLabel": "Lists",
+  "syntax": "LMOVE source destination <LEFT | RIGHT> <LEFT | RIGHT>",
+  "complexity": "O(1)",
+  "since": "6.2.0",
+  "arity": 5,
+  "aclCategories": [
+    "@write",
+    "@list",
+    "@slow"
+  ],
+  "commandFlags": [
+    "write",
+    "denyoom"
+  ],
+  "arguments": [
+    {
+      "display_text": "source",
+      "key_spec_index": 0,
+      "name": "source",
+      "type": "key"
+    },
+    {
+      "display_text": "destination",
+      "key_spec_index": 1,
+      "name": "destination",
+      "type": "key"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "left",
+          "name": "left",
+          "token": "LEFT",
+          "type": "pure-token"
+        },
+        {
+          "display_text": "right",
+          "name": "right",
+          "token": "RIGHT",
+          "type": "pure-token"
+        }
+      ],
+      "name": "wherefrom",
+      "type": "oneof"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "left",
+          "name": "left",
+          "token": "LEFT",
+          "type": "pure-token"
+        },
+        {
+          "display_text": "right",
+          "name": "right",
+          "token": "RIGHT",
+          "type": "pure-token"
+        }
+      ],
+      "name": "whereto",
+      "type": "oneof"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "delete": true,
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    },
+    {
+      "RW": true,
+      "begin_search": {
+        "spec": {
+          "index": 2
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      },
+      "insert": true
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "pattern-reliable-queue",
+        "title": "Pattern: Reliable queue"
+      },
+      {
+        "id": "pattern-circular-list",
+        "title": "Pattern: Circular list"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nAtomically returns and removes the first/last element (head/tail depending on\nthe `wherefrom` argument) of the list stored at `source`, and pushes the\nelement at the first/last element (head/tail depending on the `whereto`\nargument) of the list stored at `destination`.\n\nFor example: consider `source` holding the list `a,b,c`, and `destination`\nholding the list `x,y,z`.\nExecuting `LMOVE source destination RIGHT LEFT` results in `source` holding\n`a,b` and `destination` holding `c,x,y,z`.\n\nIf `source` does not exist, the value `nil` is returned and no operation is\nperformed.\nIf `source` and `destination` are the same, the operation is equivalent to\nremoving the first/last element from the list and pushing it as first/last\nelement of the list, so it can be considered as a list rotation command (or a\nno-op if `wherefrom` is the same as `whereto`).\n\nThis command comes in place of the now deprecated [`RPOPLPUSH`](). Doing\n`LMOVE RIGHT LEFT` is equivalent.\n\n## Examples\n\n\nRPUSH mylist \"one\"\nRPUSH mylist \"two\"\nRPUSH mylist \"three\"\nLMOVE mylist myotherlist RIGHT LEFT\nLMOVE mylist myotherlist LEFT RIGHT\nLRANGE mylist 0 -1\nLRANGE myotherlist 0 -1\n\n\n## Pattern: Reliable queue\n\nRedis is often used as a messaging server to implement processing of background\njobs or other kinds of messaging tasks.\nA simple form of queue is often obtained pushing values into a list in the\nproducer side, and waiting for this values in the consumer side using [`RPOP`]()\n(using polling), or [`BRPOP`]() if the client is better served by a blocking\noperation.\n\nHowever in this context the obtained queue is not _reliable_ as messages can\nbe lost, for example in the case there is a network problem or if the consumer\ncrashes just after the message is received but it is still to process.\n\n`LMOVE` (or [`BLMOVE`]() for the blocking variant) offers a way to avoid\nthis problem: the consumer fetches the message and at the same time pushes it\ninto a _processing_ list.\nIt will use the [`LREM`]() command in order to remove the message from the\n_processing_ list once the message has been processed.\n\nAn additional client may monitor the _processing_ list for items that remain\nthere for too much time, and will push those timed out items into the queue\nagain if needed.\n\n## Pattern: Circular list\n\nUsing `LMOVE` with the same source and destination key, a client can visit\nall the elements of an N-elements list, one after the other, in O(N) without\ntransferring the full list from the server to the client using a single [`LRANGE`]()\noperation.\n\nThe above pattern works even in the following conditions:\n\n* There are multiple clients rotating the list: they'll fetch different\n  elements, until all the elements of the list are visited, and the process\n  restarts.\n* Even if other clients are actively pushing new items at the end of the list.\n\nThe above makes it very simple to implement a system where a set of items must\nbe processed by N workers continuously as fast as possible.\nAn example is a monitoring system that must check that a set of web sites are\nreachable, with the smallest delay possible, using a number of parallel workers.\n\nNote that this implementation of workers is trivially scalable and reliable,\nbecause even if a message is lost the item is still in the queue and will be\nprocessed at the next iteration.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the element being popped and pushed.\n\n**RESP3:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the element being popped and pushed.",
+  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nAtomically returns and removes the first/last element (head/tail depending on\nthe `wherefrom` argument) of the list stored at `source`, and pushes the\nelement at the first/last element (head/tail depending on the `whereto`\nargument) of the list stored at `destination`.\n\nFor example: consider `source` holding the list `a,b,c`, and `destination`\nholding the list `x,y,z`.\nExecuting `LMOVE source destination RIGHT LEFT` results in `source` holding\n`a,b` and `destination` holding `c,x,y,z`.\n\nIf `source` does not exist, the value `nil` is returned and no operation is\nperformed.\nIf `source` and `destination` are the same, the operation is equivalent to\nremoving the first/last element from the list and pushing it as first/last\nelement of the list, so it can be considered as a list rotation command (or a\nno-op if `wherefrom` is the same as `whereto`).\n\nThis command comes in place of the now deprecated [`RPOPLPUSH`](). Doing\n`LMOVE RIGHT LEFT` is equivalent.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nAtomically returns and removes the first/last element (head/tail depending on\nthe `wherefrom` argument) of the list stored at `source`, and pushes the\nelement at the first/last element (head/tail depending on the `whereto`\nargument) of the list stored at `destination`.\n\nFor example: consider `source` holding the list `a,b,c`, and `destination`\nholding the list `x,y,z`.\nExecuting `LMOVE source destination RIGHT LEFT` results in `source` holding\n`a,b` and `destination` holding `c,x,y,z`.\n\nIf `source` does not exist, the value `nil` is returned and no operation is\nperformed.\nIf `source` and `destination` are the same, the operation is equivalent to\nremoving the first/last element from the list and pushing it as first/last\nelement of the list, so it can be considered as a list rotation command (or a\nno-op if `wherefrom` is the same as `whereto`).\n\nThis command comes in place of the now deprecated [`RPOPLPUSH`](). Doing\n`LMOVE RIGHT LEFT` is equivalent."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "RPUSH mylist \"one\"\nRPUSH mylist \"two\"\nRPUSH mylist \"three\"\nLMOVE mylist myotherlist RIGHT LEFT\nLMOVE mylist myotherlist LEFT RIGHT\nLRANGE mylist 0 -1\nLRANGE myotherlist 0 -1"
+    },
+    {
+      "title": "Pattern: Reliable queue",
+      "level": 2,
+      "content": "Redis is often used as a messaging server to implement processing of background\njobs or other kinds of messaging tasks.\nA simple form of queue is often obtained pushing values into a list in the\nproducer side, and waiting for this values in the consumer side using [`RPOP`]()\n(using polling), or [`BRPOP`]() if the client is better served by a blocking\noperation.\n\nHowever in this context the obtained queue is not _reliable_ as messages can\nbe lost, for example in the case there is a network problem or if the consumer\ncrashes just after the message is received but it is still to process.\n\n`LMOVE` (or [`BLMOVE`]() for the blocking variant) offers a way to avoid\nthis problem: the consumer fetches the message and at the same time pushes it\ninto a _processing_ list.\nIt will use the [`LREM`]() command in order to remove the message from the\n_processing_ list once the message has been processed.\n\nAn additional client may monitor the _processing_ list for items that remain\nthere for too much time, and will push those timed out items into the queue\nagain if needed."
+    },
+    {
+      "title": "Pattern: Circular list",
+      "level": 2,
+      "content": "Using `LMOVE` with the same source and destination key, a client can visit\nall the elements of an N-elements list, one after the other, in O(N) without\ntransferring the full list from the server to the client using a single [`LRANGE`]()\noperation.\n\nThe above pattern works even in the following conditions:\n\n* There are multiple clients rotating the list: they'll fetch different\n  elements, until all the elements of the list are visited, and the process\n  restarts.\n* Even if other clients are actively pushing new items at the end of the list.\n\nThe above makes it very simple to implement a system where a set of items must\nbe processed by N workers continuously as fast as possible.\nAn example is a monitoring system that must check that a set of web sites are\nreachable, with the smallest delay possible, using a number of parallel workers.\n\nNote that this implementation of workers is trivially scalable and reliable,\nbecause even if a message is lost the item is still in the queue and will be\nprocessed at the next iteration."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the element being popped and pushed.\n\n**RESP3:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the element being popped and pushed."
+    }
+  ]
+}

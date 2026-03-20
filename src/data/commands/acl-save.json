@@ -1,0 +1,76 @@
+{
+  "slug": "acl-save",
+  "title": "ACL SAVE",
+  "description": "Saves the effective ACL rules in the configured ACL file.",
+  "docsUrl": "https://redis.io/docs/latest/commands/acl-save/",
+  "group": "server",
+  "groupLabel": "Server",
+  "syntax": "ACL SAVE",
+  "complexity": "O(N). Where N is the number of configured users.",
+  "since": "6.0.0",
+  "arity": 2,
+  "aclCategories": [
+    "@admin",
+    "@slow",
+    "@dangerous"
+  ],
+  "commandFlags": [
+    "admin",
+    "noscript",
+    "loading",
+    "stale"
+  ],
+  "arguments": [],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "When Redis is configured to use an ACL file (with the `aclfile` configuration\noption), this command will save the currently defined ACLs from the server memory to the ACL file.\n\n## Examples\n\n```\n> ACL SAVE\n+OK\n\n> ACL SAVE\n-ERR There was an error trying to save the ACLs. Please check the server logs for more information\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\nThe command may fail with an error for several reasons: if the file cannot be written or if the server is not configured to use an external ACL file.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\nThe command may fail with an error for several reasons: if the file cannot be written or if the server is not configured to use an external ACL file.",
+  "intro": "When Redis is configured to use an ACL file (with the `aclfile` configuration\noption), this command will save the currently defined ACLs from the server memory to the ACL file.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "When Redis is configured to use an ACL file (with the `aclfile` configuration\noption), this command will save the currently defined ACLs from the server memory to the ACL file."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "```\n> ACL SAVE\n+OK\n\n> ACL SAVE\n-ERR There was an error trying to save the ACLs. Please check the server logs for more information\n```"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\nThe command may fail with an error for several reasons: if the file cannot be written or if the server is not configured to use an external ACL file.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\nThe command may fail with an error for several reasons: if the file cannot be written or if the server is not configured to use an external ACL file."
+    }
+  ]
+}

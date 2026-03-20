@@ -1,0 +1,108 @@
+{
+  "slug": "topk.reserve",
+  "title": "TOPK.RESERVE",
+  "description": "Initializes a Top-K sketch with specified parameters",
+  "docsUrl": "https://redis.io/docs/latest/commands/topk.reserve/",
+  "group": "topk",
+  "groupLabel": "Top-K",
+  "syntax": "TOPK.RESERVE key topk [width depth decay]",
+  "complexity": "O(1)",
+  "since": "2.0.0",
+  "arity": null,
+  "aclCategories": [
+    "@topk",
+    "@write",
+    "@fast"
+  ],
+  "commandFlags": [],
+  "arguments": [
+    {
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "name": "topk",
+      "type": "integer"
+    },
+    {
+      "arguments": [
+        {
+          "name": "width",
+          "type": "integer"
+        },
+        {
+          "name": "depth",
+          "type": "integer"
+        },
+        {
+          "name": "decay",
+          "type": "double"
+        }
+      ],
+      "name": "params",
+      "optional": true,
+      "type": "block"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "parameters",
+        "title": "Parameters"
+      },
+      {
+        "id": "example",
+        "title": "Example"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Initializes a Top-K sketch with specified parameters.\n\n## Parameters\n\n* **key**: the name of the Top-k sketch.\n* **topk**: the number of top (k) occurring items to keep.\n\nOptional parameters\n* **width**: Number of counters kept in each array. (Default 8)\n* **depth**: Number of arrays. (Default 7)\n* **decay**: The probability of reducing a counter in an occupied bucket (decay ^ bucket[i].counter). As the counter gets higher, the likelihood of a reduction is lower. (Default 0.9)\n\n## Example\n\n```\nredis> TOPK.RESERVE topk 50 2000 7 0.925\nOK\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n\n* [Simple string reply]() `OK` if executed correctly.\n* [Simple error reply]() in these cases: incorrect number of arguments, invalid decay value, or key already exists.\n\n**RESP3:**\n\nOne of the following:\n\n* [Simple string reply]() `OK` if executed correctly.\n* [Simple error reply]() in these cases: incorrect number of arguments, invalid decay value, or key already exists.",
+  "intro": "Initializes a Top-K sketch with specified parameters.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Initializes a Top-K sketch with specified parameters."
+    },
+    {
+      "title": "Parameters",
+      "level": 2,
+      "content": "* **key**: the name of the Top-k sketch.\n* **topk**: the number of top (k) occurring items to keep.\n\nOptional parameters\n* **width**: Number of counters kept in each array. (Default 8)\n* **depth**: Number of arrays. (Default 7)\n* **decay**: The probability of reducing a counter in an occupied bucket (decay ^ bucket[i].counter). As the counter gets higher, the likelihood of a reduction is lower. (Default 0.9)"
+    },
+    {
+      "title": "Example",
+      "level": 2,
+      "content": "```\nredis> TOPK.RESERVE topk 50 2000 7 0.925\nOK\n```"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n\n* [Simple string reply]() `OK` if executed correctly.\n* [Simple error reply]() in these cases: incorrect number of arguments, invalid decay value, or key already exists.\n\n**RESP3:**\n\nOne of the following:\n\n* [Simple string reply]() `OK` if executed correctly.\n* [Simple error reply]() in these cases: incorrect number of arguments, invalid decay value, or key already exists."
+    }
+  ]
+}

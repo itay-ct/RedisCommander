@@ -1,0 +1,155 @@
+{
+  "slug": "expireat",
+  "title": "EXPIREAT",
+  "description": "Sets the expiration time of a key to a Unix timestamp.",
+  "docsUrl": "https://redis.io/docs/latest/commands/expireat/",
+  "group": "generic",
+  "groupLabel": "Generic",
+  "syntax": "EXPIREAT key unix-time-seconds [NX | XX | GT | LT]",
+  "complexity": "O(1)",
+  "since": "1.2.0",
+  "arity": -3,
+  "aclCategories": [
+    "@keyspace",
+    "@write",
+    "@fast"
+  ],
+  "commandFlags": [
+    "write",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "unix-time-seconds",
+      "name": "unix-time-seconds",
+      "type": "unix-time"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "nx",
+          "name": "nx",
+          "token": "NX",
+          "type": "pure-token"
+        },
+        {
+          "display_text": "xx",
+          "name": "xx",
+          "token": "XX",
+          "type": "pure-token"
+        },
+        {
+          "display_text": "gt",
+          "name": "gt",
+          "token": "GT",
+          "type": "pure-token"
+        },
+        {
+          "display_text": "lt",
+          "name": "lt",
+          "token": "LT",
+          "type": "pure-token"
+        }
+      ],
+      "name": "condition",
+      "optional": true,
+      "since": "7.0.0",
+      "type": "oneof"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      },
+      "update": true
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "background",
+        "title": "Background"
+      },
+      {
+        "id": "options",
+        "title": "Options"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "`EXPIREAT` has the same effect and semantic as [`EXPIRE`](), but instead of\nspecifying the number of seconds representing the TTL (time to live), it takes\nan absolute [Unix timestamp][hewowu] (seconds since January 1, 1970). A\ntimestamp in the past will delete the key immediately.\n\n[hewowu]: http://en.wikipedia.org/wiki/Unix_time\n\nPlease for the specific semantics of the command refer to the documentation of\n[`EXPIRE`]().\n\n## Background\n\n`EXPIREAT` was introduced in order to convert relative timeouts to absolute\ntimeouts for the AOF persistence mode.\nOf course, it can be used directly to specify that a given key should expire at\na given time in the future.\n\n## Options\n\nThe `EXPIREAT` command supports a set of options:\n\n* `NX` -- Set expiry only when the key has no expiry\n* `XX` -- Set expiry only when the key has an existing expiry\n* `GT` -- Set expiry only when the new expiry is greater than current one\n* `LT` -- Set expiry only when the new expiry is less than current one\n\nA non-volatile key is treated as an infinite TTL for the purpose of `GT` and `LT`.\nThe `GT`, `LT` and `NX` options are mutually exclusive.\n\n## Examples\n\n\nSET mykey \"Hello\"\nEXISTS mykey\nEXPIREAT mykey 1293840000\nEXISTS mykey\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the timeout was not set; for example, the key doesn't exist, or the operation was skipped because of the provided arguments.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the timeout was set.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the timeout was not set; for example, the key doesn't exist, or the operation was skipped because of the provided arguments.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the timeout was set.",
+  "intro": "`EXPIREAT` has the same effect and semantic as [`EXPIRE`](), but instead of\nspecifying the number of seconds representing the TTL (time to live), it takes\nan absolute [Unix timestamp][hewowu] (seconds since January 1, 1970). A\ntimestamp in the past will delete the key immediately.\n\n[hewowu]: http://en.wikipedia.org/wiki/Unix_time\n\nPlease for the specific semantics of the command refer to the documentation of\n[`EXPIRE`]().",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "`EXPIREAT` has the same effect and semantic as [`EXPIRE`](), but instead of\nspecifying the number of seconds representing the TTL (time to live), it takes\nan absolute [Unix timestamp][hewowu] (seconds since January 1, 1970). A\ntimestamp in the past will delete the key immediately.\n\n[hewowu]: http://en.wikipedia.org/wiki/Unix_time\n\nPlease for the specific semantics of the command refer to the documentation of\n[`EXPIRE`]()."
+    },
+    {
+      "title": "Background",
+      "level": 2,
+      "content": "`EXPIREAT` was introduced in order to convert relative timeouts to absolute\ntimeouts for the AOF persistence mode.\nOf course, it can be used directly to specify that a given key should expire at\na given time in the future."
+    },
+    {
+      "title": "Options",
+      "level": 2,
+      "content": "The `EXPIREAT` command supports a set of options:\n\n* `NX` -- Set expiry only when the key has no expiry\n* `XX` -- Set expiry only when the key has an existing expiry\n* `GT` -- Set expiry only when the new expiry is greater than current one\n* `LT` -- Set expiry only when the new expiry is less than current one\n\nA non-volatile key is treated as an infinite TTL for the purpose of `GT` and `LT`.\nThe `GT`, `LT` and `NX` options are mutually exclusive."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "SET mykey \"Hello\"\nEXISTS mykey\nEXPIREAT mykey 1293840000\nEXISTS mykey"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the timeout was not set; for example, the key doesn't exist, or the operation was skipped because of the provided arguments.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the timeout was set.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the timeout was not set; for example, the key doesn't exist, or the operation was skipped because of the provided arguments.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the timeout was set."
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "slug": "acl-genpass",
+  "title": "ACL GENPASS",
+  "description": "Generates a pseudorandom, secure password that can be used to identify ACL users.",
+  "docsUrl": "https://redis.io/docs/latest/commands/acl-genpass/",
+  "group": "server",
+  "groupLabel": "Server",
+  "syntax": "ACL GENPASS [bits]",
+  "complexity": "O(1)",
+  "since": "6.0.0",
+  "arity": -2,
+  "aclCategories": [
+    "@slow"
+  ],
+  "commandFlags": [
+    "noscript",
+    "loading",
+    "stale"
+  ],
+  "arguments": [
+    {
+      "display_text": "bits",
+      "name": "bits",
+      "optional": true,
+      "type": "integer"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "ACL users need a solid password in order to authenticate to the server without\nsecurity risks. Such password does not need to be remembered by humans, but\nonly by computers, so it can be very long and strong (unguessable by an\nexternal attacker). The `ACL GENPASS` command generates a password starting\nfrom /dev/urandom if available, otherwise (in systems without /dev/urandom) it\nuses a weaker system that is likely still better than picking a weak password\nby hand.\n\nBy default (if /dev/urandom is available) the password is strong and\ncan be used for other uses in the context of a Redis application, for\ninstance in order to create unique session identifiers or other kind of\nunguessable and not colliding IDs. The password generation is also very cheap\nbecause we don't really ask /dev/urandom for bits at every execution. At\nstartup Redis creates a seed using /dev/urandom, then it will use SHA256\nin counter mode, with HMAC-SHA256(seed,counter) as primitive, in order to\ncreate more random bytes as needed. This means that the application developer\nshould be feel free to abuse `ACL GENPASS` to create as many secure\npseudorandom strings as needed.\n\nThe command output is a hexadecimal representation of a binary string.\nBy default it emits 256 bits (so 64 hex characters). The user can provide\nan argument in form of number of bits to emit from 1 to 1024 to change\nthe output length. Note that the number of bits provided is always\nrounded to the next multiple of 4. So for instance asking for just 1\nbit password will result in 4 bits to be emitted, in the form of a single\nhex character.\n\n## Examples\n\n```\n> ACL GENPASS\n\"dd721260bfe1b3d9601e7fbab36de6d04e2e67b0ef1c53de59d45950db0dd3cc\"\n\n> ACL GENPASS 32\n\"355ef3dd\"\n\n> ACL GENPASS 5\n\"90\"\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): pseudorandom data. By default it contains 64 bytes, representing 256 bits of data. If `bits` was given, the output string length is the number of specified bits (rounded to the next multiple of 4) divided by 4.\n\n**RESP3:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): pseudorandom data. By default it contains 64 bytes, representing 256 bits of data. If `bits` was given, the output string length is the number of specified bits (rounded to the next multiple of 4) divided by 4.",
+  "intro": "ACL users need a solid password in order to authenticate to the server without\nsecurity risks. Such password does not need to be remembered by humans, but\nonly by computers, so it can be very long and strong (unguessable by an\nexternal attacker). The `ACL GENPASS` command generates a password starting\nfrom /dev/urandom if available, otherwise (in systems without /dev/urandom) it\nuses a weaker system that is likely still better than picking a weak password\nby hand.\n\nBy default (if /dev/urandom is available) the password is strong and\ncan be used for other uses in the context of a Redis application, for\ninstance in order to create unique session identifiers or other kind of\nunguessable and not colliding IDs. The password generation is also very cheap\nbecause we don't really ask /dev/urandom for bits at every execution. At\nstartup Redis creates a seed using /dev/urandom, then it will use SHA256\nin counter mode, with HMAC-SHA256(seed,counter) as primitive, in order to\ncreate more random bytes as needed. This means that the application developer\nshould be feel free to abuse `ACL GENPASS` to create as many secure\npseudorandom strings as needed.\n\nThe command output is a hexadecimal representation of a binary string.\nBy default it emits 256 bits (so 64 hex characters). The user can provide\nan argument in form of number of bits to emit from 1 to 1024 to change\nthe output length. Note that the number of bits provided is always\nrounded to the next multiple of 4. So for instance asking for just 1\nbit password will result in 4 bits to be emitted, in the form of a single\nhex character.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "ACL users need a solid password in order to authenticate to the server without\nsecurity risks. Such password does not need to be remembered by humans, but\nonly by computers, so it can be very long and strong (unguessable by an\nexternal attacker). The `ACL GENPASS` command generates a password starting\nfrom /dev/urandom if available, otherwise (in systems without /dev/urandom) it\nuses a weaker system that is likely still better than picking a weak password\nby hand.\n\nBy default (if /dev/urandom is available) the password is strong and\ncan be used for other uses in the context of a Redis application, for\ninstance in order to create unique session identifiers or other kind of\nunguessable and not colliding IDs. The password generation is also very cheap\nbecause we don't really ask /dev/urandom for bits at every execution. At\nstartup Redis creates a seed using /dev/urandom, then it will use SHA256\nin counter mode, with HMAC-SHA256(seed,counter) as primitive, in order to\ncreate more random bytes as needed. This means that the application developer\nshould be feel free to abuse `ACL GENPASS` to create as many secure\npseudorandom strings as needed.\n\nThe command output is a hexadecimal representation of a binary string.\nBy default it emits 256 bits (so 64 hex characters). The user can provide\nan argument in form of number of bits to emit from 1 to 1024 to change\nthe output length. Note that the number of bits provided is always\nrounded to the next multiple of 4. So for instance asking for just 1\nbit password will result in 4 bits to be emitted, in the form of a single\nhex character."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "```\n> ACL GENPASS\n\"dd721260bfe1b3d9601e7fbab36de6d04e2e67b0ef1c53de59d45950db0dd3cc\"\n\n> ACL GENPASS 32\n\"355ef3dd\"\n\n> ACL GENPASS 5\n\"90\"\n```"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): pseudorandom data. By default it contains 64 bytes, representing 256 bits of data. If `bits` was given, the output string length is the number of specified bits (rounded to the next multiple of 4) divided by 4.\n\n**RESP3:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): pseudorandom data. By default it contains 64 bytes, representing 256 bits of data. If `bits` was given, the output string length is the number of specified bits (rounded to the next multiple of 4) divided by 4."
+    }
+  ]
+}

@@ -1,0 +1,145 @@
+{
+  "slug": "zrangebylex",
+  "title": "ZRANGEBYLEX",
+  "description": "Returns members in a sorted set within a lexicographical range.",
+  "docsUrl": "https://redis.io/docs/latest/commands/zrangebylex/",
+  "group": "sorted-set",
+  "groupLabel": "Sorted Sets",
+  "syntax": "ZRANGEBYLEX key min max [LIMIT offset count]",
+  "complexity": "O(log(N)+M) with N being the number of elements in the sorted set and M the number of elements being returned. If M is constant (e.g. always asking for the first 10 elements with LIMIT), you can consider it O(log(N)).",
+  "since": "2.8.9",
+  "arity": -4,
+  "aclCategories": [
+    "@read",
+    "@sortedset",
+    "@slow"
+  ],
+  "commandFlags": [
+    "readonly"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "min",
+      "name": "min",
+      "type": "string"
+    },
+    {
+      "display_text": "max",
+      "name": "max",
+      "type": "string"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "offset",
+          "name": "offset",
+          "type": "integer"
+        },
+        {
+          "display_text": "count",
+          "name": "count",
+          "type": "integer"
+        }
+      ],
+      "name": "limit",
+      "optional": true,
+      "token": "LIMIT",
+      "type": "block"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RO": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "how-to-specify-intervals",
+        "title": "How to specify intervals"
+      },
+      {
+        "id": "details-on-strings-comparison",
+        "title": "Details on strings comparison"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "When all the elements in a sorted set are inserted with the same score, in order to force lexicographical ordering, this command returns all the elements in the sorted set at `key` with a value between `min` and `max`.\n\nIf the elements in the sorted set have different scores, the returned elements are unspecified.\n\nThe elements are considered to be ordered from lower to higher strings as compared byte-by-byte using the `memcmp()` C function. Longer strings are considered greater than shorter strings if the common part is identical.\n\nThe optional `LIMIT` argument can be used to only get a range of the matching\nelements (similar to _SELECT LIMIT offset, count_ in SQL). A negative `count`\nreturns all elements from the `offset`.\nKeep in mind that if `offset` is large, the sorted set needs to be traversed for\n`offset` elements before getting to the elements to return, which can add up to\nO(N) time complexity.\n\n## How to specify intervals\n\nValid *start* and *stop* must start with `(` or `[`, in order to specify\nif the range item is respectively exclusive or inclusive.\nThe special values of `+` or `-` for *start* and *stop* have the special\nmeaning or positively infinite and negatively infinite strings, so for\ninstance the command **ZRANGEBYLEX myzset - +** is guaranteed to return\nall the elements in the sorted set, if all the elements have the same\nscore.\n\n## Details on strings comparison\n\nStrings are compared as binary array of bytes. Because of how the ASCII character\nset is specified, this means that usually this also have the effect of comparing\nnormal ASCII characters in an obvious dictionary way. However this is not true\nif non plain ASCII strings are used (for example utf8 strings).\n\nHowever the user can apply a transformation to the encoded string so that\nthe first part of the element inserted in the sorted set will compare as the\nuser requires for the specific application. For example if I want to\nadd strings that will be compared in a case-insensitive way, but I still\nwant to retrieve the real case when querying, I can add strings in the\nfollowing way:\n\n    ZADD autocomplete 0 foo:Foo 0 bar:BAR 0 zap:zap\n\nBecause of the first *normalized* part in every element (before the colon character), we are forcing a given comparison, however after the range is queries using `ZRANGEBYLEX` the application can display to the user the second part of the string, after the colon.\n\nThe binary nature of the comparison allows to use sorted sets as a general\npurpose index, for example the first part of the element can be a 64 bit\nbig endian number: since big endian numbers have the most significant bytes\nin the initial positions, the binary comparison will match the numerical\ncomparison of the numbers. This can be used in order to implement range\nqueries on 64 bit values. As in the example below, after the first 8 bytes\nwe can store the value of the element we are actually indexing.\n\n## Examples\n\n\nZADD myzset 0 a 0 b 0 c 0 d 0 e 0 f 0 g\nZRANGEBYLEX myzset - [c\nZRANGEBYLEX myzset - (c\nZRANGEBYLEX myzset [aaa (g\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v6.2.0. |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of elements in the specified score range.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of elements in the specified score range.",
+  "intro": "When all the elements in a sorted set are inserted with the same score, in order to force lexicographical ordering, this command returns all the elements in the sorted set at `key` with a value between `min` and `max`.\n\nIf the elements in the sorted set have different scores, the returned elements are unspecified.\n\nThe elements are considered to be ordered from lower to higher strings as compared byte-by-byte using the `memcmp()` C function. Longer strings are considered greater than shorter strings if the common part is identical.\n\nThe optional `LIMIT` argument can be used to only get a range of the matching\nelements (similar to _SELECT LIMIT offset, count_ in SQL). A negative `count`\nreturns all elements from the `offset`.\nKeep in mind that if `offset` is large, the sorted set needs to be traversed for\n`offset` elements before getting to the elements to return, which can add up to\nO(N) time complexity.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "When all the elements in a sorted set are inserted with the same score, in order to force lexicographical ordering, this command returns all the elements in the sorted set at `key` with a value between `min` and `max`.\n\nIf the elements in the sorted set have different scores, the returned elements are unspecified.\n\nThe elements are considered to be ordered from lower to higher strings as compared byte-by-byte using the `memcmp()` C function. Longer strings are considered greater than shorter strings if the common part is identical.\n\nThe optional `LIMIT` argument can be used to only get a range of the matching\nelements (similar to _SELECT LIMIT offset, count_ in SQL). A negative `count`\nreturns all elements from the `offset`.\nKeep in mind that if `offset` is large, the sorted set needs to be traversed for\n`offset` elements before getting to the elements to return, which can add up to\nO(N) time complexity."
+    },
+    {
+      "title": "How to specify intervals",
+      "level": 2,
+      "content": "Valid *start* and *stop* must start with `(` or `[`, in order to specify\nif the range item is respectively exclusive or inclusive.\nThe special values of `+` or `-` for *start* and *stop* have the special\nmeaning or positively infinite and negatively infinite strings, so for\ninstance the command **ZRANGEBYLEX myzset - +** is guaranteed to return\nall the elements in the sorted set, if all the elements have the same\nscore."
+    },
+    {
+      "title": "Details on strings comparison",
+      "level": 2,
+      "content": "Strings are compared as binary array of bytes. Because of how the ASCII character\nset is specified, this means that usually this also have the effect of comparing\nnormal ASCII characters in an obvious dictionary way. However this is not true\nif non plain ASCII strings are used (for example utf8 strings).\n\nHowever the user can apply a transformation to the encoded string so that\nthe first part of the element inserted in the sorted set will compare as the\nuser requires for the specific application. For example if I want to\nadd strings that will be compared in a case-insensitive way, but I still\nwant to retrieve the real case when querying, I can add strings in the\nfollowing way:\n\n    ZADD autocomplete 0 foo:Foo 0 bar:BAR 0 zap:zap\n\nBecause of the first *normalized* part in every element (before the colon character), we are forcing a given comparison, however after the range is queries using `ZRANGEBYLEX` the application can display to the user the second part of the string, after the colon.\n\nThe binary nature of the comparison allows to use sorted sets as a general\npurpose index, for example the first part of the element can be a 64 bit\nbig endian number: since big endian numbers have the most significant bytes\nin the initial positions, the binary comparison will match the numerical\ncomparison of the numbers. This can be used in order to implement range\nqueries on 64 bit values. As in the example below, after the first 8 bytes\nwe can store the value of the element we are actually indexing."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "ZADD myzset 0 a 0 b 0 c 0 d 0 e 0 f 0 g\nZRANGEBYLEX myzset - [c\nZRANGEBYLEX myzset - (c\nZRANGEBYLEX myzset [aaa (g"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v6.2.0. |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of elements in the specified score range.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of elements in the specified score range."
+    }
+  ]
+}

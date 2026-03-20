@@ -1,0 +1,112 @@
+{
+  "slug": "zincrby",
+  "title": "ZINCRBY",
+  "description": "Increments the score of a member in a sorted set.",
+  "docsUrl": "https://redis.io/docs/latest/commands/zincrby/",
+  "group": "sorted-set",
+  "groupLabel": "Sorted Sets",
+  "syntax": "ZINCRBY key increment member",
+  "complexity": "O(log(N)) where N is the number of elements in the sorted set.",
+  "since": "1.2.0",
+  "arity": 4,
+  "aclCategories": [
+    "@write",
+    "@sortedset",
+    "@fast"
+  ],
+  "commandFlags": [
+    "write",
+    "denyoom",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "increment",
+      "name": "increment",
+      "type": "integer"
+    },
+    {
+      "display_text": "member",
+      "name": "member",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      },
+      "update": true
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Increments the score of `member` in the sorted set stored at `key` by\n`increment`.\nIf `member` does not exist in the sorted set, it is added with `increment` as\nits score (as if its previous score was `0.0`).\nIf `key` does not exist, a new sorted set with the specified `member` as its\nsole member is created.\n\nAn error is returned when `key` exists but does not hold a sorted set.\n\nThe `score` value should be the string representation of a numeric value, and\naccepts double precision floating point numbers.\nIt is possible to provide a negative value to decrement the score.\n\n## Examples\n\n\nZADD myzset 1 \"one\"\nZADD myzset 2 \"two\"\nZINCRBY myzset 2 \"one\"\nZRANGE myzset 0 -1 WITHSCORES\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the new score of _member_ as a double precision floating point number.\n\n**RESP3:**\n\n[Double reply](../../develop/reference/protocol-spec#doubles): the new score of _member_.",
+  "intro": "Increments the score of `member` in the sorted set stored at `key` by\n`increment`.\nIf `member` does not exist in the sorted set, it is added with `increment` as\nits score (as if its previous score was `0.0`).\nIf `key` does not exist, a new sorted set with the specified `member` as its\nsole member is created.\n\nAn error is returned when `key` exists but does not hold a sorted set.\n\nThe `score` value should be the string representation of a numeric value, and\naccepts double precision floating point numbers.\nIt is possible to provide a negative value to decrement the score.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Increments the score of `member` in the sorted set stored at `key` by\n`increment`.\nIf `member` does not exist in the sorted set, it is added with `increment` as\nits score (as if its previous score was `0.0`).\nIf `key` does not exist, a new sorted set with the specified `member` as its\nsole member is created.\n\nAn error is returned when `key` exists but does not hold a sorted set.\n\nThe `score` value should be the string representation of a numeric value, and\naccepts double precision floating point numbers.\nIt is possible to provide a negative value to decrement the score."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "ZADD myzset 1 \"one\"\nZADD myzset 2 \"two\"\nZINCRBY myzset 2 \"one\"\nZRANGE myzset 0 -1 WITHSCORES"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the new score of _member_ as a double precision floating point number.\n\n**RESP3:**\n\n[Double reply](../../develop/reference/protocol-spec#doubles): the new score of _member_."
+    }
+  ]
+}

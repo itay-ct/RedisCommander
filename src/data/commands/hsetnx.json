@@ -1,0 +1,111 @@
+{
+  "slug": "hsetnx",
+  "title": "HSETNX",
+  "description": "Sets the value of a field in a hash only when the field doesn't exist.",
+  "docsUrl": "https://redis.io/docs/latest/commands/hsetnx/",
+  "group": "hash",
+  "groupLabel": "Hashes",
+  "syntax": "HSETNX key field value",
+  "complexity": "O(1)",
+  "since": "2.0.0",
+  "arity": 4,
+  "aclCategories": [
+    "@write",
+    "@hash",
+    "@fast"
+  ],
+  "commandFlags": [
+    "write",
+    "denyoom",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "field",
+      "name": "field",
+      "type": "string"
+    },
+    {
+      "display_text": "value",
+      "name": "value",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      },
+      "insert": true
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Sets `field` in the hash stored at `key` to `value`, only if `field` does not\nyet exist.\nIf `key` does not exist, a new key holding a hash is created.\nIf `field` already exists, this operation has no effect.\n\n## Examples\n\n\nHSETNX myhash field \"Hello\"\nHSETNX myhash field \"World\"\nHGET myhash field\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the field already exists in the hash and no operation was performed.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the field is a new field in the hash and the value was set.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the field already exists in the hash and no operation was performed.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the field is a new field in the hash and the value was set.",
+  "intro": "Sets `field` in the hash stored at `key` to `value`, only if `field` does not\nyet exist.\nIf `key` does not exist, a new key holding a hash is created.\nIf `field` already exists, this operation has no effect.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Sets `field` in the hash stored at `key` to `value`, only if `field` does not\nyet exist.\nIf `key` does not exist, a new key holding a hash is created.\nIf `field` already exists, this operation has no effect."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "HSETNX myhash field \"Hello\"\nHSETNX myhash field \"World\"\nHGET myhash field"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the field already exists in the hash and no operation was performed.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the field is a new field in the hash and the value was set.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the field already exists in the hash and no operation was performed.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the field is a new field in the hash and the value was set."
+    }
+  ]
+}

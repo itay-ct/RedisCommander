@@ -1,0 +1,94 @@
+{
+  "slug": "monitor",
+  "title": "MONITOR",
+  "description": "Listens for all requests received by the server in real-time.",
+  "docsUrl": "https://redis.io/docs/latest/commands/monitor/",
+  "group": "server",
+  "groupLabel": "Server",
+  "syntax": "MONITOR",
+  "complexity": null,
+  "since": "1.0.0",
+  "arity": 1,
+  "aclCategories": [
+    "@admin",
+    "@slow",
+    "@dangerous"
+  ],
+  "commandFlags": [
+    "admin",
+    "noscript",
+    "loading",
+    "stale"
+  ],
+  "arguments": [],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "commands-not-logged-by-monitor",
+        "title": "Commands not logged by MONITOR"
+      },
+      {
+        "id": "cost-of-running-monitor",
+        "title": "Cost of running MONITOR"
+      },
+      {
+        "id": "behavior-change-history",
+        "title": "Behavior change history"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "`MONITOR` is a debugging command that streams back every command processed by\nthe Redis server.\nIt can help in understanding what is happening to the database.\nThis command can both be used via `redis-cli` and via `telnet`.\n\nThe ability to see all the requests processed by the server is useful in order\nto spot bugs in an application both when using Redis as a database and as a\ndistributed caching system.\n\n```\n$ redis-cli monitor\n1339518083.107412 [0 127.0.0.1:60866] \"keys\" \"*\"\n1339518087.877697 [0 127.0.0.1:60866] \"dbsize\"\n1339518090.420270 [0 127.0.0.1:60866] \"set\" \"x\" \"6\"\n1339518096.506257 [0 127.0.0.1:60866] \"get\" \"x\"\n1339518099.363765 [0 127.0.0.1:60866] \"eval\" \"return redis.call('set','x','7')\" \"0\"\n1339518100.363799 [0 lua] \"set\" \"x\" \"7\"\n1339518100.544926 [0 127.0.0.1:60866] \"del\" \"x\"\n```\n\nUse `SIGINT` (Ctrl-C) to stop a `MONITOR` stream running via `redis-cli`.\n\n```\n$ telnet localhost 6379\nTrying 127.0.0.1...\nConnected to localhost.\nEscape character is '^]'.\nMONITOR\n+OK\n+1339518083.107412 [0 127.0.0.1:60866] \"keys\" \"*\"\n+1339518087.877697 [0 127.0.0.1:60866] \"dbsize\"\n+1339518090.420270 [0 127.0.0.1:60866] \"set\" \"x\" \"6\"\n+1339518096.506257 [0 127.0.0.1:60866] \"get\" \"x\"\n+1339518099.363765 [0 127.0.0.1:60866] \"del\" \"x\"\n+1339518100.544926 [0 127.0.0.1:60866] \"get\" \"x\"\nQUIT\n+OK\nConnection closed by foreign host.\n```\n\nManually issue the [`QUIT`]() or [`RESET`]() commands to stop a `MONITOR` stream running\nvia `telnet`.\n\n## Commands not logged by MONITOR\n\nBecause of security concerns, no administrative commands are logged\nby `MONITOR`'s output and sensitive data is redacted in the command [`AUTH`]().\n\nFurthermore, the command [`QUIT`]() is also not logged.\n\n## Cost of running MONITOR\n\nBecause `MONITOR` streams back **all** commands, its use comes at a cost.\nThe following (totally unscientific) benchmark numbers illustrate what the cost\nof running `MONITOR` can be.\n\nBenchmark result **without** `MONITOR` running:\n\n```\n$ src/redis-benchmark -c 10 -n 100000 -q\nPING_INLINE: 101936.80 requests per second\nPING_BULK: 102880.66 requests per second\nSET: 95419.85 requests per second\nGET: 104275.29 requests per second\nINCR: 93283.58 requests per second\n```\n\nBenchmark result **with** `MONITOR` running (`redis-cli monitor > /dev/null`):\n\n```\n$ src/redis-benchmark -c 10 -n 100000 -q\nPING_INLINE: 58479.53 requests per second\nPING_BULK: 59136.61 requests per second\nSET: 41823.50 requests per second\nGET: 45330.91 requests per second\nINCR: 41771.09 requests per second\n```\n\nIn this particular case, running a single `MONITOR` client can reduce the\nthroughput by more than 50%.\nRunning more `MONITOR` clients will reduce throughput even more.\n\n## Behavior change history\n\n*   `>= 6.0.0`: [`AUTH`]() excluded from the command's output.\n*   `>= 6.2.0`: \"[`RESET`]() can be called to exit monitor mode.\n*   `>= 6.2.4`: \"[`AUTH`](), [`HELLO`](), [`EVAL`](), [`EVAL_RO`](), [`EVALSHA`]() and [`EVALSHA_RO`]() included in the command's output.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n**Non-standard return value**. Dumps the received commands in an infinite flow.\n\n**RESP3:**\n\n**Non-standard return value**. Dumps the received commands in an infinite flow.",
+  "intro": "`MONITOR` is a debugging command that streams back every command processed by\nthe Redis server.\nIt can help in understanding what is happening to the database.\nThis command can both be used via `redis-cli` and via `telnet`.\n\nThe ability to see all the requests processed by the server is useful in order\nto spot bugs in an application both when using Redis as a database and as a\ndistributed caching system.\n\n```\n$ redis-cli monitor\n1339518083.107412 [0 127.0.0.1:60866] \"keys\" \"*\"\n1339518087.877697 [0 127.0.0.1:60866] \"dbsize\"\n1339518090.420270 [0 127.0.0.1:60866] \"set\" \"x\" \"6\"\n1339518096.506257 [0 127.0.0.1:60866] \"get\" \"x\"\n1339518099.363765 [0 127.0.0.1:60866] \"eval\" \"return redis.call('set','x','7')\" \"0\"\n1339518100.363799 [0 lua] \"set\" \"x\" \"7\"\n1339518100.544926 [0 127.0.0.1:60866] \"del\" \"x\"\n```\n\nUse `SIGINT` (Ctrl-C) to stop a `MONITOR` stream running via `redis-cli`.\n\n```\n$ telnet localhost 6379\nTrying 127.0.0.1...\nConnected to localhost.\nEscape character is '^]'.\nMONITOR\n+OK\n+1339518083.107412 [0 127.0.0.1:60866] \"keys\" \"*\"\n+1339518087.877697 [0 127.0.0.1:60866] \"dbsize\"\n+1339518090.420270 [0 127.0.0.1:60866] \"set\" \"x\" \"6\"\n+1339518096.506257 [0 127.0.0.1:60866] \"get\" \"x\"\n+1339518099.363765 [0 127.0.0.1:60866] \"del\" \"x\"\n+1339518100.544926 [0 127.0.0.1:60866] \"get\" \"x\"\nQUIT\n+OK\nConnection closed by foreign host.\n```\n\nManually issue the [`QUIT`]() or [`RESET`]() commands to stop a `MONITOR` stream running\nvia `telnet`.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "`MONITOR` is a debugging command that streams back every command processed by\nthe Redis server.\nIt can help in understanding what is happening to the database.\nThis command can both be used via `redis-cli` and via `telnet`.\n\nThe ability to see all the requests processed by the server is useful in order\nto spot bugs in an application both when using Redis as a database and as a\ndistributed caching system.\n\n```\n$ redis-cli monitor\n1339518083.107412 [0 127.0.0.1:60866] \"keys\" \"*\"\n1339518087.877697 [0 127.0.0.1:60866] \"dbsize\"\n1339518090.420270 [0 127.0.0.1:60866] \"set\" \"x\" \"6\"\n1339518096.506257 [0 127.0.0.1:60866] \"get\" \"x\"\n1339518099.363765 [0 127.0.0.1:60866] \"eval\" \"return redis.call('set','x','7')\" \"0\"\n1339518100.363799 [0 lua] \"set\" \"x\" \"7\"\n1339518100.544926 [0 127.0.0.1:60866] \"del\" \"x\"\n```\n\nUse `SIGINT` (Ctrl-C) to stop a `MONITOR` stream running via `redis-cli`.\n\n```\n$ telnet localhost 6379\nTrying 127.0.0.1...\nConnected to localhost.\nEscape character is '^]'.\nMONITOR\n+OK\n+1339518083.107412 [0 127.0.0.1:60866] \"keys\" \"*\"\n+1339518087.877697 [0 127.0.0.1:60866] \"dbsize\"\n+1339518090.420270 [0 127.0.0.1:60866] \"set\" \"x\" \"6\"\n+1339518096.506257 [0 127.0.0.1:60866] \"get\" \"x\"\n+1339518099.363765 [0 127.0.0.1:60866] \"del\" \"x\"\n+1339518100.544926 [0 127.0.0.1:60866] \"get\" \"x\"\nQUIT\n+OK\nConnection closed by foreign host.\n```\n\nManually issue the [`QUIT`]() or [`RESET`]() commands to stop a `MONITOR` stream running\nvia `telnet`."
+    },
+    {
+      "title": "Commands not logged by MONITOR",
+      "level": 2,
+      "content": "Because of security concerns, no administrative commands are logged\nby `MONITOR`'s output and sensitive data is redacted in the command [`AUTH`]().\n\nFurthermore, the command [`QUIT`]() is also not logged."
+    },
+    {
+      "title": "Cost of running MONITOR",
+      "level": 2,
+      "content": "Because `MONITOR` streams back **all** commands, its use comes at a cost.\nThe following (totally unscientific) benchmark numbers illustrate what the cost\nof running `MONITOR` can be.\n\nBenchmark result **without** `MONITOR` running:\n\n```\n$ src/redis-benchmark -c 10 -n 100000 -q\nPING_INLINE: 101936.80 requests per second\nPING_BULK: 102880.66 requests per second\nSET: 95419.85 requests per second\nGET: 104275.29 requests per second\nINCR: 93283.58 requests per second\n```\n\nBenchmark result **with** `MONITOR` running (`redis-cli monitor > /dev/null`):\n\n```\n$ src/redis-benchmark -c 10 -n 100000 -q\nPING_INLINE: 58479.53 requests per second\nPING_BULK: 59136.61 requests per second\nSET: 41823.50 requests per second\nGET: 45330.91 requests per second\nINCR: 41771.09 requests per second\n```\n\nIn this particular case, running a single `MONITOR` client can reduce the\nthroughput by more than 50%.\nRunning more `MONITOR` clients will reduce throughput even more."
+    },
+    {
+      "title": "Behavior change history",
+      "level": 2,
+      "content": "*   `>= 6.0.0`: [`AUTH`]() excluded from the command's output.\n*   `>= 6.2.0`: \"[`RESET`]() can be called to exit monitor mode.\n*   `>= 6.2.4`: \"[`AUTH`](), [`HELLO`](), [`EVAL`](), [`EVAL_RO`](), [`EVALSHA`]() and [`EVALSHA_RO`]() included in the command's output."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n**Non-standard return value**. Dumps the received commands in an infinite flow.\n\n**RESP3:**\n\n**Non-standard return value**. Dumps the received commands in an infinite flow."
+    }
+  ]
+}

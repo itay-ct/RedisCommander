@@ -1,0 +1,167 @@
+{
+  "slug": "xpending",
+  "title": "XPENDING",
+  "description": "Returns the information and entries from a stream consumer group's pending entries list.",
+  "docsUrl": "https://redis.io/docs/latest/commands/xpending/",
+  "group": "stream",
+  "groupLabel": "Streams",
+  "syntax": "XPENDING key group [[IDLE min-idle-time] start end count [consumer]]",
+  "complexity": "O(N) with N being the number of elements returned, so asking for a small fixed number of entries per call is O(1). O(M), where M is the total number of entries scanned when used with the IDLE filter. When the command returns just the summary and the list of consumers is small, it runs in O(1) time; otherwise, an additional O(N) time for iterating every consumer.",
+  "since": "5.0.0",
+  "arity": -3,
+  "aclCategories": [
+    "@read",
+    "@stream",
+    "@slow"
+  ],
+  "commandFlags": [
+    "readonly"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "group",
+      "name": "group",
+      "type": "string"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "min-idle-time",
+          "name": "min-idle-time",
+          "optional": true,
+          "since": "6.2.0",
+          "token": "IDLE",
+          "type": "integer"
+        },
+        {
+          "display_text": "start",
+          "name": "start",
+          "type": "string"
+        },
+        {
+          "display_text": "end",
+          "name": "end",
+          "type": "string"
+        },
+        {
+          "display_text": "count",
+          "name": "count",
+          "type": "integer"
+        },
+        {
+          "display_text": "consumer",
+          "name": "consumer",
+          "optional": true,
+          "type": "string"
+        }
+      ],
+      "name": "filters",
+      "optional": true,
+      "type": "block"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RO": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "summary-form-of-xpending",
+        "title": "Summary form of XPENDING"
+      },
+      {
+        "id": "extended-form-of-xpending",
+        "title": "Extended form of XPENDING"
+      },
+      {
+        "id": "idle-time-filter",
+        "title": "Idle time filter"
+      },
+      {
+        "id": "exclusive-ranges-and-iterating-the-pel",
+        "title": "Exclusive ranges and iterating the PEL"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Fetching data from a stream via a consumer group, and not acknowledging\nsuch data, has the effect of creating *pending entries*. This is\nwell explained in the [`XREADGROUP`]() command, and even better in our\n[introduction to Redis Streams](). The [`XACK`]() command\nwill immediately remove the pending entry from the Pending Entries List (PEL)\nsince once a message is successfully processed, there is no longer need\nfor the consumer group to track it and to remember the current owner\nof the message.\n\nThe `XPENDING` command is the interface to inspect the list of pending\nmessages, and is as thus a very important command in order to observe\nand understand what is happening with a streams consumer groups: what\nclients are active, what messages are pending to be consumed, or to see\nif there are idle messages. Moreover this command, together with [`XCLAIM`]()\nis used in order to implement recovering of consumers that are failing\nfor a long time, and as a result certain messages are not processed: a\ndifferent consumer can claim the message and continue. This is better\nexplained in the [streams intro]() and in the\n[`XCLAIM`]() command page, and is not covered here.\n\n## Summary form of XPENDING\n\nWhen `XPENDING` is called with just a key name and a consumer group\nname, it just outputs a summary about the pending messages in a given\nconsumer group. In the following example, we create a consumer group and\nimmediately create a pending message by reading from the group with\n[`XREADGROUP`]().\n\n```\n> XGROUP CREATE mystream group55 0-0\nOK\n\n> XREADGROUP GROUP group55 consumer-123 COUNT 1 STREAMS mystream >\n1) 1) \"mystream\"\n   2) 1) 1) 1526984818136-0\n         2) 1) \"duration\"\n            2) \"1532\"\n            3) \"event-id\"\n            4) \"5\"\n            5) \"user-id\"\n            6) \"7782813\"\n```\n\nWe expect the pending entries list for the consumer group `group55` to\nhave a message right now: consumer named `consumer-123` fetched the\nmessage without acknowledging its processing. The simple `XPENDING`\nform will give us this information:\n\n```\n> XPENDING mystream group55\n1) (integer) 1\n2) 1526984818136-0\n3) 1526984818136-0\n4) 1) 1) \"consumer-123\"\n      2) \"1\"\n```\n\nIn this form, the command outputs the total number of pending messages for this\nconsumer group, which is one, followed by the smallest and greatest ID among the\npending messages, and then list every consumer in the consumer group with\nat least one pending message, and the number of pending messages it has.\n\n## Extended form of XPENDING\n\nThe summary provides a good overview, but sometimes we are interested in the\ndetails. In order to see all the pending messages with more associated\ninformation we need to also pass a range of IDs, in a similar way we do it with\n[`XRANGE`](), and a non optional *count* argument, to limit the number\nof messages returned per call:\n\n```\n> XPENDING mystream group55 - + 10\n1) 1) 1526984818136-0\n   2) \"consumer-123\"\n   3) (integer) 196415\n   4) (integer) 1\n```\n\nIn the extended form we no longer see the summary information, instead there\nis detailed information for each message in the pending entries list. For\neach message four attributes are returned:\n\n1. The ID of the message.\n2. The name of the consumer that fetched the message and has still to acknowledge it. We call it the current *owner* of the message.\n3. The number of milliseconds that elapsed since the last time this message was delivered to this consumer.\n4. The number of times this message was delivered.\n\nThe deliveries counter, that is the fourth element in the array, is incremented\nwhen some other consumer *claims* the message with [`XCLAIM`](), or when the\nmessage is delivered again via [`XREADGROUP`](), when accessing the history\nof a consumer in a consumer group (see the [`XREADGROUP`]() page for more info).\n\nIt is possible to pass an additional argument to the command, in order\nto see the messages having a specific owner:\n\n```\n> XPENDING mystream group55 - + 10 consumer-123\n```\n\nBut in the above case the output would be the same, since we have pending\nmessages only for a single consumer. However what is important to keep in\nmind is that this operation, filtering by a specific consumer, is not\ninefficient even when there are many pending messages from many consumers:\nwe have a pending entries list data structure both globally, and for\nevery consumer, so we can very efficiently show just messages pending for\na single consumer.\n\n## Idle time filter\n\nIt is also possible to filter pending stream entries by their idle-time,\ngiven in milliseconds (useful for [`XCLAIM`]()ing entries that have not been\nprocessed for some time):\n\n```\n> XPENDING mystream group55 IDLE 9000 - + 10\n> XPENDING mystream group55 IDLE 9000 - + 10 consumer-123\n```\n\nThe first case will return the first 10 (or less) PEL entries of the entire group\nthat are idle for over 9 seconds, whereas in the second case only those of\n`consumer-123`.\n\n## Exclusive ranges and iterating the PEL\n\nThe `XPENDING` command allows iterating over the pending entries just like\n[`XRANGE`]() and [`XREVRANGE`]() allow for the stream's entries. You can do this by\nprefixing the ID of the last-read pending entry with the `(` character that\ndenotes an open (exclusive) range, and proving it to the subsequent call to the\ncommand.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n* [Array reply](../../develop/reference/protocol-spec#arrays): different data depending on the way XPENDING is called, as explained on this page.\n\n**RESP3:**\n\n* [Array reply](../../develop/reference/protocol-spec#arrays): different data depending on the way XPENDING is called, as explained on this page.",
+  "intro": "Fetching data from a stream via a consumer group, and not acknowledging\nsuch data, has the effect of creating *pending entries*. This is\nwell explained in the [`XREADGROUP`]() command, and even better in our\n[introduction to Redis Streams](). The [`XACK`]() command\nwill immediately remove the pending entry from the Pending Entries List (PEL)\nsince once a message is successfully processed, there is no longer need\nfor the consumer group to track it and to remember the current owner\nof the message.\n\nThe `XPENDING` command is the interface to inspect the list of pending\nmessages, and is as thus a very important command in order to observe\nand understand what is happening with a streams consumer groups: what\nclients are active, what messages are pending to be consumed, or to see\nif there are idle messages. Moreover this command, together with [`XCLAIM`]()\nis used in order to implement recovering of consumers that are failing\nfor a long time, and as a result certain messages are not processed: a\ndifferent consumer can claim the message and continue. This is better\nexplained in the [streams intro]() and in the\n[`XCLAIM`]() command page, and is not covered here.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Fetching data from a stream via a consumer group, and not acknowledging\nsuch data, has the effect of creating *pending entries*. This is\nwell explained in the [`XREADGROUP`]() command, and even better in our\n[introduction to Redis Streams](). The [`XACK`]() command\nwill immediately remove the pending entry from the Pending Entries List (PEL)\nsince once a message is successfully processed, there is no longer need\nfor the consumer group to track it and to remember the current owner\nof the message.\n\nThe `XPENDING` command is the interface to inspect the list of pending\nmessages, and is as thus a very important command in order to observe\nand understand what is happening with a streams consumer groups: what\nclients are active, what messages are pending to be consumed, or to see\nif there are idle messages. Moreover this command, together with [`XCLAIM`]()\nis used in order to implement recovering of consumers that are failing\nfor a long time, and as a result certain messages are not processed: a\ndifferent consumer can claim the message and continue. This is better\nexplained in the [streams intro]() and in the\n[`XCLAIM`]() command page, and is not covered here."
+    },
+    {
+      "title": "Summary form of XPENDING",
+      "level": 2,
+      "content": "When `XPENDING` is called with just a key name and a consumer group\nname, it just outputs a summary about the pending messages in a given\nconsumer group. In the following example, we create a consumer group and\nimmediately create a pending message by reading from the group with\n[`XREADGROUP`]().\n\n```\n> XGROUP CREATE mystream group55 0-0\nOK\n\n> XREADGROUP GROUP group55 consumer-123 COUNT 1 STREAMS mystream >\n1) 1) \"mystream\"\n   2) 1) 1) 1526984818136-0\n         2) 1) \"duration\"\n            2) \"1532\"\n            3) \"event-id\"\n            4) \"5\"\n            5) \"user-id\"\n            6) \"7782813\"\n```\n\nWe expect the pending entries list for the consumer group `group55` to\nhave a message right now: consumer named `consumer-123` fetched the\nmessage without acknowledging its processing. The simple `XPENDING`\nform will give us this information:\n\n```\n> XPENDING mystream group55\n1) (integer) 1\n2) 1526984818136-0\n3) 1526984818136-0\n4) 1) 1) \"consumer-123\"\n      2) \"1\"\n```\n\nIn this form, the command outputs the total number of pending messages for this\nconsumer group, which is one, followed by the smallest and greatest ID among the\npending messages, and then list every consumer in the consumer group with\nat least one pending message, and the number of pending messages it has."
+    },
+    {
+      "title": "Extended form of XPENDING",
+      "level": 2,
+      "content": "The summary provides a good overview, but sometimes we are interested in the\ndetails. In order to see all the pending messages with more associated\ninformation we need to also pass a range of IDs, in a similar way we do it with\n[`XRANGE`](), and a non optional *count* argument, to limit the number\nof messages returned per call:\n\n```\n> XPENDING mystream group55 - + 10\n1) 1) 1526984818136-0\n   2) \"consumer-123\"\n   3) (integer) 196415\n   4) (integer) 1\n```\n\nIn the extended form we no longer see the summary information, instead there\nis detailed information for each message in the pending entries list. For\neach message four attributes are returned:\n\n1. The ID of the message.\n2. The name of the consumer that fetched the message and has still to acknowledge it. We call it the current *owner* of the message.\n3. The number of milliseconds that elapsed since the last time this message was delivered to this consumer.\n4. The number of times this message was delivered.\n\nThe deliveries counter, that is the fourth element in the array, is incremented\nwhen some other consumer *claims* the message with [`XCLAIM`](), or when the\nmessage is delivered again via [`XREADGROUP`](), when accessing the history\nof a consumer in a consumer group (see the [`XREADGROUP`]() page for more info).\n\nIt is possible to pass an additional argument to the command, in order\nto see the messages having a specific owner:\n\n```\n> XPENDING mystream group55 - + 10 consumer-123\n```\n\nBut in the above case the output would be the same, since we have pending\nmessages only for a single consumer. However what is important to keep in\nmind is that this operation, filtering by a specific consumer, is not\ninefficient even when there are many pending messages from many consumers:\nwe have a pending entries list data structure both globally, and for\nevery consumer, so we can very efficiently show just messages pending for\na single consumer."
+    },
+    {
+      "title": "Idle time filter",
+      "level": 2,
+      "content": "It is also possible to filter pending stream entries by their idle-time,\ngiven in milliseconds (useful for [`XCLAIM`]()ing entries that have not been\nprocessed for some time):\n\n```\n> XPENDING mystream group55 IDLE 9000 - + 10\n> XPENDING mystream group55 IDLE 9000 - + 10 consumer-123\n```\n\nThe first case will return the first 10 (or less) PEL entries of the entire group\nthat are idle for over 9 seconds, whereas in the second case only those of\n`consumer-123`."
+    },
+    {
+      "title": "Exclusive ranges and iterating the PEL",
+      "level": 2,
+      "content": "The `XPENDING` command allows iterating over the pending entries just like\n[`XRANGE`]() and [`XREVRANGE`]() allow for the stream's entries. You can do this by\nprefixing the ID of the last-read pending entry with the `(` character that\ndenotes an open (exclusive) range, and proving it to the subsequent call to the\ncommand."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n* [Array reply](../../develop/reference/protocol-spec#arrays): different data depending on the way XPENDING is called, as explained on this page.\n\n**RESP3:**\n\n* [Array reply](../../develop/reference/protocol-spec#arrays): different data depending on the way XPENDING is called, as explained on this page."
+    }
+  ]
+}

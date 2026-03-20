@@ -1,0 +1,81 @@
+{
+  "slug": "cluster-slots",
+  "title": "CLUSTER SLOTS",
+  "description": "Returns the mapping of cluster slots to nodes.",
+  "docsUrl": "https://redis.io/docs/latest/commands/cluster-slots/",
+  "group": "cluster",
+  "groupLabel": "Cluster",
+  "syntax": "CLUSTER SLOTS",
+  "complexity": "O(N) where N is the total number of Cluster nodes",
+  "since": "3.0.0",
+  "arity": 2,
+  "aclCategories": [
+    "@slow"
+  ],
+  "commandFlags": [
+    "loading",
+    "stale"
+  ],
+  "arguments": [],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "nested-result-array",
+        "title": "Nested Result Array"
+      },
+      {
+        "id": "behavior-change-history",
+        "title": "Behavior change history"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "`CLUSTER SLOTS` returns details about which cluster slots map to which Redis instances. \nThe command is suitable to be used by Redis Cluster client libraries implementations in order to retrieve (or update when a redirection is received) the map associating cluster *hash slots* with actual nodes network information, so that when a command is received, it can be sent to what is likely the right instance for the keys specified in the command. \n\nThe networking information for each node is an array containing the following elements:\n\n* Preferred endpoint (Either an IP address, hostname, or NULL)\n* Port number\n* The node ID\n* A map of additional networking metadata\n\nThe preferred endpoint, along with the port, defines the location that clients should use to send requests for a given slot.\nA NULL value for the endpoint indicates the node has an unknown endpoint and the client should connect to the same endpoint it used to send the `CLUSTER SLOTS` command but with the port returned from the command.\nThis unknown endpoint configuration is useful when the Redis nodes are behind a load balancer that Redis doesn't know the endpoint of.\nWhich endpoint is set as preferred is determined by the `cluster-preferred-endpoint-type` config.\nAn empty string `\"\"` is another abnormal value of the endpoint field, as well as for the ip field, which is returned if the node doesn't know its own IP address.\nThis can happen in a cluster that consists of only one node or the node has not yet been joined with the rest of the cluster.\nThe value `?` is displayed if the node is incorrectly configured to use announced hostnames but no hostname is configured using `cluster-announce-hostname`.\nClients may treat the empty string in the same way as NULL, that is the same endpoint it used to send the current command to, while `\"?\"` should be treated as an unknown node, not necessarily the same node as the one serving the current command.\n\nAdditional networking metadata is provided as a map on the fourth argument for each node. \nThe following networking metadata may be returned:\n\n* IP: When the preferred endpoint is not set to IP.\n* Hostname: When a node has an announced hostname but the primary endpoint is not set to hostname.\n\n## Nested Result Array\nEach nested result is:\n\n  - Start slot range\n  - End slot range\n  - Master for slot range represented as nested networking information\n  - First replica of master for slot range\n  - Second replica\n  - ...continues until all replicas for this master are returned.\n\nEach result includes all active replicas of the master instance\nfor the listed slot range.  Failed replicas are not returned.\n\nThe third nested reply is guaranteed to be the networking information of the master instance for the slot range.\nAll networking information after the third nested reply are replicas of the master.\n\nIf a cluster instance has non-contiguous slots (e.g. 1-400,900,1800-6000) then master and replica networking information results will be duplicated for each top-level slot range reply.\n\n```\n> CLUSTER SLOTS\n1) 1) (integer) 0\n   2) (integer) 5460\n   3) 1) \"127.0.0.1\"\n      2) (integer) 30001\n      3) \"09dbe9720cda62f7865eabc5fd8857c5d2678366\"\n      4) 1) hostname\n         2) \"host-1.redis.example.com\"\n   4) 1) \"127.0.0.1\"\n      2) (integer) 30004\n      3) \"821d8ca00d7ccf931ed3ffc7e3db0599d2271abf\"\n      4) 1) hostname\n         2) \"host-2.redis.example.com\"\n2) 1) (integer) 5461\n   2) (integer) 10922\n   3) 1) \"127.0.0.1\"\n      2) (integer) 30002\n      3) \"c9d93d9f2c0c524ff34cc11838c2003d8c29e013\"\n      4) 1) hostname\n         2) \"host-3.redis.example.com\"\n   4) 1) \"127.0.0.1\"\n      2) (integer) 30005\n      3) \"faadb3eb99009de4ab72ad6b6ed87634c7ee410f\"\n      4) 1) hostname\n         2) \"host-4.redis.example.com\"\n3) 1) (integer) 10923\n   2) (integer) 16383\n   3) 1) \"127.0.0.1\"\n      2) (integer) 30003\n      3) \"044ec91f325b7595e76dbcb18cc688b6a5b434a1\"\n      4) 1) hostname\n         2) \"host-5.redis.example.com\"\n   4) 1) \"127.0.0.1\"\n      2) (integer) 30006\n      3) \"58e6e48d41228013e5d9c1c37c5060693925e97e\"\n      4) 1) hostname\n         2) \"host-6.redis.example.com\"\n```\n\n**Warning:** In future versions there could be more elements describing the node better.\nIn general a client implementation should just rely on the fact that certain parameters are at fixed positions as specified, but more parameters may follow and should be ignored.\nSimilarly a client library should try if possible to cope with the fact that older versions may just have the primary endpoint and port parameter.\n\n## Behavior change history\n\n*   `>= 7.0.0`: Added support for hostnames and unknown endpoints in first field of node response.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Only supported with the [OSS cluster API](). Deprecated as of Redis v7.0.0. |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): nested list of slot ranges with networking information.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): nested list of slot ranges with networking information.",
+  "intro": "`CLUSTER SLOTS` returns details about which cluster slots map to which Redis instances. \nThe command is suitable to be used by Redis Cluster client libraries implementations in order to retrieve (or update when a redirection is received) the map associating cluster *hash slots* with actual nodes network information, so that when a command is received, it can be sent to what is likely the right instance for the keys specified in the command. \n\nThe networking information for each node is an array containing the following elements:\n\n* Preferred endpoint (Either an IP address, hostname, or NULL)\n* Port number\n* The node ID\n* A map of additional networking metadata\n\nThe preferred endpoint, along with the port, defines the location that clients should use to send requests for a given slot.\nA NULL value for the endpoint indicates the node has an unknown endpoint and the client should connect to the same endpoint it used to send the `CLUSTER SLOTS` command but with the port returned from the command.\nThis unknown endpoint configuration is useful when the Redis nodes are behind a load balancer that Redis doesn't know the endpoint of.\nWhich endpoint is set as preferred is determined by the `cluster-preferred-endpoint-type` config.\nAn empty string `\"\"` is another abnormal value of the endpoint field, as well as for the ip field, which is returned if the node doesn't know its own IP address.\nThis can happen in a cluster that consists of only one node or the node has not yet been joined with the rest of the cluster.\nThe value `?` is displayed if the node is incorrectly configured to use announced hostnames but no hostname is configured using `cluster-announce-hostname`.\nClients may treat the empty string in the same way as NULL, that is the same endpoint it used to send the current command to, while `\"?\"` should be treated as an unknown node, not necessarily the same node as the one serving the current command.\n\nAdditional networking metadata is provided as a map on the fourth argument for each node. \nThe following networking metadata may be returned:\n\n* IP: When the preferred endpoint is not set to IP.\n* Hostname: When a node has an announced hostname but the primary endpoint is not set to hostname.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "`CLUSTER SLOTS` returns details about which cluster slots map to which Redis instances. \nThe command is suitable to be used by Redis Cluster client libraries implementations in order to retrieve (or update when a redirection is received) the map associating cluster *hash slots* with actual nodes network information, so that when a command is received, it can be sent to what is likely the right instance for the keys specified in the command. \n\nThe networking information for each node is an array containing the following elements:\n\n* Preferred endpoint (Either an IP address, hostname, or NULL)\n* Port number\n* The node ID\n* A map of additional networking metadata\n\nThe preferred endpoint, along with the port, defines the location that clients should use to send requests for a given slot.\nA NULL value for the endpoint indicates the node has an unknown endpoint and the client should connect to the same endpoint it used to send the `CLUSTER SLOTS` command but with the port returned from the command.\nThis unknown endpoint configuration is useful when the Redis nodes are behind a load balancer that Redis doesn't know the endpoint of.\nWhich endpoint is set as preferred is determined by the `cluster-preferred-endpoint-type` config.\nAn empty string `\"\"` is another abnormal value of the endpoint field, as well as for the ip field, which is returned if the node doesn't know its own IP address.\nThis can happen in a cluster that consists of only one node or the node has not yet been joined with the rest of the cluster.\nThe value `?` is displayed if the node is incorrectly configured to use announced hostnames but no hostname is configured using `cluster-announce-hostname`.\nClients may treat the empty string in the same way as NULL, that is the same endpoint it used to send the current command to, while `\"?\"` should be treated as an unknown node, not necessarily the same node as the one serving the current command.\n\nAdditional networking metadata is provided as a map on the fourth argument for each node. \nThe following networking metadata may be returned:\n\n* IP: When the preferred endpoint is not set to IP.\n* Hostname: When a node has an announced hostname but the primary endpoint is not set to hostname."
+    },
+    {
+      "title": "Nested Result Array",
+      "level": 2,
+      "content": "Each nested result is:\n\n  - Start slot range\n  - End slot range\n  - Master for slot range represented as nested networking information\n  - First replica of master for slot range\n  - Second replica\n  - ...continues until all replicas for this master are returned.\n\nEach result includes all active replicas of the master instance\nfor the listed slot range.  Failed replicas are not returned.\n\nThe third nested reply is guaranteed to be the networking information of the master instance for the slot range.\nAll networking information after the third nested reply are replicas of the master.\n\nIf a cluster instance has non-contiguous slots (e.g. 1-400,900,1800-6000) then master and replica networking information results will be duplicated for each top-level slot range reply.\n\n```\n> CLUSTER SLOTS\n1) 1) (integer) 0\n   2) (integer) 5460\n   3) 1) \"127.0.0.1\"\n      2) (integer) 30001\n      3) \"09dbe9720cda62f7865eabc5fd8857c5d2678366\"\n      4) 1) hostname\n         2) \"host-1.redis.example.com\"\n   4) 1) \"127.0.0.1\"\n      2) (integer) 30004\n      3) \"821d8ca00d7ccf931ed3ffc7e3db0599d2271abf\"\n      4) 1) hostname\n         2) \"host-2.redis.example.com\"\n2) 1) (integer) 5461\n   2) (integer) 10922\n   3) 1) \"127.0.0.1\"\n      2) (integer) 30002\n      3) \"c9d93d9f2c0c524ff34cc11838c2003d8c29e013\"\n      4) 1) hostname\n         2) \"host-3.redis.example.com\"\n   4) 1) \"127.0.0.1\"\n      2) (integer) 30005\n      3) \"faadb3eb99009de4ab72ad6b6ed87634c7ee410f\"\n      4) 1) hostname\n         2) \"host-4.redis.example.com\"\n3) 1) (integer) 10923\n   2) (integer) 16383\n   3) 1) \"127.0.0.1\"\n      2) (integer) 30003\n      3) \"044ec91f325b7595e76dbcb18cc688b6a5b434a1\"\n      4) 1) hostname\n         2) \"host-5.redis.example.com\"\n   4) 1) \"127.0.0.1\"\n      2) (integer) 30006\n      3) \"58e6e48d41228013e5d9c1c37c5060693925e97e\"\n      4) 1) hostname\n         2) \"host-6.redis.example.com\"\n```\n\n**Warning:** In future versions there could be more elements describing the node better.\nIn general a client implementation should just rely on the fact that certain parameters are at fixed positions as specified, but more parameters may follow and should be ignored.\nSimilarly a client library should try if possible to cope with the fact that older versions may just have the primary endpoint and port parameter."
+    },
+    {
+      "title": "Behavior change history",
+      "level": 2,
+      "content": "*   `>= 7.0.0`: Added support for hostnames and unknown endpoints in first field of node response."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Only supported with the [OSS cluster API](). Deprecated as of Redis v7.0.0. |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): nested list of slot ranges with networking information.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): nested list of slot ranges with networking information."
+    }
+  ]
+}

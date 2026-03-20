@@ -1,0 +1,85 @@
+{
+  "slug": "bf.card",
+  "title": "BF.CARD",
+  "description": "Returns the cardinality of a Bloom filter",
+  "docsUrl": "https://redis.io/docs/latest/commands/bf.card/",
+  "group": "bf",
+  "groupLabel": "Bloom",
+  "syntax": "BF.CARD key",
+  "complexity": "O(1)",
+  "since": "2.4.4",
+  "arity": null,
+  "aclCategories": [
+    "@bloom",
+    "@read",
+    "@fast"
+  ],
+  "commandFlags": [],
+  "arguments": [
+    {
+      "name": "key",
+      "type": "key"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Returns the cardinality of a Bloom filter - number of items that were added to a Bloom filter and detected as unique (items that caused at least one bit to be set in at least one sub-filter)\n\n(since RedisBloom 2.4.4)\n\n## Required arguments\n\n<details open><summary><code>key</code></summary>\n\nis key name for a Bloom filter.\n\n</details>\n\n## Examples\n\n\nredis> BF.ADD bf1 item_foo\n(integer) 1\nredis> BF.CARD bf1\n(integer) 1\nredis> BF.CARD bf_new\n(integer) 0\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\"><nobr>&#x2705; Flexible & Annual</nobr></span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Integer reply](): the number of items detected as unique that were added to the Bloom filter (items that caused at least one bit to be set in at least one sub-filter), or `0` when the given `key` does not exist.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, or when the filter is full.\n\nNote: when `key` exists, `BF.CARD` returns the same value as `BF.INFO key ITEMS`.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](): the number of items detected as unique that were added to the Bloom filter (items that caused at least one bit to be set in at least one sub-filter), or `0` when the given `key` does not exist.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, or when the filter is full.\n\nNote: when `key` exists, `BF.CARD` returns the same value as `BF.INFO key ITEMS`.",
+  "intro": "Returns the cardinality of a Bloom filter - number of items that were added to a Bloom filter and detected as unique (items that caused at least one bit to be set in at least one sub-filter)\n\n(since RedisBloom 2.4.4)",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Returns the cardinality of a Bloom filter - number of items that were added to a Bloom filter and detected as unique (items that caused at least one bit to be set in at least one sub-filter)\n\n(since RedisBloom 2.4.4)"
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open><summary><code>key</code></summary>\n\nis key name for a Bloom filter.\n\n</details>"
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "redis> BF.ADD bf1 item_foo\n(integer) 1\nredis> BF.CARD bf1\n(integer) 1\nredis> BF.CARD bf_new\n(integer) 0"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\"><nobr>&#x2705; Flexible & Annual</nobr></span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Integer reply](): the number of items detected as unique that were added to the Bloom filter (items that caused at least one bit to be set in at least one sub-filter), or `0` when the given `key` does not exist.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, or when the filter is full.\n\nNote: when `key` exists, `BF.CARD` returns the same value as `BF.INFO key ITEMS`.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](): the number of items detected as unique that were added to the Bloom filter (items that caused at least one bit to be set in at least one sub-filter), or `0` when the given `key` does not exist.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, or when the filter is full.\n\nNote: when `key` exists, `BF.CARD` returns the same value as `BF.INFO key ITEMS`."
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "slug": "hotkeys-get",
+  "title": "HOTKEYS GET",
+  "description": "Returns lists of top K hotkeys depending on metrics chosen in HOTKEYS START command.",
+  "docsUrl": "https://redis.io/docs/latest/commands/hotkeys-get/",
+  "group": "server",
+  "groupLabel": "Server",
+  "syntax": "HOTKEYS GET",
+  "complexity": "O(K) where K is the number of hotkeys returned.",
+  "since": "8.6.0",
+  "arity": 2,
+  "aclCategories": [
+    "@admin",
+    "@slow",
+    "@dangerous"
+  ],
+  "commandFlags": [
+    "admin",
+    "noscript"
+  ],
+  "arguments": [],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "example-both-net-and-cpu-metrics-specified",
+        "title": "Example (both NET and CPU metrics specified)"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Returns tracking results and metadata from the current or most recent hotkeys tracking session.\n\nThis command returns comprehensive information about the hotkeys tracking session, including:\n\n- Tracking metadata (start time, duration, sample ratio, etc.)\n- Performance statistics (CPU time, network bytes)\n- Lists of top K hot keys sorted by the metrics specified in `HOTKEYS START`\n\nThe following metrics are collected for non-clustered as well as clustered Redis environments:\n\n- `tracking-active` (integer): 1 if tracking is active, 0 if stopped\n- `sample-ratio` (integer): The sampling ratio used during tracking\n- `selected-slots` (array): [Array]() of select slots and slot ranges\n- `all-commands-all-slots-us` (integer): CPU time in microseconds for all commands on all slots\n- `net-bytes-all-commands-all-slots` (integer): Network bytes for all commands on all slots\n- `collection-start-time-unix-ms` (integer): Unix timestamp in milliseconds when tracking started\n- `collection-duration-ms` (integer): Duration of tracking in milliseconds\n- `total-cpu-time-user-ms` (integer): User CPU time used in milliseconds (only when the `CPU` metric was specified with `HOTKEYS START`)\n- `total-cpu-time-sys-ms` (integer): System CPU time used in milliseconds (only when the `CPU` metric was specified with `HOTKEYS START`)\n- `total-net-bytes` (integer): Total network bytes processed (only when the `NET` metric was specified with `HOTKEYS START`)\n- `by-cpu-time-us` (array): [Array]() of key-time pairs sorted by CPU time in microseconds (only when the `CPU` metric was specified with `HOTKEYS START`)\n- `by-net-bytes` (array): [Array]() of key-bytes pairs sorted by network bytes (only when the `NET` metric was specified with `HOTKEYS START`)\n\nThe following additional results are collected only on clustered Redis environments, when `SLOTS` was used with `HOTKEYS START`:\n\n- `sampled-commands-selected-slots-us` (integer): CPU time in milliseconds for sampled commands in selected slots (only when `SAMPLE` was used with `HOTKEYS START`)\n- `all-commands-selected-slots-us` (integer): CPU time in milliseconds for all commands in selected slots\n- `net-bytes-sampled-commands-selected-slots` (integer): Network bytes for sampled commands in selected slots (only when `SAMPLE` was used with `HOTKEYS START`)\n- `net-bytes-all-commands-selected-slots` (integer): Network bytes for all commands on selected slots\n\n\n## Example (both `NET` and `CPU` metrics specified)\n\n```\nHOTKEYS GET\n1)  1) \"tracking-active\"\n    2) (integer) 0\n    3) \"sample-ratio\"\n    4) (integer) 1\n    5) \"selected-slots\"\n    6) 1) 1) (integer) 0\n          2) (integer) 16383\n    7) \"all-commands-all-slots-us\"\n    8) (integer) 103\n    9) \"net-bytes-all-commands-all-slots\"\n   10) (integer) 2042\n   11) \"collection-start-time-unix-ms\"\n   12) (integer) 1770824933147\n   13) \"collection-duration-ms\"\n   14) (integer) 0\n   15) \"total-cpu-time-user-ms\"\n   16) (integer) 23\n   17) \"total-cpu-time-sys-ms\"\n   18) (integer) 7\n   19) \"total-net-bytes\"\n   20) (integer) 2038\n   21) \"by-cpu-time-us\"\n   22)  1) \"hotkey_001_counter\"\n        2) (integer) 29\n        3) \"hotkey_001\"\n        4) (integer) 25\n        5) \"hotkey_001_hash\"\n        6) (integer) 11\n        7) \"hotkey_001_list\"\n        8) (integer) 9\n        9) \"hotkey_001_set\"\n       10) (integer) 9\n   23) \"by-net-bytes\"\n   24)  1) \"hotkey_001\"\n        2) (integer) 446\n        3) \"hotkey_002\"\n        4) (integer) 328\n        5) \"hotkey_001_hash\"\n        6) (integer) 198\n        7) \"hotkey_001_set\"\n        8) (integer) 167\n        9) \"hotkey_001_counter\"\n       10) (integer) 116\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n\n- [Array reply]() when tracking data is available, containing an array of pairs of field names and values.\n- [Null reply]() when no tracking has been started or data has been reset.\n\n**RESP3:**\n\nOne of the following:\n\n- [Array reply]() when tracking data is available, containing a [map]() of field names and values.\n- [Null reply]() when no tracking has been started or data has been reset.",
+  "intro": "Returns tracking results and metadata from the current or most recent hotkeys tracking session.\n\nThis command returns comprehensive information about the hotkeys tracking session, including:\n\n- Tracking metadata (start time, duration, sample ratio, etc.)\n- Performance statistics (CPU time, network bytes)\n- Lists of top K hot keys sorted by the metrics specified in `HOTKEYS START`\n\nThe following metrics are collected for non-clustered as well as clustered Redis environments:\n\n- `tracking-active` (integer): 1 if tracking is active, 0 if stopped\n- `sample-ratio` (integer): The sampling ratio used during tracking\n- `selected-slots` (array): [Array]() of select slots and slot ranges\n- `all-commands-all-slots-us` (integer): CPU time in microseconds for all commands on all slots\n- `net-bytes-all-commands-all-slots` (integer): Network bytes for all commands on all slots\n- `collection-start-time-unix-ms` (integer): Unix timestamp in milliseconds when tracking started\n- `collection-duration-ms` (integer): Duration of tracking in milliseconds\n- `total-cpu-time-user-ms` (integer): User CPU time used in milliseconds (only when the `CPU` metric was specified with `HOTKEYS START`)\n- `total-cpu-time-sys-ms` (integer): System CPU time used in milliseconds (only when the `CPU` metric was specified with `HOTKEYS START`)\n- `total-net-bytes` (integer): Total network bytes processed (only when the `NET` metric was specified with `HOTKEYS START`)\n- `by-cpu-time-us` (array): [Array]() of key-time pairs sorted by CPU time in microseconds (only when the `CPU` metric was specified with `HOTKEYS START`)\n- `by-net-bytes` (array): [Array]() of key-bytes pairs sorted by network bytes (only when the `NET` metric was specified with `HOTKEYS START`)\n\nThe following additional results are collected only on clustered Redis environments, when `SLOTS` was used with `HOTKEYS START`:\n\n- `sampled-commands-selected-slots-us` (integer): CPU time in milliseconds for sampled commands in selected slots (only when `SAMPLE` was used with `HOTKEYS START`)\n- `all-commands-selected-slots-us` (integer): CPU time in milliseconds for all commands in selected slots\n- `net-bytes-sampled-commands-selected-slots` (integer): Network bytes for sampled commands in selected slots (only when `SAMPLE` was used with `HOTKEYS START`)\n- `net-bytes-all-commands-selected-slots` (integer): Network bytes for all commands on selected slots",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Returns tracking results and metadata from the current or most recent hotkeys tracking session.\n\nThis command returns comprehensive information about the hotkeys tracking session, including:\n\n- Tracking metadata (start time, duration, sample ratio, etc.)\n- Performance statistics (CPU time, network bytes)\n- Lists of top K hot keys sorted by the metrics specified in `HOTKEYS START`\n\nThe following metrics are collected for non-clustered as well as clustered Redis environments:\n\n- `tracking-active` (integer): 1 if tracking is active, 0 if stopped\n- `sample-ratio` (integer): The sampling ratio used during tracking\n- `selected-slots` (array): [Array]() of select slots and slot ranges\n- `all-commands-all-slots-us` (integer): CPU time in microseconds for all commands on all slots\n- `net-bytes-all-commands-all-slots` (integer): Network bytes for all commands on all slots\n- `collection-start-time-unix-ms` (integer): Unix timestamp in milliseconds when tracking started\n- `collection-duration-ms` (integer): Duration of tracking in milliseconds\n- `total-cpu-time-user-ms` (integer): User CPU time used in milliseconds (only when the `CPU` metric was specified with `HOTKEYS START`)\n- `total-cpu-time-sys-ms` (integer): System CPU time used in milliseconds (only when the `CPU` metric was specified with `HOTKEYS START`)\n- `total-net-bytes` (integer): Total network bytes processed (only when the `NET` metric was specified with `HOTKEYS START`)\n- `by-cpu-time-us` (array): [Array]() of key-time pairs sorted by CPU time in microseconds (only when the `CPU` metric was specified with `HOTKEYS START`)\n- `by-net-bytes` (array): [Array]() of key-bytes pairs sorted by network bytes (only when the `NET` metric was specified with `HOTKEYS START`)\n\nThe following additional results are collected only on clustered Redis environments, when `SLOTS` was used with `HOTKEYS START`:\n\n- `sampled-commands-selected-slots-us` (integer): CPU time in milliseconds for sampled commands in selected slots (only when `SAMPLE` was used with `HOTKEYS START`)\n- `all-commands-selected-slots-us` (integer): CPU time in milliseconds for all commands in selected slots\n- `net-bytes-sampled-commands-selected-slots` (integer): Network bytes for sampled commands in selected slots (only when `SAMPLE` was used with `HOTKEYS START`)\n- `net-bytes-all-commands-selected-slots` (integer): Network bytes for all commands on selected slots"
+    },
+    {
+      "title": "Example (both `NET` and `CPU` metrics specified)",
+      "level": 2,
+      "content": "```\nHOTKEYS GET\n1)  1) \"tracking-active\"\n    2) (integer) 0\n    3) \"sample-ratio\"\n    4) (integer) 1\n    5) \"selected-slots\"\n    6) 1) 1) (integer) 0\n          2) (integer) 16383\n    7) \"all-commands-all-slots-us\"\n    8) (integer) 103\n    9) \"net-bytes-all-commands-all-slots\"\n   10) (integer) 2042\n   11) \"collection-start-time-unix-ms\"\n   12) (integer) 1770824933147\n   13) \"collection-duration-ms\"\n   14) (integer) 0\n   15) \"total-cpu-time-user-ms\"\n   16) (integer) 23\n   17) \"total-cpu-time-sys-ms\"\n   18) (integer) 7\n   19) \"total-net-bytes\"\n   20) (integer) 2038\n   21) \"by-cpu-time-us\"\n   22)  1) \"hotkey_001_counter\"\n        2) (integer) 29\n        3) \"hotkey_001\"\n        4) (integer) 25\n        5) \"hotkey_001_hash\"\n        6) (integer) 11\n        7) \"hotkey_001_list\"\n        8) (integer) 9\n        9) \"hotkey_001_set\"\n       10) (integer) 9\n   23) \"by-net-bytes\"\n   24)  1) \"hotkey_001\"\n        2) (integer) 446\n        3) \"hotkey_002\"\n        4) (integer) 328\n        5) \"hotkey_001_hash\"\n        6) (integer) 198\n        7) \"hotkey_001_set\"\n        8) (integer) 167\n        9) \"hotkey_001_counter\"\n       10) (integer) 116\n```"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n\n- [Array reply]() when tracking data is available, containing an array of pairs of field names and values.\n- [Null reply]() when no tracking has been started or data has been reset.\n\n**RESP3:**\n\nOne of the following:\n\n- [Array reply]() when tracking data is available, containing a [map]() of field names and values.\n- [Null reply]() when no tracking has been started or data has been reset."
+    }
+  ]
+}

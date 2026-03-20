@@ -1,0 +1,112 @@
+{
+  "slug": "mset",
+  "title": "MSET",
+  "description": "Atomically creates or modifies the string values of one or more keys.",
+  "docsUrl": "https://redis.io/docs/latest/commands/mset/",
+  "group": "string",
+  "groupLabel": "Strings",
+  "syntax": "MSET key value [key value ...]",
+  "complexity": "O(N) where N is the number of keys to set.",
+  "since": "1.0.1",
+  "arity": -3,
+  "aclCategories": [
+    "@write",
+    "@string",
+    "@slow"
+  ],
+  "commandFlags": [
+    "write",
+    "denyoom"
+  ],
+  "arguments": [
+    {
+      "arguments": [
+        {
+          "display_text": "key",
+          "key_spec_index": 0,
+          "name": "key",
+          "type": "key"
+        },
+        {
+          "display_text": "value",
+          "name": "value",
+          "type": "string"
+        }
+      ],
+      "multiple": true,
+      "name": "data",
+      "type": "block"
+    }
+  ],
+  "keySpecs": [
+    {
+      "OW": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 2,
+          "lastkey": -1,
+          "limit": 0
+        },
+        "type": "range"
+      },
+      "update": true
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nSets the given keys to their respective values.\n`MSET` replaces existing values with new values, just as regular [`SET`]().\nSee [`MSETNX`]() if you don't want to overwrite existing values.\n\n`MSET` is atomic, so all given keys are set at once.\nIt is not possible for clients to see that some of the keys were updated while\nothers are unchanged.\n\n## Examples\n\n\nMSET key1 \"Hello\" key2 \"World\"\nGET key1\nGET key2\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): always `OK` because `MSET` can't fail.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): always `OK` because `MSET` can't fail.",
+  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nSets the given keys to their respective values.\n`MSET` replaces existing values with new values, just as regular [`SET`]().\nSee [`MSETNX`]() if you don't want to overwrite existing values.\n\n`MSET` is atomic, so all given keys are set at once.\nIt is not possible for clients to see that some of the keys were updated while\nothers are unchanged.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nSets the given keys to their respective values.\n`MSET` replaces existing values with new values, just as regular [`SET`]().\nSee [`MSETNX`]() if you don't want to overwrite existing values.\n\n`MSET` is atomic, so all given keys are set at once.\nIt is not possible for clients to see that some of the keys were updated while\nothers are unchanged."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "MSET key1 \"Hello\" key2 \"World\"\nGET key1\nGET key2"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): always `OK` because `MSET` can't fail.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): always `OK` because `MSET` can't fail."
+    }
+  ]
+}

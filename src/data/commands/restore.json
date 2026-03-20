@@ -1,0 +1,143 @@
+{
+  "slug": "restore",
+  "title": "RESTORE",
+  "description": "Creates a key from the serialized representation of a value.",
+  "docsUrl": "https://redis.io/docs/latest/commands/restore/",
+  "group": "generic",
+  "groupLabel": "Generic",
+  "syntax": "RESTORE key ttl serialized-value [REPLACE] [ABSTTL]\n  [IDLETIME seconds] [FREQ frequency]",
+  "complexity": "O(1) to create the new key and additional O(N*M) to reconstruct the serialized value, where N is the number of Redis objects composing the value and M their average size. For small string values the time complexity is thus O(1)+O(1*M) where M is small, so simply O(1). However for sorted set values the complexity is O(N*M*log(N)) because inserting values into sorted sets is O(log(N)).",
+  "since": "2.6.0",
+  "arity": -4,
+  "aclCategories": [
+    "@keyspace",
+    "@write",
+    "@slow",
+    "@dangerous"
+  ],
+  "commandFlags": [
+    "write",
+    "denyoom"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "ttl",
+      "name": "ttl",
+      "type": "integer"
+    },
+    {
+      "display_text": "serialized-value",
+      "name": "serialized-value",
+      "type": "string"
+    },
+    {
+      "display_text": "replace",
+      "name": "replace",
+      "optional": true,
+      "since": "3.0.0",
+      "token": "REPLACE",
+      "type": "pure-token"
+    },
+    {
+      "display_text": "absttl",
+      "name": "absttl",
+      "optional": true,
+      "since": "5.0.0",
+      "token": "ABSTTL",
+      "type": "pure-token"
+    },
+    {
+      "display_text": "seconds",
+      "name": "seconds",
+      "optional": true,
+      "since": "5.0.0",
+      "token": "IDLETIME",
+      "type": "integer"
+    },
+    {
+      "display_text": "frequency",
+      "name": "frequency",
+      "optional": true,
+      "since": "5.0.0",
+      "token": "FREQ",
+      "type": "integer"
+    }
+  ],
+  "keySpecs": [
+    {
+      "OW": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      },
+      "update": true
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Create a key associated with a value that is obtained by deserializing the\nprovided serialized value (obtained via [`DUMP`]()).\n\nIf `ttl` is 0 the key is created without any expire, otherwise the specified\nexpire time (in milliseconds) is set.\n\nIf the `ABSTTL` modifier was used, `ttl` should represent an absolute\n[Unix timestamp][hewowu] (in milliseconds) in which the key will expire.\n\n[hewowu]: http://en.wikipedia.org/wiki/Unix_time\n\nFor eviction purposes, you may use the `IDLETIME` or `FREQ` modifiers. See\n[`OBJECT`]() for more information.\n\n`RESTORE` will return a \"Target key name is busy\" error when `key` already\nexists unless you use the `REPLACE` modifier.\n\n`RESTORE` checks the RDB version and data checksum.\nIf they don't match an error is returned.\n\n## Examples\n\n```\nredis> DEL mykey\n0\nredis> RESTORE mykey 0 \"\\n\\x17\\x17\\x00\\x00\\x00\\x12\\x00\\x00\\x00\\x03\\x00\\\n                        x00\\xc0\\x01\\x00\\x04\\xc0\\x02\\x00\\x04\\xc0\\x03\\x00\\\n                        xff\\x04\\x00u#<\\xc0;.\\xe9\\xdd\"\nOK\nredis> TYPE mykey\nlist\nredis> LRANGE mykey 0 -1\n1) \"1\"\n2) \"2\"\n3) \"3\"\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\">&#x274c; Active-Active\\*</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\">&#x274c; Active-Active\\*</nobr></span> | \\*Only supported for module keys. |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.",
+  "intro": "Create a key associated with a value that is obtained by deserializing the\nprovided serialized value (obtained via [`DUMP`]()).\n\nIf `ttl` is 0 the key is created without any expire, otherwise the specified\nexpire time (in milliseconds) is set.\n\nIf the `ABSTTL` modifier was used, `ttl` should represent an absolute\n[Unix timestamp][hewowu] (in milliseconds) in which the key will expire.\n\n[hewowu]: http://en.wikipedia.org/wiki/Unix_time\n\nFor eviction purposes, you may use the `IDLETIME` or `FREQ` modifiers. See\n[`OBJECT`]() for more information.\n\n`RESTORE` will return a \"Target key name is busy\" error when `key` already\nexists unless you use the `REPLACE` modifier.\n\n`RESTORE` checks the RDB version and data checksum.\nIf they don't match an error is returned.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Create a key associated with a value that is obtained by deserializing the\nprovided serialized value (obtained via [`DUMP`]()).\n\nIf `ttl` is 0 the key is created without any expire, otherwise the specified\nexpire time (in milliseconds) is set.\n\nIf the `ABSTTL` modifier was used, `ttl` should represent an absolute\n[Unix timestamp][hewowu] (in milliseconds) in which the key will expire.\n\n[hewowu]: http://en.wikipedia.org/wiki/Unix_time\n\nFor eviction purposes, you may use the `IDLETIME` or `FREQ` modifiers. See\n[`OBJECT`]() for more information.\n\n`RESTORE` will return a \"Target key name is busy\" error when `key` already\nexists unless you use the `REPLACE` modifier.\n\n`RESTORE` checks the RDB version and data checksum.\nIf they don't match an error is returned."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "```\nredis> DEL mykey\n0\nredis> RESTORE mykey 0 \"\\n\\x17\\x17\\x00\\x00\\x00\\x12\\x00\\x00\\x00\\x03\\x00\\\n                        x00\\xc0\\x01\\x00\\x04\\xc0\\x02\\x00\\x04\\xc0\\x03\\x00\\\n                        xff\\x04\\x00u#<\\xc0;.\\xe9\\xdd\"\nOK\nredis> TYPE mykey\nlist\nredis> LRANGE mykey 0 -1\n1) \"1\"\n2) \"2\"\n3) \"3\"\n```"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\">&#x274c; Active-Active\\*</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\">&#x274c; Active-Active\\*</nobr></span> | \\*Only supported for module keys. |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`."
+    }
+  ]
+}

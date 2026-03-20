@@ -1,0 +1,124 @@
+{
+  "slug": "lcs",
+  "title": "LCS",
+  "description": "Finds the longest common substring.",
+  "docsUrl": "https://redis.io/docs/latest/commands/lcs/",
+  "group": "string",
+  "groupLabel": "Strings",
+  "syntax": "LCS key1 key2 [LEN] [IDX] [MINMATCHLEN min-match-len] [WITHMATCHLEN]",
+  "complexity": "O(N*M) where N and M are the lengths of s1 and s2, respectively",
+  "since": "7.0.0",
+  "arity": -3,
+  "aclCategories": [
+    "@read",
+    "@string",
+    "@slow"
+  ],
+  "commandFlags": [
+    "readonly"
+  ],
+  "arguments": [
+    {
+      "display_text": "key1",
+      "key_spec_index": 0,
+      "name": "key1",
+      "type": "key"
+    },
+    {
+      "display_text": "key2",
+      "key_spec_index": 0,
+      "name": "key2",
+      "type": "key"
+    },
+    {
+      "display_text": "len",
+      "name": "len",
+      "optional": true,
+      "token": "LEN",
+      "type": "pure-token"
+    },
+    {
+      "display_text": "idx",
+      "name": "idx",
+      "optional": true,
+      "token": "IDX",
+      "type": "pure-token"
+    },
+    {
+      "display_text": "min-match-len",
+      "name": "min-match-len",
+      "optional": true,
+      "token": "MINMATCHLEN",
+      "type": "integer"
+    },
+    {
+      "display_text": "withmatchlen",
+      "name": "withmatchlen",
+      "optional": true,
+      "token": "WITHMATCHLEN",
+      "type": "pure-token"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RO": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 1,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "The LCS command implements the longest common subsequence algorithm. Note that this is different than the longest common string algorithm, since matching characters in the string does not need to be contiguous.\n\nFor instance the LCS between \"foo\" and \"fao\" is \"fo\", since scanning the two strings from left to right, the longest common set of characters is composed of the first \"f\" and then the \"o\".\n\nLCS is very useful in order to evaluate how similar two strings are. Strings can represent many things. For instance if two strings are DNA sequences, the LCS will provide a measure of similarity between the two DNA sequences. If the strings represent some text edited by some user, the LCS could represent how different the new text is compared to the old one, and so forth.\n\nNote that this algorithm runs in `O(N*M)` time, where N is the length of the first string and M is the length of the second string. So either spin a different Redis instance in order to run this algorithm, or make sure to run it against very small strings.\n\n```\n> MSET key1 ohmytext key2 mynewtext\nOK\n> LCS key1 key2\n\"mytext\"\n```\n\nSometimes we need just the length of the match:\n\n```\n> LCS key1 key2 LEN\n(integer) 6\n```\n\nHowever what is often very useful, is to know the match position in each strings:\n\n```\n> LCS key1 key2 IDX\n1) \"matches\"\n2) 1) 1) 1) (integer) 4\n         2) (integer) 7\n      2) 1) (integer) 5\n         2) (integer) 8\n   2) 1) 1) (integer) 2\n         2) (integer) 3\n      2) 1) (integer) 0\n         2) (integer) 1\n3) \"len\"\n4) (integer) 6\n```\n\nMatches are produced from the last one to the first one, since this is how\nthe algorithm works, and it more efficient to emit things in the same order.\nThe above array means that the first match (second element of the array)\nis between positions 2-3 of the first string and 0-1 of the second.\nThen there is another match between 4-7 and 5-8.\n\nTo restrict the list of matches to the ones of a given minimal length:\n\n```\n> LCS key1 key2 IDX MINMATCHLEN 4\n1) \"matches\"\n2) 1) 1) 1) (integer) 4\n         2) (integer) 7\n      2) 1) (integer) 5\n         2) (integer) 8\n3) \"len\"\n4) (integer) 6\n```\n\nFinally to also have the match len:\n\n```\n> LCS key1 key2 IDX MINMATCHLEN 4 WITHMATCHLEN\n1) \"matches\"\n2) 1) 1) 1) (integer) 4\n         2) (integer) 7\n      2) 1) (integer) 5\n         2) (integer) 8\n      3) (integer) 4\n3) \"len\"\n4) (integer) 6\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the longest common subsequence.\n* [Integer reply](../../develop/reference/protocol-spec#integers): the length of the longest common subsequence when _LEN_ is given.\n* [Array reply](../../develop/reference/protocol-spec#arrays): an array with the LCS length and all the ranges in both the strings when _IDX_ is given.\n\n**RESP3:**\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the longest common subsequence.\n* [Integer reply](../../develop/reference/protocol-spec#integers): the length of the longest common subsequence when _LEN_ is given.\n* [Map reply](../../develop/reference/protocol-spec#maps): a map with the LCS length and all the ranges in both the strings when _IDX_ is given.",
+  "intro": "The LCS command implements the longest common subsequence algorithm. Note that this is different than the longest common string algorithm, since matching characters in the string does not need to be contiguous.\n\nFor instance the LCS between \"foo\" and \"fao\" is \"fo\", since scanning the two strings from left to right, the longest common set of characters is composed of the first \"f\" and then the \"o\".\n\nLCS is very useful in order to evaluate how similar two strings are. Strings can represent many things. For instance if two strings are DNA sequences, the LCS will provide a measure of similarity between the two DNA sequences. If the strings represent some text edited by some user, the LCS could represent how different the new text is compared to the old one, and so forth.\n\nNote that this algorithm runs in `O(N*M)` time, where N is the length of the first string and M is the length of the second string. So either spin a different Redis instance in order to run this algorithm, or make sure to run it against very small strings.\n\n```\n> MSET key1 ohmytext key2 mynewtext\nOK\n> LCS key1 key2\n\"mytext\"\n```\n\nSometimes we need just the length of the match:\n\n```\n> LCS key1 key2 LEN\n(integer) 6\n```\n\nHowever what is often very useful, is to know the match position in each strings:\n\n```\n> LCS key1 key2 IDX\n1) \"matches\"\n2) 1) 1) 1) (integer) 4\n         2) (integer) 7\n      2) 1) (integer) 5\n         2) (integer) 8\n   2) 1) 1) (integer) 2\n         2) (integer) 3\n      2) 1) (integer) 0\n         2) (integer) 1\n3) \"len\"\n4) (integer) 6\n```\n\nMatches are produced from the last one to the first one, since this is how\nthe algorithm works, and it more efficient to emit things in the same order.\nThe above array means that the first match (second element of the array)\nis between positions 2-3 of the first string and 0-1 of the second.\nThen there is another match between 4-7 and 5-8.\n\nTo restrict the list of matches to the ones of a given minimal length:\n\n```\n> LCS key1 key2 IDX MINMATCHLEN 4\n1) \"matches\"\n2) 1) 1) 1) (integer) 4\n         2) (integer) 7\n      2) 1) (integer) 5\n         2) (integer) 8\n3) \"len\"\n4) (integer) 6\n```\n\nFinally to also have the match len:\n\n```\n> LCS key1 key2 IDX MINMATCHLEN 4 WITHMATCHLEN\n1) \"matches\"\n2) 1) 1) 1) (integer) 4\n         2) (integer) 7\n      2) 1) (integer) 5\n         2) (integer) 8\n      3) (integer) 4\n3) \"len\"\n4) (integer) 6\n```",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "The LCS command implements the longest common subsequence algorithm. Note that this is different than the longest common string algorithm, since matching characters in the string does not need to be contiguous.\n\nFor instance the LCS between \"foo\" and \"fao\" is \"fo\", since scanning the two strings from left to right, the longest common set of characters is composed of the first \"f\" and then the \"o\".\n\nLCS is very useful in order to evaluate how similar two strings are. Strings can represent many things. For instance if two strings are DNA sequences, the LCS will provide a measure of similarity between the two DNA sequences. If the strings represent some text edited by some user, the LCS could represent how different the new text is compared to the old one, and so forth.\n\nNote that this algorithm runs in `O(N*M)` time, where N is the length of the first string and M is the length of the second string. So either spin a different Redis instance in order to run this algorithm, or make sure to run it against very small strings.\n\n```\n> MSET key1 ohmytext key2 mynewtext\nOK\n> LCS key1 key2\n\"mytext\"\n```\n\nSometimes we need just the length of the match:\n\n```\n> LCS key1 key2 LEN\n(integer) 6\n```\n\nHowever what is often very useful, is to know the match position in each strings:\n\n```\n> LCS key1 key2 IDX\n1) \"matches\"\n2) 1) 1) 1) (integer) 4\n         2) (integer) 7\n      2) 1) (integer) 5\n         2) (integer) 8\n   2) 1) 1) (integer) 2\n         2) (integer) 3\n      2) 1) (integer) 0\n         2) (integer) 1\n3) \"len\"\n4) (integer) 6\n```\n\nMatches are produced from the last one to the first one, since this is how\nthe algorithm works, and it more efficient to emit things in the same order.\nThe above array means that the first match (second element of the array)\nis between positions 2-3 of the first string and 0-1 of the second.\nThen there is another match between 4-7 and 5-8.\n\nTo restrict the list of matches to the ones of a given minimal length:\n\n```\n> LCS key1 key2 IDX MINMATCHLEN 4\n1) \"matches\"\n2) 1) 1) 1) (integer) 4\n         2) (integer) 7\n      2) 1) (integer) 5\n         2) (integer) 8\n3) \"len\"\n4) (integer) 6\n```\n\nFinally to also have the match len:\n\n```\n> LCS key1 key2 IDX MINMATCHLEN 4 WITHMATCHLEN\n1) \"matches\"\n2) 1) 1) 1) (integer) 4\n         2) (integer) 7\n      2) 1) (integer) 5\n         2) (integer) 8\n      3) (integer) 4\n3) \"len\"\n4) (integer) 6\n```"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the longest common subsequence.\n* [Integer reply](../../develop/reference/protocol-spec#integers): the length of the longest common subsequence when _LEN_ is given.\n* [Array reply](../../develop/reference/protocol-spec#arrays): an array with the LCS length and all the ranges in both the strings when _IDX_ is given.\n\n**RESP3:**\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the longest common subsequence.\n* [Integer reply](../../develop/reference/protocol-spec#integers): the length of the longest common subsequence when _LEN_ is given.\n* [Map reply](../../develop/reference/protocol-spec#maps): a map with the LCS length and all the ranges in both the strings when _IDX_ is given."
+    }
+  ]
+}

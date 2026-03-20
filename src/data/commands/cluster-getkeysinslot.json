@@ -1,0 +1,73 @@
+{
+  "slug": "cluster-getkeysinslot",
+  "title": "CLUSTER GETKEYSINSLOT",
+  "description": "Returns the key names in a hash slot.",
+  "docsUrl": "https://redis.io/docs/latest/commands/cluster-getkeysinslot/",
+  "group": "cluster",
+  "groupLabel": "Cluster",
+  "syntax": "CLUSTER GETKEYSINSLOT slot count",
+  "complexity": "O(N) where N is the number of requested keys",
+  "since": "3.0.0",
+  "arity": 4,
+  "aclCategories": [
+    "@slow"
+  ],
+  "commandFlags": [
+    "stale"
+  ],
+  "arguments": [
+    {
+      "display_text": "slot",
+      "name": "slot",
+      "type": "integer"
+    },
+    {
+      "display_text": "count",
+      "name": "count",
+      "type": "integer"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "The command returns an array of keys names stored in the contacted node and\nhashing to the specified hash slot. The maximum number of keys to return\nis specified via the `count` argument, so that it is possible for the user\nof this API to batch-processing keys.\n\nThe main usage of this command is during rehashing of cluster slots from one\nnode to another. The way the rehashing is performed is exposed in the Redis\nCluster specification, or in a more simple to digest form, as an appendix\nof the [`CLUSTER SETSLOT`]() command documentation.\n\nDuring atomic slot migration operations (available since Redis 8.4.0), keys being imported or trimmed will be filtered out from the results.\n\n\n```\n> CLUSTER GETKEYSINSLOT 7000 3\n1) \"key_39015\"\n2) \"key_89793\"\n3) \"key_92937\"\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): an array with up to count elements.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): an array with up to count elements.",
+  "intro": "The command returns an array of keys names stored in the contacted node and\nhashing to the specified hash slot. The maximum number of keys to return\nis specified via the `count` argument, so that it is possible for the user\nof this API to batch-processing keys.\n\nThe main usage of this command is during rehashing of cluster slots from one\nnode to another. The way the rehashing is performed is exposed in the Redis\nCluster specification, or in a more simple to digest form, as an appendix\nof the [`CLUSTER SETSLOT`]() command documentation.\n\nDuring atomic slot migration operations (available since Redis 8.4.0), keys being imported or trimmed will be filtered out from the results.\n\n\n```\n> CLUSTER GETKEYSINSLOT 7000 3\n1) \"key_39015\"\n2) \"key_89793\"\n3) \"key_92937\"\n```",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "The command returns an array of keys names stored in the contacted node and\nhashing to the specified hash slot. The maximum number of keys to return\nis specified via the `count` argument, so that it is possible for the user\nof this API to batch-processing keys.\n\nThe main usage of this command is during rehashing of cluster slots from one\nnode to another. The way the rehashing is performed is exposed in the Redis\nCluster specification, or in a more simple to digest form, as an appendix\nof the [`CLUSTER SETSLOT`]() command documentation.\n\nDuring atomic slot migration operations (available since Redis 8.4.0), keys being imported or trimmed will be filtered out from the results.\n\n\n```\n> CLUSTER GETKEYSINSLOT 7000 3\n1) \"key_39015\"\n2) \"key_89793\"\n3) \"key_92937\"\n```"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): an array with up to count elements.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): an array with up to count elements."
+    }
+  ]
+}

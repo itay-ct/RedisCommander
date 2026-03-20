@@ -1,0 +1,92 @@
+{
+  "slug": "tdigest.trimmed_mean",
+  "title": "TDIGEST.TRIMMED_MEAN",
+  "description": "Returns an estimation of the mean value from the sketch, excluding observation values outside the low and high cutoff quantiles",
+  "docsUrl": "https://redis.io/docs/latest/commands/tdigest.trimmed_mean/",
+  "group": "tdigest",
+  "groupLabel": "T-Digest",
+  "syntax": "TDIGEST.TRIMMED_MEAN key low_cut_quantile high_cut_quantile",
+  "complexity": "O(N) where N is the number of centroids",
+  "since": "2.4.0",
+  "arity": null,
+  "aclCategories": [
+    "@tdigest",
+    "@read"
+  ],
+  "commandFlags": [],
+  "arguments": [
+    {
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "name": "low_cut_quantile",
+      "type": "double"
+    },
+    {
+      "name": "high_cut_quantile",
+      "type": "double"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Returns an estimation of the mean value from the sketch, excluding observation values outside the low and high cutoff quantiles.\n\n## Required arguments\n\n<details open><summary><code>key</code></summary> \n\nis the key name for an existing t-digest sketch.\n</details>\n\n<details open><summary><code>low_cut_quantile</code></summary> \n  \na floating-point value in the range [0..1]. It must be lower than `high_cut_quantile`.\n  \nWhen equal to 0, no low cut.\n  \nWhen greater than 0, exclude observation values lower than this quantile.\n</details>\n\n<details open><summary><code>high_cut_quantile</code></summary> \n  \na floating-point value in the range [0..1]. It must be higher than `low_cut_quantile`.\n  \nWhen less than 1, exclude observation values greater than or equal to this quantile.\n\nWhen equal to 1, no high cut.\n</details>\n\n## Examples\n\n\nredis> TDIGEST.CREATE t COMPRESSION 1000\nOK\nredis> TDIGEST.ADD t 1 2 3 4 5 6 7 8 9 10\nOK\nredis> TDIGEST.TRIMMED_MEAN t 0.1 0.6\n\"4\"\nredis> TDIGEST.TRIMMED_MEAN t 0.3 0.9\n\"6.5\"\nredis> TDIGEST.TRIMMED_MEAN t 0 1\n\"5.5\"\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n\n* [Bulk string reply]() as a floating-point estimation of the mean value.\n* `nan` if the sketch is empty.\n* [Simple error reply]() in these cases: the given key does not exist or is of an incorrect type, quantiles out of range [0..1], or incorrect number of arguments.\n\n**RESP3:**\n\nOne of the following:\n\n* [Double reply]() as an estimation of the mean value.\n* `nan` if the sketch is empty.\n* [Simple error reply]() in these cases: the given key does not exist or is of an incorrect type, quantiles out of range [0..1], or incorrect number of arguments.",
+  "intro": "Returns an estimation of the mean value from the sketch, excluding observation values outside the low and high cutoff quantiles.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Returns an estimation of the mean value from the sketch, excluding observation values outside the low and high cutoff quantiles."
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open><summary><code>key</code></summary> \n\nis the key name for an existing t-digest sketch.\n</details>\n\n<details open><summary><code>low_cut_quantile</code></summary> \n  \na floating-point value in the range [0..1]. It must be lower than `high_cut_quantile`.\n  \nWhen equal to 0, no low cut.\n  \nWhen greater than 0, exclude observation values lower than this quantile.\n</details>\n\n<details open><summary><code>high_cut_quantile</code></summary> \n  \na floating-point value in the range [0..1]. It must be higher than `low_cut_quantile`.\n  \nWhen less than 1, exclude observation values greater than or equal to this quantile.\n\nWhen equal to 1, no high cut.\n</details>"
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "redis> TDIGEST.CREATE t COMPRESSION 1000\nOK\nredis> TDIGEST.ADD t 1 2 3 4 5 6 7 8 9 10\nOK\nredis> TDIGEST.TRIMMED_MEAN t 0.1 0.6\n\"4\"\nredis> TDIGEST.TRIMMED_MEAN t 0.3 0.9\n\"6.5\"\nredis> TDIGEST.TRIMMED_MEAN t 0 1\n\"5.5\""
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n\n* [Bulk string reply]() as a floating-point estimation of the mean value.\n* `nan` if the sketch is empty.\n* [Simple error reply]() in these cases: the given key does not exist or is of an incorrect type, quantiles out of range [0..1], or incorrect number of arguments.\n\n**RESP3:**\n\nOne of the following:\n\n* [Double reply]() as an estimation of the mean value.\n* `nan` if the sketch is empty.\n* [Simple error reply]() in these cases: the given key does not exist or is of an incorrect type, quantiles out of range [0..1], or incorrect number of arguments."
+    }
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "slug": "sintercard",
+  "title": "SINTERCARD",
+  "description": "Returns the number of members of the intersect of multiple sets.",
+  "docsUrl": "https://redis.io/docs/latest/commands/sintercard/",
+  "group": "set",
+  "groupLabel": "Sets",
+  "syntax": "SINTERCARD numkeys key [key ...] [LIMIT limit]",
+  "complexity": "O(N*M) worst case where N is the cardinality of the smallest set and M is the number of sets.",
+  "since": "7.0.0",
+  "arity": -3,
+  "aclCategories": [
+    "@read",
+    "@set",
+    "@slow"
+  ],
+  "commandFlags": [
+    "readonly",
+    "movablekeys"
+  ],
+  "arguments": [
+    {
+      "display_text": "numkeys",
+      "name": "numkeys",
+      "type": "integer"
+    },
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "multiple": true,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "limit",
+      "name": "limit",
+      "optional": true,
+      "token": "LIMIT",
+      "type": "integer"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RO": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "firstkey": 1,
+          "keynumidx": 0,
+          "keystep": 1
+        },
+        "type": "keynum"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nThis command is similar to [`SINTER`](), but instead of returning the result set, it returns just the cardinality of the result.\nReturns the cardinality of the set which would result from the intersection of all the given sets.\n\nKeys that do not exist are considered to be empty sets.\nWith one of the keys being an empty set, the resulting set is also empty (since set intersection with an empty set always results in an empty set).\n\nBy default, the command calculates the cardinality of the intersection of all given sets.\nWhen provided with the optional `LIMIT` argument (which defaults to 0 and means unlimited), if the intersection cardinality reaches limit partway through the computation, the algorithm will exit and yield limit as the cardinality.\nSuch implementation ensures a significant speedup for queries where the limit is lower than the actual intersection cardinality.\n\n## Examples\n\n\nSADD key1 \"a\"\nSADD key1 \"b\"\nSADD key1 \"c\"\nSADD key1 \"d\"\nSADD key2 \"c\"\nSADD key2 \"d\"\nSADD key2 \"e\"\nSINTER key1 key2\nSINTERCARD 2 key1 key2\nSINTERCARD 2 key1 key2 LIMIT 1\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of elements in the resulting intersection.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of elements in the resulting intersection.",
+  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nThis command is similar to [`SINTER`](), but instead of returning the result set, it returns just the cardinality of the result.\nReturns the cardinality of the set which would result from the intersection of all the given sets.\n\nKeys that do not exist are considered to be empty sets.\nWith one of the keys being an empty set, the resulting set is also empty (since set intersection with an empty set always results in an empty set).\n\nBy default, the command calculates the cardinality of the intersection of all given sets.\nWhen provided with the optional `LIMIT` argument (which defaults to 0 and means unlimited), if the intersection cardinality reaches limit partway through the computation, the algorithm will exit and yield limit as the cardinality.\nSuch implementation ensures a significant speedup for queries where the limit is lower than the actual intersection cardinality.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nThis command is similar to [`SINTER`](), but instead of returning the result set, it returns just the cardinality of the result.\nReturns the cardinality of the set which would result from the intersection of all the given sets.\n\nKeys that do not exist are considered to be empty sets.\nWith one of the keys being an empty set, the resulting set is also empty (since set intersection with an empty set always results in an empty set).\n\nBy default, the command calculates the cardinality of the intersection of all given sets.\nWhen provided with the optional `LIMIT` argument (which defaults to 0 and means unlimited), if the intersection cardinality reaches limit partway through the computation, the algorithm will exit and yield limit as the cardinality.\nSuch implementation ensures a significant speedup for queries where the limit is lower than the actual intersection cardinality."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "SADD key1 \"a\"\nSADD key1 \"b\"\nSADD key1 \"c\"\nSADD key1 \"d\"\nSADD key2 \"c\"\nSADD key2 \"d\"\nSADD key2 \"e\"\nSINTER key1 key2\nSINTERCARD 2 key1 key2\nSINTERCARD 2 key1 key2 LIMIT 1"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of elements in the resulting intersection.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of elements in the resulting intersection."
+    }
+  ]
+}

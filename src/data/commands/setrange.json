@@ -1,0 +1,119 @@
+{
+  "slug": "setrange",
+  "title": "SETRANGE",
+  "description": "Overwrites a part of a string value with another by an offset. Creates the key if it doesn't exist.",
+  "docsUrl": "https://redis.io/docs/latest/commands/setrange/",
+  "group": "string",
+  "groupLabel": "Strings",
+  "syntax": "SETRANGE key offset value",
+  "complexity": "O(1), not counting the time taken to copy the new string in place. Usually, this string is very small so the amortized complexity is O(1). Otherwise, complexity is O(M) with M being the length of the value argument.",
+  "since": "2.2.0",
+  "arity": 4,
+  "aclCategories": [
+    "@write",
+    "@string",
+    "@slow"
+  ],
+  "commandFlags": [
+    "write",
+    "denyoom"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "offset",
+      "name": "offset",
+      "type": "integer"
+    },
+    {
+      "display_text": "value",
+      "name": "value",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      },
+      "update": true
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "patterns",
+        "title": "Patterns"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Overwrites part of the string stored at _key_, starting at the specified offset,\nfor the entire length of _value_.\nIf the offset is larger than the current length of the string at _key_, the\nstring is padded with zero-bytes to make _offset_ fit.\nNon-existing keys are considered as empty strings, so this command will make\nsure it holds a string large enough to be able to set _value_ at _offset_.\n\nNote that the maximum offset that you can set is 2^29 -1 (536870911), as Redis\nStrings are limited to 512 megabytes.\nIf you need to grow beyond this size, you can use multiple keys.\n\n**Warning**: When setting the last possible byte and the string value stored at\n_key_ does not yet hold a string value, or holds a small string value, Redis\nneeds to allocate all intermediate memory which can block the server for some\ntime.\nOn a 2010 MacBook Pro, setting byte number 536870911 (512MB allocation) takes\n~300ms, setting byte number 134217728 (128MB allocation) takes ~80ms, setting\nbit number 33554432 (32MB allocation) takes ~30ms and setting bit number 8388608\n(8MB allocation) takes ~8ms.\nNote that once this first allocation is done, subsequent calls to `SETRANGE` for\nthe same _key_ will not have the allocation overhead.\n\n## Patterns\n\nThanks to `SETRANGE` and the analogous [`GETRANGE`]() commands, you can use Redis\nstrings as a linear array with O(1) random access.\nThis is a very fast and efficient storage in many real world use cases.\n\n## Examples\n\nBasic usage:\n\n\nSET key1 \"Hello World\"\nSETRANGE key1 6 \"Redis\"\nGET key1\n\n\nExample of zero padding:\n\n\nSETRANGE key2 6 \"Redis\"\nGET key2\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the length of the string after it was modified by the command.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the length of the string after it was modified by the command.",
+  "intro": "Overwrites part of the string stored at _key_, starting at the specified offset,\nfor the entire length of _value_.\nIf the offset is larger than the current length of the string at _key_, the\nstring is padded with zero-bytes to make _offset_ fit.\nNon-existing keys are considered as empty strings, so this command will make\nsure it holds a string large enough to be able to set _value_ at _offset_.\n\nNote that the maximum offset that you can set is 2^29 -1 (536870911), as Redis\nStrings are limited to 512 megabytes.\nIf you need to grow beyond this size, you can use multiple keys.\n\n**Warning**: When setting the last possible byte and the string value stored at\n_key_ does not yet hold a string value, or holds a small string value, Redis\nneeds to allocate all intermediate memory which can block the server for some\ntime.\nOn a 2010 MacBook Pro, setting byte number 536870911 (512MB allocation) takes\n~300ms, setting byte number 134217728 (128MB allocation) takes ~80ms, setting\nbit number 33554432 (32MB allocation) takes ~30ms and setting bit number 8388608\n(8MB allocation) takes ~8ms.\nNote that once this first allocation is done, subsequent calls to `SETRANGE` for\nthe same _key_ will not have the allocation overhead.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Overwrites part of the string stored at _key_, starting at the specified offset,\nfor the entire length of _value_.\nIf the offset is larger than the current length of the string at _key_, the\nstring is padded with zero-bytes to make _offset_ fit.\nNon-existing keys are considered as empty strings, so this command will make\nsure it holds a string large enough to be able to set _value_ at _offset_.\n\nNote that the maximum offset that you can set is 2^29 -1 (536870911), as Redis\nStrings are limited to 512 megabytes.\nIf you need to grow beyond this size, you can use multiple keys.\n\n**Warning**: When setting the last possible byte and the string value stored at\n_key_ does not yet hold a string value, or holds a small string value, Redis\nneeds to allocate all intermediate memory which can block the server for some\ntime.\nOn a 2010 MacBook Pro, setting byte number 536870911 (512MB allocation) takes\n~300ms, setting byte number 134217728 (128MB allocation) takes ~80ms, setting\nbit number 33554432 (32MB allocation) takes ~30ms and setting bit number 8388608\n(8MB allocation) takes ~8ms.\nNote that once this first allocation is done, subsequent calls to `SETRANGE` for\nthe same _key_ will not have the allocation overhead."
+    },
+    {
+      "title": "Patterns",
+      "level": 2,
+      "content": "Thanks to `SETRANGE` and the analogous [`GETRANGE`]() commands, you can use Redis\nstrings as a linear array with O(1) random access.\nThis is a very fast and efficient storage in many real world use cases."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "Basic usage:\n\n\nSET key1 \"Hello World\"\nSETRANGE key1 6 \"Redis\"\nGET key1\n\n\nExample of zero padding:\n\n\nSETRANGE key2 6 \"Redis\"\nGET key2"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the length of the string after it was modified by the command.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the length of the string after it was modified by the command."
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "slug": "script-load",
+  "title": "SCRIPT LOAD",
+  "description": "Loads a server-side Lua script to the script cache.",
+  "docsUrl": "https://redis.io/docs/latest/commands/script-load/",
+  "group": "scripting",
+  "groupLabel": "Scripting",
+  "syntax": "SCRIPT LOAD script",
+  "complexity": "O(N) with N being the length in bytes of the script body.",
+  "since": "2.6.0",
+  "arity": 3,
+  "aclCategories": [
+    "@slow",
+    "@scripting"
+  ],
+  "commandFlags": [
+    "noscript",
+    "stale"
+  ],
+  "arguments": [
+    {
+      "display_text": "script",
+      "name": "script",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Load a script into the scripts cache, without executing it.\nAfter the specified command is loaded into the script cache it will be callable\nusing [`EVALSHA`]() with the correct SHA1 digest of the script, exactly like after\nthe first successful invocation of [`EVAL`]().\n\nThe script is guaranteed to stay in the script cache forever (unless `SCRIPT\nFLUSH` is called).\n\nThe command works in the same way even if the script was already present in the\nscript cache.\n\nFor more information about [`EVAL`]() scripts please refer to [Introduction to Eval Scripts]().\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the SHA1 digest of the script added into the script cache.\n\n**RESP3:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the SHA1 digest of the script added into the script cache.",
+  "intro": "Load a script into the scripts cache, without executing it.\nAfter the specified command is loaded into the script cache it will be callable\nusing [`EVALSHA`]() with the correct SHA1 digest of the script, exactly like after\nthe first successful invocation of [`EVAL`]().\n\nThe script is guaranteed to stay in the script cache forever (unless `SCRIPT\nFLUSH` is called).\n\nThe command works in the same way even if the script was already present in the\nscript cache.\n\nFor more information about [`EVAL`]() scripts please refer to [Introduction to Eval Scripts]().",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Load a script into the scripts cache, without executing it.\nAfter the specified command is loaded into the script cache it will be callable\nusing [`EVALSHA`]() with the correct SHA1 digest of the script, exactly like after\nthe first successful invocation of [`EVAL`]().\n\nThe script is guaranteed to stay in the script cache forever (unless `SCRIPT\nFLUSH` is called).\n\nThe command works in the same way even if the script was already present in the\nscript cache.\n\nFor more information about [`EVAL`]() scripts please refer to [Introduction to Eval Scripts]()."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the SHA1 digest of the script added into the script cache.\n\n**RESP3:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the SHA1 digest of the script added into the script cache."
+    }
+  ]
+}

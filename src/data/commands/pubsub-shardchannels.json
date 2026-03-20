@@ -1,0 +1,81 @@
+{
+  "slug": "pubsub-shardchannels",
+  "title": "PUBSUB SHARDCHANNELS",
+  "description": "Returns the active shard channels.",
+  "docsUrl": "https://redis.io/docs/latest/commands/pubsub-shardchannels/",
+  "group": "pubsub",
+  "groupLabel": "Pub/Sub",
+  "syntax": "PUBSUB SHARDCHANNELS [pattern]",
+  "complexity": "O(N) where N is the number of active shard channels, and assuming constant time pattern matching (relatively short shard channels).",
+  "since": "7.0.0",
+  "arity": -2,
+  "aclCategories": [
+    "@pubsub",
+    "@slow"
+  ],
+  "commandFlags": [
+    "pubsub",
+    "loading",
+    "stale"
+  ],
+  "arguments": [
+    {
+      "display_text": "pattern",
+      "name": "pattern",
+      "optional": true,
+      "type": "pattern"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Lists the currently *active shard channels*.\n\nAn active shard channel is a Pub/Sub shard channel with one or more subscribers.\n\nIf no `pattern` is specified, all the channels are listed, otherwise if pattern is specified only channels matching the specified glob-style pattern are listed.\n\nThe information returned about the active shard channels are at the shard level and not at the cluster level.\n\n## Examples\n\n```\n> PUBSUB SHARDCHANNELS\n1) \"orders\"\n> PUBSUB SHARDCHANNELS o*\n1) \"orders\"\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of active channels, optionally matching the specified pattern.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of active channels, optionally matching the specified pattern.",
+  "intro": "Lists the currently *active shard channels*.\n\nAn active shard channel is a Pub/Sub shard channel with one or more subscribers.\n\nIf no `pattern` is specified, all the channels are listed, otherwise if pattern is specified only channels matching the specified glob-style pattern are listed.\n\nThe information returned about the active shard channels are at the shard level and not at the cluster level.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Lists the currently *active shard channels*.\n\nAn active shard channel is a Pub/Sub shard channel with one or more subscribers.\n\nIf no `pattern` is specified, all the channels are listed, otherwise if pattern is specified only channels matching the specified glob-style pattern are listed.\n\nThe information returned about the active shard channels are at the shard level and not at the cluster level."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "```\n> PUBSUB SHARDCHANNELS\n1) \"orders\"\n> PUBSUB SHARDCHANNELS o*\n1) \"orders\"\n```"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of active channels, optionally matching the specified pattern.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of active channels, optionally matching the specified pattern."
+    }
+  ]
+}

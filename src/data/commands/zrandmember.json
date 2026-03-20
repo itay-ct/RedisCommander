@@ -1,0 +1,127 @@
+{
+  "slug": "zrandmember",
+  "title": "ZRANDMEMBER",
+  "description": "Returns one or more random members from a sorted set.",
+  "docsUrl": "https://redis.io/docs/latest/commands/zrandmember/",
+  "group": "sorted-set",
+  "groupLabel": "Sorted Sets",
+  "syntax": "ZRANDMEMBER key [count [WITHSCORES]]",
+  "complexity": "O(N) where N is the number of members returned",
+  "since": "6.2.0",
+  "arity": -2,
+  "aclCategories": [
+    "@read",
+    "@sortedset",
+    "@slow"
+  ],
+  "commandFlags": [
+    "readonly"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "count",
+          "name": "count",
+          "type": "integer"
+        },
+        {
+          "display_text": "withscores",
+          "name": "withscores",
+          "optional": true,
+          "token": "WITHSCORES",
+          "type": "pure-token"
+        }
+      ],
+      "name": "options",
+      "optional": true,
+      "type": "block"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RO": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "specification-of-the-behavior-when-count-is-passed",
+        "title": "Specification of the behavior when count is passed"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "When called with just the `key` argument, return a random element from the sorted set value stored at `key`.\n\nIf the provided `count` argument is positive, return an array of **distinct elements**.\nThe array's length is either `count` or the sorted set's cardinality ([`ZCARD`]()), whichever is lower.\n\nIf called with a negative `count`, the behavior changes and the command is allowed to return the **same element multiple times**.\nIn this case, the number of returned elements is the absolute value of the specified `count`.\n\nThe optional `WITHSCORES` modifier changes the reply so it includes the respective scores of the randomly selected elements from the sorted set.\n\n## Examples\n\n\nZADD dadi 1 uno 2 due 3 tre 4 quattro 5 cinque 6 sei\nZRANDMEMBER dadi\nZRANDMEMBER dadi\nZRANDMEMBER dadi -5 WITHSCORES\n\n\n## Specification of the behavior when count is passed\n\nWhen the `count` argument is a positive value this command behaves as follows:\n\n* No repeated elements are returned.\n* If `count` is bigger than the cardinality of the sorted set, the command will only return the whole sorted set without additional elements.\n* The order of elements in the reply is not truly random, so it is up to the client to shuffle them if needed.\n\nWhen the `count` is a negative value, the behavior changes as follows:\n\n* Repeating elements are possible.\n* Exactly `count` elements, or an empty array if the sorted set is empty (non-existing key), are always returned.\n* The order of elements in the reply is truly random.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): without the additional _count_ argument, the command returns a randomly selected member, or [Nil reply](../../develop/reference/protocol-spec#bulk-strings) when _key_ doesn't exist.\n[Array reply](../../develop/reference/protocol-spec#arrays): when the additional _count_ argument is passed, the command returns an array of members, or an empty array when _key_ doesn't exist. If the _WITHSCORES_ modifier is used, the reply is a list of members and their scores from the sorted set.\n\n**RESP3:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): without the additional _count_ argument, the command returns a randomly selected member, or [Null reply](../../develop/reference/protocol-spec#nulls) when _key_ doesn't exist.\n[Array reply](../../develop/reference/protocol-spec#arrays): when the additional _count_ argument is passed, the command returns an array of members, or an empty array when _key_ doesn't exist. If the _WITHSCORES_ modifier is used, the reply is a list of members and their scores from the sorted set.",
+  "intro": "When called with just the `key` argument, return a random element from the sorted set value stored at `key`.\n\nIf the provided `count` argument is positive, return an array of **distinct elements**.\nThe array's length is either `count` or the sorted set's cardinality ([`ZCARD`]()), whichever is lower.\n\nIf called with a negative `count`, the behavior changes and the command is allowed to return the **same element multiple times**.\nIn this case, the number of returned elements is the absolute value of the specified `count`.\n\nThe optional `WITHSCORES` modifier changes the reply so it includes the respective scores of the randomly selected elements from the sorted set.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "When called with just the `key` argument, return a random element from the sorted set value stored at `key`.\n\nIf the provided `count` argument is positive, return an array of **distinct elements**.\nThe array's length is either `count` or the sorted set's cardinality ([`ZCARD`]()), whichever is lower.\n\nIf called with a negative `count`, the behavior changes and the command is allowed to return the **same element multiple times**.\nIn this case, the number of returned elements is the absolute value of the specified `count`.\n\nThe optional `WITHSCORES` modifier changes the reply so it includes the respective scores of the randomly selected elements from the sorted set."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "ZADD dadi 1 uno 2 due 3 tre 4 quattro 5 cinque 6 sei\nZRANDMEMBER dadi\nZRANDMEMBER dadi\nZRANDMEMBER dadi -5 WITHSCORES"
+    },
+    {
+      "title": "Specification of the behavior when count is passed",
+      "level": 2,
+      "content": "When the `count` argument is a positive value this command behaves as follows:\n\n* No repeated elements are returned.\n* If `count` is bigger than the cardinality of the sorted set, the command will only return the whole sorted set without additional elements.\n* The order of elements in the reply is not truly random, so it is up to the client to shuffle them if needed.\n\nWhen the `count` is a negative value, the behavior changes as follows:\n\n* Repeating elements are possible.\n* Exactly `count` elements, or an empty array if the sorted set is empty (non-existing key), are always returned.\n* The order of elements in the reply is truly random."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): without the additional _count_ argument, the command returns a randomly selected member, or [Nil reply](../../develop/reference/protocol-spec#bulk-strings) when _key_ doesn't exist.\n[Array reply](../../develop/reference/protocol-spec#arrays): when the additional _count_ argument is passed, the command returns an array of members, or an empty array when _key_ doesn't exist. If the _WITHSCORES_ modifier is used, the reply is a list of members and their scores from the sorted set.\n\n**RESP3:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): without the additional _count_ argument, the command returns a randomly selected member, or [Null reply](../../develop/reference/protocol-spec#nulls) when _key_ doesn't exist.\n[Array reply](../../develop/reference/protocol-spec#arrays): when the additional _count_ argument is passed, the command returns an array of members, or an empty array when _key_ doesn't exist. If the _WITHSCORES_ modifier is used, the reply is a list of members and their scores from the sorted set."
+    }
+  ]
+}

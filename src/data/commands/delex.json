@@ -1,0 +1,140 @@
+{
+  "slug": "delex",
+  "title": "DELEX",
+  "description": "Conditionally removes the specified key based on value or hash digest comparison.",
+  "docsUrl": "https://redis.io/docs/latest/commands/delex/",
+  "group": "string",
+  "groupLabel": "Strings",
+  "syntax": "DELEX key [IFEQ ifeq-value | IFNE ifne-value | IFDEQ ifdeq-digest |\n  IFDNE ifdne-digest]",
+  "complexity": "O(1) for IFEQ/IFNE, O(N) for IFDEQ/IFDNE where N is the length of the string value.",
+  "since": "8.4.0",
+  "arity": -2,
+  "aclCategories": [
+    "@write",
+    "@string",
+    "@fast"
+  ],
+  "commandFlags": [
+    "write",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "ifeq-value",
+          "name": "ifeq-value",
+          "token": "IFEQ",
+          "type": "string"
+        },
+        {
+          "display_text": "ifne-value",
+          "name": "ifne-value",
+          "token": "IFNE",
+          "type": "string"
+        },
+        {
+          "display_text": "ifdeq-digest",
+          "name": "ifdeq-digest",
+          "token": "IFDEQ",
+          "type": "integer"
+        },
+        {
+          "display_text": "ifdne-digest",
+          "name": "ifdne-digest",
+          "token": "IFDNE",
+          "type": "integer"
+        }
+      ],
+      "name": "condition",
+      "optional": true,
+      "type": "oneof"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "delete": true,
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "hash-digest",
+        "title": "Hash Digest"
+      },
+      {
+        "id": "options",
+        "title": "Options"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Conditionally removes the specified key based on value or hash digest comparison.\n\n## Hash Digest\n\nA hash digest is a fixed-size numerical representation of a string value, computed using the XXH3 hash algorithm. Redis uses this hash digest for efficient comparison operations without needing to compare the full string content. You can retrieve a key's hash digest using the [`DIGEST`]() command, which returns it as a hexadecimal string that you can use with the `IFDEQ` and `IFDNE` options, and also the [`SET`]() command's `IFDEQ` and `IFDNE` options.\n\n## Options\n\nThe DELEX command supports a set of options that modify its behavior.\nOnly one of the options can be specified.\n\n* `IFEQ ifeq-value` -- Remove the key if the value is equal to the specified value.\n* `IFNE ifne-value` -- Remove the key if the value is not equal to the specified value.\n* `IFDEQ ifeq-digest` -- Remove the key if its hash digest is equal to the specified hash digest.\n* `IFDNE ifne-digest` -- Remove the key if its hash digest is not equal to the specified hash digest.\n\nIn 8.4, keys must be of type string when using one of the options above. If no options are specified, the key is removed regardless of its type.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n- [Integer reply](): 0 if not deleted (the key does not exist or a specified `IFEQ/IFNE/IFDEQ/IFDNE` condition is false), or 1 if deleted.\n- [Simple error reply]() if the key exists but holds a value that is not a string and one of `IFEQ, IFNE, IFDEQ,` or `IFDNE` is specified.\n\n**RESP3:**\n\nOne of the following:\n- [Integer reply](): 0 if not deleted (the key does not exist or a specified `IFEQ/IFNE/IFDEQ/IFDNE` condition is false), or 1 if deleted.\n- [Simple error reply]() if the key exists but holds a value that is not a string and one of `IFEQ, IFNE, IFDEQ,` or `IFDNE` is specified.",
+  "intro": "Conditionally removes the specified key based on value or hash digest comparison.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Conditionally removes the specified key based on value or hash digest comparison."
+    },
+    {
+      "title": "Hash Digest",
+      "level": 2,
+      "content": "A hash digest is a fixed-size numerical representation of a string value, computed using the XXH3 hash algorithm. Redis uses this hash digest for efficient comparison operations without needing to compare the full string content. You can retrieve a key's hash digest using the [`DIGEST`]() command, which returns it as a hexadecimal string that you can use with the `IFDEQ` and `IFDNE` options, and also the [`SET`]() command's `IFDEQ` and `IFDNE` options."
+    },
+    {
+      "title": "Options",
+      "level": 2,
+      "content": "The DELEX command supports a set of options that modify its behavior.\nOnly one of the options can be specified.\n\n* `IFEQ ifeq-value` -- Remove the key if the value is equal to the specified value.\n* `IFNE ifne-value` -- Remove the key if the value is not equal to the specified value.\n* `IFDEQ ifeq-digest` -- Remove the key if its hash digest is equal to the specified hash digest.\n* `IFDNE ifne-digest` -- Remove the key if its hash digest is not equal to the specified hash digest.\n\nIn 8.4, keys must be of type string when using one of the options above. If no options are specified, the key is removed regardless of its type."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n- [Integer reply](): 0 if not deleted (the key does not exist or a specified `IFEQ/IFNE/IFDEQ/IFDNE` condition is false), or 1 if deleted.\n- [Simple error reply]() if the key exists but holds a value that is not a string and one of `IFEQ, IFNE, IFDEQ,` or `IFDNE` is specified.\n\n**RESP3:**\n\nOne of the following:\n- [Integer reply](): 0 if not deleted (the key does not exist or a specified `IFEQ/IFNE/IFDEQ/IFDNE` condition is false), or 1 if deleted.\n- [Simple error reply]() if the key exists but holds a value that is not a string and one of `IFEQ, IFNE, IFDEQ,` or `IFDNE` is specified."
+    }
+  ]
+}

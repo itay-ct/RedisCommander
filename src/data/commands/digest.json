@@ -1,0 +1,109 @@
+{
+  "slug": "digest",
+  "title": "DIGEST",
+  "description": "Returns the hash digest of a string value.",
+  "docsUrl": "https://redis.io/docs/latest/commands/digest/",
+  "group": "string",
+  "groupLabel": "Strings",
+  "syntax": "DIGEST key",
+  "complexity": "O(N) where N is the length of the string value.",
+  "since": "8.4.0",
+  "arity": 2,
+  "aclCategories": [
+    "@read",
+    "@string",
+    "@fast"
+  ],
+  "commandFlags": [
+    "readonly",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RO": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "hash-digest",
+        "title": "Hash Digest"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "example",
+        "title": "Example"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Get the hash digest for the value stored in the specified key as a hexadecimal string. Keys must be of type string.\n\n## Hash Digest\n\nA hash digest is a fixed-size numerical representation of a string value, computed using the XXH3 hash algorithm. Redis uses this hash digest for efficient comparison operations without needing to compare the full string content. You can use these hash digests with the [SET]() command's `IFDEQ` and `IFDNE` options, and also the [DELEX]() command's `IFDEQ` and `IFDNE` options.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Example\n\n```bash\n> SET key1 \"Hello world\"\nOK\n> DIGEST key1\n\"b6acb9d84a38ff74\"\n```\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n\n- [Null bulk string reply]() if the key does not exist.\n- [Simple error reply]() if the key exists but holds a value which is not a string.\n- [Bulk string reply]() the hash digest of the value stored in the key as a hexadecimal string.\n\n**RESP3:**\n\nOne of the following:\n\n- [Null bulk string reply]() if the key does not exist.\n- [Simple error reply]() if the key exists but holds a value which is not a string.\n- [Bulk string reply]() the hash digest of the value stored in the key as a hexadecimal string.",
+  "intro": "Get the hash digest for the value stored in the specified key as a hexadecimal string. Keys must be of type string.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Get the hash digest for the value stored in the specified key as a hexadecimal string. Keys must be of type string."
+    },
+    {
+      "title": "Hash Digest",
+      "level": 2,
+      "content": "A hash digest is a fixed-size numerical representation of a string value, computed using the XXH3 hash algorithm. Redis uses this hash digest for efficient comparison operations without needing to compare the full string content. You can use these hash digests with the [SET]() command's `IFDEQ` and `IFDNE` options, and also the [DELEX]() command's `IFDEQ` and `IFDNE` options."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Example",
+      "level": 2,
+      "content": "```bash\n> SET key1 \"Hello world\"\nOK\n> DIGEST key1\n\"b6acb9d84a38ff74\"\n```"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n\n- [Null bulk string reply]() if the key does not exist.\n- [Simple error reply]() if the key exists but holds a value which is not a string.\n- [Bulk string reply]() the hash digest of the value stored in the key as a hexadecimal string.\n\n**RESP3:**\n\nOne of the following:\n\n- [Null bulk string reply]() if the key does not exist.\n- [Simple error reply]() if the key exists but holds a value which is not a string.\n- [Bulk string reply]() the hash digest of the value stored in the key as a hexadecimal string."
+    }
+  ]
+}

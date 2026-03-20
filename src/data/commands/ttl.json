@@ -1,0 +1,206 @@
+{
+  "slug": "ttl",
+  "title": "TTL",
+  "description": "Returns the expiration time in seconds of a key.",
+  "docsUrl": "https://redis.io/docs/latest/commands/ttl/",
+  "group": "generic",
+  "groupLabel": "Generic",
+  "syntax": "TTL key",
+  "complexity": "O(1)",
+  "since": "1.0.0",
+  "arity": 2,
+  "aclCategories": [
+    "@keyspace",
+    "@read",
+    "@fast"
+  ],
+  "commandFlags": [
+    "readonly",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RO": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [
+    {
+      "codetabsId": "cmds_generic-stepttl",
+      "commands": [
+        {
+          "acl_categories": [
+            "@write",
+            "@string",
+            "@slow"
+          ],
+          "complexity": "O(1)",
+          "name": "SET"
+        },
+        {
+          "acl_categories": [
+            "@keyspace",
+            "@write",
+            "@fast"
+          ],
+          "complexity": "O(1)",
+          "name": "EXPIRE"
+        },
+        {
+          "acl_categories": [
+            "@keyspace",
+            "@read",
+            "@fast"
+          ],
+          "complexity": "O(1)",
+          "name": "TTL"
+        }
+      ],
+      "description": "Foundational: Check remaining time-to-live of a key using TTL (returns seconds remaining, -1 if no expiry, -2 if key doesn&amp;#39;t exist)",
+      "difficulty": "beginner",
+      "id": "ttl",
+      "languages": [
+        {
+          "id": "redis-cli",
+          "panelId": "panel_redis-cli_cmds_generic-stepttl"
+        },
+        {
+          "clientId": "redis-py",
+          "clientName": "redis-py",
+          "id": "Python",
+          "langId": "python",
+          "panelId": "panel_Python_cmds_generic-stepttl"
+        },
+        {
+          "id": "Node-js",
+          "panelId": "panel_Nodejs_cmds_generic-stepttl"
+        },
+        {
+          "clientId": "jedis",
+          "clientName": "Jedis",
+          "id": "Java-Sync",
+          "langId": "java",
+          "panelId": "panel_Java-Sync_cmds_generic-stepttl"
+        },
+        {
+          "clientId": "lettuce",
+          "clientName": "Lettuce",
+          "id": "Java-Async",
+          "langId": "java",
+          "panelId": "panel_Java-Async_cmds_generic-stepttl"
+        },
+        {
+          "clientId": "lettuce",
+          "clientName": "Lettuce",
+          "id": "Java-Reactive",
+          "langId": "java",
+          "panelId": "panel_Java-Reactive_cmds_generic-stepttl"
+        },
+        {
+          "clientId": "go-redis",
+          "clientName": "go-redis",
+          "id": "Go",
+          "langId": "go",
+          "panelId": "panel_Go_cmds_generic-stepttl"
+        },
+        {
+          "id": "dotnet-Sync",
+          "panelId": "panel_Csharp-Sync_cmds_generic-stepttl"
+        },
+        {
+          "clientId": "predis",
+          "clientName": "Predis",
+          "id": "PHP",
+          "langId": "php",
+          "panelId": "panel_PHP_cmds_generic-stepttl"
+        },
+        {
+          "clientId": "redis-rs",
+          "clientName": "redis-rs",
+          "id": "Rust-Sync",
+          "langId": "rust",
+          "panelId": "panel_Rust-Sync_cmds_generic-stepttl"
+        },
+        {
+          "clientId": "redis-rs",
+          "clientName": "redis-rs",
+          "id": "Rust-Async",
+          "langId": "rust",
+          "panelId": "panel_Rust-Async_cmds_generic-stepttl"
+        }
+      ]
+    }
+  ],
+  "content": "Returns the remaining time to live of a key that has a timeout.\nThis introspection capability allows a Redis client to check how many seconds a\ngiven key will continue to be part of the dataset.\n\nIn Redis 2.6 or older the command returns `-1` if the key does not exist or if the key exists but has no associated expire.\n\nStarting with Redis 2.8 the return value in case of error changed:\n\n* The command returns `-2` if the key does not exist.\n* The command returns `-1` if the key exists but has no associated expire.\n\nSee also the [`PTTL`]() command that returns the same information with milliseconds resolution (Only available in Redis 2.6 or greater).\n\n## Examples\n\n#### Code Examples\n\nFoundational: Check remaining time-to-live of a key using TTL (returns seconds remaining, -1 if no expiry, -2 if key doesn't exist)\n\n**Difficulty:** Beginner\n\n**Commands:** SET, EXPIRE, TTL\n\n**Complexity:**\n- SET: O(1)\n- EXPIRE: O(1)\n- TTL: O(1)\n\n**Redis CLI:**\n\n```\n> SET mykey \"Hello\"\n\"OK\"\n> EXPIRE mykey 10\n(integer) 1\n> TTL mykey\n(integer) 10\n```\n\n**Available in:** Redis CLI, C# (Synchronous), Go, Java (Asynchronous - Lettuce), Java (Reactive - Lettuce), Java (Synchronous - Jedis), JavaScript (Node.js), PHP, Python, Rust (Asynchronous), Rust (Synchronous)\n\n**C# (Synchronous):**\n\n```csharp\n        bool ttlResult1 = db.StringSet(\"mykey\", \"Hello\");\n        Console.WriteLine(ttlResult1);  // >>> true\n\n        bool ttlResult2 = db.KeyExpire(\"mykey\", new TimeSpan(0, 0, 10));\n        Console.WriteLine(ttlResult2);\n\n        TimeSpan ttlResult3 = db.KeyTimeToLive(\"mykey\") ?? TimeSpan.Zero;\n        string ttlRes = Math.Round(ttlResult3.TotalSeconds).ToString();\n        Console.WriteLine(Math.Round(ttlResult3.TotalSeconds)); // >>> 10\n```\n\n**Go:**\n\n```go\n\tttlResult1, err := rdb.Set(ctx, \"mykey\", \"Hello\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(ttlResult1) // >>> OK\n\n\tttlResult2, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(math.Round(ttlResult2.Seconds())) // >>> 10\n```\n\n**Java (Asynchronous - Lettuce):**\n\n```java\npackage io.redis.examples.async;\n\nimport io.lettuce.core.*;\n\nimport io.lettuce.core.api.async.RedisAsyncCommands;\n\nimport io.lettuce.core.api.StatefulRedisConnection;\n\nimport java.util.concurrent.CompletableFuture;\n\npublic class CmdsGenericExample {\n\n    public void run() {\n\n            CompletableFuture<Void> existsExample = asyncCommands.set(\"key1\", \"Hello\").thenCompose(res1 -> {\n                System.out.println(res1); // >>> OK\n\n                return asyncCommands.exists(\"key1\");\n            }).thenCompose(res2 -> {\n                System.out.println(res2); // >>> 1\n\n                return asyncCommands.exists(\"nosuchkey\");\n            }).thenCompose(res3 -> {\n                System.out.println(res3); // >>> 0\n\n                return asyncCommands.set(\"key2\", \"World\");\n            }).thenCompose(res4 -> {\n                System.out.println(res4); // >>> OK\n\n                return asyncCommands.exists(\"key1\", \"key2\", \"nosuchkey\");\n            }).thenAccept(res5 -> {\n                System.out.println(res5); // >>> 2\n            }).toCompletableFuture();\n            existsExample.join();\n        } finally {\n            redisClient.shutdown();\n        }\n    }\n}\n\n```\n\n**Java (Reactive - Lettuce):**\n\n```java\npackage io.redis.examples.reactive;\n\nimport io.lettuce.core.*;\nimport io.lettuce.core.api.reactive.RedisReactiveCommands;\nimport io.lettuce.core.api.StatefulRedisConnection;\nimport reactor.core.publisher.Mono;\n\n\npublic class CmdsGenericExample {\n\n    public void run() {\n        RedisClient redisClient = RedisClient.create(\"redis://localhost:6379\");\n\n        try (StatefulRedisConnection<String, String> connection = redisClient.connect()) {\n            RedisReactiveCommands<String, String> reactiveCommands = connection.reactive();\n\n            Mono<Void> existsExample = reactiveCommands.set(\"key1\", \"Hello\").doOnNext(res1 -> {\n                System.out.println(res1); // >>> OK\n            }).then(reactiveCommands.exists(\"key1\")).doOnNext(res2 -> {\n                System.out.println(res2); // >>> 1\n            }).then(reactiveCommands.exists(\"nosuchkey\")).doOnNext(res3 -> {\n                System.out.println(res3); // >>> 0\n            }).then(reactiveCommands.set(\"key2\", \"World\")).doOnNext(res4 -> {\n                System.out.println(res4); // >>> OK\n            }).then(reactiveCommands.exists(\"key1\", \"key2\", \"nosuchkey\")).doOnNext(res5 -> {\n                System.out.println(res5); // >>> 2\n            }).then();\n\n            Mono.when(existsExample).block();\n\n        } finally {\n            redisClient.shutdown();\n        }\n    }\n\n}\n\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n        String ttlResult1 = jedis.set(\"mykey\", \"Hello\");\n        System.out.println(ttlResult1); // >>> OK\n\n        long ttlResult2 = jedis.expire(\"mykey\", 10);\n        System.out.println(ttlResult2); // >>> 1\n\n        long ttlResult3 = jedis.ttl(\"mykey\");\n        System.out.println(ttlResult3); // >>> 10\n```\n\n**JavaScript (Node.js):**\n\n```javascript\nconst ttlRes1 = await client.set('mykey', 'Hello');\nconsole.log(ttlRes1); // OK\n\nconst ttlRes2 = await client.expire('mykey', 10);\nconsole.log(ttlRes2); // 1\n\nconst ttlRes3 = await client.ttl('mykey');\nconsole.log(ttlRes3); // 10\n```\n\n**PHP:**\n\n```php\n<?php\nrequire_once 'vendor/autoload.php';\n\nuse Predis\\Client as PredisClient;\n\nclass CmdsGenericTest\n{\n    public function testCmdsGeneric() {\n        $r = new PredisClient([\n            'scheme'   => 'tcp',\n            'host'     => '127.0.0.1',\n            'port'     => 6379,\n            'password' => '',\n            'database' => 0,\n        ]);\n\n        $existsResult1 = $r->set('key1', 'Hello');\n        echo $existsResult1 . PHP_EOL; // >>> OK\n\n        $existsResult2 = $r->exists('key1');\n        echo $existsResult2 . PHP_EOL; // >>> 1\n\n        $existsResult3 = $r->exists('nosuchkey');\n        echo $existsResult3 . PHP_EOL; // >>> 0\n\n        $existsResult4 = $r->set('key2', 'World');\n        echo $existsResult4 . PHP_EOL; // >>> OK\n\n        $existsResult5 = $r->exists('key1', 'key2', 'nosuchkey');\n        echo $existsResult5 . PHP_EOL; // >>> 2\n\n    }\n}\n\n```\n\n**Python:**\n\n```python\nres = r.set(\"mykey\", \"Hello\")\nprint(res)\n# >>> True\n\nres = r.expire(\"mykey\", 10)\nprint(res)\n# >>> True\n\nres = r.ttl(\"mykey\")\nprint(res)\n# >>> 10\n```\n\n**Rust (Asynchronous):**\n\n```rust\n        if let Ok(res) = r.set(\"mykey\", \"Hello\").await {\n            let res: String = res;\n            println!(\"{res}\");    // >>> OK\n        }\n\n        match r.expire(\"mykey\", 10).await {\n            Ok(res) => {\n                let res: bool = res;\n                println!(\"{res}\");    // >>> true\n            },\n            Err(e) => {\n                println!(\"Error setting key expiration: {e}\");\n                return;\n            }\n        }\n\n        match r.ttl(\"mykey\").await {\n            Ok(res) => {\n                let res: i64 = res;\n                println!(\"{res}\");    // >>> 10\n            },\n            Err(e) => {\n                println!(\"Error getting key TTL: {e}\");\n                return;\n            }\n        }\n```\n\n**Rust (Synchronous):**\n\n```rust\n        if let Ok(res) = r.set(\"mykey\", \"Hello\") {\n            let res: String = res;\n            println!(\"{res}\");    // >>> OK\n        }\n\n        match r.expire(\"mykey\", 10) {\n            Ok(res) => {\n                let res: bool = res;\n                println!(\"{res}\");    // >>> true\n            },\n            Err(e) => {\n                println!(\"Error setting key expiration: {e}\");\n                return;\n            }\n        }\n\n        match r.ttl(\"mykey\") {\n            Ok(res) => {\n                let res: i64 = res;\n                println!(\"{res}\");    // >>> 10\n            },\n            Err(e) => {\n                println!(\"Error getting key TTL: {e}\");\n                return;\n            }\n        }\n```\n\n\n\nGive these commands a try in the interactive console:\n\n\nSET mykey \"Hello\"\nEXPIRE mykey 10\nTTL mykey\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): TTL in seconds.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the key exists but has no associated expiration.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if the key does not exist.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): TTL in seconds.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the key exists but has no associated expiration.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if the key does not exist.",
+  "intro": "Returns the remaining time to live of a key that has a timeout.\nThis introspection capability allows a Redis client to check how many seconds a\ngiven key will continue to be part of the dataset.\n\nIn Redis 2.6 or older the command returns `-1` if the key does not exist or if the key exists but has no associated expire.\n\nStarting with Redis 2.8 the return value in case of error changed:\n\n* The command returns `-2` if the key does not exist.\n* The command returns `-1` if the key exists but has no associated expire.\n\nSee also the [`PTTL`]() command that returns the same information with milliseconds resolution (Only available in Redis 2.6 or greater).",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Returns the remaining time to live of a key that has a timeout.\nThis introspection capability allows a Redis client to check how many seconds a\ngiven key will continue to be part of the dataset.\n\nIn Redis 2.6 or older the command returns `-1` if the key does not exist or if the key exists but has no associated expire.\n\nStarting with Redis 2.8 the return value in case of error changed:\n\n* The command returns `-2` if the key does not exist.\n* The command returns `-1` if the key exists but has no associated expire.\n\nSee also the [`PTTL`]() command that returns the same information with milliseconds resolution (Only available in Redis 2.6 or greater)."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "#### Code Examples\n\nFoundational: Check remaining time-to-live of a key using TTL (returns seconds remaining, -1 if no expiry, -2 if key doesn't exist)\n\n**Difficulty:** Beginner\n\n**Commands:** SET, EXPIRE, TTL\n\n**Complexity:**\n- SET: O(1)\n- EXPIRE: O(1)\n- TTL: O(1)\n\n**Redis CLI:**\n\n```\n> SET mykey \"Hello\"\n\"OK\"\n> EXPIRE mykey 10\n(integer) 1\n> TTL mykey\n(integer) 10\n```\n\n**Available in:** Redis CLI, C# (Synchronous), Go, Java (Asynchronous - Lettuce), Java (Reactive - Lettuce), Java (Synchronous - Jedis), JavaScript (Node.js), PHP, Python, Rust (Asynchronous), Rust (Synchronous)\n\n**C# (Synchronous):**\n\n```csharp\n        bool ttlResult1 = db.StringSet(\"mykey\", \"Hello\");\n        Console.WriteLine(ttlResult1);  // >>> true\n\n        bool ttlResult2 = db.KeyExpire(\"mykey\", new TimeSpan(0, 0, 10));\n        Console.WriteLine(ttlResult2);\n\n        TimeSpan ttlResult3 = db.KeyTimeToLive(\"mykey\") ?? TimeSpan.Zero;\n        string ttlRes = Math.Round(ttlResult3.TotalSeconds).ToString();\n        Console.WriteLine(Math.Round(ttlResult3.TotalSeconds)); // >>> 10\n```\n\n**Go:**\n\n```go\n\tttlResult1, err := rdb.Set(ctx, \"mykey\", \"Hello\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(ttlResult1) // >>> OK\n\n\tttlResult2, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(math.Round(ttlResult2.Seconds())) // >>> 10\n```\n\n**Java (Asynchronous - Lettuce):**\n\n```java\npackage io.redis.examples.async;\n\nimport io.lettuce.core.*;\n\nimport io.lettuce.core.api.async.RedisAsyncCommands;\n\nimport io.lettuce.core.api.StatefulRedisConnection;\n\nimport java.util.concurrent.CompletableFuture;\n\npublic class CmdsGenericExample {\n\n    public void run() {\n\n            CompletableFuture<Void> existsExample = asyncCommands.set(\"key1\", \"Hello\").thenCompose(res1 -> {\n                System.out.println(res1); // >>> OK\n\n                return asyncCommands.exists(\"key1\");\n            }).thenCompose(res2 -> {\n                System.out.println(res2); // >>> 1\n\n                return asyncCommands.exists(\"nosuchkey\");\n            }).thenCompose(res3 -> {\n                System.out.println(res3); // >>> 0\n\n                return asyncCommands.set(\"key2\", \"World\");\n            }).thenCompose(res4 -> {\n                System.out.println(res4); // >>> OK\n\n                return asyncCommands.exists(\"key1\", \"key2\", \"nosuchkey\");\n            }).thenAccept(res5 -> {\n                System.out.println(res5); // >>> 2\n            }).toCompletableFuture();\n            existsExample.join();\n        } finally {\n            redisClient.shutdown();\n        }\n    }\n}\n\n```\n\n**Java (Reactive - Lettuce):**\n\n```java\npackage io.redis.examples.reactive;\n\nimport io.lettuce.core.*;\nimport io.lettuce.core.api.reactive.RedisReactiveCommands;\nimport io.lettuce.core.api.StatefulRedisConnection;\nimport reactor.core.publisher.Mono;\n\n\npublic class CmdsGenericExample {\n\n    public void run() {\n        RedisClient redisClient = RedisClient.create(\"redis://localhost:6379\");\n\n        try (StatefulRedisConnection<String, String> connection = redisClient.connect()) {\n            RedisReactiveCommands<String, String> reactiveCommands = connection.reactive();\n\n            Mono<Void> existsExample = reactiveCommands.set(\"key1\", \"Hello\").doOnNext(res1 -> {\n                System.out.println(res1); // >>> OK\n            }).then(reactiveCommands.exists(\"key1\")).doOnNext(res2 -> {\n                System.out.println(res2); // >>> 1\n            }).then(reactiveCommands.exists(\"nosuchkey\")).doOnNext(res3 -> {\n                System.out.println(res3); // >>> 0\n            }).then(reactiveCommands.set(\"key2\", \"World\")).doOnNext(res4 -> {\n                System.out.println(res4); // >>> OK\n            }).then(reactiveCommands.exists(\"key1\", \"key2\", \"nosuchkey\")).doOnNext(res5 -> {\n                System.out.println(res5); // >>> 2\n            }).then();\n\n            Mono.when(existsExample).block();\n\n        } finally {\n            redisClient.shutdown();\n        }\n    }\n\n}\n\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n        String ttlResult1 = jedis.set(\"mykey\", \"Hello\");\n        System.out.println(ttlResult1); // >>> OK\n\n        long ttlResult2 = jedis.expire(\"mykey\", 10);\n        System.out.println(ttlResult2); // >>> 1\n\n        long ttlResult3 = jedis.ttl(\"mykey\");\n        System.out.println(ttlResult3); // >>> 10\n```\n\n**JavaScript (Node.js):**\n\n```javascript\nconst ttlRes1 = await client.set('mykey', 'Hello');\nconsole.log(ttlRes1); // OK\n\nconst ttlRes2 = await client.expire('mykey', 10);\nconsole.log(ttlRes2); // 1\n\nconst ttlRes3 = await client.ttl('mykey');\nconsole.log(ttlRes3); // 10\n```\n\n**PHP:**\n\n```php\n<?php\nrequire_once 'vendor/autoload.php';\n\nuse Predis\\Client as PredisClient;\n\nclass CmdsGenericTest\n{\n    public function testCmdsGeneric() {\n        $r = new PredisClient([\n            'scheme'   => 'tcp',\n            'host'     => '127.0.0.1',\n            'port'     => 6379,\n            'password' => '',\n            'database' => 0,\n        ]);\n\n        $existsResult1 = $r->set('key1', 'Hello');\n        echo $existsResult1 . PHP_EOL; // >>> OK\n\n        $existsResult2 = $r->exists('key1');\n        echo $existsResult2 . PHP_EOL; // >>> 1\n\n        $existsResult3 = $r->exists('nosuchkey');\n        echo $existsResult3 . PHP_EOL; // >>> 0\n\n        $existsResult4 = $r->set('key2', 'World');\n        echo $existsResult4 . PHP_EOL; // >>> OK\n\n        $existsResult5 = $r->exists('key1', 'key2', 'nosuchkey');\n        echo $existsResult5 . PHP_EOL; // >>> 2\n\n    }\n}\n\n```\n\n**Python:**\n\n```python\nres = r.set(\"mykey\", \"Hello\")\nprint(res)\n# >>> True\n\nres = r.expire(\"mykey\", 10)\nprint(res)\n# >>> True\n\nres = r.ttl(\"mykey\")\nprint(res)\n# >>> 10\n```\n\n**Rust (Asynchronous):**\n\n```rust\n        if let Ok(res) = r.set(\"mykey\", \"Hello\").await {\n            let res: String = res;\n            println!(\"{res}\");    // >>> OK\n        }\n\n        match r.expire(\"mykey\", 10).await {\n            Ok(res) => {\n                let res: bool = res;\n                println!(\"{res}\");    // >>> true\n            },\n            Err(e) => {\n                println!(\"Error setting key expiration: {e}\");\n                return;\n            }\n        }\n\n        match r.ttl(\"mykey\").await {\n            Ok(res) => {\n                let res: i64 = res;\n                println!(\"{res}\");    // >>> 10\n            },\n            Err(e) => {\n                println!(\"Error getting key TTL: {e}\");\n                return;\n            }\n        }\n```\n\n**Rust (Synchronous):**\n\n```rust\n        if let Ok(res) = r.set(\"mykey\", \"Hello\") {\n            let res: String = res;\n            println!(\"{res}\");    // >>> OK\n        }\n\n        match r.expire(\"mykey\", 10) {\n            Ok(res) => {\n                let res: bool = res;\n                println!(\"{res}\");    // >>> true\n            },\n            Err(e) => {\n                println!(\"Error setting key expiration: {e}\");\n                return;\n            }\n        }\n\n        match r.ttl(\"mykey\") {\n            Ok(res) => {\n                let res: i64 = res;\n                println!(\"{res}\");    // >>> 10\n            },\n            Err(e) => {\n                println!(\"Error getting key TTL: {e}\");\n                return;\n            }\n        }\n```\n\n\n\nGive these commands a try in the interactive console:\n\n\nSET mykey \"Hello\"\nEXPIRE mykey 10\nTTL mykey"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): TTL in seconds.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the key exists but has no associated expiration.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if the key does not exist.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): TTL in seconds.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the key exists but has no associated expiration.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if the key does not exist."
+    }
+  ]
+}

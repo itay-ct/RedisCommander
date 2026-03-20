@@ -1,0 +1,138 @@
+{
+  "slug": "setbit",
+  "title": "SETBIT",
+  "description": "Sets or clears the bit at offset of the string value. Creates the key if it doesn't exist.",
+  "docsUrl": "https://redis.io/docs/latest/commands/setbit/",
+  "group": "bitmap",
+  "groupLabel": "Bitmaps",
+  "syntax": "SETBIT key offset value",
+  "complexity": "O(1)",
+  "since": "2.2.0",
+  "arity": 4,
+  "aclCategories": [
+    "@write",
+    "@bitmap",
+    "@slow"
+  ],
+  "commandFlags": [
+    "write",
+    "denyoom"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "offset",
+      "name": "offset",
+      "type": "integer"
+    },
+    {
+      "display_text": "value",
+      "name": "value",
+      "type": "integer"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      },
+      "update": true
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "pattern-accessing-the-entire-bitmap",
+        "title": "Pattern: accessing the entire bitmap"
+      },
+      {
+        "id": "pattern-setting-multiple-bits",
+        "title": "Pattern: setting multiple bits"
+      },
+      {
+        "id": "advanced-pattern-accessing-bitmap-ranges",
+        "title": "Advanced Pattern: accessing bitmap ranges"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Sets or clears the bit at _offset_ in the string value stored at _key_.\n\nThe bit is either set or cleared depending on _value_, which can be either 0 or\n1.\n\nWhen _key_ does not exist, a new string value is created.\nThe string is grown to make sure it can hold a bit at _offset_.\nThe _offset_ argument is required to be greater than or equal to 0, and smaller\nthan 2^32 (this limits bitmaps to 512MB).\nWhen the string at _key_ is grown, added bits are set to 0.\n\n**Warning**: When setting the last possible bit (_offset_ equal to 2^32 -1) and\nthe string value stored at _key_ does not yet hold a string value, or holds a\nsmall string value, Redis needs to allocate all intermediate memory which can\nblock the server for some time.\nOn a 2010 MacBook Pro, setting bit number 2^32 -1 (512MB allocation) takes\n~300ms, setting bit number 2^30 -1 (128MB allocation) takes ~80ms, setting bit\nnumber 2^28 -1 (32MB allocation) takes ~30ms and setting bit number 2^26 -1 (8MB\nallocation) takes ~8ms.\nNote that once this first allocation is done, subsequent calls to `SETBIT` for\nthe same _key_ will not have the allocation overhead.\n\n## Examples\n\n\nSETBIT mykey 7 1\nSETBIT mykey 7 0\nGET mykey\n\n\n## Pattern: accessing the entire bitmap\n\nThere are cases when you need to set all the bits of single bitmap at once, for\nexample when initializing it to a default non-zero value. It is possible to do\nthis with multiple calls to the `SETBIT` command, one for each bit that needs to\nbe set. However, so as an optimization you can use a single [`SET`]() command to set\nthe entire bitmap.\n\nBitmaps are not an actual data type, but a set of bit-oriented operations\ndefined on the String type (for more information refer to the\n[Bitmaps section of the Data Types Introduction page][ti]). This means that\nbitmaps can be used with string commands, and most importantly with [`SET`]() and\n[`GET`]().\n\nBecause Redis' strings are binary-safe, a bitmap is trivially encoded as a bytes\nstream. The first byte of the string corresponds to offsets 0..7 of\nthe bitmap, the second byte to the 8..15 range, and so forth.\n\nFor example, after setting a few bits, getting the string value of the bitmap\nwould look like this:\n\n```\n> SETBIT bitmapsarestrings 2 1\n> SETBIT bitmapsarestrings 3 1\n> SETBIT bitmapsarestrings 5 1\n> SETBIT bitmapsarestrings 10 1\n> SETBIT bitmapsarestrings 11 1\n> SETBIT bitmapsarestrings 14 1\n> GET bitmapsarestrings\n\"42\"\n```\n\nBy getting the string representation of a bitmap, the client can then parse the\nresponse's bytes by extracting the bit values using native bit operations in its\nnative programming language. Symmetrically, it is also possible to set an entire\nbitmap by performing the bits-to-bytes encoding in the client and calling [`SET`]()\nwith the resultant string.\n\n[ti]: /develop/data-types-intro#bitmaps\n\n## Pattern: setting multiple bits\n\n`SETBIT` excels at setting single bits, and can be called several times when\nmultiple bits need to be set. To optimize this operation you can replace\nmultiple `SETBIT` calls with a single call to the variadic [`BITFIELD`]() command\nand the use of fields of type `u1`.\n\nFor example, the example above could be replaced by:\n\n```\n> BITFIELD bitsinabitmap SET u1 2 1 SET u1 3 1 SET u1 5 1 SET u1 10 1 SET u1 11 1 SET u1 14 1\n```\n\n## Advanced Pattern: accessing bitmap ranges\n\nIt is also possible to use the [`GETRANGE`]() and [`SETRANGE`]() string commands to\nefficiently access a range of bit offsets in a bitmap. Below is a sample\nimplementation in idiomatic Redis Lua scripting that can be run with the [`EVAL`]()\ncommand:\n\n```\n--[[\nSets a bitmap range\n\nBitmaps are stored as Strings in Redis. A range spans one or more bytes,\nso we can call [`SETRANGE`]() when entire bytes need to be set instead of flipping\nindividual bits. Also, to avoid multiple internal memory allocations in\nRedis, we traverse in reverse.\nExpected input:\n  KEYS[1] - bitfield key\n  ARGV[1] - start offset (0-based, inclusive)\n  ARGV[2] - end offset (same, should be bigger than start, no error checking)\n  ARGV[3] - value (should be 0 or 1, no error checking)\n]]--\n\n-- A helper function to stringify a binary string to semi-binary format\nlocal function tobits(str)\n  local r = ''\n  for i = 1, string.len(str) do\n    local c = string.byte(str, i)\n    local b = ' '\n    for j = 0, 7 do\n      b = tostring(bit.band(c, 1)) .. b\n      c = bit.rshift(c, 1)\n    end\n    r = r .. b\n  end\n  return r\nend\n\n-- Main\nlocal k = KEYS[1]\nlocal s, e, v = tonumber(ARGV[1]), tonumber(ARGV[2]), tonumber(ARGV[3])\n\n-- First treat the dangling bits in the last byte\nlocal ms, me = s % 8, (e + 1) % 8\nif me > 0 then\n  local t = math.max(e - me + 1, s)\n  for i = e, t, -1 do\n    redis.call('SETBIT', k, i, v)\n  end\n  e = t\nend\n\n-- Then the danglings in the first byte\nif ms > 0 then\n  local t = math.min(s - ms + 7, e)\n  for i = s, t, 1 do\n    redis.call('SETBIT', k, i, v)\n  end\n  s = t + 1\nend\n\n-- Set a range accordingly, if at all\nlocal rs, re = s / 8, (e + 1) / 8\nlocal rl = re - rs\nif rl > 0 then\n  local b = '\\255'\n  if 0 == v then\n    b = '\\0'\n  end\n  redis.call('SETRANGE', k, rs, string.rep(b, rl))\nend\n```\n\n**Note:** the implementation for getting a range of bit offsets from a bitmap is\nleft as an exercise to the reader.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the original bit value stored at _offset_.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the original bit value stored at _offset_.",
+  "intro": "Sets or clears the bit at _offset_ in the string value stored at _key_.\n\nThe bit is either set or cleared depending on _value_, which can be either 0 or\n1.\n\nWhen _key_ does not exist, a new string value is created.\nThe string is grown to make sure it can hold a bit at _offset_.\nThe _offset_ argument is required to be greater than or equal to 0, and smaller\nthan 2^32 (this limits bitmaps to 512MB).\nWhen the string at _key_ is grown, added bits are set to 0.\n\n**Warning**: When setting the last possible bit (_offset_ equal to 2^32 -1) and\nthe string value stored at _key_ does not yet hold a string value, or holds a\nsmall string value, Redis needs to allocate all intermediate memory which can\nblock the server for some time.\nOn a 2010 MacBook Pro, setting bit number 2^32 -1 (512MB allocation) takes\n~300ms, setting bit number 2^30 -1 (128MB allocation) takes ~80ms, setting bit\nnumber 2^28 -1 (32MB allocation) takes ~30ms and setting bit number 2^26 -1 (8MB\nallocation) takes ~8ms.\nNote that once this first allocation is done, subsequent calls to `SETBIT` for\nthe same _key_ will not have the allocation overhead.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Sets or clears the bit at _offset_ in the string value stored at _key_.\n\nThe bit is either set or cleared depending on _value_, which can be either 0 or\n1.\n\nWhen _key_ does not exist, a new string value is created.\nThe string is grown to make sure it can hold a bit at _offset_.\nThe _offset_ argument is required to be greater than or equal to 0, and smaller\nthan 2^32 (this limits bitmaps to 512MB).\nWhen the string at _key_ is grown, added bits are set to 0.\n\n**Warning**: When setting the last possible bit (_offset_ equal to 2^32 -1) and\nthe string value stored at _key_ does not yet hold a string value, or holds a\nsmall string value, Redis needs to allocate all intermediate memory which can\nblock the server for some time.\nOn a 2010 MacBook Pro, setting bit number 2^32 -1 (512MB allocation) takes\n~300ms, setting bit number 2^30 -1 (128MB allocation) takes ~80ms, setting bit\nnumber 2^28 -1 (32MB allocation) takes ~30ms and setting bit number 2^26 -1 (8MB\nallocation) takes ~8ms.\nNote that once this first allocation is done, subsequent calls to `SETBIT` for\nthe same _key_ will not have the allocation overhead."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "SETBIT mykey 7 1\nSETBIT mykey 7 0\nGET mykey"
+    },
+    {
+      "title": "Pattern: accessing the entire bitmap",
+      "level": 2,
+      "content": "There are cases when you need to set all the bits of single bitmap at once, for\nexample when initializing it to a default non-zero value. It is possible to do\nthis with multiple calls to the `SETBIT` command, one for each bit that needs to\nbe set. However, so as an optimization you can use a single [`SET`]() command to set\nthe entire bitmap.\n\nBitmaps are not an actual data type, but a set of bit-oriented operations\ndefined on the String type (for more information refer to the\n[Bitmaps section of the Data Types Introduction page][ti]). This means that\nbitmaps can be used with string commands, and most importantly with [`SET`]() and\n[`GET`]().\n\nBecause Redis' strings are binary-safe, a bitmap is trivially encoded as a bytes\nstream. The first byte of the string corresponds to offsets 0..7 of\nthe bitmap, the second byte to the 8..15 range, and so forth.\n\nFor example, after setting a few bits, getting the string value of the bitmap\nwould look like this:\n\n```\n> SETBIT bitmapsarestrings 2 1\n> SETBIT bitmapsarestrings 3 1\n> SETBIT bitmapsarestrings 5 1\n> SETBIT bitmapsarestrings 10 1\n> SETBIT bitmapsarestrings 11 1\n> SETBIT bitmapsarestrings 14 1\n> GET bitmapsarestrings\n\"42\"\n```\n\nBy getting the string representation of a bitmap, the client can then parse the\nresponse's bytes by extracting the bit values using native bit operations in its\nnative programming language. Symmetrically, it is also possible to set an entire\nbitmap by performing the bits-to-bytes encoding in the client and calling [`SET`]()\nwith the resultant string.\n\n[ti]: /develop/data-types-intro#bitmaps"
+    },
+    {
+      "title": "Pattern: setting multiple bits",
+      "level": 2,
+      "content": "`SETBIT` excels at setting single bits, and can be called several times when\nmultiple bits need to be set. To optimize this operation you can replace\nmultiple `SETBIT` calls with a single call to the variadic [`BITFIELD`]() command\nand the use of fields of type `u1`.\n\nFor example, the example above could be replaced by:\n\n```\n> BITFIELD bitsinabitmap SET u1 2 1 SET u1 3 1 SET u1 5 1 SET u1 10 1 SET u1 11 1 SET u1 14 1\n```"
+    },
+    {
+      "title": "Advanced Pattern: accessing bitmap ranges",
+      "level": 2,
+      "content": "It is also possible to use the [`GETRANGE`]() and [`SETRANGE`]() string commands to\nefficiently access a range of bit offsets in a bitmap. Below is a sample\nimplementation in idiomatic Redis Lua scripting that can be run with the [`EVAL`]()\ncommand:\n\n```\n--[[\nSets a bitmap range\n\nBitmaps are stored as Strings in Redis. A range spans one or more bytes,\nso we can call [`SETRANGE`]() when entire bytes need to be set instead of flipping\nindividual bits. Also, to avoid multiple internal memory allocations in\nRedis, we traverse in reverse.\nExpected input:\n  KEYS[1] - bitfield key\n  ARGV[1] - start offset (0-based, inclusive)\n  ARGV[2] - end offset (same, should be bigger than start, no error checking)\n  ARGV[3] - value (should be 0 or 1, no error checking)\n]]--\n\n-- A helper function to stringify a binary string to semi-binary format\nlocal function tobits(str)\n  local r = ''\n  for i = 1, string.len(str) do\n    local c = string.byte(str, i)\n    local b = ' '\n    for j = 0, 7 do\n      b = tostring(bit.band(c, 1)) .. b\n      c = bit.rshift(c, 1)\n    end\n    r = r .. b\n  end\n  return r\nend\n\n-- Main\nlocal k = KEYS[1]\nlocal s, e, v = tonumber(ARGV[1]), tonumber(ARGV[2]), tonumber(ARGV[3])\n\n-- First treat the dangling bits in the last byte\nlocal ms, me = s % 8, (e + 1) % 8\nif me > 0 then\n  local t = math.max(e - me + 1, s)\n  for i = e, t, -1 do\n    redis.call('SETBIT', k, i, v)\n  end\n  e = t\nend\n\n-- Then the danglings in the first byte\nif ms > 0 then\n  local t = math.min(s - ms + 7, e)\n  for i = s, t, 1 do\n    redis.call('SETBIT', k, i, v)\n  end\n  s = t + 1\nend\n\n-- Set a range accordingly, if at all\nlocal rs, re = s / 8, (e + 1) / 8\nlocal rl = re - rs\nif rl > 0 then\n  local b = '\\255'\n  if 0 == v then\n    b = '\\0'\n  end\n  redis.call('SETRANGE', k, rs, string.rep(b, rl))\nend\n```\n\n**Note:** the implementation for getting a range of bit offsets from a bitmap is\nleft as an exercise to the reader."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the original bit value stored at _offset_.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the original bit value stored at _offset_."
+    }
+  ]
+}

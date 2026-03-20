@@ -1,0 +1,118 @@
+{
+  "slug": "hmset",
+  "title": "HMSET",
+  "description": "Sets the values of multiple fields.",
+  "docsUrl": "https://redis.io/docs/latest/commands/hmset/",
+  "group": "hash",
+  "groupLabel": "Hashes",
+  "syntax": "HMSET key field value [field value ...]",
+  "complexity": "O(N) where N is the number of fields being set.",
+  "since": "2.0.0",
+  "arity": -4,
+  "aclCategories": [
+    "@write",
+    "@hash",
+    "@fast"
+  ],
+  "commandFlags": [
+    "write",
+    "denyoom",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "field",
+          "name": "field",
+          "type": "string"
+        },
+        {
+          "display_text": "value",
+          "name": "value",
+          "type": "string"
+        }
+      ],
+      "multiple": true,
+      "name": "data",
+      "type": "block"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      },
+      "update": true
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Sets the specified fields to their respective values in the hash stored at\n`key`.\nThis command overwrites any specified fields already existing in the hash.\nIf `key` does not exist, a new key holding a hash is created.\n\n## Examples\n\n\nHMSET myhash field1 \"Hello\" field2 \"World\"\nHGET myhash field1\nHGET myhash field2\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v4.0.0. |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.",
+  "intro": "Sets the specified fields to their respective values in the hash stored at\n`key`.\nThis command overwrites any specified fields already existing in the hash.\nIf `key` does not exist, a new key holding a hash is created.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Sets the specified fields to their respective values in the hash stored at\n`key`.\nThis command overwrites any specified fields already existing in the hash.\nIf `key` does not exist, a new key holding a hash is created."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "HMSET myhash field1 \"Hello\" field2 \"World\"\nHGET myhash field1\nHGET myhash field2"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v4.0.0. |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`."
+    }
+  ]
+}

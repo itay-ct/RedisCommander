@@ -1,0 +1,172 @@
+{
+  "slug": "xclaim",
+  "title": "XCLAIM",
+  "description": "Changes, or acquires, ownership of a message in a consumer group, as if the message was delivered a consumer group member.",
+  "docsUrl": "https://redis.io/docs/latest/commands/xclaim/",
+  "group": "stream",
+  "groupLabel": "Streams",
+  "syntax": "XCLAIM key group consumer min-idle-time id [id ...] [IDLE ms]\n  [TIME unix-time-milliseconds] [RETRYCOUNT count] [FORCE] [JUSTID]\n  [LASTID lastid]",
+  "complexity": "O(log N) with N being the number of messages in the PEL of the consumer group.",
+  "since": "5.0.0",
+  "arity": -6,
+  "aclCategories": [
+    "@write",
+    "@stream",
+    "@fast"
+  ],
+  "commandFlags": [
+    "write",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "group",
+      "name": "group",
+      "type": "string"
+    },
+    {
+      "display_text": "consumer",
+      "name": "consumer",
+      "type": "string"
+    },
+    {
+      "display_text": "min-idle-time",
+      "name": "min-idle-time",
+      "type": "string"
+    },
+    {
+      "display_text": "id",
+      "multiple": true,
+      "name": "id",
+      "type": "string"
+    },
+    {
+      "display_text": "ms",
+      "name": "ms",
+      "optional": true,
+      "token": "IDLE",
+      "type": "integer"
+    },
+    {
+      "display_text": "unix-time-milliseconds",
+      "name": "unix-time-milliseconds",
+      "optional": true,
+      "token": "TIME",
+      "type": "unix-time"
+    },
+    {
+      "display_text": "count",
+      "name": "count",
+      "optional": true,
+      "token": "RETRYCOUNT",
+      "type": "integer"
+    },
+    {
+      "display_text": "force",
+      "name": "force",
+      "optional": true,
+      "token": "FORCE",
+      "type": "pure-token"
+    },
+    {
+      "display_text": "justid",
+      "name": "justid",
+      "optional": true,
+      "token": "JUSTID",
+      "type": "pure-token"
+    },
+    {
+      "display_text": "lastid",
+      "name": "lastid",
+      "optional": true,
+      "token": "LASTID",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      },
+      "update": true
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "command-options",
+        "title": "Command options"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "In the context of a stream consumer group, this command changes the ownership\nof a pending message, so that the new owner is the consumer specified as the\ncommand argument. Normally this is what happens:\n\n1. There is a stream with an associated consumer group.\n2. Some consumer A reads a message via [`XREADGROUP`]() from a stream, in the context of that consumer group.\n3. As a side effect a pending message entry is created in the Pending Entries List (PEL) of the consumer group: it means the message was delivered to a given consumer, but it was not yet acknowledged via [`XACK`]().\n4. Then suddenly that consumer fails forever.\n5. Other consumers may inspect the list of pending messages, that are stale for quite some time, using the [`XPENDING`]() command. In order to continue processing such messages, they use `XCLAIM` to acquire the ownership of the message and continue. Consumers can also use the [`XAUTOCLAIM`]() command to automatically scan and claim stale pending messages.\n\nThis dynamic is clearly explained in the [Stream intro documentation]().\n\nNote that the message is claimed only if its idle time is greater than the minimum idle time we specify when calling `XCLAIM`. Because as a side effect `XCLAIM` will also reset the idle time (since this is a new attempt at processing the message), two consumers trying to claim a message at the same time will never both succeed: only one will successfully claim the message. This avoids that we process a given message multiple times in a trivial way (yet multiple processing is possible and unavoidable in the general case).\n\nMoreover, as a side effect, `XCLAIM` will increment the count of attempted deliveries of the message unless the `JUSTID` option has been specified (which only delivers the message ID, not the message itself). In this way messages that cannot be processed for some reason, for instance because the consumers crash attempting to process them, will start to have a larger counter and can be detected inside the system.\n\n`XCLAIM` will not claim a message in the following cases:\n\n1. The message doesn't exist in the group PEL (i.e. it was never read by any consumer)\n2. The message exists in the group PEL but not in the stream itself (i.e. the message was read but never acknowledged, and then was deleted from the stream, either by trimming or by [`XDEL`]())\n\nIn both cases the reply will not contain a corresponding entry to that message (i.e. the length of the reply array may be smaller than the number of IDs provided to `XCLAIM`).\nIn the latter case, the message will also be deleted from the PEL in which it was found. This feature was introduced in Redis 7.0.\n\n## Command options\n\nThe command has multiple options, however most are mainly for internal use in\norder to transfer the effects of `XCLAIM` or other commands to the AOF file\nand to propagate the same effects to the replicas, and are unlikely to be\nuseful to normal users:\n\n1. `IDLE <ms>`: Set the idle time (last time it was delivered) of the message. If IDLE is not specified, an IDLE of 0 is assumed, that is, the time count is reset because the message has now a new owner trying to process it.\n2. `TIME <ms-unix-time>`: This is the same as IDLE but instead of a relative amount of milliseconds, it sets the idle time to a specific Unix time (in milliseconds). This is useful in order to rewrite the AOF file generating `XCLAIM` commands.\n3. `RETRYCOUNT <count>`: Set the retry counter to the specified value. If not set, `XCLAIM` will increment the retry counter every time a message is delivered again.\n4. `FORCE`: Creates the pending message entry in the PEL even if certain specified IDs are not already in the PEL assigned to a different client. However the message must be exist in the stream, otherwise the IDs of non existing messages are ignored.\n5. `JUSTID`: Return just an array of IDs of messages successfully claimed, without returning the actual message. Using this option means the retry counter is not incremented.\n\n## Examples\n\n```\n> XCLAIM mystream mygroup Alice 3600000 1526569498055-0\n1) 1) 1526569498055-0\n   2) 1) \"message\"\n      2) \"orange\"\n```\n\nIn the above example we claim the message with ID `1526569498055-0`, only if the message is idle for at least one hour without the original consumer or some other consumer making progresses (acknowledging or claiming it), and assigns the ownership to the consumer `Alice`.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nAny of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays): when the _JUSTID_ option is specified, an array of IDs of messages successfully claimed.\n* [Array reply](../../develop/reference/protocol-spec#arrays): an array of stream entries, each of which contains an array of two elements, the entry ID and the entry data itself.\n\n**RESP3:**\n\nAny of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays): when the _JUSTID_ option is specified, an array of IDs of messages successfully claimed.\n* [Array reply](../../develop/reference/protocol-spec#arrays): an array of stream entries, each of which contains an array of two elements, the entry ID and the entry data itself.",
+  "intro": "In the context of a stream consumer group, this command changes the ownership\nof a pending message, so that the new owner is the consumer specified as the\ncommand argument. Normally this is what happens:\n\n1. There is a stream with an associated consumer group.\n2. Some consumer A reads a message via [`XREADGROUP`]() from a stream, in the context of that consumer group.\n3. As a side effect a pending message entry is created in the Pending Entries List (PEL) of the consumer group: it means the message was delivered to a given consumer, but it was not yet acknowledged via [`XACK`]().\n4. Then suddenly that consumer fails forever.\n5. Other consumers may inspect the list of pending messages, that are stale for quite some time, using the [`XPENDING`]() command. In order to continue processing such messages, they use `XCLAIM` to acquire the ownership of the message and continue. Consumers can also use the [`XAUTOCLAIM`]() command to automatically scan and claim stale pending messages.\n\nThis dynamic is clearly explained in the [Stream intro documentation]().\n\nNote that the message is claimed only if its idle time is greater than the minimum idle time we specify when calling `XCLAIM`. Because as a side effect `XCLAIM` will also reset the idle time (since this is a new attempt at processing the message), two consumers trying to claim a message at the same time will never both succeed: only one will successfully claim the message. This avoids that we process a given message multiple times in a trivial way (yet multiple processing is possible and unavoidable in the general case).\n\nMoreover, as a side effect, `XCLAIM` will increment the count of attempted deliveries of the message unless the `JUSTID` option has been specified (which only delivers the message ID, not the message itself). In this way messages that cannot be processed for some reason, for instance because the consumers crash attempting to process them, will start to have a larger counter and can be detected inside the system.\n\n`XCLAIM` will not claim a message in the following cases:\n\n1. The message doesn't exist in the group PEL (i.e. it was never read by any consumer)\n2. The message exists in the group PEL but not in the stream itself (i.e. the message was read but never acknowledged, and then was deleted from the stream, either by trimming or by [`XDEL`]())\n\nIn both cases the reply will not contain a corresponding entry to that message (i.e. the length of the reply array may be smaller than the number of IDs provided to `XCLAIM`).\nIn the latter case, the message will also be deleted from the PEL in which it was found. This feature was introduced in Redis 7.0.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "In the context of a stream consumer group, this command changes the ownership\nof a pending message, so that the new owner is the consumer specified as the\ncommand argument. Normally this is what happens:\n\n1. There is a stream with an associated consumer group.\n2. Some consumer A reads a message via [`XREADGROUP`]() from a stream, in the context of that consumer group.\n3. As a side effect a pending message entry is created in the Pending Entries List (PEL) of the consumer group: it means the message was delivered to a given consumer, but it was not yet acknowledged via [`XACK`]().\n4. Then suddenly that consumer fails forever.\n5. Other consumers may inspect the list of pending messages, that are stale for quite some time, using the [`XPENDING`]() command. In order to continue processing such messages, they use `XCLAIM` to acquire the ownership of the message and continue. Consumers can also use the [`XAUTOCLAIM`]() command to automatically scan and claim stale pending messages.\n\nThis dynamic is clearly explained in the [Stream intro documentation]().\n\nNote that the message is claimed only if its idle time is greater than the minimum idle time we specify when calling `XCLAIM`. Because as a side effect `XCLAIM` will also reset the idle time (since this is a new attempt at processing the message), two consumers trying to claim a message at the same time will never both succeed: only one will successfully claim the message. This avoids that we process a given message multiple times in a trivial way (yet multiple processing is possible and unavoidable in the general case).\n\nMoreover, as a side effect, `XCLAIM` will increment the count of attempted deliveries of the message unless the `JUSTID` option has been specified (which only delivers the message ID, not the message itself). In this way messages that cannot be processed for some reason, for instance because the consumers crash attempting to process them, will start to have a larger counter and can be detected inside the system.\n\n`XCLAIM` will not claim a message in the following cases:\n\n1. The message doesn't exist in the group PEL (i.e. it was never read by any consumer)\n2. The message exists in the group PEL but not in the stream itself (i.e. the message was read but never acknowledged, and then was deleted from the stream, either by trimming or by [`XDEL`]())\n\nIn both cases the reply will not contain a corresponding entry to that message (i.e. the length of the reply array may be smaller than the number of IDs provided to `XCLAIM`).\nIn the latter case, the message will also be deleted from the PEL in which it was found. This feature was introduced in Redis 7.0."
+    },
+    {
+      "title": "Command options",
+      "level": 2,
+      "content": "The command has multiple options, however most are mainly for internal use in\norder to transfer the effects of `XCLAIM` or other commands to the AOF file\nand to propagate the same effects to the replicas, and are unlikely to be\nuseful to normal users:\n\n1. `IDLE <ms>`: Set the idle time (last time it was delivered) of the message. If IDLE is not specified, an IDLE of 0 is assumed, that is, the time count is reset because the message has now a new owner trying to process it.\n2. `TIME <ms-unix-time>`: This is the same as IDLE but instead of a relative amount of milliseconds, it sets the idle time to a specific Unix time (in milliseconds). This is useful in order to rewrite the AOF file generating `XCLAIM` commands.\n3. `RETRYCOUNT <count>`: Set the retry counter to the specified value. If not set, `XCLAIM` will increment the retry counter every time a message is delivered again.\n4. `FORCE`: Creates the pending message entry in the PEL even if certain specified IDs are not already in the PEL assigned to a different client. However the message must be exist in the stream, otherwise the IDs of non existing messages are ignored.\n5. `JUSTID`: Return just an array of IDs of messages successfully claimed, without returning the actual message. Using this option means the retry counter is not incremented."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "```\n> XCLAIM mystream mygroup Alice 3600000 1526569498055-0\n1) 1) 1526569498055-0\n   2) 1) \"message\"\n      2) \"orange\"\n```\n\nIn the above example we claim the message with ID `1526569498055-0`, only if the message is idle for at least one hour without the original consumer or some other consumer making progresses (acknowledging or claiming it), and assigns the ownership to the consumer `Alice`."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nAny of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays): when the _JUSTID_ option is specified, an array of IDs of messages successfully claimed.\n* [Array reply](../../develop/reference/protocol-spec#arrays): an array of stream entries, each of which contains an array of two elements, the entry ID and the entry data itself.\n\n**RESP3:**\n\nAny of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays): when the _JUSTID_ option is specified, an array of IDs of messages successfully claimed.\n* [Array reply](../../develop/reference/protocol-spec#arrays): an array of stream entries, each of which contains an array of two elements, the entry ID and the entry data itself."
+    }
+  ]
+}

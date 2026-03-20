@@ -1,0 +1,103 @@
+{
+  "slug": "client-pause",
+  "title": "CLIENT PAUSE",
+  "description": "Suspends commands processing.",
+  "docsUrl": "https://redis.io/docs/latest/commands/client-pause/",
+  "group": "connection",
+  "groupLabel": "Connection",
+  "syntax": "CLIENT PAUSE timeout [WRITE | ALL]",
+  "complexity": "O(1)",
+  "since": "3.0.0",
+  "arity": -3,
+  "aclCategories": [
+    "@admin",
+    "@slow",
+    "@dangerous",
+    "@connection"
+  ],
+  "commandFlags": [
+    "admin",
+    "noscript",
+    "loading",
+    "stale"
+  ],
+  "arguments": [
+    {
+      "display_text": "timeout",
+      "name": "timeout",
+      "type": "integer"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "write",
+          "name": "write",
+          "token": "WRITE",
+          "type": "pure-token"
+        },
+        {
+          "display_text": "all",
+          "name": "all",
+          "token": "ALL",
+          "type": "pure-token"
+        }
+      ],
+      "name": "mode",
+      "optional": true,
+      "since": "6.2.0",
+      "type": "oneof"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "behavior-change-history",
+        "title": "Behavior change history"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "`CLIENT PAUSE` is a connections control command able to suspend all the Redis clients for the specified amount of time (in milliseconds).\n\nThe command performs the following actions:\n\n* It stops processing all the pending commands from normal and pub/sub clients for the given mode. However interactions with replicas will continue normally. Note that clients are formally paused when they try to execute a command, so no work is taken on the server side for inactive clients.\n* However it returns OK to the caller ASAP, so the `CLIENT PAUSE` command execution is not paused by itself.\n* When the specified amount of time has elapsed, all the clients are unblocked: this will trigger the processing of all the commands accumulated in the query buffer of every client during the pause.\n\nClient pause currently supports two modes:\n\n* `ALL`: This is the default mode. All client commands are blocked.\n* `WRITE`: Clients are only blocked if they attempt to execute a write command.\n\nFor the `WRITE` mode, some commands have special behavior:\n\n* [`EVAL`]()/[`EVALSHA`](): Will block client for all scripts.\n* [`PUBLISH`](): Will block client.\n* [`PFCOUNT`](): Will block client.\n* [`WAIT`](): Acknowledgments will be delayed, so this command will appear blocked.\n\nThis command is useful as it makes able to switch clients from a Redis instance to another one in a controlled way. For example during an instance upgrade the system administrator could do the following:\n\n* Pause the clients using `CLIENT PAUSE`\n* Wait a few seconds to make sure the replicas processed the latest replication stream from the master.\n* Turn one of the replicas into a master.\n* Reconfigure clients to connect with the new master.\n\nSince Redis 6.2, the recommended mode for client pause is `WRITE`. This mode will stop all replication traffic, can be\naborted with the [`CLIENT UNPAUSE`]() command, and allows reconfiguring the old master without risking accepting writes after the\nfailover. This is also the mode used during cluster failover.\n\nFor versions before 6.2, it is possible to send `CLIENT PAUSE` in a MULTI/EXEC block together with the `INFO replication` command in order to get the current master offset at the time the clients are blocked. This way it is possible to wait for a specific offset in the replica side in order to make sure all the replication stream was processed.\n\nSince Redis 3.2.10 / 4.0.0, this command also prevents keys to be evicted or\nexpired during the time clients are paused. This way the dataset is guaranteed\nto be static not just from the point of view of clients not being able to write, but also from the point of view of internal operations.\n\n## Behavior change history\n\n*   `>= 3.2.0`: Client pause prevents client pause and key eviction as well.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` or an error if the timeout is invalid.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` or an error if the timeout is invalid.",
+  "intro": "`CLIENT PAUSE` is a connections control command able to suspend all the Redis clients for the specified amount of time (in milliseconds).\n\nThe command performs the following actions:\n\n* It stops processing all the pending commands from normal and pub/sub clients for the given mode. However interactions with replicas will continue normally. Note that clients are formally paused when they try to execute a command, so no work is taken on the server side for inactive clients.\n* However it returns OK to the caller ASAP, so the `CLIENT PAUSE` command execution is not paused by itself.\n* When the specified amount of time has elapsed, all the clients are unblocked: this will trigger the processing of all the commands accumulated in the query buffer of every client during the pause.\n\nClient pause currently supports two modes:\n\n* `ALL`: This is the default mode. All client commands are blocked.\n* `WRITE`: Clients are only blocked if they attempt to execute a write command.\n\nFor the `WRITE` mode, some commands have special behavior:\n\n* [`EVAL`]()/[`EVALSHA`](): Will block client for all scripts.\n* [`PUBLISH`](): Will block client.\n* [`PFCOUNT`](): Will block client.\n* [`WAIT`](): Acknowledgments will be delayed, so this command will appear blocked.\n\nThis command is useful as it makes able to switch clients from a Redis instance to another one in a controlled way. For example during an instance upgrade the system administrator could do the following:\n\n* Pause the clients using `CLIENT PAUSE`\n* Wait a few seconds to make sure the replicas processed the latest replication stream from the master.\n* Turn one of the replicas into a master.\n* Reconfigure clients to connect with the new master.\n\nSince Redis 6.2, the recommended mode for client pause is `WRITE`. This mode will stop all replication traffic, can be\naborted with the [`CLIENT UNPAUSE`]() command, and allows reconfiguring the old master without risking accepting writes after the\nfailover. This is also the mode used during cluster failover.\n\nFor versions before 6.2, it is possible to send `CLIENT PAUSE` in a MULTI/EXEC block together with the `INFO replication` command in order to get the current master offset at the time the clients are blocked. This way it is possible to wait for a specific offset in the replica side in order to make sure all the replication stream was processed.\n\nSince Redis 3.2.10 / 4.0.0, this command also prevents keys to be evicted or\nexpired during the time clients are paused. This way the dataset is guaranteed\nto be static not just from the point of view of clients not being able to write, but also from the point of view of internal operations.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "`CLIENT PAUSE` is a connections control command able to suspend all the Redis clients for the specified amount of time (in milliseconds).\n\nThe command performs the following actions:\n\n* It stops processing all the pending commands from normal and pub/sub clients for the given mode. However interactions with replicas will continue normally. Note that clients are formally paused when they try to execute a command, so no work is taken on the server side for inactive clients.\n* However it returns OK to the caller ASAP, so the `CLIENT PAUSE` command execution is not paused by itself.\n* When the specified amount of time has elapsed, all the clients are unblocked: this will trigger the processing of all the commands accumulated in the query buffer of every client during the pause.\n\nClient pause currently supports two modes:\n\n* `ALL`: This is the default mode. All client commands are blocked.\n* `WRITE`: Clients are only blocked if they attempt to execute a write command.\n\nFor the `WRITE` mode, some commands have special behavior:\n\n* [`EVAL`]()/[`EVALSHA`](): Will block client for all scripts.\n* [`PUBLISH`](): Will block client.\n* [`PFCOUNT`](): Will block client.\n* [`WAIT`](): Acknowledgments will be delayed, so this command will appear blocked.\n\nThis command is useful as it makes able to switch clients from a Redis instance to another one in a controlled way. For example during an instance upgrade the system administrator could do the following:\n\n* Pause the clients using `CLIENT PAUSE`\n* Wait a few seconds to make sure the replicas processed the latest replication stream from the master.\n* Turn one of the replicas into a master.\n* Reconfigure clients to connect with the new master.\n\nSince Redis 6.2, the recommended mode for client pause is `WRITE`. This mode will stop all replication traffic, can be\naborted with the [`CLIENT UNPAUSE`]() command, and allows reconfiguring the old master without risking accepting writes after the\nfailover. This is also the mode used during cluster failover.\n\nFor versions before 6.2, it is possible to send `CLIENT PAUSE` in a MULTI/EXEC block together with the `INFO replication` command in order to get the current master offset at the time the clients are blocked. This way it is possible to wait for a specific offset in the replica side in order to make sure all the replication stream was processed.\n\nSince Redis 3.2.10 / 4.0.0, this command also prevents keys to be evicted or\nexpired during the time clients are paused. This way the dataset is guaranteed\nto be static not just from the point of view of clients not being able to write, but also from the point of view of internal operations."
+    },
+    {
+      "title": "Behavior change history",
+      "level": 2,
+      "content": "*   `>= 3.2.0`: Client pause prevents client pause and key eviction as well."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` or an error if the timeout is invalid.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` or an error if the timeout is invalid."
+    }
+  ]
+}

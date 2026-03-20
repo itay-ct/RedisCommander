@@ -1,0 +1,93 @@
+{
+  "slug": "script-flush",
+  "title": "SCRIPT FLUSH",
+  "description": "Removes all server-side Lua scripts from the script cache.",
+  "docsUrl": "https://redis.io/docs/latest/commands/script-flush/",
+  "group": "scripting",
+  "groupLabel": "Scripting",
+  "syntax": "SCRIPT FLUSH [ASYNC | SYNC]",
+  "complexity": "O(N) with N being the number of scripts in cache",
+  "since": "2.6.0",
+  "arity": -2,
+  "aclCategories": [
+    "@slow",
+    "@scripting"
+  ],
+  "commandFlags": [
+    "noscript"
+  ],
+  "arguments": [
+    {
+      "arguments": [
+        {
+          "display_text": "async",
+          "name": "async",
+          "token": "ASYNC",
+          "type": "pure-token"
+        },
+        {
+          "display_text": "sync",
+          "name": "sync",
+          "token": "SYNC",
+          "type": "pure-token"
+        }
+      ],
+      "name": "flush-type",
+      "optional": true,
+      "since": "6.2.0",
+      "type": "oneof"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "behavior-change-history",
+        "title": "Behavior change history"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Flush the Lua scripts cache.\n\nBy default, `SCRIPT FLUSH` will synchronously flush the cache.\nStarting with Redis 6.2, setting the **lazyfree-lazy-user-flush** configuration directive to \"yes\" changes the default flush mode to asynchronous.\n\nIt is possible to use one of the following modifiers to dictate the flushing mode explicitly:\n\n* `ASYNC`: flushes the cache asynchronously\n* `SYNC`: flushes the cache synchronously\n\nFor more information about [`EVAL`]() scripts please refer to [Introduction to Eval Scripts]().\n\n## Behavior change history\n\n*   `>= 6.2.0`: Default flush behavior now configurable by the **lazyfree-lazy-user-flush** configuration directive.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.",
+  "intro": "Flush the Lua scripts cache.\n\nBy default, `SCRIPT FLUSH` will synchronously flush the cache.\nStarting with Redis 6.2, setting the **lazyfree-lazy-user-flush** configuration directive to \"yes\" changes the default flush mode to asynchronous.\n\nIt is possible to use one of the following modifiers to dictate the flushing mode explicitly:\n\n* `ASYNC`: flushes the cache asynchronously\n* `SYNC`: flushes the cache synchronously\n\nFor more information about [`EVAL`]() scripts please refer to [Introduction to Eval Scripts]().",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Flush the Lua scripts cache.\n\nBy default, `SCRIPT FLUSH` will synchronously flush the cache.\nStarting with Redis 6.2, setting the **lazyfree-lazy-user-flush** configuration directive to \"yes\" changes the default flush mode to asynchronous.\n\nIt is possible to use one of the following modifiers to dictate the flushing mode explicitly:\n\n* `ASYNC`: flushes the cache asynchronously\n* `SYNC`: flushes the cache synchronously\n\nFor more information about [`EVAL`]() scripts please refer to [Introduction to Eval Scripts]()."
+    },
+    {
+      "title": "Behavior change history",
+      "level": 2,
+      "content": "*   `>= 6.2.0`: Default flush behavior now configurable by the **lazyfree-lazy-user-flush** configuration directive."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`."
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "slug": "client-trackinginfo",
+  "title": "CLIENT TRACKINGINFO",
+  "description": "Returns information about server-assisted client-side caching for the connection.",
+  "docsUrl": "https://redis.io/docs/latest/commands/client-trackinginfo/",
+  "group": "connection",
+  "groupLabel": "Connection",
+  "syntax": "CLIENT TRACKINGINFO",
+  "complexity": "O(1)",
+  "since": "6.2.0",
+  "arity": 2,
+  "aclCategories": [
+    "@slow",
+    "@connection"
+  ],
+  "commandFlags": [
+    "noscript",
+    "loading",
+    "stale"
+  ],
+  "arguments": [],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "The command returns information about the current client connection's use of the [server assisted client side caching]() feature.\n\nHere's the list of tracking information sections and their respective values:\n\n* **flags**: A list of tracking flags used by the connection. The flags and their meanings are as follows:\n  * `off`: The connection isn't using server assisted client side caching.\n  * `on`: Server assisted client side caching is enabled for the connection.\n  * `bcast`: The client uses broadcasting mode.\n  * `optin`: The client does not cache keys by default.\n  * `optout`: The client caches keys by default.\n  * `caching-yes`: The next command will cache keys (exists only together with `optin`).\n  * `caching-no`: The next command won't cache keys (exists only together with `optout`).\n  * `noloop`: The client isn't notified about keys modified by itself.\n  * `broken_redirect`: The client ID used for redirection isn't valid anymore.\n* **redirect**: The client ID used for notifications redirection, 0 for self-redirection, or -1 when none.\n* **prefixes**: A list of key prefixes for which notifications are sent to the client.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of tracking information sections and their respective values.\n\n**RESP3:**\n\n[Map reply](../../develop/reference/protocol-spec#maps): a list of tracking information sections and their respective values.",
+  "intro": "The command returns information about the current client connection's use of the [server assisted client side caching]() feature.\n\nHere's the list of tracking information sections and their respective values:\n\n* **flags**: A list of tracking flags used by the connection. The flags and their meanings are as follows:\n  * `off`: The connection isn't using server assisted client side caching.\n  * `on`: Server assisted client side caching is enabled for the connection.\n  * `bcast`: The client uses broadcasting mode.\n  * `optin`: The client does not cache keys by default.\n  * `optout`: The client caches keys by default.\n  * `caching-yes`: The next command will cache keys (exists only together with `optin`).\n  * `caching-no`: The next command won't cache keys (exists only together with `optout`).\n  * `noloop`: The client isn't notified about keys modified by itself.\n  * `broken_redirect`: The client ID used for redirection isn't valid anymore.\n* **redirect**: The client ID used for notifications redirection, 0 for self-redirection, or -1 when none.\n* **prefixes**: A list of key prefixes for which notifications are sent to the client.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "The command returns information about the current client connection's use of the [server assisted client side caching]() feature.\n\nHere's the list of tracking information sections and their respective values:\n\n* **flags**: A list of tracking flags used by the connection. The flags and their meanings are as follows:\n  * `off`: The connection isn't using server assisted client side caching.\n  * `on`: Server assisted client side caching is enabled for the connection.\n  * `bcast`: The client uses broadcasting mode.\n  * `optin`: The client does not cache keys by default.\n  * `optout`: The client caches keys by default.\n  * `caching-yes`: The next command will cache keys (exists only together with `optin`).\n  * `caching-no`: The next command won't cache keys (exists only together with `optout`).\n  * `noloop`: The client isn't notified about keys modified by itself.\n  * `broken_redirect`: The client ID used for redirection isn't valid anymore.\n* **redirect**: The client ID used for notifications redirection, 0 for self-redirection, or -1 when none.\n* **prefixes**: A list of key prefixes for which notifications are sent to the client."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of tracking information sections and their respective values.\n\n**RESP3:**\n\n[Map reply](../../develop/reference/protocol-spec#maps): a list of tracking information sections and their respective values."
+    }
+  ]
+}

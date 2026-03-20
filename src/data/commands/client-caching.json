@@ -1,0 +1,84 @@
+{
+  "slug": "client-caching",
+  "title": "CLIENT CACHING",
+  "description": "Instructs the server whether to track the keys in the next request.",
+  "docsUrl": "https://redis.io/docs/latest/commands/client-caching/",
+  "group": "connection",
+  "groupLabel": "Connection",
+  "syntax": "CLIENT CACHING <YES | NO>",
+  "complexity": "O(1)",
+  "since": "6.0.0",
+  "arity": 3,
+  "aclCategories": [
+    "@slow",
+    "@connection"
+  ],
+  "commandFlags": [
+    "noscript",
+    "loading",
+    "stale"
+  ],
+  "arguments": [
+    {
+      "arguments": [
+        {
+          "display_text": "yes",
+          "name": "yes",
+          "token": "YES",
+          "type": "pure-token"
+        },
+        {
+          "display_text": "no",
+          "name": "no",
+          "token": "NO",
+          "type": "pure-token"
+        }
+      ],
+      "name": "mode",
+      "type": "oneof"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "This command controls the tracking of the keys in the next command executed\nby the connection, when tracking is enabled in `OPTIN` or `OPTOUT` mode.\nPlease check the\n[client side caching documentation]() for\nbackground information.\n\nWhen tracking is enabled Redis, using the [`CLIENT TRACKING`]() command, it is\npossible to specify the `OPTIN` or `OPTOUT` options, so that keys\nin read only commands are not automatically remembered by the server to\nbe invalidated later. When we are in `OPTIN` mode, we can enable the\ntracking of the keys in the next command by calling `CLIENT CACHING yes`\nimmediately before it. Similarly when we are in `OPTOUT` mode, and keys\nare normally tracked, we can avoid the keys in the next command to be\ntracked using `CLIENT CACHING no`.\n\nBasically the command sets a state in the connection, that is valid only\nfor the next command execution, that will modify the behavior of client\ntracking.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` or an error if the argument is not \"yes\" or \"no\".\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` or an error if the argument is not \"yes\" or \"no\".",
+  "intro": "This command controls the tracking of the keys in the next command executed\nby the connection, when tracking is enabled in `OPTIN` or `OPTOUT` mode.\nPlease check the\n[client side caching documentation]() for\nbackground information.\n\nWhen tracking is enabled Redis, using the [`CLIENT TRACKING`]() command, it is\npossible to specify the `OPTIN` or `OPTOUT` options, so that keys\nin read only commands are not automatically remembered by the server to\nbe invalidated later. When we are in `OPTIN` mode, we can enable the\ntracking of the keys in the next command by calling `CLIENT CACHING yes`\nimmediately before it. Similarly when we are in `OPTOUT` mode, and keys\nare normally tracked, we can avoid the keys in the next command to be\ntracked using `CLIENT CACHING no`.\n\nBasically the command sets a state in the connection, that is valid only\nfor the next command execution, that will modify the behavior of client\ntracking.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "This command controls the tracking of the keys in the next command executed\nby the connection, when tracking is enabled in `OPTIN` or `OPTOUT` mode.\nPlease check the\n[client side caching documentation]() for\nbackground information.\n\nWhen tracking is enabled Redis, using the [`CLIENT TRACKING`]() command, it is\npossible to specify the `OPTIN` or `OPTOUT` options, so that keys\nin read only commands are not automatically remembered by the server to\nbe invalidated later. When we are in `OPTIN` mode, we can enable the\ntracking of the keys in the next command by calling `CLIENT CACHING yes`\nimmediately before it. Similarly when we are in `OPTOUT` mode, and keys\nare normally tracked, we can avoid the keys in the next command to be\ntracked using `CLIENT CACHING no`.\n\nBasically the command sets a state in the connection, that is valid only\nfor the next command execution, that will modify the behavior of client\ntracking."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` or an error if the argument is not \"yes\" or \"no\".\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` or an error if the argument is not \"yes\" or \"no\"."
+    }
+  ]
+}

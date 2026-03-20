@@ -1,0 +1,113 @@
+{
+  "slug": "json.arrappend",
+  "title": "JSON.ARRAPPEND",
+  "description": "Append one or more JSON values into the array at path after the last element in it.",
+  "docsUrl": "https://redis.io/docs/latest/commands/json.arrappend/",
+  "group": "json",
+  "groupLabel": "JSON",
+  "syntax": "JSON.ARRAPPEND key [path] value [value ...]",
+  "complexity": "O(1) when path is evaluated to a single value, O(N) when path is evaluated to multiple values, where N is the size of the key",
+  "since": "1.0.0",
+  "arity": null,
+  "aclCategories": [
+    "@json",
+    "@write",
+    "@slow"
+  ],
+  "commandFlags": [],
+  "arguments": [
+    {
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "name": "path",
+      "optional": true,
+      "type": "string"
+    },
+    {
+      "multiple": true,
+      "name": "value",
+      "type": "string"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      },
+      {
+        "id": "see-also",
+        "title": "See also"
+      },
+      {
+        "id": "related-topics",
+        "title": "Related topics"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Append the JSON values into the array at `path` after the last element in it.\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open><summary><code>key</code></summary> \n\nis the key to modify.\n</details>\n\n<details open><summary><code>path</code></summary>\n\nis the JSONPath to specify.\n</details>\n\n<details open><summary><code>value</code></summary> \n\nis one or more values to append to one or more arrays. \n\n\nTo specify a string as an array value to append, wrap the quoted string with an additional set of single quotes. Example: `'\"silver\"'`. For more detailed use, see [Examples](#examples).\n\n</details>\n\n## Examples\n\n<details open>\n<summary><b>Add a new color to a list of product colors</b></summary>\n\nCreate a document for noise-cancelling headphones in black and silver colors.\n\n\nredis> JSON.SET item:1 $ '{\"name\":\"Noise-cancelling Bluetooth headphones\",\"description\":\"Wireless Bluetooth headphones with noise-cancelling technology\",\"connection\":{\"wireless\":true,\"type\":\"Bluetooth\"},\"price\":99.98,\"stock\":25,\"colors\":[\"black\",\"silver\"]}'\nOK\n\n\nAdd `blue` to the end of the `colors` array. `JSON.ARRAPPEND` returns the new length of the `colors` array.\n\n\nredis> JSON.ARRAPPEND item:1 $.colors '\"blue\"'\n1) (integer) 3\n\n\nGet the updated value of the `colors` array.\n\n\nredis> JSON.GET item:1 $.colors\n\"[[\\\"black\\\",\\\"silver\\\",\\\"blue\\\"]]\"\n\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\"><nobr>&#x2705; Flexible & Annual</nobr></span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nWith `$`-based path argument: [Array reply]() of [integer replies]() or [null replies](), where each element is the array's new length, or `null` if the matching value is not an array.\n\nWith `.`-based path argument: [Integer reply]() representing the array's new length, or [null reply]() if the matching value is not an array.\n\n**RESP3:**\n\nWith `$`-based path argument (default): [Array reply]() of [integer replies]() or [null replies](), where each element is the array's new length, or `null` if the matching value is not an array.\n\nWith `.`-based path argument: [Integer reply]() representing the array's new length, or [null reply]() if the matching value is not an array.\n\n\n\n## See also\n\n[`JSON.ARRINDEX`]() | [`JSON.ARRINSERT`]() \n\n## Related topics\n\n* [RedisJSON]()\n* [Index and search JSON documents]()",
+  "intro": "Append the JSON values into the array at `path` after the last element in it.\n\n[Examples](#examples)",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Append the JSON values into the array at `path` after the last element in it.\n\n[Examples](#examples)"
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open><summary><code>key</code></summary> \n\nis the key to modify.\n</details>\n\n<details open><summary><code>path</code></summary>\n\nis the JSONPath to specify.\n</details>\n\n<details open><summary><code>value</code></summary> \n\nis one or more values to append to one or more arrays. \n\n\nTo specify a string as an array value to append, wrap the quoted string with an additional set of single quotes. Example: `'\"silver\"'`. For more detailed use, see [Examples](#examples).\n\n</details>"
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "<details open>\n<summary><b>Add a new color to a list of product colors</b></summary>\n\nCreate a document for noise-cancelling headphones in black and silver colors.\n\n\nredis> JSON.SET item:1 $ '{\"name\":\"Noise-cancelling Bluetooth headphones\",\"description\":\"Wireless Bluetooth headphones with noise-cancelling technology\",\"connection\":{\"wireless\":true,\"type\":\"Bluetooth\"},\"price\":99.98,\"stock\":25,\"colors\":[\"black\",\"silver\"]}'\nOK\n\n\nAdd `blue` to the end of the `colors` array. `JSON.ARRAPPEND` returns the new length of the `colors` array.\n\n\nredis> JSON.ARRAPPEND item:1 $.colors '\"blue\"'\n1) (integer) 3\n\n\nGet the updated value of the `colors` array.\n\n\nredis> JSON.GET item:1 $.colors\n\"[[\\\"black\\\",\\\"silver\\\",\\\"blue\\\"]]\"\n\n\n</details>"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\"><nobr>&#x2705; Flexible & Annual</nobr></span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nWith `$`-based path argument: [Array reply]() of [integer replies]() or [null replies](), where each element is the array's new length, or `null` if the matching value is not an array.\n\nWith `.`-based path argument: [Integer reply]() representing the array's new length, or [null reply]() if the matching value is not an array.\n\n**RESP3:**\n\nWith `$`-based path argument (default): [Array reply]() of [integer replies]() or [null replies](), where each element is the array's new length, or `null` if the matching value is not an array.\n\nWith `.`-based path argument: [Integer reply]() representing the array's new length, or [null reply]() if the matching value is not an array."
+    },
+    {
+      "title": "See also",
+      "level": 2,
+      "content": "[`JSON.ARRINDEX`]() | [`JSON.ARRINSERT`]()"
+    },
+    {
+      "title": "Related topics",
+      "level": 2,
+      "content": "* [RedisJSON]()\n* [Index and search JSON documents]()"
+    }
+  ]
+}

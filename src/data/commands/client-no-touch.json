@@ -1,0 +1,84 @@
+{
+  "slug": "client-no-touch",
+  "title": "CLIENT NO-TOUCH",
+  "description": "Controls whether commands sent by the client affect the LRU/LFU of accessed keys.",
+  "docsUrl": "https://redis.io/docs/latest/commands/client-no-touch/",
+  "group": "connection",
+  "groupLabel": "Connection",
+  "syntax": "CLIENT NO-TOUCH <ON | OFF>",
+  "complexity": "O(1)",
+  "since": "7.2.0",
+  "arity": 3,
+  "aclCategories": [
+    "@slow",
+    "@connection"
+  ],
+  "commandFlags": [
+    "noscript",
+    "loading",
+    "stale"
+  ],
+  "arguments": [
+    {
+      "arguments": [
+        {
+          "display_text": "on",
+          "name": "on",
+          "token": "ON",
+          "type": "pure-token"
+        },
+        {
+          "display_text": "off",
+          "name": "off",
+          "token": "OFF",
+          "type": "pure-token"
+        }
+      ],
+      "name": "enabled",
+      "type": "oneof"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "The `CLIENT NO-TOUCH` command controls whether commands sent by the client will alter the LRU/LFU of the keys they access.\n\nWhen turned on, the current client will not change LFU/LRU stats, unless it sends the [`TOUCH`]() command.\n\nWhen turned off, the client touches LFU/LRU stats just as a normal client.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n\n* [Simple string reply](): `OK` if the command was successful.\n* [Simple error reply]() in these cases: wrong number of or invalid arguments.\n\n**RESP3:**\n\nOne of the following:\n\n* [Simple string reply](): `OK` if the command was successful.\n* [Simple error reply]() in these cases: wrong number of or invalid arguments.",
+  "intro": "The `CLIENT NO-TOUCH` command controls whether commands sent by the client will alter the LRU/LFU of the keys they access.\n\nWhen turned on, the current client will not change LFU/LRU stats, unless it sends the [`TOUCH`]() command.\n\nWhen turned off, the client touches LFU/LRU stats just as a normal client.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "The `CLIENT NO-TOUCH` command controls whether commands sent by the client will alter the LRU/LFU of the keys they access.\n\nWhen turned on, the current client will not change LFU/LRU stats, unless it sends the [`TOUCH`]() command.\n\nWhen turned off, the client touches LFU/LRU stats just as a normal client."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n\n* [Simple string reply](): `OK` if the command was successful.\n* [Simple error reply]() in these cases: wrong number of or invalid arguments.\n\n**RESP3:**\n\nOne of the following:\n\n* [Simple string reply](): `OK` if the command was successful.\n* [Simple error reply]() in these cases: wrong number of or invalid arguments."
+    }
+  ]
+}

@@ -1,0 +1,119 @@
+{
+  "slug": "hgetdel",
+  "title": "HGETDEL",
+  "description": "Returns the value of a field and deletes it from the hash.",
+  "docsUrl": "https://redis.io/docs/latest/commands/hgetdel/",
+  "group": "hash",
+  "groupLabel": "Hashes",
+  "syntax": "HGETDEL key FIELDS numfields field [field ...]",
+  "complexity": "O(N) where N is the number of specified fields",
+  "since": "8.0.0",
+  "arity": -5,
+  "aclCategories": [
+    "@write",
+    "@hash",
+    "@fast"
+  ],
+  "commandFlags": [
+    "write",
+    "fast"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "numfields",
+          "name": "numfields",
+          "type": "integer"
+        },
+        {
+          "display_text": "field",
+          "multiple": true,
+          "name": "field",
+          "type": "string"
+        }
+      ],
+      "name": "fields",
+      "token": "FIELDS",
+      "type": "block"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RW": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "delete": true,
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "example",
+        "title": "Example"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Get and delete the value of one or more fields of a given hash key. When the last field is deleted, the key will also be deleted.\n\n## Example\n\n```\nredis> HSET mykey field1 \"Hello\" field2 \"World\" field3 \"!\"\n(integer) 3\nredis> HGETALL mykey\n1) \"field1\"\n2) \"Hello\"\n3) \"field2\"\n4) \"World\"\n5) \"field3\"\n6) \"!\"\nredis> HGETDEL mykey FIELDS 2 field3 field4\n1) \"!\"\n2) (nil)\nredis> HGETALL mykey\n1) \"field1\"\n2) \"Hello\"\n3) \"field2\"\n4) \"World\"\nredis> HGETDEL mykey FIELDS 2 field1 field2\n1) \"Hello\"\n2) \"World\"\nredis> KEYS *\n(empty array)\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of deleted fields and their values or `nil` for fields that do not exist.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of deleted fields and their values or `nil` for fields that do not exist.",
+  "intro": "Get and delete the value of one or more fields of a given hash key. When the last field is deleted, the key will also be deleted.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Get and delete the value of one or more fields of a given hash key. When the last field is deleted, the key will also be deleted."
+    },
+    {
+      "title": "Example",
+      "level": 2,
+      "content": "```\nredis> HSET mykey field1 \"Hello\" field2 \"World\" field3 \"!\"\n(integer) 3\nredis> HGETALL mykey\n1) \"field1\"\n2) \"Hello\"\n3) \"field2\"\n4) \"World\"\n5) \"field3\"\n6) \"!\"\nredis> HGETDEL mykey FIELDS 2 field3 field4\n1) \"!\"\n2) (nil)\nredis> HGETALL mykey\n1) \"field1\"\n2) \"Hello\"\n3) \"field2\"\n4) \"World\"\nredis> HGETDEL mykey FIELDS 2 field1 field2\n1) \"Hello\"\n2) \"World\"\nredis> KEYS *\n(empty array)\n```"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of deleted fields and their values or `nil` for fields that do not exist.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of deleted fields and their values or `nil` for fields that do not exist."
+    }
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "slug": "cms.merge",
+  "title": "CMS.MERGE",
+  "description": "Merges several sketches into one sketch",
+  "docsUrl": "https://redis.io/docs/latest/commands/cms.merge/",
+  "group": "cms",
+  "groupLabel": "Count-Min Sketch",
+  "syntax": "CMS.MERGE destination numKeys source [source ...] [WEIGHTS weight\n  [weight ...]]",
+  "complexity": "O(n) where n is the number of sketches",
+  "since": "2.0.0",
+  "arity": null,
+  "aclCategories": [
+    "@cms",
+    "@write"
+  ],
+  "commandFlags": [],
+  "arguments": [
+    {
+      "name": "destination",
+      "type": "key"
+    },
+    {
+      "name": "numKeys",
+      "type": "integer"
+    },
+    {
+      "multiple": true,
+      "name": "source",
+      "type": "key"
+    },
+    {
+      "arguments": [
+        {
+          "name": "weights",
+          "token": "WEIGHTS",
+          "type": "pure-token"
+        },
+        {
+          "multiple": true,
+          "name": "weight",
+          "type": "double"
+        }
+      ],
+      "name": "weight",
+      "optional": true,
+      "type": "block"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nMerges several sketches into one sketch. All sketches must have identical width and depth. Weights can be used to multiply certain sketches. Default weight is 1. \n\n### Parameters:\n\n* **dest**: The name of destination sketch. Must be initialized. \n* **numKeys**: Number of sketches to be merged.\n* **src**: Names of source sketches to be merged.\n* **weight**: Multiple of each sketch. Default =1.\n\n## Examples\n\n```\nredis> CMS.MERGE dest 2 test1 test2 WEIGHTS 1 3\nOK\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n\n* [Simple string reply]() `OK` if executed correctly.\n* [Simple error reply]() in these cases: non-existent key or destination key is not of the same width and/or depth.\n\n**RESP3:**\n\nOne of the following:\n\n* [Simple string reply]() `OK` if executed correctly.\n* [Simple error reply]() in these cases: non-existent key or destination key is not of the same width and/or depth.",
+  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nMerges several sketches into one sketch. All sketches must have identical width and depth. Weights can be used to multiply certain sketches. Default weight is 1.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nMerges several sketches into one sketch. All sketches must have identical width and depth. Weights can be used to multiply certain sketches. Default weight is 1."
+    },
+    {
+      "title": "Parameters:",
+      "level": 3,
+      "content": "* **dest**: The name of destination sketch. Must be initialized. \n* **numKeys**: Number of sketches to be merged.\n* **src**: Names of source sketches to be merged.\n* **weight**: Multiple of each sketch. Default =1."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "```\nredis> CMS.MERGE dest 2 test1 test2 WEIGHTS 1 3\nOK\n```"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n\n* [Simple string reply]() `OK` if executed correctly.\n* [Simple error reply]() in these cases: non-existent key or destination key is not of the same width and/or depth.\n\n**RESP3:**\n\nOne of the following:\n\n* [Simple string reply]() `OK` if executed correctly.\n* [Simple error reply]() in these cases: non-existent key or destination key is not of the same width and/or depth."
+    }
+  ]
+}

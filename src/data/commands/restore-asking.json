@@ -1,0 +1,126 @@
+{
+  "slug": "restore-asking",
+  "title": "RESTORE-ASKING",
+  "description": "An internal command for migrating keys in a cluster.",
+  "docsUrl": "https://redis.io/docs/latest/commands/restore-asking/",
+  "group": "server",
+  "groupLabel": "Server",
+  "syntax": "RESTORE-ASKING key ttl serialized-value [REPLACE] [ABSTTL]\n  [IDLETIME seconds] [FREQ frequency]",
+  "complexity": "O(1) to create the new key and additional O(N*M) to reconstruct the serialized value, where N is the number of Redis objects composing the value and M their average size. For small string values the time complexity is thus O(1)+O(1*M) where M is small, so simply O(1). However for sorted set values the complexity is O(N*M*log(N)) because inserting values into sorted sets is O(log(N)).",
+  "since": "3.0.0",
+  "arity": -4,
+  "aclCategories": [
+    "@keyspace",
+    "@write",
+    "@slow",
+    "@dangerous"
+  ],
+  "commandFlags": [
+    "write",
+    "denyoom",
+    "asking"
+  ],
+  "arguments": [
+    {
+      "display_text": "key",
+      "key_spec_index": 0,
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "display_text": "ttl",
+      "name": "ttl",
+      "type": "integer"
+    },
+    {
+      "display_text": "serialized-value",
+      "name": "serialized-value",
+      "type": "string"
+    },
+    {
+      "display_text": "replace",
+      "name": "replace",
+      "optional": true,
+      "since": "3.0.0",
+      "token": "REPLACE",
+      "type": "pure-token"
+    },
+    {
+      "display_text": "absttl",
+      "name": "absttl",
+      "optional": true,
+      "since": "5.0.0",
+      "token": "ABSTTL",
+      "type": "pure-token"
+    },
+    {
+      "display_text": "seconds",
+      "name": "seconds",
+      "optional": true,
+      "since": "5.0.0",
+      "token": "IDLETIME",
+      "type": "integer"
+    },
+    {
+      "display_text": "frequency",
+      "name": "frequency",
+      "optional": true,
+      "since": "5.0.0",
+      "token": "FREQ",
+      "type": "integer"
+    }
+  ],
+  "keySpecs": [
+    {
+      "OW": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      },
+      "update": true
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "The `RESTORE-ASKING` command is an internal command.\nIt is used by a Redis cluster master during slot migration.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |",
+  "intro": "The `RESTORE-ASKING` command is an internal command.\nIt is used by a Redis cluster master during slot migration.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "The `RESTORE-ASKING` command is an internal command.\nIt is used by a Redis cluster master during slot migration."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |"
+    }
+  ]
+}

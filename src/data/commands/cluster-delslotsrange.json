@@ -1,0 +1,102 @@
+{
+  "slug": "cluster-delslotsrange",
+  "title": "CLUSTER DELSLOTSRANGE",
+  "description": "Sets hash slot ranges as unbound for a node.",
+  "docsUrl": "https://redis.io/docs/latest/commands/cluster-delslotsrange/",
+  "group": "cluster",
+  "groupLabel": "Cluster",
+  "syntax": "CLUSTER DELSLOTSRANGE start-slot end-slot [start-slot end-slot ...]",
+  "complexity": "O(N) where N is the total number of the slots between the start slot and end slot arguments.",
+  "since": "7.0.0",
+  "arity": -4,
+  "aclCategories": [
+    "@admin",
+    "@slow",
+    "@dangerous"
+  ],
+  "commandFlags": [
+    "admin",
+    "stale",
+    "no_async_loading"
+  ],
+  "arguments": [
+    {
+      "arguments": [
+        {
+          "display_text": "start-slot",
+          "name": "start-slot",
+          "type": "integer"
+        },
+        {
+          "display_text": "end-slot",
+          "name": "end-slot",
+          "type": "integer"
+        }
+      ],
+      "multiple": true,
+      "name": "range",
+      "type": "block"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "example",
+        "title": "Example"
+      },
+      {
+        "id": "usage-in-redis-cluster",
+        "title": "Usage in Redis Cluster"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "The `CLUSTER DELSLOTSRANGE` command is similar to the [`CLUSTER DELSLOTS`]() command in that they both remove hash slots from the node.\nThe difference is that [`CLUSTER DELSLOTS`]() takes a list of hash slots to remove from the node, while `CLUSTER DELSLOTSRANGE` takes a list of slot ranges (specified by start and end slots) to remove from the node.\n\n## Example\n\nTo remove slots 1 2 3 4 5 from the node, the [`CLUSTER DELSLOTS`]() command is:\n\n    > CLUSTER DELSLOTS 1 2 3 4 5\n    OK\n\nThe same operation can be completed with the following `CLUSTER DELSLOTSRANGE` command:\n\n    > CLUSTER DELSLOTSRANGE 1 5\n    OK\n\nHowever, note that:\n\n1. The command only works if all the specified slots are already associated with the node.\n2. The command fails if the same slot is specified multiple times.\n3. As a side effect of the command execution, the node may go into *down* state because not all hash slots are covered.\n\n## Usage in Redis Cluster\n\nThis command only works in cluster mode and may be useful for\ndebugging and in order to manually orchestrate a cluster configuration\nwhen a new cluster is created. It is currently not used by `redis-cli`,\nand mainly exists for API completeness.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.",
+  "intro": "The `CLUSTER DELSLOTSRANGE` command is similar to the [`CLUSTER DELSLOTS`]() command in that they both remove hash slots from the node.\nThe difference is that [`CLUSTER DELSLOTS`]() takes a list of hash slots to remove from the node, while `CLUSTER DELSLOTSRANGE` takes a list of slot ranges (specified by start and end slots) to remove from the node.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "The `CLUSTER DELSLOTSRANGE` command is similar to the [`CLUSTER DELSLOTS`]() command in that they both remove hash slots from the node.\nThe difference is that [`CLUSTER DELSLOTS`]() takes a list of hash slots to remove from the node, while `CLUSTER DELSLOTSRANGE` takes a list of slot ranges (specified by start and end slots) to remove from the node."
+    },
+    {
+      "title": "Example",
+      "level": 2,
+      "content": "To remove slots 1 2 3 4 5 from the node, the [`CLUSTER DELSLOTS`]() command is:\n\n    > CLUSTER DELSLOTS 1 2 3 4 5\n    OK\n\nThe same operation can be completed with the following `CLUSTER DELSLOTSRANGE` command:\n\n    > CLUSTER DELSLOTSRANGE 1 5\n    OK\n\nHowever, note that:\n\n1. The command only works if all the specified slots are already associated with the node.\n2. The command fails if the same slot is specified multiple times.\n3. As a side effect of the command execution, the node may go into *down* state because not all hash slots are covered."
+    },
+    {
+      "title": "Usage in Redis Cluster",
+      "level": 2,
+      "content": "This command only works in cluster mode and may be useful for\ndebugging and in order to manually orchestrate a cluster configuration\nwhen a new cluster is created. It is currently not used by `redis-cli`,\nand mainly exists for API completeness."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned."
+    }
+  ]
+}

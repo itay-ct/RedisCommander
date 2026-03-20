@@ -1,0 +1,213 @@
+{
+  "slug": "ts.create",
+  "title": "TS.CREATE",
+  "description": "Create a new time series",
+  "docsUrl": "https://redis.io/docs/latest/commands/ts.create/",
+  "group": "timeseries",
+  "groupLabel": "Time Series",
+  "syntax": "TS.CREATE key [RETENTION retentionPeriod] [ENCODING <UNCOMPRESSED |\n  COMPRESSED>] [CHUNK_SIZE size] [DUPLICATE_POLICY <BLOCK | FIRST |\n  LAST | MIN | MAX | SUM>] [LABELS label value [label value ...]]",
+  "complexity": "O(1)",
+  "since": "1.0.0",
+  "arity": null,
+  "aclCategories": [
+    "@timeseries",
+    "@write",
+    "@fast"
+  ],
+  "commandFlags": [],
+  "arguments": [
+    {
+      "name": "key",
+      "type": "key"
+    },
+    {
+      "name": "retentionPeriod",
+      "optional": true,
+      "token": "RETENTION",
+      "type": "integer"
+    },
+    {
+      "arguments": [
+        {
+          "name": "uncompressed",
+          "token": "UNCOMPRESSED",
+          "type": "pure-token"
+        },
+        {
+          "name": "compressed",
+          "token": "COMPRESSED",
+          "type": "pure-token"
+        }
+      ],
+      "name": "enc",
+      "optional": true,
+      "token": "ENCODING",
+      "type": "oneof"
+    },
+    {
+      "name": "size",
+      "optional": true,
+      "token": "CHUNK_SIZE",
+      "type": "integer"
+    },
+    {
+      "arguments": [
+        {
+          "name": "block",
+          "token": "BLOCK",
+          "type": "pure-token"
+        },
+        {
+          "name": "first",
+          "token": "FIRST",
+          "type": "pure-token"
+        },
+        {
+          "name": "last",
+          "token": "LAST",
+          "type": "pure-token"
+        },
+        {
+          "name": "min",
+          "token": "MIN",
+          "type": "pure-token"
+        },
+        {
+          "name": "max",
+          "token": "MAX",
+          "type": "pure-token"
+        },
+        {
+          "name": "sum",
+          "token": "SUM",
+          "type": "pure-token"
+        }
+      ],
+      "name": "policy",
+      "optional": true,
+      "token": "DUPLICATE_POLICY",
+      "type": "oneof"
+    },
+    {
+      "arguments": [
+        {
+          "name": "ignoreMaxTimediff",
+          "type": "integer"
+        },
+        {
+          "name": "ignoreMaxValDiff",
+          "type": "double"
+        }
+      ],
+      "name": "ignore",
+      "optional": true,
+      "token": "IGNORE",
+      "type": "block"
+    },
+    {
+      "arguments": [
+        {
+          "name": "label",
+          "type": "string"
+        },
+        {
+          "name": "value",
+          "type": "string"
+        }
+      ],
+      "multiple": true,
+      "name": "labels",
+      "optional": true,
+      "token": "LABELS",
+      "type": "block"
+    }
+  ],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "optional-arguments",
+        "title": "Optional arguments"
+      },
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      },
+      {
+        "id": "see-also",
+        "title": "See also"
+      },
+      {
+        "id": "related-topics",
+        "title": "Related topics"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Create a new time series\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open><summary><code>key</code></summary> \n\nis key name for the time series.\n</details>\n\n<note><b>Notes:</b>\n\n- If a key already exists, you get a Redis error reply, `TSDB: key already exists`. You can check for the existence of a key with the [`EXISTS`]() command.\n- Other commands that also create a new time series when called with a key that does not exist are [`TS.ADD`](), [`TS.INCRBY`](), and [`TS.DECRBY`]().\n</note>\n\n## Optional arguments\n\n<details open><summary><code>RETENTION retentionPeriod</code></summary> \n\nis maximum age for samples compared to the highest reported timestamp, in milliseconds. Samples are expired based solely on the difference between their timestamp and the timestamps passed to subsequent [`TS.ADD`](), [`TS.MADD`](), [`TS.INCRBY`](), and [`TS.DECRBY`]() calls with this key.\n\nWhen set to 0, samples never expire. When not specified, the option is set to the global [RETENTION_POLICY]() configuration of the database, which by default is 0.\n</details>\n\n<details open><summary><code>ENCODING enc</code></summary> \n\nspecifies the series samples encoding format as one of the following values:\n - `COMPRESSED`, applies compression to the series samples.\n - `UNCOMPRESSED`, keeps the raw samples in memory. Adding this flag keeps data in an uncompressed form. \n\n`COMPRESSED` is almost always the right choice. Compression not only saves memory but usually improves performance due to a lower number of memory accesses. It can result in about 90% memory reduction. The exception are highly irregular timestamps or values, which occur rarely.\n\nWhen not specified, the option is set to `COMPRESSED`.\n</details>\n\n<details open><summary><code>CHUNK_SIZE size</code></summary> \n\nis initial allocation size, in bytes, for the data part of each new chunk. Actual chunks may consume more memory. Changing chunkSize (using [`TS.ALTER`]()) does not affect existing chunks.\n\nMust be a multiple of 8 in the range [48 .. 1048576]. When not specified, it is set to the global [CHUNK_SIZE_BYTES]() configuration of the database, which by default is 4096 (a single memory page).\n\nNote: Before v1.6.10 no minimum was enforced. Between v1.6.10 and v1.6.17 and in v1.8.0 the minimum value was 128. Since v1.8.1 the minimum value is 48.\n\nThe data in each key is stored in chunks. Each chunk contains header and data for a given timeframe. An index contains all chunks. Iterations occur inside each chunk. Depending on your use case, consider these tradeoffs for having smaller or larger sizes of chunks:\n\n  - Insert performance: Smaller chunks result in slower inserts (more chunks need to be created).\n  - Query performance: Queries for a small subset when the chunks are very large are slower, as we need to iterate over the chunk to find the data.\n  - Larger chunks may take more memory when you have a very large number of keys and very few samples per key, or less memory when you have many samples per key.\n\n If you are unsure about your use case, select the default.\n</details>\n\n<details open><summary><code>DUPLICATE_POLICY policy</code></summary> \n\nis policy for handling insertion ([`TS.ADD`]() and [`TS.MADD`]()) of multiple samples with identical timestamps, with one of the following values:\n  - `BLOCK`: ignore any newly reported value and reply with an error\n  - `FIRST`: ignore any newly reported value\n  - `LAST`: override with the newly reported value\n  - `MIN`: only override if the value is lower than the existing value\n  - `MAX`: only override if the value is higher than the existing value\n  - `SUM`: If a previous sample exists, add the new sample to it so that the updated value is equal to (previous + new). If no previous sample exists, set the updated value equal to the new value.\n\n  When not specified: set to the global [DUPLICATE_POLICY]() configuration of the database (which, by default, is `BLOCK`).\n\n`BLOCK` is often used to avoid accidental changes. `FIRST` can be used as an optimization when duplicate reports are possible. `LAST` can be used when updates are being reported. `SUM` is used for counters (e.g., the number of cars entering a parking lot per minute when there are multiple reporting counting devices). `MIN` and `MAX` can be used, for example, to store the minimal/maximal stock price per minute (instead of storing all the samples and defining a compaction rule).\n\n</details>\n\n<details open><summary><code>IGNORE ignoreMaxTimediff ignoreMaxValDiff</code></summary> \n\nis the policy for handling duplicate samples. A new sample is considered a duplicate and is ignored if the following conditions are met:\n\n  - The time series is not a compaction;\n  - The time series' `DUPLICATE_POLICY` IS `LAST`;\n  - The sample is added in-order (`timestamp ≥ max_timestamp`);\n  - The difference of the current timestamp from the previous timestamp (`timestamp - max_timestamp`) is less than or equal to `IGNORE_MAX_TIME_DIFF`;\n  - The absolute value difference of the current value from the value at the previous maximum timestamp (`abs(value - value_at_max_timestamp`) is less than or equal to `IGNORE_MAX_VAL_DIFF`.\n \nwhere `max_timestamp` is the timestamp of the sample with the largest timestamp in the time series, and `value_at_max_timestamp` is the value at `max_timestamp`.\n\nWhen not specified: set to the global [IGNORE_MAX_TIME_DIFF]() and [IGNORE_MAX_VAL_DIFF](), which are, by default, both set to 0.\n</details>\n\n<details open><summary><code>LABELS {label value}...</code></summary> \n\nis set of label-value pairs that represent metadata labels of the key and serve as a secondary index.\n\nThe [`TS.MGET`](), [`TS.MRANGE`](), and [`TS.MREVRANGE`]() commands operate on multiple time series based on their labels. The [`TS.QUERYINDEX`]() command returns all time series keys matching a given filter based on their labels.\n</details>\n\n## Examples\n\n<details open><summary><b>Create a temperature time series</b></summary>\n\n\n127.0.0.1:6379> TS.CREATE temperature:2:32 RETENTION 60000 DUPLICATE_POLICY MAX LABELS sensor_id 2 area_id 32\nOK\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Simple string reply](): `OK` when the time series is created successfully.\n* [Simple error reply]() in these cases: invalid arguments, key already exists, etc.\n\n**RESP3:**\n\nOne of the following:\n* [Simple string reply](): `OK` when the time series is created successfully.\n* [Simple error reply]() in these cases: invalid arguments, key already exists, etc.\n\n\n\n## See also\n\n[`TS.ADD`]() | [`TS.INCRBY`]() | [`TS.DECRBY`]() | [`TS.MGET`]() | [`TS.MRANGE`]() | [`TS.MREVRANGE`]() | [`TS.QUERYINDEX`]()\n\n## Related topics\n\n- [RedisTimeSeries]()\n- [RedisTimeSeries Version 1.2 Is Here!](https://redis.com/blog/redistimeseries-version-1-2-is-here/)",
+  "intro": "Create a new time series\n\n[Examples](#examples)",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Create a new time series\n\n[Examples](#examples)"
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open><summary><code>key</code></summary> \n\nis key name for the time series.\n</details>\n\n<note><b>Notes:</b>\n\n- If a key already exists, you get a Redis error reply, `TSDB: key already exists`. You can check for the existence of a key with the [`EXISTS`]() command.\n- Other commands that also create a new time series when called with a key that does not exist are [`TS.ADD`](), [`TS.INCRBY`](), and [`TS.DECRBY`]().\n</note>"
+    },
+    {
+      "title": "Optional arguments",
+      "level": 2,
+      "content": "<details open><summary><code>RETENTION retentionPeriod</code></summary> \n\nis maximum age for samples compared to the highest reported timestamp, in milliseconds. Samples are expired based solely on the difference between their timestamp and the timestamps passed to subsequent [`TS.ADD`](), [`TS.MADD`](), [`TS.INCRBY`](), and [`TS.DECRBY`]() calls with this key.\n\nWhen set to 0, samples never expire. When not specified, the option is set to the global [RETENTION_POLICY]() configuration of the database, which by default is 0.\n</details>\n\n<details open><summary><code>ENCODING enc</code></summary> \n\nspecifies the series samples encoding format as one of the following values:\n - `COMPRESSED`, applies compression to the series samples.\n - `UNCOMPRESSED`, keeps the raw samples in memory. Adding this flag keeps data in an uncompressed form. \n\n`COMPRESSED` is almost always the right choice. Compression not only saves memory but usually improves performance due to a lower number of memory accesses. It can result in about 90% memory reduction. The exception are highly irregular timestamps or values, which occur rarely.\n\nWhen not specified, the option is set to `COMPRESSED`.\n</details>\n\n<details open><summary><code>CHUNK_SIZE size</code></summary> \n\nis initial allocation size, in bytes, for the data part of each new chunk. Actual chunks may consume more memory. Changing chunkSize (using [`TS.ALTER`]()) does not affect existing chunks.\n\nMust be a multiple of 8 in the range [48 .. 1048576]. When not specified, it is set to the global [CHUNK_SIZE_BYTES]() configuration of the database, which by default is 4096 (a single memory page).\n\nNote: Before v1.6.10 no minimum was enforced. Between v1.6.10 and v1.6.17 and in v1.8.0 the minimum value was 128. Since v1.8.1 the minimum value is 48.\n\nThe data in each key is stored in chunks. Each chunk contains header and data for a given timeframe. An index contains all chunks. Iterations occur inside each chunk. Depending on your use case, consider these tradeoffs for having smaller or larger sizes of chunks:\n\n  - Insert performance: Smaller chunks result in slower inserts (more chunks need to be created).\n  - Query performance: Queries for a small subset when the chunks are very large are slower, as we need to iterate over the chunk to find the data.\n  - Larger chunks may take more memory when you have a very large number of keys and very few samples per key, or less memory when you have many samples per key.\n\n If you are unsure about your use case, select the default.\n</details>\n\n<details open><summary><code>DUPLICATE_POLICY policy</code></summary> \n\nis policy for handling insertion ([`TS.ADD`]() and [`TS.MADD`]()) of multiple samples with identical timestamps, with one of the following values:\n  - `BLOCK`: ignore any newly reported value and reply with an error\n  - `FIRST`: ignore any newly reported value\n  - `LAST`: override with the newly reported value\n  - `MIN`: only override if the value is lower than the existing value\n  - `MAX`: only override if the value is higher than the existing value\n  - `SUM`: If a previous sample exists, add the new sample to it so that the updated value is equal to (previous + new). If no previous sample exists, set the updated value equal to the new value.\n\n  When not specified: set to the global [DUPLICATE_POLICY]() configuration of the database (which, by default, is `BLOCK`).\n\n`BLOCK` is often used to avoid accidental changes. `FIRST` can be used as an optimization when duplicate reports are possible. `LAST` can be used when updates are being reported. `SUM` is used for counters (e.g., the number of cars entering a parking lot per minute when there are multiple reporting counting devices). `MIN` and `MAX` can be used, for example, to store the minimal/maximal stock price per minute (instead of storing all the samples and defining a compaction rule).\n\n</details>\n\n<details open><summary><code>IGNORE ignoreMaxTimediff ignoreMaxValDiff</code></summary> \n\nis the policy for handling duplicate samples. A new sample is considered a duplicate and is ignored if the following conditions are met:\n\n  - The time series is not a compaction;\n  - The time series' `DUPLICATE_POLICY` IS `LAST`;\n  - The sample is added in-order (`timestamp ≥ max_timestamp`);\n  - The difference of the current timestamp from the previous timestamp (`timestamp - max_timestamp`) is less than or equal to `IGNORE_MAX_TIME_DIFF`;\n  - The absolute value difference of the current value from the value at the previous maximum timestamp (`abs(value - value_at_max_timestamp`) is less than or equal to `IGNORE_MAX_VAL_DIFF`.\n \nwhere `max_timestamp` is the timestamp of the sample with the largest timestamp in the time series, and `value_at_max_timestamp` is the value at `max_timestamp`.\n\nWhen not specified: set to the global [IGNORE_MAX_TIME_DIFF]() and [IGNORE_MAX_VAL_DIFF](), which are, by default, both set to 0.\n</details>\n\n<details open><summary><code>LABELS {label value}...</code></summary> \n\nis set of label-value pairs that represent metadata labels of the key and serve as a secondary index.\n\nThe [`TS.MGET`](), [`TS.MRANGE`](), and [`TS.MREVRANGE`]() commands operate on multiple time series based on their labels. The [`TS.QUERYINDEX`]() command returns all time series keys matching a given filter based on their labels.\n</details>"
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "<details open><summary><b>Create a temperature time series</b></summary>\n\n\n127.0.0.1:6379> TS.CREATE temperature:2:32 RETENTION 60000 DUPLICATE_POLICY MAX LABELS sensor_id 2 area_id 32\nOK\n\n</details>"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Simple string reply](): `OK` when the time series is created successfully.\n* [Simple error reply]() in these cases: invalid arguments, key already exists, etc.\n\n**RESP3:**\n\nOne of the following:\n* [Simple string reply](): `OK` when the time series is created successfully.\n* [Simple error reply]() in these cases: invalid arguments, key already exists, etc."
+    },
+    {
+      "title": "See also",
+      "level": 2,
+      "content": "[`TS.ADD`]() | [`TS.INCRBY`]() | [`TS.DECRBY`]() | [`TS.MGET`]() | [`TS.MRANGE`]() | [`TS.MREVRANGE`]() | [`TS.QUERYINDEX`]()"
+    },
+    {
+      "title": "Related topics",
+      "level": 2,
+      "content": "- [RedisTimeSeries]()\n- [RedisTimeSeries Version 1.2 Is Here!](https://redis.com/blog/redistimeseries-version-1-2-is-here/)"
+    }
+  ]
+}

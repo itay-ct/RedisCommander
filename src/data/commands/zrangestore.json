@@ -1,0 +1,178 @@
+{
+  "slug": "zrangestore",
+  "title": "ZRANGESTORE",
+  "description": "Stores a range of members from sorted set in a key.",
+  "docsUrl": "https://redis.io/docs/latest/commands/zrangestore/",
+  "group": "sorted-set",
+  "groupLabel": "Sorted Sets",
+  "syntax": "ZRANGESTORE dst src min max [BYSCORE | BYLEX] [REV] [LIMIT offset\n  count]",
+  "complexity": "O(log(N)+M) with N being the number of elements in the sorted set and M the number of elements stored into the destination key.",
+  "since": "6.2.0",
+  "arity": -5,
+  "aclCategories": [
+    "@write",
+    "@sortedset",
+    "@slow"
+  ],
+  "commandFlags": [
+    "write",
+    "denyoom"
+  ],
+  "arguments": [
+    {
+      "display_text": "dst",
+      "key_spec_index": 0,
+      "name": "dst",
+      "type": "key"
+    },
+    {
+      "display_text": "src",
+      "key_spec_index": 1,
+      "name": "src",
+      "type": "key"
+    },
+    {
+      "display_text": "min",
+      "name": "min",
+      "type": "string"
+    },
+    {
+      "display_text": "max",
+      "name": "max",
+      "type": "string"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "byscore",
+          "name": "byscore",
+          "token": "BYSCORE",
+          "type": "pure-token"
+        },
+        {
+          "display_text": "bylex",
+          "name": "bylex",
+          "token": "BYLEX",
+          "type": "pure-token"
+        }
+      ],
+      "name": "sortby",
+      "optional": true,
+      "type": "oneof"
+    },
+    {
+      "display_text": "rev",
+      "name": "rev",
+      "optional": true,
+      "token": "REV",
+      "type": "pure-token"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "offset",
+          "name": "offset",
+          "type": "integer"
+        },
+        {
+          "display_text": "count",
+          "name": "count",
+          "type": "integer"
+        }
+      ],
+      "name": "limit",
+      "optional": true,
+      "token": "LIMIT",
+      "type": "block"
+    }
+  ],
+  "keySpecs": [
+    {
+      "OW": true,
+      "begin_search": {
+        "spec": {
+          "index": 1
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      },
+      "update": true
+    },
+    {
+      "RO": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "index": 2
+        },
+        "type": "index"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": 0,
+          "limit": 0
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "examples",
+        "title": "Examples"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nThis command is like [`ZRANGE`](), but stores the result in the `<dst>` destination key.\n\n## Examples\n\n\nZADD srczset 1 \"one\" 2 \"two\" 3 \"three\" 4 \"four\"\nZRANGESTORE dstzset srczset 2 -1\nZRANGE dstzset 0 -1\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of elements in the resulting sorted set.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of elements in the resulting sorted set.",
+  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nThis command is like [`ZRANGE`](), but stores the result in the `<dst>` destination key.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nThis command is like [`ZRANGE`](), but stores the result in the `<dst>` destination key."
+    },
+    {
+      "title": "Examples",
+      "level": 2,
+      "content": "ZADD srczset 1 \"one\" 2 \"two\" 3 \"three\" 4 \"four\"\nZRANGESTORE dstzset srczset 2 -1\nZRANGE dstzset 0 -1"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of elements in the resulting sorted set.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of elements in the resulting sorted set."
+    }
+  ]
+}

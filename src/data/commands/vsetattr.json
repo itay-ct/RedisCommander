@@ -1,0 +1,76 @@
+{
+  "slug": "vsetattr",
+  "title": "VSETATTR",
+  "description": "Associate or remove the JSON attributes of elements.",
+  "docsUrl": "https://redis.io/docs/latest/commands/vsetattr/",
+  "group": "vector_set",
+  "groupLabel": "Vector Sets",
+  "syntax": "VSETATTR key element \"{ JSON obj }\"",
+  "complexity": "O(1)",
+  "since": "8.0.0",
+  "arity": null,
+  "aclCategories": [],
+  "commandFlags": [],
+  "arguments": [],
+  "keySpecs": [],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "required-arguments",
+        "title": "Required arguments"
+      },
+      {
+        "id": "related-topics",
+        "title": "Related topics"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "Associate a JSON object with an element in a vector set. Use this command to store attributes that can be used in filtered similarity searches with `VSIM`.\n\nYou can also update existing attributes or delete them by setting an empty string.\n\n```shell\nVSETATTR key element \"{\\\"type\\\": \\\"fruit\\\", \\\"color\\\": \\\"red\\\"}\"\n```\n\nTo remove attributes, pass an empty JSON string:\n\n```shell\nVSETATTR key element \"\"\n```\n\n## Required arguments\n\n<details open>\n<summary><code>key</code></summary>\n\nis the name of the key that holds the vector set.\n</details>\n\n<details open>\n<summary><code>element</code></summary>\n\nis the name of the element whose attributes you want to set or remove.\n</details>\n\n<details open>\n<summary><code>json</code></summary>\n\nis a valid JSON string. Use an empty string (`\"\"`) to delete the attributes.\n</details>\n\n## Related topics\n\n- [Vector sets]()\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): 0 if either the key or element does not exist; 1 if the attributes were successfully added to the element.\n* [Simple error reply](../../develop/reference/protocol-spec/#simple-errors) for improperly specified attribute string.\n\n**RESP3:**\n\nOne of the following:\n* [Boolean reply](../../develop/reference/protocol-spec#booleans): false if either the key or element does not exist; true if the attributes were successfully added to the element.\n* [Simple error reply](../../develop/reference/protocol-spec/#simple-errors) for improperly specified attribute string.",
+  "intro": "Associate a JSON object with an element in a vector set. Use this command to store attributes that can be used in filtered similarity searches with `VSIM`.\n\nYou can also update existing attributes or delete them by setting an empty string.\n\n```shell\nVSETATTR key element \"{\\\"type\\\": \\\"fruit\\\", \\\"color\\\": \\\"red\\\"}\"\n```\n\nTo remove attributes, pass an empty JSON string:\n\n```shell\nVSETATTR key element \"\"\n```",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "Associate a JSON object with an element in a vector set. Use this command to store attributes that can be used in filtered similarity searches with `VSIM`.\n\nYou can also update existing attributes or delete them by setting an empty string.\n\n```shell\nVSETATTR key element \"{\\\"type\\\": \\\"fruit\\\", \\\"color\\\": \\\"red\\\"}\"\n```\n\nTo remove attributes, pass an empty JSON string:\n\n```shell\nVSETATTR key element \"\"\n```"
+    },
+    {
+      "title": "Required arguments",
+      "level": 2,
+      "content": "<details open>\n<summary><code>key</code></summary>\n\nis the name of the key that holds the vector set.\n</details>\n\n<details open>\n<summary><code>element</code></summary>\n\nis the name of the element whose attributes you want to set or remove.\n</details>\n\n<details open>\n<summary><code>json</code></summary>\n\nis a valid JSON string. Use an empty string (`\"\"`) to delete the attributes.\n</details>"
+    },
+    {
+      "title": "Related topics",
+      "level": 2,
+      "content": "- [Vector sets]()"
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): 0 if either the key or element does not exist; 1 if the attributes were successfully added to the element.\n* [Simple error reply](../../develop/reference/protocol-spec/#simple-errors) for improperly specified attribute string.\n\n**RESP3:**\n\nOne of the following:\n* [Boolean reply](../../develop/reference/protocol-spec#booleans): false if either the key or element does not exist; true if the attributes were successfully added to the element.\n* [Simple error reply](../../develop/reference/protocol-spec/#simple-errors) for improperly specified attribute string."
+    }
+  ]
+}

@@ -1,0 +1,227 @@
+{
+  "slug": "xreadgroup",
+  "title": "XREADGROUP",
+  "description": "Returns new or historical messages from a stream for a consumer in a group. Blocks until a message is available otherwise.",
+  "docsUrl": "https://redis.io/docs/latest/commands/xreadgroup/",
+  "group": "stream",
+  "groupLabel": "Streams",
+  "syntax": "XREADGROUP GROUP group consumer [COUNT count] [BLOCK milliseconds]\n  [CLAIM min-idle-time] [NOACK] STREAMS key [key ...] id [id ...]",
+  "complexity": "For each stream mentioned: O(M) with M being the number of elements returned. If M is constant (e.g. always asking for the first 10 elements with COUNT), you can consider it O(1). On the other side when XREADGROUP blocks, XADD will pay the O(N) time in order to serve the N clients blocked on the stream getting new data.",
+  "since": "5.0.0",
+  "arity": -7,
+  "aclCategories": [
+    "@write",
+    "@stream",
+    "@slow",
+    "@blocking"
+  ],
+  "commandFlags": [
+    "write",
+    "blocking",
+    "movablekeys"
+  ],
+  "arguments": [
+    {
+      "arguments": [
+        {
+          "display_text": "group",
+          "name": "group",
+          "type": "string"
+        },
+        {
+          "display_text": "consumer",
+          "name": "consumer",
+          "type": "string"
+        }
+      ],
+      "name": "group-block",
+      "token": "GROUP",
+      "type": "block"
+    },
+    {
+      "display_text": "count",
+      "name": "count",
+      "optional": true,
+      "token": "COUNT",
+      "type": "integer"
+    },
+    {
+      "display_text": "milliseconds",
+      "name": "milliseconds",
+      "optional": true,
+      "token": "BLOCK",
+      "type": "integer"
+    },
+    {
+      "display_text": "min-idle-time",
+      "name": "min-idle-time",
+      "optional": true,
+      "token": "CLAIM",
+      "type": "integer"
+    },
+    {
+      "display_text": "noack",
+      "name": "noack",
+      "optional": true,
+      "token": "NOACK",
+      "type": "pure-token"
+    },
+    {
+      "arguments": [
+        {
+          "display_text": "key",
+          "key_spec_index": 0,
+          "multiple": true,
+          "name": "key",
+          "type": "key"
+        },
+        {
+          "display_text": "id",
+          "multiple": true,
+          "name": "id",
+          "type": "string"
+        }
+      ],
+      "name": "streams",
+      "token": "STREAMS",
+      "type": "block"
+    }
+  ],
+  "keySpecs": [
+    {
+      "RO": true,
+      "access": true,
+      "begin_search": {
+        "spec": {
+          "keyword": "STREAMS",
+          "startfrom": 4
+        },
+        "type": "keyword"
+      },
+      "find_keys": {
+        "spec": {
+          "keystep": 1,
+          "lastkey": -1,
+          "limit": 2
+        },
+        "type": "range"
+      }
+    }
+  ],
+  "redisCategories": [
+    "docs",
+    "develop",
+    "stack",
+    "oss",
+    "rs",
+    "rc",
+    "kubernetes",
+    "clients"
+  ],
+  "tableOfContents": {
+    "sections": [
+      {
+        "id": "consumer-groups-in-30-seconds",
+        "title": "Consumer groups in 30 seconds"
+      },
+      {
+        "id": "differences-between-xread-and-xreadgroup",
+        "title": "Differences between XREAD and XREADGROUP"
+      },
+      {
+        "children": [
+          {
+            "id": "reply-extension-for-claimed-entries",
+            "title": "Reply extension for claimed entries"
+          },
+          {
+            "id": "ordering-guarantees",
+            "title": "Ordering guarantees"
+          }
+        ],
+        "id": "the-claim-option",
+        "title": "The CLAIM option"
+      },
+      {
+        "id": "what-happens-when-a-message-is-delivered-to-a-consumer",
+        "title": "What happens when a message is delivered to a consumer?"
+      },
+      {
+        "id": "usage-example",
+        "title": "Usage example"
+      },
+      {
+        "id": "what-happens-when-a-pending-message-is-deleted",
+        "title": "What happens when a pending message is deleted?"
+      },
+      {
+        "id": "redis-software-and-redis-cloud-compatibility",
+        "title": "Redis Software and Redis Cloud compatibility"
+      },
+      {
+        "id": "return-information",
+        "title": "Return information"
+      }
+    ]
+  },
+  "codeExamples": [],
+  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nThe `XREADGROUP` command is a special version of the [`XREAD`]() command\nwith support for consumer groups. Probably you will have to understand the\n[`XREAD`]() command before reading this page will makes sense.\n\nMoreover, if you are new to streams, we recommend to read our\n[introduction to Redis Streams]().\nMake sure to understand the concept of consumer group in the introduction\nso that following how this command works will be simpler.\n\n## Consumer groups in 30 seconds\n\nThe difference between this command and the vanilla [`XREAD`]() is that this\none supports consumer groups.\n\nWithout consumer groups, just using [`XREAD`](), all the clients are served with all the entries arriving in a stream. Instead using consumer groups with `XREADGROUP`, it is possible to create groups of clients that consume different parts of the messages arriving in a given stream. If, for instance, the stream gets the new entries A, B, and C and there are two consumers reading via a consumer group, one client will get, for instance, the messages A and C, and the other the message B, and so forth.\n\nWithin a consumer group, a given consumer (that is, just a client consuming messages from the stream), has to identify with a unique *consumer name*. Which is just a string.\n\nOne of the guarantees of consumer groups is that a given consumer can only see the history of messages that were delivered to it, so a message has just a single owner. However there is a special feature called *message claiming* that allows other consumers to claim messages in case there is a non recoverable failure of some consumer. In order to implement such semantics, consumer groups require explicit acknowledgment of the messages successfully processed by the consumer, via the [`XACK`]() command. This is needed because the stream will track, for each consumer group, who is processing what message.\n\nThis is how to understand if you want to use a consumer group or not:\n\n1. If you have a stream and multiple clients, and you want all the clients to get all the messages, you do not need a consumer group.\n2. If you have a stream and multiple clients, and you want the stream to be *partitioned* or *sharded* across your clients, so that each client will get a sub set of the messages arriving in a stream, you need a consumer group.\n\n## Differences between XREAD and XREADGROUP\n\nFrom the point of view of the syntax, the commands are almost the same,\nhowever `XREADGROUP` *requires* a special and mandatory option:\n\n    GROUP <group-name> <consumer-name>\n\nThe group name is just the name of a consumer group associated to the stream.\nThe group is created using the [`XGROUP`]() command. The consumer name is the\nstring that is used by the client to identify itself inside the group.\nThe consumer is auto created inside the consumer group the first time it\nis seen. Different clients should select a different consumer name.\n\nWhen you read with `XREADGROUP`, the server will *remember* that a given\nmessage was delivered to you: the message will be stored inside the\nconsumer group in what is called a Pending Entries List (PEL), that is\na list of message IDs delivered but not yet acknowledged.\n\nThe client will have to acknowledge the message processing using [`XACK`]()\nin order for the pending entry to be removed from the PEL. The PEL\ncan be inspected using the [`XPENDING`]() command.\n\nThe `NOACK` subcommand can be used to avoid adding the message to the PEL in\ncases where reliability is not a requirement and the occasional message loss\nis acceptable. This is equivalent to acknowledging the message when it is read.\nWhen used together with `CLAIM`, `NOACK` does not apply for retrieved pending entries.\n\nThe ID to specify in the **STREAMS** option when using `XREADGROUP` can\nbe one of the following two:\n\n* When the special `>` id is specified without `CLAIM`, the consumer wants to receive only messages that were never delivered to any other consumer, hence, just new messages.\n* When the special `>` id is specified with `CLAIM`, the consumer wants, in addition, to receive messages that have been delivered to some consumer and have been pending for at least min-idle-time milliseconds.\n* Any other ID, that is, 0 or any other valid ID or incomplete ID (just the millisecond time part), will have the effect of returning entries that are pending for the consumer sending the command with IDs greater than the one provided. So basically if the ID is not `>`, then the command will just let the client access its pending entries: messages delivered to it, but not yet acknowledged. Note that in this case, `BLOCK`, `NOACK`, and `CLAIM` are ignored.\n\nLike [`XREAD`]() the `XREADGROUP` command can be used in a blocking way. There\nare no differences in this regard.\n\n## The CLAIM option\n\nThe `CLAIM` option was added as part of Redis 8.4. When `CLAIM min-idle-time` is specified, Redis will first try to claim messages which have been pending for at least min-idle-time milliseconds from the consumer group of each specified stream key. The pending messages with the highest idle time would be claimed first. Note that the `CLAIM min-idle-time` condition may become true for some pending entries during the `BLOCK milliseconds` period (if specified).\n\nIf there are no such messages, Redis will continue as normal (consume incoming messages).\n\n`CLAIM min-idle-time` is ignored if the specified id is not `>`.\n\n### Reply extension for claimed entries\n\nWhen `CLAIM min-idle-time` is used, additional information is provided for each pending entry retrieved (similar to the reply of [`XPENDING`]()). For each claimed pending entry, the reply includes:\n\n1. Entry id\n2. Field-value pairs\n3. Milliseconds since the last time this entry was delivered\n4. Number of times this entry was previously delivered\n\n### Ordering guarantees\n\nWithin each stream, entries are reported in the same order they were added by `XADD` (older first).\n\nWhen not blocked, across streams, entries are reported in the order the streams were specified.\n\nWhen using `CLAIM`, the following ordering guarantees apply per stream:\n\n- Idle pending entries are reported first, then incoming entries\n- Idle pending entries are ordered by idle time (longer first)\n- Incoming entries are reported in the order they were added by `XADD` (older first)\n\nFor example, if there are 20 idle pending entries and 200 incoming entries (in all the specified streams together):\n- When calling `XREADGROUP ... CLAIM ...`, you would retrieve 220 entries in the reply\n- When calling `XREADGROUP ... COUNT 100 ... CLAIM ...`, you would retrieve the 20 idle pending entries + 80 incoming entries in the reply\n\n## What happens when a message is delivered to a consumer?\n\nTwo things:\n\n1. If the message was never delivered to anyone, that is, if we are talking about a new message, then a PEL (Pending Entries List) is created.\n2. If instead the message was already delivered to this consumer, and it is just re-fetching the same message again, then the *last delivery counter* is updated to the current time, and the *number of deliveries* is incremented by one. You can access those message properties using the [`XPENDING`]() command.\n\n## Usage example\n\nNormally you use the command like that in order to get new messages and\nprocess them. In pseudo-code:\n\n```\nWHILE true\n    entries = XREADGROUP GROUP $GroupName $ConsumerName BLOCK 2000 COUNT 10 STREAMS mystream >\n    if entries == nil\n        puts \"Timeout... try again\"\n        CONTINUE\n    end\n\n    FOREACH entries AS stream_entries\n        FOREACH stream_entries as message\n            process_message(message.id,message.fields)\n\n            # ACK the message as processed\n            XACK mystream $GroupName message.id\n        END\n    END\nEND\n```\n\nIn this way the example consumer code will fetch only new messages, process\nthem, and acknowledge them via [`XACK`](). However the example code above is\nnot complete, because it does not handle recovering after a crash. What\nwill happen if we crash in the middle of processing messages, is that our\nmessages will remain in the pending entries list, so we can access our\nhistory by giving `XREADGROUP` initially an ID of 0, and performing the same\nloop. Once providing an ID of 0 the reply is an empty set of messages, we\nknow that we processed and acknowledged all the pending messages: we\ncan start to use `>` as ID, in order to get the new messages and rejoin the\nconsumers that are processing new things.\n\nTo see how the command actually replies, please check the [`XREAD`]() command page.\n\n## What happens when a pending message is deleted?\n\nEntries may be deleted from the stream due to trimming with [`XADD`]() or [`XTRIM`](),\nor explicit calls to [`XDEL`](), [`XDELEX`](), or [`XACKDEL`]().\n\nWhen an entry is trimmed with [`XADD`]() or [`XTRIM`]() and `DELREF` or `ACKED` are not specified,\ndeleted with [`XDEL`](), or deleted with [`XDELEX`]() or [`XACKDEL`]() \nand `DELREF` or `ACKED` are not specified, Redis doesn't prevent the deletion of entries that are present in the stream's PELs.\nWhen this happens, the PELs retain the deleted entries' IDs, but the actual entry payload is no longer available.\nTherefore, when reading such PEL entries, Redis will return a null value in place of their respective data.\n\nExample:\n\n```\n> XADD mystream 1 myfield mydata\n\"1-0\"\n> XGROUP CREATE mystream mygroup 0\nOK\n> XREADGROUP GROUP mygroup myconsumer STREAMS mystream >\n1) 1) \"mystream\"\n   2) 1) 1) \"1-0\"\n         2) 1) \"myfield\"\n            2) \"mydata\"\n> XDEL mystream 1-0\n(integer) 1\n> XREADGROUP GROUP mygroup myconsumer STREAMS mystream 0\n1) 1) \"mystream\"\n   2) 1) 1) \"1-0\"\n         2) (nil)\n```\n\nReading the [Redis Streams introduction]() is highly\nsuggested in order to understand more about the streams overall behavior\nand semantics.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays): an array where each element is an array composed of a two elements containing the key name and the entries reported for that key. The entries reported are full stream entries, having IDs and the list of all the fields and values. Field and values are guaranteed to be reported in the same order they were added by `XADD`.\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the _BLOCK_ option is given and a timeout occurs, or if there is no stream that can be served.\n\n**RESP3:**\n\nOne of the following:\n* [Map reply](../../develop/reference/protocol-spec#maps): A map of key-value elements where each element is composed of the key name and the entries reported for that key. The entries reported are full stream entries, having IDs and the list of all the fields and values. Field and values are guaranteed to be reported in the same order they were added by `XADD`.\n* [Null reply](../../develop/reference/protocol-spec#nulls): if the _BLOCK_ option is given and a timeout occurs, or if there is no stream that can be served.",
+  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nThe `XREADGROUP` command is a special version of the [`XREAD`]() command\nwith support for consumer groups. Probably you will have to understand the\n[`XREAD`]() command before reading this page will makes sense.\n\nMoreover, if you are new to streams, we recommend to read our\n[introduction to Redis Streams]().\nMake sure to understand the concept of consumer group in the introduction\nso that following how this command works will be simpler.",
+  "sections": [
+    {
+      "title": "Overview",
+      "level": 1,
+      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nThe `XREADGROUP` command is a special version of the [`XREAD`]() command\nwith support for consumer groups. Probably you will have to understand the\n[`XREAD`]() command before reading this page will makes sense.\n\nMoreover, if you are new to streams, we recommend to read our\n[introduction to Redis Streams]().\nMake sure to understand the concept of consumer group in the introduction\nso that following how this command works will be simpler."
+    },
+    {
+      "title": "Consumer groups in 30 seconds",
+      "level": 2,
+      "content": "The difference between this command and the vanilla [`XREAD`]() is that this\none supports consumer groups.\n\nWithout consumer groups, just using [`XREAD`](), all the clients are served with all the entries arriving in a stream. Instead using consumer groups with `XREADGROUP`, it is possible to create groups of clients that consume different parts of the messages arriving in a given stream. If, for instance, the stream gets the new entries A, B, and C and there are two consumers reading via a consumer group, one client will get, for instance, the messages A and C, and the other the message B, and so forth.\n\nWithin a consumer group, a given consumer (that is, just a client consuming messages from the stream), has to identify with a unique *consumer name*. Which is just a string.\n\nOne of the guarantees of consumer groups is that a given consumer can only see the history of messages that were delivered to it, so a message has just a single owner. However there is a special feature called *message claiming* that allows other consumers to claim messages in case there is a non recoverable failure of some consumer. In order to implement such semantics, consumer groups require explicit acknowledgment of the messages successfully processed by the consumer, via the [`XACK`]() command. This is needed because the stream will track, for each consumer group, who is processing what message.\n\nThis is how to understand if you want to use a consumer group or not:\n\n1. If you have a stream and multiple clients, and you want all the clients to get all the messages, you do not need a consumer group.\n2. If you have a stream and multiple clients, and you want the stream to be *partitioned* or *sharded* across your clients, so that each client will get a sub set of the messages arriving in a stream, you need a consumer group."
+    },
+    {
+      "title": "Differences between XREAD and XREADGROUP",
+      "level": 2,
+      "content": "From the point of view of the syntax, the commands are almost the same,\nhowever `XREADGROUP` *requires* a special and mandatory option:\n\n    GROUP <group-name> <consumer-name>\n\nThe group name is just the name of a consumer group associated to the stream.\nThe group is created using the [`XGROUP`]() command. The consumer name is the\nstring that is used by the client to identify itself inside the group.\nThe consumer is auto created inside the consumer group the first time it\nis seen. Different clients should select a different consumer name.\n\nWhen you read with `XREADGROUP`, the server will *remember* that a given\nmessage was delivered to you: the message will be stored inside the\nconsumer group in what is called a Pending Entries List (PEL), that is\na list of message IDs delivered but not yet acknowledged.\n\nThe client will have to acknowledge the message processing using [`XACK`]()\nin order for the pending entry to be removed from the PEL. The PEL\ncan be inspected using the [`XPENDING`]() command.\n\nThe `NOACK` subcommand can be used to avoid adding the message to the PEL in\ncases where reliability is not a requirement and the occasional message loss\nis acceptable. This is equivalent to acknowledging the message when it is read.\nWhen used together with `CLAIM`, `NOACK` does not apply for retrieved pending entries.\n\nThe ID to specify in the **STREAMS** option when using `XREADGROUP` can\nbe one of the following two:\n\n* When the special `>` id is specified without `CLAIM`, the consumer wants to receive only messages that were never delivered to any other consumer, hence, just new messages.\n* When the special `>` id is specified with `CLAIM`, the consumer wants, in addition, to receive messages that have been delivered to some consumer and have been pending for at least min-idle-time milliseconds.\n* Any other ID, that is, 0 or any other valid ID or incomplete ID (just the millisecond time part), will have the effect of returning entries that are pending for the consumer sending the command with IDs greater than the one provided. So basically if the ID is not `>`, then the command will just let the client access its pending entries: messages delivered to it, but not yet acknowledged. Note that in this case, `BLOCK`, `NOACK`, and `CLAIM` are ignored.\n\nLike [`XREAD`]() the `XREADGROUP` command can be used in a blocking way. There\nare no differences in this regard."
+    },
+    {
+      "title": "The CLAIM option",
+      "level": 2,
+      "content": "The `CLAIM` option was added as part of Redis 8.4. When `CLAIM min-idle-time` is specified, Redis will first try to claim messages which have been pending for at least min-idle-time milliseconds from the consumer group of each specified stream key. The pending messages with the highest idle time would be claimed first. Note that the `CLAIM min-idle-time` condition may become true for some pending entries during the `BLOCK milliseconds` period (if specified).\n\nIf there are no such messages, Redis will continue as normal (consume incoming messages).\n\n`CLAIM min-idle-time` is ignored if the specified id is not `>`."
+    },
+    {
+      "title": "Reply extension for claimed entries",
+      "level": 3,
+      "content": "When `CLAIM min-idle-time` is used, additional information is provided for each pending entry retrieved (similar to the reply of [`XPENDING`]()). For each claimed pending entry, the reply includes:\n\n1. Entry id\n2. Field-value pairs\n3. Milliseconds since the last time this entry was delivered\n4. Number of times this entry was previously delivered"
+    },
+    {
+      "title": "Ordering guarantees",
+      "level": 3,
+      "content": "Within each stream, entries are reported in the same order they were added by `XADD` (older first).\n\nWhen not blocked, across streams, entries are reported in the order the streams were specified.\n\nWhen using `CLAIM`, the following ordering guarantees apply per stream:\n\n- Idle pending entries are reported first, then incoming entries\n- Idle pending entries are ordered by idle time (longer first)\n- Incoming entries are reported in the order they were added by `XADD` (older first)\n\nFor example, if there are 20 idle pending entries and 200 incoming entries (in all the specified streams together):\n- When calling `XREADGROUP ... CLAIM ...`, you would retrieve 220 entries in the reply\n- When calling `XREADGROUP ... COUNT 100 ... CLAIM ...`, you would retrieve the 20 idle pending entries + 80 incoming entries in the reply"
+    },
+    {
+      "title": "What happens when a message is delivered to a consumer?",
+      "level": 2,
+      "content": "Two things:\n\n1. If the message was never delivered to anyone, that is, if we are talking about a new message, then a PEL (Pending Entries List) is created.\n2. If instead the message was already delivered to this consumer, and it is just re-fetching the same message again, then the *last delivery counter* is updated to the current time, and the *number of deliveries* is incremented by one. You can access those message properties using the [`XPENDING`]() command."
+    },
+    {
+      "title": "Usage example",
+      "level": 2,
+      "content": "Normally you use the command like that in order to get new messages and\nprocess them. In pseudo-code:\n\n```\nWHILE true\n    entries = XREADGROUP GROUP $GroupName $ConsumerName BLOCK 2000 COUNT 10 STREAMS mystream >\n    if entries == nil\n        puts \"Timeout... try again\"\n        CONTINUE\n    end\n\n    FOREACH entries AS stream_entries\n        FOREACH stream_entries as message\n            process_message(message.id,message.fields)\n\n            # ACK the message as processed\n            XACK mystream $GroupName message.id\n        END\n    END\nEND\n```\n\nIn this way the example consumer code will fetch only new messages, process\nthem, and acknowledge them via [`XACK`](). However the example code above is\nnot complete, because it does not handle recovering after a crash. What\nwill happen if we crash in the middle of processing messages, is that our\nmessages will remain in the pending entries list, so we can access our\nhistory by giving `XREADGROUP` initially an ID of 0, and performing the same\nloop. Once providing an ID of 0 the reply is an empty set of messages, we\nknow that we processed and acknowledged all the pending messages: we\ncan start to use `>` as ID, in order to get the new messages and rejoin the\nconsumers that are processing new things.\n\nTo see how the command actually replies, please check the [`XREAD`]() command page."
+    },
+    {
+      "title": "What happens when a pending message is deleted?",
+      "level": 2,
+      "content": "Entries may be deleted from the stream due to trimming with [`XADD`]() or [`XTRIM`](),\nor explicit calls to [`XDEL`](), [`XDELEX`](), or [`XACKDEL`]().\n\nWhen an entry is trimmed with [`XADD`]() or [`XTRIM`]() and `DELREF` or `ACKED` are not specified,\ndeleted with [`XDEL`](), or deleted with [`XDELEX`]() or [`XACKDEL`]() \nand `DELREF` or `ACKED` are not specified, Redis doesn't prevent the deletion of entries that are present in the stream's PELs.\nWhen this happens, the PELs retain the deleted entries' IDs, but the actual entry payload is no longer available.\nTherefore, when reading such PEL entries, Redis will return a null value in place of their respective data.\n\nExample:\n\n```\n> XADD mystream 1 myfield mydata\n\"1-0\"\n> XGROUP CREATE mystream mygroup 0\nOK\n> XREADGROUP GROUP mygroup myconsumer STREAMS mystream >\n1) 1) \"mystream\"\n   2) 1) 1) \"1-0\"\n         2) 1) \"myfield\"\n            2) \"mydata\"\n> XDEL mystream 1-0\n(integer) 1\n> XREADGROUP GROUP mygroup myconsumer STREAMS mystream 0\n1) 1) \"mystream\"\n   2) 1) 1) \"1-0\"\n         2) (nil)\n```\n\nReading the [Redis Streams introduction]() is highly\nsuggested in order to understand more about the streams overall behavior\nand semantics."
+    },
+    {
+      "title": "Redis Software and Redis Cloud compatibility",
+      "level": 2,
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |"
+    },
+    {
+      "title": "Return information",
+      "level": 2,
+      "content": "**RESP2:**\n\nOne of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays): an array where each element is an array composed of a two elements containing the key name and the entries reported for that key. The entries reported are full stream entries, having IDs and the list of all the fields and values. Field and values are guaranteed to be reported in the same order they were added by `XADD`.\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the _BLOCK_ option is given and a timeout occurs, or if there is no stream that can be served.\n\n**RESP3:**\n\nOne of the following:\n* [Map reply](../../develop/reference/protocol-spec#maps): A map of key-value elements where each element is composed of the key name and the entries reported for that key. The entries reported are full stream entries, having IDs and the list of all the fields and values. Field and values are guaranteed to be reported in the same order they were added by `XADD`.\n* [Null reply](../../develop/reference/protocol-spec#nulls): if the _BLOCK_ option is given and a timeout occurs, or if there is no stream that can be served."
+    }
+  ]
+}
