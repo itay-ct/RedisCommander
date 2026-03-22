@@ -200,7 +200,7 @@ test(
   )
 
     expect(document.body.textContent).not.toContain('C:\\REDIS\\')
-    expect(document.body.textContent).toContain('version 1.14')
+    expect(document.body.textContent).toContain('version 1.15')
   expect(document.body.textContent).toContain('commands')
   expect(document.body.textContent).toContain('Client: Redis CLI')
   expect(document.body.textContent).not.toContain('cached locally')
@@ -447,7 +447,16 @@ test(
 
   const favicon = await readFile(`${process.cwd()}/public/favicon.svg`, 'utf8')
   expect(favicon).toContain('shape-rendering="crispEdges"')
-  expect(favicon).toContain('#ff4438')
+  expect(favicon).toContain('rgb(255, 68, 56)')
+
+  const html = await readFile(`${process.cwd()}/index.html`, 'utf8')
+  expect(html).toContain('apple-touch-icon')
+  expect(html).toContain('site.webmanifest')
+  expect(html).toContain('favicon.ico')
+
+  const manifest = await readFile(`${process.cwd()}/public/site.webmanifest`, 'utf8')
+  expect(manifest).toContain('"name": "Redis Commander"')
+  expect(manifest).toContain('android-chrome-512x512.png')
   },
   15000,
 )
