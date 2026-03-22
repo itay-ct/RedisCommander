@@ -70,6 +70,11 @@ test('terminal shell stays fixed, keyboard-driven, and hides ASCII art on tighte
     )
   }
 
+  const advanceClient = async (label: string) => {
+    keyboard('ArrowDown')
+    await waitFor(() => expect(document.body.textContent).toContain(`Client: ${label}`))
+  }
+
   const { default: App } = await import('../src/App')
   render(<App />)
 
@@ -93,7 +98,7 @@ test('terminal shell stays fixed, keyboard-driven, and hides ASCII art on tighte
   )
 
   expect(document.body.textContent).not.toContain('C:\\REDIS\\')
-  expect(document.body.textContent).toContain('version 1.07')
+  expect(document.body.textContent).toContain('version 1.08')
   expect(document.body.textContent).toContain('commands')
   expect(document.body.textContent).toContain('Client: Redis CLI')
   expect(document.body.textContent).not.toContain('cached locally')
@@ -177,12 +182,45 @@ test('terminal shell stays fixed, keyboard-driven, and hides ASCII art on tighte
   keyboard('ArrowDown')
   await waitFor(() => expect(document.body.textContent).toContain('Client: Python'))
   expect(document.cookie).toContain('redis-commander-client=redis_py')
-  await waitFor(() =>
-    expect(document.querySelector('.dossier__api-signature')?.textContent).toContain('expire('),
-  )
+  await waitFor(() => expect(document.querySelector('.dossier__api-code')?.textContent).toContain('expire('))
+
+  keyboard('f')
+  await waitFor(() => expect(document.querySelector('.find-palette')).not.toBeNull())
+
+  const zaddFindInput = document.querySelector('.find-palette__input') as HTMLInputElement | null
+  fireEvent.change(zaddFindInput!, { target: { value: 'zadd' } })
+  fireEvent.keyDown(zaddFindInput!, { bubbles: true, cancelable: true, key: 'Enter' })
+  await waitFor(() => expect(document.querySelector('.find-palette')).toBeNull())
+  await waitFor(() => expect(document.querySelector('.dossier__title')?.textContent).toContain('ZADD'))
+
+  const getApiCode = () => document.querySelector('.dossier__api-code')?.textContent?.trim() ?? ''
+
+  await waitFor(() => expect(getApiCode()).toContain(') → ResponseT'))
+  expect(getApiCode()).toContain('mapping: Mapping[AnyKeyT, EncodableT]')
+  expect(getApiCode().split('→').length - 1).toBe(1)
+
+  await advanceClient('Node.js')
+  await advanceClient('Java-Sync')
+  await waitFor(() => expect(getApiCode()).toContain(') → long'))
+  expect(getApiCode()).toContain('// 1 if the new element was added')
+  expect(document.querySelector('.dossier__api-token--comment')).not.toBeNull()
+
+  await advanceClient('Lettuce-Sync')
+  await advanceClient('Java-Async')
+  await advanceClient('Java-Reactive')
+  await advanceClient('Go')
+  await advanceClient('C#-Sync')
+  await waitFor(() => expect(getApiCode()).toContain(') → bool'))
+  expect(getApiCode()).toContain('// The number of elements added')
+
+  await advanceClient('C#-Async')
+  await advanceClient('PHP')
+  await waitFor(() => expect(getApiCode()).toContain(') → int'))
+  expect(getApiCode()).toContain('$membersAndScoresDictionary: array')
+  expect(getApiCode().split('→').length - 1).toBe(1)
 
   keyboard('F2')
-  await waitFor(() => expect(getFocusedBar()).toContain('Generic'))
+  await waitFor(() => expect(getFocusedBar()).toContain('Sorted Sets'))
   expect(getFooterText()).not.toContain('UP/DNSelect client')
 
   keyboard('f')

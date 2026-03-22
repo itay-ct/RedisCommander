@@ -43,7 +43,7 @@ const COMMAND_ROWS = 14
 const ARGUMENT_ROWS = 6
 const FIND_RESULT_LIMIT = 6
 const API_METHOD_LIMIT = 4
-const RELEASE_VERSION = '1.07'
+const RELEASE_VERSION = '1.08'
 const REPO_URL = 'https://github.com/itay-ct/RedisCommander'
 const CLIENT_COOKIE_NAME = 'redis-commander-client'
 const DEFAULT_CLIENT_ID = 'redis-cli'
@@ -65,6 +65,12 @@ const CLIENT_OPTIONS = [
 ] as const
 
 type ClientOption = (typeof CLIENT_OPTIONS)[number]
+type ApiMethodTokenKind = 'comment' | 'method' | 'param-name' | 'punct' | 'return' | 'type'
+type ApiMethodToken = {
+  kind: ApiMethodTokenKind
+  text: string
+}
+type ApiMethodLine = ApiMethodToken[]
 
 const commandIndex = commandIndexJson as CommandIndex
 
@@ -462,27 +468,96 @@ function getClientOptionById(clientId: string) {
   return CLIENT_OPTIONS.find((option) => option.id === clientId) ?? CLIENT_OPTIONS[0]
 }
 
-function formatApiMethodParams(method: ApiMethod) {
-  if (!method.params.length) {
-    return 'No parameters documented.'
-  }
-
-  return method.params.map((param) => `${param.name}: ${param.type}`).join(' • ')
+function normalizeInlineText(value: string | undefined) {
+  return value?.replace(/\s+/g, ' ').trim() ?? ''
 }
 
-function formatApiMethodReturn(method: ApiMethod) {
-  if (!method.returns?.type && !method.returns?.description) {
-    return null
+function createApiMethodToken(kind: ApiMethodTokenKind, text: string): ApiMethodToken {
+  return { kind, text }
+}
+
+function parseApiMethodSignature(signature: string) {
+  const cleaned = normalizeInlineText(signature)
+  if (!cleaned) {
+    return {
+      leadingReturnType: '',
+      methodName: 'method',
+    }
   }
 
-  const type = method.returns?.type?.trim() ?? ''
-  const description = method.returns?.description?.trim() ?? ''
+  const head = cleaned.includes('(') ? cleaned.slice(0, cleaned.indexOf('(')).trim() : cleaned
+  const methodName = head.split(/\s+/).at(-1)?.split('.').at(-1) ?? head
+  const leadingReturnType = head.slice(0, Math.max(0, head.length - methodName.length)).trim()
 
-  if (type && description) {
-    return `${type} - ${description}`
+  return {
+    leadingReturnType,
+    methodName,
+  }
+}
+
+function buildApiMethodLines(method: ApiMethod): ApiMethodLine[] {
+  const { leadingReturnType, methodName } = parseApiMethodSignature(method.signature)
+  const returnType = normalizeInlineText(method.returns?.type) || leadingReturnType
+  const returnDescription = normalizeInlineText(method.returns?.description)
+
+  if (!method.params.length) {
+    const line: ApiMethodLine = [
+      createApiMethodToken('method', methodName),
+      createApiMethodToken('punct', '()'),
+    ]
+
+    if (returnType) {
+      line.push(createApiMethodToken('punct', ' → '))
+      line.push(createApiMethodToken('return', returnType))
+    }
+
+    if (returnDescription) {
+      line.push(createApiMethodToken('comment', ` // ${returnDescription}`))
+    }
+
+    return [line]
   }
 
-  return type || description
+  const lines: ApiMethodLine[] = [[createApiMethodToken('method', methodName), createApiMethodToken('punct', '(')]]
+
+  method.params.forEach((param, index) => {
+    const paramName = normalizeInlineText(param.name) || `arg${index + 1}`
+    const paramType = normalizeInlineText(param.type)
+    const paramDescription = normalizeInlineText(param.description)
+    const line: ApiMethodLine = [
+      createApiMethodToken('punct', '  '),
+      createApiMethodToken('param-name', paramName),
+    ]
+
+    if (paramType) {
+      line.push(createApiMethodToken('punct', ': '))
+      line.push(createApiMethodToken('type', paramType))
+    }
+
+    if (index < method.params.length - 1) {
+      line.push(createApiMethodToken('punct', ','))
+    }
+
+    if (paramDescription) {
+      line.push(createApiMethodToken('comment', ` // ${paramDescription}`))
+    }
+
+    lines.push(line)
+  })
+
+  const closingLine: ApiMethodLine = [createApiMethodToken('punct', ')')]
+
+  if (returnType) {
+    closingLine.push(createApiMethodToken('punct', ' → '))
+    closingLine.push(createApiMethodToken('return', returnType))
+  }
+
+  if (returnDescription) {
+    closingLine.push(createApiMethodToken('comment', ` // ${returnDescription}`))
+  }
+
+  lines.push(closingLine)
+  return lines
 }
 
 const commandsByGroup = buildCommandsByGroup(commandIndex.commands)
@@ -1359,18 +1434,31 @@ function App() {
                           {visibleApiMethods.length ? (
                             <>
                               {visibleApiMethods.map((method, methodIndex) => {
-                                const returnValue = formatApiMethodReturn(method)
+                                const lines = buildApiMethodLines(method)
 
                                 return (
                                   <article
                                     className="dossier__api-method"
                                     key={`${selectedCommand?.slug ?? 'client'}-${selectedClientOption.id}-${methodIndex}-${method.signature}`}
                                   >
-                                    <code className="dossier__api-signature">{method.signature}</code>
-                                    <p className="dossier__api-params">{formatApiMethodParams(method)}</p>
-                                    {returnValue ? (
-                                      <p className="dossier__api-return">{returnValue}</p>
-                                    ) : null}
+                                    <pre className="dossier__api-code">
+                                      {lines.map((line, lineIndex) => (
+                                        <span
+                                          className="dossier__api-line"
+                                          key={`${selectedClientOption.id}-${methodIndex}-line-${lineIndex}`}
+                                        >
+                                          {line.map((token, tokenIndex) => (
+                                            <span
+                                              className={`dossier__api-token dossier__api-token--${token.kind}`}
+                                              key={`${selectedClientOption.id}-${methodIndex}-line-${lineIndex}-token-${tokenIndex}`}
+                                            >
+                                              {token.text}
+                                            </span>
+                                          ))}
+                                          {lineIndex < lines.length - 1 ? '\n' : null}
+                                        </span>
+                                      ))}
+                                    </pre>
                                   </article>
                                 )
                               })}
