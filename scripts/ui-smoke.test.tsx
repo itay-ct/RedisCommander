@@ -11,6 +11,95 @@ afterEach(() => {
   vi.resetModules()
 })
 
+function setViewport(width: number, height: number) {
+  Object.defineProperty(window, 'innerWidth', {
+    configurable: true,
+    value: width,
+    writable: true,
+  })
+  Object.defineProperty(window, 'innerHeight', {
+    configurable: true,
+    value: height,
+    writable: true,
+  })
+}
+
+function stubMatchMedia(coarsePointer = false) {
+  vi.stubGlobal(
+    'matchMedia',
+    vi.fn((query: string) => ({
+      addEventListener: vi.fn(),
+      addListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+      matches: query === '(pointer: coarse)' ? coarsePointer : false,
+      media: query,
+      onchange: null,
+      removeEventListener: vi.fn(),
+      removeListener: vi.fn(),
+    })),
+  )
+}
+
+function stubAppGlobals(openedUrlRef: { current: string }, coarsePointer = false, width = 1600, height = 900) {
+  setViewport(width, height)
+  stubMatchMedia(coarsePointer)
+
+  vi.stubGlobal(
+    'fetch',
+    vi.fn(async (input: RequestInfo | URL) => {
+      const url = String(input)
+
+      if (url.includes('command-details.json')) {
+        const body = await readFile(`${process.cwd()}/public/data/command-details.json`, 'utf8')
+        return new Response(body, {
+          headers: { 'Content-Type': 'application/json' },
+          status: 200,
+        })
+      }
+
+      return new Response('{}', {
+        headers: { 'Content-Type': 'application/json' },
+        status: 200,
+      })
+    }),
+  )
+
+  vi.stubGlobal('open', vi.fn((url?: string | URL) => {
+    openedUrlRef.current = String(url ?? '')
+    return null
+  }))
+
+  vi.stubGlobal(
+    'requestAnimationFrame',
+    vi.fn((callback: FrameRequestCallback) => window.setTimeout(() => callback(performance.now()), 0)),
+  )
+
+  vi.stubGlobal('cancelAnimationFrame', vi.fn((id: number) => window.clearTimeout(id)))
+}
+
+async function renderAppForTest(
+  options: {
+    coarsePointer?: boolean
+    height?: number
+    width?: number
+  } = {},
+) {
+  const openedUrlRef = { current: '' }
+  stubAppGlobals(
+    openedUrlRef,
+    options.coarsePointer ?? false,
+    options.width ?? 1600,
+    options.height ?? 900,
+  )
+
+  const { default: App } = await import('../src/App')
+  render(<App />)
+
+  return {
+    getOpenedUrl: () => openedUrlRef.current,
+  }
+}
+
 test(
   'terminal shell stays fixed, keyboard-driven, and hides ASCII art on tighter widths',
   async () => {
@@ -111,7 +200,7 @@ test(
   )
 
     expect(document.body.textContent).not.toContain('C:\\REDIS\\')
-    expect(document.body.textContent).toContain('version 1.13')
+    expect(document.body.textContent).toContain('version 1.14')
   expect(document.body.textContent).toContain('commands')
   expect(document.body.textContent).toContain('Client: Redis CLI')
   expect(document.body.textContent).not.toContain('cached locally')
@@ -362,3 +451,131 @@ test(
   },
   15000,
 )
+
+test('mobile portrait uses a single-pane touch layout with banner, docs actions, and client switching', async () => {
+  const { getOpenedUrl } = await renderAppForTest({
+    coarsePointer: true,
+    height: 844,
+    width: 390,
+  })
+
+  await waitFor(() => expect(document.querySelector('.shell--mobile-portrait')).not.toBeNull())
+  expect(document.body.textContent).toContain('Experienced best on desktop')
+  expect(document.querySelector('.dos-footer')).toBeNull()
+  expect(document.querySelectorAll('.mobile-workspace--portrait .dos-panel')).toHaveLength(1)
+  expect(document.querySelector('.ascii-pane')).toBeNull()
+  expect(document.querySelectorAll('.mobile-toolbar__tab')).toHaveLength(3)
+
+  const categoryRows = document.querySelectorAll('.mobile-workspace--portrait .dos-row')
+  expect(categoryRows.length).toBeGreaterThan(3)
+  fireEvent.click(categoryRows[0] as HTMLElement)
+  await waitFor(() =>
+    expect(document.querySelector('.mobile-workspace--portrait .dos-panel__bar')?.textContent).toContain('Strings'),
+  )
+
+  const commandRows = document.querySelectorAll('.mobile-workspace--portrait .dos-row')
+  expect(commandRows.length).toBeGreaterThan(0)
+  fireEvent.click(commandRows[0] as HTMLElement)
+  await waitFor(() =>
+    expect(document.querySelector('.mobile-workspace--portrait .dossier__title')?.textContent?.trim()).not.toEqual(''),
+  )
+  expect(document.querySelector('.dos-panel__bar-action')?.textContent).toContain('Docs')
+
+  fireEvent.click(document.querySelector('.mobile-toolbar__action') as HTMLButtonElement)
+  await waitFor(() => expect(document.querySelector('.find-palette')).not.toBeNull())
+
+  const findInput = document.querySelector('.find-palette__input') as HTMLInputElement | null
+  expect(findInput).not.toBeNull()
+  fireEvent.change(findInput!, { target: { value: 'expire' } })
+  await waitFor(() =>
+    expect(document.querySelector('.find-palette__result-title')?.textContent).toContain('EXPIRE'),
+  )
+
+  fireEvent.click(document.querySelector('.find-palette__result') as HTMLButtonElement)
+  await waitFor(() => expect(document.querySelector('.find-palette')).toBeNull())
+  await waitFor(() => expect(document.querySelector('.dossier__title')?.textContent).toContain('EXPIRE'))
+
+  const clientBar = document.querySelector('.dossier__card-bar--button') as HTMLButtonElement | null
+  expect(clientBar).not.toBeNull()
+  fireEvent.click(clientBar!)
+  await waitFor(() => expect(document.querySelector('.dossier__client-picker')).not.toBeNull())
+
+  const pythonOption = [...document.querySelectorAll('.dossier__client-option')].find((node) =>
+    node.textContent?.includes('Python'),
+  ) as HTMLButtonElement | undefined
+  expect(pythonOption).toBeDefined()
+  fireEvent.click(pythonOption!)
+  await waitFor(() => expect(document.body.textContent).toContain('Client: Python'))
+  expect(document.cookie).toContain('redis-commander-client=redis_py')
+
+  fireEvent.click(document.querySelector('.dos-panel__bar-action') as HTMLButtonElement)
+  expect(getOpenedUrl()).toContain('redis.io/docs/latest/commands/expire/')
+
+  const portraitWorkspace = document.querySelector('.mobile-workspace--portrait') as HTMLElement | null
+  expect(portraitWorkspace).not.toBeNull()
+  fireEvent.touchStart(portraitWorkspace!, {
+    touches: [{ clientX: 120, clientY: 280 }],
+  })
+  fireEvent.touchMove(portraitWorkspace!, {
+    touches: [{ clientX: 320, clientY: 286 }],
+  })
+  fireEvent.touchEnd(portraitWorkspace!)
+  await waitFor(() =>
+    expect(document.querySelector('.mobile-workspace--portrait .dos-panel__bar')?.textContent).toContain('Generic'),
+  )
+
+  fireEvent.touchStart(portraitWorkspace!, {
+    touches: [{ clientX: 300, clientY: 280 }],
+  })
+  fireEvent.touchMove(portraitWorkspace!, {
+    touches: [{ clientX: 120, clientY: 286 }],
+  })
+  fireEvent.touchEnd(portraitWorkspace!)
+  await waitFor(() => expect(document.querySelector('.dossier__title')?.textContent).toContain('EXPIRE'))
+}, 15000)
+
+test('mobile landscape keeps nav and dossier visible together', async () => {
+  await renderAppForTest({
+    coarsePointer: true,
+    height: 390,
+    width: 844,
+  })
+
+  await waitFor(() => expect(document.querySelector('.shell--mobile-landscape')).not.toBeNull())
+  expect(document.body.textContent).toContain('Experienced best on desktop')
+  expect(document.querySelector('.dos-footer')).toBeNull()
+  expect(document.querySelector('.ascii-pane')).toBeNull()
+  expect(document.querySelectorAll('.mobile-workspace--landscape .dos-panel')).toHaveLength(2)
+  expect(document.querySelector('.mobile-nav-toggle')).not.toBeNull()
+
+  const categoryRows = document.querySelectorAll('.mobile-workspace--landscape .mobile-workspace__nav .dos-row')
+  expect(categoryRows.length).toBeGreaterThan(0)
+  fireEvent.click(categoryRows[0] as HTMLElement)
+  await waitFor(() =>
+    expect(
+      [...document.querySelectorAll('.mobile-nav-toggle__button')].find((node) =>
+        node.classList.contains('mobile-nav-toggle__button--active'),
+      )?.textContent,
+    ).toContain('Commands'),
+  )
+
+  const commandRows = document.querySelectorAll('.mobile-workspace--landscape .mobile-workspace__nav .dos-row')
+  expect(commandRows.length).toBeGreaterThan(0)
+  fireEvent.click(commandRows[0] as HTMLElement)
+  await waitFor(() =>
+    expect(document.querySelector('.mobile-workspace__detail .dossier__title')?.textContent?.trim()).not.toEqual(''),
+  )
+
+  const categoriesToggle = [...document.querySelectorAll('.mobile-nav-toggle__button')].find((node) =>
+    node.textContent?.includes('Categories'),
+  ) as HTMLButtonElement | undefined
+  expect(categoriesToggle).toBeDefined()
+  fireEvent.click(categoriesToggle!)
+  await waitFor(() =>
+    expect(
+      [...document.querySelectorAll('.mobile-nav-toggle__button')].find((node) =>
+        node.classList.contains('mobile-nav-toggle__button--active'),
+      )?.textContent,
+    ).toContain('Categories'),
+  )
+})

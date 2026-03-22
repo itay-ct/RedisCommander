@@ -28,6 +28,8 @@ import type {
 } from './types'
 
 type PaneFocus = 'categories' | 'commands' | 'details'
+type MobileLayoutMode = 'desktop' | 'portrait' | 'landscape'
+type MobileNavPane = 'categories' | 'commands'
 
 type CategoryBrowserItem =
   | CategoryMenuItem
@@ -44,10 +46,13 @@ const COMMAND_ROWS = 14
 const ARGUMENT_ROWS = 6
 const FIND_RESULT_LIMIT = 6
 const API_METHOD_LIMIT = 4
-const RELEASE_VERSION = '1.13'
+const RELEASE_VERSION = '1.14'
 const REPO_URL = 'https://github.com/itay-ct/RedisCommander'
 const CLIENT_COOKIE_NAME = 'redis-commander-client'
 const DEFAULT_CLIENT_ID = 'redis-cli'
+const MOBILE_LAYOUT_MAX_WIDTH = 1024
+const MOBILE_LANDSCAPE_MIN_WIDTH = 700
+const MOBILE_SWIPE_THRESHOLD = 48
 
 const CLIENT_OPTIONS = [
   { id: DEFAULT_CLIENT_ID, label: 'Redis CLI' },
@@ -196,6 +201,21 @@ function formatClock(value: Date) {
   return value.toLocaleTimeString('en-GB', {
     hour12: false,
   })
+}
+
+function getMobileLayoutMode(): MobileLayoutMode {
+  if (typeof window === 'undefined') {
+    return 'desktop'
+  }
+
+  const coarsePointer = window.matchMedia('(pointer: coarse)').matches
+  if (!coarsePointer || window.innerWidth > MOBILE_LAYOUT_MAX_WIDTH) {
+    return 'desktop'
+  }
+
+  return window.innerWidth >= MOBILE_LANDSCAPE_MIN_WIDTH && window.innerWidth > window.innerHeight
+    ? 'landscape'
+    : 'portrait'
 }
 
 function toPlainText(value: string) {
@@ -696,6 +716,8 @@ const docsSnapshotLabel = commandIndex.sourceDate
 
 function App() {
   const [paneFocus, setPaneFocus] = useState<PaneFocus>('categories')
+  const [mobileLayout, setMobileLayout] = useState<MobileLayoutMode>(() => getMobileLayoutMode())
+  const [mobileNavPane, setMobileNavPane] = useState<MobileNavPane>('categories')
   const [categoryShelf, setCategoryShelf] = useState<CategoryShelf>('primary')
   const [primaryIndex, setPrimaryIndex] = useState(0)
   const [secondaryIndex, setSecondaryIndex] = useState(secondaryCategories.length ? 1 : 0)
@@ -706,8 +728,22 @@ function App() {
   const [findQuery, setFindQuery] = useState('')
   const [findIndex, setFindIndex] = useState(0)
   const [preferredClientId, setPreferredClientId] = useState(() => readCookie(CLIENT_COOKIE_NAME) ?? DEFAULT_CLIENT_ID)
+  const [mobileClientPickerOpen, setMobileClientPickerOpen] = useState(false)
   const findInputRef = useRef<HTMLInputElement | null>(null)
+  const activeCategoryRowRef = useRef<HTMLButtonElement | null>(null)
+  const activeCommandRowRef = useRef<HTMLButtonElement | null>(null)
+  const detailScrollRef = useRef<HTMLDivElement | null>(null)
+  const swipeStateRef = useRef<{
+    axis: 'x' | 'y' | null
+    lastX: number
+    lastY: number
+    startX: number
+    startY: number
+  } | null>(null)
   const deferredFindQuery = useDeferredValue(findQuery)
+  const isMobileLayout = mobileLayout !== 'desktop'
+  const isMobilePortrait = mobileLayout === 'portrait'
+  const isMobileLandscape = mobileLayout === 'landscape'
 
   const categoryMenu = categoryShelf === 'primary' ? primaryMenu : secondaryMenu
   const categoryIndex = categoryShelf === 'primary' ? primaryIndex : secondaryIndex
@@ -779,6 +815,16 @@ function App() {
   }, [preferredClientId])
 
   useEffect(() => {
+    const syncLayout = () => {
+      setMobileLayout(getMobileLayoutMode())
+    }
+
+    syncLayout()
+    window.addEventListener('resize', syncLayout)
+    return () => window.removeEventListener('resize', syncLayout)
+  }, [])
+
+  useEffect(() => {
     const intervalId = window.setInterval(() => {
       setClock(formatClock(new Date()))
     }, 1000)
@@ -808,6 +854,57 @@ function App() {
     document.title = pageTitle
   }, [currentCategory, selectedCommand])
 
+  useEffect(() => {
+    if (!isMobileLayout) {
+      return
+    }
+
+    const frameId = window.requestAnimationFrame(() => {
+      if (isMobileLandscape) {
+        if (mobileNavPane === 'categories') {
+          if (typeof activeCategoryRowRef.current?.scrollIntoView === 'function') {
+            activeCategoryRowRef.current.scrollIntoView({ block: 'nearest' })
+          }
+        } else {
+          if (typeof activeCommandRowRef.current?.scrollIntoView === 'function') {
+            activeCommandRowRef.current.scrollIntoView({ block: 'nearest' })
+          }
+        }
+
+        return
+      }
+
+      if (paneFocus === 'categories') {
+        if (typeof activeCategoryRowRef.current?.scrollIntoView === 'function') {
+          activeCategoryRowRef.current.scrollIntoView({ block: 'nearest' })
+        }
+        return
+      }
+
+      if (paneFocus === 'commands') {
+        if (typeof activeCommandRowRef.current?.scrollIntoView === 'function') {
+          activeCommandRowRef.current.scrollIntoView({ block: 'nearest' })
+        }
+        return
+      }
+
+      if (typeof detailScrollRef.current?.scrollTo === 'function') {
+        detailScrollRef.current.scrollTo({ top: 0 })
+      }
+    })
+
+    return () => window.cancelAnimationFrame(frameId)
+  }, [
+    categoryIndex,
+    categoryShelf,
+    currentCommandIndex,
+    isMobileLandscape,
+    isMobileLayout,
+    mobileNavPane,
+    paneFocus,
+    selectedCommand?.slug,
+  ])
+
   function openCoreShelf() {
     if (!primaryCategories.length) {
       return
@@ -821,6 +918,7 @@ function App() {
       setCategoryShelf('primary')
       setPrimaryIndex(nextIndex)
       setActiveGroup(nextGroup)
+      setMobileNavPane('categories')
       setPaneFocus('categories')
     })
   }
@@ -839,11 +937,13 @@ function App() {
       setCategoryShelf('secondary')
       setSecondaryIndex(nextMenuIndex)
       setActiveGroup(nextGroup)
+      setMobileNavPane('categories')
       setPaneFocus('categories')
     })
   }
 
   function openFindPalette() {
+    setMobileClientPickerOpen(false)
     setFindOpen(true)
     setFindQuery('')
     setFindIndex(0)
@@ -853,6 +953,111 @@ function App() {
     setFindOpen(false)
     setFindQuery('')
     setFindIndex(0)
+  }
+
+  function setMobileTab(nextPane: PaneFocus) {
+    if (nextPane === 'commands' && !currentCommands.length) {
+      return
+    }
+
+    if (nextPane === 'details' && !selectedCommand) {
+      return
+    }
+
+    if (isMobileLandscape) {
+      if (nextPane === 'categories' || nextPane === 'commands') {
+        setMobileNavPane(nextPane)
+      }
+    }
+
+    setMobileClientPickerOpen(false)
+    setPaneFocus(nextPane)
+  }
+
+  function shiftMobilePane(delta: number) {
+    const order: PaneFocus[] = selectedCommand
+      ? ['categories', 'commands', 'details']
+      : currentCommands.length
+        ? ['categories', 'commands']
+        : ['categories']
+
+    const currentIndex = order.indexOf(paneFocus)
+    const nextIndex = clampIndex(currentIndex + delta, order.length)
+    const nextPane = order[nextIndex]
+
+    if (nextPane) {
+      setMobileTab(nextPane)
+    }
+  }
+
+  function handleMobileSwipeStart(event: React.TouchEvent<HTMLElement>) {
+    if (!isMobilePortrait || findOpen) {
+      return
+    }
+
+    const touch = event.touches[0]
+    if (!touch) {
+      return
+    }
+
+    swipeStateRef.current = {
+      axis: null,
+      lastX: touch.clientX,
+      lastY: touch.clientY,
+      startX: touch.clientX,
+      startY: touch.clientY,
+    }
+  }
+
+  function handleMobileSwipeMove(event: React.TouchEvent<HTMLElement>) {
+    const state = swipeStateRef.current
+    if (!state || !isMobilePortrait || findOpen) {
+      return
+    }
+
+    const touch = event.touches[0]
+    if (!touch) {
+      return
+    }
+
+    state.lastX = touch.clientX
+    state.lastY = touch.clientY
+
+    const deltaX = touch.clientX - state.startX
+    const deltaY = touch.clientY - state.startY
+
+    if (!state.axis) {
+      if (Math.abs(deltaX) < 8 && Math.abs(deltaY) < 8) {
+        return
+      }
+
+      state.axis = Math.abs(deltaX) > Math.abs(deltaY) ? 'x' : 'y'
+    }
+
+    if (state.axis === 'x') {
+      event.preventDefault()
+    }
+  }
+
+  function handleMobileSwipeEnd() {
+    const state = swipeStateRef.current
+    swipeStateRef.current = null
+
+    if (!state || !isMobilePortrait || findOpen || state.axis !== 'x') {
+      return
+    }
+
+    const deltaX = state.lastX - state.startX
+    const deltaY = state.lastY - state.startY
+
+    if (
+      Math.abs(deltaX) < MOBILE_SWIPE_THRESHOLD ||
+      Math.abs(deltaX) <= Math.abs(deltaY) * 1.2
+    ) {
+      return
+    }
+
+    shiftMobilePane(deltaX < 0 ? 1 : -1)
   }
 
   function setCategoryCursor(nextIndex: number, shelf: CategoryShelf = categoryShelf) {
@@ -979,7 +1184,9 @@ function App() {
       }
 
       setActiveGroup(command.group)
+      setMobileNavPane('commands')
       setPaneFocus('details')
+      setMobileClientPickerOpen(false)
       setFindOpen(false)
       setFindQuery('')
       setFindIndex(0)
@@ -1456,8 +1663,460 @@ function App() {
     },
   ]
 
+  const mobileToolbarTab = isMobileLandscape
+    ? paneFocus === 'details'
+      ? 'details'
+      : mobileNavPane
+    : paneFocus
+
+  function renderCategoryRows(mobile = false) {
+    const items = mobile ? categoryMenu : categoryWindow.items
+    const totalRows = mobile ? items.length : CATEGORY_ROWS
+
+    return (
+      <div className={`dos-list ${mobile ? 'dos-list--mobile' : ''}`} role="listbox" aria-label="Redis command categories">
+        {Array.from({ length: totalRows }, (_, rowIndex) => {
+          const item = items[rowIndex]
+          if (!item) {
+            return mobile ? null : <div aria-hidden="true" className="dos-row dos-row--empty" key={`category-empty-${rowIndex}`} />
+          }
+
+          const actualIndex = mobile ? rowIndex : categoryWindow.start + rowIndex
+          const active = actualIndex === categoryIndex
+          const countLabel =
+            item.kind === 'category'
+              ? String(item.count).padStart(3, '0')
+              : item.kind === 'more'
+                ? `${String(secondaryCategories.length).padStart(2, '0')}+`
+                : 'UP'
+
+          return (
+            <button
+              className={`dos-row ${mobile ? 'dos-row--touch' : ''} ${active ? 'dos-row--active' : ''}`}
+              key={`${item.kind}-${item.label}`}
+              onClick={() => {
+                setCategoryCursor(actualIndex)
+
+                if (mobile) {
+                  setMobileClientPickerOpen(false)
+                  setMobileNavPane(item.kind === 'category' ? 'commands' : 'categories')
+                  activateCategoryItem(item)
+                  return
+                }
+
+                setPaneFocus('categories')
+              }}
+              onDoubleClick={
+                mobile
+                  ? undefined
+                  : () => {
+                      setPaneFocus('categories')
+                      setCategoryCursor(actualIndex)
+                      activateCategoryItem(item)
+                    }
+              }
+              ref={mobile && active ? activeCategoryRowRef : undefined}
+              type="button"
+            >
+              <span className="dos-row__index">
+                {item.kind === 'back' ? '..' : String(actualIndex + 1).padStart(2, '0')}
+              </span>
+              {active && !mobile ? (
+                <ShuffleText
+                  animateKey={`category:${categoryShelf}:${actualIndex}:${item.label}`}
+                  className="dos-row__label"
+                  text={item.label}
+                />
+              ) : (
+                <span className="dos-row__label">{item.label}</span>
+              )}
+              <span className="dos-row__meta">{countLabel}</span>
+            </button>
+          )
+        })}
+      </div>
+    )
+  }
+
+  function renderCommandRows(mobile = false) {
+    const items = mobile ? currentCommands : commandWindow.items
+    const totalRows = mobile ? items.length : COMMAND_ROWS
+
+    return (
+      <div className={`dos-list ${mobile ? 'dos-list--mobile' : ''}`} role="listbox" aria-label={`${currentCategory?.label ?? 'Redis'} commands`}>
+        {Array.from({ length: totalRows }, (_, rowIndex) => {
+          const command = items[rowIndex]
+          if (!command) {
+            return mobile ? null : <div aria-hidden="true" className="dos-row dos-row--empty" key={`command-empty-${rowIndex}`} />
+          }
+
+          const actualIndex = mobile ? rowIndex : commandWindow.start + rowIndex
+          const active = actualIndex === currentCommandIndex
+
+          return (
+            <button
+              className={`dos-row ${mobile ? 'dos-row--touch' : ''} ${active ? 'dos-row--active' : ''}`}
+              key={command.slug}
+              onClick={() => {
+                setCommandCursor(actualIndex)
+
+                if (mobile) {
+                  setMobileClientPickerOpen(false)
+                  setMobileNavPane('commands')
+                  setMobileTab('details')
+                  return
+                }
+
+                setPaneFocus('commands')
+              }}
+              onDoubleClick={
+                mobile
+                  ? undefined
+                  : () => {
+                      setPaneFocus('details')
+                      setCommandCursor(actualIndex)
+                    }
+              }
+              ref={mobile && active ? activeCommandRowRef : undefined}
+              type="button"
+            >
+              <span className="dos-row__index">{String(actualIndex + 1).padStart(2, '0')}</span>
+              {active && !mobile ? (
+                <ShuffleText
+                  animateKey={`command:${command.slug}:${actualIndex}`}
+                  className="dos-row__label"
+                  text={command.title}
+                />
+              ) : (
+                <span className="dos-row__label">{command.title}</span>
+              )}
+              <span className="dos-row__meta">{command.since ?? 'docs'}</span>
+            </button>
+          )
+        })}
+      </div>
+    )
+  }
+
+  function renderCategoryPanel(mobile = false) {
+    return (
+      <section
+        className={`dos-panel ${mobile ? 'dos-panel--mobile' : ''} ${paneFocus === 'categories' ? 'dos-panel--focus' : ''}`}
+        style={categoryPanelStyle}
+      >
+        <div className="dos-panel__bar">
+          <span>{categoryPanelTitle}</span>
+          <span>{formatCounter(categoryIndex + 1, categoryMenu.length)}</span>
+        </div>
+
+        <div className={`dos-panel__body ${mobile ? 'dos-panel__body--mobile-scroll' : ''}`}>
+          {renderCategoryRows(mobile)}
+        </div>
+
+        <div className={`dos-panel__footer ${mobile ? 'dos-panel__footer--mobile' : ''}`}>
+          <span>{highlightedCategoryItem.label}</span>
+          <span>
+            {highlightedCategoryItem.kind === 'category'
+              ? formatCount(highlightedCategoryItem.count)
+              : `${secondaryCategories.length} extra groups`}
+          </span>
+          <span className="dos-panel__footer-copy">{highlightedCategoryItem.tagline}</span>
+        </div>
+      </section>
+    )
+  }
+
+  function renderCommandPanel(mobile = false) {
+    return (
+      <section
+        className={`dos-panel ${mobile ? 'dos-panel--mobile' : ''} ${paneFocus === 'commands' ? 'dos-panel--focus' : ''}`}
+        style={commandPanelStyle}
+      >
+        <div className="dos-panel__bar">
+          <span>{commandPanelTitle}</span>
+          <span>{formatCounter(selectedCommand ? currentCommandIndex + 1 : 0, currentCommands.length)}</span>
+        </div>
+
+        <div className={`dos-panel__body ${mobile ? 'dos-panel__body--mobile-scroll' : ''}`}>
+          {renderCommandRows(mobile)}
+        </div>
+
+        <div className={`dos-panel__footer ${mobile ? 'dos-panel__footer--mobile' : ''}`}>
+          <span>{selectedCommand?.title ?? 'No command selected'}</span>
+          <span>
+            {selectedCommand
+              ? `since ${selectedCommand.since ?? 'n/a'} / arity ${formatArity(selectedCommand.arity)}`
+              : 'Select a category to browse'}
+          </span>
+          <span className="dos-panel__footer-copy">
+            {selectedCommand?.description || currentCategory?.tagline || 'Redis command explorer'}
+          </span>
+        </div>
+      </section>
+    )
+  }
+
+  function renderDetailPanel(mobile = false) {
+    const showMobileClientPicker = mobile && availableClientOptions.length > 1
+
+    return (
+      <section
+        className={`dos-panel ${mobile ? 'dos-panel--mobile' : ''} ${paneFocus === 'details' ? 'dos-panel--focus' : ''}`}
+        style={detailPanelStyle}
+      >
+        <div className="dos-panel__bar">
+          <span>{detailPanelTitle}</span>
+          {mobile && selectedCommand ? (
+            <button className="dos-panel__bar-action" onClick={openOfficialDocs} type="button">
+              Docs
+            </button>
+          ) : (
+            <span>{selectedCommand ? 'Docs' : ''}</span>
+          )}
+        </div>
+
+        <div
+          className={`dos-panel__body ${mobile ? 'dos-panel__body--mobile-scroll' : ''}`}
+          ref={mobile ? detailScrollRef : undefined}
+        >
+          <div className={`dossier ${mobile ? 'dossier--mobile' : ''}`} style={dossierStyle}>
+            <div className="dossier__hero">
+              <div className="dossier__hero-top">
+                <h1 className="dossier__title">{selectedCommand?.title ?? 'NO COMMAND SELECTED'}</h1>
+                <span className="dossier__complexity">
+                  {selectedCommand?.complexity ?? 'complexity n/a'}
+                </span>
+              </div>
+              <code className="dossier__syntax">
+                {selectedCommand?.syntax ?? 'Choose a Redis command from the middle pane.'}
+              </code>
+              <div className="dossier__intro">
+                {detailIntroBlocks.map((block, blockIndex) =>
+                  renderRichBlock(
+                    block,
+                    `${selectedCommand?.slug ?? 'detail'}-intro-${blockIndex}`,
+                    'intro',
+                  ),
+                )}
+              </div>
+            </div>
+
+            <div className="dossier__body dossier__body--simple">
+              <div className="dossier__stack">
+                <section className="dossier__card dossier__card--example">
+                  {showMobileClientPicker ? (
+                    <>
+                      <button
+                        className={`dossier__card-bar dossier__card-bar--button ${mobileClientPickerOpen ? 'dossier__card-bar--open' : ''}`}
+                        onClick={() => setMobileClientPickerOpen((previous) => !previous)}
+                        type="button"
+                      >
+                        <span>{selectedClientOption.label}</span>
+                        <span>{mobileClientPickerOpen ? 'Hide' : 'Client'}</span>
+                      </button>
+                      {mobileClientPickerOpen ? (
+                        <div className="dossier__client-picker">
+                          {availableClientOptions.map((option) => (
+                            <button
+                              className={`dossier__client-option ${option.id === selectedClientOption.id ? 'dossier__client-option--active' : ''}`}
+                              key={option.id}
+                              onClick={() => {
+                                setPreferredClientId(option.id)
+                                setMobileClientPickerOpen(false)
+                              }}
+                              type="button"
+                            >
+                              {option.label}
+                            </button>
+                          ))}
+                        </div>
+                      ) : null}
+                    </>
+                  ) : (
+                    <div className="dossier__card-bar">{selectedClientOption.label}</div>
+                  )}
+                  {selectedClientOption.id === DEFAULT_CLIENT_ID ? (
+                    <div className="dossier__example">
+                      <pre className="dossier__example-code">{exampleCard.content}</pre>
+                    </div>
+                  ) : (
+                    <div className="dossier__api">
+                      {visibleApiMethods.length ? (
+                        <>
+                          {visibleApiMethods.map((method, methodIndex) => {
+                            const lines = buildApiMethodLines(method)
+
+                            return (
+                              <article
+                                className="dossier__api-method"
+                                key={`${selectedCommand?.slug ?? 'client'}-${selectedClientOption.id}-${methodIndex}-${method.signature}`}
+                              >
+                                <pre className="dossier__api-code">
+                                  {lines.map((line, lineIndex) => (
+                                    <span
+                                      className="dossier__api-line"
+                                      key={`${selectedClientOption.id}-${methodIndex}-line-${lineIndex}`}
+                                    >
+                                      {line.map((token, tokenIndex) => (
+                                        <span
+                                          className={`dossier__api-token dossier__api-token--${token.kind}`}
+                                          key={`${selectedClientOption.id}-${methodIndex}-line-${lineIndex}-token-${tokenIndex}`}
+                                        >
+                                          {token.text}
+                                        </span>
+                                      ))}
+                                      {lineIndex < lines.length - 1 ? '\n' : null}
+                                    </span>
+                                  ))}
+                                </pre>
+                              </article>
+                            )
+                          })}
+                          {hiddenApiMethodCount ? (
+                            <div className="dossier__api-more">+{hiddenApiMethodCount} more overloads in the official docs</div>
+                          ) : null}
+                        </>
+                      ) : (
+                        <div className="dossier__api-empty">
+                          No API methods are mapped for this client in the local Redis docs mirror.
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </section>
+
+                {detailNotes.length ? (
+                  <section className="dossier__card dossier__card--note">
+                    <div className="dossier__card-bar">Note</div>
+                    <div className="dossier__notes">
+                      {detailNotes.map((note, noteIndex) => (
+                        <div className="dossier__note-block" key={`${selectedCommand?.slug ?? 'detail'}-note-${noteIndex}`}>
+                          {extractExcerptBlocks(note, 3, 420).map((block, blockIndex) =>
+                            renderRichBlock(
+                              block,
+                              `${selectedCommand?.slug ?? 'detail'}-note-${noteIndex}-${blockIndex}`,
+                              'note',
+                            ),
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+                ) : null}
+              </div>
+
+              <section className="dossier__card">
+                <div className="dossier__card-bar">Arguments</div>
+                <div className="dossier__arguments">
+                  {previewArguments.length ? (
+                    <>
+                      {previewArguments.map((argument) => (
+                        <div className="dossier__argument" key={`${argument.name}-${argument.type}`}>
+                          <span className="dossier__argument-name">{formatArgumentLabel(argument)}</span>
+                          <span className="dossier__argument-meta">
+                            {argument.type}
+                            {argument.optional ? ' / optional' : ' / required'}
+                          </span>
+                        </div>
+                      ))}
+                      {extraArgumentCount ? (
+                        <div className="dossier__argument dossier__argument--more">
+                          <span className="dossier__argument-name">+{extraArgumentCount} more</span>
+                          <span className="dossier__argument-meta">open docs for the full argument tree</span>
+                        </div>
+                      ) : null}
+                    </>
+                  ) : (
+                    <div className="dossier__argument dossier__argument--more">
+                      <span className="dossier__argument-name">No explicit arguments in cache</span>
+                      <span className="dossier__argument-meta">see the official docs for the full argument tree</span>
+                    </div>
+                  )}
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+
+        {mobile ? null : (
+          <div className="dos-panel__footer dos-panel__footer--compact">
+            <span />
+            <span>{paneFocus === 'details' ? 'ENTER opens docs' : ''}</span>
+          </div>
+        )}
+      </section>
+    )
+  }
+
+  function renderLandscapeNavigationPanel() {
+    const showingCategories = mobileNavPane === 'categories'
+    const navCount = showingCategories
+      ? formatCounter(categoryIndex + 1, categoryMenu.length)
+      : formatCounter(selectedCommand ? currentCommandIndex + 1 : 0, currentCommands.length)
+
+    return (
+      <section
+        className={`dos-panel dos-panel--mobile ${paneFocus !== 'details' ? 'dos-panel--focus' : ''}`}
+        style={showingCategories ? categoryPanelStyle : commandPanelStyle}
+      >
+        <div className="dos-panel__bar dos-panel__bar--mobile-toggle">
+          <div className="mobile-nav-toggle" role="tablist" aria-label="Mobile navigation pane">
+            {(['categories', 'commands'] as const).map((pane) => (
+              <button
+                aria-selected={mobileNavPane === pane}
+                className={`mobile-nav-toggle__button ${mobileNavPane === pane ? 'mobile-nav-toggle__button--active' : ''}`}
+                key={pane}
+                onClick={() => {
+                  setMobileClientPickerOpen(false)
+                  setMobileNavPane(pane)
+                  setPaneFocus(pane)
+                }}
+                type="button"
+              >
+                {pane === 'categories' ? 'Categories' : 'Commands'}
+              </button>
+            ))}
+          </div>
+          <span>{navCount}</span>
+        </div>
+
+        <div className="dos-panel__body dos-panel__body--mobile-scroll">
+          {showingCategories ? renderCategoryRows(true) : renderCommandRows(true)}
+        </div>
+
+        <div className="dos-panel__footer dos-panel__footer--mobile">
+          {showingCategories ? (
+            <>
+              <span>{highlightedCategoryItem.label}</span>
+              <span>
+                {highlightedCategoryItem.kind === 'category'
+                  ? formatCount(highlightedCategoryItem.count)
+                  : `${secondaryCategories.length} extra groups`}
+              </span>
+              <span className="dos-panel__footer-copy">{highlightedCategoryItem.tagline}</span>
+            </>
+          ) : (
+            <>
+              <span>{selectedCommand?.title ?? 'No command selected'}</span>
+              <span>
+                {selectedCommand
+                  ? `since ${selectedCommand.since ?? 'n/a'} / arity ${formatArity(selectedCommand.arity)}`
+                  : 'Select a category to browse'}
+              </span>
+              <span className="dos-panel__footer-copy">
+                {selectedCommand?.description || currentCategory?.tagline || 'Redis command explorer'}
+              </span>
+            </>
+          )}
+        </div>
+      </section>
+    )
+  }
+
   return (
-    <main className="shell">
+    <main
+      className={`shell ${isMobileLayout ? `shell--mobile shell--mobile-${mobileLayout}` : ''}`}
+    >
       <div aria-hidden="true" className="shell__scanlines" />
 
       <header className="dos-header" style={headerStyle}>
@@ -1473,295 +2132,77 @@ function App() {
         </div>
       </header>
 
-      <section className="workspace">
-        <section
-          className={`dos-panel ${paneFocus === 'categories' ? 'dos-panel--focus' : ''}`}
-          style={categoryPanelStyle}
-        >
-          <div className="dos-panel__bar">
-            <span>{categoryPanelTitle}</span>
-            <span>{formatCounter(categoryIndex + 1, categoryMenu.length)}</span>
-          </div>
-
-          <div className="dos-panel__body">
-            <div className="dos-list" role="listbox" aria-label="Redis command categories">
-              {Array.from({ length: CATEGORY_ROWS }, (_, rowIndex) => {
-                const item = categoryWindow.items[rowIndex]
-                if (!item) {
-                  return <div aria-hidden="true" className="dos-row dos-row--empty" key={`category-empty-${rowIndex}`} />
-                }
-
-                const actualIndex = categoryWindow.start + rowIndex
-                const active = actualIndex === categoryIndex
-                const countLabel =
-                  item.kind === 'category'
-                    ? String(item.count).padStart(3, '0')
-                    : item.kind === 'more'
-                      ? `${String(secondaryCategories.length).padStart(2, '0')}+`
-                      : 'UP'
-
-                return (
+      {isMobileLayout ? (
+        <>
+          <section className="mobile-toolbar" style={headerStyle}>
+            <div className="mobile-toolbar__banner">Experienced best on desktop</div>
+            <div className="mobile-toolbar__controls">
+              <div className="mobile-toolbar__tabs" role="tablist" aria-label="Mobile panes">
+                {(['categories', 'commands', 'details'] as const).map((tab) => (
                   <button
-                    className={`dos-row ${active ? 'dos-row--active' : ''}`}
-                    key={`${item.kind}-${item.label}`}
-                    onClick={() => {
-                      setPaneFocus('categories')
-                      setCategoryCursor(actualIndex)
-                    }}
-                    onDoubleClick={() => {
-                      setPaneFocus('categories')
-                      setCategoryCursor(actualIndex)
-                      activateCategoryItem(item)
-                    }}
+                    aria-selected={mobileToolbarTab === tab}
+                    className={`mobile-toolbar__tab ${mobileToolbarTab === tab ? 'mobile-toolbar__tab--active' : ''}`}
+                    disabled={
+                      (tab === 'commands' && !currentCommands.length) ||
+                      (tab === 'details' && !selectedCommand)
+                    }
+                    key={tab}
+                    onClick={() => setMobileTab(tab)}
                     type="button"
                   >
-                    <span className="dos-row__index">
-                      {item.kind === 'back' ? '..' : String(actualIndex + 1).padStart(2, '0')}
-                    </span>
-                    {active ? (
-                      <ShuffleText
-                        animateKey={`category:${categoryShelf}:${actualIndex}:${item.label}`}
-                        className="dos-row__label"
-                        text={item.label}
-                      />
-                    ) : (
-                      <span className="dos-row__label">{item.label}</span>
-                    )}
-                    <span className="dos-row__meta">{countLabel}</span>
+                    {tab === 'categories' ? 'Categories' : tab === 'commands' ? 'Commands' : 'Dossier'}
                   </button>
-                )
-              })}
-            </div>
-          </div>
-
-          <div className="dos-panel__footer">
-            <span>{highlightedCategoryItem.label}</span>
-            <span>
-              {highlightedCategoryItem.kind === 'category'
-                ? formatCount(highlightedCategoryItem.count)
-                : `${secondaryCategories.length} extra groups`}
-            </span>
-            <span className="dos-panel__footer-copy">{highlightedCategoryItem.tagline}</span>
-          </div>
-        </section>
-
-        <section
-          className={`dos-panel ${paneFocus === 'commands' ? 'dos-panel--focus' : ''}`}
-          style={commandPanelStyle}
-        >
-          <div className="dos-panel__bar">
-            <span>{commandPanelTitle}</span>
-            <span>{formatCounter(selectedCommand ? currentCommandIndex + 1 : 0, currentCommands.length)}</span>
-          </div>
-
-          <div className="dos-panel__body">
-            <div className="dos-list" role="listbox" aria-label={`${currentCategory?.label ?? 'Redis'} commands`}>
-              {Array.from({ length: COMMAND_ROWS }, (_, rowIndex) => {
-                const command = commandWindow.items[rowIndex]
-                if (!command) {
-                  return <div aria-hidden="true" className="dos-row dos-row--empty" key={`command-empty-${rowIndex}`} />
-                }
-
-                const actualIndex = commandWindow.start + rowIndex
-                const active = actualIndex === currentCommandIndex
-
-                return (
-                  <button
-                    className={`dos-row ${active ? 'dos-row--active' : ''}`}
-                    key={command.slug}
-                    onClick={() => {
-                      setPaneFocus('commands')
-                      setCommandCursor(actualIndex)
-                    }}
-                    onDoubleClick={() => {
-                      setPaneFocus('details')
-                      setCommandCursor(actualIndex)
-                    }}
-                    type="button"
-                  >
-                    <span className="dos-row__index">{String(actualIndex + 1).padStart(2, '0')}</span>
-                    {active ? (
-                      <ShuffleText
-                        animateKey={`command:${command.slug}:${actualIndex}`}
-                        className="dos-row__label"
-                        text={command.title}
-                      />
-                    ) : (
-                      <span className="dos-row__label">{command.title}</span>
-                    )}
-                    <span className="dos-row__meta">{command.since ?? 'docs'}</span>
-                  </button>
-                )
-              })}
-            </div>
-          </div>
-
-          <div className="dos-panel__footer">
-            <span>{selectedCommand?.title ?? 'No command selected'}</span>
-            <span>
-              {selectedCommand
-                ? `since ${selectedCommand.since ?? 'n/a'} / arity ${formatArity(selectedCommand.arity)}`
-                : 'Select a category to browse'}
-            </span>
-            <span className="dos-panel__footer-copy">
-              {selectedCommand?.description || currentCategory?.tagline || 'Redis command explorer'}
-            </span>
-          </div>
-        </section>
-
-        <div className="workspace__right">
-          <section
-            className={`dos-panel ${paneFocus === 'details' ? 'dos-panel--focus' : ''}`}
-            style={detailPanelStyle}
-          >
-            <div className="dos-panel__bar">
-              <span>{detailPanelTitle}</span>
-              <span>{selectedCommand ? 'Docs' : ''}</span>
-            </div>
-
-            <div className="dos-panel__body">
-              <div className="dossier" style={dossierStyle}>
-                <div className="dossier__hero">
-                  <div className="dossier__hero-top">
-                    <h1 className="dossier__title">{selectedCommand?.title ?? 'NO COMMAND SELECTED'}</h1>
-                    <span className="dossier__complexity">
-                      {selectedCommand?.complexity ?? 'complexity n/a'}
-                    </span>
-                  </div>
-                  <code className="dossier__syntax">
-                    {selectedCommand?.syntax ?? 'Choose a Redis command from the middle pane.'}
-                  </code>
-                  <div className="dossier__intro">
-                    {detailIntroBlocks.map((block, blockIndex) =>
-                      renderRichBlock(
-                        block,
-                        `${selectedCommand?.slug ?? 'detail'}-intro-${blockIndex}`,
-                        'intro',
-                      ),
-                    )}
-                  </div>
-                </div>
-
-                <div className="dossier__body dossier__body--simple">
-                  <div className="dossier__stack">
-                    <section className="dossier__card dossier__card--example">
-                      <div className="dossier__card-bar">{selectedClientOption.label}</div>
-                      {selectedClientOption.id === DEFAULT_CLIENT_ID ? (
-                        <div className="dossier__example">
-                          <pre className="dossier__example-code">{exampleCard.content}</pre>
-                        </div>
-                      ) : (
-                        <div className="dossier__api">
-                          {visibleApiMethods.length ? (
-                            <>
-                              {visibleApiMethods.map((method, methodIndex) => {
-                                const lines = buildApiMethodLines(method)
-
-                                return (
-                                  <article
-                                    className="dossier__api-method"
-                                    key={`${selectedCommand?.slug ?? 'client'}-${selectedClientOption.id}-${methodIndex}-${method.signature}`}
-                                  >
-                                    <pre className="dossier__api-code">
-                                      {lines.map((line, lineIndex) => (
-                                        <span
-                                          className="dossier__api-line"
-                                          key={`${selectedClientOption.id}-${methodIndex}-line-${lineIndex}`}
-                                        >
-                                          {line.map((token, tokenIndex) => (
-                                            <span
-                                              className={`dossier__api-token dossier__api-token--${token.kind}`}
-                                              key={`${selectedClientOption.id}-${methodIndex}-line-${lineIndex}-token-${tokenIndex}`}
-                                            >
-                                              {token.text}
-                                            </span>
-                                          ))}
-                                          {lineIndex < lines.length - 1 ? '\n' : null}
-                                        </span>
-                                      ))}
-                                    </pre>
-                                  </article>
-                                )
-                              })}
-                              {hiddenApiMethodCount ? (
-                                <div className="dossier__api-more">+{hiddenApiMethodCount} more overloads in the official docs</div>
-                              ) : null}
-                            </>
-                          ) : (
-                            <div className="dossier__api-empty">
-                              No API methods are mapped for this client in the local Redis docs mirror.
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </section>
-
-                    {detailNotes.length ? (
-                      <section className="dossier__card dossier__card--note">
-                        <div className="dossier__card-bar">Note</div>
-                        <div className="dossier__notes">
-                          {detailNotes.map((note, noteIndex) => (
-                            <div className="dossier__note-block" key={`${selectedCommand?.slug ?? 'detail'}-note-${noteIndex}`}>
-                              {extractExcerptBlocks(note, 3, 420).map((block, blockIndex) =>
-                                renderRichBlock(
-                                  block,
-                                  `${selectedCommand?.slug ?? 'detail'}-note-${noteIndex}-${blockIndex}`,
-                                  'note',
-                                ),
-                              )}
-                            </div>
-                          ))}
-                        </div>
-                      </section>
-                    ) : null}
-                  </div>
-
-                  <section className="dossier__card">
-                    <div className="dossier__card-bar">Arguments</div>
-                    <div className="dossier__arguments">
-                      {previewArguments.length ? (
-                        <>
-                          {previewArguments.map((argument) => (
-                            <div className="dossier__argument" key={`${argument.name}-${argument.type}`}>
-                              <span className="dossier__argument-name">{formatArgumentLabel(argument)}</span>
-                              <span className="dossier__argument-meta">
-                                {argument.type}
-                                {argument.optional ? ' / optional' : ' / required'}
-                              </span>
-                            </div>
-                          ))}
-                          {extraArgumentCount ? (
-                            <div className="dossier__argument dossier__argument--more">
-                              <span className="dossier__argument-name">+{extraArgumentCount} more</span>
-                              <span className="dossier__argument-meta">open docs for the full argument tree</span>
-                            </div>
-                          ) : null}
-                        </>
-                      ) : (
-                        <div className="dossier__argument dossier__argument--more">
-                          <span className="dossier__argument-name">No explicit arguments in cache</span>
-                          <span className="dossier__argument-meta">see the official docs for the full argument tree</span>
-                        </div>
-                      )}
-                    </div>
-                  </section>
-                </div>
+                ))}
               </div>
-            </div>
 
-            <div className="dos-panel__footer dos-panel__footer--compact">
-              <span />
-              <span>{paneFocus === 'details' ? 'ENTER opens docs' : ''}</span>
+              <div className="mobile-toolbar__actions">
+                <button className="mobile-toolbar__action" onClick={openFindPalette} type="button">
+                  Find
+                </button>
+                {selectedCommand ? (
+                  <button className="mobile-toolbar__action" onClick={openOfficialDocs} type="button">
+                    Docs
+                  </button>
+                ) : null}
+              </div>
             </div>
           </section>
 
-          <AsciiArtPane
-            accent={currentAccent}
-            group={currentCategory?.group ?? 'archive'}
-            label={currentCategory?.artLabel ?? currentCategory?.label ?? 'Redis'}
-          />
-        </div>
-      </section>
+          {isMobilePortrait ? (
+            <section
+              className="mobile-workspace mobile-workspace--portrait"
+              onTouchEnd={handleMobileSwipeEnd}
+              onTouchMove={handleMobileSwipeMove}
+              onTouchStart={handleMobileSwipeStart}
+            >
+              {paneFocus === 'categories'
+                ? renderCategoryPanel(true)
+                : paneFocus === 'commands'
+                  ? renderCommandPanel(true)
+                  : renderDetailPanel(true)}
+            </section>
+          ) : (
+            <section className="mobile-workspace mobile-workspace--landscape">
+              <div className="mobile-workspace__nav">{renderLandscapeNavigationPanel()}</div>
+              <div className="mobile-workspace__detail">{renderDetailPanel(true)}</div>
+            </section>
+          )}
+        </>
+      ) : (
+        <section className="workspace">
+          {renderCategoryPanel()}
+          {renderCommandPanel()}
+
+          <div className="workspace__right">
+            {renderDetailPanel()}
+            <AsciiArtPane
+              accent={currentAccent}
+              group={currentCategory?.group ?? 'archive'}
+              label={currentCategory?.artLabel ?? currentCategory?.label ?? 'Redis'}
+            />
+          </div>
+        </section>
+      )}
 
       {findOpen ? (
         <div className="find-overlay" onClick={closeFindPalette} role="presentation">
@@ -1844,30 +2285,32 @@ function App() {
         </div>
       ) : null}
 
-      <footer className="dos-footer">
-        <div className="dos-footer__status">
-          {footerStatus.map((item) => (
-            <span className="dos-footer__token" key={item.label}>
-              <strong>{item.label}</strong> {item.value}
-            </span>
-          ))}
-        </div>
+      {isMobileLayout ? null : (
+        <footer className="dos-footer">
+          <div className="dos-footer__status">
+            {footerStatus.map((item) => (
+              <span className="dos-footer__token" key={item.label}>
+                <strong>{item.label}</strong> {item.value}
+              </span>
+            ))}
+          </div>
 
-        <div className="dos-footer__keys">
-          {footerButtons.map((button) => (
-            <button
-              className={`dos-key ${button.hotkey === 'TAB' ? 'dos-key--tab' : ''}`}
-              disabled={button.disabled}
-              key={button.hotkey}
-              onClick={button.action}
-              type="button"
-            >
-              <span className="dos-key__hotkey">{button.hotkey}</span>
-              <span className="dos-key__label">{button.label}</span>
-            </button>
-          ))}
-        </div>
-      </footer>
+          <div className="dos-footer__keys">
+            {footerButtons.map((button) => (
+              <button
+                className={`dos-key ${button.hotkey === 'TAB' ? 'dos-key--tab' : ''}`}
+                disabled={button.disabled}
+                key={button.hotkey}
+                onClick={button.action}
+                type="button"
+              >
+                <span className="dos-key__hotkey">{button.hotkey}</span>
+                <span className="dos-key__label">{button.label}</span>
+              </button>
+            ))}
+          </div>
+        </footer>
+      )}
     </main>
   )
 }
