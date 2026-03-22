@@ -21,7 +21,7 @@ const GITHUB_API_MAPPING_COMMIT_API =
 async function fetchJson(url, attempt = 1) {
   const response = await fetch(url, {
     headers: {
-      'user-agent': 'RedisCommander/1.10',
+      'user-agent': 'RedisCommander/1.11',
       accept: 'application/json;q=0.9,*/*;q=0.8',
     },
   })
@@ -41,7 +41,7 @@ async function fetchJson(url, attempt = 1) {
 async function fetchText(url, attempt = 1) {
   const response = await fetch(url, {
     headers: {
-      'user-agent': 'RedisCommander/1.10',
+      'user-agent': 'RedisCommander/1.11',
       accept: 'text/plain, application/json;q=0.9,*/*;q=0.8',
     },
   })

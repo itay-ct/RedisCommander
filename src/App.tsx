@@ -44,7 +44,7 @@ const COMMAND_ROWS = 14
 const ARGUMENT_ROWS = 6
 const FIND_RESULT_LIMIT = 6
 const API_METHOD_LIMIT = 4
-const RELEASE_VERSION = '1.10'
+const RELEASE_VERSION = '1.11'
 const REPO_URL = 'https://github.com/itay-ct/RedisCommander'
 const CLIENT_COOKIE_NAME = 'redis-commander-client'
 const DEFAULT_CLIENT_ID = 'redis-cli'
@@ -698,8 +698,6 @@ function App() {
     : null
   const categoryWindow = windowSlice(categoryMenu, categoryIndex, CATEGORY_ROWS)
   const commandWindow = windowSlice(currentCommands, currentCommandIndex, COMMAND_ROWS)
-  const previewArguments = commandDetail?.arguments.slice(0, ARGUMENT_ROWS) ?? []
-  const extraArgumentCount = Math.max((commandDetail?.arguments.length ?? 0) - previewArguments.length, 0)
   const detailIntroBlocks: ExcerptBlock[] = commandDetail
     ? extractExcerptBlocks(
         commandDetail.intro || commandDetail.description || selectedCommand?.description || '',
@@ -707,6 +705,17 @@ function App() {
         980,
       )
     : fallbackIntroBlocks
+  const detailIntroTextLength = detailIntroBlocks.reduce(
+    (total, block) =>
+      total + (block.kind === 'list' ? block.items.join(' ').length : block.text.length),
+    0,
+  )
+  const detailIntroMaxHeight =
+    detailIntroTextLength > 720 ? '15.5rem' : detailIntroTextLength > 520 ? '14rem' : detailIntroTextLength > 360 ? '12.5rem' : '10rem'
+  const previewArgumentRows =
+    detailIntroTextLength > 720 ? Math.max(3, ARGUMENT_ROWS - 2) : detailIntroTextLength > 520 ? ARGUMENT_ROWS - 1 : ARGUMENT_ROWS
+  const previewArguments = commandDetail?.arguments.slice(0, previewArgumentRows) ?? []
+  const extraArgumentCount = Math.max((commandDetail?.arguments.length ?? 0) - previewArguments.length, 0)
   const detailNotes = commandDetail?.notes ?? []
   const exampleCard = getExampleCard(commandDetail, selectedCommand)
   const availableClientOptions = getClientOptions(commandDetail)
@@ -733,6 +742,7 @@ function App() {
   const categoryPanelStyle = { '--panel-accent': categoryAccent } as CSSProperties
   const commandPanelStyle = { '--panel-accent': currentAccent } as CSSProperties
   const detailPanelStyle = { '--panel-accent': currentAccent } as CSSProperties
+  const dossierStyle = { '--dossier-intro-max': detailIntroMaxHeight } as CSSProperties
   const headerStyle = { '--brand-accent': currentAccent } as CSSProperties
   const findResults = getCommandSearchResults(commandIndex.commands, deferredFindQuery, FIND_RESULT_LIMIT)
   const activeFindIndex = clampIndex(findIndex, findResults.length)
@@ -1580,7 +1590,7 @@ function App() {
             </div>
 
             <div className="dos-panel__body">
-              <div className="dossier">
+              <div className="dossier" style={dossierStyle}>
                 <div className="dossier__hero">
                   <div className="dossier__hero-top">
                     <h1 className="dossier__title">{selectedCommand?.title ?? 'NO COMMAND SELECTED'}</h1>

@@ -98,7 +98,7 @@ test('terminal shell stays fixed, keyboard-driven, and hides ASCII art on tighte
   )
 
   expect(document.body.textContent).not.toContain('C:\\REDIS\\')
-  expect(document.body.textContent).toContain('version 1.10')
+  expect(document.body.textContent).toContain('version 1.11')
   expect(document.body.textContent).toContain('commands')
   expect(document.body.textContent).toContain('Client: Redis CLI')
   expect(document.body.textContent).not.toContain('cached locally')
@@ -207,6 +207,17 @@ test('terminal shell stays fixed, keyboard-driven, and hides ASCII art on tighte
   expect(lmpopLink).toBeDefined()
   fireEvent.click(lmpopLink!)
   await waitFor(() => expect(document.querySelector('.dossier__title')?.textContent).toContain('BLMPOP'))
+
+  keyboard('f')
+  await waitFor(() => expect(document.querySelector('.find-palette')).not.toBeNull())
+
+  const xackFindInput = document.querySelector('.find-palette__input') as HTMLInputElement | null
+  fireEvent.change(xackFindInput!, { target: { value: 'xack' } })
+  fireEvent.keyDown(xackFindInput!, { bubbles: true, cancelable: true, key: 'Enter' })
+  await waitFor(() => expect(document.querySelector('.find-palette')).toBeNull())
+  await waitFor(() => expect(document.querySelector('.dossier__title')?.textContent).toContain('XACK'))
+  expect(document.querySelector('.dossier')?.getAttribute('style')).toContain('--dossier-intro-max: 15.5rem')
+  expect(document.querySelector('.dossier__intro')?.textContent).toContain('Once a consumer successfully processes a message')
 
   keyboard('f')
   await waitFor(() => expect(document.querySelector('.find-palette')).not.toBeNull())
