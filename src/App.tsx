@@ -44,7 +44,7 @@ const COMMAND_ROWS = 14
 const ARGUMENT_ROWS = 6
 const FIND_RESULT_LIMIT = 6
 const API_METHOD_LIMIT = 4
-const RELEASE_VERSION = '1.09'
+const RELEASE_VERSION = '1.10'
 const REPO_URL = 'https://github.com/itay-ct/RedisCommander'
 const CLIENT_COOKIE_NAME = 'redis-commander-client'
 const DEFAULT_CLIENT_ID = 'redis-cli'
@@ -72,6 +72,15 @@ type ApiMethodToken = {
   text: string
 }
 type ApiMethodLine = ApiMethodToken[]
+type ExcerptBlock =
+  | {
+      kind: 'list'
+      items: string[]
+    }
+  | {
+      kind: 'paragraph'
+      text: string
+    }
 
 const commandIndex = commandIndexJson as CommandIndex
 
@@ -90,6 +99,13 @@ const backToCoreItem: CategoryBrowserItem = {
   label: '.. CORE CATEGORIES',
   tagline: 'Return to the core Redis command families.',
 }
+
+const fallbackIntroBlocks: ExcerptBlock[] = [
+  {
+    kind: 'paragraph',
+    text: 'Select a command to open its local Redis transcript.',
+  },
+]
 
 function clampIndex(index: number, size: number) {
   if (size <= 0) {
@@ -196,42 +212,81 @@ function toPlainText(value: string) {
     .trim()
 }
 
-function extractExcerptParagraphs(value: string, maxParagraphs: number, maxChars: number) {
-  const paragraphs = value
+function extractExcerptBlocks(value: string, maxBlocks: number, maxChars: number): ExcerptBlock[] {
+  const chunks = value
     .replace(/<\/?[^>]+>/g, ' ')
     .replace(/[ \t]+\n/g, '\n')
     .replace(/\n{3,}/g, '\n\n')
     .trim()
     .split(/\n{2,}/)
-    .map((paragraph) =>
-      paragraph
-        .split('\n')
-        .map((line) => line.replace(/\s+/g, ' ').trim())
-        .filter(Boolean)
-        .join(' ')
-        .trim(),
-    )
+    .map((chunk) => chunk.trim())
     .filter(Boolean)
 
-  const excerpt: string[] = []
+  const excerpt: ExcerptBlock[] = []
   let total = 0
 
-  for (const paragraph of paragraphs) {
-    if (excerpt.length >= maxParagraphs) {
+  for (const chunk of chunks) {
+    if (excerpt.length >= maxBlocks) {
       break
     }
 
-    if (excerpt.length > 0 && total + paragraph.length > maxChars) {
+    const lines = chunk
+      .split('\n')
+      .map((line) => line.replace(/\s+/g, ' ').trim())
+      .filter(Boolean)
+
+    const listItems: string[] = []
+
+    for (const line of lines) {
+      if (/^[-*+]\s+/.test(line)) {
+        listItems.push(line.replace(/^[-*+]\s+/, '').trim())
+        continue
+      }
+
+      if (listItems.length) {
+        listItems[listItems.length - 1] = `${listItems[listItems.length - 1]} ${line}`.trim()
+      } else {
+        listItems.length = 0
+        break
+      }
+    }
+
+    const block: ExcerptBlock =
+      listItems.length && listItems.length <= lines.length
+        ? {
+            items: listItems,
+            kind: 'list',
+          }
+        : {
+            kind: 'paragraph',
+            text: lines.join(' ').trim(),
+          }
+
+    const blockText =
+      block.kind === 'list' ? block.items.join(' ').trim() : block.text
+
+    if (!blockText) {
+      continue
+    }
+
+    if (excerpt.length > 0 && total + blockText.length > maxChars) {
       break
     }
 
-    excerpt.push(paragraph)
-    total += paragraph.length
+    excerpt.push(block)
+    total += blockText.length
   }
 
   if (!excerpt.length) {
     const fallback = toPlainText(value)
-    return fallback ? [fallback] : []
+    return fallback
+      ? [
+          {
+            kind: 'paragraph',
+            text: fallback,
+          },
+        ]
+      : []
   }
 
   return excerpt
@@ -645,13 +700,13 @@ function App() {
   const commandWindow = windowSlice(currentCommands, currentCommandIndex, COMMAND_ROWS)
   const previewArguments = commandDetail?.arguments.slice(0, ARGUMENT_ROWS) ?? []
   const extraArgumentCount = Math.max((commandDetail?.arguments.length ?? 0) - previewArguments.length, 0)
-  const detailIntroParagraphs = commandDetail
-    ? extractExcerptParagraphs(
+  const detailIntroBlocks: ExcerptBlock[] = commandDetail
+    ? extractExcerptBlocks(
         commandDetail.intro || commandDetail.description || selectedCommand?.description || '',
-        3,
-        620,
+        5,
+        980,
       )
-    : ['Select a command to open its local Redis transcript.']
+    : fallbackIntroBlocks
   const detailNotes = commandDetail?.notes ?? []
   const exampleCard = getExampleCard(commandDetail, selectedCommand)
   const availableClientOptions = getClientOptions(commandDetail)
@@ -936,7 +991,7 @@ function App() {
           </code>,
         )
       } else {
-        const label = match[2] ?? ''
+        const label = cleanupInlineMarkdown(match[2] ?? '').replace(/`/g, '').trim()
         const target = match[3] ?? ''
         const linkedCommand = resolveReferencedCommand(label, target)
 
@@ -965,6 +1020,32 @@ function App() {
     }
 
     return nodes
+  }
+
+  function renderRichBlock(block: ExcerptBlock, keyPrefix: string, kind: 'intro' | 'note') {
+    if (block.kind === 'list') {
+      const itemClass = kind === 'intro' ? 'dossier__intro-list-item' : 'dossier__note-list-item'
+
+      return (
+        <div className="dossier__inline-list" key={keyPrefix}>
+          {block.items.map((item, itemIndex) => (
+            <p className={itemClass} key={`${keyPrefix}-item-${itemIndex}`}>
+              {renderRichParagraph(item, `${keyPrefix}-item-${itemIndex}`)}
+            </p>
+          ))}
+        </div>
+      )
+    }
+
+    return kind === 'intro' ? (
+      <p className="dossier__intro-copy" key={keyPrefix}>
+        {renderRichParagraph(block.text, keyPrefix)}
+      </p>
+    ) : (
+      <p className="dossier__note-copy" key={keyPrefix}>
+        {renderRichParagraph(block.text, keyPrefix)}
+      </p>
+    )
   }
 
   function goBack() {
@@ -1511,11 +1592,13 @@ function App() {
                     {selectedCommand?.syntax ?? 'Choose a Redis command from the middle pane.'}
                   </code>
                   <div className="dossier__intro">
-                    {detailIntroParagraphs.map((paragraph, paragraphIndex) => (
-                      <p className="dossier__intro-copy" key={`${selectedCommand?.slug ?? 'detail'}-intro-${paragraphIndex}`}>
-                        {renderRichParagraph(paragraph, `${selectedCommand?.slug ?? 'detail'}-intro-${paragraphIndex}`)}
-                      </p>
-                    ))}
+                    {detailIntroBlocks.map((block, blockIndex) =>
+                      renderRichBlock(
+                        block,
+                        `${selectedCommand?.slug ?? 'detail'}-intro-${blockIndex}`,
+                        'intro',
+                      ),
+                    )}
                   </div>
                 </div>
 
@@ -1579,14 +1662,13 @@ function App() {
                         <div className="dossier__notes">
                           {detailNotes.map((note, noteIndex) => (
                             <div className="dossier__note-block" key={`${selectedCommand?.slug ?? 'detail'}-note-${noteIndex}`}>
-                              {extractExcerptParagraphs(note, 3, 380).map((paragraph, paragraphIndex) => (
-                                <p className="dossier__note-copy" key={`${selectedCommand?.slug ?? 'detail'}-note-${noteIndex}-${paragraphIndex}`}>
-                                  {renderRichParagraph(
-                                    paragraph,
-                                    `${selectedCommand?.slug ?? 'detail'}-note-${noteIndex}-${paragraphIndex}`,
-                                  )}
-                                </p>
-                              ))}
+                              {extractExcerptBlocks(note, 3, 420).map((block, blockIndex) =>
+                                renderRichBlock(
+                                  block,
+                                  `${selectedCommand?.slug ?? 'detail'}-note-${noteIndex}-${blockIndex}`,
+                                  'note',
+                                ),
+                              )}
                             </div>
                           ))}
                         </div>

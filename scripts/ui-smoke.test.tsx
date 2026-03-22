@@ -98,7 +98,7 @@ test('terminal shell stays fixed, keyboard-driven, and hides ASCII art on tighte
   )
 
   expect(document.body.textContent).not.toContain('C:\\REDIS\\')
-  expect(document.body.textContent).toContain('version 1.09')
+  expect(document.body.textContent).toContain('version 1.10')
   expect(document.body.textContent).toContain('commands')
   expect(document.body.textContent).toContain('Client: Redis CLI')
   expect(document.body.textContent).not.toContain('cached locally')
@@ -187,6 +187,26 @@ test('terminal shell stays fixed, keyboard-driven, and hides ASCII art on tighte
   expect(introParagraphs[0]).toContain('If member does not exist in the sorted set')
   expect(introParagraphs[1]).toContain('does not hold a sorted set')
   expect(introParagraphs[2]).toContain('negative value to decrement the score')
+
+  keyboard('f')
+  await waitFor(() => expect(document.querySelector('.find-palette')).not.toBeNull())
+
+  const lmpopFindInput = document.querySelector('.find-palette__input') as HTMLInputElement | null
+  fireEvent.change(lmpopFindInput!, { target: { value: 'lmpop' } })
+  fireEvent.keyDown(lmpopFindInput!, { bubbles: true, cancelable: true, key: 'Enter' })
+  await waitFor(() => expect(document.querySelector('.find-palette')).toBeNull())
+  await waitFor(() => expect(document.querySelector('.dossier__title')?.textContent).toContain('LMPOP'))
+  expect(document.querySelector('.dossier__intro')?.textContent).toContain(
+    "Elements are popped from either the left or right of the first non-empty list",
+  )
+  expect(document.querySelector('.dossier__intro')?.textContent).not.toContain('- LPOP')
+
+  const lmpopLink = [...document.querySelectorAll('.dossier__inline-link')].find((node) =>
+    node.textContent?.includes('BLMPOP'),
+  ) as HTMLButtonElement | undefined
+  expect(lmpopLink).toBeDefined()
+  fireEvent.click(lmpopLink!)
+  await waitFor(() => expect(document.querySelector('.dossier__title')?.textContent).toContain('BLMPOP'))
 
   keyboard('f')
   await waitFor(() => expect(document.querySelector('.find-palette')).not.toBeNull())
