@@ -11,8 +11,10 @@ afterEach(() => {
   vi.resetModules()
 })
 
-test('terminal shell stays fixed, keyboard-driven, and hides ASCII art on tighter widths', async () => {
-  let openedUrl = ''
+test(
+  'terminal shell stays fixed, keyboard-driven, and hides ASCII art on tighter widths',
+  async () => {
+    let openedUrl = ''
 
   vi.stubGlobal(
     'matchMedia',
@@ -89,6 +91,17 @@ test('terminal shell stays fixed, keyboard-driven, and hides ASCII art on tighte
 
   await waitFor(() => expect(getFocusedBar()).toContain('Core'))
 
+  const asciiPane = document.querySelector('.ascii-pane') as HTMLElement | null
+  expect(asciiPane).not.toBeNull()
+  fireEvent.doubleClick(asciiPane!)
+  await waitFor(() =>
+    expect(document.querySelector('.ascii-pane__art')?.textContent).toContain('YOU THOUGHT'),
+  )
+  await waitFor(
+    () => expect(document.querySelector('.ascii-pane__art')?.textContent).not.toContain('YOU THOUGHT'),
+    { timeout: 7000 },
+  )
+
   keyboard('Enter')
   await waitFor(() => expect(getFocusedBar()).toContain('Strings'))
 
@@ -97,8 +110,8 @@ test('terminal shell stays fixed, keyboard-driven, and hides ASCII art on tighte
     expect(document.querySelector('.dossier__title')?.textContent?.trim()).not.toEqual(''),
   )
 
-  expect(document.body.textContent).not.toContain('C:\\REDIS\\')
-  expect(document.body.textContent).toContain('version 1.11')
+    expect(document.body.textContent).not.toContain('C:\\REDIS\\')
+    expect(document.body.textContent).toContain('version 1.12')
   expect(document.body.textContent).toContain('commands')
   expect(document.body.textContent).toContain('Client: Redis CLI')
   expect(document.body.textContent).not.toContain('cached locally')
@@ -309,4 +322,6 @@ test('terminal shell stays fixed, keyboard-driven, and hides ASCII art on tighte
   const favicon = await readFile(`${process.cwd()}/public/favicon.svg`, 'utf8')
   expect(favicon).toContain('shape-rendering="crispEdges"')
   expect(favicon).toContain('#ff4438')
-})
+  },
+  15000,
+)
