@@ -98,7 +98,7 @@ test('terminal shell stays fixed, keyboard-driven, and hides ASCII art on tighte
   )
 
   expect(document.body.textContent).not.toContain('C:\\REDIS\\')
-  expect(document.body.textContent).toContain('version 1.08')
+  expect(document.body.textContent).toContain('version 1.09')
   expect(document.body.textContent).toContain('commands')
   expect(document.body.textContent).toContain('Client: Redis CLI')
   expect(document.body.textContent).not.toContain('cached locally')
@@ -167,7 +167,26 @@ test('terminal shell stays fixed, keyboard-driven, and hides ASCII art on tighte
   expect(document.querySelector('.dossier__note-copy')?.textContent).toContain(
     'This command\'s behavior varies in clustered Redis environments.',
   )
+  expect(document.querySelector('.dossier__note-copy')?.textContent).not.toContain('[')
   expect(document.querySelector('.dossier__example-code')?.textContent).toContain('(nil)')
+
+  keyboard('f')
+  await waitFor(() => expect(document.querySelector('.find-palette')).not.toBeNull())
+
+  const zincrbyFindInput = document.querySelector('.find-palette__input') as HTMLInputElement | null
+  fireEvent.change(zincrbyFindInput!, { target: { value: 'zincrby' } })
+  fireEvent.keyDown(zincrbyFindInput!, { bubbles: true, cancelable: true, key: 'Enter' })
+  await waitFor(() => expect(document.querySelector('.find-palette')).toBeNull())
+  await waitFor(() => expect(document.querySelector('.dossier__title')?.textContent).toContain('ZINCRBY'))
+
+  const introParagraphs = [...document.querySelectorAll('.dossier__intro-copy')].map((node) =>
+    node.textContent?.trim() ?? '',
+  )
+
+  expect(introParagraphs.length).toBeGreaterThanOrEqual(3)
+  expect(introParagraphs[0]).toContain('If member does not exist in the sorted set')
+  expect(introParagraphs[1]).toContain('does not hold a sorted set')
+  expect(introParagraphs[2]).toContain('negative value to decrement the score')
 
   keyboard('f')
   await waitFor(() => expect(document.querySelector('.find-palette')).not.toBeNull())
