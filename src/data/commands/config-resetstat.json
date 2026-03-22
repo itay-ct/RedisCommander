@@ -14,6 +14,111 @@
     "@slow",
     "@dangerous"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "ResponseT"
+        },
+        "signature": "config_resetstat(**kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "String"
+        },
+        "signature": "String configResetStat()"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context",
+            "name": "ctx",
+            "type": "context.Context"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StatusCmd"
+        },
+        "signature": "ConfigResetStat(ctx context.Context) *StatusCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "SimpleStringReply"
+        },
+        "signature": "configResetStat()"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "String"
+        },
+        "signature": "String configResetstat()"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> configResetstat()"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> configResetstat()"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$subcommand",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$argument",
+            "type": "mixed"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "mixed"
+        },
+        "signature": "config($subcommand, $argument = null)"
+      }
+    ]
+  },
   "commandFlags": [
     "admin",
     "noscript",
@@ -33,20 +138,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Resets the statistics reported by Redis using the [`INFO`]() and [`LATENCY HISTOGRAM`]() commands.\n\nThe following is a non-exhaustive list of values that are reset:\n\n* Keyspace hits and misses\n* Number of expired keys\n* Command and error statistics\n* Connections received, rejected and evicted\n* Persistence statistics\n* Active defragmentation statistics\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.",
+  "content": "Resets the statistics reported by Redis using the [`INFO`]() and [`LATENCY HISTOGRAM`]() commands.\n\nThe following is a non-exhaustive list of values that are reset:\n\n* Keyspace hits and misses\n* Number of expired keys\n* Command and error statistics\n* Connections received, rejected and evicted\n* Persistence statistics\n* Active defragmentation statistics\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"config-resetstat-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "Resets the statistics reported by Redis using the [`INFO`]() and [`LATENCY HISTOGRAM`]() commands.\n\nThe following is a non-exhaustive list of values that are reset:\n\n* Keyspace hits and misses\n* Number of expired keys\n* Command and error statistics\n* Connections received, rejected and evicted\n* Persistence statistics\n* Active defragmentation statistics",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -61,7 +159,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`."
+      "content": "{{< multitabs id=\"config-resetstat-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n{{< /multitabs >}}"
     }
   ]
 }

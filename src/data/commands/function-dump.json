@@ -13,6 +13,74 @@
     "@slow",
     "@scripting"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [],
+        "returns": {
+          "description": "Serialized payload of all libraries",
+          "type": "Union[Awaitable[str], str]"
+        },
+        "signature": "function_dump()"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context for the operation",
+            "name": "ctx",
+            "type": "context.Context"
+          }
+        ],
+        "returns": {
+          "description": "Serialized payload of all libraries",
+          "type": "*StringCmd"
+        },
+        "signature": "FunctionDump(ctx context.Context)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "Serialized payload of all libraries",
+          "type": "Promise<BlobStringReply>"
+        },
+        "signature": "functionDump()"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [],
+        "returns": {
+          "description": "Serialized payload of all libraries",
+          "type": "byte[]"
+        },
+        "signature": "byte[] functionDump()"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [],
+        "returns": {
+          "description": "Serialized payload of all libraries",
+          "type": "RedisFuture<byte[]>"
+        },
+        "signature": "RedisFuture<byte[]> functionDump()"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [],
+        "returns": {
+          "description": "Serialized payload of all libraries",
+          "type": "Mono<byte[]>"
+        },
+        "signature": "Mono<byte[]> functionDump()"
+      }
+    ]
+  },
   "commandFlags": [
     "noscript"
   ],
@@ -29,24 +97,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Return the serialized payload of loaded libraries.\nYou can restore the serialized payload later with the [`FUNCTION RESTORE`]() command.\n\nFor more information please refer to [Introduction to Redis Functions]().\n\n## Examples\n\nThe following example shows how to dump loaded libraries using `FUNCTION DUMP` and then it calls [`FUNCTION FLUSH`]() deletes all the libraries.\nThen, it restores the original libraries from the serialized payload with [`FUNCTION RESTORE`]().\n\n```\nredis> FUNCTION LOAD \"#!lua name=mylib \\n redis.register_function('myfunc', function(keys, args) return args[1] end)\"\n\"mylib\"\nredis> FUNCTION DUMP\n\"\\xf5\\xc3@X@]\\x1f#!lua name=mylib \\n redis.registe\\rr_function('my@\\x0b\\x02', @\\x06`\\x12\\nkeys, args) 6\\x03turn`\\x0c\\a[1] end)\\x0c\\x00\\xba\\x98\\xc2\\xa2\\x13\\x0e$\\a\"\nredis> FUNCTION FLUSH\nOK\nredis> FUNCTION RESTORE \"\\xf5\\xc3@X@]\\x1f#!lua name=mylib \\n redis.registe\\rr_function('my@\\x0b\\x02', @\\x06`\\x12\\nkeys, args) 6\\x03turn`\\x0c\\a[1] end)\\x0c\\x00\\xba\\x98\\xc2\\xa2\\x13\\x0e$\\a\"\nOK\nredis> FUNCTION LIST\n1) 1) \"library_name\"\n   2) \"mylib\"\n   3) \"engine\"\n   4) \"LUA\"\n   5) \"functions\"\n   6) 1) 1) \"name\"\n         2) \"myfunc\"\n         3) \"description\"\n         4) (nil)\n         5) \"flags\"\n         6) (empty array)\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the serialized payload\n\n**RESP3:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the serialized payload",
+  "content": "Return the serialized payload of loaded libraries.\nYou can restore the serialized payload later with the [`FUNCTION RESTORE`]() command.\n\nFor more information please refer to [Introduction to Redis Functions]().\n\n## Examples\n\nThe following example shows how to dump loaded libraries using `FUNCTION DUMP` and then it calls [`FUNCTION FLUSH`]({{< relref \"/commands/function-flush\" >}}) deletes all the libraries.\nThen, it restores the original libraries from the serialized payload with [`FUNCTION RESTORE`]({{< relref \"/commands/function-restore\" >}}).\n\n```\nredis> FUNCTION LOAD \"#!lua name=mylib \\n redis.register_function('myfunc', function(keys, args) return args[1] end)\"\n\"mylib\"\nredis> FUNCTION DUMP\n\"\\xf5\\xc3@X@]\\x1f#!lua name=mylib \\n redis.registe\\rr_function('my@\\x0b\\x02', @\\x06`\\x12\\nkeys, args) 6\\x03turn`\\x0c\\a[1] end)\\x0c\\x00\\xba\\x98\\xc2\\xa2\\x13\\x0e$\\a\"\nredis> FUNCTION FLUSH\nOK\nredis> FUNCTION RESTORE \"\\xf5\\xc3@X@]\\x1f#!lua name=mylib \\n redis.registe\\rr_function('my@\\x0b\\x02', @\\x06`\\x12\\nkeys, args) 6\\x03turn`\\x0c\\a[1] end)\\x0c\\x00\\xba\\x98\\xc2\\xa2\\x13\\x0e$\\a\"\nOK\nredis> FUNCTION LIST\n1) 1) \"library_name\"\n   2) \"mylib\"\n   3) \"engine\"\n   4) \"LUA\"\n   5) \"functions\"\n   6) 1) 1) \"name\"\n         2) \"myfunc\"\n         3) \"description\"\n         4) (nil)\n         5) \"flags\"\n         6) (empty array)\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"function-dump-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the serialized payload\n\n-tab-sep-\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the serialized payload\n\n{{< /multitabs >}}",
+  "example": "redis> FUNCTION LOAD \"#!lua name=mylib \\n redis.register_function('myfunc', function(keys, args) return args[1] end)\"\n\"mylib\"\nredis> FUNCTION DUMP\n\"\\xf5\\xc3@X@]\\x1f#!lua name=mylib \\n redis.registe\\rr_function('my@\\x0b\\x02', @\\x06`\\x12\\nkeys, args) 6\\x03turn`\\x0c\\a[1] end)\\x0c\\x00\\xba\\x98\\xc2\\xa2\\x13\\x0e$\\a\"\nredis> FUNCTION FLUSH\nOK\nredis> FUNCTION RESTORE \"\\xf5\\xc3@X@]\\x1f#!lua name=mylib \\n redis.registe\\rr_function('my@\\x0b\\x02', @\\x06`\\x12\\nkeys, args) 6\\x03turn`\\x0c\\a[1] end)\\x0c\\x00\\xba\\x98\\xc2\\xa2\\x13\\x0e$\\a\"\nOK\nredis> FUNCTION LIST\n1) 1) \"library_name\"\n   2) \"mylib\"\n   3) \"engine\"\n   4) \"LUA\"\n   5) \"functions\"\n   6) 1) 1) \"name\"\n         2) \"myfunc\"\n         3) \"description\"\n         4) (nil)\n         5) \"flags\"\n         6) (empty array)",
   "intro": "Return the serialized payload of loaded libraries.\nYou can restore the serialized payload later with the [`FUNCTION RESTORE`]() command.\n\nFor more information please refer to [Introduction to Redis Functions]().",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -56,7 +113,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "The following example shows how to dump loaded libraries using `FUNCTION DUMP` and then it calls [`FUNCTION FLUSH`]() deletes all the libraries.\nThen, it restores the original libraries from the serialized payload with [`FUNCTION RESTORE`]().\n\n```\nredis> FUNCTION LOAD \"#!lua name=mylib \\n redis.register_function('myfunc', function(keys, args) return args[1] end)\"\n\"mylib\"\nredis> FUNCTION DUMP\n\"\\xf5\\xc3@X@]\\x1f#!lua name=mylib \\n redis.registe\\rr_function('my@\\x0b\\x02', @\\x06`\\x12\\nkeys, args) 6\\x03turn`\\x0c\\a[1] end)\\x0c\\x00\\xba\\x98\\xc2\\xa2\\x13\\x0e$\\a\"\nredis> FUNCTION FLUSH\nOK\nredis> FUNCTION RESTORE \"\\xf5\\xc3@X@]\\x1f#!lua name=mylib \\n redis.registe\\rr_function('my@\\x0b\\x02', @\\x06`\\x12\\nkeys, args) 6\\x03turn`\\x0c\\a[1] end)\\x0c\\x00\\xba\\x98\\xc2\\xa2\\x13\\x0e$\\a\"\nOK\nredis> FUNCTION LIST\n1) 1) \"library_name\"\n   2) \"mylib\"\n   3) \"engine\"\n   4) \"LUA\"\n   5) \"functions\"\n   6) 1) 1) \"name\"\n         2) \"myfunc\"\n         3) \"description\"\n         4) (nil)\n         5) \"flags\"\n         6) (empty array)\n```"
+      "content": "The following example shows how to dump loaded libraries using `FUNCTION DUMP` and then it calls [`FUNCTION FLUSH`]({{< relref \"/commands/function-flush\" >}}) deletes all the libraries.\nThen, it restores the original libraries from the serialized payload with [`FUNCTION RESTORE`]({{< relref \"/commands/function-restore\" >}}).\n\n```\nredis> FUNCTION LOAD \"#!lua name=mylib \\n redis.register_function('myfunc', function(keys, args) return args[1] end)\"\n\"mylib\"\nredis> FUNCTION DUMP\n\"\\xf5\\xc3@X@]\\x1f#!lua name=mylib \\n redis.registe\\rr_function('my@\\x0b\\x02', @\\x06`\\x12\\nkeys, args) 6\\x03turn`\\x0c\\a[1] end)\\x0c\\x00\\xba\\x98\\xc2\\xa2\\x13\\x0e$\\a\"\nredis> FUNCTION FLUSH\nOK\nredis> FUNCTION RESTORE \"\\xf5\\xc3@X@]\\x1f#!lua name=mylib \\n redis.registe\\rr_function('my@\\x0b\\x02', @\\x06`\\x12\\nkeys, args) 6\\x03turn`\\x0c\\a[1] end)\\x0c\\x00\\xba\\x98\\xc2\\xa2\\x13\\x0e$\\a\"\nOK\nredis> FUNCTION LIST\n1) 1) \"library_name\"\n   2) \"mylib\"\n   3) \"engine\"\n   4) \"LUA\"\n   5) \"functions\"\n   6) 1) 1) \"name\"\n         2) \"myfunc\"\n         3) \"description\"\n         4) (nil)\n         5) \"flags\"\n         6) (empty array)\n```"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -66,7 +123,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the serialized payload\n\n**RESP3:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the serialized payload"
+      "content": "{{< multitabs id=\"function-dump-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the serialized payload\n\n-tab-sep-\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the serialized payload\n\n{{< /multitabs >}}"
     }
   ]
 }

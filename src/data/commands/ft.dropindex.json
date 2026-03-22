@@ -15,6 +15,183 @@
     "@slow",
     "@write"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "Whether to delete the documents as well",
+            "name": "delete_documents",
+            "type": "bool"
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "str"
+        },
+        "signature": "dropindex(delete_documents: bool = False)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "The index name",
+            "name": "indexName",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "String"
+        },
+        "signature": "String ftDropIndex(String indexName)"
+      },
+      {
+        "params": [
+          {
+            "description": "The index name",
+            "name": "indexName",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "OK on success (deletes documents)",
+          "type": "String"
+        },
+        "signature": "String ftDropIndexDD(String indexName)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "The index name",
+            "name": "index",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "*StatusCmd"
+        },
+        "signature": "FTDropIndex(ctx context.Context, index string)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "The index name",
+            "name": "index",
+            "type": "string"
+          },
+          {
+            "description": "Drop options",
+            "name": "options",
+            "type": "*FTDropIndexOptions"
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "*StatusCmd"
+        },
+        "signature": "FTDropIndexWithArgs(ctx context.Context, index string, options *FTDropIndexOptions)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "The index name",
+            "name": "index",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "Optional drop options",
+            "name": "options",
+            "type": "{ DD?: boolean }"
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "Promise<string>"
+        },
+        "signature": "DROPINDEX(index: RedisArgument, options?: { DD?: boolean })"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The index name",
+            "name": "indexName",
+            "type": "string"
+          },
+          {
+            "description": "Whether to delete the documents as well",
+            "name": "dd",
+            "type": "bool"
+          }
+        ],
+        "returns": {
+          "description": "true if the index was dropped",
+          "type": "bool"
+        },
+        "signature": "bool DropIndex(string indexName, bool dd = false)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The index name",
+            "name": "indexName",
+            "type": "string"
+          },
+          {
+            "description": "Whether to delete the documents as well",
+            "name": "dd",
+            "type": "bool"
+          }
+        ],
+        "returns": {
+          "description": "true if the index was dropped",
+          "type": "Task<bool>"
+        },
+        "signature": "Task<bool> DropIndexAsync(string indexName, bool dd = false)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "The index name",
+            "name": "$index",
+            "type": "string"
+          },
+          {
+            "description": "Optional drop arguments",
+            "name": "$arguments",
+            "type": "?DropArguments"
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "Status"
+        },
+        "signature": "ftdropindex(string $index, ?DropArguments $arguments = null)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -46,40 +223,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "optional-arguments",
-        "title": "Optional arguments"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      },
-      {
-        "id": "see-also",
-        "title": "See also"
-      },
-      {
-        "id": "related-topics",
-        "title": "Related topics"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Delete an index\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open>\n<summary><code>index</code></summary>\n\nis full-text index name. You must first create the index using [`FT.CREATE`]().\n</details>\n\n## Optional arguments\n\n<details open>\n<summary><code>DD</code></summary>\n\ndrop index operation that, if set, deletes the actual document keys. `FT.DROPINDEX index DD` is an asynchronous operation.\n\nBy default, FT.DROPINDEX does not delete the documents associated with the index. Adding the `DD` option deletes the documents as well. \nIf an index creation is still running ([`FT.CREATE`]() is running asynchronously), only the document hashes that have already been indexed are deleted. \nThe document hashes left to be indexed remain in the database.\nTo check the completion of the indexing, use [`FT.INFO`]().\n\n</details>\n\n## Examples\n\n<details open>\n<summary><b>Delete an index</b></summary>\n\n\n127.0.0.1:6379> FT.DROPINDEX idx DD\nOK\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply]() in these cases: no such index.\n\n**RESP3:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply]() in these cases: no such index.\n\n\n\n## See also\n\n[`FT.CREATE`]() | [`FT.INFO`]()\n\n## Related topics\n\n[RediSearch]()",
+  "content": "Delete an index\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open>\n<summary><code>index</code></summary>\n\nis full-text index name. You must first create the index using [`FT.CREATE`]({{< relref \"commands/ft.create/\" >}}).\n</details>\n\n## Optional arguments\n\n<details open>\n<summary><code>DD</code></summary>\n\ndrop index operation that, if set, deletes the actual document keys. `FT.DROPINDEX index DD` is an asynchronous operation.\n\nBy default, FT.DROPINDEX does not delete the documents associated with the index. Adding the `DD` option deletes the documents as well. \nIf an index creation is still running ([`FT.CREATE`]({{< relref \"commands/ft.create/\" >}}) is running asynchronously), only the document hashes that have already been indexed are deleted. \nThe document hashes left to be indexed remain in the database.\nTo check the completion of the indexing, use [`FT.INFO`]({{< relref \"commands/ft.info/\" >}}).\n\n</details>\n\n## Examples\n\n<details open>\n<summary><b>Delete an index</b></summary>\n\n{{< highlight bash >}}\n127.0.0.1:6379> FT.DROPINDEX idx DD\nOK\n{{< / highlight >}}\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"ft-dropindex-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` if executed correctly.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: no such index.\n\n-tab-sep-\n\nOne of the following:\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` if executed correctly.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: no such index.\n\n{{< /multitabs >}}\n\n## See also\n\n[`FT.CREATE`]({{< relref \"commands/ft.create/\" >}}) | [`FT.INFO`]({{< relref \"commands/ft.info/\" >}})\n\n## Related topics\n\n[RediSearch]({{< relref \"/develop/ai/search-and-query/\" >}})",
+  "example": "127.0.0.1:6379> FT.DROPINDEX idx DD\nOK",
   "intro": "Delete an index\n\n[Examples](#examples)",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -89,17 +239,17 @@
     {
       "title": "Required arguments",
       "level": 2,
-      "content": "<details open>\n<summary><code>index</code></summary>\n\nis full-text index name. You must first create the index using [`FT.CREATE`]().\n</details>"
+      "content": "<details open>\n<summary><code>index</code></summary>\n\nis full-text index name. You must first create the index using [`FT.CREATE`]({{< relref \"commands/ft.create/\" >}}).\n</details>"
     },
     {
       "title": "Optional arguments",
       "level": 2,
-      "content": "<details open>\n<summary><code>DD</code></summary>\n\ndrop index operation that, if set, deletes the actual document keys. `FT.DROPINDEX index DD` is an asynchronous operation.\n\nBy default, FT.DROPINDEX does not delete the documents associated with the index. Adding the `DD` option deletes the documents as well. \nIf an index creation is still running ([`FT.CREATE`]() is running asynchronously), only the document hashes that have already been indexed are deleted. \nThe document hashes left to be indexed remain in the database.\nTo check the completion of the indexing, use [`FT.INFO`]().\n\n</details>"
+      "content": "<details open>\n<summary><code>DD</code></summary>\n\ndrop index operation that, if set, deletes the actual document keys. `FT.DROPINDEX index DD` is an asynchronous operation.\n\nBy default, FT.DROPINDEX does not delete the documents associated with the index. Adding the `DD` option deletes the documents as well. \nIf an index creation is still running ([`FT.CREATE`]({{< relref \"commands/ft.create/\" >}}) is running asynchronously), only the document hashes that have already been indexed are deleted. \nThe document hashes left to be indexed remain in the database.\nTo check the completion of the indexing, use [`FT.INFO`]({{< relref \"commands/ft.info/\" >}}).\n\n</details>"
     },
     {
       "title": "Examples",
       "level": 2,
-      "content": "<details open>\n<summary><b>Delete an index</b></summary>\n\n\n127.0.0.1:6379> FT.DROPINDEX idx DD\nOK\n\n</details>"
+      "content": "<details open>\n<summary><b>Delete an index</b></summary>\n\n{{< highlight bash >}}\n127.0.0.1:6379> FT.DROPINDEX idx DD\nOK\n{{< / highlight >}}\n</details>"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -109,17 +259,17 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply]() in these cases: no such index.\n\n**RESP3:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply]() in these cases: no such index."
+      "content": "{{< multitabs id=\"ft-dropindex-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` if executed correctly.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: no such index.\n\n-tab-sep-\n\nOne of the following:\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` if executed correctly.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: no such index.\n\n{{< /multitabs >}}"
     },
     {
       "title": "See also",
       "level": 2,
-      "content": "[`FT.CREATE`]() | [`FT.INFO`]()"
+      "content": "[`FT.CREATE`]({{< relref \"commands/ft.create/\" >}}) | [`FT.INFO`]({{< relref \"commands/ft.info/\" >}})"
     },
     {
       "title": "Related topics",
       "level": 2,
-      "content": "[RediSearch]()"
+      "content": "[RediSearch]({{< relref \"/develop/ai/search-and-query/\" >}})"
     }
   ]
 }

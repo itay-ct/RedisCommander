@@ -14,6 +14,93 @@
     "@slow",
     "@dangerous"
   ],
+  "apiMethods": {
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "slots",
+            "type": "int..."
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "String"
+        },
+        "signature": "String clusterDelSlots(final int... slots)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "slots",
+            "type": "...int"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StatusCmd"
+        },
+        "signature": "ClusterDelSlots(ctx context.Context, slots ...int)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "One or more hash slots to be removed",
+            "name": "slots",
+            "type": "int..."
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "String"
+        },
+        "signature": "String clusterDelSlots(int... slots)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "One or more hash slots to be removed",
+            "name": "slots",
+            "type": "int..."
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> clusterDelSlots(int... slots)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "One or more hash slots to be removed",
+            "name": "slots",
+            "type": "int..."
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> clusterDelSlots(int... slots)"
+      }
+    ]
+  },
   "commandFlags": [
     "admin",
     "stale",
@@ -39,28 +126,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "example",
-        "title": "Example"
-      },
-      {
-        "id": "usage-in-redis-cluster",
-        "title": "Usage in Redis Cluster"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "In Redis Cluster, each node keeps track of which master is serving\na particular hash slot.\n\nThe `CLUSTER DELSLOTS` command asks a particular Redis Cluster node to\nforget which master is serving the hash slots specified as arguments.\n\nIn the context of a node that has received a `CLUSTER DELSLOTS` command and\nhas consequently removed the associations for the passed hash slots,\nwe say those hash slots are *unbound*. Note that the existence of\nunbound hash slots occurs naturally when a node has not been\nconfigured to handle them (something that can be done with the\n[`CLUSTER ADDSLOTS`]() command) and if it has not received any information about\nwho owns those hash slots (something that it can learn from heartbeat\nor update messages).\n\nIf a node with unbound hash slots receives a heartbeat packet from\nanother node that claims to be the owner of some of those hash\nslots, the association is established instantly. Moreover, if a\nheartbeat or update message is received with a configuration epoch\ngreater than the node's own, the association is re-established.\n\nHowever, note that:\n\n1. The command only works if all the specified slots are already\nassociated with some node.\n2. The command fails if the same slot is specified multiple times.\n3. As a side effect of the command execution, the node may go into\n*down* state because not all hash slots are covered.\n\n## Example\n\nThe following command removes the association for slots 5000 and\n5001 from the node receiving the command:\n\n    > CLUSTER DELSLOTS 5000 5001\n    OK\n\n## Usage in Redis Cluster\n\nThis command only works in cluster mode and may be useful for\ndebugging and in order to manually orchestrate a cluster configuration\nwhen a new cluster is created. It is currently not used by `redis-cli`,\nand mainly exists for API completeness.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.",
+  "content": "In Redis Cluster, each node keeps track of which master is serving\na particular hash slot.\n\nThe `CLUSTER DELSLOTS` command asks a particular Redis Cluster node to\nforget which master is serving the hash slots specified as arguments.\n\nIn the context of a node that has received a `CLUSTER DELSLOTS` command and\nhas consequently removed the associations for the passed hash slots,\nwe say those hash slots are *unbound*. Note that the existence of\nunbound hash slots occurs naturally when a node has not been\nconfigured to handle them (something that can be done with the\n[`CLUSTER ADDSLOTS`]() command) and if it has not received any information about\nwho owns those hash slots (something that it can learn from heartbeat\nor update messages).\n\nIf a node with unbound hash slots receives a heartbeat packet from\nanother node that claims to be the owner of some of those hash\nslots, the association is established instantly. Moreover, if a\nheartbeat or update message is received with a configuration epoch\ngreater than the node's own, the association is re-established.\n\nHowever, note that:\n\n1. The command only works if all the specified slots are already\nassociated with some node.\n2. The command fails if the same slot is specified multiple times.\n3. As a side effect of the command execution, the node may go into\n*down* state because not all hash slots are covered.\n\n## Example\n\nThe following command removes the association for slots 5000 and\n5001 from the node receiving the command:\n\n    > CLUSTER DELSLOTS 5000 5001\n    OK\n\n## Usage in Redis Cluster\n\nThis command only works in cluster mode and may be useful for\ndebugging and in order to manually orchestrate a cluster configuration\nwhen a new cluster is created. It is currently not used by `redis-cli`,\nand mainly exists for API completeness.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"cluster-delslots-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "In Redis Cluster, each node keeps track of which master is serving\na particular hash slot.\n\nThe `CLUSTER DELSLOTS` command asks a particular Redis Cluster node to\nforget which master is serving the hash slots specified as arguments.\n\nIn the context of a node that has received a `CLUSTER DELSLOTS` command and\nhas consequently removed the associations for the passed hash slots,\nwe say those hash slots are *unbound*. Note that the existence of\nunbound hash slots occurs naturally when a node has not been\nconfigured to handle them (something that can be done with the\n[`CLUSTER ADDSLOTS`]() command) and if it has not received any information about\nwho owns those hash slots (something that it can learn from heartbeat\nor update messages).\n\nIf a node with unbound hash slots receives a heartbeat packet from\nanother node that claims to be the owner of some of those hash\nslots, the association is established instantly. Moreover, if a\nheartbeat or update message is received with a configuration epoch\ngreater than the node's own, the association is re-established.\n\nHowever, note that:\n\n1. The command only works if all the specified slots are already\nassociated with some node.\n2. The command fails if the same slot is specified multiple times.\n3. As a side effect of the command execution, the node may go into\n*down* state because not all hash slots are covered.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -85,7 +157,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned."
+      "content": "{{< multitabs id=\"cluster-delslots-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.\n\n{{< /multitabs >}}"
     }
   ]
 }

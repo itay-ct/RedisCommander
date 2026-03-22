@@ -12,6 +12,111 @@
   "aclCategories": [
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "dict"
+        },
+        "signature": "memory_stats(**kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "Map<String, Object>"
+        },
+        "signature": "Map<String, Object> memoryStats()"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context",
+            "name": "ctx",
+            "type": "context.Context"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*MapStringIntCmd"
+        },
+        "signature": "MemoryStats(ctx context.Context) *MapStringIntCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "MemoryStatsReply"
+        },
+        "signature": "memoryStats()"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "Map<String, Object>"
+        },
+        "signature": "Map<String, Object> memoryStats()"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "RedisFuture<Map<String, Object>>"
+        },
+        "signature": "RedisFuture<Map<String, Object>> memoryStats()"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "Mono<Map<String, Object>>"
+        },
+        "signature": "Mono<Map<String, Object>> memoryStats()"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$subcommand",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$args",
+            "type": "mixed"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array"
+        },
+        "signature": "memory(string $subcommand, ...$args)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [],
   "keySpecs": [],
@@ -26,20 +131,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "The `MEMORY STATS` command returns an [Array reply]() about the memory usage of the\nserver.\n\nThe information about memory usage is provided as metrics and their respective\nvalues. The following metrics are reported:\n\n*   `peak.allocated`: Peak memory consumed by Redis in bytes (see [`INFO`]()'s\n     `used_memory_peak`)\n*   `total.allocated`: Total number of bytes allocated by Redis using its\n     allocator (see [`INFO`]()'s `used_memory`)\n*   `startup.allocated`: Initial amount of memory consumed by Redis at startup\n     in bytes (see [`INFO`]()'s `used_memory_startup`)\n*   `replication.backlog`: Size in bytes of the replication backlog (see\n     [`INFO`]()'s `repl_backlog_active`)\n*   `clients.slaves`: The total size in bytes of all replicas overheads (output\n     and query buffers, connection contexts)\n*   `clients.normal`: The total size in bytes of all clients overheads (output\n     and query buffers, connection contexts)\n*   `cluster.links`: Memory usage by cluster links (Added in Redis 7.0, see [`INFO`]()'s `mem_cluster_links`).\n*   `aof.buffer`: The summed size in bytes of AOF related buffers.\n*   `lua.caches`: the summed size in bytes of the overheads of the Lua scripts'\n     caches\n*   `functions.caches`: the summed size in bytes of the overheads of the Function scripts'\n     caches\n*   `dbXXX`: For each of the server's databases, the overheads of the main and\n     expiry dictionaries (`overhead.hashtable.main` and\n    `overhead.hashtable.expires`, respectively) are reported in bytes\n*   `overhead.db.hashtable.lut`: Total overhead of dictionary buckets in databases (Added in Redis 7.4)\n*   `overhead.db.hashtable.rehashing`: Temporary memory overhead of database dictionaries currently being rehashed (Added in Redis 7.4) \n*   `overhead.total`: The sum of all overheads, i.e. `startup.allocated`,\n     `replication.backlog`, `clients.slaves`, `clients.normal`, `aof.buffer` and\n     those of the internal data structures that are used in managing the\n     Redis keyspace (see [`INFO`]()'s `used_memory_overhead`)\n*   `db.dict.rehashing.count`: Number of DB dictionaries currently being rehashed (Added in Redis 7.4)\n*   `keys.count`: The total number of keys stored across all databases in the\n     server\n*   `keys.bytes-per-key`: The ratio between `dataset.bytes` and `keys.count` \n*   `dataset.bytes`: The size in bytes of the dataset, i.e. `overhead.total`\n     subtracted from `total.allocated` (see [`INFO`]()'s `used_memory_dataset`)\n*   `dataset.percentage`: The percentage of `dataset.bytes` out of the total\n     memory usage\n*   `peak.percentage`: The percentage of `total.allocated` out of\n     `peak.allocated`\n*   `allocator.allocated`: See [`INFO`]()'s `allocator_allocated`\n*   `allocator.active`: See [`INFO`]()'s `allocator_active`\n*   `allocator.resident`: See [`INFO`]()'s `allocator_resident`\n*   `allocator.muzzy`: See [`INFO`]()'s `allocator_muzzy`\n*   `allocator-fragmentation.ratio`: See [`INFO`]()'s `allocator_frag_ratio`\n*   `allocator-fragmentation.bytes`: See [`INFO`]()'s `allocator_frag_bytes`\n*   `allocator-rss.ratio`: See [`INFO`]()'s `allocator_rss_ratio`\n*   `allocator-rss.bytes`: See [`INFO`]()'s `allocator_rss_bytes`\n*   `rss-overhead.ratio`: See [`INFO`]()'s `rss_overhead_ratio`\n*   `rss-overhead.bytes`: See [`INFO`]()'s `rss_overhead_bytes`\n*   `fragmentation`: See [`INFO`]()'s `mem_fragmentation_ratio`\n*   `fragmentation.bytes`: See [`INFO`]()'s `mem_fragmentation_bytes`\n\n**A note about the word slave used in this man page**: Starting with Redis 5, if not for backward compatibility, the Redis project no longer uses the word slave. Unfortunately in this command the word slave is part of the protocol, so we'll be able to remove such occurrences only when this API will be naturally deprecated.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a nested list of memory usage metrics and their values.\n\n**RESP3:**\n\n[Map reply](../../develop/reference/protocol-spec#maps): memory usage metrics and their values.",
+  "content": "The `MEMORY STATS` command returns an [Array reply]() about the memory usage of the\nserver.\n\nThe information about memory usage is provided as metrics and their respective\nvalues. The following metrics are reported:\n\n*   `peak.allocated`: Peak memory consumed by Redis in bytes (see [`INFO`]()'s\n     `used_memory_peak`)\n*   `total.allocated`: Total number of bytes allocated by Redis using its\n     allocator (see [`INFO`]()'s `used_memory`)\n*   `startup.allocated`: Initial amount of memory consumed by Redis at startup\n     in bytes (see [`INFO`]()'s `used_memory_startup`)\n*   `replication.backlog`: Size in bytes of the replication backlog (see\n     [`INFO`]()'s `repl_backlog_active`)\n*   `clients.slaves`: The total size in bytes of all replicas overheads (output\n     and query buffers, connection contexts)\n*   `clients.normal`: The total size in bytes of all clients overheads (output\n     and query buffers, connection contexts)\n*   `cluster.links`: Memory usage by cluster links (Added in Redis 7.0, see [`INFO`]()'s `mem_cluster_links`).\n*   `aof.buffer`: The summed size in bytes of AOF related buffers.\n*   `lua.caches`: the summed size in bytes of the overheads of the Lua scripts'\n     caches\n*   `functions.caches`: the summed size in bytes of the overheads of the Function scripts'\n     caches\n*   `dbXXX`: For each of the server's databases, the overheads of the main and\n     expiry dictionaries (`overhead.hashtable.main` and\n    `overhead.hashtable.expires`, respectively) are reported in bytes\n*   `overhead.db.hashtable.lut`: Total overhead of dictionary buckets in databases (Added in Redis 7.4)\n*   `overhead.db.hashtable.rehashing`: Temporary memory overhead of database dictionaries currently being rehashed (Added in Redis 7.4) \n*   `overhead.total`: The sum of all overheads, i.e. `startup.allocated`,\n     `replication.backlog`, `clients.slaves`, `clients.normal`, `aof.buffer` and\n     those of the internal data structures that are used in managing the\n     Redis keyspace (see [`INFO`]()'s `used_memory_overhead`)\n*   `db.dict.rehashing.count`: Number of DB dictionaries currently being rehashed (Added in Redis 7.4)\n*   `keys.count`: The total number of keys stored across all databases in the\n     server\n*   `keys.bytes-per-key`: The ratio between `dataset.bytes` and `keys.count` \n*   `dataset.bytes`: The size in bytes of the dataset, i.e. `overhead.total`\n     subtracted from `total.allocated` (see [`INFO`]()'s `used_memory_dataset`)\n*   `dataset.percentage`: The percentage of `dataset.bytes` out of the total\n     memory usage\n*   `peak.percentage`: The percentage of `total.allocated` out of\n     `peak.allocated`\n*   `allocator.allocated`: See [`INFO`]()'s `allocator_allocated`\n*   `allocator.active`: See [`INFO`]()'s `allocator_active`\n*   `allocator.resident`: See [`INFO`]()'s `allocator_resident`\n*   `allocator.muzzy`: See [`INFO`]()'s `allocator_muzzy`\n*   `allocator-fragmentation.ratio`: See [`INFO`]()'s `allocator_frag_ratio`\n*   `allocator-fragmentation.bytes`: See [`INFO`]()'s `allocator_frag_bytes`\n*   `allocator-rss.ratio`: See [`INFO`]()'s `allocator_rss_ratio`\n*   `allocator-rss.bytes`: See [`INFO`]()'s `allocator_rss_bytes`\n*   `rss-overhead.ratio`: See [`INFO`]()'s `rss_overhead_ratio`\n*   `rss-overhead.bytes`: See [`INFO`]()'s `rss_overhead_bytes`\n*   `fragmentation`: See [`INFO`]()'s `mem_fragmentation_ratio`\n*   `fragmentation.bytes`: See [`INFO`]()'s `mem_fragmentation_bytes`\n\n**A note about the word slave used in this man page**: Starting with Redis 5, if not for backward compatibility, the Redis project no longer uses the word slave. Unfortunately in this command the word slave is part of the protocol, so we'll be able to remove such occurrences only when this API will be naturally deprecated.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"memory-stats-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a nested list of memory usage metrics and their values.\n\n-tab-sep-\n\n[Map reply](../../develop/reference/protocol-spec#maps): memory usage metrics and their values.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "The `MEMORY STATS` command returns an [Array reply]() about the memory usage of the\nserver.\n\nThe information about memory usage is provided as metrics and their respective\nvalues. The following metrics are reported:\n\n*   `peak.allocated`: Peak memory consumed by Redis in bytes (see [`INFO`]()'s\n     `used_memory_peak`)\n*   `total.allocated`: Total number of bytes allocated by Redis using its\n     allocator (see [`INFO`]()'s `used_memory`)\n*   `startup.allocated`: Initial amount of memory consumed by Redis at startup\n     in bytes (see [`INFO`]()'s `used_memory_startup`)\n*   `replication.backlog`: Size in bytes of the replication backlog (see\n     [`INFO`]()'s `repl_backlog_active`)\n*   `clients.slaves`: The total size in bytes of all replicas overheads (output\n     and query buffers, connection contexts)\n*   `clients.normal`: The total size in bytes of all clients overheads (output\n     and query buffers, connection contexts)\n*   `cluster.links`: Memory usage by cluster links (Added in Redis 7.0, see [`INFO`]()'s `mem_cluster_links`).\n*   `aof.buffer`: The summed size in bytes of AOF related buffers.\n*   `lua.caches`: the summed size in bytes of the overheads of the Lua scripts'\n     caches\n*   `functions.caches`: the summed size in bytes of the overheads of the Function scripts'\n     caches\n*   `dbXXX`: For each of the server's databases, the overheads of the main and\n     expiry dictionaries (`overhead.hashtable.main` and\n    `overhead.hashtable.expires`, respectively) are reported in bytes\n*   `overhead.db.hashtable.lut`: Total overhead of dictionary buckets in databases (Added in Redis 7.4)\n*   `overhead.db.hashtable.rehashing`: Temporary memory overhead of database dictionaries currently being rehashed (Added in Redis 7.4) \n*   `overhead.total`: The sum of all overheads, i.e. `startup.allocated`,\n     `replication.backlog`, `clients.slaves`, `clients.normal`, `aof.buffer` and\n     those of the internal data structures that are used in managing the\n     Redis keyspace (see [`INFO`]()'s `used_memory_overhead`)\n*   `db.dict.rehashing.count`: Number of DB dictionaries currently being rehashed (Added in Redis 7.4)\n*   `keys.count`: The total number of keys stored across all databases in the\n     server\n*   `keys.bytes-per-key`: The ratio between `dataset.bytes` and `keys.count` \n*   `dataset.bytes`: The size in bytes of the dataset, i.e. `overhead.total`\n     subtracted from `total.allocated` (see [`INFO`]()'s `used_memory_dataset`)\n*   `dataset.percentage`: The percentage of `dataset.bytes` out of the total\n     memory usage\n*   `peak.percentage`: The percentage of `total.allocated` out of\n     `peak.allocated`\n*   `allocator.allocated`: See [`INFO`]()'s `allocator_allocated`\n*   `allocator.active`: See [`INFO`]()'s `allocator_active`\n*   `allocator.resident`: See [`INFO`]()'s `allocator_resident`\n*   `allocator.muzzy`: See [`INFO`]()'s `allocator_muzzy`\n*   `allocator-fragmentation.ratio`: See [`INFO`]()'s `allocator_frag_ratio`\n*   `allocator-fragmentation.bytes`: See [`INFO`]()'s `allocator_frag_bytes`\n*   `allocator-rss.ratio`: See [`INFO`]()'s `allocator_rss_ratio`\n*   `allocator-rss.bytes`: See [`INFO`]()'s `allocator_rss_bytes`\n*   `rss-overhead.ratio`: See [`INFO`]()'s `rss_overhead_ratio`\n*   `rss-overhead.bytes`: See [`INFO`]()'s `rss_overhead_bytes`\n*   `fragmentation`: See [`INFO`]()'s `mem_fragmentation_ratio`\n*   `fragmentation.bytes`: See [`INFO`]()'s `mem_fragmentation_bytes`\n\n**A note about the word slave used in this man page**: Starting with Redis 5, if not for backward compatibility, the Redis project no longer uses the word slave. Unfortunately in this command the word slave is part of the protocol, so we'll be able to remove such occurrences only when this API will be naturally deprecated.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -54,7 +152,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a nested list of memory usage metrics and their values.\n\n**RESP3:**\n\n[Map reply](../../develop/reference/protocol-spec#maps): memory usage metrics and their values."
+      "content": "{{< multitabs id=\"memory-stats-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a nested list of memory usage metrics and their values.\n\n-tab-sep-\n\n[Map reply](../../develop/reference/protocol-spec#maps): memory usage metrics and their values.\n\n{{< /multitabs >}}"
     }
   ]
 }

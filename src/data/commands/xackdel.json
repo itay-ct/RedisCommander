@@ -14,6 +14,772 @@
     "@stream",
     "@fast"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "groupname",
+            "type": "GroupT"
+          },
+          {
+            "description": "",
+            "name": "*ids",
+            "type": "StreamIdT"
+          },
+          {
+            "description": "",
+            "name": "ref_policy",
+            "type": "Literal[\"KEEPREF\", \"DELREF\", \"ACKED\"] = \"KEEPREF\""
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "ResponseT"
+        },
+        "signature": "xackdel(, name: KeyT,, groupname: GroupT,, *ids: StreamIdT,, ref_policy: Literal[\"KEEPREF\", \"DELREF\", \"ACKED\"] = \"KEEPREF\",)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "group",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "ids",
+            "type": "byte[]..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List<StreamEntryDeletionResult>"
+        },
+        "signature": "List<StreamEntryDeletionResult> xackdel(byte[] key, byte[] group, byte[]... ids)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "group",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "trimMode",
+            "type": "StreamDeletionPolicy"
+          },
+          {
+            "description": "",
+            "name": "ids",
+            "type": "byte[]..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List<StreamEntryDeletionResult>"
+        },
+        "signature": "List<StreamEntryDeletionResult> xackdel(byte[] key, byte[] group, StreamDeletionPolicy trimMode, byte[]... ids)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "group",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "ids",
+            "type": "StreamEntryID..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List<StreamEntryDeletionResult>"
+        },
+        "signature": "List<StreamEntryDeletionResult> xackdel(final String key, final String group, final StreamEntryID... ids)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "group",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "trimMode",
+            "type": "StreamDeletionPolicy"
+          },
+          {
+            "description": "",
+            "name": "ids",
+            "type": "StreamEntryID..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List<StreamEntryDeletionResult>"
+        },
+        "signature": "List<StreamEntryDeletionResult> xackdel(final String key, final String group, final StreamDeletionPolicy trimMode, final StreamEntryID... ids)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "group",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "ids",
+            "type": "StreamEntryID..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List<StreamEntryDeletionResult>"
+        },
+        "signature": "List<StreamEntryDeletionResult> xackdel(String key, String group, StreamEntryID... ids)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "name of the consumer group.",
+            "name": "group",
+            "type": "K"
+          },
+          {
+            "description": "message Id's to acknowledge and delete.",
+            "name": "messageIds",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "List of StreamEntryDeletionResult indicating the result for each message ID. @since 6.8",
+          "type": "List<StreamEntryDeletionResult>"
+        },
+        "signature": "List<StreamEntryDeletionResult> xackdel(K key, K group, String... messageIds)"
+      },
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "name of the consumer group.",
+            "name": "group",
+            "type": "K"
+          },
+          {
+            "description": "the deletion policy to apply.",
+            "name": "policy",
+            "type": "StreamDeletionPolicy"
+          },
+          {
+            "description": "message Id's to acknowledge and delete.",
+            "name": "messageIds",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "List of StreamEntryDeletionResult indicating the result for each message ID. @since 6.8",
+          "type": "List<StreamEntryDeletionResult>"
+        },
+        "signature": "List<StreamEntryDeletionResult> xackdel(K key, K group, StreamDeletionPolicy policy, String... messageIds)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "name of the consumer group.",
+            "name": "group",
+            "type": "K"
+          },
+          {
+            "description": "message Id's to acknowledge and delete.",
+            "name": "messageIds",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "List of StreamEntryDeletionResult indicating the result for each message ID. @since 6.8",
+          "type": "RedisFuture<List<StreamEntryDeletionResult>>"
+        },
+        "signature": "RedisFuture<List<StreamEntryDeletionResult>> xackdel(K key, K group, String... messageIds)"
+      },
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "name of the consumer group.",
+            "name": "group",
+            "type": "K"
+          },
+          {
+            "description": "the deletion policy to apply.",
+            "name": "policy",
+            "type": "StreamDeletionPolicy"
+          },
+          {
+            "description": "message Id's to acknowledge and delete.",
+            "name": "messageIds",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "List of StreamEntryDeletionResult indicating the result for each message ID. @since 6.8",
+          "type": "RedisFuture<List<StreamEntryDeletionResult>>"
+        },
+        "signature": "RedisFuture<List<StreamEntryDeletionResult>> xackdel(K key, K group, StreamDeletionPolicy policy, String... messageIds)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "name of the consumer group.",
+            "name": "group",
+            "type": "K"
+          },
+          {
+            "description": "message Id's to acknowledge and delete.",
+            "name": "messageIds",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "List of StreamEntryDeletionResult indicating the result for each message ID. @since 6.8",
+          "type": "Flux<StreamEntryDeletionResult>"
+        },
+        "signature": "Flux<StreamEntryDeletionResult> xackdel(K key, K group, String... messageIds)"
+      },
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "name of the consumer group.",
+            "name": "group",
+            "type": "K"
+          },
+          {
+            "description": "the deletion policy to apply.",
+            "name": "policy",
+            "type": "StreamDeletionPolicy"
+          },
+          {
+            "description": "message Id's to acknowledge and delete.",
+            "name": "messageIds",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "List of StreamEntryDeletionResult indicating the result for each message ID. @since 6.8",
+          "type": "Flux<StreamEntryDeletionResult>"
+        },
+        "signature": "Flux<StreamEntryDeletionResult> xackdel(K key, K group, StreamDeletionPolicy policy, String... messageIds)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "stream",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "group",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "mode",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "ids",
+            "type": "...string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*SliceCmd"
+        },
+        "signature": "XAckDel(ctx context.Context, stream string, group string, mode string, ids ...string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "group",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "id",
+            "type": "RedisVariadicArgument"
+          },
+          {
+            "description": "",
+            "name": "policy?",
+            "type": "StreamDeletionPolicy"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "XACKDEL(key: RedisArgument, group: RedisArgument, id: RedisVariadicArgument, policy?: StreamDeletionPolicy)"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "group",
+            "type": "G"
+          },
+          {
+            "description": "",
+            "name": "ids",
+            "type": "&'a [ID]"
+          },
+          {
+            "description": "",
+            "name": "options",
+            "type": "streams"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Vec<streams::XAckDelStatusCode>)"
+        },
+        "signature": "xack_del(key: K, group: G, ids: &'a [ID], options: streams::StreamDeletionPolicy)"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "group",
+            "type": "G"
+          },
+          {
+            "description": "",
+            "name": "ids",
+            "type": "&'a [ID]"
+          },
+          {
+            "description": "",
+            "name": "options",
+            "type": "streams"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Vec<streams::XAckDelStatusCode>)"
+        },
+        "signature": "xack_del(key: K, group: G, ids: &'a [ID], options: streams::StreamDeletionPolicy)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "groupName",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "mode",
+            "type": "StreamTrimMode"
+          },
+          {
+            "description": "",
+            "name": "messageId",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "StreamTrimResult"
+        },
+        "signature": "StreamAcknowledgeAndDelete(RedisKey key, RedisValue groupName, StreamTrimMode mode, RedisValue messageId, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "groupName",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "mode",
+            "type": "StreamTrimMode"
+          },
+          {
+            "description": "",
+            "name": "messageIds",
+            "type": "RedisValue[]"
+          },
+          {
+            "description": "",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "StreamTrimResult[]"
+        },
+        "signature": "StreamAcknowledgeAndDelete(RedisKey key, RedisValue groupName, StreamTrimMode mode, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "groupName",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "mode",
+            "type": "StreamTrimMode"
+          },
+          {
+            "description": "",
+            "name": "messageId",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "StreamTrimResult"
+        },
+        "signature": "StreamAcknowledgeAndDelete(RedisKey key, RedisValue groupName, StreamTrimMode mode, RedisValue messageId, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "groupName",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "mode",
+            "type": "StreamTrimMode"
+          },
+          {
+            "description": "",
+            "name": "messageIds",
+            "type": "RedisValue[]"
+          },
+          {
+            "description": "",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "StreamTrimResult[]"
+        },
+        "signature": "StreamAcknowledgeAndDelete(RedisKey key, RedisValue groupName, StreamTrimMode mode, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "groupName",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "mode",
+            "type": "StreamTrimMode"
+          },
+          {
+            "description": "",
+            "name": "messageId",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "StreamTrimResult"
+        },
+        "signature": "StreamAcknowledgeAndDelete(RedisKey key, RedisValue groupName, StreamTrimMode mode, RedisValue messageId, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "groupName",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "mode",
+            "type": "StreamTrimMode"
+          },
+          {
+            "description": "",
+            "name": "messageIds",
+            "type": "RedisValue[]"
+          },
+          {
+            "description": "",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "StreamTrimResult[]"
+        },
+        "signature": "StreamAcknowledgeAndDelete(RedisKey key, RedisValue groupName, StreamTrimMode mode, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "groupName",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "mode",
+            "type": "StreamTrimMode"
+          },
+          {
+            "description": "",
+            "name": "messageId",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "StreamTrimResult"
+        },
+        "signature": "StreamAcknowledgeAndDelete(RedisKey key, RedisValue groupName, StreamTrimMode mode, RedisValue messageId, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "groupName",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "mode",
+            "type": "StreamTrimMode"
+          },
+          {
+            "description": "",
+            "name": "messageIds",
+            "type": "RedisValue[]"
+          },
+          {
+            "description": "",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "StreamTrimResult[]"
+        },
+        "signature": "StreamAcknowledgeAndDelete(RedisKey key, RedisValue groupName, StreamTrimMode mode, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$group",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$mode",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$ids",
+            "type": "array"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array"
+        },
+        "signature": "xackdel(string $key, string $group, string $mode, array $ids)"
+      }
+    ]
+  },
   "commandFlags": [
     "write",
     "fast"
@@ -106,32 +872,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "optional-arguments",
-        "title": "Optional arguments"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Acknowledges and conditionally deletes one or multiple entries (messages) for a stream consumer group at the specified `key`.\n\n`XACKDEL` combines the functionality of [`XACK`]() and [`XDEL`]() in Redis Streams. It acknowledges the specified entry IDs in the given consumer group and simultaneously attempts to delete the corresponding entries from the stream.\n\n## Required arguments\n\n<details open>\n<summary><code>key</code></summary>\n\nThe name of the stream key.\n</details>\n\n<details open>\n<summary><code>group</code></summary>\n\nThe name of the consumer group.\n</details>\n\n<details open>\n<summary><code>IDS numids id [id ...]</code></summary>\n\nThe IDS block specifying which entries to acknowledge and delete:\n- `numids`: The number of IDs that follow\n- `id [id ...]`: One or more stream entry IDs to acknowledge and delete\n</details>\n\n## Optional arguments\n\n<details open>\n<summary><code>KEEPREF | DELREF | ACKED</code></summary>\n\nSpecifies how to handle consumer group references when acknowledging and deleting entries. Available since Redis 8.2. If no option is specified, `KEEPREF` is used by default:\n\n- `KEEPREF` (default): Acknowledges the entries in the specified consumer group and deletes the entries from the stream, but preserves existing references to these entries in all consumer groups' PEL (Pending Entries List).\n- `DELREF`: Acknowledges the entries in the specified consumer group, deletes the entries from the stream, and also removes all references to these entries from all consumer groups' pending entry lists, effectively cleaning up all traces of the entries. If an entry ID is not in the stream, but there are dangling references, `XACKDEL` with `DELREF` would still remove all those references.\n- `ACKED`: Acknowledges the entries in the specified consumer group and only deletes entries that were read and acknowledged by all consumer groups.\n</details>\n\nThis command is particularly useful when you want to both acknowledge entry processing and clean up the stream in a single atomic operation, providing fine-grained control over how entry references are handled.\n\n\nWhen using multiple consumer groups, users are encouraged to use `XACKDEL` with the `ACKED` option instead of `XACK` and `XDEL`, simplifying the application logic.\n\n\n## Examples\n\n```\n> XADD mystream * field1 value1\n\"1755870377536-0\"\n> XADD mystream * field2 value2\n\"1755870387045-0\"\n> XGROUP CREATE mystream mygroup 0\nOK\n> XREADGROUP GROUP mygroup consumer1 COUNT 2 STREAMS mystream >\n1) 1) \"mystream\"\n   2) 1) 1) \"1755870377536-0\"\n         2) 1) \"field1\"\n            2) \"value1\"\n      2) 1) \"1755870387045-0\"\n         2) 1) \"field2\"\n            2) \"value2\"\n> XPENDING mystream mygroup\n1) (integer) 2\n2) \"1755870377536-0\"\n3) \"1755870387045-0\"\n4) 1) 1) \"consumer1\"\n      2) \"2\"\n> XACKDEL mystream mygroup KEEPREF IDS 2 1755870377536-0 1755870387045-0\n1) (integer) 1\n2) (integer) 1\n> XPENDING mystream mygroup\n1) (integer) 0\n2) (nil)\n3) (nil)\n4) (nil)\n> XRANGE mystream - +\n(empty array)\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n\n* [Array reply](): -1 for each requested ID when the given key does not exist.\n* [Array reply](): For each ID:\n    * [Integer reply](): 1 if the entry was acknowledged and deleted from the stream.\n    * [Integer reply](): -1 if no such ID exists in the provided stream key.\n    * [Integer reply](): 2 if the entry was acknowledged but not deleted, as there are still dangling references (ACKED option).\n\n**RESP3:**\n\nOne of the following:\n\n* [Array reply](): -1 for each requested ID when the given key does not exist.\n* [Array reply](): For each ID:\n    * [Integer reply](): 1 if the entry was acknowledged and deleted from the stream.\n    * [Integer reply](): -1 if no such ID exists in the provided stream key.\n    * [Integer reply](): 2 if the entry was acknowledged but not deleted, as there are still dangling references (ACKED option).",
+  "content": "Acknowledges and conditionally deletes one or multiple entries (messages) for a stream consumer group at the specified `key`.\n\n`XACKDEL` combines the functionality of [`XACK`]() and [`XDEL`]() in Redis Streams. It acknowledges the specified entry IDs in the given consumer group and simultaneously attempts to delete the corresponding entries from the stream.\n\n## Required arguments\n\n<details open>\n<summary><code>key</code></summary>\n\nThe name of the stream key.\n</details>\n\n<details open>\n<summary><code>group</code></summary>\n\nThe name of the consumer group.\n</details>\n\n<details open>\n<summary><code>IDS numids id [id ...]</code></summary>\n\nThe IDS block specifying which entries to acknowledge and delete:\n- `numids`: The number of IDs that follow\n- `id [id ...]`: One or more stream entry IDs to acknowledge and delete\n</details>\n\n## Optional arguments\n\n<details open>\n<summary><code>KEEPREF | DELREF | ACKED</code></summary>\n\nSpecifies how to handle consumer group references when acknowledging and deleting entries. Available since Redis 8.2. If no option is specified, `KEEPREF` is used by default:\n\n- `KEEPREF` (default): Acknowledges the entries in the specified consumer group and deletes the entries from the stream, but preserves existing references to these entries in all consumer groups' PEL (Pending Entries List).\n- `DELREF`: Acknowledges the entries in the specified consumer group, deletes the entries from the stream, and also removes all references to these entries from all consumer groups' pending entry lists, effectively cleaning up all traces of the entries. If an entry ID is not in the stream, but there are dangling references, `XACKDEL` with `DELREF` would still remove all those references.\n- `ACKED`: Acknowledges the entries in the specified consumer group and only deletes entries that were read and acknowledged by all consumer groups.\n</details>\n\nThis command is particularly useful when you want to both acknowledge entry processing and clean up the stream in a single atomic operation, providing fine-grained control over how entry references are handled.\n\n{{< note >}}\nWhen using multiple consumer groups, users are encouraged to use `XACKDEL` with the `ACKED` option instead of `XACK` and `XDEL`, simplifying the application logic.\n{{< /note >}}\n\n## Examples\n\n```\n> XADD mystream * field1 value1\n\"1755870377536-0\"\n> XADD mystream * field2 value2\n\"1755870387045-0\"\n> XGROUP CREATE mystream mygroup 0\nOK\n> XREADGROUP GROUP mygroup consumer1 COUNT 2 STREAMS mystream >\n1) 1) \"mystream\"\n   2) 1) 1) \"1755870377536-0\"\n         2) 1) \"field1\"\n            2) \"value1\"\n      2) 1) \"1755870387045-0\"\n         2) 1) \"field2\"\n            2) \"value2\"\n> XPENDING mystream mygroup\n1) (integer) 2\n2) \"1755870377536-0\"\n3) \"1755870387045-0\"\n4) 1) 1) \"consumer1\"\n      2) \"2\"\n> XACKDEL mystream mygroup KEEPREF IDS 2 1755870377536-0 1755870387045-0\n1) (integer) 1\n2) (integer) 1\n> XPENDING mystream mygroup\n1) (integer) 0\n2) (nil)\n3) (nil)\n4) (nil)\n> XRANGE mystream - +\n(empty array)\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"xackdel-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\nOne of the following:\n\n* [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): -1 for each requested ID when the given key does not exist.\n* [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): For each ID:\n    * [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): 1 if the entry was acknowledged and deleted from the stream.\n    * [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): -1 if no such ID exists in the provided stream key.\n    * [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): 2 if the entry was acknowledged but not deleted, as there are still dangling references (ACKED option).\n\n-tab-sep-\n\nOne of the following:\n\n* [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): -1 for each requested ID when the given key does not exist.\n* [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): For each ID:\n    * [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): 1 if the entry was acknowledged and deleted from the stream.\n    * [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): -1 if no such ID exists in the provided stream key.\n    * [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): 2 if the entry was acknowledged but not deleted, as there are still dangling references (ACKED option).\n\n{{< /multitabs >}}",
+  "example": "> XADD mystream * field1 value1\n\"1755870377536-0\"\n> XADD mystream * field2 value2\n\"1755870387045-0\"\n> XGROUP CREATE mystream mygroup 0\nOK\n> XREADGROUP GROUP mygroup consumer1 COUNT 2 STREAMS mystream >\n1) 1) \"mystream\"\n   2) 1) 1) \"1755870377536-0\"\n         2) 1) \"field1\"\n            2) \"value1\"\n      2) 1) \"1755870387045-0\"\n         2) 1) \"field2\"\n            2) \"value2\"\n> XPENDING mystream mygroup\n1) (integer) 2\n2) \"1755870377536-0\"\n3) \"1755870387045-0\"\n4) 1) 1) \"consumer1\"\n      2) \"2\"\n> XACKDEL mystream mygroup KEEPREF IDS 2 1755870377536-0 1755870387045-0\n1) (integer) 1\n2) (integer) 1\n> XPENDING mystream mygroup\n1) (integer) 0\n2) (nil)\n3) (nil)\n4) (nil)\n> XRANGE mystream - +\n(empty array)",
   "intro": "Acknowledges and conditionally deletes one or multiple entries (messages) for a stream consumer group at the specified `key`.\n\n`XACKDEL` combines the functionality of [`XACK`]() and [`XDEL`]() in Redis Streams. It acknowledges the specified entry IDs in the given consumer group and simultaneously attempts to delete the corresponding entries from the stream.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -146,7 +893,7 @@
     {
       "title": "Optional arguments",
       "level": 2,
-      "content": "<details open>\n<summary><code>KEEPREF | DELREF | ACKED</code></summary>\n\nSpecifies how to handle consumer group references when acknowledging and deleting entries. Available since Redis 8.2. If no option is specified, `KEEPREF` is used by default:\n\n- `KEEPREF` (default): Acknowledges the entries in the specified consumer group and deletes the entries from the stream, but preserves existing references to these entries in all consumer groups' PEL (Pending Entries List).\n- `DELREF`: Acknowledges the entries in the specified consumer group, deletes the entries from the stream, and also removes all references to these entries from all consumer groups' pending entry lists, effectively cleaning up all traces of the entries. If an entry ID is not in the stream, but there are dangling references, `XACKDEL` with `DELREF` would still remove all those references.\n- `ACKED`: Acknowledges the entries in the specified consumer group and only deletes entries that were read and acknowledged by all consumer groups.\n</details>\n\nThis command is particularly useful when you want to both acknowledge entry processing and clean up the stream in a single atomic operation, providing fine-grained control over how entry references are handled.\n\n\nWhen using multiple consumer groups, users are encouraged to use `XACKDEL` with the `ACKED` option instead of `XACK` and `XDEL`, simplifying the application logic."
+      "content": "<details open>\n<summary><code>KEEPREF | DELREF | ACKED</code></summary>\n\nSpecifies how to handle consumer group references when acknowledging and deleting entries. Available since Redis 8.2. If no option is specified, `KEEPREF` is used by default:\n\n- `KEEPREF` (default): Acknowledges the entries in the specified consumer group and deletes the entries from the stream, but preserves existing references to these entries in all consumer groups' PEL (Pending Entries List).\n- `DELREF`: Acknowledges the entries in the specified consumer group, deletes the entries from the stream, and also removes all references to these entries from all consumer groups' pending entry lists, effectively cleaning up all traces of the entries. If an entry ID is not in the stream, but there are dangling references, `XACKDEL` with `DELREF` would still remove all those references.\n- `ACKED`: Acknowledges the entries in the specified consumer group and only deletes entries that were read and acknowledged by all consumer groups.\n</details>\n\nThis command is particularly useful when you want to both acknowledge entry processing and clean up the stream in a single atomic operation, providing fine-grained control over how entry references are handled.\n\n{{< note >}}\nWhen using multiple consumer groups, users are encouraged to use `XACKDEL` with the `ACKED` option instead of `XACK` and `XDEL`, simplifying the application logic.\n{{< /note >}}"
     },
     {
       "title": "Examples",
@@ -161,7 +908,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n\n* [Array reply](): -1 for each requested ID when the given key does not exist.\n* [Array reply](): For each ID:\n    * [Integer reply](): 1 if the entry was acknowledged and deleted from the stream.\n    * [Integer reply](): -1 if no such ID exists in the provided stream key.\n    * [Integer reply](): 2 if the entry was acknowledged but not deleted, as there are still dangling references (ACKED option).\n\n**RESP3:**\n\nOne of the following:\n\n* [Array reply](): -1 for each requested ID when the given key does not exist.\n* [Array reply](): For each ID:\n    * [Integer reply](): 1 if the entry was acknowledged and deleted from the stream.\n    * [Integer reply](): -1 if no such ID exists in the provided stream key.\n    * [Integer reply](): 2 if the entry was acknowledged but not deleted, as there are still dangling references (ACKED option)."
+      "content": "{{< multitabs id=\"xackdel-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\nOne of the following:\n\n* [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): -1 for each requested ID when the given key does not exist.\n* [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): For each ID:\n    * [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): 1 if the entry was acknowledged and deleted from the stream.\n    * [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): -1 if no such ID exists in the provided stream key.\n    * [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): 2 if the entry was acknowledged but not deleted, as there are still dangling references (ACKED option).\n\n-tab-sep-\n\nOne of the following:\n\n* [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): -1 for each requested ID when the given key does not exist.\n* [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): For each ID:\n    * [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): 1 if the entry was acknowledged and deleted from the stream.\n    * [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): -1 if no such ID exists in the provided stream key.\n    * [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): 2 if the entry was acknowledged but not deleted, as there are still dangling references (ACKED option).\n\n{{< /multitabs >}}"
     }
   ]
 }

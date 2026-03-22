@@ -14,6 +14,160 @@
     "@write",
     "@fast"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "source_key",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "dest_key",
+            "type": "KeyT"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "deleterule(source_key: KeyT, dest_key: KeyT)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "sourceKey",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "destKey",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "String"
+        },
+        "signature": "String tsDeleteRule(String sourceKey, String destKey)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "sourceKey",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "destKey",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StatusCmd"
+        },
+        "signature": "TSDeleteRule(ctx context.Context, sourceKey string, destKey string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "sourceKey",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "destinationKey",
+            "type": "RedisArgument"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "DELETERULE(sourceKey: RedisArgument, destinationKey: RedisArgument)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "sourceKey",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "destKey",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "bool"
+        },
+        "signature": "DeleteRule(string sourceKey, string destKey)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "sourceKey",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "destKey",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Task<bool>"
+        },
+        "signature": "DeleteRuleAsync(string sourceKey, string destKey)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$sourceKey",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$destKey",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Status"
+        },
+        "signature": "tsdeleterule(string $sourceKey, string $destKey)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -37,37 +191,20 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      },
-      {
-        "id": "see-also",
-        "title": "See also"
-      },
-      {
-        "id": "related-topics",
-        "title": "Related topics"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\n\nDelete a compaction rule\n\n## Required arguments\n\n<details open><summary><code>sourceKey</code></summary>\n\nis key name for the source time series.\n</details>\n\n<details open><summary><code>destKey</code></summary> \n\nis key name for destination (compacted) time series.\n</details>\n\n<note><b>Note:</b> This command does not delete the compacted series.</note>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Simple string reply](): `OK` when the compaction rule is deleted successfully.\n* [Simple error reply]() in these cases: invalid arguments, or when such rule does not exist.\n\n**RESP3:**\n\nOne of the following:\n* [Simple string reply](): `OK` when the compaction rule is deleted successfully.\n* [Simple error reply]() in these cases: invalid arguments, or when such rule does not exist.\n\n\n\n## See also\n\n[`TS.CREATERULE`]() \n\n## Related topics\n\n[RedisTimeSeries]()",
-  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\n\nDelete a compaction rule",
+  "content": "Delete a compaction rule\n\n## Required arguments\n\n<details open><summary><code>sourceKey</code></summary>\n\nis key name for the source time series.\n</details>\n\n<details open><summary><code>destKey</code></summary> \n\nis key name for destination (compacted) time series.\n</details>\n\n<note><b>Note:</b> This command does not delete the compacted series.</note>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"ts-deleterule-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` when the compaction rule is deleted successfully.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, or when such rule does not exist.\n\n-tab-sep-\n\nOne of the following:\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` when the compaction rule is deleted successfully.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, or when such rule does not exist.\n\n{{< /multitabs >}}\n\n## See also\n\n[`TS.CREATERULE`]({{< relref \"commands/ts.createrule/\" >}}) \n\n## Related topics\n\n[RedisTimeSeries]({{< relref \"/develop/data-types/timeseries/\" >}})",
+  "example": null,
+  "intro": "Delete a compaction rule",
+  "notes": [
+    "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information."
+  ],
   "sections": [
     {
       "title": "Overview",
       "level": 1,
-      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\n\nDelete a compaction rule"
+      "content": "Delete a compaction rule"
     },
     {
       "title": "Required arguments",
@@ -82,17 +219,17 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Simple string reply](): `OK` when the compaction rule is deleted successfully.\n* [Simple error reply]() in these cases: invalid arguments, or when such rule does not exist.\n\n**RESP3:**\n\nOne of the following:\n* [Simple string reply](): `OK` when the compaction rule is deleted successfully.\n* [Simple error reply]() in these cases: invalid arguments, or when such rule does not exist."
+      "content": "{{< multitabs id=\"ts-deleterule-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` when the compaction rule is deleted successfully.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, or when such rule does not exist.\n\n-tab-sep-\n\nOne of the following:\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` when the compaction rule is deleted successfully.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, or when such rule does not exist.\n\n{{< /multitabs >}}"
     },
     {
       "title": "See also",
       "level": 2,
-      "content": "[`TS.CREATERULE`]()"
+      "content": "[`TS.CREATERULE`]({{< relref \"commands/ts.createrule/\" >}})"
     },
     {
       "title": "Related topics",
       "level": 2,
-      "content": "[RedisTimeSeries]()"
+      "content": "[RedisTimeSeries]({{< relref \"/develop/data-types/timeseries/\" >}})"
     }
   ]
 }

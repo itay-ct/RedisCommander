@@ -14,6 +14,160 @@
     "@read",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "The name of the Cuckoo filter",
+            "name": "key",
+            "type": "str"
+          },
+          {
+            "description": "The item to check",
+            "name": "item",
+            "type": "str"
+          }
+        ],
+        "returns": {
+          "description": "True if item may exist, False if certainly doesn't",
+          "type": "bool"
+        },
+        "signature": "exists(key, item)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "The name of the Cuckoo filter",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "The item to check",
+            "name": "item",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "true if item may exist",
+          "type": "boolean"
+        },
+        "signature": "boolean cfExists(String key, String item)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "The name of the Cuckoo filter",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "The item to check",
+            "name": "element",
+            "type": "interface{}"
+          }
+        ],
+        "returns": {
+          "description": "Boolean command result",
+          "type": "*BoolCmd"
+        },
+        "signature": "CFExists(ctx context.Context, key string, element interface{}) *BoolCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "The name of the Cuckoo filter",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "The item to check",
+            "name": "item",
+            "type": "RedisArgument"
+          }
+        ],
+        "returns": {
+          "description": "true if item may exist",
+          "type": "boolean"
+        },
+        "signature": "CF.EXISTS(key: RedisArgument, item: RedisArgument)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The name of the Cuckoo filter",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The item to check",
+            "name": "item",
+            "type": "RedisValue"
+          }
+        ],
+        "returns": {
+          "description": "true if item may exist",
+          "type": "bool"
+        },
+        "signature": "bool Exists(RedisKey key, RedisValue item)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The name of the Cuckoo filter",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The item to check",
+            "name": "item",
+            "type": "RedisValue"
+          }
+        ],
+        "returns": {
+          "description": "true if item may exist",
+          "type": "Task<bool>"
+        },
+        "signature": "async Task<bool> ExistsAsync(RedisKey key, RedisValue item)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "The name of the Cuckoo filter",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "The item to check",
+            "name": "$item",
+            "type": "mixed"
+          }
+        ],
+        "returns": {
+          "description": "Result of the operation",
+          "type": "mixed"
+        },
+        "signature": "cfexists(string $key, $item)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -37,28 +191,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Determines whether a given item was added to a cuckoo filter.\n\nThis command is similar to [`CF.MEXISTS`](), except that only one item can be checked.\n\n## Required arguments\n\n<details open><summary><code>key</code></summary>\n\nis key name for a cuckoo filter.\n\n</details>\n\n<details open><summary><code>item</code></summary>\n\nis an item to check.\n</details>\n\n## Examples\n\n\nredis> CF.ADD cf item1\n(integer) 1\nredis> CF.EXISTS cf item1\n(integer) 1\nredis> CF.EXISTS cf item2\n(integer) 0\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Integer reply](): `1` means that, with high probability, `item` was already added to the filter, and `0` means that either the `key` does not exist or that the `item` had not been added to the filter.\n* [Simple error reply]() if invalid arguments are passed.\n\n**RESP3:**\n\nOne of the following:\n* [Boolean reply](): `true` means that, with high probability, `item` was already added to the filter, and `false` means that either `key` does not exist or that `item` had not been added to the filter.\n* [Simple error reply]() if invalid arguments are passed or `key` is not of the correct type.",
+  "content": "Determines whether a given item was added to a cuckoo filter.\n\nThis command is similar to [`CF.MEXISTS`](), except that only one item can be checked.\n\n## Required arguments\n\n<details open><summary><code>key</code></summary>\n\nis key name for a cuckoo filter.\n\n</details>\n\n<details open><summary><code>item</code></summary>\n\nis an item to check.\n</details>\n\n## Examples\n\n{{< highlight bash >}}\nredis> CF.ADD cf item1\n(integer) 1\nredis> CF.EXISTS cf item1\n(integer) 1\nredis> CF.EXISTS cf item2\n(integer) 0\n{{< / highlight >}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"cf-exists-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): `1` means that, with high probability, `item` was already added to the filter, and `0` means that either the `key` does not exist or that the `item` had not been added to the filter.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) if invalid arguments are passed.\n\n-tab-sep-\n\nOne of the following:\n* [Boolean reply]({{< relref \"/develop/reference/protocol-spec#booleans\" >}}): `true` means that, with high probability, `item` was already added to the filter, and `false` means that either `key` does not exist or that `item` had not been added to the filter.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) if invalid arguments are passed or `key` is not of the correct type.\n\n{{< /multitabs >}}",
+  "example": "redis> CF.ADD cf item1\n(integer) 1\nredis> CF.EXISTS cf item1\n(integer) 1\nredis> CF.EXISTS cf item2\n(integer) 0",
   "intro": "Determines whether a given item was added to a cuckoo filter.\n\nThis command is similar to [`CF.MEXISTS`](), except that only one item can be checked.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -73,7 +212,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "redis> CF.ADD cf item1\n(integer) 1\nredis> CF.EXISTS cf item1\n(integer) 1\nredis> CF.EXISTS cf item2\n(integer) 0"
+      "content": "{{< highlight bash >}}\nredis> CF.ADD cf item1\n(integer) 1\nredis> CF.EXISTS cf item1\n(integer) 1\nredis> CF.EXISTS cf item2\n(integer) 0\n{{< / highlight >}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -83,7 +222,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Integer reply](): `1` means that, with high probability, `item` was already added to the filter, and `0` means that either the `key` does not exist or that the `item` had not been added to the filter.\n* [Simple error reply]() if invalid arguments are passed.\n\n**RESP3:**\n\nOne of the following:\n* [Boolean reply](): `true` means that, with high probability, `item` was already added to the filter, and `false` means that either `key` does not exist or that `item` had not been added to the filter.\n* [Simple error reply]() if invalid arguments are passed or `key` is not of the correct type."
+      "content": "{{< multitabs id=\"cf-exists-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): `1` means that, with high probability, `item` was already added to the filter, and `0` means that either the `key` does not exist or that the `item` had not been added to the filter.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) if invalid arguments are passed.\n\n-tab-sep-\n\nOne of the following:\n* [Boolean reply]({{< relref \"/develop/reference/protocol-spec#booleans\" >}}): `true` means that, with high probability, `item` was already added to the filter, and `false` means that either `key` does not exist or that `item` had not been added to the filter.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) if invalid arguments are passed or `key` is not of the correct type.\n\n{{< /multitabs >}}"
     }
   ]
 }

@@ -12,6 +12,155 @@
   "aclCategories": [
     "@search"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "The alias name to add",
+            "name": "alias",
+            "type": "str"
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "str"
+        },
+        "signature": "aliasadd(alias: str)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "The alias name",
+            "name": "aliasName",
+            "type": "String"
+          },
+          {
+            "description": "The index name",
+            "name": "indexName",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "String"
+        },
+        "signature": "String ftAliasAdd(String aliasName, String indexName)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "The index name",
+            "name": "index",
+            "type": "string"
+          },
+          {
+            "description": "The alias name",
+            "name": "alias",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "*StatusCmd"
+        },
+        "signature": "FTAliasAdd(ctx context.Context, index string, alias string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "The alias name",
+            "name": "alias",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "The index name",
+            "name": "index",
+            "type": "RedisArgument"
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "Promise<string>"
+        },
+        "signature": "ALIASADD(alias: RedisArgument, index: RedisArgument)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The alias name",
+            "name": "alias",
+            "type": "string"
+          },
+          {
+            "description": "The index name",
+            "name": "index",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "true if the alias was added",
+          "type": "bool"
+        },
+        "signature": "bool AliasAdd(string alias, string index)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The alias name",
+            "name": "alias",
+            "type": "string"
+          },
+          {
+            "description": "The index name",
+            "name": "index",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "true if the alias was added",
+          "type": "Task<bool>"
+        },
+        "signature": "Task<bool> AliasAddAsync(string alias, string index)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "The alias name",
+            "name": "$alias",
+            "type": "string"
+          },
+          {
+            "description": "The index name",
+            "name": "$index",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "Status"
+        },
+        "signature": "ftaliasadd(string $alias, string $index)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -35,32 +184,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      },
-      {
-        "id": "see-also",
-        "title": "See also"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Add an alias to an index\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open>\n<summary><code>alias index</code></summary>\n\nis alias to be added to an index.\n</details>\n\nIndexes can have more than one alias, but an alias cannot refer to another\nalias.\n\nFT.ALIASADD allows administrators to transparently redirect application queries to alternative indexes.\n\n## Examples\n\n<details open>\n<summary><b>Add an alias to an index</b></summary>\n\nAdd an alias to an index.\n\n\n127.0.0.1:6379> FT.ALIASADD alias idx\nOK\n\n\nAttempting to add the same alias returns a message that the alias already exists.\n\n\n127.0.0.1:6379> FT.ALIASADD alias idx\n(error) Alias already exists\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply]() in these cases: alias already exists, index does not exist.\n\n**RESP3:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply]() in these cases: alias already exists, index does not exist.\n\n\n\n## See also\n\n[`FT.ALIASDEL`]() | [`FT.ALIASUPDATE`]()",
+  "content": "Add an alias to an index\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open>\n<summary><code>alias index</code></summary>\n\nis alias to be added to an index.\n</details>\n\nIndexes can have more than one alias, but an alias cannot refer to another\nalias.\n\nFT.ALIASADD allows administrators to transparently redirect application queries to alternative indexes.\n\n## Examples\n\n<details open>\n<summary><b>Add an alias to an index</b></summary>\n\nAdd an alias to an index.\n\n{{< highlight bash >}}\n127.0.0.1:6379> FT.ALIASADD alias idx\nOK\n{{< / highlight >}}\n\nAttempting to add the same alias returns a message that the alias already exists.\n\n{{< highlight bash >}}\n127.0.0.1:6379> FT.ALIASADD alias idx\n(error) Alias already exists\n{{< / highlight >}}\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"ft-aliasadd-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` if executed correctly.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: alias already exists, index does not exist.\n\n-tab-sep-\n\nOne of the following:\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` if executed correctly.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: alias already exists, index does not exist.\n\n{{< /multitabs >}}\n\n## See also\n\n[`FT.ALIASDEL`]({{< relref \"commands/ft.aliasdel/\" >}}) | [`FT.ALIASUPDATE`]({{< relref \"commands/ft.aliasupdate/\" >}})",
+  "example": "127.0.0.1:6379> FT.ALIASADD alias idx\nOK",
   "intro": "Add an alias to an index\n\n[Examples](#examples)",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -75,7 +205,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "<details open>\n<summary><b>Add an alias to an index</b></summary>\n\nAdd an alias to an index.\n\n\n127.0.0.1:6379> FT.ALIASADD alias idx\nOK\n\n\nAttempting to add the same alias returns a message that the alias already exists.\n\n\n127.0.0.1:6379> FT.ALIASADD alias idx\n(error) Alias already exists\n\n</details>"
+      "content": "<details open>\n<summary><b>Add an alias to an index</b></summary>\n\nAdd an alias to an index.\n\n{{< highlight bash >}}\n127.0.0.1:6379> FT.ALIASADD alias idx\nOK\n{{< / highlight >}}\n\nAttempting to add the same alias returns a message that the alias already exists.\n\n{{< highlight bash >}}\n127.0.0.1:6379> FT.ALIASADD alias idx\n(error) Alias already exists\n{{< / highlight >}}\n</details>"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -85,12 +215,12 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply]() in these cases: alias already exists, index does not exist.\n\n**RESP3:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply]() in these cases: alias already exists, index does not exist."
+      "content": "{{< multitabs id=\"ft-aliasadd-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` if executed correctly.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: alias already exists, index does not exist.\n\n-tab-sep-\n\nOne of the following:\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` if executed correctly.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: alias already exists, index does not exist.\n\n{{< /multitabs >}}"
     },
     {
       "title": "See also",
       "level": 2,
-      "content": "[`FT.ALIASDEL`]() | [`FT.ALIASUPDATE`]()"
+      "content": "[`FT.ALIASDEL`]({{< relref \"commands/ft.aliasdel/\" >}}) | [`FT.ALIASUPDATE`]({{< relref \"commands/ft.aliasupdate/\" >}})"
     }
   ]
 }

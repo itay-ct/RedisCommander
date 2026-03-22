@@ -14,6 +14,128 @@
     "@slow",
     "@scripting"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "Flush mode (SYNC or ASYNC)",
+            "name": "mode",
+            "type": "str"
+          }
+        ],
+        "returns": {
+          "description": "Status response",
+          "type": "Union[Awaitable[str], str]"
+        },
+        "signature": "function_flush(mode: str = \"SYNC\")"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "Status response",
+          "type": "String"
+        },
+        "signature": "String functionFlush()"
+      },
+      {
+        "params": [
+          {
+            "description": "Flush mode (SYNC or ASYNC)",
+            "name": "mode",
+            "type": "FlushMode"
+          }
+        ],
+        "returns": {
+          "description": "Status response",
+          "type": "String"
+        },
+        "signature": "String functionFlush(final FlushMode mode)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context for the operation",
+            "name": "ctx",
+            "type": "context.Context"
+          }
+        ],
+        "returns": {
+          "description": "Status response",
+          "type": "*StringCmd"
+        },
+        "signature": "FunctionFlush(ctx context.Context)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "Optional flush mode (ASYNC or SYNC)",
+            "name": "mode",
+            "type": "RedisFlushMode"
+          }
+        ],
+        "returns": {
+          "description": "Status response",
+          "type": "Promise<SimpleStringReply<'OK'>>"
+        },
+        "signature": "functionFlush(mode?: RedisFlushMode)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "Flush mode (SYNC or ASYNC)",
+            "name": "flushMode",
+            "type": "FlushMode"
+          }
+        ],
+        "returns": {
+          "description": "Status response",
+          "type": "String"
+        },
+        "signature": "String functionFlush(FlushMode flushMode)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "Flush mode (SYNC or ASYNC)",
+            "name": "flushMode",
+            "type": "FlushMode"
+          }
+        ],
+        "returns": {
+          "description": "Status response",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> functionFlush(FlushMode flushMode)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "Flush mode (SYNC or ASYNC)",
+            "name": "flushMode",
+            "type": "FlushMode"
+          }
+        ],
+        "returns": {
+          "description": "Status response",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> functionFlush(FlushMode flushMode)"
+      }
+    ]
+  },
   "commandFlags": [
     "write",
     "noscript"
@@ -51,20 +173,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Deletes all the libraries.\n\nUnless called with the optional mode argument, the `lazyfree-lazy-user-flush` configuration directive sets the effective behavior. Valid modes are:\n\n* `ASYNC`: Asynchronously flush the libraries.\n* `SYNC`: Synchronously flush the libraries.\n\nFor more information please refer to [Introduction to Redis Functions]().\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.",
+  "content": "Deletes all the libraries.\n\nUnless called with the optional mode argument, the `lazyfree-lazy-user-flush` configuration directive sets the effective behavior. Valid modes are:\n\n* `ASYNC`: Asynchronously flush the libraries.\n* `SYNC`: Synchronously flush the libraries.\n\nFor more information please refer to [Introduction to Redis Functions]().\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"function-flush-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "Deletes all the libraries.\n\nUnless called with the optional mode argument, the `lazyfree-lazy-user-flush` configuration directive sets the effective behavior. Valid modes are:\n\n* `ASYNC`: Asynchronously flush the libraries.\n* `SYNC`: Synchronously flush the libraries.\n\nFor more information please refer to [Introduction to Redis Functions]().",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -79,7 +194,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`."
+      "content": "{{< multitabs id=\"function-flush-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n{{< /multitabs >}}"
     }
   ]
 }

@@ -14,6 +14,421 @@
     "@sortedset",
     "@fast"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "members",
+            "type": "List[str]"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "ResponseT"
+        },
+        "signature": "zmscore(key: KeyT, members: List[str])"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "members",
+            "type": "byte[]..."
+          }
+        ],
+        "returns": {
+          "description": "The scores",
+          "type": "List<Double>"
+        },
+        "signature": "List<Double> zmscore(final byte[] key, final byte[]... members)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "members",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "The scores",
+          "type": "List<Double>"
+        },
+        "signature": "List<Double> zmscore(final String key, final String... members)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the member type: value.",
+            "name": "members",
+            "type": "V..."
+          }
+        ],
+        "returns": {
+          "description": "List&lt;Double&gt; array-reply list of scores or nil associated with the specified member values. @since 6.1",
+          "type": "List<Double>"
+        },
+        "signature": "List<Double> zmscore(K key, V... members)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the member type: value.",
+            "name": "members",
+            "type": "V..."
+          }
+        ],
+        "returns": {
+          "description": "List&lt;Double&gt; array-reply list of scores or nil associated with the specified member values. @since 6.1",
+          "type": "RedisFuture<List<Double>>"
+        },
+        "signature": "RedisFuture<List<Double>> zmscore(K key, V... members)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the member type: value.",
+            "name": "members",
+            "type": "V..."
+          }
+        ],
+        "returns": {
+          "description": "Double array-reply list of scores or nil associated with the specified member values. @since 6.1",
+          "type": "Mono<List<Double>>"
+        },
+        "signature": "Mono<List<Double>> zmscore(K key, V... members)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "members",
+            "type": "...string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*FloatSliceCmd"
+        },
+        "signature": "ZMScore(ctx context.Context, key string, members ...string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "member",
+            "type": "RedisVariadicArgument"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "ZMSCORE(key: RedisArgument, member: RedisVariadicArgument)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, key"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zmscore(...args: [, key: RedisKey, ...members: (string | Buffer | number)[], callback: Callback<(string | null)[]>, ])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, key"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zmscore(...args: [, key: RedisKey, members: (string | Buffer | number)[], callback: Callback<(string | null)[]>, ])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[key"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zmscore(...args: [key: RedisKey, ...members: (string | Buffer | number)[]])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[key"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zmscore(...args: [key: RedisKey, members: (string | Buffer | number)[]])"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "members",
+            "type": "&'a [M]"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Option<Vec<f64>>)"
+        },
+        "signature": "zscore_multiple(key: K, members: &'a [M])"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "members",
+            "type": "&'a [M]"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Option<Vec<f64>>)"
+        },
+        "signature": "zscore_multiple(key: K, members: &'a [M])"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The key of the sorted set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "<remarks></remarks>",
+            "name": "members",
+            "type": "RedisValue[]"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "array. If a member does not exist in the set, null is returned.",
+          "type": "double?[]"
+        },
+        "signature": "SortedSetScores(RedisKey key, RedisValue[] members, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the sorted set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "<remarks></remarks>",
+            "name": "members",
+            "type": "RedisValue[]"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "array. If a member does not exist in the set, null is returned.",
+          "type": "double?[]"
+        },
+        "signature": "SortedSetScores(RedisKey key, RedisValue[] members, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The key of the sorted set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "<remarks></remarks>",
+            "name": "members",
+            "type": "RedisValue[]"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "array. If a member does not exist in the set, null is returned.",
+          "type": "double?[]"
+        },
+        "signature": "SortedSetScores(RedisKey key, RedisValue[] members, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the sorted set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "<remarks></remarks>",
+            "name": "members",
+            "type": "RedisValue[]"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "array. If a member does not exist in the set, null is returned.",
+          "type": "double?[]"
+        },
+        "signature": "SortedSetScores(RedisKey key, RedisValue[] members, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$member",
+            "type": "string ..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array"
+        },
+        "signature": "zmscore(string $key, string ...$member)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "*members",
+            "type": "String, Array<String>"
+          }
+        ],
+        "returns": {
+          "description": "scores of the members",
+          "type": "Array<Float>"
+        },
+        "signature": "zmscore(key, *members)"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly",
     "fast"
@@ -63,24 +478,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Returns the scores associated with the specified `members` in the sorted set stored at `key`.\n\nFor every `member` that does not exist in the sorted set, a `nil` value is returned.\n\n## Examples\n\n\nZADD myzset 1 \"one\"\nZADD myzset 2 \"two\"\nZMSCORE myzset \"one\" \"two\" \"nofield\"\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the member does not exist in the sorted set.\n* [Array reply](../../develop/reference/protocol-spec#arrays): a list of [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) _member_ scores as double-precision floating point numbers.\n\n**RESP3:**\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): if the member does not exist in the sorted set.\n* [Array reply](../../develop/reference/protocol-spec#arrays): a list of [Double reply](../../develop/reference/protocol-spec#doubles) _member_ scores as double-precision floating point numbers.",
+  "content": "Returns the scores associated with the specified `members` in the sorted set stored at `key`.\n\nFor every `member` that does not exist in the sorted set, a `nil` value is returned.\n\n## Examples\n\n{{% redis-cli %}}\nZADD myzset 1 \"one\"\nZADD myzset 2 \"two\"\nZMSCORE myzset \"one\" \"two\" \"nofield\"\n{{% /redis-cli %}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"zmscore-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the member does not exist in the sorted set.\n* [Array reply](../../develop/reference/protocol-spec#arrays): a list of [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) _member_ scores as double-precision floating point numbers.\n\n-tab-sep-\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): if the member does not exist in the sorted set.\n* [Array reply](../../develop/reference/protocol-spec#arrays): a list of [Double reply](../../develop/reference/protocol-spec#doubles) _member_ scores as double-precision floating point numbers.\n\n{{< /multitabs >}}",
+  "example": "ZADD myzset 1 \"one\"\nZADD myzset 2 \"two\"\nZMSCORE myzset \"one\" \"two\" \"nofield\"",
   "intro": "Returns the scores associated with the specified `members` in the sorted set stored at `key`.\n\nFor every `member` that does not exist in the sorted set, a `nil` value is returned.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -90,7 +494,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "ZADD myzset 1 \"one\"\nZADD myzset 2 \"two\"\nZMSCORE myzset \"one\" \"two\" \"nofield\""
+      "content": "{{% redis-cli %}}\nZADD myzset 1 \"one\"\nZADD myzset 2 \"two\"\nZMSCORE myzset \"one\" \"two\" \"nofield\"\n{{% /redis-cli %}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -100,7 +504,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the member does not exist in the sorted set.\n* [Array reply](../../develop/reference/protocol-spec#arrays): a list of [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) _member_ scores as double-precision floating point numbers.\n\n**RESP3:**\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): if the member does not exist in the sorted set.\n* [Array reply](../../develop/reference/protocol-spec#arrays): a list of [Double reply](../../develop/reference/protocol-spec#doubles) _member_ scores as double-precision floating point numbers."
+      "content": "{{< multitabs id=\"zmscore-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the member does not exist in the sorted set.\n* [Array reply](../../develop/reference/protocol-spec#arrays): a list of [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) _member_ scores as double-precision floating point numbers.\n\n-tab-sep-\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): if the member does not exist in the sorted set.\n* [Array reply](../../develop/reference/protocol-spec#arrays): a list of [Double reply](../../develop/reference/protocol-spec#doubles) _member_ scores as double-precision floating point numbers.\n\n{{< /multitabs >}}"
     }
   ]
 }

@@ -13,6 +13,87 @@
     "@pubsub",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "Channel names to get subscriber counts for",
+            "name": "*args",
+            "type": "ChannelT"
+          },
+          {
+            "description": "Additional keyword arguments",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "Map of channel names to subscriber counts",
+          "type": "ResponseT"
+        },
+        "signature": "pubsub_numsub(*args: ChannelT, **kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "Channel names to get subscriber counts for",
+            "name": "channels",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "Map of channel names to subscriber counts",
+          "type": "Map<String, Long>"
+        },
+        "signature": "Map<String, Long> pubsubNumSub(String... channels)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context for the operation",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "Channel names to get subscriber counts for",
+            "name": "channels",
+            "type": "...string"
+          }
+        ],
+        "returns": {
+          "description": "Map of channel names to subscriber counts",
+          "type": "*MapStringIntCmd"
+        },
+        "signature": "PubSubNumSub(ctx context.Context, channels ...string)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "PUBSUB subcommand (e.g., 'NUMSUB')",
+            "name": "$subcommand",
+            "type": "string"
+          },
+          {
+            "description": "Channel names to get subscriber counts for",
+            "name": "$argument",
+            "type": "mixed"
+          }
+        ],
+        "returns": {
+          "description": "Map of channel names to subscriber counts",
+          "type": "mixed"
+        },
+        "signature": "pubsub($subcommand, $argument)"
+      }
+    ]
+  },
   "commandFlags": [
     "pubsub",
     "loading",
@@ -39,20 +120,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Returns the number of subscribers (exclusive of clients subscribed to patterns) for the specified channels.\n\nNote that it is valid to call this command without channels. In this case it will just return an empty list.\n\nCluster note: in a Redis Cluster clients can subscribe to every node, and can also publish to every other node. The cluster will make sure that published messages are forwarded as needed. That said, [`PUBSUB`]()'s replies in a cluster only report information from the node's Pub/Sub context, rather than the entire cluster.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): the number of subscribers per channel, each even element (including the 0th) is channel name, each odd element is the number of subscribers\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): the number of subscribers per channel, each even element (including the 0th) is channel name, each odd element is the number of subscribers",
+  "content": "Returns the number of subscribers (exclusive of clients subscribed to patterns) for the specified channels.\n\nNote that it is valid to call this command without channels. In this case it will just return an empty list.\n\nCluster note: in a Redis Cluster clients can subscribe to every node, and can also publish to every other node. The cluster will make sure that published messages are forwarded as needed. That said, [`PUBSUB`]()'s replies in a cluster only report information from the node's Pub/Sub context, rather than the entire cluster.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"pubsub-numsub-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): the number of subscribers per channel, each even element (including the 0th) is channel name, each odd element is the number of subscribers\n\n-tab-sep-\n\n[Array reply](../../develop/reference/protocol-spec#arrays): the number of subscribers per channel, each even element (including the 0th) is channel name, each odd element is the number of subscribers\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "Returns the number of subscribers (exclusive of clients subscribed to patterns) for the specified channels.\n\nNote that it is valid to call this command without channels. In this case it will just return an empty list.\n\nCluster note: in a Redis Cluster clients can subscribe to every node, and can also publish to every other node. The cluster will make sure that published messages are forwarded as needed. That said, [`PUBSUB`]()'s replies in a cluster only report information from the node's Pub/Sub context, rather than the entire cluster.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -67,7 +141,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): the number of subscribers per channel, each even element (including the 0th) is channel name, each odd element is the number of subscribers\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): the number of subscribers per channel, each even element (including the 0th) is channel name, each odd element is the number of subscribers"
+      "content": "{{< multitabs id=\"pubsub-numsub-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): the number of subscribers per channel, each even element (including the 0th) is channel name, each odd element is the number of subscribers\n\n-tab-sep-\n\n[Array reply](../../develop/reference/protocol-spec#arrays): the number of subscribers per channel, each even element (including the 0th) is channel name, each odd element is the number of subscribers\n\n{{< /multitabs >}}"
     }
   ]
 }

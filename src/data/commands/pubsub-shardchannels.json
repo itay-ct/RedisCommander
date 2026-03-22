@@ -13,6 +13,95 @@
     "@pubsub",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "Pattern to match shard channel names (default: \"*\")",
+            "name": "pattern",
+            "type": "PatternT"
+          },
+          {
+            "description": "Additional keyword arguments",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "List of active shard channels matching the pattern",
+          "type": "ResponseT"
+        },
+        "signature": "pubsub_shardchannels(pattern: PatternT = \"*\", **kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "List of all active shard channels",
+          "type": "List<String>"
+        },
+        "signature": "List<String> pubsubShardChannels()"
+      },
+      {
+        "params": [
+          {
+            "description": "Pattern to match shard channel names",
+            "name": "pattern",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "List of active shard channels matching the pattern",
+          "type": "List<String>"
+        },
+        "signature": "List<String> pubsubShardChannels(final String pattern)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context for the operation",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "Pattern to match shard channel names",
+            "name": "pattern",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "List of active shard channels matching the pattern",
+          "type": "*StringSliceCmd"
+        },
+        "signature": "PubSubShardChannels(ctx context.Context, pattern string)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "PUBSUB subcommand (e.g., 'SHARDCHANNELS')",
+            "name": "$subcommand",
+            "type": "string"
+          },
+          {
+            "description": "Pattern to match shard channel names",
+            "name": "$argument",
+            "type": "mixed"
+          }
+        ],
+        "returns": {
+          "description": "List of active shard channels matching the pattern",
+          "type": "mixed"
+        },
+        "signature": "pubsub($subcommand, $argument)"
+      }
+    ]
+  },
   "commandFlags": [
     "pubsub",
     "loading",
@@ -38,24 +127,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Lists the currently *active shard channels*.\n\nAn active shard channel is a Pub/Sub shard channel with one or more subscribers.\n\nIf no `pattern` is specified, all the channels are listed, otherwise if pattern is specified only channels matching the specified glob-style pattern are listed.\n\nThe information returned about the active shard channels are at the shard level and not at the cluster level.\n\n## Examples\n\n```\n> PUBSUB SHARDCHANNELS\n1) \"orders\"\n> PUBSUB SHARDCHANNELS o*\n1) \"orders\"\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of active channels, optionally matching the specified pattern.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of active channels, optionally matching the specified pattern.",
+  "content": "Lists the currently *active shard channels*.\n\nAn active shard channel is a Pub/Sub shard channel with one or more subscribers.\n\nIf no `pattern` is specified, all the channels are listed, otherwise if pattern is specified only channels matching the specified glob-style pattern are listed.\n\nThe information returned about the active shard channels are at the shard level and not at the cluster level.\n\n## Examples\n\n```\n> PUBSUB SHARDCHANNELS\n1) \"orders\"\n> PUBSUB SHARDCHANNELS o*\n1) \"orders\"\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"pubsub-shardchannels-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of active channels, optionally matching the specified pattern.\n\n-tab-sep-\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of active channels, optionally matching the specified pattern.\n\n{{< /multitabs >}}",
+  "example": "> PUBSUB SHARDCHANNELS\n1) \"orders\"\n> PUBSUB SHARDCHANNELS o*\n1) \"orders\"",
   "intro": "Lists the currently *active shard channels*.\n\nAn active shard channel is a Pub/Sub shard channel with one or more subscribers.\n\nIf no `pattern` is specified, all the channels are listed, otherwise if pattern is specified only channels matching the specified glob-style pattern are listed.\n\nThe information returned about the active shard channels are at the shard level and not at the cluster level.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -75,7 +153,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of active channels, optionally matching the specified pattern.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of active channels, optionally matching the specified pattern."
+      "content": "{{< multitabs id=\"pubsub-shardchannels-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of active channels, optionally matching the specified pattern.\n\n-tab-sep-\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of active channels, optionally matching the specified pattern.\n\n{{< /multitabs >}}"
     }
   ]
 }

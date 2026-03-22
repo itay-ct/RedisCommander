@@ -10,6 +10,792 @@
   "since": "8.0.0",
   "arity": null,
   "aclCategories": [],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "input",
+            "type": "Union[List[float], bytes, str]"
+          },
+          {
+            "description": "",
+            "name": "with_scores",
+            "type": "Optional[bool] = False"
+          },
+          {
+            "description": "",
+            "name": "with_attribs",
+            "type": "Optional[bool] = False"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "Optional[int] = None"
+          },
+          {
+            "description": "",
+            "name": "ef",
+            "type": "Optional[Number] = None"
+          },
+          {
+            "description": "",
+            "name": "filter",
+            "type": "Optional[str] = None"
+          },
+          {
+            "description": "",
+            "name": "filter_ef",
+            "type": "Optional[str] = None"
+          },
+          {
+            "description": "",
+            "name": "truth",
+            "type": "Optional[bool] = False"
+          },
+          {
+            "description": "",
+            "name": "no_thread",
+            "type": "Optional[bool] = False"
+          },
+          {
+            "description": "",
+            "name": "epsilon",
+            "type": "Optional[Number] = None"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Union[Awaitable[VSimResult], VSimResult]"
+        },
+        "signature": "vsim(, key: KeyT,, input: Union[List[float], bytes, str],, with_scores: Optional[bool] = False,, with_attribs: Optional[bool] = False,, count: Optional[int] = None,, ef: Optional[Number] = None,, filter: Optional[str] = None,, filter_ef: Optional[str] = None,, truth: Optional[bool] = False,, no_thread: Optional[bool] = False,, epsilon: Optional[Number] = None,)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "the name of the key that holds the vector set data",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "the vector to use as similarity reference",
+            "name": "vector",
+            "type": "float[]"
+          }
+        ],
+        "returns": {
+          "description": "list of similar elements",
+          "type": "List<String>"
+        },
+        "signature": "List<String> vsim(String key, float[] vector)"
+      },
+      {
+        "params": [
+          {
+            "description": "the name of the key that holds the vector set data",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "the vector to use as similarity reference",
+            "name": "vector",
+            "type": "float[]"
+          },
+          {
+            "description": "additional parameters for the VSIM command",
+            "name": "params",
+            "type": "VSimParams"
+          }
+        ],
+        "returns": {
+          "description": "list of similar elements",
+          "type": "List<String>"
+        },
+        "signature": "List<String> vsim(String key, float[] vector, VSimParams params)"
+      },
+      {
+        "params": [
+          {
+            "description": "the name of the key that holds the vector set data",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "the vector to use as similarity reference",
+            "name": "vector",
+            "type": "float[]"
+          },
+          {
+            "description": "added)",
+            "name": "params",
+            "type": "VSimParams"
+          }
+        ],
+        "returns": {
+          "description": "map of element names to their similarity scores",
+          "type": "Map<String, Double>"
+        },
+        "signature": "Map<String, Double> vsimWithScores(String key, float[] vector, VSimParams params)"
+      },
+      {
+        "params": [
+          {
+            "description": "the name of the key that holds the vector set data",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "the vector to use as similarity reference",
+            "name": "vector",
+            "type": "float[]"
+          },
+          {
+            "description": "automatically added)",
+            "name": "params",
+            "type": "VSimParams"
+          }
+        ],
+        "returns": {
+          "description": "map of element names to their similarity scores and attributes",
+          "type": "Map<String, VSimScoreAttribs>"
+        },
+        "signature": "Map<String, VSimScoreAttribs> vsimWithScoresAndAttribs(String key, float[] vector, VSimParams params)"
+      },
+      {
+        "params": [
+          {
+            "description": "the name of the key that holds the vector set data",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "the name of the element to use as similarity reference",
+            "name": "element",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "list of similar elements",
+          "type": "List<String>"
+        },
+        "signature": "List<String> vsimByElement(String key, String element)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the key of the vector set",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "vectors",
+            "type": "Double..."
+          }
+        ],
+        "returns": {
+          "description": "a list of elements most similar to the specified element, or an empty list if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vsim/\">Redis Documentation: VSIM</a>",
+          "type": "List<V>"
+        },
+        "signature": "List<V> vsim(K key, Double... vectors)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key of the vector set",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the name of the element whose vector will be used as the query",
+            "name": "element",
+            "type": "V"
+          }
+        ],
+        "returns": {
+          "description": "a list of elements most similar to the specified element, or an empty list if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vsim/\">Redis Documentation: VSIM</a>",
+          "type": "List<V>"
+        },
+        "signature": "List<V> vsim(K key, V element)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key of the vector set",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the additional arguments for the VSIM command",
+            "name": "args",
+            "type": "VSimArgs"
+          },
+          {
+            "description": "",
+            "name": "vectors",
+            "type": "Double..."
+          }
+        ],
+        "returns": {
+          "description": "a list of elements most similar to the specified element, or an empty list if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vsim/\">Redis Documentation: VSIM</a>",
+          "type": "List<V>"
+        },
+        "signature": "List<V> vsim(K key, VSimArgs args, Double... vectors)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key of the vector set",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the additional arguments for the VSIM command",
+            "name": "args",
+            "type": "VSimArgs"
+          },
+          {
+            "description": "the name of the element whose vector will be used as the query",
+            "name": "element",
+            "type": "V"
+          }
+        ],
+        "returns": {
+          "description": "a list of elements most similar to the specified element, or an empty list if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vsim/\">Redis Documentation: VSIM</a>",
+          "type": "List<V>"
+        },
+        "signature": "List<V> vsim(K key, VSimArgs args, V element)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the key of the vector set",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "vectors",
+            "type": "Double..."
+          }
+        ],
+        "returns": {
+          "description": "a list of elements most similar to the specified element, or an empty list if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vsim/\">Redis Documentation: VSIM</a>",
+          "type": "RedisFuture<List<V>>"
+        },
+        "signature": "RedisFuture<List<V>> vsim(K key, Double... vectors)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key of the vector set",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the name of the element whose vector will be used as the query",
+            "name": "element",
+            "type": "V"
+          }
+        ],
+        "returns": {
+          "description": "a list of elements most similar to the specified element, or an empty list if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vsim/\">Redis Documentation: VSIM</a>",
+          "type": "RedisFuture<List<V>>"
+        },
+        "signature": "RedisFuture<List<V>> vsim(K key, V element)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key of the vector set",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the additional arguments for the VSIM command",
+            "name": "args",
+            "type": "VSimArgs"
+          },
+          {
+            "description": "",
+            "name": "vectors",
+            "type": "Double..."
+          }
+        ],
+        "returns": {
+          "description": "a list of elements most similar to the specified element, or an empty list if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vsim/\">Redis Documentation: VSIM</a>",
+          "type": "RedisFuture<List<V>>"
+        },
+        "signature": "RedisFuture<List<V>> vsim(K key, VSimArgs args, Double... vectors)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key of the vector set",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the additional arguments for the VSIM command",
+            "name": "args",
+            "type": "VSimArgs"
+          },
+          {
+            "description": "the name of the element whose vector will be used as the query",
+            "name": "element",
+            "type": "V"
+          }
+        ],
+        "returns": {
+          "description": "a list of elements most similar to the specified element, or an empty list if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vsim/\">Redis Documentation: VSIM</a>",
+          "type": "RedisFuture<List<V>>"
+        },
+        "signature": "RedisFuture<List<V>> vsim(K key, VSimArgs args, V element)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the key of the vector set",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "vectors",
+            "type": "Double..."
+          }
+        ],
+        "returns": {
+          "description": "a list of elements most similar to the specified element, or an empty list if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vsim/\">Redis Documentation: VSIM</a>",
+          "type": "Flux<V>"
+        },
+        "signature": "Flux<V> vsim(K key, Double... vectors)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key of the vector set",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the name of the element whose vector will be used as the query",
+            "name": "element",
+            "type": "V"
+          }
+        ],
+        "returns": {
+          "description": "a list of elements most similar to the specified element, or an empty list if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vsim/\">Redis Documentation: VSIM</a>",
+          "type": "Flux<V>"
+        },
+        "signature": "Flux<V> vsim(K key, V element)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key of the vector set",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the additional arguments for the VSIM command",
+            "name": "args",
+            "type": "VSimArgs"
+          },
+          {
+            "description": "",
+            "name": "vectors",
+            "type": "Double..."
+          }
+        ],
+        "returns": {
+          "description": "a list of elements most similar to the specified element, or an empty list if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vsim/\">Redis Documentation: VSIM</a>",
+          "type": "Flux<V>"
+        },
+        "signature": "Flux<V> vsim(K key, VSimArgs args, Double... vectors)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key of the vector set",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the additional arguments for the VSIM command",
+            "name": "args",
+            "type": "VSimArgs"
+          },
+          {
+            "description": "the name of the element whose vector will be used as the query",
+            "name": "element",
+            "type": "V"
+          }
+        ],
+        "returns": {
+          "description": "a list of elements most similar to the specified element, or an empty list if the key or element does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vsim/\">Redis Documentation: VSIM</a>",
+          "type": "Flux<V>"
+        },
+        "signature": "Flux<V> vsim(K key, VSimArgs args, V element)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "val",
+            "type": "Vector"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StringSliceCmd"
+        },
+        "signature": "VSim(ctx context.Context, key string, val Vector)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "val",
+            "type": "Vector"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*VectorScoreSliceCmd"
+        },
+        "signature": "VSimWithScores(ctx context.Context, key string, val Vector)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "val",
+            "type": "Vector"
+          },
+          {
+            "description": "",
+            "name": "simArgs",
+            "type": "*VSimArgs"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StringSliceCmd"
+        },
+        "signature": "VSimWithArgs(ctx context.Context, key string, val Vector, simArgs *VSimArgs)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "val",
+            "type": "Vector"
+          },
+          {
+            "description": "",
+            "name": "simArgs",
+            "type": "*VSimArgs"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*VectorScoreSliceCmd"
+        },
+        "signature": "VSimWithArgsWithScores(ctx context.Context, key string, val Vector, simArgs *VSimArgs)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "query",
+            "type": "RedisArgument | Array<number>"
+          },
+          {
+            "description": "",
+            "name": "options?",
+            "type": "VSimOptions"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "VSIM(key: RedisArgument, query: RedisArgument | Array<number>, options?: VSimOptions)"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "input",
+            "type": "vector_sets"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Generic"
+        },
+        "signature": "vsim(key: K, input: vector_sets::VectorSimilaritySearchInput<'a>)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "input",
+            "type": "vector_sets"
+          },
+          {
+            "description": "",
+            "name": "options",
+            "type": "&'a vector_sets"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Generic"
+        },
+        "signature": "vsim_options(key: K, input: vector_sets::VectorSimilaritySearchInput<'a>, options: &'a vector_sets::VSimOptions)"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "input",
+            "type": "vector_sets"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Generic"
+        },
+        "signature": "vsim(key: K, input: vector_sets::VectorSimilaritySearchInput<'a>)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "input",
+            "type": "vector_sets"
+          },
+          {
+            "description": "",
+            "name": "options",
+            "type": "&'a vector_sets"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Generic"
+        },
+        "signature": "vsim_options(key: K, input: vector_sets::VectorSimilaritySearchInput<'a>, options: &'a vector_sets::VSimOptions)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "query",
+            "type": "VectorSetSimilaritySearchRequest"
+          },
+          {
+            "description": "",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Lease<VectorSetSimilaritySearchResult>?"
+        },
+        "signature": "VectorSetSimilaritySearch(RedisKey key, VectorSetSimilaritySearchRequest query, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "query",
+            "type": "VectorSetSimilaritySearchRequest"
+          },
+          {
+            "description": "",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Task<Lease<VectorSetSimilaritySearchResult>?>"
+        },
+        "signature": "VectorSetSimilaritySearchAsync(RedisKey key, VectorSetSimilaritySearchRequest query, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$vectorOrElem",
+            "type": "string|array"
+          },
+          {
+            "description": "",
+            "name": "bool $isElem = false",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "bool $withScores = false",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "int $count = null",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "float $epsilon = null",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "int $ef = null",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "string $filter = null",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "int $filterEf = null",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "bool $truth = false",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "bool $noThread = false",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array"
+        },
+        "signature": "vsim(string $key, string|array $vectorOrElem, bool $isElem = false, bool $withScores = false, int $count = null, float $epsilon = null, int $ef = null, string $filter = null, int $filterEf = null, bool $truth = false, bool $noThread = false)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [],
   "keySpecs": [],
@@ -24,32 +810,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "optional-arguments",
-        "title": "Optional arguments"
-      },
-      {
-        "id": "related-topics",
-        "title": "Related topics"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Return elements similar to a given vector or element. Use this command to perform approximate or exact similarity searches within a vector set.\n\nYou can query using either a vector (via `FP32` or `VALUES num`) or by referencing another element (using `ELE`). Optional parameters let you control the search behavior, such as score output, result count, and filtering options.\n\n```shell\nVSIM word_embeddings ELE apple\n1) \"apple\"\n2) \"apples\"\n3) \"pear\"\n4) \"fruit\"\n5) \"berry\"\n6) \"pears\"\n7) \"strawberry\"\n8) \"peach\"\n9) \"potato\"\n10) \"grape\"\n```\n\nYou can include similarity scores, attributes (if any), and limit the number of results:\n\n```shell\nVSIM word_embeddings ELE apple WITHSCORES WITHATTRIBS COUNT 3\n1) \"apple\"\n2) \"0.9998867657923256\"\n3) \"{\\\"len\\\": 5}\"\n4) \"apples\"\n5) \"0.859852746129036\"\n6) \"{\\\"len\\\": 6}\"\n7) \"pear\"\n8) \"0.8226882070302963\"\n9) \"{\\\"len\\\": 4}\"\n```\n\nSet the `EF` (exploration factor) to improve recall at the cost of performance. Use the `TRUTH` option to perform an exact linear scan, useful for benchmarking. The `NOTHREAD` option runs the search in the main thread and may increase server latency.\n\n## Required arguments\n\n<details open>\n<summary><code>key</code></summary>\n\nis the name of the key that holds the vector set data.\n</details>\n\n<details open>\n<summary><code>ELE | FP32 | VALUES num</code></summary>\n\nspecifies how the input vector is provided. Use `ELE` to refer to an existing element, `FP32` for binary float format (little-endian encoding required), or `VALUES num` for a list of stringified float values.\n</details>\n\n<details open>\n<summary><code>vector or element</code></summary>\n\nis either the vector data (for `FP32` or `VALUES`) or the name of the element (for `ELE`) to use as the similarity reference.\n</details>\n\n## Optional arguments\n\n<details open>\n<summary><code>WITHSCORES</code></summary>\n\nreturns the similarity score (from 1 to 0) alongside each result. A score of 1 is identical; 0 is the opposite.\n</details>\n\n<details open>\n<summary><code>WITHATTRIBS</code></summary>\n\nreturns, for each element, the JSON attribute associated with the element or NULL when no attributes are present.\n</details>\n\n<details open>\n<summary><code>COUNT num</code></summary>\n\nlimits the number of returned results to `num`.\n</details>\n\n<details open>\n<summary><code>EPSILON delta</code></summary>\n\nis a floating point number between 0 and 1. It is used to retrieve elements that have a distance that is no further than the specified `delta`. In vector sets, returned elements have a similarity score (when compared to the query vector) that is between 1 and 0, where 1 means identical and 0 means opposite vectors. For example, if the `EPSILON` option is specified with an argument of `0.2`, it means only elements that have a similarity of 0.8 or better (a distance < 0.2) are returned. This is useful when you specify a large `COUNT`, but you don't want elements that are too far away from the query vector.\n</details>\n\n<details open>\n<summary><code>EF search-exploration-factor</code></summary>\n\ncontrols the search effort. Higher values explore more nodes, improving recall at the cost of speed. Typical values range from 50 to 1000.\n</details>\n\n<details open>\n<summary><code>FILTER expression</code></summary>\n\napplies a filter expression to restrict matching elements. See the filtered search section for syntax details.\n</details>\n\n<details open>\n<summary><code>FILTER-EF max-filtering-effort</code></summary>\n\nlimits the number of filtering attempts for the `FILTER` expression. See the filtered search section for more.\n</details>\n\n<details open>\n<summary><code>TRUTH</code></summary>\n\nforces an exact linear scan of all elements, bypassing the HNSW graph. Use for benchmarking or to calculate recall. This is significantly slower (O(N)).\n</details>\n\n<details open>\n<summary><code>NOTHREAD</code></summary>\n\nexecutes the search in the main thread instead of a background thread. Useful for small vector sets or benchmarks. This may block the server during execution.\n</details>\n\n## Related topics\n\n- [Vector sets]()\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Simple error reply](../../develop/reference/protocol-spec/#simple-errors) for an unknown element.\n* [Array reply](../../develop/reference/protocol-spec#arrays) (empty array) for an unknown key.\n* [Array reply](../../develop/reference/protocol-spec#arrays) with matching elements.\n* With the `WITHSCORES` option, an [array reply](../../develop/reference/protocol-spec#arrays) with matching [bulk string]() elements juxtaposed with [bulk string]() as floating-point scores.\n* With the `WITHSCORES` and `WITHATTRIBS` options, an [array reply](../../develop/reference/protocol-spec#arrays) with matching [bulk string]() elements, and two additional elements: (1) a [bulk string]() as floating-point score and (2) a [bulk string]() representing the JSON attribute associated with the element or [nil (null bulk string)]() for the elements missing an attribute.\n\n**RESP3:**\n\nOne of the following:\n* [Simple error reply](../../develop/reference/protocol-spec/#simple-errors) for unknown element.\n* [Array reply](../../develop/reference/protocol-spec#arrays) (empty array) for unknown key.\n* [Array reply](../../develop/reference/protocol-spec#arrays) with matching elements.\n* With the `WITHSCORES` option, a [map reply](../../develop/reference/protocol-spec#maps) with matching [bulk string]() elements (keys) and  [double](../../develop/reference/protocol-spec#doubles) scores (values).\n* With the `WITHSCORES` and `WITHATTRIBS` options, a [Map reply](../../develop/reference/protocol-spec#maps) with matching [bulk string]() elements (keys), and an additional array (values) with the following elements: (1) a [double reply]()  for the score and (2) a [bulk string]() representing the JSON attribute associated with the element or [null]() for the elements missing an attribute.",
+  "content": "Return elements similar to a given vector or element. Use this command to perform approximate or exact similarity searches within a vector set.\n\nYou can query using either a vector (via `FP32` or `VALUES num`) or by referencing another element (using `ELE`). Optional parameters let you control the search behavior, such as score output, result count, and filtering options.\n\n```shell\nVSIM word_embeddings ELE apple\n1) \"apple\"\n2) \"apples\"\n3) \"pear\"\n4) \"fruit\"\n5) \"berry\"\n6) \"pears\"\n7) \"strawberry\"\n8) \"peach\"\n9) \"potato\"\n10) \"grape\"\n```\n\nYou can include similarity scores, attributes (if any), and limit the number of results:\n\n```shell\nVSIM word_embeddings ELE apple WITHSCORES WITHATTRIBS COUNT 3\n1) \"apple\"\n2) \"0.9998867657923256\"\n3) \"{\\\"len\\\": 5}\"\n4) \"apples\"\n5) \"0.859852746129036\"\n6) \"{\\\"len\\\": 6}\"\n7) \"pear\"\n8) \"0.8226882070302963\"\n9) \"{\\\"len\\\": 4}\"\n```\n\nSet the `EF` (exploration factor) to improve recall at the cost of performance. Use the `TRUTH` option to perform an exact linear scan, useful for benchmarking. The `NOTHREAD` option runs the search in the main thread and may increase server latency.\n\n## Required arguments\n\n<details open>\n<summary><code>key</code></summary>\n\nis the name of the key that holds the vector set data.\n</details>\n\n<details open>\n<summary><code>ELE | FP32 | VALUES num</code></summary>\n\nspecifies how the input vector is provided. Use `ELE` to refer to an existing element, `FP32` for binary float format (little-endian encoding required), or `VALUES num` for a list of stringified float values.\n</details>\n\n<details open>\n<summary><code>vector or element</code></summary>\n\nis either the vector data (for `FP32` or `VALUES`) or the name of the element (for `ELE`) to use as the similarity reference.\n</details>\n\n## Optional arguments\n\n<details open>\n<summary><code>WITHSCORES</code></summary>\n\nreturns the similarity score (from 1 to 0) alongside each result. A score of 1 is identical; 0 is the opposite.\n</details>\n\n<details open>\n<summary><code>WITHATTRIBS</code></summary>\n\nreturns, for each element, the JSON attribute associated with the element or NULL when no attributes are present.\n</details>\n\n<details open>\n<summary><code>COUNT num</code></summary>\n\nlimits the number of returned results to `num`.\n</details>\n\n<details open>\n<summary><code>EPSILON delta</code></summary>\n\nis a floating point number between 0 and 1. It is used to retrieve elements that have a distance that is no further than the specified `delta`. In vector sets, returned elements have a similarity score (when compared to the query vector) that is between 1 and 0, where 1 means identical and 0 means opposite vectors. For example, if the `EPSILON` option is specified with an argument of `0.2`, it means only elements that have a similarity of 0.8 or better (a distance < 0.2) are returned. This is useful when you specify a large `COUNT`, but you don't want elements that are too far away from the query vector.\n</details>\n\n<details open>\n<summary><code>EF search-exploration-factor</code></summary>\n\ncontrols the search effort. Higher values explore more nodes, improving recall at the cost of speed. Typical values range from 50 to 1000.\n</details>\n\n<details open>\n<summary><code>FILTER expression</code></summary>\n\napplies a filter expression to restrict matching elements. See the filtered search section for syntax details.\n</details>\n\n<details open>\n<summary><code>FILTER-EF max-filtering-effort</code></summary>\n\nlimits the number of filtering attempts for the `FILTER` expression. See the filtered search section for more.\n</details>\n\n<details open>\n<summary><code>TRUTH</code></summary>\n\nforces an exact linear scan of all elements, bypassing the HNSW graph. Use for benchmarking or to calculate recall. This is significantly slower (O(N)).\n</details>\n\n<details open>\n<summary><code>NOTHREAD</code></summary>\n\nexecutes the search in the main thread instead of a background thread. Useful for small vector sets or benchmarks. This may block the server during execution.\n</details>\n\n## Related topics\n\n- [Vector sets]({{< relref \"/develop/data-types/vector-sets\" >}})\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"vsim-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Simple error reply](../../develop/reference/protocol-spec/#simple-errors) for an unknown element.\n* [Array reply](../../develop/reference/protocol-spec#arrays) (empty array) for an unknown key.\n* [Array reply](../../develop/reference/protocol-spec#arrays) with matching elements.\n* With the `WITHSCORES` option, an [array reply](../../develop/reference/protocol-spec#arrays) with matching [bulk string]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) elements juxtaposed with [bulk string]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) as floating-point scores.\n* With the `WITHSCORES` and `WITHATTRIBS` options, an [array reply](../../develop/reference/protocol-spec#arrays) with matching [bulk string]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) elements, and two additional elements: (1) a [bulk string]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) as floating-point score and (2) a [bulk string]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) representing the JSON attribute associated with the element or [nil (null bulk string)]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) for the elements missing an attribute.\n\n-tab-sep-\n\nOne of the following:\n* [Simple error reply](../../develop/reference/protocol-spec/#simple-errors) for unknown element.\n* [Array reply](../../develop/reference/protocol-spec#arrays) (empty array) for unknown key.\n* [Array reply](../../develop/reference/protocol-spec#arrays) with matching elements.\n* With the `WITHSCORES` option, a [map reply](../../develop/reference/protocol-spec#maps) with matching [bulk string]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) elements (keys) and  [double](../../develop/reference/protocol-spec#doubles) scores (values).\n* With the `WITHSCORES` and `WITHATTRIBS` options, a [Map reply](../../develop/reference/protocol-spec#maps) with matching [bulk string]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) elements (keys), and an additional array (values) with the following elements: (1) a [double reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}})  for the score and (2) a [bulk string]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) representing the JSON attribute associated with the element or [null]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}) for the elements missing an attribute.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "Return elements similar to a given vector or element. Use this command to perform approximate or exact similarity searches within a vector set.\n\nYou can query using either a vector (via `FP32` or `VALUES num`) or by referencing another element (using `ELE`). Optional parameters let you control the search behavior, such as score output, result count, and filtering options.\n\n```shell\nVSIM word_embeddings ELE apple\n1) \"apple\"\n2) \"apples\"\n3) \"pear\"\n4) \"fruit\"\n5) \"berry\"\n6) \"pears\"\n7) \"strawberry\"\n8) \"peach\"\n9) \"potato\"\n10) \"grape\"\n```\n\nYou can include similarity scores, attributes (if any), and limit the number of results:\n\n```shell\nVSIM word_embeddings ELE apple WITHSCORES WITHATTRIBS COUNT 3\n1) \"apple\"\n2) \"0.9998867657923256\"\n3) \"{\\\"len\\\": 5}\"\n4) \"apples\"\n5) \"0.859852746129036\"\n6) \"{\\\"len\\\": 6}\"\n7) \"pear\"\n8) \"0.8226882070302963\"\n9) \"{\\\"len\\\": 4}\"\n```\n\nSet the `EF` (exploration factor) to improve recall at the cost of performance. Use the `TRUTH` option to perform an exact linear scan, useful for benchmarking. The `NOTHREAD` option runs the search in the main thread and may increase server latency.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -69,7 +836,7 @@
     {
       "title": "Related topics",
       "level": 2,
-      "content": "- [Vector sets]()"
+      "content": "- [Vector sets]({{< relref \"/develop/data-types/vector-sets\" >}})"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -79,7 +846,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Simple error reply](../../develop/reference/protocol-spec/#simple-errors) for an unknown element.\n* [Array reply](../../develop/reference/protocol-spec#arrays) (empty array) for an unknown key.\n* [Array reply](../../develop/reference/protocol-spec#arrays) with matching elements.\n* With the `WITHSCORES` option, an [array reply](../../develop/reference/protocol-spec#arrays) with matching [bulk string]() elements juxtaposed with [bulk string]() as floating-point scores.\n* With the `WITHSCORES` and `WITHATTRIBS` options, an [array reply](../../develop/reference/protocol-spec#arrays) with matching [bulk string]() elements, and two additional elements: (1) a [bulk string]() as floating-point score and (2) a [bulk string]() representing the JSON attribute associated with the element or [nil (null bulk string)]() for the elements missing an attribute.\n\n**RESP3:**\n\nOne of the following:\n* [Simple error reply](../../develop/reference/protocol-spec/#simple-errors) for unknown element.\n* [Array reply](../../develop/reference/protocol-spec#arrays) (empty array) for unknown key.\n* [Array reply](../../develop/reference/protocol-spec#arrays) with matching elements.\n* With the `WITHSCORES` option, a [map reply](../../develop/reference/protocol-spec#maps) with matching [bulk string]() elements (keys) and  [double](../../develop/reference/protocol-spec#doubles) scores (values).\n* With the `WITHSCORES` and `WITHATTRIBS` options, a [Map reply](../../develop/reference/protocol-spec#maps) with matching [bulk string]() elements (keys), and an additional array (values) with the following elements: (1) a [double reply]()  for the score and (2) a [bulk string]() representing the JSON attribute associated with the element or [null]() for the elements missing an attribute."
+      "content": "{{< multitabs id=\"vsim-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Simple error reply](../../develop/reference/protocol-spec/#simple-errors) for an unknown element.\n* [Array reply](../../develop/reference/protocol-spec#arrays) (empty array) for an unknown key.\n* [Array reply](../../develop/reference/protocol-spec#arrays) with matching elements.\n* With the `WITHSCORES` option, an [array reply](../../develop/reference/protocol-spec#arrays) with matching [bulk string]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) elements juxtaposed with [bulk string]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) as floating-point scores.\n* With the `WITHSCORES` and `WITHATTRIBS` options, an [array reply](../../develop/reference/protocol-spec#arrays) with matching [bulk string]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) elements, and two additional elements: (1) a [bulk string]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) as floating-point score and (2) a [bulk string]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) representing the JSON attribute associated with the element or [nil (null bulk string)]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) for the elements missing an attribute.\n\n-tab-sep-\n\nOne of the following:\n* [Simple error reply](../../develop/reference/protocol-spec/#simple-errors) for unknown element.\n* [Array reply](../../develop/reference/protocol-spec#arrays) (empty array) for unknown key.\n* [Array reply](../../develop/reference/protocol-spec#arrays) with matching elements.\n* With the `WITHSCORES` option, a [map reply](../../develop/reference/protocol-spec#maps) with matching [bulk string]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) elements (keys) and  [double](../../develop/reference/protocol-spec#doubles) scores (values).\n* With the `WITHSCORES` and `WITHATTRIBS` options, a [Map reply](../../develop/reference/protocol-spec#maps) with matching [bulk string]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) elements (keys), and an additional array (values) with the following elements: (1) a [double reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}})  for the score and (2) a [bulk string]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) representing the JSON attribute associated with the element or [null]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}) for the elements missing an attribute.\n\n{{< /multitabs >}}"
     }
   ]
 }

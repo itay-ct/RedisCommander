@@ -13,6 +13,87 @@
     "@pubsub",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "Shard channel names to get subscriber counts for",
+            "name": "*args",
+            "type": "ChannelT"
+          },
+          {
+            "description": "Additional keyword arguments",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "Map of shard channel names to subscriber counts",
+          "type": "ResponseT"
+        },
+        "signature": "pubsub_shardnumsub(*args: ChannelT, **kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "Shard channel names to get subscriber counts for",
+            "name": "channels",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "Map of shard channel names to subscriber counts",
+          "type": "Map<String, Long>"
+        },
+        "signature": "Map<String, Long> pubsubShardNumSub(String... channels)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context for the operation",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "Shard channel names to get subscriber counts for",
+            "name": "channels",
+            "type": "...string"
+          }
+        ],
+        "returns": {
+          "description": "Map of shard channel names to subscriber counts",
+          "type": "*MapStringIntCmd"
+        },
+        "signature": "PubSubShardNumSub(ctx context.Context, channels ...string)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "PUBSUB subcommand (e.g., 'SHARDNUMSUB')",
+            "name": "$subcommand",
+            "type": "string"
+          },
+          {
+            "description": "Shard channel names to get subscriber counts for",
+            "name": "$argument",
+            "type": "mixed"
+          }
+        ],
+        "returns": {
+          "description": "Map of shard channel names to subscriber counts",
+          "type": "mixed"
+        },
+        "signature": "pubsub($subcommand, $argument)"
+      }
+    ]
+  },
   "commandFlags": [
     "pubsub",
     "loading",
@@ -39,24 +120,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Returns the number of subscribers for the specified shard channels.\n\nNote that it is valid to call this command without channels, in this case it will just return an empty list.\n\nCluster note: in a Redis Cluster, [`PUBSUB`]()'s replies in a cluster only report information from the node's Pub/Sub context, rather than the entire cluster.\n\n## Examples\n\n```\n> PUBSUB SHARDNUMSUB orders\n1) \"orders\"\n2) (integer) 1\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): the number of subscribers per shard channel, each even element (including the 0th) is channel name, each odd element is the number of subscribers.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): the number of subscribers per shard channel, each even element (including the 0th) is channel name, each odd element is the number of subscribers.",
+  "content": "Returns the number of subscribers for the specified shard channels.\n\nNote that it is valid to call this command without channels, in this case it will just return an empty list.\n\nCluster note: in a Redis Cluster, [`PUBSUB`]()'s replies in a cluster only report information from the node's Pub/Sub context, rather than the entire cluster.\n\n## Examples\n\n```\n> PUBSUB SHARDNUMSUB orders\n1) \"orders\"\n2) (integer) 1\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"pubsub-shardnumsub-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): the number of subscribers per shard channel, each even element (including the 0th) is channel name, each odd element is the number of subscribers.\n\n-tab-sep-\n\n[Array reply](../../develop/reference/protocol-spec#arrays): the number of subscribers per shard channel, each even element (including the 0th) is channel name, each odd element is the number of subscribers.\n\n{{< /multitabs >}}",
+  "example": "> PUBSUB SHARDNUMSUB orders\n1) \"orders\"\n2) (integer) 1",
   "intro": "Returns the number of subscribers for the specified shard channels.\n\nNote that it is valid to call this command without channels, in this case it will just return an empty list.\n\nCluster note: in a Redis Cluster, [`PUBSUB`]()'s replies in a cluster only report information from the node's Pub/Sub context, rather than the entire cluster.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -76,7 +146,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): the number of subscribers per shard channel, each even element (including the 0th) is channel name, each odd element is the number of subscribers.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): the number of subscribers per shard channel, each even element (including the 0th) is channel name, each odd element is the number of subscribers."
+      "content": "{{< multitabs id=\"pubsub-shardnumsub-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): the number of subscribers per shard channel, each even element (including the 0th) is channel name, each odd element is the number of subscribers.\n\n-tab-sep-\n\n[Array reply](../../develop/reference/protocol-spec#arrays): the number of subscribers per shard channel, each even element (including the 0th) is channel name, each odd element is the number of subscribers.\n\n{{< /multitabs >}}"
     }
   ]
 }

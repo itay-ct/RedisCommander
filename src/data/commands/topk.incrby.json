@@ -14,6 +14,189 @@
     "@write",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "str"
+          },
+          {
+            "description": "",
+            "name": "items",
+            "type": "List"
+          },
+          {
+            "description": "",
+            "name": "increments",
+            "type": "List"
+          }
+        ],
+        "returns": {
+          "description": "Items dropped from Top-K list",
+          "type": "List"
+        },
+        "signature": "incrby(key, items, increments)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "item",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "increment",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "Item dropped from list",
+          "type": "String"
+        },
+        "signature": "topkIncrBy(String key, String item, long increment)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "itemIncrements",
+            "type": "Map<String, Long>"
+          }
+        ],
+        "returns": {
+          "description": "Items dropped from list",
+          "type": "List<String>"
+        },
+        "signature": "topkIncrBy(String key, Map<String, Long> itemIncrements)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "Alternating items and increments",
+            "name": "elements",
+            "type": "...interface{}"
+          }
+        ],
+        "returns": {
+          "description": "Items dropped from filter",
+          "type": "*StringSliceCmd"
+        },
+        "signature": "TopKIncrBy(ctx context.Context, key string, elements ...interface{}) *StringSliceCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "{ item, incrementBy }",
+            "name": "items",
+            "type": "TopKIncrByItem | Array<TopKIncrByItem>"
+          }
+        ],
+        "returns": {
+          "description": "Items dropped from list",
+          "type": "ArrayReply<SimpleStringReply | NullReply>"
+        },
+        "signature": "TOPK.INCRBY(key, items)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "itemIncrements",
+            "type": "params Tuple<RedisValue, long>[]"
+          }
+        ],
+        "returns": {
+          "description": "Items dropped from list",
+          "type": "RedisResult[]"
+        },
+        "signature": "IncrBy(RedisKey key, params Tuple<RedisValue, long>[] itemIncrements)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "itemIncrements",
+            "type": "params Tuple<RedisValue, long>[]"
+          }
+        ],
+        "returns": {
+          "description": "Items dropped from list",
+          "type": "Task<RedisResult[]>"
+        },
+        "signature": "IncrByAsync(RedisKey key, params Tuple<RedisValue, long>[] itemIncrements)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "Alternating items and increments",
+            "name": "itemsAndIncrements",
+            "type": "mixed..."
+          }
+        ],
+        "returns": {
+          "description": "Items dropped from Top-K list",
+          "type": "array"
+        },
+        "signature": "topkincrby($key, ...$itemsAndIncrements)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -48,28 +231,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "return",
-        "title": "Return"
-      },
-      {
-        "id": "example",
-        "title": "Example"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Increase the score of an item in the data structure by `increment`. \nMultiple items' scores can be increased at once.\nIf an item enters the Top-K list, the item that is expelled (if any) is returned.\n\n### Parameters\n\n* **key**: the name of the sketch.\n* **item**: the items to be incremented.\n* **increment**: the value by which items will be incremented. The `increment` must be greater or equal to 1 and less than or equal to 100,000 to avoid server freeze.\n\n## Return\n\n[Array]() of [Simple string reply]() - if an element was dropped from the TopK list, [Nil reply]() otherwise..\n\n## Example\n\n```\nredis> TOPK.INCRBY topk foo 3 bar 2 42 30\n1) (nil)\n2) (nil)\n3) foo\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n\n* [Array]() of [bulk string replies]() containing either dropped elements or [nil (null bulk string)]().\n* [Simple error reply]() in these cases: incorrect number of arguments, non-existant key, key of the incorrect type, or an incorrect increment (less than 0 or greater than 100,000).\n\n**RESP3:**\n\nOne of the following:\n\n* [Array]() of [bulk string replies]() containing either dropped elements or [null]().\n* [Simple error reply]() in these cases: incorrect number of arguments, non-existant key, key of the incorrect type, or an incorrect increment (less than 0 or greater than 100,000).",
-  "intro": "Increase the score of an item in the data structure by `increment`. \nMultiple items' scores can be increased at once.\nIf an item enters the Top-K list, the item that is expelled (if any) is returned.",
+  "content": "Increase the score of an item in the data structure by `increment`. \nMultiple items' scores can be increased at once.\nIf an item enters the Top-K list, the item that is expelled (if any) is returned.\n\n### Parameters\n\n* **key**: the name of the sketch.\n* **item**: the items to be incremented.\n* **increment**: the value by which items will be incremented. The `increment` must be greater or equal to 1 and less than or equal to 100,000 to avoid server freeze.\n\n## Return\n\n[Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}) - if an element was dropped from the TopK list, [Nil reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) otherwise..\n\n## Example\n\n```\nredis> TOPK.INCRBY topk foo 3 bar 2 42 30\n1) (nil)\n2) (nil)\n3) foo\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"topk-incrby-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n\n* [Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [bulk string replies]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) containing either dropped elements or [nil (null bulk string)]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}).\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: incorrect number of arguments, non-existant key, key of the incorrect type, or an incorrect increment (less than 0 or greater than 100,000).\n\n-tab-sep-\n\nOne of the following:\n\n* [Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [bulk string replies]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) containing either dropped elements or [null]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}).\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: incorrect number of arguments, non-existant key, key of the incorrect type, or an incorrect increment (less than 0 or greater than 100,000).\n\n{{< /multitabs >}}",
+  "example": "redis> TOPK.INCRBY topk foo 3 bar 2 42 30\n1) (nil)\n2) (nil)\n3) foo",
+  "intro": "Increase the score of an item in the data structure by `increment`. \nMultiple items' scores can be increased at once.\nIf an item enters the Top-K list, the item that is expelled (if any) is returned.\n\n### Parameters\n\n* **key**: the name of the sketch.\n* **item**: the items to be incremented.\n* **increment**: the value by which items will be incremented. The `increment` must be greater or equal to 1 and less than or equal to 100,000 to avoid server freeze.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -84,7 +252,7 @@
     {
       "title": "Return",
       "level": 2,
-      "content": "[Array]() of [Simple string reply]() - if an element was dropped from the TopK list, [Nil reply]() otherwise.."
+      "content": "[Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}) - if an element was dropped from the TopK list, [Nil reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) otherwise.."
     },
     {
       "title": "Example",
@@ -99,7 +267,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n\n* [Array]() of [bulk string replies]() containing either dropped elements or [nil (null bulk string)]().\n* [Simple error reply]() in these cases: incorrect number of arguments, non-existant key, key of the incorrect type, or an incorrect increment (less than 0 or greater than 100,000).\n\n**RESP3:**\n\nOne of the following:\n\n* [Array]() of [bulk string replies]() containing either dropped elements or [null]().\n* [Simple error reply]() in these cases: incorrect number of arguments, non-existant key, key of the incorrect type, or an incorrect increment (less than 0 or greater than 100,000)."
+      "content": "{{< multitabs id=\"topk-incrby-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n\n* [Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [bulk string replies]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) containing either dropped elements or [nil (null bulk string)]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}).\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: incorrect number of arguments, non-existant key, key of the incorrect type, or an incorrect increment (less than 0 or greater than 100,000).\n\n-tab-sep-\n\nOne of the following:\n\n* [Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [bulk string replies]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) containing either dropped elements or [null]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}).\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: incorrect number of arguments, non-existant key, key of the incorrect type, or an incorrect increment (less than 0 or greater than 100,000).\n\n{{< /multitabs >}}"
     }
   ]
 }

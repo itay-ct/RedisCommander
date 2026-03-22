@@ -14,6 +14,130 @@
     "@read",
     "@fast"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "The name of the Bloom filter",
+            "name": "key",
+            "type": "str"
+          }
+        ],
+        "returns": {
+          "description": "Dictionary with capacity, size, number of filters, items inserted, and expansion rate",
+          "type": "dict"
+        },
+        "signature": "info(key)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "The name of the Bloom filter",
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "Map containing filter information",
+          "type": "Map<String, Object>"
+        },
+        "signature": "Map<String, Object> bfInfo(String key)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "The name of the Bloom filter",
+            "name": "key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "BFInfo command result with Capacity, Size, Filters, ItemsInserted, ExpansionRate",
+          "type": "*BFInfoCmd"
+        },
+        "signature": "BFInfo(ctx context.Context, key string) *BFInfoCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "The name of the Bloom filter",
+            "name": "key",
+            "type": "RedisArgument"
+          }
+        ],
+        "returns": {
+          "description": "Map with Capacity, Size, Number of filters, Items inserted, Expansion rate",
+          "type": "BfInfoReplyMap"
+        },
+        "signature": "BF.INFO(key: RedisArgument)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The name of the Bloom filter",
+            "name": "key",
+            "type": "RedisKey"
+          }
+        ],
+        "returns": {
+          "description": "Object containing filter information",
+          "type": "BloomInformation"
+        },
+        "signature": "BloomInformation Info(RedisKey key)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The name of the Bloom filter",
+            "name": "key",
+            "type": "RedisKey"
+          }
+        ],
+        "returns": {
+          "description": "Object containing filter information",
+          "type": "Task<BloomInformation>"
+        },
+        "signature": "async Task<BloomInformation> InfoAsync(RedisKey key)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "The name of the Bloom filter",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "Optional modifier (CAPACITY, SIZE, FILTERS, ITEMS, EXPANSION)",
+            "name": "$modifier",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "Array containing filter information",
+          "type": "array"
+        },
+        "signature": "bfinfo(string $key, string $modifier = '')"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -65,32 +189,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "optional-arguments",
-        "title": "Optional arguments"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Returns information about a Bloom filter.\n\n## Required arguments\n\n<details open><summary><code>key</code></summary>\n\nis key name for a Bloom filter.\n</details>\n\n## Optional arguments\n\n<details open><summary><code>CAPACITY</code></summary>\n\nReturn the number of unique items that can be stored in this Bloom filter before scaling would be required (including already added items).\n</details>\n\n<details open><summary><code>SIZE</code></summary>\n\nReturn the memory size: number of bytes allocated for this Bloom filter.\n</details>\n\n<details open><summary><code>FILTERS</code></summary>\n\nReturn the number of sub-filters.\n</details>\n\n<details open><summary><code>ITEMS</code></summary>\n\nReturn the number of items that were added to this Bloom filter and detected as unique (items that caused at least one bit to be set in at least one sub-filter).\n</details>\n\n<details open><summary><code>EXPANSION</code></summary>\n\nReturn the expansion rate.\n</details>\n\n## Examples\n\n\nredis> BF.ADD bf1 observation1\n(integer) 1\nredis> BF.INFO bf1\n 1) Capacity\n 2) (integer) 100\n 3) Size\n 4) (integer) 240\n 5) Number of filters\n 6) (integer) 1\n 7) Number of items inserted\n 8) (integer) 1\n 9) Expansion rate\n10) (integer) 2\nredis> BF.INFO bf1 CAPACITY\n1) (integer) 100\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* A singleton [array reply]() with an [integer]() representing the value of the requested property.\n* An [array reply]() with [simple string]() and [integer]() pairs.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, or when the key does not exist.\n\n**RESP3:**\n\nOne of the following:\n* [Map reply]() with [simple string]() and [integer]() pairs.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, or when the key does not exist.",
+  "content": "Returns information about a Bloom filter.\n\n## Required arguments\n\n<details open><summary><code>key</code></summary>\n\nis key name for a Bloom filter.\n</details>\n\n## Optional arguments\n\n<details open><summary><code>CAPACITY</code></summary>\n\nReturn the number of unique items that can be stored in this Bloom filter before scaling would be required (including already added items).\n</details>\n\n<details open><summary><code>SIZE</code></summary>\n\nReturn the memory size: number of bytes allocated for this Bloom filter.\n</details>\n\n<details open><summary><code>FILTERS</code></summary>\n\nReturn the number of sub-filters.\n</details>\n\n<details open><summary><code>ITEMS</code></summary>\n\nReturn the number of items that were added to this Bloom filter and detected as unique (items that caused at least one bit to be set in at least one sub-filter).\n</details>\n\n<details open><summary><code>EXPANSION</code></summary>\n\nReturn the expansion rate.\n</details>\n\n## Examples\n\n{{< highlight bash >}}\nredis> BF.ADD bf1 observation1\n(integer) 1\nredis> BF.INFO bf1\n 1) Capacity\n 2) (integer) 100\n 3) Size\n 4) (integer) 240\n 5) Number of filters\n 6) (integer) 1\n 7) Number of items inserted\n 8) (integer) 1\n 9) Expansion rate\n10) (integer) 2\nredis> BF.INFO bf1 CAPACITY\n1) (integer) 100\n{{< / highlight >}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"bf-info-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* A singleton [array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) with an [integer]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) representing the value of the requested property.\n* An [array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) with [simple string]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}) and [integer]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) pairs.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, wrong key type, or when the key does not exist.\n\n-tab-sep-\n\nOne of the following:\n* [Map reply]({{< relref \"/develop/reference/protocol-spec#maps\" >}}) with [simple string]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}) and [integer]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) pairs.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, wrong key type, or when the key does not exist.\n\n{{< /multitabs >}}",
+  "example": "redis> BF.ADD bf1 observation1\n(integer) 1\nredis> BF.INFO bf1\n 1) Capacity\n 2) (integer) 100\n 3) Size\n 4) (integer) 240\n 5) Number of filters\n 6) (integer) 1\n 7) Number of items inserted\n 8) (integer) 1\n 9) Expansion rate\n10) (integer) 2\nredis> BF.INFO bf1 CAPACITY\n1) (integer) 100",
   "intro": "Returns information about a Bloom filter.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -110,7 +215,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "redis> BF.ADD bf1 observation1\n(integer) 1\nredis> BF.INFO bf1\n 1) Capacity\n 2) (integer) 100\n 3) Size\n 4) (integer) 240\n 5) Number of filters\n 6) (integer) 1\n 7) Number of items inserted\n 8) (integer) 1\n 9) Expansion rate\n10) (integer) 2\nredis> BF.INFO bf1 CAPACITY\n1) (integer) 100"
+      "content": "{{< highlight bash >}}\nredis> BF.ADD bf1 observation1\n(integer) 1\nredis> BF.INFO bf1\n 1) Capacity\n 2) (integer) 100\n 3) Size\n 4) (integer) 240\n 5) Number of filters\n 6) (integer) 1\n 7) Number of items inserted\n 8) (integer) 1\n 9) Expansion rate\n10) (integer) 2\nredis> BF.INFO bf1 CAPACITY\n1) (integer) 100\n{{< / highlight >}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -120,7 +225,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* A singleton [array reply]() with an [integer]() representing the value of the requested property.\n* An [array reply]() with [simple string]() and [integer]() pairs.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, or when the key does not exist.\n\n**RESP3:**\n\nOne of the following:\n* [Map reply]() with [simple string]() and [integer]() pairs.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, or when the key does not exist."
+      "content": "{{< multitabs id=\"bf-info-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* A singleton [array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) with an [integer]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) representing the value of the requested property.\n* An [array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) with [simple string]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}) and [integer]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) pairs.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, wrong key type, or when the key does not exist.\n\n-tab-sep-\n\nOne of the following:\n* [Map reply]({{< relref \"/develop/reference/protocol-spec#maps\" >}}) with [simple string]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}) and [integer]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) pairs.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, wrong key type, or when the key does not exist.\n\n{{< /multitabs >}}"
     }
   ]
 }

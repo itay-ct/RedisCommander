@@ -14,6 +14,955 @@
     "@geo",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "member",
+            "type": "Union[FieldT, None] = None"
+          },
+          {
+            "description": "",
+            "name": "longitude",
+            "type": "Union[float, None] = None"
+          },
+          {
+            "description": "",
+            "name": "latitude",
+            "type": "Union[float, None] = None"
+          },
+          {
+            "description": "",
+            "name": "unit",
+            "type": "str = \"m\""
+          },
+          {
+            "description": "",
+            "name": "radius",
+            "type": "Union[float, None] = None"
+          },
+          {
+            "description": "",
+            "name": "width",
+            "type": "Union[float, None] = None"
+          },
+          {
+            "description": "",
+            "name": "height",
+            "type": "Union[float, None] = None"
+          },
+          {
+            "description": "",
+            "name": "sort",
+            "type": "Optional[str] = None"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "Optional[int] = None"
+          },
+          {
+            "description": "",
+            "name": "any",
+            "type": "bool = False"
+          },
+          {
+            "description": "",
+            "name": "withcoord",
+            "type": "bool = False"
+          },
+          {
+            "description": "",
+            "name": "withdist",
+            "type": "bool = False"
+          },
+          {
+            "description": "",
+            "name": "withhash",
+            "type": "bool = False"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "ResponseT"
+        },
+        "signature": "geosearch(, name: KeyT,, member: Union[FieldT, None] = None,, longitude: Union[float, None] = None,, latitude: Union[float, None] = None,, unit: str = \"m\",, radius: Union[float, None] = None,, width: Union[float, None] = None,, height: Union[float, None] = None,, sort: Optional[str] = None,, count: Optional[int] = None,, any: bool = False,, withcoord: bool = False,, withdist: bool = False,, withhash: bool = False,)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "member",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "radius",
+            "type": "double"
+          },
+          {
+            "description": "",
+            "name": "unit",
+            "type": "GeoUnit"
+          }
+        ],
+        "returns": {
+          "description": "List of GeoRadiusResponse",
+          "type": "List<GeoRadiusResponse>"
+        },
+        "signature": "List<GeoRadiusResponse> geosearch(byte[] key, byte[] member, double radius, GeoUnit unit)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "coord",
+            "type": "GeoCoordinate"
+          },
+          {
+            "description": "",
+            "name": "radius",
+            "type": "double"
+          },
+          {
+            "description": "",
+            "name": "unit",
+            "type": "GeoUnit"
+          }
+        ],
+        "returns": {
+          "description": "List of GeoRadiusResponse",
+          "type": "List<GeoRadiusResponse>"
+        },
+        "signature": "List<GeoRadiusResponse> geosearch(byte[] key, GeoCoordinate coord, double radius, GeoUnit unit)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "member",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "width",
+            "type": "double"
+          },
+          {
+            "description": "",
+            "name": "height",
+            "type": "double"
+          },
+          {
+            "description": "",
+            "name": "unit",
+            "type": "GeoUnit"
+          }
+        ],
+        "returns": {
+          "description": "List of GeoRadiusResponse",
+          "type": "List<GeoRadiusResponse>"
+        },
+        "signature": "List<GeoRadiusResponse> geosearch(byte[] key, byte[] member, double width, double height, GeoUnit unit)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "coord",
+            "type": "GeoCoordinate"
+          },
+          {
+            "description": "",
+            "name": "width",
+            "type": "double"
+          },
+          {
+            "description": "",
+            "name": "height",
+            "type": "double"
+          },
+          {
+            "description": "",
+            "name": "unit",
+            "type": "GeoUnit"
+          }
+        ],
+        "returns": {
+          "description": "List of GeoRadiusResponse",
+          "type": "List<GeoRadiusResponse>"
+        },
+        "signature": "List<GeoRadiusResponse> geosearch(byte[] key, GeoCoordinate coord, double width, double height, GeoUnit unit)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "byte[]"
+          },
+          {
+            "description": "GeoSearchParam",
+            "name": "params",
+            "type": "GeoSearchParam"
+          }
+        ],
+        "returns": {
+          "description": "List of GeoRadiusResponse",
+          "type": "List<GeoRadiusResponse>"
+        },
+        "signature": "List<GeoRadiusResponse> geosearch(byte[] key, GeoSearchParam params)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the key of the geo set.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the reference member or longitude/latitude coordinates.",
+            "name": "reference",
+            "type": "GeoSearch.GeoRef<K>"
+          },
+          {
+            "description": "the bounding box or radius to search in.",
+            "name": "predicate",
+            "type": "GeoSearch.GeoPredicate"
+          }
+        ],
+        "returns": {
+          "description": "nested multi-bulk reply. The GeoWithin contains only fields which were requested by GeoArgs. @since 6.1",
+          "type": "Set<V>"
+        },
+        "signature": "Set<V> geosearch(K key, GeoSearch.GeoRef<K> reference, GeoSearch.GeoPredicate predicate)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key of the geo set.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the reference member or longitude/latitude coordinates.",
+            "name": "reference",
+            "type": "GeoSearch.GeoRef<K>"
+          },
+          {
+            "description": "the bounding box or radius to search in.",
+            "name": "predicate",
+            "type": "GeoSearch.GeoPredicate"
+          },
+          {
+            "description": "args to control the result.",
+            "name": "geoArgs",
+            "type": "GeoArgs"
+          }
+        ],
+        "returns": {
+          "description": "nested multi-bulk reply. The GeoWithin contains only fields which were requested by GeoArgs. @since 6.1",
+          "type": "List<GeoWithin<V>>"
+        },
+        "signature": "List<GeoWithin<V>> geosearch(K key, GeoSearch.GeoRef<K> reference, GeoSearch.GeoPredicate predicate, GeoArgs geoArgs)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the key of the geo set.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the reference member or longitude/latitude coordinates.",
+            "name": "reference",
+            "type": "GeoSearch.GeoRef<K>"
+          },
+          {
+            "description": "the bounding box or radius to search in.",
+            "name": "predicate",
+            "type": "GeoSearch.GeoPredicate"
+          }
+        ],
+        "returns": {
+          "description": "nested multi-bulk reply. The GeoWithin contains only fields which were requested by GeoArgs. @since 6.1",
+          "type": "RedisFuture<Set<V>>"
+        },
+        "signature": "RedisFuture<Set<V>> geosearch(K key, GeoSearch.GeoRef<K> reference, GeoSearch.GeoPredicate predicate)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key of the geo set.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the reference member or longitude/latitude coordinates.",
+            "name": "reference",
+            "type": "GeoSearch.GeoRef<K>"
+          },
+          {
+            "description": "args to control the result.",
+            "name": "geoArgs",
+            "type": "GeoSearch.GeoPredicate predicate GeoArgs"
+          }
+        ],
+        "returns": {
+          "description": "nested multi-bulk reply. The GeoWithin contains only fields which were requested by GeoArgs. @since 6.1",
+          "type": "RedisFuture<List<GeoWithin<V>>>"
+        },
+        "signature": "RedisFuture<List<GeoWithin<V>>> geosearch(K key, GeoSearch.GeoRef<K> reference, GeoSearch.GeoPredicate predicate GeoArgs geoArgs)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the key of the geo set.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the reference member or longitude/latitude coordinates.",
+            "name": "reference",
+            "type": "GeoSearch.GeoRef<K>"
+          },
+          {
+            "description": "the bounding box or radius to search in.",
+            "name": "predicate",
+            "type": "GeoSearch.GeoPredicate"
+          }
+        ],
+        "returns": {
+          "description": "nested multi-bulk reply. The GeoWithin contains only fields which were requested by GeoArgs. @since 6.1",
+          "type": "Flux<V>"
+        },
+        "signature": "Flux<V> geosearch(K key, GeoSearch.GeoRef<K> reference, GeoSearch.GeoPredicate predicate)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key of the geo set.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the reference member or longitude/latitude coordinates.",
+            "name": "reference",
+            "type": "GeoSearch.GeoRef<K>"
+          },
+          {
+            "description": "the bounding box or radius to search in.",
+            "name": "predicate",
+            "type": "GeoSearch.GeoPredicate"
+          },
+          {
+            "description": "args to control the result.",
+            "name": "geoArgs",
+            "type": "GeoArgs"
+          }
+        ],
+        "returns": {
+          "description": "nested multi-bulk reply. The GeoWithin contains only fields which were requested by GeoArgs. @since 6.1",
+          "type": "Flux<GeoWithin<V>>"
+        },
+        "signature": "Flux<GeoWithin<V>> geosearch(K key, GeoSearch.GeoRef<K> reference, GeoSearch.GeoPredicate predicate, GeoArgs geoArgs)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "q",
+            "type": "*GeoSearchQuery"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StringSliceCmd"
+        },
+        "signature": "GeoSearch(ctx context.Context, key string, q *GeoSearchQuery)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "from",
+            "type": "GeoSearchFrom"
+          },
+          {
+            "description": "",
+            "name": "by",
+            "type": "GeoSearchBy"
+          },
+          {
+            "description": "",
+            "name": "options?",
+            "type": "GeoSearchOptions"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "GEOSEARCH(key: RedisArgument, from: GeoSearchFrom, by: GeoSearchBy, options?: GeoSearchOptions)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, key"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "geosearch(...args: [, key: RedisKey, ...args: RedisValue[], callback: Callback<unknown[]>, ])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[key"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "geosearch(...args: [key: RedisKey, ...args: RedisValue[]])"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The key of the set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "member",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The shape to use to bound the geo search.",
+            "name": "shape",
+            "type": "GeoSearchShape"
+          },
+          {
+            "description": "The maximum number of results to pull back.",
+            "name": "count",
+            "type": "int"
+          },
+          {
+            "description": "Whether to terminate the search after finding count results. Must be true of count is -1.",
+            "name": "demandClosest",
+            "type": "bool"
+          },
+          {
+            "description": "The order to sort by (defaults to unordered).",
+            "name": "order",
+            "type": "Order?"
+          },
+          {
+            "description": "The search options to use.",
+            "name": "options",
+            "type": "GeoRadiusOptions"
+          },
+          {
+            "description": "The flags for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The results found within the shape, if any.",
+          "type": "GeoRadiusResult[]"
+        },
+        "signature": "GeoSearch(RedisKey key, RedisValue member, GeoSearchShape shape, int count = -1, bool demandClosest = true, Order? order = null, GeoRadiusOptions options = GeoRadiusOptions.Default, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The longitude of the center point.",
+            "name": "longitude",
+            "type": "double"
+          },
+          {
+            "description": "The latitude of the center point.",
+            "name": "latitude",
+            "type": "double"
+          },
+          {
+            "description": "The shape to use to bound the geo search.",
+            "name": "shape",
+            "type": "GeoSearchShape"
+          },
+          {
+            "description": "The maximum number of results to pull back.",
+            "name": "count",
+            "type": "int"
+          },
+          {
+            "description": "Whether to terminate the search after finding count results. Must be true of count is -1.",
+            "name": "demandClosest",
+            "type": "bool"
+          },
+          {
+            "description": "The order to sort by (defaults to unordered).",
+            "name": "order",
+            "type": "Order?"
+          },
+          {
+            "description": "The search options to use.",
+            "name": "options",
+            "type": "GeoRadiusOptions"
+          },
+          {
+            "description": "The flags for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The results found within the shape, if any.",
+          "type": "GeoRadiusResult[]"
+        },
+        "signature": "GeoSearch(RedisKey key, double longitude, double latitude, GeoSearchShape shape, int count = -1, bool demandClosest = true, Order? order = null, GeoRadiusOptions options = GeoRadiusOptions.Default, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "member",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The shape to use to bound the geo search.",
+            "name": "shape",
+            "type": "GeoSearchShape"
+          },
+          {
+            "description": "The maximum number of results to pull back.",
+            "name": "count",
+            "type": "int"
+          },
+          {
+            "description": "Whether to terminate the search after finding count results. Must be true of count is -1.",
+            "name": "demandClosest",
+            "type": "bool"
+          },
+          {
+            "description": "The order to sort by (defaults to unordered).",
+            "name": "order",
+            "type": "Order?"
+          },
+          {
+            "description": "The search options to use.",
+            "name": "options",
+            "type": "GeoRadiusOptions"
+          },
+          {
+            "description": "The flags for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The results found within the shape, if any.",
+          "type": "GeoRadiusResult[]"
+        },
+        "signature": "GeoSearch(RedisKey key, RedisValue member, GeoSearchShape shape, int count = -1, bool demandClosest = true, Order? order = null, GeoRadiusOptions options = GeoRadiusOptions.Default, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The longitude of the center point.",
+            "name": "longitude",
+            "type": "double"
+          },
+          {
+            "description": "The latitude of the center point.",
+            "name": "latitude",
+            "type": "double"
+          },
+          {
+            "description": "The shape to use to bound the geo search.",
+            "name": "shape",
+            "type": "GeoSearchShape"
+          },
+          {
+            "description": "The maximum number of results to pull back.",
+            "name": "count",
+            "type": "int"
+          },
+          {
+            "description": "Whether to terminate the search after finding count results. Must be true of count is -1.",
+            "name": "demandClosest",
+            "type": "bool"
+          },
+          {
+            "description": "The order to sort by (defaults to unordered).",
+            "name": "order",
+            "type": "Order?"
+          },
+          {
+            "description": "The search options to use.",
+            "name": "options",
+            "type": "GeoRadiusOptions"
+          },
+          {
+            "description": "The flags for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The results found within the shape, if any.",
+          "type": "GeoRadiusResult[]"
+        },
+        "signature": "GeoSearch(RedisKey key, double longitude, double latitude, GeoSearchShape shape, int count = -1, bool demandClosest = true, Order? order = null, GeoRadiusOptions options = GeoRadiusOptions.Default, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The key of the set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "member",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The shape to use to bound the geo search.",
+            "name": "shape",
+            "type": "GeoSearchShape"
+          },
+          {
+            "description": "The maximum number of results to pull back.",
+            "name": "count",
+            "type": "int"
+          },
+          {
+            "description": "Whether to terminate the search after finding count results. Must be true of count is -1.",
+            "name": "demandClosest",
+            "type": "bool"
+          },
+          {
+            "description": "The order to sort by (defaults to unordered).",
+            "name": "order",
+            "type": "Order?"
+          },
+          {
+            "description": "The search options to use.",
+            "name": "options",
+            "type": "GeoRadiusOptions"
+          },
+          {
+            "description": "The flags for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The results found within the shape, if any.",
+          "type": "GeoRadiusResult[]"
+        },
+        "signature": "GeoSearch(RedisKey key, RedisValue member, GeoSearchShape shape, int count = -1, bool demandClosest = true, Order? order = null, GeoRadiusOptions options = GeoRadiusOptions.Default, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The longitude of the center point.",
+            "name": "longitude",
+            "type": "double"
+          },
+          {
+            "description": "The latitude of the center point.",
+            "name": "latitude",
+            "type": "double"
+          },
+          {
+            "description": "The shape to use to bound the geo search.",
+            "name": "shape",
+            "type": "GeoSearchShape"
+          },
+          {
+            "description": "The maximum number of results to pull back.",
+            "name": "count",
+            "type": "int"
+          },
+          {
+            "description": "Whether to terminate the search after finding count results. Must be true of count is -1.",
+            "name": "demandClosest",
+            "type": "bool"
+          },
+          {
+            "description": "The order to sort by (defaults to unordered).",
+            "name": "order",
+            "type": "Order?"
+          },
+          {
+            "description": "The search options to use.",
+            "name": "options",
+            "type": "GeoRadiusOptions"
+          },
+          {
+            "description": "The flags for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The results found within the shape, if any.",
+          "type": "GeoRadiusResult[]"
+        },
+        "signature": "GeoSearch(RedisKey key, double longitude, double latitude, GeoSearchShape shape, int count = -1, bool demandClosest = true, Order? order = null, GeoRadiusOptions options = GeoRadiusOptions.Default, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "member",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The shape to use to bound the geo search.",
+            "name": "shape",
+            "type": "GeoSearchShape"
+          },
+          {
+            "description": "The maximum number of results to pull back.",
+            "name": "count",
+            "type": "int"
+          },
+          {
+            "description": "Whether to terminate the search after finding count results. Must be true of count is -1.",
+            "name": "demandClosest",
+            "type": "bool"
+          },
+          {
+            "description": "The order to sort by (defaults to unordered).",
+            "name": "order",
+            "type": "Order?"
+          },
+          {
+            "description": "The search options to use.",
+            "name": "options",
+            "type": "GeoRadiusOptions"
+          },
+          {
+            "description": "The flags for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The results found within the shape, if any.",
+          "type": "GeoRadiusResult[]"
+        },
+        "signature": "GeoSearch(RedisKey key, RedisValue member, GeoSearchShape shape, int count = -1, bool demandClosest = true, Order? order = null, GeoRadiusOptions options = GeoRadiusOptions.Default, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The longitude of the center point.",
+            "name": "longitude",
+            "type": "double"
+          },
+          {
+            "description": "The latitude of the center point.",
+            "name": "latitude",
+            "type": "double"
+          },
+          {
+            "description": "The shape to use to bound the geo search.",
+            "name": "shape",
+            "type": "GeoSearchShape"
+          },
+          {
+            "description": "The maximum number of results to pull back.",
+            "name": "count",
+            "type": "int"
+          },
+          {
+            "description": "Whether to terminate the search after finding count results. Must be true of count is -1.",
+            "name": "demandClosest",
+            "type": "bool"
+          },
+          {
+            "description": "The order to sort by (defaults to unordered).",
+            "name": "order",
+            "type": "Order?"
+          },
+          {
+            "description": "The search options to use.",
+            "name": "options",
+            "type": "GeoRadiusOptions"
+          },
+          {
+            "description": "The flags for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The results found within the shape, if any.",
+          "type": "GeoRadiusResult[]"
+        },
+        "signature": "GeoSearch(RedisKey key, double longitude, double latitude, GeoSearchShape shape, int count = -1, bool demandClosest = true, Order? order = null, GeoRadiusOptions options = GeoRadiusOptions.Default, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$from",
+            "type": "FromInterface"
+          },
+          {
+            "description": "",
+            "name": "$by",
+            "type": "ByInterface"
+          },
+          {
+            "description": "",
+            "name": "?string $sorting = null",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "int $count = -1",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "bool $any = false",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "bool $withCoord = false",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "bool $withDist = false",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "bool $withHash = false",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array"
+        },
+        "signature": "geosearch(string $key, FromInterface $from, ByInterface $by, ?string $sorting = null, int $count = -1, bool $any = false, bool $withCoord = false, bool $withDist = false, bool $withHash = false)"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly"
   ],
@@ -240,24 +1189,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Return the members of a sorted set populated with geospatial information using [`GEOADD`](), which are within the borders of the area specified by a given shape. This command extends the [`GEORADIUS`]() command, so in addition to searching within circular areas, it supports searching within rectangular areas.\n\nThis command should be used in place of the deprecated [`GEORADIUS`]() and [`GEORADIUSBYMEMBER`]() commands.\n\nThe query's center point is provided by one of these mandatory options:\n\n* `FROMMEMBER`: Use the position of the given existing `<member>` in the sorted set.\n* `FROMLONLAT`: Use the given `<longitude>` and `<latitude>` position.\n\nThe query's shape is provided by one of these mandatory options:\n\n* `BYRADIUS`: Similar to [`GEORADIUS`](), search inside circular area according to given `<radius>`.\n* `BYBOX`: Search inside an axis-aligned rectangle, determined by `<height>` and `<width>`.\n\nThe command optionally returns additional information using the following options:\n\n* `WITHDIST`: Also return the distance of the returned items from the specified center point. The distance is returned in the same unit as specified for the radius or height and width arguments.\n* `WITHCOORD`: Also return the longitude and latitude of the matching items.\n* `WITHHASH`: Also return the raw geohash-encoded sorted set score of the item, in the form of a 52 bit unsigned integer. This is only useful for low level hacks or debugging and is otherwise of little interest for the general user.\n\nMatching items are returned unsorted by default. To sort them, use one of the following two options:\n\n* `ASC`: Sort returned items from the nearest to the farthest, relative to the center point.\n* `DESC`: Sort returned items from the farthest to the nearest, relative to the center point.\n\nAll matching items are returned by default. To limit the results to the first N matching items, use the **COUNT `<count>`** option.\nWhen the `ANY` option is used, the command returns as soon as enough matches are found.  This means that the results returned may not be the ones closest to the specified point, but the effort invested by the server to generate them is significantly less.\nWhen `ANY` is not provided, the command will perform an effort that is proportional to the number of items matching the specified area and sort them,\nso to query very large areas with a very small `COUNT` option may be slow even if just a few results are returned.\n\n## Examples\n\n\nGEOADD Sicily 13.361389 38.115556 \"Palermo\" 15.087269 37.502669 \"Catania\"\nGEOADD Sicily 12.758489 38.788135 \"edge1\"   17.241510 38.788135 \"edge2\" \nGEOSEARCH Sicily FROMLONLAT 15 37 BYRADIUS 200 km ASC\nGEOSEARCH Sicily FROMLONLAT 15 37 BYBOX 400 400 km ASC WITHCOORD WITHDIST\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* If no `WITH*` option is specified, an [Array reply](../../develop/reference/protocol-spec#arrays) of matched member names\n* If `WITHCOORD`, `WITHDIST`, or `WITHHASH` options are specified, the command returns an [Array reply](../../develop/reference/protocol-spec#arrays) of arrays, where each sub-array represents a single item:\n    * The distance from the center as a floating point number, in the same unit specified in the radius.\n    * The Geohash integer.\n    * The coordinates as a two items x,y array (longitude,latitude).\n\n**RESP3:**\n\nOne of the following:\n* If no `WITH*` option is specified, an [Array reply](../../develop/reference/protocol-spec#arrays) of matched member names\n* If `WITHCOORD`, `WITHDIST`, or `WITHHASH` options are specified, the command returns an [Array reply](../../develop/reference/protocol-spec#arrays) of arrays, where each sub-array represents a single item:\n    * The distance from the center as a floating point number, in the same unit specified in the radius.\n    * The Geohash integer.\n    * The coordinates as a two items x,y array (longitude,latitude).",
+  "content": "Return the members of a sorted set populated with geospatial information using [`GEOADD`](), which are within the borders of the area specified by a given shape. This command extends the [`GEORADIUS`]() command, so in addition to searching within circular areas, it supports searching within rectangular areas.\n\nThis command should be used in place of the deprecated [`GEORADIUS`]() and [`GEORADIUSBYMEMBER`]() commands.\n\nThe query's center point is provided by one of these mandatory options:\n\n* `FROMMEMBER`: Use the position of the given existing `<member>` in the sorted set.\n* `FROMLONLAT`: Use the given `<longitude>` and `<latitude>` position.\n\nThe query's shape is provided by one of these mandatory options:\n\n* `BYRADIUS`: Similar to [`GEORADIUS`](), search inside circular area according to given `<radius>`.\n* `BYBOX`: Search inside an axis-aligned rectangle, determined by `<height>` and `<width>`.\n\nThe command optionally returns additional information using the following options:\n\n* `WITHDIST`: Also return the distance of the returned items from the specified center point. The distance is returned in the same unit as specified for the radius or height and width arguments.\n* `WITHCOORD`: Also return the longitude and latitude of the matching items.\n* `WITHHASH`: Also return the raw geohash-encoded sorted set score of the item, in the form of a 52 bit unsigned integer. This is only useful for low level hacks or debugging and is otherwise of little interest for the general user.\n\nMatching items are returned unsorted by default. To sort them, use one of the following two options:\n\n* `ASC`: Sort returned items from the nearest to the farthest, relative to the center point.\n* `DESC`: Sort returned items from the farthest to the nearest, relative to the center point.\n\nAll matching items are returned by default. To limit the results to the first N matching items, use the **COUNT `<count>`** option.\nWhen the `ANY` option is used, the command returns as soon as enough matches are found.  This means that the results returned may not be the ones closest to the specified point, but the effort invested by the server to generate them is significantly less.\nWhen `ANY` is not provided, the command will perform an effort that is proportional to the number of items matching the specified area and sort them,\nso to query very large areas with a very small `COUNT` option may be slow even if just a few results are returned.\n\n## Examples\n\n{{% redis-cli %}}\nGEOADD Sicily 13.361389 38.115556 \"Palermo\" 15.087269 37.502669 \"Catania\"\nGEOADD Sicily 12.758489 38.788135 \"edge1\"   17.241510 38.788135 \"edge2\" \nGEOSEARCH Sicily FROMLONLAT 15 37 BYRADIUS 200 km ASC\nGEOSEARCH Sicily FROMLONLAT 15 37 BYBOX 400 400 km ASC WITHCOORD WITHDIST\n{{% /redis-cli %}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"geosearch-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* If no `WITH*` option is specified, an [Array reply](../../develop/reference/protocol-spec#arrays) of matched member names\n* If `WITHCOORD`, `WITHDIST`, or `WITHHASH` options are specified, the command returns an [Array reply](../../develop/reference/protocol-spec#arrays) of arrays, where each sub-array represents a single item:\n    * The distance from the center as a floating point number, in the same unit specified in the radius.\n    * The Geohash integer.\n    * The coordinates as a two items x,y array (longitude,latitude).\n\n-tab-sep-\n\nOne of the following:\n* If no `WITH*` option is specified, an [Array reply](../../develop/reference/protocol-spec#arrays) of matched member names\n* If `WITHCOORD`, `WITHDIST`, or `WITHHASH` options are specified, the command returns an [Array reply](../../develop/reference/protocol-spec#arrays) of arrays, where each sub-array represents a single item:\n    * The distance from the center as a floating point number, in the same unit specified in the radius.\n    * The Geohash integer.\n    * The coordinates as a two items x,y array (longitude,latitude).\n\n{{< /multitabs >}}",
+  "example": "GEOADD Sicily 13.361389 38.115556 \"Palermo\" 15.087269 37.502669 \"Catania\"\nGEOADD Sicily 12.758489 38.788135 \"edge1\"   17.241510 38.788135 \"edge2\" \nGEOSEARCH Sicily FROMLONLAT 15 37 BYRADIUS 200 km ASC\nGEOSEARCH Sicily FROMLONLAT 15 37 BYBOX 400 400 km ASC WITHCOORD WITHDIST",
   "intro": "Return the members of a sorted set populated with geospatial information using [`GEOADD`](), which are within the borders of the area specified by a given shape. This command extends the [`GEORADIUS`]() command, so in addition to searching within circular areas, it supports searching within rectangular areas.\n\nThis command should be used in place of the deprecated [`GEORADIUS`]() and [`GEORADIUSBYMEMBER`]() commands.\n\nThe query's center point is provided by one of these mandatory options:\n\n* `FROMMEMBER`: Use the position of the given existing `<member>` in the sorted set.\n* `FROMLONLAT`: Use the given `<longitude>` and `<latitude>` position.\n\nThe query's shape is provided by one of these mandatory options:\n\n* `BYRADIUS`: Similar to [`GEORADIUS`](), search inside circular area according to given `<radius>`.\n* `BYBOX`: Search inside an axis-aligned rectangle, determined by `<height>` and `<width>`.\n\nThe command optionally returns additional information using the following options:\n\n* `WITHDIST`: Also return the distance of the returned items from the specified center point. The distance is returned in the same unit as specified for the radius or height and width arguments.\n* `WITHCOORD`: Also return the longitude and latitude of the matching items.\n* `WITHHASH`: Also return the raw geohash-encoded sorted set score of the item, in the form of a 52 bit unsigned integer. This is only useful for low level hacks or debugging and is otherwise of little interest for the general user.\n\nMatching items are returned unsorted by default. To sort them, use one of the following two options:\n\n* `ASC`: Sort returned items from the nearest to the farthest, relative to the center point.\n* `DESC`: Sort returned items from the farthest to the nearest, relative to the center point.\n\nAll matching items are returned by default. To limit the results to the first N matching items, use the **COUNT `<count>`** option.\nWhen the `ANY` option is used, the command returns as soon as enough matches are found.  This means that the results returned may not be the ones closest to the specified point, but the effort invested by the server to generate them is significantly less.\nWhen `ANY` is not provided, the command will perform an effort that is proportional to the number of items matching the specified area and sort them,\nso to query very large areas with a very small `COUNT` option may be slow even if just a few results are returned.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -267,7 +1205,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "GEOADD Sicily 13.361389 38.115556 \"Palermo\" 15.087269 37.502669 \"Catania\"\nGEOADD Sicily 12.758489 38.788135 \"edge1\"   17.241510 38.788135 \"edge2\" \nGEOSEARCH Sicily FROMLONLAT 15 37 BYRADIUS 200 km ASC\nGEOSEARCH Sicily FROMLONLAT 15 37 BYBOX 400 400 km ASC WITHCOORD WITHDIST"
+      "content": "{{% redis-cli %}}\nGEOADD Sicily 13.361389 38.115556 \"Palermo\" 15.087269 37.502669 \"Catania\"\nGEOADD Sicily 12.758489 38.788135 \"edge1\"   17.241510 38.788135 \"edge2\" \nGEOSEARCH Sicily FROMLONLAT 15 37 BYRADIUS 200 km ASC\nGEOSEARCH Sicily FROMLONLAT 15 37 BYBOX 400 400 km ASC WITHCOORD WITHDIST\n{{% /redis-cli %}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -277,7 +1215,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* If no `WITH*` option is specified, an [Array reply](../../develop/reference/protocol-spec#arrays) of matched member names\n* If `WITHCOORD`, `WITHDIST`, or `WITHHASH` options are specified, the command returns an [Array reply](../../develop/reference/protocol-spec#arrays) of arrays, where each sub-array represents a single item:\n    * The distance from the center as a floating point number, in the same unit specified in the radius.\n    * The Geohash integer.\n    * The coordinates as a two items x,y array (longitude,latitude).\n\n**RESP3:**\n\nOne of the following:\n* If no `WITH*` option is specified, an [Array reply](../../develop/reference/protocol-spec#arrays) of matched member names\n* If `WITHCOORD`, `WITHDIST`, or `WITHHASH` options are specified, the command returns an [Array reply](../../develop/reference/protocol-spec#arrays) of arrays, where each sub-array represents a single item:\n    * The distance from the center as a floating point number, in the same unit specified in the radius.\n    * The Geohash integer.\n    * The coordinates as a two items x,y array (longitude,latitude)."
+      "content": "{{< multitabs id=\"geosearch-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* If no `WITH*` option is specified, an [Array reply](../../develop/reference/protocol-spec#arrays) of matched member names\n* If `WITHCOORD`, `WITHDIST`, or `WITHHASH` options are specified, the command returns an [Array reply](../../develop/reference/protocol-spec#arrays) of arrays, where each sub-array represents a single item:\n    * The distance from the center as a floating point number, in the same unit specified in the radius.\n    * The Geohash integer.\n    * The coordinates as a two items x,y array (longitude,latitude).\n\n-tab-sep-\n\nOne of the following:\n* If no `WITH*` option is specified, an [Array reply](../../develop/reference/protocol-spec#arrays) of matched member names\n* If `WITHCOORD`, `WITHDIST`, or `WITHHASH` options are specified, the command returns an [Array reply](../../develop/reference/protocol-spec#arrays) of arrays, where each sub-array represents a single item:\n    * The distance from the center as a floating point number, in the same unit specified in the radius.\n    * The Geohash integer.\n    * The coordinates as a two items x,y array (longitude,latitude).\n\n{{< /multitabs >}}"
     }
   ]
 }

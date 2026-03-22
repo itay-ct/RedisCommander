@@ -14,6 +14,389 @@
     "@read",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "str"
+          },
+          {
+            "description": "",
+            "name": "*args",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "no_escape",
+            "type": "Optional[bool] = False"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Optional[List[JsonType]]"
+        },
+        "signature": "get(name: str, *args, no_escape: Optional[bool] = False)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "*args",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "jsonget(*args, **kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Object"
+        },
+        "signature": "Object jsonGet(String key)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "clazz",
+            "type": "Class<T>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "<T> T"
+        },
+        "signature": "<T> T jsonGet(String key, Class<T> clazz)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "paths",
+            "type": "Path..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Object"
+        },
+        "signature": "Object jsonGet(String key, Path... paths)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "clazz",
+            "type": "Class<T>"
+          },
+          {
+            "description": "",
+            "name": "paths",
+            "type": "Path..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "<T> T"
+        },
+        "signature": "<T> T jsonGet(String key, Class<T> clazz, Path... paths)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Object"
+        },
+        "signature": "Object jsonGet(String key)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "options",
+            "type": "JsonGetArgs"
+          },
+          {
+            "description": "the JsonPaths to use to identify the values to get.",
+            "name": "jsonPaths",
+            "type": "JsonPath..."
+          }
+        ],
+        "returns": {
+          "description": "JsonValue the value at path in JSON serialized form, or null if the path does not exist. @since 6.5",
+          "type": "List<JsonValue>"
+        },
+        "signature": "List<JsonValue> jsonGet(K key, JsonGetArgs options, JsonPath... jsonPaths)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the JsonPaths to use to identify the values to get.",
+            "name": "jsonPaths",
+            "type": "JsonPath..."
+          }
+        ],
+        "returns": {
+          "description": "JsonValue the value at path in JSON serialized form, or null if the path does not exist. @since 6.5",
+          "type": "List<JsonValue>"
+        },
+        "signature": "List<JsonValue> jsonGet(K key, JsonPath... jsonPaths)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "options",
+            "type": "JsonGetArgs"
+          },
+          {
+            "description": "the JsonPaths to use to identify the values to get.",
+            "name": "jsonPaths",
+            "type": "JsonPath..."
+          }
+        ],
+        "returns": {
+          "description": "JsonValue the value at path in JSON serialized form, or null if the path does not exist. @since 6.5",
+          "type": "RedisFuture<List<JsonValue>>"
+        },
+        "signature": "RedisFuture<List<JsonValue>> jsonGet(K key, JsonGetArgs options, JsonPath... jsonPaths)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the JsonPaths to use to identify the values to get.",
+            "name": "jsonPaths",
+            "type": "JsonPath..."
+          }
+        ],
+        "returns": {
+          "description": "JsonValue the value at path in JSON serialized form, or null if the path does not exist. @since 6.5",
+          "type": "RedisFuture<List<JsonValue>>"
+        },
+        "signature": "RedisFuture<List<JsonValue>> jsonGet(K key, JsonPath... jsonPaths)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "options",
+            "type": "JsonGetArgs"
+          },
+          {
+            "description": "the JsonPaths to use to identify the values to get.",
+            "name": "jsonPaths",
+            "type": "JsonPath..."
+          }
+        ],
+        "returns": {
+          "description": "JsonValue the value at path in JSON serialized form, or null if the path does not exist. @since 6.5",
+          "type": "Flux<JsonValue>"
+        },
+        "signature": "Flux<JsonValue> jsonGet(K key, JsonGetArgs options, JsonPath... jsonPaths)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the JsonPaths to use to identify the values to get.",
+            "name": "jsonPaths",
+            "type": "JsonPath..."
+          }
+        ],
+        "returns": {
+          "description": "JsonValue the value at path in JSON serialized form, or null if the path does not exist. @since 6.5",
+          "type": "Flux<JsonValue>"
+        },
+        "signature": "Flux<JsonValue> jsonGet(K key, JsonPath... jsonPaths)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "paths",
+            "type": "...string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*JSONCmd"
+        },
+        "signature": "JSONGet(ctx context.Context, key string, paths ...string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "options?",
+            "type": "JsonGetOptions"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "GET(key: RedisArgument, options?: JsonGetOptions)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "serializerOptions",
+            "type": "JsonSerializerOptions?"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "public T?"
+        },
+        "signature": "Get<T>(RedisKey key, string path = \"$\", JsonSerializerOptions? serializerOptions = null)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "string $indent = ''",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "string $newline = ''",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "string $space = ''",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "$paths",
+            "type": "string ..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "mixed"
+        },
+        "signature": "jsonget(string $key, string $indent = '', string $newline = '', string $space = '', string ...$paths)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -57,40 +440,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "optional-arguments",
-        "title": "Optional arguments"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      },
-      {
-        "id": "see-also",
-        "title": "See also"
-      },
-      {
-        "id": "related-topics",
-        "title": "Related topics"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Return the value at `path` in JSON serialized form\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open><summary><code>key</code></summary> \n\nis key to parse.\n</details>\n\n## Optional arguments\n\n<details open><summary><code>path</code></summary> \n\nis JSONPath to specify. Default is root `$`. JSON.GET accepts multiple `path` arguments.\n\n\n\nWhen using a single JSONPath, the root of the matching values is a JSON string with a top-level **array** of serialized JSON value. \nIn contrast, a legacy path returns a single value.\n\nWhen using multiple JSONPath arguments, the root of the matching values is a JSON string with a top-level **object**, with each object value being a top-level array of serialized JSON value.\nIn contrast, if all paths are legacy paths, each object value is a single serialized JSON value.\nIf there are multiple paths that include both legacy path and JSONPath, the returned value conforms to the JSONPath version (an array of values).\n\n\n\n</details>\n\n<details open><summary><code>INDENT</code></summary> \n\nsets the indentation string for nested levels.\n</details>\n\n<details open><summary><code>NEWLINE</code></summary> \n\nsets the string that's printed at the end of each line.\n</details>\n\n<details open><summary><code>SPACE</code></summary> \n\nsets the string that's put between a key and a value.\n</details>\n \nProduce pretty-formatted JSON with `redis-cli` by following this example:\n\n\n~/$ redis-cli --raw\nredis> JSON.GET myjsonkey INDENT \"\\t\" NEWLINE \"\\n\" SPACE \" \" path.to.value[1]\n\n\n## Examples\n\n<details open>\n<summary><b>Return the value at <code>path</code> in JSON serialized form</b></summary>\n\nCreate a JSON document.\n\n\nredis> JSON.SET doc $ '{\"a\":2, \"b\": 3, \"nested\": {\"a\": 4, \"b\": null}}'\nOK\n\n\nWith a single JSONPath (JSON array bulk string):\n\n\nredis>  JSON.GET doc $..b\n\"[3,null]\"\n\n\nUsing multiple paths with at least one JSONPath returns a JSON string with a top-level object with an array of JSON values per path:\n\n\nredis> JSON.GET doc ..a $..b\n\"{\\\"$..b\\\":[3,null],\\\"..a\\\":[2,4]}\"\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Bulk string reply](): a JSON-encoded string representing the value(s) at the specified path(s).\n\nWith a single path, returns the JSON serialization of the value at that path.\nWith multiple paths, returns a JSON object where each key is a path and each value is an array of JSON serializations.\n\n**RESP3:**\n\n[Bulk string reply](): a JSON-encoded string with a top-level array containing the value(s) at the specified path(s).\n\nWith a single path using `$` (default in RESP3), returns a JSON array containing the serialized value.\nWith multiple paths, returns a JSON object where each key is a path and each value is an array of JSON serializations.\n\n\n\n## See also\n\n[`JSON.SET`]() | [`JSON.MGET`]() \n\n## Related topics\n\n* [RedisJSON]()\n* [Index and search JSON documents]()",
+  "content": "Return the value at `path` in JSON serialized form\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open><summary><code>key</code></summary> \n\nis key to parse.\n</details>\n\n## Optional arguments\n\n<details open><summary><code>path</code></summary> \n\nis JSONPath to specify. Default is root `$`. JSON.GET accepts multiple `path` arguments.\n\n{{% alert title=\"Note\" color=\"warning\" %}}\n\nWhen using a single JSONPath, the root of the matching values is a JSON string with a top-level **array** of serialized JSON value. \nIn contrast, a legacy path returns a single value.\n\nWhen using multiple JSONPath arguments, the root of the matching values is a JSON string with a top-level **object**, with each object value being a top-level array of serialized JSON value.\nIn contrast, if all paths are legacy paths, each object value is a single serialized JSON value.\nIf there are multiple paths that include both legacy path and JSONPath, the returned value conforms to the JSONPath version (an array of values).\n\n{{% /alert %}}\n\n</details>\n\n<details open><summary><code>INDENT</code></summary> \n\nsets the indentation string for nested levels.\n</details>\n\n<details open><summary><code>NEWLINE</code></summary> \n\nsets the string that's printed at the end of each line.\n</details>\n\n<details open><summary><code>SPACE</code></summary> \n\nsets the string that's put between a key and a value.\n</details>\n \nProduce pretty-formatted JSON with `redis-cli` by following this example:\n\n{{< highlight bash >}}\n~/$ redis-cli --raw\nredis> JSON.GET myjsonkey INDENT \"\\t\" NEWLINE \"\\n\" SPACE \" \" path.to.value[1]\n{{< / highlight >}}\n\n## Examples\n\n<details open>\n<summary><b>Return the value at <code>path</code> in JSON serialized form</b></summary>\n\nCreate a JSON document.\n\n{{< highlight bash >}}\nredis> JSON.SET doc $ '{\"a\":2, \"b\": 3, \"nested\": {\"a\": 4, \"b\": null}}'\nOK\n{{< / highlight >}}\n\nWith a single JSONPath (JSON array bulk string):\n\n{{< highlight bash >}}\nredis>  JSON.GET doc $..b\n\"[3,null]\"\n{{< / highlight >}}\n\nUsing multiple paths with at least one JSONPath returns a JSON string with a top-level object with an array of JSON values per path:\n\n{{< highlight bash >}}\nredis> JSON.GET doc ..a $..b\n\"{\\\"$..b\\\":[3,null],\\\"..a\\\":[2,4]}\"\n{{< / highlight >}}\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"json-get-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\n[Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}): a JSON-encoded string representing the value(s) at the specified path(s).\n\nWith a single path, returns the JSON serialization of the value at that path.\nWith multiple paths, returns a JSON object where each key is a path and each value is an array of JSON serializations.\n\n-tab-sep-\n\n[Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}): a JSON-encoded string with a top-level array containing the value(s) at the specified path(s).\n\nWith a single path using `$` (default in RESP3), returns a JSON array containing the serialized value.\nWith multiple paths, returns a JSON object where each key is a path and each value is an array of JSON serializations.\n\n{{< /multitabs >}}\n\n## See also\n\n[`JSON.SET`]({{< relref \"commands/json.set/\" >}}) | [`JSON.MGET`]({{< relref \"commands/json.mget/\" >}}) \n\n## Related topics\n\n* [RedisJSON]({{< relref \"/develop/data-types/json/\" >}})\n* [Index and search JSON documents]({{< relref \"/develop/ai/search-and-query/indexing/\" >}})",
+  "example": "redis> JSON.SET doc $ '{\"a\":2, \"b\": 3, \"nested\": {\"a\": 4, \"b\": null}}'\nOK",
   "intro": "Return the value at `path` in JSON serialized form\n\n[Examples](#examples)",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -105,12 +461,12 @@
     {
       "title": "Optional arguments",
       "level": 2,
-      "content": "<details open><summary><code>path</code></summary> \n\nis JSONPath to specify. Default is root `$`. JSON.GET accepts multiple `path` arguments.\n\n\n\nWhen using a single JSONPath, the root of the matching values is a JSON string with a top-level **array** of serialized JSON value. \nIn contrast, a legacy path returns a single value.\n\nWhen using multiple JSONPath arguments, the root of the matching values is a JSON string with a top-level **object**, with each object value being a top-level array of serialized JSON value.\nIn contrast, if all paths are legacy paths, each object value is a single serialized JSON value.\nIf there are multiple paths that include both legacy path and JSONPath, the returned value conforms to the JSONPath version (an array of values).\n\n\n\n</details>\n\n<details open><summary><code>INDENT</code></summary> \n\nsets the indentation string for nested levels.\n</details>\n\n<details open><summary><code>NEWLINE</code></summary> \n\nsets the string that's printed at the end of each line.\n</details>\n\n<details open><summary><code>SPACE</code></summary> \n\nsets the string that's put between a key and a value.\n</details>\n \nProduce pretty-formatted JSON with `redis-cli` by following this example:\n\n\n~/$ redis-cli --raw\nredis> JSON.GET myjsonkey INDENT \"\\t\" NEWLINE \"\\n\" SPACE \" \" path.to.value[1]"
+      "content": "<details open><summary><code>path</code></summary> \n\nis JSONPath to specify. Default is root `$`. JSON.GET accepts multiple `path` arguments.\n\n{{% alert title=\"Note\" color=\"warning\" %}}\n\nWhen using a single JSONPath, the root of the matching values is a JSON string with a top-level **array** of serialized JSON value. \nIn contrast, a legacy path returns a single value.\n\nWhen using multiple JSONPath arguments, the root of the matching values is a JSON string with a top-level **object**, with each object value being a top-level array of serialized JSON value.\nIn contrast, if all paths are legacy paths, each object value is a single serialized JSON value.\nIf there are multiple paths that include both legacy path and JSONPath, the returned value conforms to the JSONPath version (an array of values).\n\n{{% /alert %}}\n\n</details>\n\n<details open><summary><code>INDENT</code></summary> \n\nsets the indentation string for nested levels.\n</details>\n\n<details open><summary><code>NEWLINE</code></summary> \n\nsets the string that's printed at the end of each line.\n</details>\n\n<details open><summary><code>SPACE</code></summary> \n\nsets the string that's put between a key and a value.\n</details>\n \nProduce pretty-formatted JSON with `redis-cli` by following this example:\n\n{{< highlight bash >}}\n~/$ redis-cli --raw\nredis> JSON.GET myjsonkey INDENT \"\\t\" NEWLINE \"\\n\" SPACE \" \" path.to.value[1]\n{{< / highlight >}}"
     },
     {
       "title": "Examples",
       "level": 2,
-      "content": "<details open>\n<summary><b>Return the value at <code>path</code> in JSON serialized form</b></summary>\n\nCreate a JSON document.\n\n\nredis> JSON.SET doc $ '{\"a\":2, \"b\": 3, \"nested\": {\"a\": 4, \"b\": null}}'\nOK\n\n\nWith a single JSONPath (JSON array bulk string):\n\n\nredis>  JSON.GET doc $..b\n\"[3,null]\"\n\n\nUsing multiple paths with at least one JSONPath returns a JSON string with a top-level object with an array of JSON values per path:\n\n\nredis> JSON.GET doc ..a $..b\n\"{\\\"$..b\\\":[3,null],\\\"..a\\\":[2,4]}\"\n\n</details>"
+      "content": "<details open>\n<summary><b>Return the value at <code>path</code> in JSON serialized form</b></summary>\n\nCreate a JSON document.\n\n{{< highlight bash >}}\nredis> JSON.SET doc $ '{\"a\":2, \"b\": 3, \"nested\": {\"a\": 4, \"b\": null}}'\nOK\n{{< / highlight >}}\n\nWith a single JSONPath (JSON array bulk string):\n\n{{< highlight bash >}}\nredis>  JSON.GET doc $..b\n\"[3,null]\"\n{{< / highlight >}}\n\nUsing multiple paths with at least one JSONPath returns a JSON string with a top-level object with an array of JSON values per path:\n\n{{< highlight bash >}}\nredis> JSON.GET doc ..a $..b\n\"{\\\"$..b\\\":[3,null],\\\"..a\\\":[2,4]}\"\n{{< / highlight >}}\n</details>"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -120,17 +476,17 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Bulk string reply](): a JSON-encoded string representing the value(s) at the specified path(s).\n\nWith a single path, returns the JSON serialization of the value at that path.\nWith multiple paths, returns a JSON object where each key is a path and each value is an array of JSON serializations.\n\n**RESP3:**\n\n[Bulk string reply](): a JSON-encoded string with a top-level array containing the value(s) at the specified path(s).\n\nWith a single path using `$` (default in RESP3), returns a JSON array containing the serialized value.\nWith multiple paths, returns a JSON object where each key is a path and each value is an array of JSON serializations."
+      "content": "{{< multitabs id=\"json-get-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\n[Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}): a JSON-encoded string representing the value(s) at the specified path(s).\n\nWith a single path, returns the JSON serialization of the value at that path.\nWith multiple paths, returns a JSON object where each key is a path and each value is an array of JSON serializations.\n\n-tab-sep-\n\n[Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}): a JSON-encoded string with a top-level array containing the value(s) at the specified path(s).\n\nWith a single path using `$` (default in RESP3), returns a JSON array containing the serialized value.\nWith multiple paths, returns a JSON object where each key is a path and each value is an array of JSON serializations.\n\n{{< /multitabs >}}"
     },
     {
       "title": "See also",
       "level": 2,
-      "content": "[`JSON.SET`]() | [`JSON.MGET`]()"
+      "content": "[`JSON.SET`]({{< relref \"commands/json.set/\" >}}) | [`JSON.MGET`]({{< relref \"commands/json.mget/\" >}})"
     },
     {
       "title": "Related topics",
       "level": 2,
-      "content": "* [RedisJSON]()\n* [Index and search JSON documents]()"
+      "content": "* [RedisJSON]({{< relref \"/develop/data-types/json/\" >}})\n* [Index and search JSON documents]({{< relref \"/develop/ai/search-and-query/indexing/\" >}})"
     }
   ]
 }

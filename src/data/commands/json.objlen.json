@@ -14,6 +14,277 @@
     "@read",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "str"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "Optional[str] = Path.root_path()"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List[Optional[int]]"
+        },
+        "signature": "objlen(name: str, path: Optional[str] = Path.root_path())"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Long"
+        },
+        "signature": "Long jsonObjLen(String key)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "Path"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Long"
+        },
+        "signature": "Long jsonObjLen(String key, Path path)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "Path2"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List<Long>"
+        },
+        "signature": "List<Long> jsonObjLen(String key, Path2 path)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "jsonPath",
+            "type": "JsonPath"
+          }
+        ],
+        "returns": {
+          "description": "Long the number of keys in the JSON object at the specified path, or null if the path does not exist. @since 6.5",
+          "type": "List<Long>"
+        },
+        "signature": "List<Long> jsonObjlen(K key, JsonPath jsonPath)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "Long the number of keys in the JSON object at the specified path, or null if the path does not exist. @since 6.5",
+          "type": "List<Long>"
+        },
+        "signature": "List<Long> jsonObjlen(K key)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "jsonPath",
+            "type": "JsonPath"
+          }
+        ],
+        "returns": {
+          "description": "Long the number of keys in the JSON object at the specified path, or null if the path does not exist. @since 6.5",
+          "type": "RedisFuture<List<Long>>"
+        },
+        "signature": "RedisFuture<List<Long>> jsonObjlen(K key, JsonPath jsonPath)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "Long the number of keys in the JSON object at the specified path, or null if the path does not exist. @since 6.5",
+          "type": "RedisFuture<List<Long>>"
+        },
+        "signature": "RedisFuture<List<Long>> jsonObjlen(K key)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "jsonPath",
+            "type": "JsonPath"
+          }
+        ],
+        "returns": {
+          "description": "Long the number of keys in the JSON object at the specified path, or null if the path does not exist. @since 6.5",
+          "type": "Flux<Long>"
+        },
+        "signature": "Flux<Long> jsonObjlen(K key, JsonPath jsonPath)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "Long the number of keys in the JSON object at the specified path, or null if the path does not exist. @since 6.5",
+          "type": "Flux<Long>"
+        },
+        "signature": "Flux<Long> jsonObjlen(K key)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*IntPointerSliceCmd"
+        },
+        "signature": "JSONObjLen(ctx context.Context, key, path string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "options?",
+            "type": "JsonObjLenOptions"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "OBJLEN(key: RedisArgument, options?: JsonObjLenOptions)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "string?"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "long?[]"
+        },
+        "signature": "ObjLen(RedisKey key, string? path = null)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "string $path = '$'",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array"
+        },
+        "signature": "jsonobjlen(string $key, string $path = '$')"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -38,40 +309,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "optional-arguments",
-        "title": "Optional arguments"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      },
-      {
-        "id": "see-also",
-        "title": "See also"
-      },
-      {
-        "id": "related-topics",
-        "title": "Related topics"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Report the number of keys in the JSON object at `path` in `key`\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open><summary><code>key</code></summary> \n\nis key to parse. Returns `null` for nonexistent keys.\n</details>\n\n## Optional arguments\n\n<details open><summary><code>path</code></summary> \n\nis JSONPath to specify. Default is root `$`. Returns `null` for nonexistant path.\n\n</details>\n\n## Examples\n\n\nredis> JSON.SET doc $ '{\"a\":[3], \"nested\": {\"a\": {\"b\":2, \"c\": 1}}}'\nOK\nredis> JSON.OBJLEN doc $..a\n1) (nil)\n2) (integer) 2\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nWith `$`-based path argument: [Array reply]() of [integer replies]() or [null replies](), where each element is the number of keys in the object, or `null` if the matching value is not an object.\n\nWith `.`-based path argument: [Integer reply]() representing the number of keys in the object, or [null reply]() if the matching value is not an object.\n\n**RESP3:**\n\nWith `$`-based path argument (default): [Array reply]() of [integer replies]() or [null replies](), where each element is the number of keys in the object, or `null` if the matching value is not an object.\n\nWith `.`-based path argument: [Integer reply]() representing the number of keys in the object, or [null reply]() if the matching value is not an object.\n\n\n\n## See also\n\n[`JSON.ARRINDEX`]() | [`JSON.ARRINSERT`]() \n\n## Related topics\n\n* [RedisJSON]()\n* [Index and search JSON documents]()",
+  "content": "Report the number of keys in the JSON object at `path` in `key`\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open><summary><code>key</code></summary> \n\nis key to parse. Returns `null` for nonexistent keys.\n</details>\n\n## Optional arguments\n\n<details open><summary><code>path</code></summary> \n\nis JSONPath to specify. Default is root `$`. Returns `null` for nonexistant path.\n\n</details>\n\n## Examples\n\n{{< highlight bash >}}\nredis> JSON.SET doc $ '{\"a\":[3], \"nested\": {\"a\": {\"b\":2, \"c\": 1}}}'\nOK\nredis> JSON.OBJLEN doc $..a\n1) (nil)\n2) (integer) 2\n{{< / highlight >}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"json-objlen-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\nWith `$`-based path argument: [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [integer replies]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) or [null replies]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}), where each element is the number of keys in the object, or `null` if the matching value is not an object.\n\nWith `.`-based path argument: [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) representing the number of keys in the object, or [null reply]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}) if the matching value is not an object.\n\n-tab-sep-\n\nWith `$`-based path argument (default): [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [integer replies]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) or [null replies]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}), where each element is the number of keys in the object, or `null` if the matching value is not an object.\n\nWith `.`-based path argument: [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) representing the number of keys in the object, or [null reply]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}) if the matching value is not an object.\n\n{{< /multitabs >}}\n\n## See also\n\n[`JSON.ARRINDEX`]({{< relref \"commands/json.arrindex/\" >}}) | [`JSON.ARRINSERT`]({{< relref \"commands/json.arrinsert/\" >}}) \n\n## Related topics\n\n* [RedisJSON]({{< relref \"/develop/data-types/json/\" >}})\n* [Index and search JSON documents]({{< relref \"/develop/ai/search-and-query/indexing/\" >}})",
+  "example": "redis> JSON.SET doc $ '{\"a\":[3], \"nested\": {\"a\": {\"b\":2, \"c\": 1}}}'\nOK\nredis> JSON.OBJLEN doc $..a\n1) (nil)\n2) (integer) 2",
   "intro": "Report the number of keys in the JSON object at `path` in `key`\n\n[Examples](#examples)",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -91,7 +335,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "redis> JSON.SET doc $ '{\"a\":[3], \"nested\": {\"a\": {\"b\":2, \"c\": 1}}}'\nOK\nredis> JSON.OBJLEN doc $..a\n1) (nil)\n2) (integer) 2"
+      "content": "{{< highlight bash >}}\nredis> JSON.SET doc $ '{\"a\":[3], \"nested\": {\"a\": {\"b\":2, \"c\": 1}}}'\nOK\nredis> JSON.OBJLEN doc $..a\n1) (nil)\n2) (integer) 2\n{{< / highlight >}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -101,17 +345,17 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nWith `$`-based path argument: [Array reply]() of [integer replies]() or [null replies](), where each element is the number of keys in the object, or `null` if the matching value is not an object.\n\nWith `.`-based path argument: [Integer reply]() representing the number of keys in the object, or [null reply]() if the matching value is not an object.\n\n**RESP3:**\n\nWith `$`-based path argument (default): [Array reply]() of [integer replies]() or [null replies](), where each element is the number of keys in the object, or `null` if the matching value is not an object.\n\nWith `.`-based path argument: [Integer reply]() representing the number of keys in the object, or [null reply]() if the matching value is not an object."
+      "content": "{{< multitabs id=\"json-objlen-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\nWith `$`-based path argument: [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [integer replies]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) or [null replies]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}), where each element is the number of keys in the object, or `null` if the matching value is not an object.\n\nWith `.`-based path argument: [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) representing the number of keys in the object, or [null reply]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}) if the matching value is not an object.\n\n-tab-sep-\n\nWith `$`-based path argument (default): [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [integer replies]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) or [null replies]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}), where each element is the number of keys in the object, or `null` if the matching value is not an object.\n\nWith `.`-based path argument: [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) representing the number of keys in the object, or [null reply]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}) if the matching value is not an object.\n\n{{< /multitabs >}}"
     },
     {
       "title": "See also",
       "level": 2,
-      "content": "[`JSON.ARRINDEX`]() | [`JSON.ARRINSERT`]()"
+      "content": "[`JSON.ARRINDEX`]({{< relref \"commands/json.arrindex/\" >}}) | [`JSON.ARRINSERT`]({{< relref \"commands/json.arrinsert/\" >}})"
     },
     {
       "title": "Related topics",
       "level": 2,
-      "content": "* [RedisJSON]()\n* [Index and search JSON documents]()"
+      "content": "* [RedisJSON]({{< relref \"/develop/data-types/json/\" >}})\n* [Index and search JSON documents]({{< relref \"/develop/ai/search-and-query/indexing/\" >}})"
     }
   ]
 }

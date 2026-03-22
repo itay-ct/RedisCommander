@@ -14,6 +14,516 @@
     "@set",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keys",
+            "type": "List"
+          },
+          {
+            "description": "",
+            "name": "*args",
+            "type": "List"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Union[Awaitable[list], list]"
+        },
+        "signature": "sinter(keys: List, *args: List)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keys",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "A set with members of the resulting set",
+          "type": "Set<String>"
+        },
+        "signature": "Set<String> sinter(final String... keys)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "Long count of members of the resulting set.",
+          "type": "Set<V>"
+        },
+        "signature": "Set<V> sinter(K... keys)"
+      },
+      {
+        "params": [
+          {
+            "description": "the channel.",
+            "name": "channel",
+            "type": "ValueStreamingChannel<V>"
+          },
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "Long count of members of the resulting set.",
+          "type": "Long"
+        },
+        "signature": "Long sinter(ValueStreamingChannel<V> channel, K... keys)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "Long count of members of the resulting set.",
+          "type": "RedisFuture<Set<V>>"
+        },
+        "signature": "RedisFuture<Set<V>> sinter(K... keys)"
+      },
+      {
+        "params": [
+          {
+            "description": "the channel.",
+            "name": "channel",
+            "type": "ValueStreamingChannel<V>"
+          },
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "Long count of members of the resulting set.",
+          "type": "RedisFuture<Long>"
+        },
+        "signature": "RedisFuture<Long> sinter(ValueStreamingChannel<V> channel, K... keys)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "Long count of members of the resulting set. @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #sinter.",
+          "type": "Flux<V>"
+        },
+        "signature": "Flux<V> sinter(K... keys)"
+      },
+      {
+        "params": [
+          {
+            "description": "the channel.",
+            "name": "channel",
+            "type": "ValueStreamingChannel<V>"
+          },
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "Long count of members of the resulting set. @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #sinter.",
+          "type": "Mono<Long>"
+        },
+        "signature": "Mono<Long> sinter(ValueStreamingChannel<V> channel, K... keys)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "...string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StringSliceCmd"
+        },
+        "signature": "SInter(ctx context.Context, keys ...string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keys",
+            "type": "RedisVariadicArgument"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "SINTER(keys: RedisVariadicArgument)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[...keys"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "sinter(...args: [...keys: RedisKey[], callback: Callback<string[]>])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[keys"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "sinter(...args: [keys: RedisKey[], callback: Callback<string[]>])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[...keys"
+          },
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, numkeys"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "sinter(...args: [...keys: RedisKey[]]): Result<string[], Context>;, sinterBuffer(...args: [...keys: RedisKey[]]): Result<Buffer[], Context>;, sinter(...args: [keys: RedisKey[]]): Result<string[], Context>;, sinterBuffer(...args: [keys: RedisKey[]]): Result<Buffer[], Context>;, /**, * Intersect multiple sets and return the cardinality of the result, * - _group_: set, * - _complexity_: O(N*M) worst case where N is the cardinality of the smallest set and M is the number of sets., * - _since_: 7.0.0, */, sintercard(, ...args: [, numkeys: number | string, ...keys: RedisKey[], callback: Callback<number>, ])"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keys",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(HashSet<String>)"
+        },
+        "signature": "sinter(keys: K)"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keys",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(HashSet<String>)"
+        },
+        "signature": "sinter(keys: K)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The operation to perform.",
+            "name": "operation",
+            "type": "SetOperation"
+          },
+          {
+            "description": "",
+            "name": "first",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "second",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "List with members of the resulting set.",
+          "type": "RedisValue[]"
+        },
+        "signature": "SetCombine(SetOperation operation, RedisKey first, RedisKey second, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The operation to perform.",
+            "name": "operation",
+            "type": "SetOperation"
+          },
+          {
+            "description": "The keys of the sets to operate on.",
+            "name": "keys",
+            "type": "RedisKey[]"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "List with members of the resulting set.",
+          "type": "RedisValue[]"
+        },
+        "signature": "SetCombine(SetOperation operation, RedisKey[] keys, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The operation to perform.",
+            "name": "operation",
+            "type": "SetOperation"
+          },
+          {
+            "description": "",
+            "name": "first",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "second",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "List with members of the resulting set.",
+          "type": "RedisValue[]"
+        },
+        "signature": "SetCombine(SetOperation operation, RedisKey first, RedisKey second, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The operation to perform.",
+            "name": "operation",
+            "type": "SetOperation"
+          },
+          {
+            "description": "The keys of the sets to operate on.",
+            "name": "keys",
+            "type": "RedisKey[]"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "List with members of the resulting set.",
+          "type": "RedisValue[]"
+        },
+        "signature": "SetCombine(SetOperation operation, RedisKey[] keys, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The operation to perform.",
+            "name": "operation",
+            "type": "SetOperation"
+          },
+          {
+            "description": "",
+            "name": "first",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "second",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "List with members of the resulting set.",
+          "type": "RedisValue[]"
+        },
+        "signature": "SetCombine(SetOperation operation, RedisKey first, RedisKey second, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The operation to perform.",
+            "name": "operation",
+            "type": "SetOperation"
+          },
+          {
+            "description": "The keys of the sets to operate on.",
+            "name": "keys",
+            "type": "RedisKey[]"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "List with members of the resulting set.",
+          "type": "RedisValue[]"
+        },
+        "signature": "SetCombine(SetOperation operation, RedisKey[] keys, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The operation to perform.",
+            "name": "operation",
+            "type": "SetOperation"
+          },
+          {
+            "description": "",
+            "name": "first",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "second",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "List with members of the resulting set.",
+          "type": "RedisValue[]"
+        },
+        "signature": "SetCombine(SetOperation operation, RedisKey first, RedisKey second, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The operation to perform.",
+            "name": "operation",
+            "type": "SetOperation"
+          },
+          {
+            "description": "The keys of the sets to operate on.",
+            "name": "keys",
+            "type": "RedisKey[]"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "List with members of the resulting set.",
+          "type": "RedisValue[]"
+        },
+        "signature": "SetCombine(SetOperation operation, RedisKey[] keys, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$keys",
+            "type": "array|string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "string[]"
+        },
+        "signature": "sinter(array|string $keys)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "keys pointing to sets to intersect",
+            "name": "*keys",
+            "type": "String, Array<String>"
+          }
+        ],
+        "returns": {
+          "description": "members in the intersection",
+          "type": "Array<String>"
+        },
+        "signature": "sinter(*keys)"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly"
   ],
@@ -57,34 +567,25 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nReturns the members of the set resulting from the intersection of all the given\nsets.\n\nFor example:\n\n```\nkey1 = {a,b,c,d}\nkey2 = {c}\nkey3 = {a,c,e}\nSINTER key1 key2 key3 = {c}\n```\n\nKeys that do not exist are considered to be empty sets.\nWith one of the keys being an empty set, the resulting set is also empty (since\nset intersection with an empty set always results in an empty set).\n\n## Examples\n\n\nSADD key1 \"a\"\nSADD key1 \"b\"\nSADD key1 \"c\"\nSADD key2 \"c\"\nSADD key2 \"d\"\nSADD key2 \"e\"\nSINTER key1 key2\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): an array with the members of the resulting set.\n\n**RESP3:**\n\n[Set reply](../../develop/reference/protocol-spec#sets): a set with the members of the resulting set.",
-  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nReturns the members of the set resulting from the intersection of all the given\nsets.\n\nFor example:\n\n```\nkey1 = {a,b,c,d}\nkey2 = {c}\nkey3 = {a,c,e}\nSINTER key1 key2 key3 = {c}\n```\n\nKeys that do not exist are considered to be empty sets.\nWith one of the keys being an empty set, the resulting set is also empty (since\nset intersection with an empty set always results in an empty set).",
+  "content": "Returns the members of the set resulting from the intersection of all the given\nsets.\n\nFor example:\n\n```\nkey1 = {a,b,c,d}\nkey2 = {c}\nkey3 = {a,c,e}\nSINTER key1 key2 key3 = {c}\n```\n\nKeys that do not exist are considered to be empty sets.\nWith one of the keys being an empty set, the resulting set is also empty (since\nset intersection with an empty set always results in an empty set).\n\n## Examples\n\n{{% redis-cli %}}\nSADD key1 \"a\"\nSADD key1 \"b\"\nSADD key1 \"c\"\nSADD key2 \"c\"\nSADD key2 \"d\"\nSADD key2 \"e\"\nSINTER key1 key2\n{{% /redis-cli %}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"sinter-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): an array with the members of the resulting set.\n\n-tab-sep-\n\n[Set reply](../../develop/reference/protocol-spec#sets): a set with the members of the resulting set.\n\n{{< /multitabs >}}",
+  "example": "SADD key1 \"a\"\nSADD key1 \"b\"\nSADD key1 \"c\"\nSADD key2 \"c\"\nSADD key2 \"d\"\nSADD key2 \"e\"\nSINTER key1 key2",
+  "intro": "Returns the members of the set resulting from the intersection of all the given\nsets.\n\nFor example:\n\n```\nkey1 = {a,b,c,d}\nkey2 = {c}\nkey3 = {a,c,e}\nSINTER key1 key2 key3 = {c}\n```\n\nKeys that do not exist are considered to be empty sets.\nWith one of the keys being an empty set, the resulting set is also empty (since\nset intersection with an empty set always results in an empty set).",
+  "notes": [
+    "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information."
+  ],
   "sections": [
     {
       "title": "Overview",
       "level": 1,
-      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nReturns the members of the set resulting from the intersection of all the given\nsets.\n\nFor example:\n\n```\nkey1 = {a,b,c,d}\nkey2 = {c}\nkey3 = {a,c,e}\nSINTER key1 key2 key3 = {c}\n```\n\nKeys that do not exist are considered to be empty sets.\nWith one of the keys being an empty set, the resulting set is also empty (since\nset intersection with an empty set always results in an empty set)."
+      "content": "Returns the members of the set resulting from the intersection of all the given\nsets.\n\nFor example:\n\n```\nkey1 = {a,b,c,d}\nkey2 = {c}\nkey3 = {a,c,e}\nSINTER key1 key2 key3 = {c}\n```\n\nKeys that do not exist are considered to be empty sets.\nWith one of the keys being an empty set, the resulting set is also empty (since\nset intersection with an empty set always results in an empty set)."
     },
     {
       "title": "Examples",
       "level": 2,
-      "content": "SADD key1 \"a\"\nSADD key1 \"b\"\nSADD key1 \"c\"\nSADD key2 \"c\"\nSADD key2 \"d\"\nSADD key2 \"e\"\nSINTER key1 key2"
+      "content": "{{% redis-cli %}}\nSADD key1 \"a\"\nSADD key1 \"b\"\nSADD key1 \"c\"\nSADD key2 \"c\"\nSADD key2 \"d\"\nSADD key2 \"e\"\nSINTER key1 key2\n{{% /redis-cli %}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -94,7 +595,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): an array with the members of the resulting set.\n\n**RESP3:**\n\n[Set reply](../../develop/reference/protocol-spec#sets): a set with the members of the resulting set."
+      "content": "{{< multitabs id=\"sinter-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): an array with the members of the resulting set.\n\n-tab-sep-\n\n[Set reply](../../develop/reference/protocol-spec#sets): a set with the members of the resulting set.\n\n{{< /multitabs >}}"
     }
   ]
 }

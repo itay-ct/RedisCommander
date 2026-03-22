@@ -14,6 +14,209 @@
     "@read",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "filters",
+            "type": "List[str]"
+          },
+          {
+            "description": "",
+            "name": "with_labels",
+            "type": "Optional[bool] = False"
+          },
+          {
+            "description": "",
+            "name": "select_labels",
+            "type": "Optional[List[str]] = None"
+          },
+          {
+            "description": "",
+            "name": "latest",
+            "type": "Optional[bool] = False"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "mget(, filters: List[str],, with_labels: Optional[bool] = False,, select_labels: Optional[List[str]] = None,, latest: Optional[bool] = False,)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "optional arguments",
+            "name": "multiGetParams",
+            "type": "TSMGetParams"
+          },
+          {
+            "description": "secondary indexes",
+            "name": "filters",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "multi get elements",
+          "type": "Map<String, TSMGetElement>"
+        },
+        "signature": "Map<String, TSMGetElement> tsMGet(TSMGetParams multiGetParams, String... filters)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "filters",
+            "type": "[]string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*MapStringSliceInterfaceCmd"
+        },
+        "signature": "TSMGet(ctx context.Context, filters []string)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "filters",
+            "type": "[]string"
+          },
+          {
+            "description": "",
+            "name": "options",
+            "type": "*TSMGetOptions"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*MapStringSliceInterfaceCmd"
+        },
+        "signature": "TSMGetWithArgs(ctx context.Context, filters []string, options *TSMGetOptions)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "filter",
+            "type": "RedisVariadicArgument"
+          },
+          {
+            "description": "",
+            "name": "options?",
+            "type": "TsMGetOptions"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "MGET(filter: RedisVariadicArgument, options?: TsMGetOptions)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "filter",
+            "type": "IReadOnlyCollection<string>"
+          },
+          {
+            "description": "",
+            "name": "latest",
+            "type": "bool"
+          },
+          {
+            "description": "",
+            "name": "withLabels",
+            "type": "bool?"
+          },
+          {
+            "description": "",
+            "name": "selectedLabels",
+            "type": "IReadOnlyCollection<string>?"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "IReadOnlyList<(string key, IReadOnlyList<TimeSeriesLabel> labels, TimeSeriesTuple value)>"
+        },
+        "signature": "MGet(IReadOnlyCollection<string> filter, bool latest = false, bool? withLabels = null, IReadOnlyCollection<string>? selectedLabels = null)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "filter",
+            "type": "IReadOnlyCollection<string>"
+          },
+          {
+            "description": "",
+            "name": "latest",
+            "type": "bool"
+          },
+          {
+            "description": "",
+            "name": "withLabels",
+            "type": "bool?"
+          },
+          {
+            "description": "",
+            "name": "selectedLabels",
+            "type": "IReadOnlyCollection<string>?"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Task<IReadOnlyList<(string key, IReadOnlyList<TimeSeriesLabel> labels, TimeSeriesTuple value)>>"
+        },
+        "signature": "MGetAsync(IReadOnlyCollection<string> filter, bool latest = false, bool? withLabels = null, IReadOnlyCollection<string>? selectedLabels = null)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$arguments",
+            "type": "MGetArguments"
+          },
+          {
+            "description": "",
+            "name": "$filterExpression",
+            "type": "string ..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array"
+        },
+        "signature": "tsmget(MGetArguments $arguments, string ...$filterExpression)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -95,45 +298,20 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "optional-arguments",
-        "title": "Optional arguments"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      },
-      {
-        "id": "see-also",
-        "title": "See also"
-      },
-      {
-        "id": "related-topics",
-        "title": "Related topics"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\n\nGet the sample with the highest timestamp from each time series matching a specific filter. Starting from Redis 8.6, NaN values are included in the results.\n\n\nThis command will reply only if the current user has read access to all keys that match the filter.\nOtherwise, it will reply with \"*(error): current user doesn't have read permission to one or more keys that match the specified filter*\".\n\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open>\n<summary><code>FILTER filterExpr...</code></summary>\n\nfilters time series based on their labels and label values. Each filter expression has one of the following syntaxes:\n\n  - `label!=` - the time series has a label named `label`\n  - `label=value` - the time series has a label named `label` with a value equal to `value`\n  - `label=(value1,value2,...)` - the time series has a label named `label` with a value equal to one of the values in the list\n  - `label=` - the time series does not have a label named `label`\n  - `label!=value` - the time series does not have a label named `label` with a value equal to `value`\n  - `label!=(value1,value2,...)` - the time series does not have a label named `label` with a value equal to any of the values in the list\n\n  <note><b>Notes:</b>\n   - At least one filter expression with a syntax `label=value` or `label=(value1,value2,...)` is required.\n   - Filter expressions are conjunctive. For example, the filter `type=temperature room=study` means that a time series is a temperature time series of a study room.\n   - Whitespaces are unallowed in a filter expression except between quotes or double quotes in values - e.g., `x=\"y y\"` or `x='(y y,z z)'`.\n   </note>\n</details>\n\n## Optional arguments\n\n<details open>\n<summary><code>LATEST</code> (since RedisTimeSeries v1.8)</summary> \n\nis used when a time series is a compaction. With `LATEST`, TS.MGET also reports the compacted value of the latest (possibly partial) bucket, given that this bucket's start time falls within `[fromTimestamp, toTimestamp]`. Without `LATEST`, TS.MGET does not report the latest (possibly partial) bucket. When a time series is not a compaction, `LATEST` is ignored.\n  \nThe data in the latest bucket of a compaction is possibly partial. A bucket is _closed_ and compacted only upon the arrival of a new sample that _opens_ a new _latest_ bucket. There are cases, however, when the compacted value of the latest (possibly partial) bucket is also required. In such a case, use `LATEST`.\n</details>\n\n<details open>\n<summary><code>WITHLABELS</code></summary> \n\nincludes in the reply all label-value pairs representing metadata labels of the time series. \nIf `WITHLABELS` or `SELECTED_LABELS` are not specified, by default, an empty list is reported as label-value pairs.\n\n</details>\n\n<details open>\n<summary><code>SELECTED_LABELS label...</code> (since RedisTimeSeries v1.6)</summary> \n\nreturns a subset of the label-value pairs that represent metadata labels of the time series. \nUse when a large number of labels exists per series, but only the values of some of the labels are required. \nIf `WITHLABELS` or `SELECTED_LABELS` are not specified, by default, an empty list is reported as label-value pairs.\n\n</details>\n\n<note><b>Note:</b> The [`MGET`]() command cannot be part of a transaction when running on a Redis cluster.</note>\n\n## Examples\n\n<details open>\n<summary><b>Select labels to retrieve</b></summary>\n\nCreate time series for temperature in Tel Aviv and Jerusalem, then add different temperature samples.\n\n\n127.0.0.1:6379> TS.CREATE temp:TLV LABELS type temp location TLV\nOK\n127.0.0.1:6379> TS.CREATE temp:JLM LABELS type temp location JLM\nOK\n127.0.0.1:6379> TS.MADD temp:TLV 1000 30 temp:TLV 1010 35 temp:TLV 1020 9999 temp:TLV 1030 40\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n4) (integer) 1030\n127.0.0.1:6379> TS.MADD temp:JLM 1005 30 temp:JLM 1015 35 temp:JLM 1025 9999 temp:JLM 1035 40\n1) (integer) 1005\n2) (integer) 1015\n3) (integer) 1025\n4) (integer) 1035\n\n\nGet all the labels associated with the last sample.\n\n\n127.0.0.1:6379> TS.MGET WITHLABELS FILTER type=temp\n1) 1) \"temp:JLM\"\n   2) 1) 1) \"type\"\n         2) \"temp\"\n      2) 1) \"location\"\n         2) \"JLM\"\n   3) 1) (integer) 1035\n      2) 40\n2) 1) \"temp:TLV\"\n   2) 1) 1) \"type\"\n         2) \"temp\"\n      2) 1) \"location\"\n         2) \"TLV\"\n   3) 1) (integer) 1030\n      2) 40\n\n\nTo get only the `location` label for each last sample, use `SELECTED_LABELS`.\n\n\n127.0.0.1:6379> TS.MGET SELECTED_LABELS location FILTER type=temp\n1) 1) \"temp:JLM\"\n   2) 1) 1) \"location\"\n         2) \"JLM\"\n   3) 1) (integer) 1035\n      2) 40\n2) 1) \"temp:TLV\"\n   2) 1) 1) \"location\"\n         2) \"TLV\"\n   3) 1) (integer) 1030\n      2) 40\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](): for each time series matching the specified filters, the following is reported:\n- [Bulk string reply](): The time series key name\n- [Array reply](): label-value pairs ([Bulk string reply](), [Bulk string reply]())\n  - By default, an empty array is reported\n  - If `WITHLABELS` is specified, all labels associated with this time series are reported\n  - If `SELECTED_LABELS label...` is specified, the selected labels are reported (null value when no such label defined)\n- [Array reply](): a single timestamp-value pair ([Integer reply](), [Simple string reply]())\n\n**RESP3:**\n\n[Map reply](): for each time series matching the specified filters, the following is reported:\n- [Bulk string reply](): The time series key name\n- [Map reply]() or [Array reply](): label-value pairs\n  - By default, an empty array is reported\n  - If `WITHLABELS` is specified, all labels associated with this time series are reported as a map\n  - If `SELECTED_LABELS label...` is specified, the selected labels are reported as a map (null value when no such label defined)\n- [Array reply](): a single timestamp-value pair ([Integer reply](), [Double reply]())\n\n\n\n## See also\n\n[`TS.MRANGE`]() | [`TS.RANGE`]() | [`TS.MREVRANGE`]() | [`TS.REVRANGE`]()\n\n## Related topics\n\n[RedisTimeSeries]()",
-  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\n\nGet the sample with the highest timestamp from each time series matching a specific filter. Starting from Redis 8.6, NaN values are included in the results.\n\n\nThis command will reply only if the current user has read access to all keys that match the filter.\nOtherwise, it will reply with \"*(error): current user doesn't have read permission to one or more keys that match the specified filter*\".\n\n\n[Examples](#examples)",
+  "content": "Get the sample with the highest timestamp from each time series matching a specific filter. Starting from Redis 8.6, NaN values are included in the results.\n\nThis command will reply only if the current user has read access to all keys that match the filter.\nOtherwise, it will reply with \"*(error): current user doesn't have read permission to one or more keys that match the specified filter*\".\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open>\n<summary><code>FILTER filterExpr...</code></summary>\n\nfilters time series based on their labels and label values. Each filter expression has one of the following syntaxes:\n\n  - `label!=` - the time series has a label named `label`\n  - `label=value` - the time series has a label named `label` with a value equal to `value`\n  - `label=(value1,value2,...)` - the time series has a label named `label` with a value equal to one of the values in the list\n  - `label=` - the time series does not have a label named `label`\n  - `label!=value` - the time series does not have a label named `label` with a value equal to `value`\n  - `label!=(value1,value2,...)` - the time series does not have a label named `label` with a value equal to any of the values in the list\n\n  <note><b>Notes:</b>\n   - At least one filter expression with a syntax `label=value` or `label=(value1,value2,...)` is required.\n   - Filter expressions are conjunctive. For example, the filter `type=temperature room=study` means that a time series is a temperature time series of a study room.\n   - Whitespaces are unallowed in a filter expression except between quotes or double quotes in values - e.g., `x=\"y y\"` or `x='(y y,z z)'`.\n   </note>\n</details>\n\n## Optional arguments\n\n<details open>\n<summary><code>LATEST</code> (since RedisTimeSeries v1.8)</summary> \n\nis used when a time series is a compaction. With `LATEST`, TS.MGET also reports the compacted value of the latest (possibly partial) bucket, given that this bucket's start time falls within `[fromTimestamp, toTimestamp]`. Without `LATEST`, TS.MGET does not report the latest (possibly partial) bucket. When a time series is not a compaction, `LATEST` is ignored.\n  \nThe data in the latest bucket of a compaction is possibly partial. A bucket is _closed_ and compacted only upon the arrival of a new sample that _opens_ a new _latest_ bucket. There are cases, however, when the compacted value of the latest (possibly partial) bucket is also required. In such a case, use `LATEST`.\n</details>\n\n<details open>\n<summary><code>WITHLABELS</code></summary> \n\nincludes in the reply all label-value pairs representing metadata labels of the time series. \nIf `WITHLABELS` or `SELECTED_LABELS` are not specified, by default, an empty list is reported as label-value pairs.\n\n</details>\n\n<details open>\n<summary><code>SELECTED_LABELS label...</code> (since RedisTimeSeries v1.6)</summary> \n\nreturns a subset of the label-value pairs that represent metadata labels of the time series. \nUse when a large number of labels exists per series, but only the values of some of the labels are required. \nIf `WITHLABELS` or `SELECTED_LABELS` are not specified, by default, an empty list is reported as label-value pairs.\n\n</details>\n\n<note><b>Note:</b> The [`MGET`]({{< relref \"/commands/mget\" >}}) command cannot be part of a transaction when running on a Redis cluster.</note>\n\n## Examples\n\n<details open>\n<summary><b>Select labels to retrieve</b></summary>\n\nCreate time series for temperature in Tel Aviv and Jerusalem, then add different temperature samples.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.CREATE temp:TLV LABELS type temp location TLV\nOK\n127.0.0.1:6379> TS.CREATE temp:JLM LABELS type temp location JLM\nOK\n127.0.0.1:6379> TS.MADD temp:TLV 1000 30 temp:TLV 1010 35 temp:TLV 1020 9999 temp:TLV 1030 40\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n4) (integer) 1030\n127.0.0.1:6379> TS.MADD temp:JLM 1005 30 temp:JLM 1015 35 temp:JLM 1025 9999 temp:JLM 1035 40\n1) (integer) 1005\n2) (integer) 1015\n3) (integer) 1025\n4) (integer) 1035\n{{< / highlight >}}\n\nGet all the labels associated with the last sample.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.MGET WITHLABELS FILTER type=temp\n1) 1) \"temp:JLM\"\n   2) 1) 1) \"type\"\n         2) \"temp\"\n      2) 1) \"location\"\n         2) \"JLM\"\n   3) 1) (integer) 1035\n      2) 40\n2) 1) \"temp:TLV\"\n   2) 1) 1) \"type\"\n         2) \"temp\"\n      2) 1) \"location\"\n         2) \"TLV\"\n   3) 1) (integer) 1030\n      2) 40\n{{< / highlight >}}\n\nTo get only the `location` label for each last sample, use `SELECTED_LABELS`.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.MGET SELECTED_LABELS location FILTER type=temp\n1) 1) \"temp:JLM\"\n   2) 1) 1) \"location\"\n         2) \"JLM\"\n   3) 1) (integer) 1035\n      2) 40\n2) 1) \"temp:TLV\"\n   2) 1) 1) \"location\"\n         2) \"TLV\"\n   3) 1) (integer) 1030\n      2) 40\n{{< / highlight >}}\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"ts-mget-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\n[Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): for each time series matching the specified filters, the following is reported:\n- [Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}): The time series key name\n- [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): label-value pairs ([Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}), [Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}))\n  - By default, an empty array is reported\n  - If `WITHLABELS` is specified, all labels associated with this time series are reported\n  - If `SELECTED_LABELS label...` is specified, the selected labels are reported (null value when no such label defined)\n- [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): a single timestamp-value pair ([Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}), [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}))\n\n-tab-sep-\n\n[Map reply]({{< relref \"/develop/reference/protocol-spec#maps\" >}}): for each time series matching the specified filters, the following is reported:\n- [Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}): The time series key name\n- [Map reply]({{< relref \"/develop/reference/protocol-spec#maps\" >}}) or [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): label-value pairs\n  - By default, an empty array is reported\n  - If `WITHLABELS` is specified, all labels associated with this time series are reported as a map\n  - If `SELECTED_LABELS label...` is specified, the selected labels are reported as a map (null value when no such label defined)\n- [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): a single timestamp-value pair ([Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}), [Double reply]({{< relref \"/develop/reference/protocol-spec#doubles\" >}}))\n\n{{< /multitabs >}}\n\n## See also\n\n[`TS.MRANGE`]({{< relref \"commands/ts.mrange/\" >}}) | [`TS.RANGE`]({{< relref \"commands/ts.range/\" >}}) | [`TS.MREVRANGE`]({{< relref \"commands/ts.mrevrange/\" >}}) | [`TS.REVRANGE`]({{< relref \"commands/ts.revrange/\" >}})\n\n## Related topics\n\n[RedisTimeSeries]({{< relref \"/develop/data-types/timeseries/\" >}})",
+  "example": "127.0.0.1:6379> TS.CREATE temp:TLV LABELS type temp location TLV\nOK\n127.0.0.1:6379> TS.CREATE temp:JLM LABELS type temp location JLM\nOK\n127.0.0.1:6379> TS.MADD temp:TLV 1000 30 temp:TLV 1010 35 temp:TLV 1020 9999 temp:TLV 1030 40\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n4) (integer) 1030\n127.0.0.1:6379> TS.MADD temp:JLM 1005 30 temp:JLM 1015 35 temp:JLM 1025 9999 temp:JLM 1035 40\n1) (integer) 1005\n2) (integer) 1015\n3) (integer) 1025\n4) (integer) 1035",
+  "intro": "Get the sample with the highest timestamp from each time series matching a specific filter. Starting from Redis 8.6, NaN values are included in the results.\n\nThis command will reply only if the current user has read access to all keys that match the filter.\nOtherwise, it will reply with \"*(error): current user doesn't have read permission to one or more keys that match the specified filter*\".\n\n[Examples](#examples)",
+  "notes": [
+    "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information."
+  ],
   "sections": [
     {
       "title": "Overview",
       "level": 1,
-      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\n\nGet the sample with the highest timestamp from each time series matching a specific filter. Starting from Redis 8.6, NaN values are included in the results.\n\n\nThis command will reply only if the current user has read access to all keys that match the filter.\nOtherwise, it will reply with \"*(error): current user doesn't have read permission to one or more keys that match the specified filter*\".\n\n\n[Examples](#examples)"
+      "content": "Get the sample with the highest timestamp from each time series matching a specific filter. Starting from Redis 8.6, NaN values are included in the results.\n\nThis command will reply only if the current user has read access to all keys that match the filter.\nOtherwise, it will reply with \"*(error): current user doesn't have read permission to one or more keys that match the specified filter*\".\n\n[Examples](#examples)"
     },
     {
       "title": "Required arguments",
@@ -143,12 +321,12 @@
     {
       "title": "Optional arguments",
       "level": 2,
-      "content": "<details open>\n<summary><code>LATEST</code> (since RedisTimeSeries v1.8)</summary> \n\nis used when a time series is a compaction. With `LATEST`, TS.MGET also reports the compacted value of the latest (possibly partial) bucket, given that this bucket's start time falls within `[fromTimestamp, toTimestamp]`. Without `LATEST`, TS.MGET does not report the latest (possibly partial) bucket. When a time series is not a compaction, `LATEST` is ignored.\n  \nThe data in the latest bucket of a compaction is possibly partial. A bucket is _closed_ and compacted only upon the arrival of a new sample that _opens_ a new _latest_ bucket. There are cases, however, when the compacted value of the latest (possibly partial) bucket is also required. In such a case, use `LATEST`.\n</details>\n\n<details open>\n<summary><code>WITHLABELS</code></summary> \n\nincludes in the reply all label-value pairs representing metadata labels of the time series. \nIf `WITHLABELS` or `SELECTED_LABELS` are not specified, by default, an empty list is reported as label-value pairs.\n\n</details>\n\n<details open>\n<summary><code>SELECTED_LABELS label...</code> (since RedisTimeSeries v1.6)</summary> \n\nreturns a subset of the label-value pairs that represent metadata labels of the time series. \nUse when a large number of labels exists per series, but only the values of some of the labels are required. \nIf `WITHLABELS` or `SELECTED_LABELS` are not specified, by default, an empty list is reported as label-value pairs.\n\n</details>\n\n<note><b>Note:</b> The [`MGET`]() command cannot be part of a transaction when running on a Redis cluster.</note>"
+      "content": "<details open>\n<summary><code>LATEST</code> (since RedisTimeSeries v1.8)</summary> \n\nis used when a time series is a compaction. With `LATEST`, TS.MGET also reports the compacted value of the latest (possibly partial) bucket, given that this bucket's start time falls within `[fromTimestamp, toTimestamp]`. Without `LATEST`, TS.MGET does not report the latest (possibly partial) bucket. When a time series is not a compaction, `LATEST` is ignored.\n  \nThe data in the latest bucket of a compaction is possibly partial. A bucket is _closed_ and compacted only upon the arrival of a new sample that _opens_ a new _latest_ bucket. There are cases, however, when the compacted value of the latest (possibly partial) bucket is also required. In such a case, use `LATEST`.\n</details>\n\n<details open>\n<summary><code>WITHLABELS</code></summary> \n\nincludes in the reply all label-value pairs representing metadata labels of the time series. \nIf `WITHLABELS` or `SELECTED_LABELS` are not specified, by default, an empty list is reported as label-value pairs.\n\n</details>\n\n<details open>\n<summary><code>SELECTED_LABELS label...</code> (since RedisTimeSeries v1.6)</summary> \n\nreturns a subset of the label-value pairs that represent metadata labels of the time series. \nUse when a large number of labels exists per series, but only the values of some of the labels are required. \nIf `WITHLABELS` or `SELECTED_LABELS` are not specified, by default, an empty list is reported as label-value pairs.\n\n</details>\n\n<note><b>Note:</b> The [`MGET`]({{< relref \"/commands/mget\" >}}) command cannot be part of a transaction when running on a Redis cluster.</note>"
     },
     {
       "title": "Examples",
       "level": 2,
-      "content": "<details open>\n<summary><b>Select labels to retrieve</b></summary>\n\nCreate time series for temperature in Tel Aviv and Jerusalem, then add different temperature samples.\n\n\n127.0.0.1:6379> TS.CREATE temp:TLV LABELS type temp location TLV\nOK\n127.0.0.1:6379> TS.CREATE temp:JLM LABELS type temp location JLM\nOK\n127.0.0.1:6379> TS.MADD temp:TLV 1000 30 temp:TLV 1010 35 temp:TLV 1020 9999 temp:TLV 1030 40\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n4) (integer) 1030\n127.0.0.1:6379> TS.MADD temp:JLM 1005 30 temp:JLM 1015 35 temp:JLM 1025 9999 temp:JLM 1035 40\n1) (integer) 1005\n2) (integer) 1015\n3) (integer) 1025\n4) (integer) 1035\n\n\nGet all the labels associated with the last sample.\n\n\n127.0.0.1:6379> TS.MGET WITHLABELS FILTER type=temp\n1) 1) \"temp:JLM\"\n   2) 1) 1) \"type\"\n         2) \"temp\"\n      2) 1) \"location\"\n         2) \"JLM\"\n   3) 1) (integer) 1035\n      2) 40\n2) 1) \"temp:TLV\"\n   2) 1) 1) \"type\"\n         2) \"temp\"\n      2) 1) \"location\"\n         2) \"TLV\"\n   3) 1) (integer) 1030\n      2) 40\n\n\nTo get only the `location` label for each last sample, use `SELECTED_LABELS`.\n\n\n127.0.0.1:6379> TS.MGET SELECTED_LABELS location FILTER type=temp\n1) 1) \"temp:JLM\"\n   2) 1) 1) \"location\"\n         2) \"JLM\"\n   3) 1) (integer) 1035\n      2) 40\n2) 1) \"temp:TLV\"\n   2) 1) 1) \"location\"\n         2) \"TLV\"\n   3) 1) (integer) 1030\n      2) 40\n\n</details>"
+      "content": "<details open>\n<summary><b>Select labels to retrieve</b></summary>\n\nCreate time series for temperature in Tel Aviv and Jerusalem, then add different temperature samples.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.CREATE temp:TLV LABELS type temp location TLV\nOK\n127.0.0.1:6379> TS.CREATE temp:JLM LABELS type temp location JLM\nOK\n127.0.0.1:6379> TS.MADD temp:TLV 1000 30 temp:TLV 1010 35 temp:TLV 1020 9999 temp:TLV 1030 40\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n4) (integer) 1030\n127.0.0.1:6379> TS.MADD temp:JLM 1005 30 temp:JLM 1015 35 temp:JLM 1025 9999 temp:JLM 1035 40\n1) (integer) 1005\n2) (integer) 1015\n3) (integer) 1025\n4) (integer) 1035\n{{< / highlight >}}\n\nGet all the labels associated with the last sample.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.MGET WITHLABELS FILTER type=temp\n1) 1) \"temp:JLM\"\n   2) 1) 1) \"type\"\n         2) \"temp\"\n      2) 1) \"location\"\n         2) \"JLM\"\n   3) 1) (integer) 1035\n      2) 40\n2) 1) \"temp:TLV\"\n   2) 1) 1) \"type\"\n         2) \"temp\"\n      2) 1) \"location\"\n         2) \"TLV\"\n   3) 1) (integer) 1030\n      2) 40\n{{< / highlight >}}\n\nTo get only the `location` label for each last sample, use `SELECTED_LABELS`.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.MGET SELECTED_LABELS location FILTER type=temp\n1) 1) \"temp:JLM\"\n   2) 1) 1) \"location\"\n         2) \"JLM\"\n   3) 1) (integer) 1035\n      2) 40\n2) 1) \"temp:TLV\"\n   2) 1) 1) \"location\"\n         2) \"TLV\"\n   3) 1) (integer) 1030\n      2) 40\n{{< / highlight >}}\n</details>"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -158,17 +336,17 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Array reply](): for each time series matching the specified filters, the following is reported:\n- [Bulk string reply](): The time series key name\n- [Array reply](): label-value pairs ([Bulk string reply](), [Bulk string reply]())\n  - By default, an empty array is reported\n  - If `WITHLABELS` is specified, all labels associated with this time series are reported\n  - If `SELECTED_LABELS label...` is specified, the selected labels are reported (null value when no such label defined)\n- [Array reply](): a single timestamp-value pair ([Integer reply](), [Simple string reply]())\n\n**RESP3:**\n\n[Map reply](): for each time series matching the specified filters, the following is reported:\n- [Bulk string reply](): The time series key name\n- [Map reply]() or [Array reply](): label-value pairs\n  - By default, an empty array is reported\n  - If `WITHLABELS` is specified, all labels associated with this time series are reported as a map\n  - If `SELECTED_LABELS label...` is specified, the selected labels are reported as a map (null value when no such label defined)\n- [Array reply](): a single timestamp-value pair ([Integer reply](), [Double reply]())"
+      "content": "{{< multitabs id=\"ts-mget-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\n[Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): for each time series matching the specified filters, the following is reported:\n- [Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}): The time series key name\n- [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): label-value pairs ([Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}), [Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}))\n  - By default, an empty array is reported\n  - If `WITHLABELS` is specified, all labels associated with this time series are reported\n  - If `SELECTED_LABELS label...` is specified, the selected labels are reported (null value when no such label defined)\n- [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): a single timestamp-value pair ([Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}), [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}))\n\n-tab-sep-\n\n[Map reply]({{< relref \"/develop/reference/protocol-spec#maps\" >}}): for each time series matching the specified filters, the following is reported:\n- [Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}): The time series key name\n- [Map reply]({{< relref \"/develop/reference/protocol-spec#maps\" >}}) or [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): label-value pairs\n  - By default, an empty array is reported\n  - If `WITHLABELS` is specified, all labels associated with this time series are reported as a map\n  - If `SELECTED_LABELS label...` is specified, the selected labels are reported as a map (null value when no such label defined)\n- [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): a single timestamp-value pair ([Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}), [Double reply]({{< relref \"/develop/reference/protocol-spec#doubles\" >}}))\n\n{{< /multitabs >}}"
     },
     {
       "title": "See also",
       "level": 2,
-      "content": "[`TS.MRANGE`]() | [`TS.RANGE`]() | [`TS.MREVRANGE`]() | [`TS.REVRANGE`]()"
+      "content": "[`TS.MRANGE`]({{< relref \"commands/ts.mrange/\" >}}) | [`TS.RANGE`]({{< relref \"commands/ts.range/\" >}}) | [`TS.MREVRANGE`]({{< relref \"commands/ts.mrevrange/\" >}}) | [`TS.REVRANGE`]({{< relref \"commands/ts.revrange/\" >}})"
     },
     {
       "title": "Related topics",
       "level": 2,
-      "content": "[RedisTimeSeries]()"
+      "content": "[RedisTimeSeries]({{< relref \"/develop/data-types/timeseries/\" >}})"
     }
   ]
 }

@@ -14,6 +14,1011 @@
     "@stream",
     "@fast"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "groupname",
+            "type": "GroupT"
+          },
+          {
+            "description": "",
+            "name": "consumername",
+            "type": "ConsumerT"
+          },
+          {
+            "description": "",
+            "name": "min_idle_time",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "message_ids",
+            "type": "Union[List[StreamIdT], Tuple[StreamIdT]]"
+          },
+          {
+            "description": "",
+            "name": "idle",
+            "type": "Optional[int] = None"
+          },
+          {
+            "description": "",
+            "name": "time",
+            "type": "Optional[int] = None"
+          },
+          {
+            "description": "",
+            "name": "retrycount",
+            "type": "Optional[int] = None"
+          },
+          {
+            "description": "",
+            "name": "force",
+            "type": "bool = False"
+          },
+          {
+            "description": "",
+            "name": "justid",
+            "type": "bool = False"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "ResponseT"
+        },
+        "signature": "xclaim(, name: KeyT,, groupname: GroupT,, consumername: ConsumerT,, min_idle_time: int,, message_ids: Union[List[StreamIdT], Tuple[StreamIdT]],, idle: Optional[int] = None,, time: Optional[int] = None,, retrycount: Optional[int] = None,, force: bool = False,, justid: bool = False,)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "group",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "consumerName",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "params",
+            "type": "long minIdleTime XClaimParams"
+          },
+          {
+            "description": "",
+            "name": "ids",
+            "type": "byte[]..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List<byte[]>"
+        },
+        "signature": "List<byte[]> xclaim(byte[] key, byte[] group, byte[] consumerName, long minIdleTime XClaimParams params, byte[]... ids)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "group",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "consumerName",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "params",
+            "type": "long minIdleTime XClaimParams"
+          },
+          {
+            "description": "",
+            "name": "ids",
+            "type": "byte[]..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List<byte[]>"
+        },
+        "signature": "List<byte[]> xclaimJustId(byte[] key, byte[] group, byte[] consumerName, long minIdleTime XClaimParams params, byte[]... ids)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "group",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "consumerName",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "params",
+            "type": "long minIdleTime XClaimParams"
+          },
+          {
+            "description": "",
+            "name": "ids",
+            "type": "StreamEntryID..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List<StreamEntry>"
+        },
+        "signature": "List<StreamEntry> xclaim(String key, String group, String consumerName, long minIdleTime XClaimParams params, StreamEntryID... ids)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "group",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "minIdleTime",
+            "type": "String consumerName long"
+          },
+          {
+            "description": "",
+            "name": "params",
+            "type": "XClaimParams"
+          },
+          {
+            "description": "",
+            "name": "ids",
+            "type": "StreamEntryID..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List<StreamEntryID>"
+        },
+        "signature": "List<StreamEntryID> xclaimJustId(String key, String group, String consumerName long minIdleTime, XClaimParams params, StreamEntryID... ids)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "group",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "consumerName",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "params",
+            "type": "long minIdleTime XClaimParams"
+          },
+          {
+            "description": "",
+            "name": "ids",
+            "type": "StreamEntryID..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List<StreamEntry>"
+        },
+        "signature": "List<StreamEntry> xclaim(String key, String group, String consumerName, long minIdleTime XClaimParams params, StreamEntryID... ids)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "consumer identified by group name and consumer key.",
+            "name": "consumer",
+            "type": "Consumer<K>"
+          },
+          {
+            "description": "",
+            "name": "minIdleTime",
+            "type": "long"
+          },
+          {
+            "description": "message Id's to claim.",
+            "name": "messageIds",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "simple-reply the StreamMessage.",
+          "type": "List<StreamMessage<K, V>>"
+        },
+        "signature": "List<StreamMessage<K, V>> xclaim(K key, Consumer<K> consumer, long minIdleTime, String... messageIds)"
+      },
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "consumer identified by group name and consumer key.",
+            "name": "consumer",
+            "type": "Consumer<K>"
+          },
+          {
+            "description": "",
+            "name": "args",
+            "type": "XClaimArgs"
+          },
+          {
+            "description": "message Id's to claim.",
+            "name": "messageIds",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "simple-reply the StreamMessage.",
+          "type": "List<StreamMessage<K, V>>"
+        },
+        "signature": "List<StreamMessage<K, V>> xclaim(K key, Consumer<K> consumer, XClaimArgs args, String... messageIds)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "consumer identified by group name and consumer key.",
+            "name": "consumer",
+            "type": "Consumer<K>"
+          },
+          {
+            "description": "",
+            "name": "minIdleTime",
+            "type": "long"
+          },
+          {
+            "description": "message Id's to claim.",
+            "name": "messageIds",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "simple-reply the StreamMessage.",
+          "type": "RedisFuture<List<StreamMessage<K, V>>>"
+        },
+        "signature": "RedisFuture<List<StreamMessage<K, V>>> xclaim(K key, Consumer<K> consumer, long minIdleTime, String... messageIds)"
+      },
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "consumer identified by group name and consumer key.",
+            "name": "consumer",
+            "type": "Consumer<K>"
+          },
+          {
+            "description": "",
+            "name": "args",
+            "type": "XClaimArgs"
+          },
+          {
+            "description": "message Id's to claim.",
+            "name": "messageIds",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "simple-reply the StreamMessage.",
+          "type": "RedisFuture<List<StreamMessage<K, V>>>"
+        },
+        "signature": "RedisFuture<List<StreamMessage<K, V>>> xclaim(K key, Consumer<K> consumer, XClaimArgs args, String... messageIds)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "consumer identified by group name and consumer key.",
+            "name": "consumer",
+            "type": "Consumer<K>"
+          },
+          {
+            "description": "",
+            "name": "minIdleTime",
+            "type": "long"
+          },
+          {
+            "description": "message Id's to claim.",
+            "name": "messageIds",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "simple-reply the StreamMessage.",
+          "type": "Flux<StreamMessage<K, V>>"
+        },
+        "signature": "Flux<StreamMessage<K, V>> xclaim(K key, Consumer<K> consumer, long minIdleTime, String... messageIds)"
+      },
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "consumer identified by group name and consumer key.",
+            "name": "consumer",
+            "type": "Consumer<K>"
+          },
+          {
+            "description": "",
+            "name": "args",
+            "type": "XClaimArgs"
+          },
+          {
+            "description": "message Id's to claim.",
+            "name": "messageIds",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "simple-reply the StreamMessage.",
+          "type": "Flux<StreamMessage<K, V>>"
+        },
+        "signature": "Flux<StreamMessage<K, V>> xclaim(K key, Consumer<K> consumer, XClaimArgs args, String... messageIds)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "a",
+            "type": "*XClaimArgs"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*XMessageSliceCmd"
+        },
+        "signature": "XClaim(ctx context.Context, a *XClaimArgs)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "a",
+            "type": "*XClaimArgs"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StringSliceCmd"
+        },
+        "signature": "XClaimJustID(ctx context.Context, a *XClaimArgs)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "group",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "consumer",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "minIdleTime",
+            "type": "number"
+          },
+          {
+            "description": "",
+            "name": "id",
+            "type": "RedisVariadicArgument"
+          },
+          {
+            "description": "",
+            "name": "options?",
+            "type": "XClaimOptions"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "XCLAIM(key: RedisArgument, group: RedisArgument, consumer: RedisArgument, minIdleTime: number, id: RedisVariadicArgument, options?: XClaimOptions)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, key"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "xclaim(...args: [, key: RedisKey, group: string | Buffer, consumer: string | Buffer, minIdleTime: string | Buffer | number, ...ids: (string | Buffer | number)[], callback: Callback<unknown[]>, ])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, key"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "xclaim(...args: [, key: RedisKey, group: string | Buffer, consumer: string | Buffer, minIdleTime: string | Buffer | number, ...ids: (string | Buffer | number)[], ])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, key"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "xclaim(...args: [, key: RedisKey, group: string | Buffer, consumer: string | Buffer, minIdleTime: string | Buffer | number, ...ids: (string | Buffer | number)[], justid: \"JUSTID\", callback: Callback<unknown[]>, ])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, key"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "xclaim(...args: [, key: RedisKey, group: string | Buffer, consumer: string | Buffer, minIdleTime: string | Buffer | number, ...ids: (string | Buffer | number)[], justid: \"JUSTID\", ])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, key"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "xclaim(...args: [, key: RedisKey, group: string | Buffer, consumer: string | Buffer, minIdleTime: string | Buffer | number, ...ids: (string | Buffer | number)[], force: \"FORCE\", callback: Callback<unknown[]>, ])"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "group",
+            "type": "G"
+          },
+          {
+            "description": "",
+            "name": "consumer",
+            "type": "C"
+          },
+          {
+            "description": "",
+            "name": "min_idle_time",
+            "type": "MIT"
+          },
+          {
+            "description": "",
+            "name": "ids",
+            "type": "&'a [ID]"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(streams::StreamClaimReply)"
+        },
+        "signature": "xclaim(key: K, group: G, consumer: C, min_idle_time: MIT, ids: &'a [ID])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "group",
+            "type": "G"
+          },
+          {
+            "description": "",
+            "name": "consumer",
+            "type": "C"
+          },
+          {
+            "description": "",
+            "name": "min_idle_time",
+            "type": "MIT"
+          },
+          {
+            "description": "",
+            "name": "ids",
+            "type": "&'a [ID]"
+          },
+          {
+            "description": "",
+            "name": "options",
+            "type": "streams"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Generic"
+        },
+        "signature": "xclaim_options(key: K, group: G, consumer: C, min_idle_time: MIT, ids: &'a [ID], options: streams::StreamClaimOptions)"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "group",
+            "type": "G"
+          },
+          {
+            "description": "",
+            "name": "consumer",
+            "type": "C"
+          },
+          {
+            "description": "",
+            "name": "min_idle_time",
+            "type": "MIT"
+          },
+          {
+            "description": "",
+            "name": "ids",
+            "type": "&'a [ID]"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(streams::StreamClaimReply)"
+        },
+        "signature": "xclaim(key: K, group: G, consumer: C, min_idle_time: MIT, ids: &'a [ID])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "group",
+            "type": "G"
+          },
+          {
+            "description": "",
+            "name": "consumer",
+            "type": "C"
+          },
+          {
+            "description": "",
+            "name": "min_idle_time",
+            "type": "MIT"
+          },
+          {
+            "description": "",
+            "name": "ids",
+            "type": "&'a [ID]"
+          },
+          {
+            "description": "",
+            "name": "options",
+            "type": "streams"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Generic"
+        },
+        "signature": "xclaim_options(key: K, group: G, consumer: C, min_idle_time: MIT, ids: &'a [ID], options: streams::StreamClaimOptions)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The key of the stream.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The consumer group.",
+            "name": "consumerGroup",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The consumer claiming the given message(s).",
+            "name": "claimingConsumer",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The minimum message idle time to allow the reassignment of the message(s).",
+            "name": "minIdleTimeInMs",
+            "type": "long"
+          },
+          {
+            "description": "The IDs of the messages to claim for the given consumer.",
+            "name": "messageIds",
+            "type": "RedisValue[]"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The messages successfully claimed by the given consumer.",
+          "type": "StreamEntry[]"
+        },
+        "signature": "StreamClaim(RedisKey key, RedisValue consumerGroup, RedisValue claimingConsumer, long minIdleTimeInMs, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the stream.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The consumer group.",
+            "name": "consumerGroup",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The consumer claiming the given message(s).",
+            "name": "claimingConsumer",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The minimum message idle time to allow the reassignment of the message(s).",
+            "name": "minIdleTimeInMs",
+            "type": "long"
+          },
+          {
+            "description": "The IDs of the messages to claim for the given consumer.",
+            "name": "messageIds",
+            "type": "RedisValue[]"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The messages successfully claimed by the given consumer.",
+          "type": "StreamEntry[]"
+        },
+        "signature": "StreamClaim(RedisKey key, RedisValue consumerGroup, RedisValue claimingConsumer, long minIdleTimeInMs, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The key of the stream.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The consumer group.",
+            "name": "consumerGroup",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The consumer claiming the given message(s).",
+            "name": "claimingConsumer",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The minimum message idle time to allow the reassignment of the message(s).",
+            "name": "minIdleTimeInMs",
+            "type": "long"
+          },
+          {
+            "description": "The IDs of the messages to claim for the given consumer.",
+            "name": "messageIds",
+            "type": "RedisValue[]"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The messages successfully claimed by the given consumer.",
+          "type": "StreamEntry[]"
+        },
+        "signature": "StreamClaim(RedisKey key, RedisValue consumerGroup, RedisValue claimingConsumer, long minIdleTimeInMs, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the stream.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The consumer group.",
+            "name": "consumerGroup",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The consumer claiming the given message(s).",
+            "name": "claimingConsumer",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The minimum message idle time to allow the reassignment of the message(s).",
+            "name": "minIdleTimeInMs",
+            "type": "long"
+          },
+          {
+            "description": "The IDs of the messages to claim for the given consumer.",
+            "name": "messageIds",
+            "type": "RedisValue[]"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The messages successfully claimed by the given consumer.",
+          "type": "StreamEntry[]"
+        },
+        "signature": "StreamClaim(RedisKey key, RedisValue consumerGroup, RedisValue claimingConsumer, long minIdleTimeInMs, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$group",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$consumer",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$minIdleTime",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "$ids",
+            "type": "string|array"
+          },
+          {
+            "description": "",
+            "name": "?int $idle = null",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "?int $time = null",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "?int $retryCount = null",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "bool $force = false",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "bool $justId = false",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "?string $lastId = null",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array"
+        },
+        "signature": "xclaim(string $key, string $group, string $consumer, int $minIdleTime, string|array $ids, ?int $idle = null, ?int $time = null, ?int $retryCount = null, bool $force = false, bool $justId = false, ?string $lastId = null)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "the stream key",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "the consumer group name",
+            "name": "group",
+            "type": "String"
+          },
+          {
+            "description": "the consumer name",
+            "name": "consumer",
+            "type": "String"
+          },
+          {
+            "description": "the number of milliseconds",
+            "name": "min_idle_time",
+            "type": "Integer"
+          },
+          {
+            "description": "one or multiple entry ids",
+            "name": "*ids",
+            "type": "Array<String>"
+          },
+          {
+            "description": "the number of milliseconds as last time it was delivered",
+            "name": "idle",
+            "type": "Integer"
+          },
+          {
+            "description": "the number of milliseconds as a specific Unix Epoch time",
+            "name": "time",
+            "type": "Integer"
+          },
+          {
+            "description": "the number of retry counter",
+            "name": "retrycount",
+            "type": "Integer"
+          },
+          {
+            "description": "whether to create the pending entry",
+            "name": "force",
+            "type": "Boolean"
+          },
+          {
+            "description": "whether to fetch just an array of entry ids",
+            "name": "justid",
+            "type": "Boolean"
+          }
+        ],
+        "returns": {
+          "description": "the entries successfully claimed",
+          "type": "Hash, Array<String>"
+        },
+        "signature": "xclaim(key, group, consumer, min_idle_time, *ids, **opts)"
+      }
+    ]
+  },
   "commandFlags": [
     "write",
     "fast"
@@ -120,28 +1125,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "command-options",
-        "title": "Command options"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "In the context of a stream consumer group, this command changes the ownership\nof a pending message, so that the new owner is the consumer specified as the\ncommand argument. Normally this is what happens:\n\n1. There is a stream with an associated consumer group.\n2. Some consumer A reads a message via [`XREADGROUP`]() from a stream, in the context of that consumer group.\n3. As a side effect a pending message entry is created in the Pending Entries List (PEL) of the consumer group: it means the message was delivered to a given consumer, but it was not yet acknowledged via [`XACK`]().\n4. Then suddenly that consumer fails forever.\n5. Other consumers may inspect the list of pending messages, that are stale for quite some time, using the [`XPENDING`]() command. In order to continue processing such messages, they use `XCLAIM` to acquire the ownership of the message and continue. Consumers can also use the [`XAUTOCLAIM`]() command to automatically scan and claim stale pending messages.\n\nThis dynamic is clearly explained in the [Stream intro documentation]().\n\nNote that the message is claimed only if its idle time is greater than the minimum idle time we specify when calling `XCLAIM`. Because as a side effect `XCLAIM` will also reset the idle time (since this is a new attempt at processing the message), two consumers trying to claim a message at the same time will never both succeed: only one will successfully claim the message. This avoids that we process a given message multiple times in a trivial way (yet multiple processing is possible and unavoidable in the general case).\n\nMoreover, as a side effect, `XCLAIM` will increment the count of attempted deliveries of the message unless the `JUSTID` option has been specified (which only delivers the message ID, not the message itself). In this way messages that cannot be processed for some reason, for instance because the consumers crash attempting to process them, will start to have a larger counter and can be detected inside the system.\n\n`XCLAIM` will not claim a message in the following cases:\n\n1. The message doesn't exist in the group PEL (i.e. it was never read by any consumer)\n2. The message exists in the group PEL but not in the stream itself (i.e. the message was read but never acknowledged, and then was deleted from the stream, either by trimming or by [`XDEL`]())\n\nIn both cases the reply will not contain a corresponding entry to that message (i.e. the length of the reply array may be smaller than the number of IDs provided to `XCLAIM`).\nIn the latter case, the message will also be deleted from the PEL in which it was found. This feature was introduced in Redis 7.0.\n\n## Command options\n\nThe command has multiple options, however most are mainly for internal use in\norder to transfer the effects of `XCLAIM` or other commands to the AOF file\nand to propagate the same effects to the replicas, and are unlikely to be\nuseful to normal users:\n\n1. `IDLE <ms>`: Set the idle time (last time it was delivered) of the message. If IDLE is not specified, an IDLE of 0 is assumed, that is, the time count is reset because the message has now a new owner trying to process it.\n2. `TIME <ms-unix-time>`: This is the same as IDLE but instead of a relative amount of milliseconds, it sets the idle time to a specific Unix time (in milliseconds). This is useful in order to rewrite the AOF file generating `XCLAIM` commands.\n3. `RETRYCOUNT <count>`: Set the retry counter to the specified value. If not set, `XCLAIM` will increment the retry counter every time a message is delivered again.\n4. `FORCE`: Creates the pending message entry in the PEL even if certain specified IDs are not already in the PEL assigned to a different client. However the message must be exist in the stream, otherwise the IDs of non existing messages are ignored.\n5. `JUSTID`: Return just an array of IDs of messages successfully claimed, without returning the actual message. Using this option means the retry counter is not incremented.\n\n## Examples\n\n```\n> XCLAIM mystream mygroup Alice 3600000 1526569498055-0\n1) 1) 1526569498055-0\n   2) 1) \"message\"\n      2) \"orange\"\n```\n\nIn the above example we claim the message with ID `1526569498055-0`, only if the message is idle for at least one hour without the original consumer or some other consumer making progresses (acknowledging or claiming it), and assigns the ownership to the consumer `Alice`.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nAny of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays): when the _JUSTID_ option is specified, an array of IDs of messages successfully claimed.\n* [Array reply](../../develop/reference/protocol-spec#arrays): an array of stream entries, each of which contains an array of two elements, the entry ID and the entry data itself.\n\n**RESP3:**\n\nAny of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays): when the _JUSTID_ option is specified, an array of IDs of messages successfully claimed.\n* [Array reply](../../develop/reference/protocol-spec#arrays): an array of stream entries, each of which contains an array of two elements, the entry ID and the entry data itself.",
+  "content": "In the context of a stream consumer group, this command changes the ownership\nof a pending message, so that the new owner is the consumer specified as the\ncommand argument. Normally this is what happens:\n\n1. There is a stream with an associated consumer group.\n2. Some consumer A reads a message via [`XREADGROUP`]() from a stream, in the context of that consumer group.\n3. As a side effect a pending message entry is created in the Pending Entries List (PEL) of the consumer group: it means the message was delivered to a given consumer, but it was not yet acknowledged via [`XACK`]().\n4. Then suddenly that consumer fails forever.\n5. Other consumers may inspect the list of pending messages, that are stale for quite some time, using the [`XPENDING`]() command. In order to continue processing such messages, they use `XCLAIM` to acquire the ownership of the message and continue. Consumers can also use the [`XAUTOCLAIM`]() command to automatically scan and claim stale pending messages.\n\nThis dynamic is clearly explained in the [Stream intro documentation]().\n\nNote that the message is claimed only if its idle time is greater than the minimum idle time we specify when calling `XCLAIM`. Because as a side effect `XCLAIM` will also reset the idle time (since this is a new attempt at processing the message), two consumers trying to claim a message at the same time will never both succeed: only one will successfully claim the message. This avoids that we process a given message multiple times in a trivial way (yet multiple processing is possible and unavoidable in the general case).\n\nMoreover, as a side effect, `XCLAIM` will increment the count of attempted deliveries of the message unless the `JUSTID` option has been specified (which only delivers the message ID, not the message itself). In this way messages that cannot be processed for some reason, for instance because the consumers crash attempting to process them, will start to have a larger counter and can be detected inside the system.\n\n`XCLAIM` will not claim a message in the following cases:\n\n1. The message doesn't exist in the group PEL (i.e. it was never read by any consumer)\n2. The message exists in the group PEL but not in the stream itself (i.e. the message was read but never acknowledged, and then was deleted from the stream, either by trimming or by [`XDEL`]())\n\nIn both cases the reply will not contain a corresponding entry to that message (i.e. the length of the reply array may be smaller than the number of IDs provided to `XCLAIM`).\nIn the latter case, the message will also be deleted from the PEL in which it was found. This feature was introduced in Redis 7.0.\n\n## Command options\n\nThe command has multiple options, however most are mainly for internal use in\norder to transfer the effects of `XCLAIM` or other commands to the AOF file\nand to propagate the same effects to the replicas, and are unlikely to be\nuseful to normal users:\n\n1. `IDLE <ms>`: Set the idle time (last time it was delivered) of the message. If IDLE is not specified, an IDLE of 0 is assumed, that is, the time count is reset because the message has now a new owner trying to process it.\n2. `TIME <ms-unix-time>`: This is the same as IDLE but instead of a relative amount of milliseconds, it sets the idle time to a specific Unix time (in milliseconds). This is useful in order to rewrite the AOF file generating `XCLAIM` commands.\n3. `RETRYCOUNT <count>`: Set the retry counter to the specified value. If not set, `XCLAIM` will increment the retry counter every time a message is delivered again.\n4. `FORCE`: Creates the pending message entry in the PEL even if certain specified IDs are not already in the PEL assigned to a different client. However the message must be exist in the stream, otherwise the IDs of non existing messages are ignored.\n5. `JUSTID`: Return just an array of IDs of messages successfully claimed, without returning the actual message. Using this option means the retry counter is not incremented.\n\n## Examples\n\n```\n> XCLAIM mystream mygroup Alice 3600000 1526569498055-0\n1) 1) 1526569498055-0\n   2) 1) \"message\"\n      2) \"orange\"\n```\n\nIn the above example we claim the message with ID `1526569498055-0`, only if the message is idle for at least one hour without the original consumer or some other consumer making progresses (acknowledging or claiming it), and assigns the ownership to the consumer `Alice`.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"xclaim-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nAny of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays): when the _JUSTID_ option is specified, an array of IDs of messages successfully claimed.\n* [Array reply](../../develop/reference/protocol-spec#arrays): an array of stream entries, each of which contains an array of two elements, the entry ID and the entry data itself.\n\n-tab-sep-\n\nAny of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays): when the _JUSTID_ option is specified, an array of IDs of messages successfully claimed.\n* [Array reply](../../develop/reference/protocol-spec#arrays): an array of stream entries, each of which contains an array of two elements, the entry ID and the entry data itself.\n\n{{< /multitabs >}}",
+  "example": "> XCLAIM mystream mygroup Alice 3600000 1526569498055-0\n1) 1) 1526569498055-0\n   2) 1) \"message\"\n      2) \"orange\"",
   "intro": "In the context of a stream consumer group, this command changes the ownership\nof a pending message, so that the new owner is the consumer specified as the\ncommand argument. Normally this is what happens:\n\n1. There is a stream with an associated consumer group.\n2. Some consumer A reads a message via [`XREADGROUP`]() from a stream, in the context of that consumer group.\n3. As a side effect a pending message entry is created in the Pending Entries List (PEL) of the consumer group: it means the message was delivered to a given consumer, but it was not yet acknowledged via [`XACK`]().\n4. Then suddenly that consumer fails forever.\n5. Other consumers may inspect the list of pending messages, that are stale for quite some time, using the [`XPENDING`]() command. In order to continue processing such messages, they use `XCLAIM` to acquire the ownership of the message and continue. Consumers can also use the [`XAUTOCLAIM`]() command to automatically scan and claim stale pending messages.\n\nThis dynamic is clearly explained in the [Stream intro documentation]().\n\nNote that the message is claimed only if its idle time is greater than the minimum idle time we specify when calling `XCLAIM`. Because as a side effect `XCLAIM` will also reset the idle time (since this is a new attempt at processing the message), two consumers trying to claim a message at the same time will never both succeed: only one will successfully claim the message. This avoids that we process a given message multiple times in a trivial way (yet multiple processing is possible and unavoidable in the general case).\n\nMoreover, as a side effect, `XCLAIM` will increment the count of attempted deliveries of the message unless the `JUSTID` option has been specified (which only delivers the message ID, not the message itself). In this way messages that cannot be processed for some reason, for instance because the consumers crash attempting to process them, will start to have a larger counter and can be detected inside the system.\n\n`XCLAIM` will not claim a message in the following cases:\n\n1. The message doesn't exist in the group PEL (i.e. it was never read by any consumer)\n2. The message exists in the group PEL but not in the stream itself (i.e. the message was read but never acknowledged, and then was deleted from the stream, either by trimming or by [`XDEL`]())\n\nIn both cases the reply will not contain a corresponding entry to that message (i.e. the length of the reply array may be smaller than the number of IDs provided to `XCLAIM`).\nIn the latter case, the message will also be deleted from the PEL in which it was found. This feature was introduced in Redis 7.0.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -166,7 +1156,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nAny of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays): when the _JUSTID_ option is specified, an array of IDs of messages successfully claimed.\n* [Array reply](../../develop/reference/protocol-spec#arrays): an array of stream entries, each of which contains an array of two elements, the entry ID and the entry data itself.\n\n**RESP3:**\n\nAny of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays): when the _JUSTID_ option is specified, an array of IDs of messages successfully claimed.\n* [Array reply](../../develop/reference/protocol-spec#arrays): an array of stream entries, each of which contains an array of two elements, the entry ID and the entry data itself."
+      "content": "{{< multitabs id=\"xclaim-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nAny of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays): when the _JUSTID_ option is specified, an array of IDs of messages successfully claimed.\n* [Array reply](../../develop/reference/protocol-spec#arrays): an array of stream entries, each of which contains an array of two elements, the entry ID and the entry data itself.\n\n-tab-sep-\n\nAny of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays): when the _JUSTID_ option is specified, an array of IDs of messages successfully claimed.\n* [Array reply](../../develop/reference/protocol-spec#arrays): an array of stream entries, each of which contains an array of two elements, the entry ID and the entry data itself.\n\n{{< /multitabs >}}"
     }
   ]
 }

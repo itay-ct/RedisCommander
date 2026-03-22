@@ -14,6 +14,160 @@
     "@write",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "str"
+          },
+          {
+            "description": "",
+            "name": "items",
+            "type": "*args"
+          }
+        ],
+        "returns": {
+          "description": "Items dropped from the Top-K list",
+          "type": "List"
+        },
+        "signature": "add(key, *items)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "items",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "Items dropped from list",
+          "type": "List<String>"
+        },
+        "signature": "topkAdd(String key, String... items)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "elements",
+            "type": "...interface{}"
+          }
+        ],
+        "returns": {
+          "description": "Items removed from filter",
+          "type": "*StringSliceCmd"
+        },
+        "signature": "TopKAdd(ctx context.Context, key string, elements ...interface{}) *StringSliceCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "items",
+            "type": "RedisVariadicArgument"
+          }
+        ],
+        "returns": {
+          "description": "Items dropped from Top-K list",
+          "type": "ArrayReply<BlobStringReply>"
+        },
+        "signature": "TOPK.ADD(key, items)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "items",
+            "type": "params RedisValue[]"
+          }
+        ],
+        "returns": {
+          "description": "Items dropped from list",
+          "type": "RedisResult[]?"
+        },
+        "signature": "Add(RedisKey key, params RedisValue[] items)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "items",
+            "type": "params RedisValue[]"
+          }
+        ],
+        "returns": {
+          "description": "Items dropped from list",
+          "type": "Task<RedisResult[]?>"
+        },
+        "signature": "AddAsync(RedisKey key, params RedisValue[] items)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "items",
+            "type": "string..."
+          }
+        ],
+        "returns": {
+          "description": "Items dropped from Top-K list",
+          "type": "array"
+        },
+        "signature": "topkadd($key, ...$items)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -38,28 +192,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "parameters",
-        "title": "Parameters"
-      },
-      {
-        "id": "example",
-        "title": "Example"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Adds an item to a Top-k sketch. \nMultiple items can be added at the same time.\nIf an item enters the Top-K sketch, the item that is expelled (if any) is returned.\nThis allows dynamic heavy-hitter detection of items being entered or expelled from Top-K sketch. \n\n## Parameters\n\n* **key**: the name of the sketch where items are added.\n* **item**: the items to be added.\n\n## Example\n\n```\nredis> TOPK.ADD topk foo bar 42\n1) (nil)\n2) baz\n3) (nil)\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\"><nobr>&#x2705; Flexible & Annual</nobr></span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n\n* [Array]() of [bulk string replies]() containing either dropped elements or [nil (null bulk string)]().\n* [Simple error reply]() in these cases: incorrect number of arguments or non-existant key.\n\n**RESP3:**\n\nOne of the following:\n\n* [Array]() of [bulk string replies]() containing either dropped elements or [null]().\n* [Simple error reply]() in these cases: incorrect number of arguments, non-existant key, or key of the incorrect type.",
+  "content": "Adds an item to a Top-k sketch. \nMultiple items can be added at the same time.\nIf an item enters the Top-K sketch, the item that is expelled (if any) is returned.\nThis allows dynamic heavy-hitter detection of items being entered or expelled from Top-K sketch.\n\n## Parameters\n\n* **key**: the name of the sketch where items are added.\n* **item**: the items to be added.\n\n## Example\n\n```\nredis> TOPK.ADD topk foo bar 42\n1) (nil)\n2) baz\n3) (nil)\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\"><nobr>&#x2705; Flexible & Annual</nobr></span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"topk-add-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n\n* [Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [bulk string replies]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) containing either dropped elements or [nil (null bulk string)]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}).\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: incorrect number of arguments or non-existant key.\n\n-tab-sep-\n\nOne of the following:\n\n* [Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [bulk string replies]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) containing either dropped elements or [null]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}).\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: incorrect number of arguments, non-existant key, or key of the incorrect type.\n\n{{< /multitabs >}}",
+  "example": "redis> TOPK.ADD topk foo bar 42\n1) (nil)\n2) baz\n3) (nil)",
   "intro": "Adds an item to a Top-k sketch. \nMultiple items can be added at the same time.\nIf an item enters the Top-K sketch, the item that is expelled (if any) is returned.\nThis allows dynamic heavy-hitter detection of items being entered or expelled from Top-K sketch.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -84,7 +223,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n\n* [Array]() of [bulk string replies]() containing either dropped elements or [nil (null bulk string)]().\n* [Simple error reply]() in these cases: incorrect number of arguments or non-existant key.\n\n**RESP3:**\n\nOne of the following:\n\n* [Array]() of [bulk string replies]() containing either dropped elements or [null]().\n* [Simple error reply]() in these cases: incorrect number of arguments, non-existant key, or key of the incorrect type."
+      "content": "{{< multitabs id=\"topk-add-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n\n* [Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [bulk string replies]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) containing either dropped elements or [nil (null bulk string)]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}).\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: incorrect number of arguments or non-existant key.\n\n-tab-sep-\n\nOne of the following:\n\n* [Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [bulk string replies]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) containing either dropped elements or [null]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}).\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: incorrect number of arguments, non-existant key, or key of the incorrect type.\n\n{{< /multitabs >}}"
     }
   ]
 }

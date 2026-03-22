@@ -14,6 +14,213 @@
     "@read",
     "@fast"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "KeyT"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "int"
+        },
+        "signature": "pexpiretime(key: KeyT)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "byte[]"
+          }
+        ],
+        "returns": {
+          "description": "Expiration Unix timestamp in milliseconds, or a negative value in order to signal an error",
+          "type": "long"
+        },
+        "signature": "long pexpireTime(final byte[] key)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "Expiration Unix timestamp in milliseconds, or a negative value in order to signal an error",
+          "type": "long"
+        },
+        "signature": "long pexpireTime(final String key)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*DurationCmd"
+        },
+        "signature": "PExpireTime(ctx context.Context, key string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "PEXPIRETIME(key: RedisArgument)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "Long integer-reply expiration Unix timestamp in milliseconds, or a negative value in order to signal an error.",
+          "type": "Long"
+        },
+        "signature": "Long pexpiretime(K key)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "Long integer-reply expiration Unix timestamp in milliseconds, or a negative value in order to signal an error.",
+          "type": "RedisFuture<Long>"
+        },
+        "signature": "RedisFuture<Long> pexpiretime(K key)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "Long integer-reply expiration Unix timestamp in milliseconds, or a negative value in order to signal an error.",
+          "type": "Mono<Long>"
+        },
+        "signature": "Mono<Long> pexpiretime(K key)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The key to check.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The expiration time, or null if the key does not exist or has no associated expiration.",
+          "type": "DateTime?"
+        },
+        "signature": "KeyExpireTime(RedisKey key, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The key to check.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The expiration time, or null if the key does not exist or has no associated expiration.",
+          "type": "Task<DateTime?>"
+        },
+        "signature": "KeyExpireTimeAsync(RedisKey key, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "int"
+        },
+        "signature": "pexpireTime(string $key)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "expiry time specified as number of milliseconds from UNIX Epoch",
+          "type": "Integer"
+        },
+        "signature": "pexpiretime(key)"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly",
     "fast"
@@ -57,24 +264,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "`PEXPIRETIME` has the same semantic as [`EXPIRETIME`](), but returns the absolute Unix expiration timestamp in milliseconds instead of seconds.\n\n## Examples\n\n\nSET mykey \"Hello\"\nPEXPIREAT mykey 33177117420000\nPEXPIRETIME mykey\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): Expiration Unix timestamp in milliseconds.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the key exists but has no associated expiration time.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if the key does not exist.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): Expiration Unix timestamp in milliseconds.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the key exists but has no associated expiration time.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if the key does not exist.",
+  "content": "`PEXPIRETIME` has the same semantic as [`EXPIRETIME`](), but returns the absolute Unix expiration timestamp in milliseconds instead of seconds.\n\n## Examples\n\n{{% redis-cli %}}\nSET mykey \"Hello\"\nPEXPIREAT mykey 33177117420000\nPEXPIRETIME mykey\n{{% /redis-cli %}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"pexpiretime-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): Expiration Unix timestamp in milliseconds.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the key exists but has no associated expiration time.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if the key does not exist.\n\n-tab-sep-\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): Expiration Unix timestamp in milliseconds.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the key exists but has no associated expiration time.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if the key does not exist.\n\n{{< /multitabs >}}",
+  "example": "SET mykey \"Hello\"\nPEXPIREAT mykey 33177117420000\nPEXPIRETIME mykey",
   "intro": "`PEXPIRETIME` has the same semantic as [`EXPIRETIME`](), but returns the absolute Unix expiration timestamp in milliseconds instead of seconds.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -84,7 +280,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "SET mykey \"Hello\"\nPEXPIREAT mykey 33177117420000\nPEXPIRETIME mykey"
+      "content": "{{% redis-cli %}}\nSET mykey \"Hello\"\nPEXPIREAT mykey 33177117420000\nPEXPIRETIME mykey\n{{% /redis-cli %}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -94,7 +290,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): Expiration Unix timestamp in milliseconds.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the key exists but has no associated expiration time.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if the key does not exist.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): Expiration Unix timestamp in milliseconds.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the key exists but has no associated expiration time.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if the key does not exist."
+      "content": "{{< multitabs id=\"pexpiretime-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): Expiration Unix timestamp in milliseconds.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the key exists but has no associated expiration time.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if the key does not exist.\n\n-tab-sep-\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): Expiration Unix timestamp in milliseconds.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the key exists but has no associated expiration time.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if the key does not exist.\n\n{{< /multitabs >}}"
     }
   ]
 }

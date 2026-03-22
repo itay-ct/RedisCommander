@@ -14,6 +14,225 @@
     "@string",
     "@fast"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "KeyT"
+          }
+        ],
+        "returns": {
+          "description": "- None if the key does not exist - (bulk string) the XXH3 digest of the value as a hex string",
+          "type": "Union[str, bytes, None]"
+        },
+        "signature": "digest(name: KeyT)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "script content.",
+            "name": "script",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "the SHA1 value. @since 6.0",
+          "type": "String"
+        },
+        "signature": "String digest(String script)"
+      },
+      {
+        "params": [
+          {
+            "description": "script content.",
+            "name": "script",
+            "type": "byte[]"
+          }
+        ],
+        "returns": {
+          "description": "the SHA1 value. @since 6.0",
+          "type": "String"
+        },
+        "signature": "String digest(byte[] script)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "script content.",
+            "name": "script",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "the SHA1 value. @since 6.0",
+          "type": "String"
+        },
+        "signature": "String digest(String script)"
+      },
+      {
+        "params": [
+          {
+            "description": "script content.",
+            "name": "script",
+            "type": "byte[]"
+          }
+        ],
+        "returns": {
+          "description": "the SHA1 value. @since 6.0",
+          "type": "String"
+        },
+        "signature": "String digest(byte[] script)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "script content.",
+            "name": "script",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "the SHA1 value. @since 6.0",
+          "type": "String"
+        },
+        "signature": "String digest(String script)"
+      },
+      {
+        "params": [
+          {
+            "description": "script content.",
+            "name": "script",
+            "type": "byte[]"
+          }
+        ],
+        "returns": {
+          "description": "the SHA1 value. @since 6.0",
+          "type": "String"
+        },
+        "signature": "String digest(byte[] script)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*DigestCmd"
+        },
+        "signature": "Digest(ctx context.Context, key string)"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Option<String>)"
+        },
+        "signature": "digest(key: K)"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Option<String>)"
+        },
+        "signature": "digest(key: K)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "ValueCondition?"
+        },
+        "signature": "StringDigest(RedisKey key, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "ValueCondition?"
+        },
+        "signature": "StringDigest(RedisKey key, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "string"
+        },
+        "signature": "digest(string $key)"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly",
     "fast"
@@ -57,28 +276,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "hash-digest",
-        "title": "Hash Digest"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "example",
-        "title": "Example"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Get the hash digest for the value stored in the specified key as a hexadecimal string. Keys must be of type string.\n\n## Hash Digest\n\nA hash digest is a fixed-size numerical representation of a string value, computed using the XXH3 hash algorithm. Redis uses this hash digest for efficient comparison operations without needing to compare the full string content. You can use these hash digests with the [SET]() command's `IFDEQ` and `IFDNE` options, and also the [DELEX]() command's `IFDEQ` and `IFDNE` options.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Example\n\n```bash\n> SET key1 \"Hello world\"\nOK\n> DIGEST key1\n\"b6acb9d84a38ff74\"\n```\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n\n- [Null bulk string reply]() if the key does not exist.\n- [Simple error reply]() if the key exists but holds a value which is not a string.\n- [Bulk string reply]() the hash digest of the value stored in the key as a hexadecimal string.\n\n**RESP3:**\n\nOne of the following:\n\n- [Null bulk string reply]() if the key does not exist.\n- [Simple error reply]() if the key exists but holds a value which is not a string.\n- [Bulk string reply]() the hash digest of the value stored in the key as a hexadecimal string.",
+  "content": "Get the hash digest for the value stored in the specified key as a hexadecimal string. Keys must be of type string.\n\n## Hash Digest\n\nA hash digest is a fixed-size numerical representation of a string value, computed using the XXH3 hash algorithm. Redis uses this hash digest for efficient comparison operations without needing to compare the full string content. You can use these hash digests with the [SET]({{< relref \"/commands/set\" >}}) command's `IFDEQ` and `IFDNE` options, and also the [DELEX]({{< relref \"/commands/delex\" >}}) command's `IFDEQ` and `IFDNE` options.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Example\n\n```bash\n> SET key1 \"Hello world\"\nOK\n> DIGEST key1\n\"b6acb9d84a38ff74\"\n```\n\n## Return information\n\n{{< multitabs id=\"return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\nOne of the following:\n\n- [Null bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) if the key does not exist.\n- [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) if the key exists but holds a value which is not a string.\n- [Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) the hash digest of the value stored in the key as a hexadecimal string.\n\n-tab-sep-\n\nOne of the following:\n\n- [Null bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) if the key does not exist.\n- [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) if the key exists but holds a value which is not a string.\n- [Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) the hash digest of the value stored in the key as a hexadecimal string.\n\n{{< /multitabs >}}",
+  "example": "> SET key1 \"Hello world\"\nOK\n> DIGEST key1\n\"b6acb9d84a38ff74\"",
   "intro": "Get the hash digest for the value stored in the specified key as a hexadecimal string. Keys must be of type string.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -88,7 +292,7 @@
     {
       "title": "Hash Digest",
       "level": 2,
-      "content": "A hash digest is a fixed-size numerical representation of a string value, computed using the XXH3 hash algorithm. Redis uses this hash digest for efficient comparison operations without needing to compare the full string content. You can use these hash digests with the [SET]() command's `IFDEQ` and `IFDNE` options, and also the [DELEX]() command's `IFDEQ` and `IFDNE` options."
+      "content": "A hash digest is a fixed-size numerical representation of a string value, computed using the XXH3 hash algorithm. Redis uses this hash digest for efficient comparison operations without needing to compare the full string content. You can use these hash digests with the [SET]({{< relref \"/commands/set\" >}}) command's `IFDEQ` and `IFDNE` options, and also the [DELEX]({{< relref \"/commands/delex\" >}}) command's `IFDEQ` and `IFDNE` options."
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -103,7 +307,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n\n- [Null bulk string reply]() if the key does not exist.\n- [Simple error reply]() if the key exists but holds a value which is not a string.\n- [Bulk string reply]() the hash digest of the value stored in the key as a hexadecimal string.\n\n**RESP3:**\n\nOne of the following:\n\n- [Null bulk string reply]() if the key does not exist.\n- [Simple error reply]() if the key exists but holds a value which is not a string.\n- [Bulk string reply]() the hash digest of the value stored in the key as a hexadecimal string."
+      "content": "{{< multitabs id=\"return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\nOne of the following:\n\n- [Null bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) if the key does not exist.\n- [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) if the key exists but holds a value which is not a string.\n- [Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) the hash digest of the value stored in the key as a hexadecimal string.\n\n-tab-sep-\n\nOne of the following:\n\n- [Null bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) if the key does not exist.\n- [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) if the key exists but holds a value which is not a string.\n- [Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) the hash digest of the value stored in the key as a hexadecimal string.\n\n{{< /multitabs >}}"
     }
   ]
 }

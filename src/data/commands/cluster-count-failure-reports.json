@@ -14,6 +14,56 @@
     "@slow",
     "@dangerous"
   ],
+  "apiMethods": {
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "The node ID",
+            "name": "nodeId",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "Number of failure reports",
+          "type": "Long"
+        },
+        "signature": "Long clusterCountFailureReports(String nodeId)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "The node ID",
+            "name": "nodeId",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "Number of failure reports",
+          "type": "RedisFuture<Long>"
+        },
+        "signature": "RedisFuture<Long> clusterCountFailureReports(String nodeId)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "The node ID",
+            "name": "nodeId",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "Number of failure reports",
+          "type": "Mono<Long>"
+        },
+        "signature": "Mono<Long> clusterCountFailureReports(String nodeId)"
+      }
+    ]
+  },
   "commandFlags": [
     "admin",
     "stale"
@@ -37,16 +87,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
   "content": "The command returns the number of *failure reports* for the specified node.\nFailure reports are the way Redis Cluster uses in order to promote a\n`PFAIL` state, that means a node is not reachable, to a `FAIL` state,\nthat means that the majority of masters in the cluster agreed within\na window of time that the node is not reachable.\n\nA few more details:\n\n* A node flags another node with `PFAIL` when the node is not reachable for a time greater than the configured *node timeout*, which is a fundamental configuration parameter of a Redis Cluster.\n* Nodes in `PFAIL` state are provided in gossip sections of heartbeat packets.\n* Every time a node processes gossip packets from other nodes, it creates (and refreshes the TTL if needed) **failure reports**, remembering that a given node said another given node is in `PFAIL` condition.\n* Each failure report has a time to live of two times the *node timeout* time.\n* If at a given time a node has another node flagged with `PFAIL`, and at the same time collected the majority of other master nodes *failure reports* about this node (including itself if it is a master), then it elevates the failure state of the node from `PFAIL` to `FAIL`, and broadcasts a message forcing all the nodes that can be reached to flag the node as `FAIL`.\n\nThis command returns the number of failure reports for the current node which are currently not expired (so received within two times the *node timeout* time). The count does not include what the node we are asking this count believes about the node ID we pass as argument, the count *only* includes the failure reports the node received from other nodes.\n\nThis command is mainly useful for debugging, when the failure detector of\nRedis Cluster is not operating as we believe it should.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |",
+  "example": null,
   "intro": "The command returns the number of *failure reports* for the specified node.\nFailure reports are the way Redis Cluster uses in order to promote a\n`PFAIL` state, that means a node is not reachable, to a `FAIL` state,\nthat means that the majority of masters in the cluster agreed within\na window of time that the node is not reachable.\n\nA few more details:\n\n* A node flags another node with `PFAIL` when the node is not reachable for a time greater than the configured *node timeout*, which is a fundamental configuration parameter of a Redis Cluster.\n* Nodes in `PFAIL` state are provided in gossip sections of heartbeat packets.\n* Every time a node processes gossip packets from other nodes, it creates (and refreshes the TTL if needed) **failure reports**, remembering that a given node said another given node is in `PFAIL` condition.\n* Each failure report has a time to live of two times the *node timeout* time.\n* If at a given time a node has another node flagged with `PFAIL`, and at the same time collected the majority of other master nodes *failure reports* about this node (including itself if it is a master), then it elevates the failure state of the node from `PFAIL` to `FAIL`, and broadcasts a message forcing all the nodes that can be reached to flag the node as `FAIL`.\n\nThis command returns the number of failure reports for the current node which are currently not expired (so received within two times the *node timeout* time). The count does not include what the node we are asking this count believes about the node ID we pass as argument, the count *only* includes the failure reports the node received from other nodes.\n\nThis command is mainly useful for debugging, when the failure detector of\nRedis Cluster is not operating as we believe it should.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",

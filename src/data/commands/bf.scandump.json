@@ -14,6 +14,160 @@
     "@write",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "The name of the Bloom filter",
+            "name": "key",
+            "type": "str"
+          },
+          {
+            "description": "Iterator value (start with 0)",
+            "name": "iter",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "Tuple of (iterator, data) - continue until iterator is 0",
+          "type": "tuple"
+        },
+        "signature": "scandump(key, iter)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "The name of the Bloom filter",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "Iterator value (start with 0)",
+            "name": "iterator",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "Pair of next iterator and current data",
+          "type": "Map.Entry<Long, byte[]>"
+        },
+        "signature": "Map.Entry<Long, byte[]> bfScanDump(String key, long iterator)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "The name of the Bloom filter",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "Iterator value (start with 0)",
+            "name": "iterator",
+            "type": "int64"
+          }
+        ],
+        "returns": {
+          "description": "ScanDump command result with Iter and Data",
+          "type": "*ScanDumpCmd"
+        },
+        "signature": "BFScanDump(ctx context.Context, key string, iterator int64) *ScanDumpCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "The name of the Bloom filter",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "Iterator value (start with 0)",
+            "name": "iterator",
+            "type": "number"
+          }
+        ],
+        "returns": {
+          "description": "Object with iterator and chunk",
+          "type": "{ iterator: number, chunk: BlobStringReply }"
+        },
+        "signature": "BF.SCANDUMP(key: RedisArgument, iterator: number)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The name of the Bloom filter",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "Iterator value (start with 0)",
+            "name": "iterator",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "Tuple of iterator and data",
+          "type": "Tuple<long, Byte[]>"
+        },
+        "signature": "Tuple<long, Byte[]> ScanDump(RedisKey key, long iterator)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The name of the Bloom filter",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "Iterator value (start with 0)",
+            "name": "iterator",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "Tuple of iterator and data",
+          "type": "Task<Tuple<long, Byte[]>>"
+        },
+        "signature": "async Task<Tuple<long, Byte[]>> ScanDumpAsync(RedisKey key, long iterator)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "The name of the Bloom filter",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "Iterator value (start with 0)",
+            "name": "$iterator",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "Array with iterator and data",
+          "type": "array"
+        },
+        "signature": "bfscandump(string $key, int $iterator)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -37,28 +191,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Begins an incremental save of the Bloom filter.\n\nThis command is useful for large Bloom filters that cannot fit into the [`DUMP`]() and [`RESTORE`]() model.\n\nThe first time this command is called, the value of `iter` should be 0. \n\nThis command returns successive `(iter, data)` pairs until `(0, NULL)` to indicate completion.\n\n## Required arguments\n\n<details open><summary><code>key</code></summary>\n\nis key name for a Bloom filter to save.\n</details>\n\n<details open><summary><code>iterator</code></summary>\n\nIterator value; either 0 or the iterator from a previous invocation of this command\n</details>\n\n## Examples\n\n\nredis> BF.RESERVE bf 0.1 10\nOK\nredis> BF.ADD bf item1\n1) (integer) 1\nredis> BF.SCANDUMP bf 0\n1) (integer) 1\n2) \"\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x01\\x00\\x00\\x00\\x05\\x00\\x00\\x00\\x02\\x00\\x00\\x00\\b\\x00\\x00\\x00\\x00\\x00\\x00\\x00@\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x9a\\x99\\x99\\x99\\x99\\x99\\xa9?J\\xf7\\xd4\\x9e\\xde\\xf0\\x18@\\x05\\x00\\x00\\x00\\n\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\"\nredis> BF.SCANDUMP bf 1\n1) (integer) 9\n2) \"\\x01\\b\\x00\\x80\\x00\\x04 \\x00\"\nredis> BF.SCANDUMP bf 9\n1) (integer) 0\n2) \"\"\nredis> DEL bf\n(integer) 1\nredis> BF.LOADCHUNK bf 1 \"\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x01\\x00\\x00\\x00\\x05\\x00\\x00\\x00\\x02\\x00\\x00\\x00\\b\\x00\\x00\\x00\\x00\\x00\\x00\\x00@\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x9a\\x99\\x99\\x99\\x99\\x99\\xa9?J\\xf7\\xd4\\x9e\\xde\\xf0\\x18@\\x05\\x00\\x00\\x00\\n\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\"\nOK\nredis> BF.LOADCHUNK bf 9 \"\\x01\\b\\x00\\x80\\x00\\x04 \\x00\"\nOK\nredis> BF.EXISTS bf item1\n(integer) 1\n\n\nPython code:\n\nchunks = []\niter = 0\nwhile True:\n    iter, data = BF.SCANDUMP(key, iter)\n    if iter == 0:\n        break\n    else:\n        chunks.append([iter, data])\n\n# Load it back\nfor chunk in chunks:\n    iter, data = chunk\n    BF.LOADCHUNK(key, iter, data)\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Array reply](): a two-element array of an [Integer reply]() (_Iterator_) and a [Bulk string reply]() (_Data_).\n* [Simple error reply]() in these cases: invalid arguments, the key was not found, or the key is of the wrong type.\n\nThe Iterator is passed as input to the next invocation of `BF.SCANDUMP`. If _Iterator_ is 0, then it means iteration has completed.\n\nThe iterator-data pair should also be passed to [`BF.LOADCHUNK`]() when restoring the filter.\n\n**RESP3:**\n\nOne of the following:\n* [Array reply](): a two-element array of an [Integer reply]() (_Iterator_) and a [Bulk string reply]() (_Data_).\n* [Simple error reply]() in these cases: invalid arguments, the key was not found, or the key is of the wrong type.\n\nThe Iterator is passed as input to the next invocation of `BF.SCANDUMP`. If _Iterator_ is 0, then it means iteration has completed.\n\nThe iterator-data pair should also be passed to [`BF.LOADCHUNK`]() when restoring the filter.",
+  "content": "Begins an incremental save of the Bloom filter.\n\nThis command is useful for large Bloom filters that cannot fit into the [`DUMP`]() and [`RESTORE`]() model.\n\nThe first time this command is called, the value of `iter` should be 0. \n\nThis command returns successive `(iter, data)` pairs until `(0, NULL)` to indicate completion.\n\n## Required arguments\n\n<details open><summary><code>key</code></summary>\n\nis key name for a Bloom filter to save.\n</details>\n\n<details open><summary><code>iterator</code></summary>\n\nIterator value; either 0 or the iterator from a previous invocation of this command\n</details>\n\n## Examples\n\n{{< highlight bash >}}\nredis> BF.RESERVE bf 0.1 10\nOK\nredis> BF.ADD bf item1\n1) (integer) 1\nredis> BF.SCANDUMP bf 0\n1) (integer) 1\n2) \"\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x01\\x00\\x00\\x00\\x05\\x00\\x00\\x00\\x02\\x00\\x00\\x00\\b\\x00\\x00\\x00\\x00\\x00\\x00\\x00@\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x9a\\x99\\x99\\x99\\x99\\x99\\xa9?J\\xf7\\xd4\\x9e\\xde\\xf0\\x18@\\x05\\x00\\x00\\x00\\n\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\"\nredis> BF.SCANDUMP bf 1\n1) (integer) 9\n2) \"\\x01\\b\\x00\\x80\\x00\\x04 \\x00\"\nredis> BF.SCANDUMP bf 9\n1) (integer) 0\n2) \"\"\nredis> DEL bf\n(integer) 1\nredis> BF.LOADCHUNK bf 1 \"\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x01\\x00\\x00\\x00\\x05\\x00\\x00\\x00\\x02\\x00\\x00\\x00\\b\\x00\\x00\\x00\\x00\\x00\\x00\\x00@\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x9a\\x99\\x99\\x99\\x99\\x99\\xa9?J\\xf7\\xd4\\x9e\\xde\\xf0\\x18@\\x05\\x00\\x00\\x00\\n\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\"\nOK\nredis> BF.LOADCHUNK bf 9 \"\\x01\\b\\x00\\x80\\x00\\x04 \\x00\"\nOK\nredis> BF.EXISTS bf item1\n(integer) 1\n{{< / highlight >}}\n\nPython code:\n{{< highlight bash >}}\nchunks = []\niter = 0\nwhile True:\n    iter, data = BF.SCANDUMP(key, iter)\n    if iter == 0:\n        break\n    else:\n        chunks.append([iter, data])\n\n# Load it back\nfor chunk in chunks:\n    iter, data = chunk\n    BF.LOADCHUNK(key, iter, data)\n{{< / highlight >}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"bf-scandump-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): a two-element array of an [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) (_Iterator_) and a [Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) (_Data_).\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, the key was not found, or the key is of the wrong type.\n\nThe Iterator is passed as input to the next invocation of `BF.SCANDUMP`. If _Iterator_ is 0, then it means iteration has completed.\n\nThe iterator-data pair should also be passed to [`BF.LOADCHUNK`]({{< relref \"commands/bf.loadchunk/\" >}}) when restoring the filter.\n\n-tab-sep-\n\nOne of the following:\n* [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): a two-element array of an [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) (_Iterator_) and a [Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) (_Data_).\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, the key was not found, or the key is of the wrong type.\n\nThe Iterator is passed as input to the next invocation of `BF.SCANDUMP`. If _Iterator_ is 0, then it means iteration has completed.\n\nThe iterator-data pair should also be passed to [`BF.LOADCHUNK`]({{< relref \"commands/bf.loadchunk/\" >}}) when restoring the filter.\n\n{{< /multitabs >}}",
+  "example": "redis> BF.RESERVE bf 0.1 10\nOK\nredis> BF.ADD bf item1\n1) (integer) 1\nredis> BF.SCANDUMP bf 0\n1) (integer) 1\n2) \"\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x01\\x00\\x00\\x00\\x05\\x00\\x00\\x00\\x02\\x00\\x00\\x00\\b\\x00\\x00\\x00\\x00\\x00\\x00\\x00@\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x9a\\x99\\x99\\x99\\x99\\x99\\xa9?J\\xf7\\xd4\\x9e\\xde\\xf0\\x18@\\x05\\x00\\x00\\x00\\n\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\"\nredis> BF.SCANDUMP bf 1\n1) (integer) 9\n2) \"\\x01\\b\\x00\\x80\\x00\\x04 \\x00\"\nredis> BF.SCANDUMP bf 9\n1) (integer) 0\n2) \"\"\nredis> DEL bf\n(integer) 1\nredis> BF.LOADCHUNK bf 1 \"\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x01\\x00\\x00\\x00\\x05\\x00\\x00\\x00\\x02\\x00\\x00\\x00\\b\\x00\\x00\\x00\\x00\\x00\\x00\\x00@\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x9a\\x99\\x99\\x99\\x99\\x99\\xa9?J\\xf7\\xd4\\x9e\\xde\\xf0\\x18@\\x05\\x00\\x00\\x00\\n\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\"\nOK\nredis> BF.LOADCHUNK bf 9 \"\\x01\\b\\x00\\x80\\x00\\x04 \\x00\"\nOK\nredis> BF.EXISTS bf item1\n(integer) 1",
   "intro": "Begins an incremental save of the Bloom filter.\n\nThis command is useful for large Bloom filters that cannot fit into the [`DUMP`]() and [`RESTORE`]() model.\n\nThe first time this command is called, the value of `iter` should be 0. \n\nThis command returns successive `(iter, data)` pairs until `(0, NULL)` to indicate completion.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -73,7 +212,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "redis> BF.RESERVE bf 0.1 10\nOK\nredis> BF.ADD bf item1\n1) (integer) 1\nredis> BF.SCANDUMP bf 0\n1) (integer) 1\n2) \"\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x01\\x00\\x00\\x00\\x05\\x00\\x00\\x00\\x02\\x00\\x00\\x00\\b\\x00\\x00\\x00\\x00\\x00\\x00\\x00@\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x9a\\x99\\x99\\x99\\x99\\x99\\xa9?J\\xf7\\xd4\\x9e\\xde\\xf0\\x18@\\x05\\x00\\x00\\x00\\n\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\"\nredis> BF.SCANDUMP bf 1\n1) (integer) 9\n2) \"\\x01\\b\\x00\\x80\\x00\\x04 \\x00\"\nredis> BF.SCANDUMP bf 9\n1) (integer) 0\n2) \"\"\nredis> DEL bf\n(integer) 1\nredis> BF.LOADCHUNK bf 1 \"\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x01\\x00\\x00\\x00\\x05\\x00\\x00\\x00\\x02\\x00\\x00\\x00\\b\\x00\\x00\\x00\\x00\\x00\\x00\\x00@\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x9a\\x99\\x99\\x99\\x99\\x99\\xa9?J\\xf7\\xd4\\x9e\\xde\\xf0\\x18@\\x05\\x00\\x00\\x00\\n\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\"\nOK\nredis> BF.LOADCHUNK bf 9 \"\\x01\\b\\x00\\x80\\x00\\x04 \\x00\"\nOK\nredis> BF.EXISTS bf item1\n(integer) 1\n\n\nPython code:\n\nchunks = []\niter = 0\nwhile True:\n    iter, data = BF.SCANDUMP(key, iter)\n    if iter == 0:\n        break\n    else:\n        chunks.append([iter, data])\n\n# Load it back\nfor chunk in chunks:\n    iter, data = chunk\n    BF.LOADCHUNK(key, iter, data)"
+      "content": "{{< highlight bash >}}\nredis> BF.RESERVE bf 0.1 10\nOK\nredis> BF.ADD bf item1\n1) (integer) 1\nredis> BF.SCANDUMP bf 0\n1) (integer) 1\n2) \"\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x01\\x00\\x00\\x00\\x05\\x00\\x00\\x00\\x02\\x00\\x00\\x00\\b\\x00\\x00\\x00\\x00\\x00\\x00\\x00@\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x9a\\x99\\x99\\x99\\x99\\x99\\xa9?J\\xf7\\xd4\\x9e\\xde\\xf0\\x18@\\x05\\x00\\x00\\x00\\n\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\"\nredis> BF.SCANDUMP bf 1\n1) (integer) 9\n2) \"\\x01\\b\\x00\\x80\\x00\\x04 \\x00\"\nredis> BF.SCANDUMP bf 9\n1) (integer) 0\n2) \"\"\nredis> DEL bf\n(integer) 1\nredis> BF.LOADCHUNK bf 1 \"\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x01\\x00\\x00\\x00\\x05\\x00\\x00\\x00\\x02\\x00\\x00\\x00\\b\\x00\\x00\\x00\\x00\\x00\\x00\\x00@\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x01\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x9a\\x99\\x99\\x99\\x99\\x99\\xa9?J\\xf7\\xd4\\x9e\\xde\\xf0\\x18@\\x05\\x00\\x00\\x00\\n\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\"\nOK\nredis> BF.LOADCHUNK bf 9 \"\\x01\\b\\x00\\x80\\x00\\x04 \\x00\"\nOK\nredis> BF.EXISTS bf item1\n(integer) 1\n{{< / highlight >}}\n\nPython code:\n{{< highlight bash >}}\nchunks = []\niter = 0\nwhile True:\n    iter, data = BF.SCANDUMP(key, iter)\n    if iter == 0:\n        break\n    else:\n        chunks.append([iter, data])\n\n# Load it back\nfor chunk in chunks:\n    iter, data = chunk\n    BF.LOADCHUNK(key, iter, data)\n{{< / highlight >}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -83,7 +222,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Array reply](): a two-element array of an [Integer reply]() (_Iterator_) and a [Bulk string reply]() (_Data_).\n* [Simple error reply]() in these cases: invalid arguments, the key was not found, or the key is of the wrong type.\n\nThe Iterator is passed as input to the next invocation of `BF.SCANDUMP`. If _Iterator_ is 0, then it means iteration has completed.\n\nThe iterator-data pair should also be passed to [`BF.LOADCHUNK`]() when restoring the filter.\n\n**RESP3:**\n\nOne of the following:\n* [Array reply](): a two-element array of an [Integer reply]() (_Iterator_) and a [Bulk string reply]() (_Data_).\n* [Simple error reply]() in these cases: invalid arguments, the key was not found, or the key is of the wrong type.\n\nThe Iterator is passed as input to the next invocation of `BF.SCANDUMP`. If _Iterator_ is 0, then it means iteration has completed.\n\nThe iterator-data pair should also be passed to [`BF.LOADCHUNK`]() when restoring the filter."
+      "content": "{{< multitabs id=\"bf-scandump-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): a two-element array of an [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) (_Iterator_) and a [Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) (_Data_).\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, the key was not found, or the key is of the wrong type.\n\nThe Iterator is passed as input to the next invocation of `BF.SCANDUMP`. If _Iterator_ is 0, then it means iteration has completed.\n\nThe iterator-data pair should also be passed to [`BF.LOADCHUNK`]({{< relref \"commands/bf.loadchunk/\" >}}) when restoring the filter.\n\n-tab-sep-\n\nOne of the following:\n* [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): a two-element array of an [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) (_Iterator_) and a [Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) (_Data_).\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, the key was not found, or the key is of the wrong type.\n\nThe Iterator is passed as input to the next invocation of `BF.SCANDUMP`. If _Iterator_ is 0, then it means iteration has completed.\n\nThe iterator-data pair should also be passed to [`BF.LOADCHUNK`]({{< relref \"commands/bf.loadchunk/\" >}}) when restoring the filter.\n\n{{< /multitabs >}}"
     }
   ]
 }

@@ -14,6 +14,195 @@
     "@write",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "The name of the Cuckoo filter",
+            "name": "key",
+            "type": "str"
+          },
+          {
+            "description": "Iterator from SCANDUMP",
+            "name": "iter",
+            "type": "int"
+          },
+          {
+            "description": "Data from SCANDUMP",
+            "name": "data",
+            "type": "bytes"
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "str"
+        },
+        "signature": "loadchunk(key, iter, data)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "The name of the Cuckoo filter",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "Iterator from SCANDUMP",
+            "name": "iterator",
+            "type": "long"
+          },
+          {
+            "description": "Data from SCANDUMP",
+            "name": "data",
+            "type": "byte[]"
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "String"
+        },
+        "signature": "String cfLoadChunk(String key, long iterator, byte[] data)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "The name of the Cuckoo filter",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "Iterator from SCANDUMP",
+            "name": "iterator",
+            "type": "int64"
+          },
+          {
+            "description": "Data from SCANDUMP",
+            "name": "data",
+            "type": "interface{}"
+          }
+        ],
+        "returns": {
+          "description": "Status command result",
+          "type": "*StatusCmd"
+        },
+        "signature": "CFLoadChunk(ctx context.Context, key string, iterator int64, data interface{}) *StatusCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "The name of the Cuckoo filter",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "Iterator from SCANDUMP",
+            "name": "iterator",
+            "type": "number"
+          },
+          {
+            "description": "Data from SCANDUMP",
+            "name": "data",
+            "type": "RedisArgument"
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "SimpleStringReply<'OK'>"
+        },
+        "signature": "CF.LOADCHUNK(key: RedisArgument, iterator: number, data: RedisArgument)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The name of the Cuckoo filter",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "Iterator from SCANDUMP",
+            "name": "iterator",
+            "type": "long"
+          },
+          {
+            "description": "Data from SCANDUMP",
+            "name": "data",
+            "type": "Byte[]"
+          }
+        ],
+        "returns": {
+          "description": "true on success",
+          "type": "bool"
+        },
+        "signature": "bool LoadChunk(RedisKey key, long iterator, Byte[] data)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The name of the Cuckoo filter",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "Iterator from SCANDUMP",
+            "name": "iterator",
+            "type": "long"
+          },
+          {
+            "description": "Data from SCANDUMP",
+            "name": "data",
+            "type": "Byte[]"
+          }
+        ],
+        "returns": {
+          "description": "true on success",
+          "type": "Task<bool>"
+        },
+        "signature": "async Task<bool> LoadChunkAsync(RedisKey key, long iterator, Byte[] data)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "The name of the Cuckoo filter",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "Iterator from SCANDUMP",
+            "name": "$iterator",
+            "type": "int"
+          },
+          {
+            "description": "Data from SCANDUMP",
+            "name": "$data",
+            "type": "mixed"
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "Status"
+        },
+        "signature": "cfloadchunk(string $key, int $iterator, $data)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -41,32 +230,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "return-value",
-        "title": "Return value"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Restores a cuckoo filter previously saved using [`CF.SCANDUMP`]().\n\nSee the [`CF.SCANDUMP`]() command for example usage.\n\n<note><b>Notes</b>\n\n- This command overwrites the cuckoo filter stored under `key`.\n- Make sure that the cuckoo filter is not changed between invocations.\n\n</note>\n\n## Required arguments\n\n<details open><summary><code>key</code></summary>\n\nis key name for a cuckoo filter to restore.\n</details>\n\n<details open><summary><code>iterator</code></summary>\n\nIterator value associated with `data` (returned by [`CF.SCANDUMP`]())\n</details>\n\n<details open><summary><code>data</code></summary>\n\nCurrent data chunk (returned by [`CF.SCANDUMP`]())\n</details>\n\n## Return value\n\nReturns one of these replies:\n\n- [Simple string reply]() - `OK` if executed correctly\n- [] on error (invalid arguments, wrong key type, wrong data, etc.)\n\n## Examples\n\nSee [`CF.SCANDUMP`]() for an example.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, or when invalid data was passed.\n\n**RESP3:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, or when invalid data was passed.",
+  "content": "Restores a cuckoo filter previously saved using [`CF.SCANDUMP`]().\n\nSee the [`CF.SCANDUMP`]() command for example usage.\n\n<note><b>Notes</b>\n\n- This command overwrites the cuckoo filter stored under `key`.\n- Make sure that the cuckoo filter is not changed between invocations.\n\n</note>\n\n## Required arguments\n\n<details open><summary><code>key</code></summary>\n\nis key name for a cuckoo filter to restore.\n</details>\n\n<details open><summary><code>iterator</code></summary>\n\nIterator value associated with `data` (returned by [`CF.SCANDUMP`]({{< relref \"commands/cf.scandump/\" >}}))\n</details>\n\n<details open><summary><code>data</code></summary>\n\nCurrent data chunk (returned by [`CF.SCANDUMP`]({{< relref \"commands/cf.scandump/\" >}}))\n</details>\n\n## Return value\n\nReturns one of these replies:\n\n- [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}) - `OK` if executed correctly\n- [] on error (invalid arguments, wrong key type, wrong data, etc.)\n\n## Examples\n\nSee [`CF.SCANDUMP`]({{< relref \"commands/cf.scandump/\" >}}) for an example.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"bf-loadchunk-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` if executed correctly.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, wrong key type, or when invalid data was passed.\n\n-tab-sep-\n\nOne of the following:\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` if executed correctly.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, wrong key type, or when invalid data was passed.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "Restores a cuckoo filter previously saved using [`CF.SCANDUMP`]().\n\nSee the [`CF.SCANDUMP`]() command for example usage.\n\n<note><b>Notes</b>\n\n- This command overwrites the cuckoo filter stored under `key`.\n- Make sure that the cuckoo filter is not changed between invocations.\n\n</note>",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -76,17 +246,17 @@
     {
       "title": "Required arguments",
       "level": 2,
-      "content": "<details open><summary><code>key</code></summary>\n\nis key name for a cuckoo filter to restore.\n</details>\n\n<details open><summary><code>iterator</code></summary>\n\nIterator value associated with `data` (returned by [`CF.SCANDUMP`]())\n</details>\n\n<details open><summary><code>data</code></summary>\n\nCurrent data chunk (returned by [`CF.SCANDUMP`]())\n</details>"
+      "content": "<details open><summary><code>key</code></summary>\n\nis key name for a cuckoo filter to restore.\n</details>\n\n<details open><summary><code>iterator</code></summary>\n\nIterator value associated with `data` (returned by [`CF.SCANDUMP`]({{< relref \"commands/cf.scandump/\" >}}))\n</details>\n\n<details open><summary><code>data</code></summary>\n\nCurrent data chunk (returned by [`CF.SCANDUMP`]({{< relref \"commands/cf.scandump/\" >}}))\n</details>"
     },
     {
       "title": "Return value",
       "level": 2,
-      "content": "Returns one of these replies:\n\n- [Simple string reply]() - `OK` if executed correctly\n- [] on error (invalid arguments, wrong key type, wrong data, etc.)"
+      "content": "Returns one of these replies:\n\n- [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}) - `OK` if executed correctly\n- [] on error (invalid arguments, wrong key type, wrong data, etc.)"
     },
     {
       "title": "Examples",
       "level": 2,
-      "content": "See [`CF.SCANDUMP`]() for an example."
+      "content": "See [`CF.SCANDUMP`]({{< relref \"commands/cf.scandump/\" >}}) for an example."
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -96,7 +266,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, or when invalid data was passed.\n\n**RESP3:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, or when invalid data was passed."
+      "content": "{{< multitabs id=\"bf-loadchunk-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` if executed correctly.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, wrong key type, or when invalid data was passed.\n\n-tab-sep-\n\nOne of the following:\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` if executed correctly.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, wrong key type, or when invalid data was passed.\n\n{{< /multitabs >}}"
     }
   ]
 }

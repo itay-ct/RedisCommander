@@ -13,6 +13,66 @@
     "@slow",
     "@connection"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "reply",
+            "type": "str"
+          },
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "str"
+        },
+        "signature": "client_reply(reply: str, **kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "replyType",
+            "type": "ClientReplyType"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "String"
+        },
+        "signature": "String clientReply(ClientReplyType replyType)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$subcommand",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$args",
+            "type": "mixed"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "string"
+        },
+        "signature": "client(string $subcommand, ...$args)"
+      }
+    ]
+  },
   "commandFlags": [
     "noscript",
     "loading",
@@ -56,20 +116,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Sometimes it can be useful for clients to completely disable replies from the Redis server. For example when the client sends fire and forget commands or performs a mass loading of data, or in caching contexts where new data is streamed constantly. In such contexts to use server time and bandwidth in order to send back replies to clients, which are going to be ignored, is considered wasteful.\n\nThe `CLIENT REPLY` command controls whether the server will reply the client's commands. The following modes are available:\n\n* `ON`. This is the default mode in which the server returns a reply to every command.\n* `OFF`. In this mode the server will not reply to client commands.\n* `SKIP`. This mode skips the reply of command immediately after it.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` when called with `ON`. When called with either `OFF` or `SKIP` sub-commands, no reply is made.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` when called with `ON`. When called with either `OFF` or `SKIP` sub-commands, no reply is made.",
+  "content": "Sometimes it can be useful for clients to completely disable replies from the Redis server. For example when the client sends fire and forget commands or performs a mass loading of data, or in caching contexts where new data is streamed constantly. In such contexts to use server time and bandwidth in order to send back replies to clients, which are going to be ignored, is considered wasteful.\n\nThe `CLIENT REPLY` command controls whether the server will reply the client's commands. The following modes are available:\n\n* `ON`. This is the default mode in which the server returns a reply to every command.\n* `OFF`. In this mode the server will not reply to client commands.\n* `SKIP`. This mode skips the reply of command immediately after it.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"client-reply-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` when called with `ON`. When called with either `OFF` or `SKIP` sub-commands, no reply is made.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` when called with `ON`. When called with either `OFF` or `SKIP` sub-commands, no reply is made.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "Sometimes it can be useful for clients to completely disable replies from the Redis server. For example when the client sends fire and forget commands or performs a mass loading of data, or in caching contexts where new data is streamed constantly. In such contexts to use server time and bandwidth in order to send back replies to clients, which are going to be ignored, is considered wasteful.\n\nThe `CLIENT REPLY` command controls whether the server will reply the client's commands. The following modes are available:\n\n* `ON`. This is the default mode in which the server returns a reply to every command.\n* `OFF`. In this mode the server will not reply to client commands.\n* `SKIP`. This mode skips the reply of command immediately after it.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -84,7 +137,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` when called with `ON`. When called with either `OFF` or `SKIP` sub-commands, no reply is made.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` when called with `ON`. When called with either `OFF` or `SKIP` sub-commands, no reply is made."
+      "content": "{{< multitabs id=\"client-reply-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` when called with `ON`. When called with either `OFF` or `SKIP` sub-commands, no reply is made.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` when called with `ON`. When called with either `OFF` or `SKIP` sub-commands, no reply is made.\n\n{{< /multitabs >}}"
     }
   ]
 }

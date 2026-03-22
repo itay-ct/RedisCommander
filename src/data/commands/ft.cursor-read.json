@@ -13,6 +13,180 @@
     "@read",
     "@search"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "The cursor ID to read from",
+            "name": "cursor_id",
+            "type": "int"
+          },
+          {
+            "description": "Number of results to read",
+            "name": "read_size",
+            "type": "Optional[int]"
+          }
+        ],
+        "returns": {
+          "description": "The aggregation results",
+          "type": "AggregateResult"
+        },
+        "signature": "cursor_read(cursor_id: int, read_size: Optional[int] = None)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "The index name",
+            "name": "indexName",
+            "type": "String"
+          },
+          {
+            "description": "The cursor ID",
+            "name": "cursorId",
+            "type": "long"
+          },
+          {
+            "description": "Number of results to read",
+            "name": "count",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "The aggregation results",
+          "type": "AggregationResult"
+        },
+        "signature": "AggregationResult ftCursorRead(String indexName, long cursorId, int count)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "The index name",
+            "name": "index",
+            "type": "string"
+          },
+          {
+            "description": "The cursor ID",
+            "name": "cursorId",
+            "type": "int"
+          },
+          {
+            "description": "Number of results to read",
+            "name": "count",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "The aggregation results",
+          "type": "*MapStringInterfaceCmd"
+        },
+        "signature": "FTCursorRead(ctx context.Context, index string, cursorId int, count int)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "The index name",
+            "name": "index",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "The cursor ID",
+            "name": "cursorId",
+            "type": "number"
+          },
+          {
+            "description": "Optional read options",
+            "name": "options",
+            "type": "{ COUNT?: number }"
+          }
+        ],
+        "returns": {
+          "description": "The aggregation results",
+          "type": "Promise<AggregateResult>"
+        },
+        "signature": "CURSOR_READ(index: RedisArgument, cursorId: number, options?: { COUNT?: number })"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The aggregation result containing the cursor",
+            "name": "result",
+            "type": "AggregationResult"
+          },
+          {
+            "description": "Number of rows to read",
+            "name": "count",
+            "type": "int?"
+          }
+        ],
+        "returns": {
+          "description": "The next batch of aggregation results",
+          "type": "AggregationResult"
+        },
+        "signature": "AggregationResult CursorRead(AggregationResult result, int? count = null)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The aggregation result containing the cursor",
+            "name": "result",
+            "type": "AggregationResult"
+          },
+          {
+            "description": "Number of rows to read",
+            "name": "count",
+            "type": "int?"
+          }
+        ],
+        "returns": {
+          "description": "The next batch of aggregation results",
+          "type": "Task<AggregationResult>"
+        },
+        "signature": "Task<AggregationResult> CursorReadAsync(AggregationResult result, int? count = null)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "The index name",
+            "name": "$index",
+            "type": "string"
+          },
+          {
+            "description": "The cursor ID to read from",
+            "name": "$cursorId",
+            "type": "int"
+          },
+          {
+            "description": "Number of rows to read",
+            "name": "$count",
+            "type": "int?"
+          }
+        ],
+        "returns": {
+          "description": "The next batch of aggregation results",
+          "type": "array"
+        },
+        "signature": "ft_cursor(string $index)->read(int $cursorId, ?int $count = null)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -42,36 +216,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      },
-      {
-        "id": "see-also",
-        "title": "See also"
-      },
-      {
-        "id": "related-topics",
-        "title": "Related topics"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Read next results from an existing cursor\n\n[Examples](#examples)\n\nSee [Cursor API]() for more details.\n\n## Required arguments\n\n<details open>\n<summary><code>index</code></summary>\n\nis index name.\n</details>\n\n<details open>\n<summary><code>cursor_id</code></summary>\n\nis id of the cursor.\n</details>\n\n<details open>\n<summary><code>[COUNT read_size]</code></summary>\n\nis number of results to read. This parameter overrides `COUNT` specified in [`FT.AGGREGATE`]().\n</details>\n\n## Examples\n\n<details open>\n<summary><b>Read next results from a cursor</b></summary>\n\n\n127.0.0.1:6379> FT.CURSOR READ idx 342459320 COUNT 50\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Array]() with search results and metadata.\n* [Simple error reply]() in these cases: cursor not found.\n\n**RESP3:**\n\nOne of the following:\n* [Map]() with structured search results and metadata.\n* [Simple error reply]() in these cases: cursor not found.\n\n\n\n## See also\n\n[`FT.CURSOR DEL`]() | [`FT.AGGREGATE`]()\n\n## Related topics\n\n[RediSearch]()",
+  "content": "Read next results from an existing cursor\n\n[Examples](#examples)\n\nSee [Cursor API]() for more details.\n\n## Required arguments\n\n<details open>\n<summary><code>index</code></summary>\n\nis index name.\n</details>\n\n<details open>\n<summary><code>cursor_id</code></summary>\n\nis id of the cursor.\n</details>\n\n<details open>\n<summary><code>[COUNT read_size]</code></summary>\n\nis number of results to read. This parameter overrides `COUNT` specified in [`FT.AGGREGATE`]({{< relref \"commands/ft.aggregate/\" >}}).\n</details>\n\n## Examples\n\n<details open>\n<summary><b>Read next results from a cursor</b></summary>\n\n{{< highlight bash >}}\n127.0.0.1:6379> FT.CURSOR READ idx 342459320 COUNT 50\n{{< / highlight >}}\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"ft-cursor-read-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) with search results and metadata.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: cursor not found.\n\n-tab-sep-\n\nOne of the following:\n* [Map]({{< relref \"/develop/reference/protocol-spec#maps\" >}}) with structured search results and metadata.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: cursor not found.\n\n{{< /multitabs >}}\n\n## See also\n\n[`FT.CURSOR DEL`]({{< relref \"commands/ft.cursor-del/\" >}}) | [`FT.AGGREGATE`]({{< relref \"commands/ft.aggregate/\" >}})\n\n## Related topics\n\n[RediSearch]({{< relref \"/develop/ai/search-and-query/\" >}})",
+  "example": "127.0.0.1:6379> FT.CURSOR READ idx 342459320 COUNT 50",
   "intro": "Read next results from an existing cursor\n\n[Examples](#examples)\n\nSee [Cursor API]() for more details.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -81,12 +232,12 @@
     {
       "title": "Required arguments",
       "level": 2,
-      "content": "<details open>\n<summary><code>index</code></summary>\n\nis index name.\n</details>\n\n<details open>\n<summary><code>cursor_id</code></summary>\n\nis id of the cursor.\n</details>\n\n<details open>\n<summary><code>[COUNT read_size]</code></summary>\n\nis number of results to read. This parameter overrides `COUNT` specified in [`FT.AGGREGATE`]().\n</details>"
+      "content": "<details open>\n<summary><code>index</code></summary>\n\nis index name.\n</details>\n\n<details open>\n<summary><code>cursor_id</code></summary>\n\nis id of the cursor.\n</details>\n\n<details open>\n<summary><code>[COUNT read_size]</code></summary>\n\nis number of results to read. This parameter overrides `COUNT` specified in [`FT.AGGREGATE`]({{< relref \"commands/ft.aggregate/\" >}}).\n</details>"
     },
     {
       "title": "Examples",
       "level": 2,
-      "content": "<details open>\n<summary><b>Read next results from a cursor</b></summary>\n\n\n127.0.0.1:6379> FT.CURSOR READ idx 342459320 COUNT 50\n\n</details>"
+      "content": "<details open>\n<summary><b>Read next results from a cursor</b></summary>\n\n{{< highlight bash >}}\n127.0.0.1:6379> FT.CURSOR READ idx 342459320 COUNT 50\n{{< / highlight >}}\n</details>"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -96,17 +247,17 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Array]() with search results and metadata.\n* [Simple error reply]() in these cases: cursor not found.\n\n**RESP3:**\n\nOne of the following:\n* [Map]() with structured search results and metadata.\n* [Simple error reply]() in these cases: cursor not found."
+      "content": "{{< multitabs id=\"ft-cursor-read-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) with search results and metadata.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: cursor not found.\n\n-tab-sep-\n\nOne of the following:\n* [Map]({{< relref \"/develop/reference/protocol-spec#maps\" >}}) with structured search results and metadata.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: cursor not found.\n\n{{< /multitabs >}}"
     },
     {
       "title": "See also",
       "level": 2,
-      "content": "[`FT.CURSOR DEL`]() | [`FT.AGGREGATE`]()"
+      "content": "[`FT.CURSOR DEL`]({{< relref \"commands/ft.cursor-del/\" >}}) | [`FT.AGGREGATE`]({{< relref \"commands/ft.aggregate/\" >}})"
     },
     {
       "title": "Related topics",
       "level": 2,
-      "content": "[RediSearch]()"
+      "content": "[RediSearch]({{< relref \"/develop/ai/search-and-query/\" >}})"
     }
   ]
 }

@@ -13,6 +13,165 @@
     "@tdigest",
     "@read"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "str"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "float"
+          },
+          {
+            "description": "",
+            "name": "*values",
+            "type": "float"
+          }
+        ],
+        "returns": {
+          "description": "CDF values for each element",
+          "type": "List[float]"
+        },
+        "signature": "cdf(key, value, *values)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "values",
+            "type": "double..."
+          }
+        ],
+        "returns": {
+          "description": "CDF values for each element",
+          "type": "List<Double>"
+        },
+        "signature": "tdigestCDF(String key, double... values)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "elements",
+            "type": "...float64"
+          }
+        ],
+        "returns": {
+          "description": "CDF values for each element",
+          "type": "*FloatSliceCmd"
+        },
+        "signature": "TDigestCDF(ctx context.Context, key string, elements ...float64) *FloatSliceCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "values",
+            "type": "number[]"
+          }
+        ],
+        "returns": {
+          "description": "CDF values for each element",
+          "type": "number[]"
+        },
+        "signature": "TDIGEST.CDF(key, values)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "values",
+            "type": "params double[]"
+          }
+        ],
+        "returns": {
+          "description": "CDF values for each element",
+          "type": "double[]"
+        },
+        "signature": "CDF(key, values)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "values",
+            "type": "params double[]"
+          }
+        ],
+        "returns": {
+          "description": "CDF values for each element",
+          "type": "Task<double[]>"
+        },
+        "signature": "CDFAsync(key, values)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "values",
+            "type": "float..."
+          }
+        ],
+        "returns": {
+          "description": "CDF values for each element",
+          "type": "array"
+        },
+        "signature": "tdigestcdf($key, ...$values)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -37,28 +196,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Returns, for each input value, an estimation of the floating-point fraction of (_observations smaller than the given value_ + _half the observations equal to the given value_).\nMultiple fractions can be retrieved in a single call.\n\n## Required arguments\n\n<details open><summary><code>key</code></summary>\n\nis the key name for an existing t-digest sketch.\n</details>\n\n<details open><summary><code>value</code></summary>\n\nare the values for which the CDF (Cumulative Distribution Function) should be retrieved.\n</details>\n\n## Examples\n\n\nredis> TDIGEST.CREATE t COMPRESSION 1000\nOK\nredis> TDIGEST.ADD t 1 2 2 3 3 3 4 4 4 4 5 5 5 5 5\nOK\nredis> TDIGEST.CDF t 0 1 2 3 4 5 6\n1) \"0\"\n2) \"0.033333333333333333\"\n3) \"0.13333333333333333\"\n4) \"0.29999999999999999\"\n5) \"0.53333333333333333\"\n6) \"0.83333333333333337\"\n7) \"1\"\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n\n* [Array]() of [bulk string replies]() as floating-points, populated with fraction_1, fraction_2, ..., fraction_N.\nAll values are `nan` if the given sketch is empty.\n* [Simple error reply]() in these cases: the given key does not exist or is of an incorrect type, value parsing errors, or an incorrect number of arguments.\n\n**RESP3:**\n\nOne of the following:\n\n* [Array]() of [doubles]() populated with fraction_1, fraction_2, ..., fraction_N.\nAll values are `nan` if the given sketch is empty.\n* [Simple error reply]() in these cases: the given key does not exist or is of an incorrect type, value parsing errors, or an incorrect number of arguments.",
+  "content": "Returns, for each input value, an estimation of the floating-point fraction of (_observations smaller than the given value_ + _half the observations equal to the given value_).\nMultiple fractions can be retrieved in a single call.\n\n## Required arguments\n\n<details open><summary><code>key</code></summary>\n\nis the key name for an existing t-digest sketch.\n</details>\n\n<details open><summary><code>value</code></summary>\n\nare the values for which the CDF (Cumulative Distribution Function) should be retrieved.\n</details>\n\n## Examples\n\n{{< highlight bash >}}\nredis> TDIGEST.CREATE t COMPRESSION 1000\nOK\nredis> TDIGEST.ADD t 1 2 2 3 3 3 4 4 4 4 5 5 5 5 5\nOK\nredis> TDIGEST.CDF t 0 1 2 3 4 5 6\n1) \"0\"\n2) \"0.033333333333333333\"\n3) \"0.13333333333333333\"\n4) \"0.29999999999999999\"\n5) \"0.53333333333333333\"\n6) \"0.83333333333333337\"\n7) \"1\"\n{{< / highlight >}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"tdigest-cdf-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n\n* [Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [bulk string replies]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) as floating-points, populated with fraction_1, fraction_2, ..., fraction_N.\nAll values are `nan` if the given sketch is empty.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: the given key does not exist or is of an incorrect type, value parsing errors, or an incorrect number of arguments.\n\n-tab-sep-\n\nOne of the following:\n\n* [Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [doubles]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) populated with fraction_1, fraction_2, ..., fraction_N.\nAll values are `nan` if the given sketch is empty.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: the given key does not exist or is of an incorrect type, value parsing errors, or an incorrect number of arguments.\n\n{{< /multitabs >}}",
+  "example": "redis> TDIGEST.CREATE t COMPRESSION 1000\nOK\nredis> TDIGEST.ADD t 1 2 2 3 3 3 4 4 4 4 5 5 5 5 5\nOK\nredis> TDIGEST.CDF t 0 1 2 3 4 5 6\n1) \"0\"\n2) \"0.033333333333333333\"\n3) \"0.13333333333333333\"\n4) \"0.29999999999999999\"\n5) \"0.53333333333333333\"\n6) \"0.83333333333333337\"\n7) \"1\"",
   "intro": "Returns, for each input value, an estimation of the floating-point fraction of (_observations smaller than the given value_ + _half the observations equal to the given value_).\nMultiple fractions can be retrieved in a single call.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -73,7 +217,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "redis> TDIGEST.CREATE t COMPRESSION 1000\nOK\nredis> TDIGEST.ADD t 1 2 2 3 3 3 4 4 4 4 5 5 5 5 5\nOK\nredis> TDIGEST.CDF t 0 1 2 3 4 5 6\n1) \"0\"\n2) \"0.033333333333333333\"\n3) \"0.13333333333333333\"\n4) \"0.29999999999999999\"\n5) \"0.53333333333333333\"\n6) \"0.83333333333333337\"\n7) \"1\""
+      "content": "{{< highlight bash >}}\nredis> TDIGEST.CREATE t COMPRESSION 1000\nOK\nredis> TDIGEST.ADD t 1 2 2 3 3 3 4 4 4 4 5 5 5 5 5\nOK\nredis> TDIGEST.CDF t 0 1 2 3 4 5 6\n1) \"0\"\n2) \"0.033333333333333333\"\n3) \"0.13333333333333333\"\n4) \"0.29999999999999999\"\n5) \"0.53333333333333333\"\n6) \"0.83333333333333337\"\n7) \"1\"\n{{< / highlight >}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -83,7 +227,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n\n* [Array]() of [bulk string replies]() as floating-points, populated with fraction_1, fraction_2, ..., fraction_N.\nAll values are `nan` if the given sketch is empty.\n* [Simple error reply]() in these cases: the given key does not exist or is of an incorrect type, value parsing errors, or an incorrect number of arguments.\n\n**RESP3:**\n\nOne of the following:\n\n* [Array]() of [doubles]() populated with fraction_1, fraction_2, ..., fraction_N.\nAll values are `nan` if the given sketch is empty.\n* [Simple error reply]() in these cases: the given key does not exist or is of an incorrect type, value parsing errors, or an incorrect number of arguments."
+      "content": "{{< multitabs id=\"tdigest-cdf-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n\n* [Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [bulk string replies]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) as floating-points, populated with fraction_1, fraction_2, ..., fraction_N.\nAll values are `nan` if the given sketch is empty.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: the given key does not exist or is of an incorrect type, value parsing errors, or an incorrect number of arguments.\n\n-tab-sep-\n\nOne of the following:\n\n* [Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [doubles]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) populated with fraction_1, fraction_2, ..., fraction_N.\nAll values are `nan` if the given sketch is empty.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: the given key does not exist or is of an incorrect type, value parsing errors, or an incorrect number of arguments.\n\n{{< /multitabs >}}"
     }
   ]
 }

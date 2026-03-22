@@ -14,6 +14,377 @@
     "@write",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "str"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "str"
+          },
+          {
+            "description": "",
+            "name": "obj",
+            "type": "JsonType"
+          },
+          {
+            "description": "",
+            "name": "decode_keys",
+            "type": "Optional[bool] = False"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Optional[str]"
+        },
+        "signature": "merge(, name: str,, path: str,, obj: JsonType,, decode_keys: Optional[bool] = False,)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "Path"
+          },
+          {
+            "description": "",
+            "name": "pojo",
+            "type": "Object"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "String"
+        },
+        "signature": "String jsonMerge(String key, Path path, Object pojo)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "Path2"
+          },
+          {
+            "description": "",
+            "name": "object",
+            "type": "Object"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "String"
+        },
+        "signature": "String jsonMerge(String key, Path2 path, Object object)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the JsonPath pointing to the value to merge.",
+            "name": "jsonPath",
+            "type": "JsonPath"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "JsonValue"
+          }
+        ],
+        "returns": {
+          "description": "String \"OK\" if the merge was successful, error if the operation failed. @since 6.8",
+          "type": "String"
+        },
+        "signature": "String jsonMerge(K key, JsonPath jsonPath, JsonValue value)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the JsonPath pointing to the value to merge.",
+            "name": "jsonPath",
+            "type": "JsonPath"
+          },
+          {
+            "description": "the JSON string to merge.",
+            "name": "jsonString",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "String \"OK\" if the merge was successful, error if the operation failed. @since 6.8",
+          "type": "String"
+        },
+        "signature": "String jsonMerge(K key, JsonPath jsonPath, String jsonString)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the JsonPath pointing to the value to merge.",
+            "name": "jsonPath",
+            "type": "JsonPath"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "JsonValue"
+          }
+        ],
+        "returns": {
+          "description": "String \"OK\" if the merge was successful, error if the operation failed. @since 6.8",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> jsonMerge(K key, JsonPath jsonPath, JsonValue value)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the JsonPath pointing to the value to merge.",
+            "name": "jsonPath",
+            "type": "JsonPath"
+          },
+          {
+            "description": "the JSON string to merge.",
+            "name": "jsonString",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "String \"OK\" if the merge was successful, error if the operation failed. @since 6.8",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> jsonMerge(K key, JsonPath jsonPath, String jsonString)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the JsonPath pointing to the value to merge.",
+            "name": "jsonPath",
+            "type": "JsonPath"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "JsonValue"
+          }
+        ],
+        "returns": {
+          "description": "String \"OK\" if the merge was successful, error if the operation failed. @since 6.8",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> jsonMerge(K key, JsonPath jsonPath, JsonValue value)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the JsonPath pointing to the value to merge.",
+            "name": "jsonPath",
+            "type": "JsonPath"
+          },
+          {
+            "description": "the JSON string to merge.",
+            "name": "jsonString",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "String \"OK\" if the merge was successful, error if the operation failed. @since 6.8",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> jsonMerge(K key, JsonPath jsonPath, String jsonString)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StatusCmd"
+        },
+        "signature": "JSONMerge(ctx context.Context, key, path string, value string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "RedisJSON"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "MERGE(key: RedisArgument, path: RedisArgument, value: RedisJSON)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "json",
+            "type": "RedisValue"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "bool"
+        },
+        "signature": "Merge(RedisKey key, RedisValue path, RedisValue json)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "obj",
+            "type": "object"
+          },
+          {
+            "description": "",
+            "name": "serializerOptions",
+            "type": "JsonSerializerOptions?"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "bool"
+        },
+        "signature": "Merge(RedisKey key, RedisValue path, object obj, JsonSerializerOptions? serializerOptions = default)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$path",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$value",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Status"
+        },
+        "signature": "jsonmerge(string $key, string $path, string $value)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -41,36 +412,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      },
-      {
-        "id": "see-also",
-        "title": "See also"
-      },
-      {
-        "id": "related-topics",
-        "title": "Related topics"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Merge a given JSON value into matching paths. Consequently, JSON values at matching paths are updated, deleted, or expanded with new children.\n\nThis command complies with [RFC7396](https://datatracker.ietf.org/doc/html/rfc7396) Json Merge Patch\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open><summary><code>key</code></summary>\n\nis the key to merge into.\n</details>\n\n<details open><summary><code>path</code></summary>\n\nspecifies the JSONPath. For non-existing keys the `path` must be `$`. For existing keys, for each matched `path`, the value that matches the `path` is merged with the JSON `value`. For existing keys, when the path exists, except for the last element, a new child is added with the JSON `value`.\n\n</details>\n\n<details open><summary><code>value</code></summary>\n\nis the JSON value to merge with at the specified path. Merging is done according to the following rules per JSON value in the `value` argument while considering the corresponding original value if it exists:\n*   merging an existing object key with a `null` value deletes the key\n*   merging an existing object key with non-null value updates the value\n*   merging a non-existing object key adds the key and value\n*   merging an existing array with any merged value, replaces the entire array with the value\n</details>\n\n## Examples\n\nJSON.MERGE provides four different behaviors to merge changes on a given key: create a non-existent path, update an existing path with a new value, delete an existing path, or replace an array with a new array\n\n<details open>\n<summary><b>Create a non-existent path-value</b></summary>\n\n\nredis> JSON.SET doc $ '{\"a\":2}'\nOK\nredis> JSON.MERGE doc $.b '8'\nOK\nredis> JSON.GET doc $\n\"[{\\\"a\\\":2,\\\"b\\\":8}]\"\n\n\n</details>\n\n<details open>\n<summary><b>Replace an existing value</b></summary>\n\n\nredis> JSON.SET doc $ '{\"a\":2}'\nOK\nredis> JSON.MERGE doc $.a '3'\nOK\nredis> JSON.GET doc $\n\"[{\\\"a\\\":3}]\"\n\n\n</details>\n\n<details open>\n<summary><b>Delete an existing value</b></summary>\n\n\nredis> JSON.SET doc $ '{\"a\":2}'\nOK\nredis> JSON.MERGE doc $ '{\"a\":null}'\nOK\nredis> JSON.GET doc $\n\"[{}]\"\n\n\n</details>\n\n<details open>\n<summary><b>Replace an Array</b></summary>\n\n\nredis> JSON.SET doc $ '{\"a\":[2,4,6,8]}'\nOK\nredis> JSON.MERGE doc $.a '[10,12]'\nOK\nredis> JSON.GET doc $\n\"[{\\\"a\\\":[10,12]}]\"\n\n\n</details>\n\n<details open>\n<summary><b>Merge changes in multi-paths</b></summary>\n\n\nredis> JSON.SET doc $ '{\"f1\": {\"a\":1}, \"f2\":{\"a\":2}}'\nOK\nredis> JSON.GET doc\n\"{\\\"f1\\\":{\\\"a\\\":1},\\\"f2\\\":{\\\"a\\\":2}}\"\nredis> JSON.MERGE doc $ '{\"f1\": null, \"f2\":{\"a\":3, \"b\":4}, \"f3\":[2,4,6]}'\nOK\nredis> JSON.GET doc\n\"{\\\"f2\\\":{\\\"a\\\":3,\\\"b\\\":4},\\\"f3\\\":[2,4,6]}\"\n\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply](): if the operation fails to set the new values.\n\n**RESP3:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply](): if the operation fails to set the new values.\n\n\n\n## See also\n\n[`JSON.GET`]() | [`JSON.MGET`]() | [`JSON.SET`]() | [`JSON.MSET`]()\n\n## Related topics\n\n* [RedisJSON]()\n* [Index and search JSON documents]()",
+  "content": "Merge a given JSON value into matching paths. Consequently, JSON values at matching paths are updated, deleted, or expanded with new children.\n\nThis command complies with [RFC7396](https://datatracker.ietf.org/doc/html/rfc7396) Json Merge Patch\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open><summary><code>key</code></summary>\n\nis the key to merge into.\n</details>\n\n<details open><summary><code>path</code></summary>\n\nspecifies the JSONPath. For non-existing keys the `path` must be `$`. For existing keys, for each matched `path`, the value that matches the `path` is merged with the JSON `value`. For existing keys, when the path exists, except for the last element, a new child is added with the JSON `value`.\n\n</details>\n\n<details open><summary><code>value</code></summary>\n\nis the JSON value to merge with at the specified path. Merging is done according to the following rules per JSON value in the `value` argument while considering the corresponding original value if it exists:\n*   merging an existing object key with a `null` value deletes the key\n*   merging an existing object key with non-null value updates the value\n*   merging a non-existing object key adds the key and value\n*   merging an existing array with any merged value, replaces the entire array with the value\n</details>\n\n## Examples\n\nJSON.MERGE provides four different behaviors to merge changes on a given key: create a non-existent path, update an existing path with a new value, delete an existing path, or replace an array with a new array\n\n<details open>\n<summary><b>Create a non-existent path-value</b></summary>\n\n{{< highlight bash >}}\nredis> JSON.SET doc $ '{\"a\":2}'\nOK\nredis> JSON.MERGE doc $.b '8'\nOK\nredis> JSON.GET doc $\n\"[{\\\"a\\\":2,\\\"b\\\":8}]\"\n{{< / highlight >}}\n\n</details>\n\n<details open>\n<summary><b>Replace an existing value</b></summary>\n\n{{< highlight bash >}}\nredis> JSON.SET doc $ '{\"a\":2}'\nOK\nredis> JSON.MERGE doc $.a '3'\nOK\nredis> JSON.GET doc $\n\"[{\\\"a\\\":3}]\"\n{{< / highlight >}}\n\n</details>\n\n<details open>\n<summary><b>Delete an existing value</b></summary>\n\n{{< highlight bash >}}\nredis> JSON.SET doc $ '{\"a\":2}'\nOK\nredis> JSON.MERGE doc $ '{\"a\":null}'\nOK\nredis> JSON.GET doc $\n\"[{}]\"\n{{< / highlight >}}\n\n</details>\n\n<details open>\n<summary><b>Replace an Array</b></summary>\n\n{{< highlight bash >}}\nredis> JSON.SET doc $ '{\"a\":[2,4,6,8]}'\nOK\nredis> JSON.MERGE doc $.a '[10,12]'\nOK\nredis> JSON.GET doc $\n\"[{\\\"a\\\":[10,12]}]\"\n{{< / highlight >}}\n\n</details>\n\n<details open>\n<summary><b>Merge changes in multi-paths</b></summary>\n\n{{< highlight bash >}}\nredis> JSON.SET doc $ '{\"f1\": {\"a\":1}, \"f2\":{\"a\":2}}'\nOK\nredis> JSON.GET doc\n\"{\\\"f1\\\":{\\\"a\\\":1},\\\"f2\\\":{\\\"a\\\":2}}\"\nredis> JSON.MERGE doc $ '{\"f1\": null, \"f2\":{\"a\":3, \"b\":4}, \"f3\":[2,4,6]}'\nOK\nredis> JSON.GET doc\n\"{\\\"f2\\\":{\\\"a\\\":3,\\\"b\\\":4},\\\"f3\\\":[2,4,6]}\"\n{{< / highlight >}}\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"json-merge-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` if executed correctly.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}): if the operation fails to set the new values.\n\n-tab-sep-\n\nOne of the following:\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` if executed correctly.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}): if the operation fails to set the new values.\n\n{{< /multitabs >}}\n\n## See also\n\n[`JSON.GET`]({{< relref \"commands/json.get/\" >}}) | [`JSON.MGET`]({{< relref \"commands/json.mget/\" >}}) | [`JSON.SET`]({{< relref \"commands/json.set/\" >}}) | [`JSON.MSET`]({{< relref \"commands/json.mset/\" >}})\n\n## Related topics\n\n* [RedisJSON]({{< relref \"/develop/data-types/json/\" >}})\n* [Index and search JSON documents]({{< relref \"/develop/ai/search-and-query/indexing/\" >}})",
+  "example": "redis> JSON.SET doc $ '{\"a\":2}'\nOK\nredis> JSON.MERGE doc $.b '8'\nOK\nredis> JSON.GET doc $\n\"[{\\\"a\\\":2,\\\"b\\\":8}]\"",
   "intro": "Merge a given JSON value into matching paths. Consequently, JSON values at matching paths are updated, deleted, or expanded with new children.\n\nThis command complies with [RFC7396](https://datatracker.ietf.org/doc/html/rfc7396) Json Merge Patch\n\n[Examples](#examples)",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -85,7 +433,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "JSON.MERGE provides four different behaviors to merge changes on a given key: create a non-existent path, update an existing path with a new value, delete an existing path, or replace an array with a new array\n\n<details open>\n<summary><b>Create a non-existent path-value</b></summary>\n\n\nredis> JSON.SET doc $ '{\"a\":2}'\nOK\nredis> JSON.MERGE doc $.b '8'\nOK\nredis> JSON.GET doc $\n\"[{\\\"a\\\":2,\\\"b\\\":8}]\"\n\n\n</details>\n\n<details open>\n<summary><b>Replace an existing value</b></summary>\n\n\nredis> JSON.SET doc $ '{\"a\":2}'\nOK\nredis> JSON.MERGE doc $.a '3'\nOK\nredis> JSON.GET doc $\n\"[{\\\"a\\\":3}]\"\n\n\n</details>\n\n<details open>\n<summary><b>Delete an existing value</b></summary>\n\n\nredis> JSON.SET doc $ '{\"a\":2}'\nOK\nredis> JSON.MERGE doc $ '{\"a\":null}'\nOK\nredis> JSON.GET doc $\n\"[{}]\"\n\n\n</details>\n\n<details open>\n<summary><b>Replace an Array</b></summary>\n\n\nredis> JSON.SET doc $ '{\"a\":[2,4,6,8]}'\nOK\nredis> JSON.MERGE doc $.a '[10,12]'\nOK\nredis> JSON.GET doc $\n\"[{\\\"a\\\":[10,12]}]\"\n\n\n</details>\n\n<details open>\n<summary><b>Merge changes in multi-paths</b></summary>\n\n\nredis> JSON.SET doc $ '{\"f1\": {\"a\":1}, \"f2\":{\"a\":2}}'\nOK\nredis> JSON.GET doc\n\"{\\\"f1\\\":{\\\"a\\\":1},\\\"f2\\\":{\\\"a\\\":2}}\"\nredis> JSON.MERGE doc $ '{\"f1\": null, \"f2\":{\"a\":3, \"b\":4}, \"f3\":[2,4,6]}'\nOK\nredis> JSON.GET doc\n\"{\\\"f2\\\":{\\\"a\\\":3,\\\"b\\\":4},\\\"f3\\\":[2,4,6]}\"\n\n\n</details>"
+      "content": "JSON.MERGE provides four different behaviors to merge changes on a given key: create a non-existent path, update an existing path with a new value, delete an existing path, or replace an array with a new array\n\n<details open>\n<summary><b>Create a non-existent path-value</b></summary>\n\n{{< highlight bash >}}\nredis> JSON.SET doc $ '{\"a\":2}'\nOK\nredis> JSON.MERGE doc $.b '8'\nOK\nredis> JSON.GET doc $\n\"[{\\\"a\\\":2,\\\"b\\\":8}]\"\n{{< / highlight >}}\n\n</details>\n\n<details open>\n<summary><b>Replace an existing value</b></summary>\n\n{{< highlight bash >}}\nredis> JSON.SET doc $ '{\"a\":2}'\nOK\nredis> JSON.MERGE doc $.a '3'\nOK\nredis> JSON.GET doc $\n\"[{\\\"a\\\":3}]\"\n{{< / highlight >}}\n\n</details>\n\n<details open>\n<summary><b>Delete an existing value</b></summary>\n\n{{< highlight bash >}}\nredis> JSON.SET doc $ '{\"a\":2}'\nOK\nredis> JSON.MERGE doc $ '{\"a\":null}'\nOK\nredis> JSON.GET doc $\n\"[{}]\"\n{{< / highlight >}}\n\n</details>\n\n<details open>\n<summary><b>Replace an Array</b></summary>\n\n{{< highlight bash >}}\nredis> JSON.SET doc $ '{\"a\":[2,4,6,8]}'\nOK\nredis> JSON.MERGE doc $.a '[10,12]'\nOK\nredis> JSON.GET doc $\n\"[{\\\"a\\\":[10,12]}]\"\n{{< / highlight >}}\n\n</details>\n\n<details open>\n<summary><b>Merge changes in multi-paths</b></summary>\n\n{{< highlight bash >}}\nredis> JSON.SET doc $ '{\"f1\": {\"a\":1}, \"f2\":{\"a\":2}}'\nOK\nredis> JSON.GET doc\n\"{\\\"f1\\\":{\\\"a\\\":1},\\\"f2\\\":{\\\"a\\\":2}}\"\nredis> JSON.MERGE doc $ '{\"f1\": null, \"f2\":{\"a\":3, \"b\":4}, \"f3\":[2,4,6]}'\nOK\nredis> JSON.GET doc\n\"{\\\"f2\\\":{\\\"a\\\":3,\\\"b\\\":4},\\\"f3\\\":[2,4,6]}\"\n{{< / highlight >}}\n\n</details>"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -95,17 +443,17 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply](): if the operation fails to set the new values.\n\n**RESP3:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply](): if the operation fails to set the new values."
+      "content": "{{< multitabs id=\"json-merge-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` if executed correctly.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}): if the operation fails to set the new values.\n\n-tab-sep-\n\nOne of the following:\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` if executed correctly.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}): if the operation fails to set the new values.\n\n{{< /multitabs >}}"
     },
     {
       "title": "See also",
       "level": 2,
-      "content": "[`JSON.GET`]() | [`JSON.MGET`]() | [`JSON.SET`]() | [`JSON.MSET`]()"
+      "content": "[`JSON.GET`]({{< relref \"commands/json.get/\" >}}) | [`JSON.MGET`]({{< relref \"commands/json.mget/\" >}}) | [`JSON.SET`]({{< relref \"commands/json.set/\" >}}) | [`JSON.MSET`]({{< relref \"commands/json.mset/\" >}})"
     },
     {
       "title": "Related topics",
       "level": 2,
-      "content": "* [RedisJSON]()\n* [Index and search JSON documents]()"
+      "content": "* [RedisJSON]({{< relref \"/develop/data-types/json/\" >}})\n* [Index and search JSON documents]({{< relref \"/develop/ai/search-and-query/indexing/\" >}})"
     }
   ]
 }

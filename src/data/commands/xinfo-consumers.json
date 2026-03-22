@@ -14,6 +14,488 @@
     "@stream",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "groupname",
+            "type": "GroupT"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "ResponseT"
+        },
+        "signature": "xinfo_consumers(name: KeyT, groupname: GroupT)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "Stream name",
+            "name": "key",
+            "type": "byte[]"
+          },
+          {
+            "description": "Group name",
+            "name": "group",
+            "type": "byte[]"
+          }
+        ],
+        "returns": {
+          "description": "List of StreamConsumersInfo containing information about consumers that belong to the group @deprecated Use #xinfoConsumers2(java.lang.String, java.lang.String).",
+          "type": "List<Object>"
+        },
+        "signature": "List<Object> xinfoConsumers(byte[] key, byte[] group)"
+      },
+      {
+        "params": [
+          {
+            "description": "Stream name",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "Group name",
+            "name": "group",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "List of StreamConsumersInfo containing information about consumers that belong to the group @deprecated Use #xinfoConsumers2(java.lang.String, java.lang.String).",
+          "type": "List<StreamConsumersInfo>"
+        },
+        "signature": "List<StreamConsumersInfo> xinfoConsumers(String key, String group)"
+      },
+      {
+        "params": [
+          {
+            "description": "Stream name",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "Group name",
+            "name": "group",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "List of StreamConsumersInfo containing information about consumers that belong to the group @deprecated Use #xinfoConsumers2(java.lang.String, java.lang.String).",
+          "type": "List<StreamConsumersInfo>"
+        },
+        "signature": "List<StreamConsumersInfo> xinfoConsumers(String key, String group)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "name of the consumer group.",
+            "name": "group",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "List&lt;Object&gt; array-reply. @since 5.2",
+          "type": "List<Object>"
+        },
+        "signature": "List<Object> xinfoConsumers(K key, K group)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "name of the consumer group.",
+            "name": "group",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "List&lt;Object&gt; array-reply. @since 5.2",
+          "type": "RedisFuture<List<Object>>"
+        },
+        "signature": "RedisFuture<List<Object>> xinfoConsumers(K key, K group)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "name of the consumer group.",
+            "name": "group",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "Object array-reply. @since 5.2",
+          "type": "Flux<Object>"
+        },
+        "signature": "Flux<Object> xinfoConsumers(K key, K group)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "group",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*XInfoConsumersCmd"
+        },
+        "signature": "XInfoConsumers(ctx context.Context, key string, group string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "group",
+            "type": "RedisArgument"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "XINFO_CONSUMERS(key: RedisArgument, group: RedisArgument)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "subcommand",
+            "type": "\"CONSUMERS\""
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "groupname",
+            "type": "string | Buffer"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<unknown>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "xinfo(subcommand: \"CONSUMERS\", key: RedisKey, groupname: string | Buffer, callback?: Callback<unknown>)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "subcommand",
+            "type": "\"GROUPS\""
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<unknown>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "xinfo(subcommand: \"GROUPS\", key: RedisKey, callback?: Callback<unknown>)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "subcommand",
+            "type": "\"HELP\""
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<unknown>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "xinfo(subcommand: \"HELP\", callback?: Callback<unknown>)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "subcommand",
+            "type": "\"STREAM\""
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<unknown>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "xinfo(subcommand: \"STREAM\", key: RedisKey, callback?: Callback<unknown>)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "subcommand",
+            "type": "\"STREAM\""
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "fullToken",
+            "type": "\"FULL\""
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<unknown>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "xinfo(subcommand: \"STREAM\", key: RedisKey, fullToken: \"FULL\", callback?: Callback<unknown>)"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "group",
+            "type": "G"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(streams::StreamInfoConsumersReply)"
+        },
+        "signature": "xinfo_consumers(key: K, group: G)"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "group",
+            "type": "G"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(streams::StreamInfoConsumersReply)"
+        },
+        "signature": "xinfo_consumers(key: K, group: G)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The key of the stream.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The consumer group name.",
+            "name": "groupName",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "An instance of StreamConsumerInfo for each of the consumer group's consumers.",
+          "type": "StreamConsumerInfo[]"
+        },
+        "signature": "StreamConsumerInfo(RedisKey key, RedisValue groupName, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the stream.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The consumer group name.",
+            "name": "groupName",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "An instance of StreamConsumerInfo for each of the consumer group's consumers.",
+          "type": "StreamConsumerInfo[]"
+        },
+        "signature": "StreamConsumerInfo(RedisKey key, RedisValue groupName, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The key of the stream.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The consumer group name.",
+            "name": "groupName",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "An instance of StreamConsumerInfo for each of the consumer group's consumers.",
+          "type": "StreamConsumerInfo[]"
+        },
+        "signature": "StreamConsumerInfo(RedisKey key, RedisValue groupName, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the stream.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The consumer group name.",
+            "name": "groupName",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "An instance of StreamConsumerInfo for each of the consumer group's consumers.",
+          "type": "StreamConsumerInfo[]"
+        },
+        "signature": "StreamConsumerInfo(RedisKey key, RedisValue groupName, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$group",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array"
+        },
+        "signature": "consumers(string $key, string $group)"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly"
   ],
@@ -61,24 +543,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "This command returns the list of consumers that belong to the `<groupname>` consumer group of the stream stored at `<key>`.\n\nThe following information is provided for each consumer in the group:\n\n* **name**: the consumer's name\n* **pending**: the number of entries in the PEL: pending messages for the consumer, which are messages that were delivered but are yet to be acknowledged\n* **idle**: the number of milliseconds that have passed since the consumer's last attempted interaction (Examples: [`XREADGROUP`](), [`XCLAIM`](), [`XAUTOCLAIM`]())\n* **inactive**: the number of milliseconds that have passed since the consumer's last successful interaction (Examples: [`XREADGROUP`]() that actually read some entries into the PEL, [`XCLAIM`]()/[`XAUTOCLAIM`]() that actually claimed some entries)\n\nNote that before Redis 7.2.0, **idle** used to denote the time passed since last successful interaction.\nIn 7.2.0, **inactive** was added and **idle** was changed to denote the time passed since last attempted interaction.\n\n## Examples\n\n```\n> XINFO CONSUMERS mystream mygroup\n1) 1) name\n   2) \"Alice\"\n   3) pending\n   4) (integer) 1\n   5) idle\n   6) (integer) 9104628\n   7) inactive\n   8) (integer) 18104698\n2) 1) name\n   2) \"Bob\"\n   3) pending\n   4) (integer) 1\n   5) idle\n   6) (integer) 83841983\n   7) inactive\n   8) (integer) 993841998\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of consumers and their attributes.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of consumers and their attributes.",
+  "content": "This command returns the list of consumers that belong to the `<groupname>` consumer group of the stream stored at `<key>`.\n\nThe following information is provided for each consumer in the group:\n\n* **name**: the consumer's name\n* **pending**: the number of entries in the PEL: pending messages for the consumer, which are messages that were delivered but are yet to be acknowledged\n* **idle**: the number of milliseconds that have passed since the consumer's last attempted interaction (Examples: [`XREADGROUP`](), [`XCLAIM`](), [`XAUTOCLAIM`]())\n* **inactive**: the number of milliseconds that have passed since the consumer's last successful interaction (Examples: [`XREADGROUP`]() that actually read some entries into the PEL, [`XCLAIM`]()/[`XAUTOCLAIM`]() that actually claimed some entries)\n\nNote that before Redis 7.2.0, **idle** used to denote the time passed since last successful interaction.\nIn 7.2.0, **inactive** was added and **idle** was changed to denote the time passed since last attempted interaction.\n\n## Examples\n\n```\n> XINFO CONSUMERS mystream mygroup\n1) 1) name\n   2) \"Alice\"\n   3) pending\n   4) (integer) 1\n   5) idle\n   6) (integer) 9104628\n   7) inactive\n   8) (integer) 18104698\n2) 1) name\n   2) \"Bob\"\n   3) pending\n   4) (integer) 1\n   5) idle\n   6) (integer) 83841983\n   7) inactive\n   8) (integer) 993841998\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"xinfo-consumers-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of consumers and their attributes.\n\n-tab-sep-\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of consumers and their attributes.\n\n{{< /multitabs >}}",
+  "example": "> XINFO CONSUMERS mystream mygroup\n1) 1) name\n   2) \"Alice\"\n   3) pending\n   4) (integer) 1\n   5) idle\n   6) (integer) 9104628\n   7) inactive\n   8) (integer) 18104698\n2) 1) name\n   2) \"Bob\"\n   3) pending\n   4) (integer) 1\n   5) idle\n   6) (integer) 83841983\n   7) inactive\n   8) (integer) 993841998",
   "intro": "This command returns the list of consumers that belong to the `<groupname>` consumer group of the stream stored at `<key>`.\n\nThe following information is provided for each consumer in the group:\n\n* **name**: the consumer's name\n* **pending**: the number of entries in the PEL: pending messages for the consumer, which are messages that were delivered but are yet to be acknowledged\n* **idle**: the number of milliseconds that have passed since the consumer's last attempted interaction (Examples: [`XREADGROUP`](), [`XCLAIM`](), [`XAUTOCLAIM`]())\n* **inactive**: the number of milliseconds that have passed since the consumer's last successful interaction (Examples: [`XREADGROUP`]() that actually read some entries into the PEL, [`XCLAIM`]()/[`XAUTOCLAIM`]() that actually claimed some entries)\n\nNote that before Redis 7.2.0, **idle** used to denote the time passed since last successful interaction.\nIn 7.2.0, **inactive** was added and **idle** was changed to denote the time passed since last attempted interaction.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -98,7 +569,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of consumers and their attributes.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of consumers and their attributes."
+      "content": "{{< multitabs id=\"xinfo-consumers-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of consumers and their attributes.\n\n-tab-sep-\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of consumers and their attributes.\n\n{{< /multitabs >}}"
     }
   ]
 }

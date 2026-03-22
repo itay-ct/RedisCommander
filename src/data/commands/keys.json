@@ -15,6 +15,264 @@
     "@slow",
     "@dangerous"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "pattern",
+            "type": "PatternT"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "list"
+        },
+        "signature": "keys(pattern: PatternT = '*', **kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "pattern",
+            "type": "byte[]"
+          }
+        ],
+        "returns": {
+          "description": "all keys matching pattern",
+          "type": "Set<byte[]>"
+        },
+        "signature": "Set<byte[]> keys(final byte[] pattern)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "pattern",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "all keys matching pattern",
+          "type": "Set<String>"
+        },
+        "signature": "Set<String> keys(final String pattern)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "pattern",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StringSliceCmd"
+        },
+        "signature": "Keys(ctx context.Context, pattern string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "pattern",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "KEYS(pattern: string)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the pattern.",
+            "name": "pattern",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "List<K> array-reply list of keys matching pattern.",
+          "type": "List<K>"
+        },
+        "signature": "List<K> keys(K pattern)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the pattern.",
+            "name": "pattern",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "List<K> array-reply list of keys matching pattern.",
+          "type": "RedisFuture<List<K>>"
+        },
+        "signature": "RedisFuture<List<K>> keys(K pattern)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the pattern.",
+            "name": "pattern",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "List<K> array-reply list of keys matching pattern.",
+          "type": "Flux<K>"
+        },
+        "signature": "Flux<K> keys(K pattern)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The pattern to use.",
+            "name": "pattern",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The page size.",
+            "name": "pageSize",
+            "type": "int"
+          },
+          {
+            "description": "The cursor.",
+            "name": "cursor",
+            "type": "long"
+          },
+          {
+            "description": "The page offset.",
+            "name": "pageOffset",
+            "type": "int"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The keys matching the pattern.",
+          "type": "IEnumerable<RedisKey>"
+        },
+        "signature": "Keys(RedisValue pattern, int pageSize, long cursor, int pageOffset, CommandFlags flags)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The pattern to use.",
+            "name": "pattern",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The page size.",
+            "name": "pageSize",
+            "type": "int"
+          },
+          {
+            "description": "The cursor.",
+            "name": "cursor",
+            "type": "long"
+          },
+          {
+            "description": "The page offset.",
+            "name": "pageOffset",
+            "type": "int"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The keys matching the pattern.",
+          "type": "IAsyncEnumerable<RedisKey>"
+        },
+        "signature": "Keys(RedisValue pattern, int pageSize, long cursor, int pageOffset, CommandFlags flags)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$pattern",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array"
+        },
+        "signature": "keys(string $pattern)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "pattern",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "callback",
+            "type": "Callback<string[]>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Result<string[], Context>"
+        },
+        "signature": "keys(pattern: string, callback?: Callback<string[]>)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "pattern",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Array<String>"
+        },
+        "signature": "keys(pattern = \"*\")"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly"
   ],
@@ -37,34 +295,25 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nReturns all keys matching `pattern`.\n\nWhile the time complexity for this operation is O(N), the constant times are\nfairly low.\nFor example, Redis running on an entry level laptop can scan a 1 million key\ndatabase in 40 milliseconds.\n\n**Warning**: consider `KEYS` as a command that should only be used in production\nenvironments with extreme care.\nIt may ruin performance when it is executed against large databases.\nThis command is intended for debugging and special operations, such as changing\nyour keyspace layout.\nDon't use `KEYS` in your regular application code.\nIf you're looking for a way to find keys in a subset of your keyspace, consider\nusing [`SCAN`]() or [sets]().\n\nSupported glob-style patterns:\n\n* `h?llo` matches `hello`, `hallo` and `hxllo`\n* `h*llo` matches `hllo` and `heeeello`\n* `h[ae]llo` matches `hello` and `hallo,` but not `hillo`\n* `h[^e]llo` matches `hallo`, `hbllo`, ... but not `hello`\n* `h[a-b]llo` matches `hallo` and `hbllo`\n\nUse `\\` to escape special characters if you want to match them verbatim.\n\nWhen using [Redis Cluster](), the search is optimized for patterns that imply a single slot.\nIf a pattern can only match keys of one slot,\nRedis only iterates over keys in that slot, rather than the whole database,\nwhen searching for keys matching the pattern.\nFor example, with the pattern `{a}h*llo`, Redis would only try to match it with the keys in slot 15495, which hash tag `{a}` implies.\nTo use pattern with hash tag, see [Hash tags]() in the Cluster specification for more information.\n\n## Examples\n\n\nMSET firstname Jack lastname Stuntman age 35\nKEYS *name*\nKEYS a??\nKEYS *\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of keys matching _pattern_.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of keys matching _pattern_.",
-  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nReturns all keys matching `pattern`.\n\nWhile the time complexity for this operation is O(N), the constant times are\nfairly low.\nFor example, Redis running on an entry level laptop can scan a 1 million key\ndatabase in 40 milliseconds.\n\n**Warning**: consider `KEYS` as a command that should only be used in production\nenvironments with extreme care.\nIt may ruin performance when it is executed against large databases.\nThis command is intended for debugging and special operations, such as changing\nyour keyspace layout.\nDon't use `KEYS` in your regular application code.\nIf you're looking for a way to find keys in a subset of your keyspace, consider\nusing [`SCAN`]() or [sets]().\n\nSupported glob-style patterns:\n\n* `h?llo` matches `hello`, `hallo` and `hxllo`\n* `h*llo` matches `hllo` and `heeeello`\n* `h[ae]llo` matches `hello` and `hallo,` but not `hillo`\n* `h[^e]llo` matches `hallo`, `hbllo`, ... but not `hello`\n* `h[a-b]llo` matches `hallo` and `hbllo`\n\nUse `\\` to escape special characters if you want to match them verbatim.\n\nWhen using [Redis Cluster](), the search is optimized for patterns that imply a single slot.\nIf a pattern can only match keys of one slot,\nRedis only iterates over keys in that slot, rather than the whole database,\nwhen searching for keys matching the pattern.\nFor example, with the pattern `{a}h*llo`, Redis would only try to match it with the keys in slot 15495, which hash tag `{a}` implies.\nTo use pattern with hash tag, see [Hash tags]() in the Cluster specification for more information.",
+  "content": "Returns all keys matching `pattern`.\n\nWhile the time complexity for this operation is O(N), the constant times are\nfairly low.\nFor example, Redis running on an entry level laptop can scan a 1 million key\ndatabase in 40 milliseconds.\n\n**Warning**: consider `KEYS` as a command that should only be used in production\nenvironments with extreme care.\nIt may ruin performance when it is executed against large databases.\nThis command is intended for debugging and special operations, such as changing\nyour keyspace layout.\nDon't use `KEYS` in your regular application code.\nIf you're looking for a way to find keys in a subset of your keyspace, consider\nusing [`SCAN`]() or [sets]().\n\nSupported glob-style patterns:\n\n* `h?llo` matches `hello`, `hallo` and `hxllo`\n* `h*llo` matches `hllo` and `heeeello`\n* `h[ae]llo` matches `hello` and `hallo,` but not `hillo`\n* `h[^e]llo` matches `hallo`, `hbllo`, ... but not `hello`\n* `h[a-b]llo` matches `hallo` and `hbllo`\n\nUse `\\` to escape special characters if you want to match them verbatim.\n\nWhen using [Redis Cluster](), the search is optimized for patterns that imply a single slot.\nIf a pattern can only match keys of one slot,\nRedis only iterates over keys in that slot, rather than the whole database,\nwhen searching for keys matching the pattern.\nFor example, with the pattern `{a}h*llo`, Redis would only try to match it with the keys in slot 15495, which hash tag `{a}` implies.\nTo use pattern with hash tag, see [Hash tags]() in the Cluster specification for more information.\n\n## Examples\n\n{{< clients-example set=\"cmds_generic\" step=\"keys\" description=\"Returns all key names that match a pattern\" difficulty=\"beginner\" >}}\n> MSET firstname Jack lastname Stuntman age 35\n\"OK\"\n> KEYS *name*\n1) \"lastname\"\n2) \"firstname\"\n> KEYS a??\n1) \"age\"\n> KEYS *\n1) \"age\"\n2) \"lastname\"\n3) \"firstname\"\n{{< /clients-example >}}\n\nGive these commands a try in the interactive console:\n{{% redis-cli %}}\nMSET firstname Jack lastname Stuntman age 35\nKEYS *name*\nKEYS a??\nKEYS *\n{{% /redis-cli %}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"keys-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of keys matching _pattern_.\n\n-tab-sep-\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of keys matching _pattern_.\n\n{{< /multitabs >}}",
+  "example": "> MSET firstname Jack lastname Stuntman age 35\n\"OK\"\n> KEYS *name*\n1) \"lastname\"\n2) \"firstname\"\n> KEYS a??\n1) \"age\"\n> KEYS *\n1) \"age\"\n2) \"lastname\"\n3) \"firstname\"",
+  "intro": "Returns all keys matching `pattern`.\n\nWhile the time complexity for this operation is O(N), the constant times are\nfairly low.\nFor example, Redis running on an entry level laptop can scan a 1 million key\ndatabase in 40 milliseconds.\n\n**Warning**: consider `KEYS` as a command that should only be used in production\nenvironments with extreme care.\nIt may ruin performance when it is executed against large databases.\nThis command is intended for debugging and special operations, such as changing\nyour keyspace layout.\nDon't use `KEYS` in your regular application code.\nIf you're looking for a way to find keys in a subset of your keyspace, consider\nusing [`SCAN`]() or [sets]().\n\nSupported glob-style patterns:\n\n* `h?llo` matches `hello`, `hallo` and `hxllo`\n* `h*llo` matches `hllo` and `heeeello`\n* `h[ae]llo` matches `hello` and `hallo,` but not `hillo`\n* `h[^e]llo` matches `hallo`, `hbllo`, ... but not `hello`\n* `h[a-b]llo` matches `hallo` and `hbllo`\n\nUse `\\` to escape special characters if you want to match them verbatim.\n\nWhen using [Redis Cluster](), the search is optimized for patterns that imply a single slot.\nIf a pattern can only match keys of one slot,\nRedis only iterates over keys in that slot, rather than the whole database,\nwhen searching for keys matching the pattern.\nFor example, with the pattern `{a}h*llo`, Redis would only try to match it with the keys in slot 15495, which hash tag `{a}` implies.\nTo use pattern with hash tag, see [Hash tags]() in the Cluster specification for more information.",
+  "notes": [
+    "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information."
+  ],
   "sections": [
     {
       "title": "Overview",
       "level": 1,
-      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nReturns all keys matching `pattern`.\n\nWhile the time complexity for this operation is O(N), the constant times are\nfairly low.\nFor example, Redis running on an entry level laptop can scan a 1 million key\ndatabase in 40 milliseconds.\n\n**Warning**: consider `KEYS` as a command that should only be used in production\nenvironments with extreme care.\nIt may ruin performance when it is executed against large databases.\nThis command is intended for debugging and special operations, such as changing\nyour keyspace layout.\nDon't use `KEYS` in your regular application code.\nIf you're looking for a way to find keys in a subset of your keyspace, consider\nusing [`SCAN`]() or [sets]().\n\nSupported glob-style patterns:\n\n* `h?llo` matches `hello`, `hallo` and `hxllo`\n* `h*llo` matches `hllo` and `heeeello`\n* `h[ae]llo` matches `hello` and `hallo,` but not `hillo`\n* `h[^e]llo` matches `hallo`, `hbllo`, ... but not `hello`\n* `h[a-b]llo` matches `hallo` and `hbllo`\n\nUse `\\` to escape special characters if you want to match them verbatim.\n\nWhen using [Redis Cluster](), the search is optimized for patterns that imply a single slot.\nIf a pattern can only match keys of one slot,\nRedis only iterates over keys in that slot, rather than the whole database,\nwhen searching for keys matching the pattern.\nFor example, with the pattern `{a}h*llo`, Redis would only try to match it with the keys in slot 15495, which hash tag `{a}` implies.\nTo use pattern with hash tag, see [Hash tags]() in the Cluster specification for more information."
+      "content": "Returns all keys matching `pattern`.\n\nWhile the time complexity for this operation is O(N), the constant times are\nfairly low.\nFor example, Redis running on an entry level laptop can scan a 1 million key\ndatabase in 40 milliseconds.\n\n**Warning**: consider `KEYS` as a command that should only be used in production\nenvironments with extreme care.\nIt may ruin performance when it is executed against large databases.\nThis command is intended for debugging and special operations, such as changing\nyour keyspace layout.\nDon't use `KEYS` in your regular application code.\nIf you're looking for a way to find keys in a subset of your keyspace, consider\nusing [`SCAN`]() or [sets]().\n\nSupported glob-style patterns:\n\n* `h?llo` matches `hello`, `hallo` and `hxllo`\n* `h*llo` matches `hllo` and `heeeello`\n* `h[ae]llo` matches `hello` and `hallo,` but not `hillo`\n* `h[^e]llo` matches `hallo`, `hbllo`, ... but not `hello`\n* `h[a-b]llo` matches `hallo` and `hbllo`\n\nUse `\\` to escape special characters if you want to match them verbatim.\n\nWhen using [Redis Cluster](), the search is optimized for patterns that imply a single slot.\nIf a pattern can only match keys of one slot,\nRedis only iterates over keys in that slot, rather than the whole database,\nwhen searching for keys matching the pattern.\nFor example, with the pattern `{a}h*llo`, Redis would only try to match it with the keys in slot 15495, which hash tag `{a}` implies.\nTo use pattern with hash tag, see [Hash tags]() in the Cluster specification for more information."
     },
     {
       "title": "Examples",
       "level": 2,
-      "content": "MSET firstname Jack lastname Stuntman age 35\nKEYS *name*\nKEYS a??\nKEYS *"
+      "content": "{{< clients-example set=\"cmds_generic\" step=\"keys\" description=\"Returns all key names that match a pattern\" difficulty=\"beginner\" >}}\n> MSET firstname Jack lastname Stuntman age 35\n\"OK\"\n> KEYS *name*\n1) \"lastname\"\n2) \"firstname\"\n> KEYS a??\n1) \"age\"\n> KEYS *\n1) \"age\"\n2) \"lastname\"\n3) \"firstname\"\n{{< /clients-example >}}\n\nGive these commands a try in the interactive console:\n{{% redis-cli %}}\nMSET firstname Jack lastname Stuntman age 35\nKEYS *name*\nKEYS a??\nKEYS *\n{{% /redis-cli %}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -74,7 +323,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of keys matching _pattern_.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of keys matching _pattern_."
+      "content": "{{< multitabs id=\"keys-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of keys matching _pattern_.\n\n-tab-sep-\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of keys matching _pattern_.\n\n{{< /multitabs >}}"
     }
   ]
 }

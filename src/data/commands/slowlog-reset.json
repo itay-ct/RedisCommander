@@ -14,6 +14,101 @@
     "@slow",
     "@dangerous"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "slowlog_reset(**kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "String"
+        },
+        "signature": "String slowlogReset()"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context",
+            "name": "ctx",
+            "type": "context.Context"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StatusCmd"
+        },
+        "signature": "SlowLogReset(ctx context.Context) *StatusCmd"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "String"
+        },
+        "signature": "String slowlogReset()"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> slowlogReset()"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> slowlogReset()"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$operation",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$length",
+            "type": "int|null"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array|int|bool"
+        },
+        "signature": "slowlog(string $operation, ?int $length = null)"
+      }
+    ]
+  },
   "commandFlags": [
     "admin",
     "loading",
@@ -32,20 +127,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "This command resets the slow log, clearing all entries in it.\n\nOnce deleted the information is lost forever.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Not supported for [scripts](). |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.",
+  "content": "This command resets the slow log, clearing all entries in it.\n\nOnce deleted the information is lost forever.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Not supported for [scripts]({{<relref \"/develop/programmability\">}}). |\n\n## Return information\n\n{{< multitabs id=\"slowlog-reset-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "This command resets the slow log, clearing all entries in it.\n\nOnce deleted the information is lost forever.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -55,12 +143,12 @@
     {
       "title": "Redis Software and Redis Cloud compatibility",
       "level": 2,
-      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Not supported for [scripts](). |"
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Not supported for [scripts]({{<relref \"/develop/programmability\">}}). |"
     },
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`."
+      "content": "{{< multitabs id=\"slowlog-reset-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n{{< /multitabs >}}"
     }
   ]
 }

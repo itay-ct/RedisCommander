@@ -14,6 +14,438 @@
     "@read",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "from_time",
+            "type": "Union[int, str]"
+          },
+          {
+            "description": "",
+            "name": "to_time",
+            "type": "Union[int, str]"
+          },
+          {
+            "description": "",
+            "name": "filters",
+            "type": "List[str]"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "Optional[int] = None"
+          },
+          {
+            "description": "",
+            "name": "aggregation_type",
+            "type": "Optional[str] = None"
+          },
+          {
+            "description": "",
+            "name": "bucket_size_msec",
+            "type": "Optional[int] = 0"
+          },
+          {
+            "description": "",
+            "name": "with_labels",
+            "type": "Optional[bool] = False"
+          },
+          {
+            "description": "",
+            "name": "filter_by_ts",
+            "type": "Optional[List[int]] = None"
+          },
+          {
+            "description": "",
+            "name": "filter_by_min_value",
+            "type": "Optional[int] = None"
+          },
+          {
+            "description": "",
+            "name": "filter_by_max_value",
+            "type": "Optional[int] = None"
+          },
+          {
+            "description": "",
+            "name": "groupby",
+            "type": "Optional[str] = None"
+          },
+          {
+            "description": "",
+            "name": "reduce",
+            "type": "Optional[str] = None"
+          },
+          {
+            "description": "",
+            "name": "select_labels",
+            "type": "Optional[List[str]] = None"
+          },
+          {
+            "description": "",
+            "name": "align",
+            "type": "Optional[Union[int, str]] = None"
+          },
+          {
+            "description": "",
+            "name": "latest",
+            "type": "Optional[bool] = False"
+          },
+          {
+            "description": "",
+            "name": "bucket_timestamp",
+            "type": "Optional[str] = None"
+          },
+          {
+            "description": "",
+            "name": "empty",
+            "type": "Optional[bool] = False"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "mrevrange(, from_time: Union[int, str],, to_time: Union[int, str],, filters: List[str],, count: Optional[int] = None,, aggregation_type: Optional[str] = None,, bucket_size_msec: Optional[int] = 0,, with_labels: Optional[bool] = False,, filter_by_ts: Optional[List[int]] = None,, filter_by_min_value: Optional[int] = None,, filter_by_max_value: Optional[int] = None,, groupby: Optional[str] = None,, reduce: Optional[str] = None,, select_labels: Optional[List[str]] = None,, align: Optional[Union[int, str]] = None,, latest: Optional[bool] = False,, bucket_timestamp: Optional[str] = None,, empty: Optional[bool] = False,)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "fromTimestamp",
+            "type": "long"
+          },
+          {
+            "description": "",
+            "name": "toTimestamp",
+            "type": "long"
+          },
+          {
+            "description": "",
+            "name": "filters",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "multi range elements",
+          "type": "Map<String, TSMRangeElements>"
+        },
+        "signature": "Map<String, TSMRangeElements> tsMRevRange(long fromTimestamp, long toTimestamp, String... filters)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "multiRangeParams",
+            "type": "TSMRangeParams"
+          }
+        ],
+        "returns": {
+          "description": "multi range elements",
+          "type": "Map<String, TSMRangeElements>"
+        },
+        "signature": "Map<String, TSMRangeElements> tsMRevRange(TSMRangeParams multiRangeParams)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "fromTimestamp",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "toTimestamp",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "filterExpr",
+            "type": "[]string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*MapStringSliceInterfaceCmd"
+        },
+        "signature": "TSMRevRange(ctx context.Context, fromTimestamp int, toTimestamp int, filterExpr []string)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "fromTimestamp",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "toTimestamp",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "filterExpr",
+            "type": "[]string"
+          },
+          {
+            "description": "",
+            "name": "options",
+            "type": "*TSMRevRangeOptions"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*MapStringSliceInterfaceCmd"
+        },
+        "signature": "TSMRevRangeWithArgs(ctx context.Context, fromTimestamp int, toTimestamp int, filterExpr []string, options *TSMRevRangeOptions)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "fromTimeStamp",
+            "type": "TimeStamp"
+          },
+          {
+            "description": "",
+            "name": "toTimeStamp",
+            "type": "TimeStamp"
+          },
+          {
+            "description": "",
+            "name": "filter",
+            "type": "IReadOnlyCollection<string>"
+          },
+          {
+            "description": "",
+            "name": "latest",
+            "type": "bool"
+          },
+          {
+            "description": "",
+            "name": "filterByTs",
+            "type": "IReadOnlyCollection<TimeStamp>?"
+          },
+          {
+            "description": "",
+            "name": "filterByValue",
+            "type": "(long, long)?"
+          },
+          {
+            "description": "",
+            "name": "withLabels",
+            "type": "bool?"
+          },
+          {
+            "description": "",
+            "name": "selectLabels",
+            "type": "IReadOnlyCollection<string>?"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "long?"
+          },
+          {
+            "description": "",
+            "name": "align",
+            "type": "TimeStamp?"
+          },
+          {
+            "description": "",
+            "name": "aggregation",
+            "type": "TsAggregation?"
+          },
+          {
+            "description": "",
+            "name": "timeBucket",
+            "type": "long?"
+          },
+          {
+            "description": "",
+            "name": "bt",
+            "type": "TsBucketTimestamps?"
+          },
+          {
+            "description": "",
+            "name": "empty",
+            "type": "bool"
+          },
+          {
+            "description": "",
+            "name": "groupbyTuple",
+            "type": "(string, TsReduce)?"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "IReadOnlyList<(string key, IReadOnlyList<TimeSeriesLabel> labels, IReadOnlyList<TimeSeriesTuple> values)>"
+        },
+        "signature": "MRevRange(TimeStamp fromTimeStamp, TimeStamp toTimeStamp, IReadOnlyCollection<string> filter, bool latest = false, IReadOnlyCollection<TimeStamp>? filterByTs = null, (long, long)? filterByValue = null, bool? withLabels = null, IReadOnlyCollection<string>? selectLabels = null, long? count = null, TimeStamp? align = null, TsAggregation? aggregation = null, long? timeBucket = null, TsBucketTimestamps? bt = null, bool empty = false, (string, TsReduce)? groupbyTuple = null)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "fromTimeStamp",
+            "type": "TimeStamp"
+          },
+          {
+            "description": "",
+            "name": "toTimeStamp",
+            "type": "TimeStamp"
+          },
+          {
+            "description": "",
+            "name": "filter",
+            "type": "IReadOnlyCollection<string>"
+          },
+          {
+            "description": "",
+            "name": "latest",
+            "type": "bool"
+          },
+          {
+            "description": "",
+            "name": "filterByTs",
+            "type": "IReadOnlyCollection<TimeStamp>?"
+          },
+          {
+            "description": "",
+            "name": "filterByValue",
+            "type": "(long, long)?"
+          },
+          {
+            "description": "",
+            "name": "withLabels",
+            "type": "bool?"
+          },
+          {
+            "description": "",
+            "name": "selectLabels",
+            "type": "IReadOnlyCollection<string>?"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "long?"
+          },
+          {
+            "description": "",
+            "name": "align",
+            "type": "TimeStamp?"
+          },
+          {
+            "description": "",
+            "name": "aggregation",
+            "type": "TsAggregation?"
+          },
+          {
+            "description": "",
+            "name": "timeBucket",
+            "type": "long?"
+          },
+          {
+            "description": "",
+            "name": "bt",
+            "type": "TsBucketTimestamps?"
+          },
+          {
+            "description": "",
+            "name": "empty",
+            "type": "bool"
+          },
+          {
+            "description": "",
+            "name": "groupbyTuple",
+            "type": "(string, TsReduce)?"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Task<IReadOnlyList<(string key, IReadOnlyList<TimeSeriesLabel> labels, IReadOnlyList<TimeSeriesTuple> values)>>"
+        },
+        "signature": "MRevRangeAsync(TimeStamp fromTimeStamp, TimeStamp toTimeStamp, IReadOnlyCollection<string> filter, bool latest = false, IReadOnlyCollection<TimeStamp>? filterByTs = null, (long, long)? filterByValue = null, bool? withLabels = null, IReadOnlyCollection<string>? selectLabels = null, long? count = null, TimeStamp? align = null, TsAggregation? aggregation = null, long? timeBucket = null, TsBucketTimestamps? bt = null, bool empty = false, (string, TsReduce)? groupbyTuple = null)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$fromTimestamp",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "$toTimestamp",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "$arguments",
+            "type": "MRangeArguments"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array"
+        },
+        "signature": "tsmrevrange($fromTimestamp, $toTimestamp, MRangeArguments $arguments)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "fromTimestamp",
+            "type": "Timestamp"
+          },
+          {
+            "description": "",
+            "name": "toTimestamp",
+            "type": "Timestamp"
+          },
+          {
+            "description": "",
+            "name": "filter",
+            "type": "RedisVariadicArgument"
+          },
+          {
+            "description": "",
+            "name": "options?",
+            "type": "TsRangeOptions"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "MREVRANGE(fromTimestamp: Timestamp, toTimestamp: Timestamp, filter: RedisVariadicArgument, options?: TsRangeOptions)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -264,45 +696,20 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "optional-arguments",
-        "title": "Optional arguments"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      },
-      {
-        "id": "see-also",
-        "title": "See also"
-      },
-      {
-        "id": "related-topics",
-        "title": "Related topics"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\n\nQuery a range across multiple time series by filters in the reverse direction. Starting from Redis 8.6, NaN values are included in raw measurement reports (queries without aggregation).\n\n\nThis command will reply only if the current user has read access to all keys that match the filter.\nOtherwise, it will reply with \"*(error): current user doesn't have read permission to one or more keys that match the specified filter*\".\n\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open>\n<summary><code>fromTimestamp</code></summary> \n\nis the start timestamp for the range query (integer Unix timestamp in milliseconds) or `-` to denote the timestamp of the earliest sample among all the time series that passes `FILTER filterExpr...`.\n</details>\n\n<details open>\n<summary><code>toTimestamp</code></summary> \n\nis the end timestamp for the range query (integer Unix timestamp in milliseconds) or `+` to denote the timestamp of the latest sample among all the time series that passes `FILTER filterExpr...`.\n</details>\n\n<details open>\n<summary><code>FILTER filterExpr...</code></summary> \n\nfilters time series based on their labels and label values. Each filter expression has one of the following syntaxes:\n\n  - `label!=` - the time series has a label named `label`\n  - `label=value` - the time series has a label named `label` with a value equal to `value`\n  - `label=(value1,value2,...)` - the time series has a label named `label` with a value equal to one of the values in the list\n  - `label=` - the time series does not have a label named `label`\n  - `label!=value` - the time series does not have a label named `label` with a value equal to `value`\n  - `label!=(value1,value2,...)` - the time series does not have a label named `label` with a value equal to any of the values in the list\n\n  <note><b>Notes:</b>\n   - At least one filter expression with a syntax `label=value` or `label=(value1,value2,...)` is required.\n   - Filter expressions are conjunctive. For example, the filter `type=temperature room=study` means that a time series is a temperature time series of a study room.\n   - Whitespaces are unallowed in a filter expression except between quotes or double quotes in values - e.g., `x=\"y y\"` or `x='(y y,z z)'`.\n   </note>\n</details>\n\n## Optional arguments\n\n<details open>\n<summary><code>LATEST</code> (since RedisTimeSeries 1.8)</summary> \n\nis used when a time series is a compaction. With `LATEST`, TS.MREVRANGE also reports the compacted value of the latest (possibly partial) bucket, given that this bucket's start time falls within `[fromTimestamp, toTimestamp]`. Without `LATEST`, TS.MREVRANGE does not report the latest (possibly partial) bucket. When a time series is not a compaction, `LATEST` is ignored.\n  \nThe data in the latest bucket of a compaction is possibly partial. A bucket is _closed_ and compacted only upon the arrival of a new sample that _opens_ a new _latest_ bucket. There are cases, however, when the compacted value of the latest (possibly partial) bucket is also required. In such a case, use `LATEST`.\n</details>\n\n<details open>\n<summary><code>FILTER_BY_TS ts...</code> (since RedisTimeSeries 1.6)</summary> \n\nfilters samples by a list of specific timestamps. A sample passes the filter if its exact timestamp is specified and falls within `[fromTimestamp, toTimestamp]`.\n\nWhen used together with `AGGREGATION`: samples are filtered before being aggregated.\n</details>\n\n<details open>\n<summary><code>FILTER_BY_VALUE min max</code> (since RedisTimeSeries 1.6)</summary> \n\nfilters samples by minimum and maximum values. `min` and `max` cannot be NaN values.\n\nWhen used together with `AGGREGATION`: samples are filtered before being aggregated.\n</details>\n\n<details open>\n<summary><code>WITHLABELS</code></summary> \n\nincludes in the reply all label-value pairs representing metadata labels of the time series. \nIf `WITHLABELS` or `SELECTED_LABELS` are not specified, by default, an empty list is reported as label-value pairs.\n</details>\n\n<details open>\n<summary><code>SELECTED_LABELS label...</code> (since RedisTimeSeries 1.6)</summary>\n\nreturns a subset of the label-value pairs that represent metadata labels of the time series. \nUse when a large number of labels exists per series, but only the values of some of the labels are required. \nIf `WITHLABELS` or `SELECTED_LABELS` are not specified, by default, an empty list is reported as label-value pairs.\n</details>\n\n<details open>\n<summary><code>COUNT count</code></summary> \n\nWhen used without `AGGREGATION`: limits the number of reported samples per time series.\n\nWhen used together with `AGGREGATION`: limits the number of reported buckets.\n</details>\n\n<details open>\n<summary><code>ALIGN align</code> (since RedisTimeSeries 1.6)</summary> \n\nis a time bucket alignment control for `AGGREGATION`. It controls the time bucket timestamps by changing the reference timestamp on which a bucket is defined. \n\nValues include:\n   \n - `start` or `-`: The reference timestamp will be the query start interval time (`fromTimestamp`) which can't be `-`\n - `end` or `+`: The reference timestamp will be the query end interval time (`toTimestamp`) which can't be `+`\n - A specific timestamp: align the reference timestamp to a specific time\n   \n<note><b>Note:</b> When not provided, alignment is set to `0`.</note>\n</details>\n\n<details open>\n<summary><code>AGGREGATION aggregator bucketDuration</code></summary> \n\nper time series, aggregates samples into time buckets, where:\n\n  - `aggregator` takes one of the following aggregation types:\n\n    | `aggregator` | Description                                                     |\n    | ------------ | --------------------------------------------------------------- |\n    | `avg`        | Arithmetic mean of all non-NaN values                           |\n    | `sum`        | Sum of all non-NaN values                                       |\n    | `min`        | Minimum non-NaN value                                           |\n    | `max`        | Maximum non-NaN value                                           |\n    | `range`      | Difference between the maximum and the minimum non-NaN values   |\n    | `count`      | Number of non-NaN values                                        |\n    | `countNaN`   | Number of NaN values (since Redis 8.6)                          |\n    | `countAll`   | Number of values, including NaN and non-NaN (since Redis 8.6)   |\n    | `first`      | The non-NaN value with the lowest timestamp in the bucket       |\n    | `last`       | The non-NaN value with the highest timestamp in the bucket      |\n    | `std.p`      | Population standard deviation of the non-NaN values             |\n    | `std.s`      | Sample standard deviation of the non-NaN values                 |\n    | `var.p`      | Population variance of the non-NaN values                       |\n    | `var.s`      | Sample variance of the non-NaN values                           |\n    | `twa`        | Time-weighted average over the bucket's timeframe (ignores NaN values) (since RedisTimeSeries 1.8) |\n\n  - `bucketDuration` is duration of each bucket, in milliseconds.\n  \n  Without `ALIGN`, bucket start times are multiples of `bucketDuration`.\n  \n  With `ALIGN align`, bucket start times are multiples of `bucketDuration` with remainder `align % bucketDuration`.\n  \n  The first bucket start time is less than or equal to `fromTimestamp`.  \n</details>\n\n<details open>\n<summary><code>[BUCKETTIMESTAMP bt]</code> (since RedisTimeSeries 1.8)</summary> \n\ncontrols how bucket timestamps are reported.\n\n| `bt`             | Timestamp reported for each bucket                            |\n| ---------------- | ------------------------------------------------------------- |\n| `-` or `start`   | the bucket's start time (default)                             |\n| `+` or `end`     | the bucket's end time                                         |\n| `~` or `mid`     | the bucket's mid time (rounded down if not an integer)        |\n</details>\n\n<details open>\n<summary><code>[EMPTY]</code> (since RedisTimeSeries 1.8)</summary> \n\nis a flag, which, when specified, reports aggregations also for empty buckets.\n\n| `aggregator`         | Value reported for each empty bucket |\n| -------------------- | ------------------------------------ |\n| `sum`, `count`       | `0`                                  |\n| `last`               | The value of the last sample before the bucket's start. `NaN` when no such sample. |\n| `twa`                | Average value over the bucket's timeframe based on linear interpolation of the last sample before the bucket's start and the first sample after the bucket's end. `NaN` when no such samples. |\n| `min`, `max`, `range`, `avg`, `first`, `std.p`, `std.s` | `NaN` |\n\nRegardless of the values of `fromTimestamp` and `toTimestamp`, no data is reported for buckets that end before the earliest sample or begin after the latest sample in the time series.\n</details>\n\n<details open>\n<summary><code>GROUPBY label REDUCE reducer</code> (since RedisTimeSeries 1.6)</summary>\n\nsplits time series into groups, each group contains time series that share the same value for the provided label name, then aggregates results in each group.\n\nWhen combined with `AGGREGATION` the `GROUPBY`/`REDUCE` is applied post aggregation stage.\n\n  - `label` is label name. A group is created for all time series that share the same value for this label.\n\n  - `reducer` is an aggregation type used to aggregate the results in each group.\n\n    | `reducer` | Description                                                                                                      |\n    | --------- | ---------------------------------------------------------------------------------------------------------------- |\n    | `avg`     | Arithmetic mean of all non-NaN values; NaN if no such values (since RedisTimeSeries 1.8)                         |\n    | `sum`     | Sum of all non-NaN values; NaN if no such values                                                                 |\n    | `min`     | Minimum non-NaN value; NaN if no such values                                                                     |\n    | `max`     | Maximum non-NaN value; NaN if no such values                                                                     |\n    | `range`   | Difference between the maximum and the minimum non-NaN values; NaN if no such values (since RedisTimeSeries 1.8) |\n    | `count`   | Number of non-NaN values (since RedisTimeSeries 1.8)                                                             |\n    | `countNaN`| Number of NaN values (since Redis 8.6)                                                                           |\n    | `countAll`| Number of values, including NaN and non-NaN (since Redis 8.6)                                                     |\n    | `std.p`   | Population standard deviation of the non-NaN values; NaN if no such values (since RedisTimeSeries 1.8)           |\n    | `std.s`   | Sample standard deviation of the non-NaN values; NaN if no such values (since RedisTimeSeries 1.8)              |\n    | `var.p`   | Population variance of the non-NaN values; NaN if no such values (since RedisTimeSeries 1.8)                     |\n    | `var.s`   | Sample variance of the non-NaN values; NaN if no such values (since RedisTimeSeries 1.8)                         |\n\n<note><b>Notes:</b> \n  - The produced time series is named `<label>=<value>`\n  - The produced time series contains two labels with these label array structures:\n    - `__reducer__`, the reducer used (e.g., `\"count\"`)\n    - `__source__`, the list of time series keys used to compute the grouped series (e.g., `\"key1,key2,key3\"`)\n</note>\n</details>\n\n<note><b>Note:</b> An `MREVRANGE` command cannot be part of a transaction when running on a Redis cluster.</note>\n\n## Examples\n\n<details open>\n<summary><b>Retrieve maximum stock price per timestamp</b></summary>\n\nCreate two stocks and add their prices at three different timestamps.\n\n\n127.0.0.1:6379> TS.CREATE stock:A LABELS type stock name A\nOK\n127.0.0.1:6379> TS.CREATE stock:B LABELS type stock name B\nOK\n127.0.0.1:6379> TS.MADD stock:A 1000 100 stock:A 1010 110 stock:A 1020 120\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n127.0.0.1:6379> TS.MADD stock:B 1000 120 stock:B 1010 110 stock:B 1020 100\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n\n\nYou can now retrieve the maximum stock price per timestamp.\n\n\n127.0.0.1:6379> TS.MREVRANGE - + WITHLABELS FILTER type=stock GROUPBY type REDUCE max\n1) 1) \"type=stock\"\n   2) 1) 1) \"type\"\n         2) \"stock\"\n      2) 1) \"__reducer__\"\n         2) \"max\"\n      3) 1) \"__source__\"\n         2) \"stock:A,stock:B\"\n   3) 1) 1) (integer) 1020\n         2) 120\n      2) 1) (integer) 1010\n         2) 110\n      3) 1) (integer) 1000\n         2) 120\n\n\nThe `FILTER type=stock` clause returns a single time series representing stock prices. The `GROUPBY type REDUCE max` clause splits the time series into groups with identical type values, and then, for each timestamp, aggregates all series that share the same type value using the max aggregator.\n</details>\n\n<details open>\n<summary><b>Calculate average stock price and retrieve maximum average</b></summary> \n\nCreate two stocks and add their prices at nine different timestamps.\n\n\n127.0.0.1:6379> TS.CREATE stock:A LABELS type stock name A\nOK\n127.0.0.1:6379> TS.CREATE stock:B LABELS type stock name B\nOK\n127.0.0.1:6379> TS.MADD stock:A 1000 100 stock:A 1010 110 stock:A 1020 120\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n127.0.0.1:6379> TS.MADD stock:B 1000 120 stock:B 1010 110 stock:B 1020 100\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n127.0.0.1:6379> TS.MADD stock:A 2000 200 stock:A 2010 210 stock:A 2020 220\n1) (integer) 2000\n2) (integer) 2010\n3) (integer) 2020\n127.0.0.1:6379> TS.MADD stock:B 2000 220 stock:B 2010 210 stock:B 2020 200\n1) (integer) 2000\n2) (integer) 2010\n3) (integer) 2020\n127.0.0.1:6379> TS.MADD stock:A 3000 300 stock:A 3010 310 stock:A 3020 320\n1) (integer) 3000\n2) (integer) 3010\n3) (integer) 3020\n127.0.0.1:6379> TS.MADD stock:B 3000 320 stock:B 3010 310 stock:B 3020 300\n1) (integer) 3000\n2) (integer) 3010\n3) (integer) 3020\n\n\nNow, for each stock, calculate the average stock price per a 1000-millisecond timeframe, and then retrieve the stock with the maximum average for that timeframe in reverse direction.\n\n\n127.0.0.1:6379> TS.MREVRANGE - + WITHLABELS AGGREGATION avg 1000 FILTER type=stock GROUPBY type REDUCE max\n1) 1) \"type=stock\"\n   2) 1) 1) \"type\"\n         2) \"stock\"\n      2) 1) \"__reducer__\"\n         2) \"max\"\n      3) 1) \"__source__\"\n         2) \"stock:A,stock:B\"\n   3) 1) 1) (integer) 3000\n         2) 310\n      2) 1) (integer) 2000\n         2) 210\n      3) 1) (integer) 1000\n         2) 110\n\n</details>\n\n<details open>\n<summary><b>Group query results</b></summary>\n\nQuery all time series with the metric label equal to `cpu`, then group the time series by the value of their `metric_name` label value and for each group return the maximum value and the time series keys (_source_) with that value.\n\n\n127.0.0.1:6379> TS.ADD ts1 1548149180000 90 labels metric cpu metric_name system\n(integer) 1548149180000\n127.0.0.1:6379> TS.ADD ts1 1548149185000 45\n(integer) 1548149185000\n127.0.0.1:6379> TS.ADD ts2 1548149180000 99 labels metric cpu metric_name user\n(integer) 1548149180000\n127.0.0.1:6379> TS.MREVRANGE - + WITHLABELS FILTER metric=cpu GROUPBY metric_name REDUCE max\n1) 1) \"metric_name=system\"\n   2) 1) 1) \"metric_name\"\n         2) \"system\"\n      2) 1) \"__reducer__\"\n         2) \"max\"\n      3) 1) \"__source__\"\n         2) \"ts1\"\n   3) 1) 1) (integer) 1548149185000\n         2) 45\n      2) 1) (integer) 1548149180000\n         2) 90\n2) 1) \"metric_name=user\"\n   2) 1) 1) \"metric_name\"\n         2) \"user\"\n      2) 1) \"__reducer__\"\n         2) \"max\"\n      3) 1) \"__source__\"\n         2) \"ts2\"\n   3) 1) 1) (integer) 1548149180000\n         2) 99\n\n</details>\n\n<details open>\n<summary><b>Filter query by value</b></summary>\n\nQuery all time series with the metric label equal to `cpu`, then filter values larger or equal to 90.0 and smaller or equal to 100.0.\n\n\n127.0.0.1:6379> TS.ADD ts1 1548149180000 90 labels metric cpu metric_name system\n(integer) 1548149180000\n127.0.0.1:6379> TS.ADD ts1 1548149185000 45\n(integer) 1548149185000\n127.0.0.1:6379> TS.ADD ts2 1548149180000 99 labels metric cpu metric_name user\n(integer) 1548149180000\n127.0.0.1:6379> TS.MREVRANGE - + FILTER_BY_VALUE 90 100 WITHLABELS FILTER metric=cpu\n1) 1) \"ts1\"\n   2) 1) 1) \"metric\"\n         2) \"cpu\"\n      2) 1) \"metric_name\"\n         2) \"system\"\n   3) 1) 1) (integer) 1548149180000\n         2) 90\n2) 1) \"ts2\"\n   2) 1) 1) \"metric\"\n         2) \"cpu\"\n      2) 1) \"metric_name\"\n         2) \"user\"\n   3) 1) 1) (integer) 1548149180000\n         2) 99\n\n</details>\n\n<details open>\n<summary><b>Query using a label</b></summary>\n\nQuery all time series with the metric label equal to `cpu`, but only return the team label.\n\n\n127.0.0.1:6379> TS.ADD ts1 1548149180000 90 labels metric cpu metric_name system team NY\n(integer) 1548149180000\n127.0.0.1:6379> TS.ADD ts1 1548149185000 45\n(integer) 1548149185000\n127.0.0.1:6379> TS.ADD ts2 1548149180000 99 labels metric cpu metric_name user team SF\n(integer) 1548149180000\n127.0.0.1:6379> TS.MREVRANGE - + SELECTED_LABELS team FILTER metric=cpu\n1) 1) \"ts1\"\n   2) 1) 1) \"team\"\n         2) (nil)\n   3) 1) 1) (integer) 1548149185000\n         2) 45\n      2) 1) (integer) 1548149180000\n         2) 90\n2) 1) \"ts2\"\n   2) 1) 1) \"team\"\n         2) (nil)\n   3) 1) 1) (integer) 1548149180000\n         2) 99\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nIf `GROUPBY label REDUCE reducer` is not specified:\n\n[Array reply](): for each time series matching the specified filters, the following is reported:\n- [Bulk string reply](): The time series key name\n- [Array reply](): label-value pairs ([Bulk string reply](), [Bulk string reply]())\n  - By default, an empty array is reported\n  - If `WITHLABELS` is specified, all labels associated with this time series are reported\n  - If `SELECTED_LABELS label...` is specified, the selected labels are reported\n- [Array reply](): timestamp-value pairs ([Integer reply](), [Simple string reply]()) representing all samples/aggregations matching the range in reverse chronological order\n\nIf `GROUPBY label REDUCE reducer` is specified:\n\n[Array reply](): for each group of time series matching the specified filters, the following is reported:\n- [Bulk string reply]() with the format `label=value` where `label` is the `GROUPBY` label argument\n- [Array reply](): a single pair ([Bulk string reply](), [Bulk string reply]()): the `GROUPBY` label argument and value\n- [Array reply](): a single pair ([Bulk string reply](), [Bulk string reply]()):  the string `__reducer__` and the reducer argument\n- [Array reply](): a single pair ([Bulk string reply](), [Bulk string reply]()): the string `__source__` and the time series key names separated by \",\"\n- [Array reply](): timestamp-value pairs ([Integer reply](), [Simple string reply]()) representing all samples/aggregations matching the range in reverse chronological order\n\n**RESP3:**\n\nIf `GROUPBY label REDUCE reducer` is not specified:\n\n[Map reply](): for each time series matching the specified filters, the following is reported:\n- [Bulk string reply](): The time series key name\n- [Map reply]() or [Array reply](): label-value pairs\n  - By default, an empty map is reported\n  - If `WITHLABELS` is specified, all labels associated with this time series are reported as a map\n  - If `SELECTED_LABELS label...` is specified, the selected labels are reported as a map\n- Additional metadata including aggregators information\n- [Array reply](): timestamp-value pairs ([Integer reply](), [Double reply]()) representing all samples/aggregations matching the range in reverse chronological order\n\nIf `GROUPBY label REDUCE reducer` is specified:\n\nSimilar structure as RESP2 but with map-based organization for labels and metadata, and double values instead of string values.\n\n\n\n## See also\n\n[`TS.MRANGE`]() | [`TS.RANGE`]() | [`TS.REVRANGE`]() \n\n## Related topics\n\n[RedisTimeSeries]()",
-  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\n\nQuery a range across multiple time series by filters in the reverse direction. Starting from Redis 8.6, NaN values are included in raw measurement reports (queries without aggregation).\n\n\nThis command will reply only if the current user has read access to all keys that match the filter.\nOtherwise, it will reply with \"*(error): current user doesn't have read permission to one or more keys that match the specified filter*\".\n\n\n[Examples](#examples)",
+  "content": "Query a range across multiple time series by filters in the reverse direction. Starting from Redis 8.6, NaN values are included in raw measurement reports (queries without aggregation).\n\nThis command will reply only if the current user has read access to all keys that match the filter.\nOtherwise, it will reply with \"*(error): current user doesn't have read permission to one or more keys that match the specified filter*\".\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open>\n<summary><code>fromTimestamp</code></summary> \n\nis the start timestamp for the range query (integer Unix timestamp in milliseconds) or `-` to denote the timestamp of the earliest sample among all the time series that passes `FILTER filterExpr...`.\n</details>\n\n<details open>\n<summary><code>toTimestamp</code></summary> \n\nis the end timestamp for the range query (integer Unix timestamp in milliseconds) or `+` to denote the timestamp of the latest sample among all the time series that passes `FILTER filterExpr...`.\n</details>\n\n<details open>\n<summary><code>FILTER filterExpr...</code></summary> \n\nfilters time series based on their labels and label values. Each filter expression has one of the following syntaxes:\n\n  - `label!=` - the time series has a label named `label`\n  - `label=value` - the time series has a label named `label` with a value equal to `value`\n  - `label=(value1,value2,...)` - the time series has a label named `label` with a value equal to one of the values in the list\n  - `label=` - the time series does not have a label named `label`\n  - `label!=value` - the time series does not have a label named `label` with a value equal to `value`\n  - `label!=(value1,value2,...)` - the time series does not have a label named `label` with a value equal to any of the values in the list\n\n  <note><b>Notes:</b>\n   - At least one filter expression with a syntax `label=value` or `label=(value1,value2,...)` is required.\n   - Filter expressions are conjunctive. For example, the filter `type=temperature room=study` means that a time series is a temperature time series of a study room.\n   - Whitespaces are unallowed in a filter expression except between quotes or double quotes in values - e.g., `x=\"y y\"` or `x='(y y,z z)'`.\n   </note>\n</details>\n\n## Optional arguments\n\n<details open>\n<summary><code>LATEST</code> (since RedisTimeSeries 1.8)</summary> \n\nis used when a time series is a compaction. With `LATEST`, TS.MREVRANGE also reports the compacted value of the latest (possibly partial) bucket, given that this bucket's start time falls within `[fromTimestamp, toTimestamp]`. Without `LATEST`, TS.MREVRANGE does not report the latest (possibly partial) bucket. When a time series is not a compaction, `LATEST` is ignored.\n  \nThe data in the latest bucket of a compaction is possibly partial. A bucket is _closed_ and compacted only upon the arrival of a new sample that _opens_ a new _latest_ bucket. There are cases, however, when the compacted value of the latest (possibly partial) bucket is also required. In such a case, use `LATEST`.\n</details>\n\n<details open>\n<summary><code>FILTER_BY_TS ts...</code> (since RedisTimeSeries 1.6)</summary> \n\nfilters samples by a list of specific timestamps. A sample passes the filter if its exact timestamp is specified and falls within `[fromTimestamp, toTimestamp]`.\n\nWhen used together with `AGGREGATION`: samples are filtered before being aggregated.\n</details>\n\n<details open>\n<summary><code>FILTER_BY_VALUE min max</code> (since RedisTimeSeries 1.6)</summary> \n\nfilters samples by minimum and maximum values. `min` and `max` cannot be NaN values.\n\nWhen used together with `AGGREGATION`: samples are filtered before being aggregated.\n</details>\n\n<details open>\n<summary><code>WITHLABELS</code></summary> \n\nincludes in the reply all label-value pairs representing metadata labels of the time series. \nIf `WITHLABELS` or `SELECTED_LABELS` are not specified, by default, an empty list is reported as label-value pairs.\n</details>\n\n<details open>\n<summary><code>SELECTED_LABELS label...</code> (since RedisTimeSeries 1.6)</summary>\n\nreturns a subset of the label-value pairs that represent metadata labels of the time series. \nUse when a large number of labels exists per series, but only the values of some of the labels are required. \nIf `WITHLABELS` or `SELECTED_LABELS` are not specified, by default, an empty list is reported as label-value pairs.\n</details>\n\n<details open>\n<summary><code>COUNT count</code></summary> \n\nWhen used without `AGGREGATION`: limits the number of reported samples per time series.\n\nWhen used together with `AGGREGATION`: limits the number of reported buckets.\n</details>\n\n<details open>\n<summary><code>ALIGN align</code> (since RedisTimeSeries 1.6)</summary> \n\nis a time bucket alignment control for `AGGREGATION`. It controls the time bucket timestamps by changing the reference timestamp on which a bucket is defined. \n\nValues include:\n   \n - `start` or `-`: The reference timestamp will be the query start interval time (`fromTimestamp`) which can't be `-`\n - `end` or `+`: The reference timestamp will be the query end interval time (`toTimestamp`) which can't be `+`\n - A specific timestamp: align the reference timestamp to a specific time\n   \n<note><b>Note:</b> When not provided, alignment is set to `0`.</note>\n</details>\n\n<details open>\n<summary><code>AGGREGATION aggregator bucketDuration</code></summary> \n\nper time series, aggregates samples into time buckets, where:\n\n  - `aggregator` takes one of the following aggregation types:\n\n    | `aggregator` | Description                                                     |\n    | ------------ | --------------------------------------------------------------- |\n    | `avg`        | Arithmetic mean of all non-NaN values                           |\n    | `sum`        | Sum of all non-NaN values                                       |\n    | `min`        | Minimum non-NaN value                                           |\n    | `max`        | Maximum non-NaN value                                           |\n    | `range`      | Difference between the maximum and the minimum non-NaN values   |\n    | `count`      | Number of non-NaN values                                        |\n    | `countNaN`   | Number of NaN values (since Redis 8.6)                          |\n    | `countAll`   | Number of values, including NaN and non-NaN (since Redis 8.6)   |\n    | `first`      | The non-NaN value with the lowest timestamp in the bucket       |\n    | `last`       | The non-NaN value with the highest timestamp in the bucket      |\n    | `std.p`      | Population standard deviation of the non-NaN values             |\n    | `std.s`      | Sample standard deviation of the non-NaN values                 |\n    | `var.p`      | Population variance of the non-NaN values                       |\n    | `var.s`      | Sample variance of the non-NaN values                           |\n    | `twa`        | Time-weighted average over the bucket's timeframe (ignores NaN values) (since RedisTimeSeries 1.8) |\n\n  - `bucketDuration` is duration of each bucket, in milliseconds.\n  \n  Without `ALIGN`, bucket start times are multiples of `bucketDuration`.\n  \n  With `ALIGN align`, bucket start times are multiples of `bucketDuration` with remainder `align % bucketDuration`.\n  \n  The first bucket start time is less than or equal to `fromTimestamp`.  \n</details>\n\n<details open>\n<summary><code>[BUCKETTIMESTAMP bt]</code> (since RedisTimeSeries 1.8)</summary> \n\ncontrols how bucket timestamps are reported.\n\n| `bt`             | Timestamp reported for each bucket                            |\n| ---------------- | ------------------------------------------------------------- |\n| `-` or `start`   | the bucket's start time (default)                             |\n| `+` or `end`     | the bucket's end time                                         |\n| `~` or `mid`     | the bucket's mid time (rounded down if not an integer)        |\n</details>\n\n<details open>\n<summary><code>[EMPTY]</code> (since RedisTimeSeries 1.8)</summary> \n\nis a flag, which, when specified, reports aggregations also for empty buckets.\n\n| `aggregator`         | Value reported for each empty bucket |\n| -------------------- | ------------------------------------ |\n| `sum`, `count`       | `0`                                  |\n| `last`               | The value of the last sample before the bucket's start. `NaN` when no such sample. |\n| `twa`                | Average value over the bucket's timeframe based on linear interpolation of the last sample before the bucket's start and the first sample after the bucket's end. `NaN` when no such samples. |\n| `min`, `max`, `range`, `avg`, `first`, `std.p`, `std.s` | `NaN` |\n\nRegardless of the values of `fromTimestamp` and `toTimestamp`, no data is reported for buckets that end before the earliest sample or begin after the latest sample in the time series.\n</details>\n\n<details open>\n<summary><code>GROUPBY label REDUCE reducer</code> (since RedisTimeSeries 1.6)</summary>\n\nsplits time series into groups, each group contains time series that share the same value for the provided label name, then aggregates results in each group.\n\nWhen combined with `AGGREGATION` the `GROUPBY`/`REDUCE` is applied post aggregation stage.\n\n  - `label` is label name. A group is created for all time series that share the same value for this label.\n\n  - `reducer` is an aggregation type used to aggregate the results in each group.\n\n    | `reducer` | Description                                                                                                      |\n    | --------- | ---------------------------------------------------------------------------------------------------------------- |\n    | `avg`     | Arithmetic mean of all non-NaN values; NaN if no such values (since RedisTimeSeries 1.8)                         |\n    | `sum`     | Sum of all non-NaN values; NaN if no such values                                                                 |\n    | `min`     | Minimum non-NaN value; NaN if no such values                                                                     |\n    | `max`     | Maximum non-NaN value; NaN if no such values                                                                     |\n    | `range`   | Difference between the maximum and the minimum non-NaN values; NaN if no such values (since RedisTimeSeries 1.8) |\n    | `count`   | Number of non-NaN values (since RedisTimeSeries 1.8)                                                             |\n    | `countNaN`| Number of NaN values (since Redis 8.6)                                                                           |\n    | `countAll`| Number of values, including NaN and non-NaN (since Redis 8.6)                                                     |\n    | `std.p`   | Population standard deviation of the non-NaN values; NaN if no such values (since RedisTimeSeries 1.8)           |\n    | `std.s`   | Sample standard deviation of the non-NaN values; NaN if no such values (since RedisTimeSeries 1.8)              |\n    | `var.p`   | Population variance of the non-NaN values; NaN if no such values (since RedisTimeSeries 1.8)                     |\n    | `var.s`   | Sample variance of the non-NaN values; NaN if no such values (since RedisTimeSeries 1.8)                         |\n\n<note><b>Notes:</b> \n  - The produced time series is named `<label>=<value>`\n  - The produced time series contains two labels with these label array structures:\n    - `__reducer__`, the reducer used (e.g., `\"count\"`)\n    - `__source__`, the list of time series keys used to compute the grouped series (e.g., `\"key1,key2,key3\"`)\n</note>\n</details>\n\n<note><b>Note:</b> An `MREVRANGE` command cannot be part of a transaction when running on a Redis cluster.</note>\n\n## Examples\n\n<details open>\n<summary><b>Retrieve maximum stock price per timestamp</b></summary>\n\nCreate two stocks and add their prices at three different timestamps.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.CREATE stock:A LABELS type stock name A\nOK\n127.0.0.1:6379> TS.CREATE stock:B LABELS type stock name B\nOK\n127.0.0.1:6379> TS.MADD stock:A 1000 100 stock:A 1010 110 stock:A 1020 120\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n127.0.0.1:6379> TS.MADD stock:B 1000 120 stock:B 1010 110 stock:B 1020 100\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n{{< / highlight >}}\n\nYou can now retrieve the maximum stock price per timestamp.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.MREVRANGE - + WITHLABELS FILTER type=stock GROUPBY type REDUCE max\n1) 1) \"type=stock\"\n   2) 1) 1) \"type\"\n         2) \"stock\"\n      2) 1) \"__reducer__\"\n         2) \"max\"\n      3) 1) \"__source__\"\n         2) \"stock:A,stock:B\"\n   3) 1) 1) (integer) 1020\n         2) 120\n      2) 1) (integer) 1010\n         2) 110\n      3) 1) (integer) 1000\n         2) 120\n{{< / highlight >}}\n\nThe `FILTER type=stock` clause returns a single time series representing stock prices. The `GROUPBY type REDUCE max` clause splits the time series into groups with identical type values, and then, for each timestamp, aggregates all series that share the same type value using the max aggregator.\n</details>\n\n<details open>\n<summary><b>Calculate average stock price and retrieve maximum average</b></summary> \n\nCreate two stocks and add their prices at nine different timestamps.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.CREATE stock:A LABELS type stock name A\nOK\n127.0.0.1:6379> TS.CREATE stock:B LABELS type stock name B\nOK\n127.0.0.1:6379> TS.MADD stock:A 1000 100 stock:A 1010 110 stock:A 1020 120\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n127.0.0.1:6379> TS.MADD stock:B 1000 120 stock:B 1010 110 stock:B 1020 100\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n127.0.0.1:6379> TS.MADD stock:A 2000 200 stock:A 2010 210 stock:A 2020 220\n1) (integer) 2000\n2) (integer) 2010\n3) (integer) 2020\n127.0.0.1:6379> TS.MADD stock:B 2000 220 stock:B 2010 210 stock:B 2020 200\n1) (integer) 2000\n2) (integer) 2010\n3) (integer) 2020\n127.0.0.1:6379> TS.MADD stock:A 3000 300 stock:A 3010 310 stock:A 3020 320\n1) (integer) 3000\n2) (integer) 3010\n3) (integer) 3020\n127.0.0.1:6379> TS.MADD stock:B 3000 320 stock:B 3010 310 stock:B 3020 300\n1) (integer) 3000\n2) (integer) 3010\n3) (integer) 3020\n{{< / highlight >}}\n\nNow, for each stock, calculate the average stock price per a 1000-millisecond timeframe, and then retrieve the stock with the maximum average for that timeframe in reverse direction.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.MREVRANGE - + WITHLABELS AGGREGATION avg 1000 FILTER type=stock GROUPBY type REDUCE max\n1) 1) \"type=stock\"\n   2) 1) 1) \"type\"\n         2) \"stock\"\n      2) 1) \"__reducer__\"\n         2) \"max\"\n      3) 1) \"__source__\"\n         2) \"stock:A,stock:B\"\n   3) 1) 1) (integer) 3000\n         2) 310\n      2) 1) (integer) 2000\n         2) 210\n      3) 1) (integer) 1000\n         2) 110\n{{< / highlight >}}\n</details>\n\n<details open>\n<summary><b>Group query results</b></summary>\n\nQuery all time series with the metric label equal to `cpu`, then group the time series by the value of their `metric_name` label value and for each group return the maximum value and the time series keys (_source_) with that value.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.ADD ts1 1548149180000 90 labels metric cpu metric_name system\n(integer) 1548149180000\n127.0.0.1:6379> TS.ADD ts1 1548149185000 45\n(integer) 1548149185000\n127.0.0.1:6379> TS.ADD ts2 1548149180000 99 labels metric cpu metric_name user\n(integer) 1548149180000\n127.0.0.1:6379> TS.MREVRANGE - + WITHLABELS FILTER metric=cpu GROUPBY metric_name REDUCE max\n1) 1) \"metric_name=system\"\n   2) 1) 1) \"metric_name\"\n         2) \"system\"\n      2) 1) \"__reducer__\"\n         2) \"max\"\n      3) 1) \"__source__\"\n         2) \"ts1\"\n   3) 1) 1) (integer) 1548149185000\n         2) 45\n      2) 1) (integer) 1548149180000\n         2) 90\n2) 1) \"metric_name=user\"\n   2) 1) 1) \"metric_name\"\n         2) \"user\"\n      2) 1) \"__reducer__\"\n         2) \"max\"\n      3) 1) \"__source__\"\n         2) \"ts2\"\n   3) 1) 1) (integer) 1548149180000\n         2) 99\n{{< / highlight >}}\n</details>\n\n<details open>\n<summary><b>Filter query by value</b></summary>\n\nQuery all time series with the metric label equal to `cpu`, then filter values larger or equal to 90.0 and smaller or equal to 100.0.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.ADD ts1 1548149180000 90 labels metric cpu metric_name system\n(integer) 1548149180000\n127.0.0.1:6379> TS.ADD ts1 1548149185000 45\n(integer) 1548149185000\n127.0.0.1:6379> TS.ADD ts2 1548149180000 99 labels metric cpu metric_name user\n(integer) 1548149180000\n127.0.0.1:6379> TS.MREVRANGE - + FILTER_BY_VALUE 90 100 WITHLABELS FILTER metric=cpu\n1) 1) \"ts1\"\n   2) 1) 1) \"metric\"\n         2) \"cpu\"\n      2) 1) \"metric_name\"\n         2) \"system\"\n   3) 1) 1) (integer) 1548149180000\n         2) 90\n2) 1) \"ts2\"\n   2) 1) 1) \"metric\"\n         2) \"cpu\"\n      2) 1) \"metric_name\"\n         2) \"user\"\n   3) 1) 1) (integer) 1548149180000\n         2) 99\n{{< / highlight >}}\n</details>\n\n<details open>\n<summary><b>Query using a label</b></summary>\n\nQuery all time series with the metric label equal to `cpu`, but only return the team label.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.ADD ts1 1548149180000 90 labels metric cpu metric_name system team NY\n(integer) 1548149180000\n127.0.0.1:6379> TS.ADD ts1 1548149185000 45\n(integer) 1548149185000\n127.0.0.1:6379> TS.ADD ts2 1548149180000 99 labels metric cpu metric_name user team SF\n(integer) 1548149180000\n127.0.0.1:6379> TS.MREVRANGE - + SELECTED_LABELS team FILTER metric=cpu\n1) 1) \"ts1\"\n   2) 1) 1) \"team\"\n         2) (nil)\n   3) 1) 1) (integer) 1548149185000\n         2) 45\n      2) 1) (integer) 1548149180000\n         2) 90\n2) 1) \"ts2\"\n   2) 1) 1) \"team\"\n         2) (nil)\n   3) 1) 1) (integer) 1548149180000\n         2) 99\n{{< / highlight >}}\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"ts-mrevrange-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\nIf `GROUPBY label REDUCE reducer` is not specified:\n\n[Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): for each time series matching the specified filters, the following is reported:\n- [Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}): The time series key name\n- [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): label-value pairs ([Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}), [Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}))\n  - By default, an empty array is reported\n  - If `WITHLABELS` is specified, all labels associated with this time series are reported\n  - If `SELECTED_LABELS label...` is specified, the selected labels are reported\n- [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): timestamp-value pairs ([Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}), [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}})) representing all samples/aggregations matching the range in reverse chronological order\n\nIf `GROUPBY label REDUCE reducer` is specified:\n\n[Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): for each group of time series matching the specified filters, the following is reported:\n- [Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) with the format `label=value` where `label` is the `GROUPBY` label argument\n- [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): a single pair ([Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}), [Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}})): the `GROUPBY` label argument and value\n- [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): a single pair ([Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}), [Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}})):  the string `__reducer__` and the reducer argument\n- [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): a single pair ([Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}), [Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}})): the string `__source__` and the time series key names separated by \",\"\n- [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): timestamp-value pairs ([Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}), [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}})) representing all samples/aggregations matching the range in reverse chronological order\n\n-tab-sep-\n\nIf `GROUPBY label REDUCE reducer` is not specified:\n\n[Map reply]({{< relref \"/develop/reference/protocol-spec#maps\" >}}): for each time series matching the specified filters, the following is reported:\n- [Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}): The time series key name\n- [Map reply]({{< relref \"/develop/reference/protocol-spec#maps\" >}}) or [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): label-value pairs\n  - By default, an empty map is reported\n  - If `WITHLABELS` is specified, all labels associated with this time series are reported as a map\n  - If `SELECTED_LABELS label...` is specified, the selected labels are reported as a map\n- Additional metadata including aggregators information\n- [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): timestamp-value pairs ([Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}), [Double reply]({{< relref \"/develop/reference/protocol-spec#doubles\" >}})) representing all samples/aggregations matching the range in reverse chronological order\n\nIf `GROUPBY label REDUCE reducer` is specified:\n\nSimilar structure as RESP2 but with map-based organization for labels and metadata, and double values instead of string values.\n\n{{< /multitabs >}}\n\n## See also\n\n[`TS.MRANGE`]({{< relref \"commands/ts.mrange/\" >}}) | [`TS.RANGE`]({{< relref \"commands/ts.range/\" >}}) | [`TS.REVRANGE`]({{< relref \"commands/ts.revrange/\" >}}) \n\n## Related topics\n\n[RedisTimeSeries]({{< relref \"/develop/data-types/timeseries/\" >}})",
+  "example": "127.0.0.1:6379> TS.CREATE stock:A LABELS type stock name A\nOK\n127.0.0.1:6379> TS.CREATE stock:B LABELS type stock name B\nOK\n127.0.0.1:6379> TS.MADD stock:A 1000 100 stock:A 1010 110 stock:A 1020 120\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n127.0.0.1:6379> TS.MADD stock:B 1000 120 stock:B 1010 110 stock:B 1020 100\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020",
+  "intro": "Query a range across multiple time series by filters in the reverse direction. Starting from Redis 8.6, NaN values are included in raw measurement reports (queries without aggregation).\n\nThis command will reply only if the current user has read access to all keys that match the filter.\nOtherwise, it will reply with \"*(error): current user doesn't have read permission to one or more keys that match the specified filter*\".\n\n[Examples](#examples)",
+  "notes": [
+    "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information."
+  ],
   "sections": [
     {
       "title": "Overview",
       "level": 1,
-      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\n\nQuery a range across multiple time series by filters in the reverse direction. Starting from Redis 8.6, NaN values are included in raw measurement reports (queries without aggregation).\n\n\nThis command will reply only if the current user has read access to all keys that match the filter.\nOtherwise, it will reply with \"*(error): current user doesn't have read permission to one or more keys that match the specified filter*\".\n\n\n[Examples](#examples)"
+      "content": "Query a range across multiple time series by filters in the reverse direction. Starting from Redis 8.6, NaN values are included in raw measurement reports (queries without aggregation).\n\nThis command will reply only if the current user has read access to all keys that match the filter.\nOtherwise, it will reply with \"*(error): current user doesn't have read permission to one or more keys that match the specified filter*\".\n\n[Examples](#examples)"
     },
     {
       "title": "Required arguments",
@@ -317,7 +724,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "<details open>\n<summary><b>Retrieve maximum stock price per timestamp</b></summary>\n\nCreate two stocks and add their prices at three different timestamps.\n\n\n127.0.0.1:6379> TS.CREATE stock:A LABELS type stock name A\nOK\n127.0.0.1:6379> TS.CREATE stock:B LABELS type stock name B\nOK\n127.0.0.1:6379> TS.MADD stock:A 1000 100 stock:A 1010 110 stock:A 1020 120\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n127.0.0.1:6379> TS.MADD stock:B 1000 120 stock:B 1010 110 stock:B 1020 100\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n\n\nYou can now retrieve the maximum stock price per timestamp.\n\n\n127.0.0.1:6379> TS.MREVRANGE - + WITHLABELS FILTER type=stock GROUPBY type REDUCE max\n1) 1) \"type=stock\"\n   2) 1) 1) \"type\"\n         2) \"stock\"\n      2) 1) \"__reducer__\"\n         2) \"max\"\n      3) 1) \"__source__\"\n         2) \"stock:A,stock:B\"\n   3) 1) 1) (integer) 1020\n         2) 120\n      2) 1) (integer) 1010\n         2) 110\n      3) 1) (integer) 1000\n         2) 120\n\n\nThe `FILTER type=stock` clause returns a single time series representing stock prices. The `GROUPBY type REDUCE max` clause splits the time series into groups with identical type values, and then, for each timestamp, aggregates all series that share the same type value using the max aggregator.\n</details>\n\n<details open>\n<summary><b>Calculate average stock price and retrieve maximum average</b></summary> \n\nCreate two stocks and add their prices at nine different timestamps.\n\n\n127.0.0.1:6379> TS.CREATE stock:A LABELS type stock name A\nOK\n127.0.0.1:6379> TS.CREATE stock:B LABELS type stock name B\nOK\n127.0.0.1:6379> TS.MADD stock:A 1000 100 stock:A 1010 110 stock:A 1020 120\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n127.0.0.1:6379> TS.MADD stock:B 1000 120 stock:B 1010 110 stock:B 1020 100\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n127.0.0.1:6379> TS.MADD stock:A 2000 200 stock:A 2010 210 stock:A 2020 220\n1) (integer) 2000\n2) (integer) 2010\n3) (integer) 2020\n127.0.0.1:6379> TS.MADD stock:B 2000 220 stock:B 2010 210 stock:B 2020 200\n1) (integer) 2000\n2) (integer) 2010\n3) (integer) 2020\n127.0.0.1:6379> TS.MADD stock:A 3000 300 stock:A 3010 310 stock:A 3020 320\n1) (integer) 3000\n2) (integer) 3010\n3) (integer) 3020\n127.0.0.1:6379> TS.MADD stock:B 3000 320 stock:B 3010 310 stock:B 3020 300\n1) (integer) 3000\n2) (integer) 3010\n3) (integer) 3020\n\n\nNow, for each stock, calculate the average stock price per a 1000-millisecond timeframe, and then retrieve the stock with the maximum average for that timeframe in reverse direction.\n\n\n127.0.0.1:6379> TS.MREVRANGE - + WITHLABELS AGGREGATION avg 1000 FILTER type=stock GROUPBY type REDUCE max\n1) 1) \"type=stock\"\n   2) 1) 1) \"type\"\n         2) \"stock\"\n      2) 1) \"__reducer__\"\n         2) \"max\"\n      3) 1) \"__source__\"\n         2) \"stock:A,stock:B\"\n   3) 1) 1) (integer) 3000\n         2) 310\n      2) 1) (integer) 2000\n         2) 210\n      3) 1) (integer) 1000\n         2) 110\n\n</details>\n\n<details open>\n<summary><b>Group query results</b></summary>\n\nQuery all time series with the metric label equal to `cpu`, then group the time series by the value of their `metric_name` label value and for each group return the maximum value and the time series keys (_source_) with that value.\n\n\n127.0.0.1:6379> TS.ADD ts1 1548149180000 90 labels metric cpu metric_name system\n(integer) 1548149180000\n127.0.0.1:6379> TS.ADD ts1 1548149185000 45\n(integer) 1548149185000\n127.0.0.1:6379> TS.ADD ts2 1548149180000 99 labels metric cpu metric_name user\n(integer) 1548149180000\n127.0.0.1:6379> TS.MREVRANGE - + WITHLABELS FILTER metric=cpu GROUPBY metric_name REDUCE max\n1) 1) \"metric_name=system\"\n   2) 1) 1) \"metric_name\"\n         2) \"system\"\n      2) 1) \"__reducer__\"\n         2) \"max\"\n      3) 1) \"__source__\"\n         2) \"ts1\"\n   3) 1) 1) (integer) 1548149185000\n         2) 45\n      2) 1) (integer) 1548149180000\n         2) 90\n2) 1) \"metric_name=user\"\n   2) 1) 1) \"metric_name\"\n         2) \"user\"\n      2) 1) \"__reducer__\"\n         2) \"max\"\n      3) 1) \"__source__\"\n         2) \"ts2\"\n   3) 1) 1) (integer) 1548149180000\n         2) 99\n\n</details>\n\n<details open>\n<summary><b>Filter query by value</b></summary>\n\nQuery all time series with the metric label equal to `cpu`, then filter values larger or equal to 90.0 and smaller or equal to 100.0.\n\n\n127.0.0.1:6379> TS.ADD ts1 1548149180000 90 labels metric cpu metric_name system\n(integer) 1548149180000\n127.0.0.1:6379> TS.ADD ts1 1548149185000 45\n(integer) 1548149185000\n127.0.0.1:6379> TS.ADD ts2 1548149180000 99 labels metric cpu metric_name user\n(integer) 1548149180000\n127.0.0.1:6379> TS.MREVRANGE - + FILTER_BY_VALUE 90 100 WITHLABELS FILTER metric=cpu\n1) 1) \"ts1\"\n   2) 1) 1) \"metric\"\n         2) \"cpu\"\n      2) 1) \"metric_name\"\n         2) \"system\"\n   3) 1) 1) (integer) 1548149180000\n         2) 90\n2) 1) \"ts2\"\n   2) 1) 1) \"metric\"\n         2) \"cpu\"\n      2) 1) \"metric_name\"\n         2) \"user\"\n   3) 1) 1) (integer) 1548149180000\n         2) 99\n\n</details>\n\n<details open>\n<summary><b>Query using a label</b></summary>\n\nQuery all time series with the metric label equal to `cpu`, but only return the team label.\n\n\n127.0.0.1:6379> TS.ADD ts1 1548149180000 90 labels metric cpu metric_name system team NY\n(integer) 1548149180000\n127.0.0.1:6379> TS.ADD ts1 1548149185000 45\n(integer) 1548149185000\n127.0.0.1:6379> TS.ADD ts2 1548149180000 99 labels metric cpu metric_name user team SF\n(integer) 1548149180000\n127.0.0.1:6379> TS.MREVRANGE - + SELECTED_LABELS team FILTER metric=cpu\n1) 1) \"ts1\"\n   2) 1) 1) \"team\"\n         2) (nil)\n   3) 1) 1) (integer) 1548149185000\n         2) 45\n      2) 1) (integer) 1548149180000\n         2) 90\n2) 1) \"ts2\"\n   2) 1) 1) \"team\"\n         2) (nil)\n   3) 1) 1) (integer) 1548149180000\n         2) 99\n\n</details>"
+      "content": "<details open>\n<summary><b>Retrieve maximum stock price per timestamp</b></summary>\n\nCreate two stocks and add their prices at three different timestamps.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.CREATE stock:A LABELS type stock name A\nOK\n127.0.0.1:6379> TS.CREATE stock:B LABELS type stock name B\nOK\n127.0.0.1:6379> TS.MADD stock:A 1000 100 stock:A 1010 110 stock:A 1020 120\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n127.0.0.1:6379> TS.MADD stock:B 1000 120 stock:B 1010 110 stock:B 1020 100\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n{{< / highlight >}}\n\nYou can now retrieve the maximum stock price per timestamp.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.MREVRANGE - + WITHLABELS FILTER type=stock GROUPBY type REDUCE max\n1) 1) \"type=stock\"\n   2) 1) 1) \"type\"\n         2) \"stock\"\n      2) 1) \"__reducer__\"\n         2) \"max\"\n      3) 1) \"__source__\"\n         2) \"stock:A,stock:B\"\n   3) 1) 1) (integer) 1020\n         2) 120\n      2) 1) (integer) 1010\n         2) 110\n      3) 1) (integer) 1000\n         2) 120\n{{< / highlight >}}\n\nThe `FILTER type=stock` clause returns a single time series representing stock prices. The `GROUPBY type REDUCE max` clause splits the time series into groups with identical type values, and then, for each timestamp, aggregates all series that share the same type value using the max aggregator.\n</details>\n\n<details open>\n<summary><b>Calculate average stock price and retrieve maximum average</b></summary> \n\nCreate two stocks and add their prices at nine different timestamps.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.CREATE stock:A LABELS type stock name A\nOK\n127.0.0.1:6379> TS.CREATE stock:B LABELS type stock name B\nOK\n127.0.0.1:6379> TS.MADD stock:A 1000 100 stock:A 1010 110 stock:A 1020 120\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n127.0.0.1:6379> TS.MADD stock:B 1000 120 stock:B 1010 110 stock:B 1020 100\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n127.0.0.1:6379> TS.MADD stock:A 2000 200 stock:A 2010 210 stock:A 2020 220\n1) (integer) 2000\n2) (integer) 2010\n3) (integer) 2020\n127.0.0.1:6379> TS.MADD stock:B 2000 220 stock:B 2010 210 stock:B 2020 200\n1) (integer) 2000\n2) (integer) 2010\n3) (integer) 2020\n127.0.0.1:6379> TS.MADD stock:A 3000 300 stock:A 3010 310 stock:A 3020 320\n1) (integer) 3000\n2) (integer) 3010\n3) (integer) 3020\n127.0.0.1:6379> TS.MADD stock:B 3000 320 stock:B 3010 310 stock:B 3020 300\n1) (integer) 3000\n2) (integer) 3010\n3) (integer) 3020\n{{< / highlight >}}\n\nNow, for each stock, calculate the average stock price per a 1000-millisecond timeframe, and then retrieve the stock with the maximum average for that timeframe in reverse direction.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.MREVRANGE - + WITHLABELS AGGREGATION avg 1000 FILTER type=stock GROUPBY type REDUCE max\n1) 1) \"type=stock\"\n   2) 1) 1) \"type\"\n         2) \"stock\"\n      2) 1) \"__reducer__\"\n         2) \"max\"\n      3) 1) \"__source__\"\n         2) \"stock:A,stock:B\"\n   3) 1) 1) (integer) 3000\n         2) 310\n      2) 1) (integer) 2000\n         2) 210\n      3) 1) (integer) 1000\n         2) 110\n{{< / highlight >}}\n</details>\n\n<details open>\n<summary><b>Group query results</b></summary>\n\nQuery all time series with the metric label equal to `cpu`, then group the time series by the value of their `metric_name` label value and for each group return the maximum value and the time series keys (_source_) with that value.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.ADD ts1 1548149180000 90 labels metric cpu metric_name system\n(integer) 1548149180000\n127.0.0.1:6379> TS.ADD ts1 1548149185000 45\n(integer) 1548149185000\n127.0.0.1:6379> TS.ADD ts2 1548149180000 99 labels metric cpu metric_name user\n(integer) 1548149180000\n127.0.0.1:6379> TS.MREVRANGE - + WITHLABELS FILTER metric=cpu GROUPBY metric_name REDUCE max\n1) 1) \"metric_name=system\"\n   2) 1) 1) \"metric_name\"\n         2) \"system\"\n      2) 1) \"__reducer__\"\n         2) \"max\"\n      3) 1) \"__source__\"\n         2) \"ts1\"\n   3) 1) 1) (integer) 1548149185000\n         2) 45\n      2) 1) (integer) 1548149180000\n         2) 90\n2) 1) \"metric_name=user\"\n   2) 1) 1) \"metric_name\"\n         2) \"user\"\n      2) 1) \"__reducer__\"\n         2) \"max\"\n      3) 1) \"__source__\"\n         2) \"ts2\"\n   3) 1) 1) (integer) 1548149180000\n         2) 99\n{{< / highlight >}}\n</details>\n\n<details open>\n<summary><b>Filter query by value</b></summary>\n\nQuery all time series with the metric label equal to `cpu`, then filter values larger or equal to 90.0 and smaller or equal to 100.0.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.ADD ts1 1548149180000 90 labels metric cpu metric_name system\n(integer) 1548149180000\n127.0.0.1:6379> TS.ADD ts1 1548149185000 45\n(integer) 1548149185000\n127.0.0.1:6379> TS.ADD ts2 1548149180000 99 labels metric cpu metric_name user\n(integer) 1548149180000\n127.0.0.1:6379> TS.MREVRANGE - + FILTER_BY_VALUE 90 100 WITHLABELS FILTER metric=cpu\n1) 1) \"ts1\"\n   2) 1) 1) \"metric\"\n         2) \"cpu\"\n      2) 1) \"metric_name\"\n         2) \"system\"\n   3) 1) 1) (integer) 1548149180000\n         2) 90\n2) 1) \"ts2\"\n   2) 1) 1) \"metric\"\n         2) \"cpu\"\n      2) 1) \"metric_name\"\n         2) \"user\"\n   3) 1) 1) (integer) 1548149180000\n         2) 99\n{{< / highlight >}}\n</details>\n\n<details open>\n<summary><b>Query using a label</b></summary>\n\nQuery all time series with the metric label equal to `cpu`, but only return the team label.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.ADD ts1 1548149180000 90 labels metric cpu metric_name system team NY\n(integer) 1548149180000\n127.0.0.1:6379> TS.ADD ts1 1548149185000 45\n(integer) 1548149185000\n127.0.0.1:6379> TS.ADD ts2 1548149180000 99 labels metric cpu metric_name user team SF\n(integer) 1548149180000\n127.0.0.1:6379> TS.MREVRANGE - + SELECTED_LABELS team FILTER metric=cpu\n1) 1) \"ts1\"\n   2) 1) 1) \"team\"\n         2) (nil)\n   3) 1) 1) (integer) 1548149185000\n         2) 45\n      2) 1) (integer) 1548149180000\n         2) 90\n2) 1) \"ts2\"\n   2) 1) 1) \"team\"\n         2) (nil)\n   3) 1) 1) (integer) 1548149180000\n         2) 99\n{{< / highlight >}}\n</details>"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -327,17 +734,17 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nIf `GROUPBY label REDUCE reducer` is not specified:\n\n[Array reply](): for each time series matching the specified filters, the following is reported:\n- [Bulk string reply](): The time series key name\n- [Array reply](): label-value pairs ([Bulk string reply](), [Bulk string reply]())\n  - By default, an empty array is reported\n  - If `WITHLABELS` is specified, all labels associated with this time series are reported\n  - If `SELECTED_LABELS label...` is specified, the selected labels are reported\n- [Array reply](): timestamp-value pairs ([Integer reply](), [Simple string reply]()) representing all samples/aggregations matching the range in reverse chronological order\n\nIf `GROUPBY label REDUCE reducer` is specified:\n\n[Array reply](): for each group of time series matching the specified filters, the following is reported:\n- [Bulk string reply]() with the format `label=value` where `label` is the `GROUPBY` label argument\n- [Array reply](): a single pair ([Bulk string reply](), [Bulk string reply]()): the `GROUPBY` label argument and value\n- [Array reply](): a single pair ([Bulk string reply](), [Bulk string reply]()):  the string `__reducer__` and the reducer argument\n- [Array reply](): a single pair ([Bulk string reply](), [Bulk string reply]()): the string `__source__` and the time series key names separated by \",\"\n- [Array reply](): timestamp-value pairs ([Integer reply](), [Simple string reply]()) representing all samples/aggregations matching the range in reverse chronological order\n\n**RESP3:**\n\nIf `GROUPBY label REDUCE reducer` is not specified:\n\n[Map reply](): for each time series matching the specified filters, the following is reported:\n- [Bulk string reply](): The time series key name\n- [Map reply]() or [Array reply](): label-value pairs\n  - By default, an empty map is reported\n  - If `WITHLABELS` is specified, all labels associated with this time series are reported as a map\n  - If `SELECTED_LABELS label...` is specified, the selected labels are reported as a map\n- Additional metadata including aggregators information\n- [Array reply](): timestamp-value pairs ([Integer reply](), [Double reply]()) representing all samples/aggregations matching the range in reverse chronological order\n\nIf `GROUPBY label REDUCE reducer` is specified:\n\nSimilar structure as RESP2 but with map-based organization for labels and metadata, and double values instead of string values."
+      "content": "{{< multitabs id=\"ts-mrevrange-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\nIf `GROUPBY label REDUCE reducer` is not specified:\n\n[Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): for each time series matching the specified filters, the following is reported:\n- [Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}): The time series key name\n- [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): label-value pairs ([Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}), [Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}))\n  - By default, an empty array is reported\n  - If `WITHLABELS` is specified, all labels associated with this time series are reported\n  - If `SELECTED_LABELS label...` is specified, the selected labels are reported\n- [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): timestamp-value pairs ([Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}), [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}})) representing all samples/aggregations matching the range in reverse chronological order\n\nIf `GROUPBY label REDUCE reducer` is specified:\n\n[Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): for each group of time series matching the specified filters, the following is reported:\n- [Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) with the format `label=value` where `label` is the `GROUPBY` label argument\n- [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): a single pair ([Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}), [Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}})): the `GROUPBY` label argument and value\n- [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): a single pair ([Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}), [Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}})):  the string `__reducer__` and the reducer argument\n- [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): a single pair ([Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}), [Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}})): the string `__source__` and the time series key names separated by \",\"\n- [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): timestamp-value pairs ([Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}), [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}})) representing all samples/aggregations matching the range in reverse chronological order\n\n-tab-sep-\n\nIf `GROUPBY label REDUCE reducer` is not specified:\n\n[Map reply]({{< relref \"/develop/reference/protocol-spec#maps\" >}}): for each time series matching the specified filters, the following is reported:\n- [Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}): The time series key name\n- [Map reply]({{< relref \"/develop/reference/protocol-spec#maps\" >}}) or [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): label-value pairs\n  - By default, an empty map is reported\n  - If `WITHLABELS` is specified, all labels associated with this time series are reported as a map\n  - If `SELECTED_LABELS label...` is specified, the selected labels are reported as a map\n- Additional metadata including aggregators information\n- [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): timestamp-value pairs ([Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}), [Double reply]({{< relref \"/develop/reference/protocol-spec#doubles\" >}})) representing all samples/aggregations matching the range in reverse chronological order\n\nIf `GROUPBY label REDUCE reducer` is specified:\n\nSimilar structure as RESP2 but with map-based organization for labels and metadata, and double values instead of string values.\n\n{{< /multitabs >}}"
     },
     {
       "title": "See also",
       "level": 2,
-      "content": "[`TS.MRANGE`]() | [`TS.RANGE`]() | [`TS.REVRANGE`]()"
+      "content": "[`TS.MRANGE`]({{< relref \"commands/ts.mrange/\" >}}) | [`TS.RANGE`]({{< relref \"commands/ts.range/\" >}}) | [`TS.REVRANGE`]({{< relref \"commands/ts.revrange/\" >}})"
     },
     {
       "title": "Related topics",
       "level": 2,
-      "content": "[RedisTimeSeries]()"
+      "content": "[RedisTimeSeries]({{< relref \"/develop/data-types/timeseries/\" >}})"
     }
   ]
 }

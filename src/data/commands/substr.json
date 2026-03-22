@@ -14,6 +14,433 @@
     "@string",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "start",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "end",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "ResponseT"
+        },
+        "signature": "getrange(key: KeyT, start: int, end: int)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "start",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "end",
+            "type": "int = -1"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "ResponseT"
+        },
+        "signature": "substr(name: KeyT, start: int, end: int = -1)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "start",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "end",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "The substring @deprecated Use Jedis#getrange(String, long, long) instead. Deprecated in Jedis 8.0.0. Mirrors Redis deprecation since 2.0.0.",
+          "type": "String"
+        },
+        "signature": "String substr(final String key, final int start, final int end)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "startOffset",
+            "type": "long"
+          },
+          {
+            "description": "",
+            "name": "endOffset",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "String"
+        },
+        "signature": "String getrange(final String key, final long startOffset, final long endOffset)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the start type: long.",
+            "name": "start",
+            "type": "long"
+          },
+          {
+            "description": "the end type: long.",
+            "name": "end",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "V bulk-string-reply.",
+          "type": "V"
+        },
+        "signature": "V getrange(K key, long start, long end)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the start type: long.",
+            "name": "start",
+            "type": "long"
+          },
+          {
+            "description": "the end type: long.",
+            "name": "end",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "V bulk-string-reply.",
+          "type": "RedisFuture<V>"
+        },
+        "signature": "RedisFuture<V> getrange(K key, long start, long end)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the start type: long.",
+            "name": "start",
+            "type": "long"
+          },
+          {
+            "description": "the end type: long.",
+            "name": "end",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "V bulk-string-reply.",
+          "type": "Mono<V>"
+        },
+        "signature": "Mono<V> getrange(K key, long start, long end)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "start",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "end",
+            "type": "int64"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StringCmd"
+        },
+        "signature": "GetRange(ctx context.Context, key string, start, end int64)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "start",
+            "type": "number"
+          },
+          {
+            "description": "",
+            "name": "end",
+            "type": "number"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "GETRANGE(key: RedisArgument, start: number, end: number)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "start",
+            "type": "number | string"
+          },
+          {
+            "description": "",
+            "name": "end",
+            "type": "number | string"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<string>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "getrange(key: RedisKey, start: number | string, end: number | string, callback?: Callback<string>)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "start",
+            "type": "number | string"
+          },
+          {
+            "description": "",
+            "name": "end",
+            "type": "number | string"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<unknown>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "substr(key: RedisKey, start: number | string, end: number | string, callback?: Callback<unknown>)"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "from",
+            "type": "isize"
+          },
+          {
+            "description": "",
+            "name": "to",
+            "type": "isize"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(String)"
+        },
+        "signature": "getrange(key: K, from: isize, to: isize)"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "from",
+            "type": "isize"
+          },
+          {
+            "description": "",
+            "name": "to",
+            "type": "isize"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(String)"
+        },
+        "signature": "getrange(key: K, from: isize, to: isize)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "value",
+            "type": "double"
+          },
+          {
+            "description": "",
+            "name": "exclude",
+            "type": "Exclude"
+          },
+          {
+            "description": "",
+            "name": "isStart",
+            "type": "bool"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "RedisValue"
+        },
+        "signature": "GetRange(double value, Exclude exclude, bool isStart)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "value",
+            "type": "double"
+          },
+          {
+            "description": "",
+            "name": "exclude",
+            "type": "Exclude"
+          },
+          {
+            "description": "",
+            "name": "isStart",
+            "type": "bool"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "RedisValue"
+        },
+        "signature": "GetRange(double value, Exclude exclude, bool isStart)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$start",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "$end",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "string"
+        },
+        "signature": "getrange(string $key, $start, $end)"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly"
   ],
@@ -66,24 +493,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Returns the substring of the string value stored at `key`, determined by the\noffsets `start` and `end` (both are inclusive).\nNegative offsets can be used in order to provide an offset starting from the end\nof the string.\nSo -1 means the last character, -2 the penultimate and so forth.\n\nThe function handles out of range requests by limiting the resulting range to\nthe actual length of the string.\n\n## Examples\n\n\nSET mykey \"This is a string\"\nGETRANGE mykey 0 3\nGETRANGE mykey -3 -1\nGETRANGE mykey 0 -1\nGETRANGE mykey 10 100\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | Deprecated as of Redis v2.0.0. |\n\n## Return information\n\n**RESP2:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the substring of the string value stored at key, determined by the offsets start and end (both are inclusive).\n\n**RESP3:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the substring of the string value stored at key, determined by the offsets start and end (both are inclusive).",
+  "content": "Returns the substring of the string value stored at `key`, determined by the\noffsets `start` and `end` (both are inclusive).\nNegative offsets can be used in order to provide an offset starting from the end\nof the string.\nSo -1 means the last character, -2 the penultimate and so forth.\n\nThe function handles out of range requests by limiting the resulting range to\nthe actual length of the string.\n\n## Examples\n\n{{% redis-cli %}}\nSET mykey \"This is a string\"\nGETRANGE mykey 0 3\nGETRANGE mykey -3 -1\nGETRANGE mykey 0 -1\nGETRANGE mykey 10 100\n{{% /redis-cli %}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | Deprecated as of Redis v2.0.0. |\n\n## Return information\n\n{{< multitabs id=\"substr-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the substring of the string value stored at key, determined by the offsets start and end (both are inclusive).\n\n-tab-sep-\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the substring of the string value stored at key, determined by the offsets start and end (both are inclusive).\n\n{{< /multitabs >}}",
+  "example": "SET mykey \"This is a string\"\nGETRANGE mykey 0 3\nGETRANGE mykey -3 -1\nGETRANGE mykey 0 -1\nGETRANGE mykey 10 100",
   "intro": "Returns the substring of the string value stored at `key`, determined by the\noffsets `start` and `end` (both are inclusive).\nNegative offsets can be used in order to provide an offset starting from the end\nof the string.\nSo -1 means the last character, -2 the penultimate and so forth.\n\nThe function handles out of range requests by limiting the resulting range to\nthe actual length of the string.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -93,7 +509,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "SET mykey \"This is a string\"\nGETRANGE mykey 0 3\nGETRANGE mykey -3 -1\nGETRANGE mykey 0 -1\nGETRANGE mykey 10 100"
+      "content": "{{% redis-cli %}}\nSET mykey \"This is a string\"\nGETRANGE mykey 0 3\nGETRANGE mykey -3 -1\nGETRANGE mykey 0 -1\nGETRANGE mykey 10 100\n{{% /redis-cli %}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -103,7 +519,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the substring of the string value stored at key, determined by the offsets start and end (both are inclusive).\n\n**RESP3:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the substring of the string value stored at key, determined by the offsets start and end (both are inclusive)."
+      "content": "{{< multitabs id=\"substr-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the substring of the string value stored at key, determined by the offsets start and end (both are inclusive).\n\n-tab-sep-\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the substring of the string value stored at key, determined by the offsets start and end (both are inclusive).\n\n{{< /multitabs >}}"
     }
   ]
 }

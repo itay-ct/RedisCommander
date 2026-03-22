@@ -14,6 +14,528 @@
     "@stream",
     "@fast"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "name of the stream.",
+            "name": "name",
+            "type": "KeyT"
+          },
+          {
+            "description": "message ids to delete.",
+            "name": "*ids",
+            "type": "StreamIdT"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "ResponseT"
+        },
+        "signature": "xdel(name: KeyT, *ids: StreamIdT)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "ids",
+            "type": "byte[]..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "long"
+        },
+        "signature": "long xdel(byte[] key, byte[]... ids)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "ids",
+            "type": "StreamEntryID..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "long"
+        },
+        "signature": "long xdel(final String key, final StreamEntryID... ids)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "ids",
+            "type": "StreamEntryID..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "long"
+        },
+        "signature": "long xdel(String key, StreamEntryID... ids)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "stream message Id's.",
+            "name": "messageIds",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "simple-reply number of removed entries.",
+          "type": "Long"
+        },
+        "signature": "Long xdel(K key, String... messageIds)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "stream message Id's.",
+            "name": "messageIds",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "simple-reply number of removed entries.",
+          "type": "RedisFuture<Long>"
+        },
+        "signature": "RedisFuture<Long> xdel(K key, String... messageIds)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "stream message Id's.",
+            "name": "messageIds",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "simple-reply number of removed entries.",
+          "type": "Mono<Long>"
+        },
+        "signature": "Mono<Long> xdel(K key, String... messageIds)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "stream",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "ids",
+            "type": "...string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*IntCmd"
+        },
+        "signature": "XDel(ctx context.Context, stream string, ids ...string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "id",
+            "type": "RedisVariadicArgument"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "XDEL(key: RedisArgument, id: RedisVariadicArgument)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, key"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "xdel(...args: [, key: RedisKey, ...ids: (string | Buffer | number)[], callback: Callback<number>, ])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[key"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "xdel(...args: [key: RedisKey, ...ids: (string | Buffer | number)[]])"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "ids",
+            "type": "&'a [ID]"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(usize)"
+        },
+        "signature": "xdel(key: K, ids: &'a [ID])"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "ids",
+            "type": "&'a [ID]"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(usize)"
+        },
+        "signature": "xdel(key: K, ids: &'a [ID])"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "messageIds",
+            "type": "RedisValue[]"
+          },
+          {
+            "description": "",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "long"
+        },
+        "signature": "StreamDelete(RedisKey key, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "messageIds",
+            "type": "RedisValue[]"
+          },
+          {
+            "description": "",
+            "name": "mode",
+            "type": "StreamTrimMode"
+          },
+          {
+            "description": "",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "StreamTrimResult[]"
+        },
+        "signature": "StreamDelete(RedisKey key, RedisValue[] messageIds, StreamTrimMode mode, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "messageIds",
+            "type": "RedisValue[]"
+          },
+          {
+            "description": "",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "long"
+        },
+        "signature": "StreamDelete(RedisKey key, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "messageIds",
+            "type": "RedisValue[]"
+          },
+          {
+            "description": "",
+            "name": "mode",
+            "type": "StreamTrimMode"
+          },
+          {
+            "description": "",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "StreamTrimResult[]"
+        },
+        "signature": "StreamDelete(RedisKey key, RedisValue[] messageIds, StreamTrimMode mode, CommandFlags flags)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "messageIds",
+            "type": "RedisValue[]"
+          },
+          {
+            "description": "",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "long"
+        },
+        "signature": "StreamDelete(RedisKey key, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "messageIds",
+            "type": "RedisValue[]"
+          },
+          {
+            "description": "",
+            "name": "mode",
+            "type": "StreamTrimMode"
+          },
+          {
+            "description": "",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "StreamTrimResult[]"
+        },
+        "signature": "StreamDelete(RedisKey key, RedisValue[] messageIds, StreamTrimMode mode, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "messageIds",
+            "type": "RedisValue[]"
+          },
+          {
+            "description": "",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "long"
+        },
+        "signature": "StreamDelete(RedisKey key, RedisValue[] messageIds, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "messageIds",
+            "type": "RedisValue[]"
+          },
+          {
+            "description": "",
+            "name": "mode",
+            "type": "StreamTrimMode"
+          },
+          {
+            "description": "",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "StreamTrimResult[]"
+        },
+        "signature": "StreamDelete(RedisKey key, RedisValue[] messageIds, StreamTrimMode mode, CommandFlags flags)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$id",
+            "type": "string ..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "int"
+        },
+        "signature": "xdel(string $key, string ...$id)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "the stream key",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "one or multiple entry ids",
+            "name": "*ids",
+            "type": "Array<String>"
+          }
+        ],
+        "returns": {
+          "description": "the number of entries actually deleted",
+          "type": "Integer"
+        },
+        "signature": "xdel(key, *ids)"
+      }
+    ]
+  },
   "commandFlags": [
     "write",
     "fast"
@@ -63,28 +585,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "understanding-the-low-level-details-of-entries-deletion",
-        "title": "Understanding the low level details of entries deletion"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Removes the specified entries from a stream, and returns the number of entries\ndeleted.  This number may be less than the number of IDs passed to the command in\nthe case where some of the specified IDs do not exist in the stream.\n\nNormally you may think at a Redis stream as an append-only data structure,\nhowever Redis streams are represented in memory, so we are also able to \ndelete entries. This may be useful, for instance, in order to comply with\ncertain privacy policies.\n\n## Understanding the low level details of entries deletion\n\nRedis streams are represented in a way that makes them memory efficient:\na radix tree is used in order to index macro-nodes that pack linearly tens\nof stream entries. Normally what happens when you delete an entry from a stream\nis that the entry is not *really* evicted, it just gets marked as deleted.\n\nEventually if all the entries in a macro-node are marked as deleted, the whole\nnode is destroyed and the memory reclaimed. This means that if you delete\na large amount of entries from a stream, for instance more than 50% of the\nentries appended to the stream, the memory usage per entry may increment, since\nwhat happens is that the stream will become fragmented. However the stream\nperformance will remain the same.\n\nIn future versions of Redis it is possible that we'll trigger a node garbage\ncollection in case a given macro-node reaches a given amount of deleted\nentries. Currently with the usage we anticipate for this data structure, it is\nnot a good idea to add such complexity.\n\n## Examples\n\n```\n> XADD mystream * a 1\n1538561698944-0\n> XADD mystream * b 2\n1538561700640-0\n> XADD mystream * c 3\n1538561701744-0\n> XDEL mystream 1538561700640-0\n(integer) 1\n127.0.0.1:6379> XRANGE mystream - +\n1) 1) 1538561698944-0\n   2) 1) \"a\"\n      2) \"1\"\n2) 1) 1538561701744-0\n   2) 1) \"c\"\n      2) \"3\"\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of entries that were deleted.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of entries that were deleted.",
+  "content": "Removes the specified entries from a stream, and returns the number of entries\ndeleted.  This number may be less than the number of IDs passed to the command in\nthe case where some of the specified IDs do not exist in the stream.\n\nNormally you may think at a Redis stream as an append-only data structure,\nhowever Redis streams are represented in memory, so we are also able to \ndelete entries. This may be useful, for instance, in order to comply with\ncertain privacy policies.\n\n## Understanding the low level details of entries deletion\n\nRedis streams are represented in a way that makes them memory efficient:\na radix tree is used in order to index macro-nodes that pack linearly tens\nof stream entries. Normally what happens when you delete an entry from a stream\nis that the entry is not *really* evicted, it just gets marked as deleted.\n\nEventually if all the entries in a macro-node are marked as deleted, the whole\nnode is destroyed and the memory reclaimed. This means that if you delete\na large amount of entries from a stream, for instance more than 50% of the\nentries appended to the stream, the memory usage per entry may increment, since\nwhat happens is that the stream will become fragmented. However the stream\nperformance will remain the same.\n\nIn future versions of Redis it is possible that we'll trigger a node garbage\ncollection in case a given macro-node reaches a given amount of deleted\nentries. Currently with the usage we anticipate for this data structure, it is\nnot a good idea to add such complexity.\n\n## Examples\n\n```\n> XADD mystream * a 1\n1538561698944-0\n> XADD mystream * b 2\n1538561700640-0\n> XADD mystream * c 3\n1538561701744-0\n> XDEL mystream 1538561700640-0\n(integer) 1\n127.0.0.1:6379> XRANGE mystream - +\n1) 1) 1538561698944-0\n   2) 1) \"a\"\n      2) \"1\"\n2) 1) 1538561701744-0\n   2) 1) \"c\"\n      2) \"3\"\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"xdel-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of entries that were deleted.\n\n-tab-sep-\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of entries that were deleted.\n\n{{< /multitabs >}}",
+  "example": "> XADD mystream * a 1\n1538561698944-0\n> XADD mystream * b 2\n1538561700640-0\n> XADD mystream * c 3\n1538561701744-0\n> XDEL mystream 1538561700640-0\n(integer) 1\n127.0.0.1:6379> XRANGE mystream - +\n1) 1) 1538561698944-0\n   2) 1) \"a\"\n      2) \"1\"\n2) 1) 1538561701744-0\n   2) 1) \"c\"\n      2) \"3\"",
   "intro": "Removes the specified entries from a stream, and returns the number of entries\ndeleted.  This number may be less than the number of IDs passed to the command in\nthe case where some of the specified IDs do not exist in the stream.\n\nNormally you may think at a Redis stream as an append-only data structure,\nhowever Redis streams are represented in memory, so we are also able to \ndelete entries. This may be useful, for instance, in order to comply with\ncertain privacy policies.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -109,7 +616,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of entries that were deleted.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of entries that were deleted."
+      "content": "{{< multitabs id=\"xdel-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of entries that were deleted.\n\n-tab-sep-\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of entries that were deleted.\n\n{{< /multitabs >}}"
     }
   ]
 }

@@ -14,6 +14,160 @@
     "@read",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "The name of the Cuckoo filter",
+            "name": "key",
+            "type": "str"
+          },
+          {
+            "description": "The item to count",
+            "name": "item",
+            "type": "str"
+          }
+        ],
+        "returns": {
+          "description": "Number of times the item exists in the filter",
+          "type": "int"
+        },
+        "signature": "count(key, item)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "The name of the Cuckoo filter",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "The item to count",
+            "name": "item",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "Number of times the item exists",
+          "type": "long"
+        },
+        "signature": "long cfCount(String key, String item)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "The name of the Cuckoo filter",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "The item to count",
+            "name": "element",
+            "type": "interface{}"
+          }
+        ],
+        "returns": {
+          "description": "Integer command result",
+          "type": "*IntCmd"
+        },
+        "signature": "CFCount(ctx context.Context, key string, element interface{}) *IntCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "The name of the Cuckoo filter",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "The item to count",
+            "name": "item",
+            "type": "RedisArgument"
+          }
+        ],
+        "returns": {
+          "description": "Number of times the item exists",
+          "type": "number"
+        },
+        "signature": "CF.COUNT(key: RedisArgument, item: RedisArgument)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The name of the Cuckoo filter",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The item to count",
+            "name": "item",
+            "type": "RedisValue"
+          }
+        ],
+        "returns": {
+          "description": "Number of times the item exists",
+          "type": "long"
+        },
+        "signature": "long Count(RedisKey key, RedisValue item)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The name of the Cuckoo filter",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The item to count",
+            "name": "item",
+            "type": "RedisValue"
+          }
+        ],
+        "returns": {
+          "description": "Number of times the item exists",
+          "type": "Task<long>"
+        },
+        "signature": "async Task<long> CountAsync(RedisKey key, RedisValue item)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "The name of the Cuckoo filter",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "The item to count",
+            "name": "$item",
+            "type": "mixed"
+          }
+        ],
+        "returns": {
+          "description": "Number of times the item exists",
+          "type": "int"
+        },
+        "signature": "cfcount(string $key, $item)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -37,28 +191,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Returns an estimation of the number of times a given item was added to a cuckoo filter.\n\nIf you just want to check that a given item was added to a cuckoo filter, use [`CF.EXISTS`]().\n\n## Required arguments\n\n<details open><summary><code>key</code></summary>\n\nis key name for a cuckoo filter.\n\n</details>\n\n<details open><summary><code>item</code></summary>\n\nis an item to check.\n</details>\n\n## Examples\n\n\nredis> CF.INSERT cf ITEMS item1 item2 item2\n1) (integer) 1\n2) (integer) 1\n3) (integer) 1\nredis> CF.COUNT cf item1\n(integer) 1\nredis> CF.COUNT cf item2\n(integer) 2\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Integer reply](), where a positive value is an estimation of the number of times `item` was added to the filter. An overestimation is possible, but not an underestimation. `0` means that `key` does not exist or that `item` had not been added to the filter. See the note in [`CF.DEL`]().\n* [Simple error]() in these cases: invalid arguments or wrong key type.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](), where a positive value is an estimation of the number of times `item` was added to the filter. An overestimation is possible, but not an underestimation. `0` means that `key` does not exist or that `item` had not been added to the filter. See the note in [`CF.DEL`]().\n* [Simple error]() in these cases: invalid arguments or wrong key type.",
+  "content": "Returns an estimation of the number of times a given item was added to a cuckoo filter.\n\nIf you just want to check that a given item was added to a cuckoo filter, use [`CF.EXISTS`]().\n\n## Required arguments\n\n<details open><summary><code>key</code></summary>\n\nis key name for a cuckoo filter.\n\n</details>\n\n<details open><summary><code>item</code></summary>\n\nis an item to check.\n</details>\n\n## Examples\n\n{{< highlight bash >}}\nredis> CF.INSERT cf ITEMS item1 item2 item2\n1) (integer) 1\n2) (integer) 1\n3) (integer) 1\nredis> CF.COUNT cf item1\n(integer) 1\nredis> CF.COUNT cf item2\n(integer) 2\n{{< / highlight >}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"cf-count-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}), where a positive value is an estimation of the number of times `item` was added to the filter. An overestimation is possible, but not an underestimation. `0` means that `key` does not exist or that `item` had not been added to the filter. See the note in [`CF.DEL`]({{< relref \"commands/cf.del/\" >}}).\n* [Simple error]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments or wrong key type.\n\n-tab-sep-\n\nOne of the following:\n* [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}), where a positive value is an estimation of the number of times `item` was added to the filter. An overestimation is possible, but not an underestimation. `0` means that `key` does not exist or that `item` had not been added to the filter. See the note in [`CF.DEL`]({{< relref \"commands/cf.del/\" >}}).\n* [Simple error]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments or wrong key type.\n\n{{< /multitabs >}}",
+  "example": "redis> CF.INSERT cf ITEMS item1 item2 item2\n1) (integer) 1\n2) (integer) 1\n3) (integer) 1\nredis> CF.COUNT cf item1\n(integer) 1\nredis> CF.COUNT cf item2\n(integer) 2",
   "intro": "Returns an estimation of the number of times a given item was added to a cuckoo filter.\n\nIf you just want to check that a given item was added to a cuckoo filter, use [`CF.EXISTS`]().",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -73,7 +212,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "redis> CF.INSERT cf ITEMS item1 item2 item2\n1) (integer) 1\n2) (integer) 1\n3) (integer) 1\nredis> CF.COUNT cf item1\n(integer) 1\nredis> CF.COUNT cf item2\n(integer) 2"
+      "content": "{{< highlight bash >}}\nredis> CF.INSERT cf ITEMS item1 item2 item2\n1) (integer) 1\n2) (integer) 1\n3) (integer) 1\nredis> CF.COUNT cf item1\n(integer) 1\nredis> CF.COUNT cf item2\n(integer) 2\n{{< / highlight >}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -83,7 +222,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Integer reply](), where a positive value is an estimation of the number of times `item` was added to the filter. An overestimation is possible, but not an underestimation. `0` means that `key` does not exist or that `item` had not been added to the filter. See the note in [`CF.DEL`]().\n* [Simple error]() in these cases: invalid arguments or wrong key type.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](), where a positive value is an estimation of the number of times `item` was added to the filter. An overestimation is possible, but not an underestimation. `0` means that `key` does not exist or that `item` had not been added to the filter. See the note in [`CF.DEL`]().\n* [Simple error]() in these cases: invalid arguments or wrong key type."
+      "content": "{{< multitabs id=\"cf-count-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}), where a positive value is an estimation of the number of times `item` was added to the filter. An overestimation is possible, but not an underestimation. `0` means that `key` does not exist or that `item` had not been added to the filter. See the note in [`CF.DEL`]({{< relref \"commands/cf.del/\" >}}).\n* [Simple error]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments or wrong key type.\n\n-tab-sep-\n\nOne of the following:\n* [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}), where a positive value is an estimation of the number of times `item` was added to the filter. An overestimation is possible, but not an underestimation. `0` means that `key` does not exist or that `item` had not been added to the filter. See the note in [`CF.DEL`]({{< relref \"commands/cf.del/\" >}}).\n* [Simple error]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments or wrong key type.\n\n{{< /multitabs >}}"
     }
   ]
 }

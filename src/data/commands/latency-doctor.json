@@ -14,6 +14,65 @@
     "@slow",
     "@dangerous"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "str"
+        },
+        "signature": "latency_doctor(**kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "String"
+        },
+        "signature": "String latencyDoctor()"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "BlobStringReply"
+        },
+        "signature": "latencyDoctor()"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$subcommand",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$args",
+            "type": "mixed"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "string"
+        },
+        "signature": "latency(string $subcommand, ...$args)"
+      }
+    ]
+  },
   "commandFlags": [
     "admin",
     "noscript",
@@ -33,24 +92,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "The `LATENCY DOCTOR` command reports about different latency-related issues and advises about possible remedies.\n\nThis command is the most powerful analysis tool in the latency monitoring\nframework, and is able to provide additional statistical data like the average\nperiod between latency spikes, the median deviation, and a human-readable\nanalysis of the event. For certain events, like `fork`, additional information\nis provided, like the rate at which the system forks processes.\n\nThis is the output you should post in the Redis mailing list if you are\nlooking for help about Latency related issues.\n\n## Examples\n\n```\n127.0.0.1:6379> latency doctor\n\nDave, I have observed latency spikes in this Redis instance.\nYou don't mind talking about it, do you Dave?\n\n1. command: 5 latency spikes (average 300ms, mean deviation 120ms,\n    period 73.40 sec). Worst all time event 500ms.\n\nI have a few advices for you:\n\n- Your current Slow Log configuration only logs events that are\n    slower than your configured latency monitor threshold. Please\n    use 'CONFIG SET slowlog-log-slower-than 1000'.\n- Check your Slow Log to understand what are the commands you are\n    running which are too slow to execute. Please check\n    http://redis.io/commands/slowlog for more information.\n- Deleting, expiring or evicting (because of maxmemory policy)\n    large objects is a blocking operation. If you have very large\n    objects that are often deleted, expired, or evicted, try to\n    fragment those objects into multiple smaller objects.\n```\n\n**Note:** the doctor has erratic psychological behaviors, so we recommend interacting with it carefully.\n\nFor more information refer to the [Latency Monitoring Framework page][lm].\n\n[lm]: /operate/oss_and_stack/management/optimization/latency-monitor.md\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): a human readable latency analysis report.\n\n**RESP3:**\n\n[Verbatim string reply](../../develop/reference/protocol-spec#verbatim-strings): a human readable latency analysis report.",
+  "content": "The `LATENCY DOCTOR` command reports about different latency-related issues and advises about possible remedies.\n\nThis command is the most powerful analysis tool in the latency monitoring\nframework, and is able to provide additional statistical data like the average\nperiod between latency spikes, the median deviation, and a human-readable\nanalysis of the event. For certain events, like `fork`, additional information\nis provided, like the rate at which the system forks processes.\n\nThis is the output you should post in the Redis mailing list if you are\nlooking for help about Latency related issues.\n\n## Examples\n\n```\n127.0.0.1:6379> latency doctor\n\nDave, I have observed latency spikes in this Redis instance.\nYou don't mind talking about it, do you Dave?\n\n1. command: 5 latency spikes (average 300ms, mean deviation 120ms,\n    period 73.40 sec). Worst all time event 500ms.\n\nI have a few advices for you:\n\n- Your current Slow Log configuration only logs events that are\n    slower than your configured latency monitor threshold. Please\n    use 'CONFIG SET slowlog-log-slower-than 1000'.\n- Check your Slow Log to understand what are the commands you are\n    running which are too slow to execute. Please check\n    http://redis.io/commands/slowlog for more information.\n- Deleting, expiring or evicting (because of maxmemory policy)\n    large objects is a blocking operation. If you have very large\n    objects that are often deleted, expired, or evicted, try to\n    fragment those objects into multiple smaller objects.\n```\n\n**Note:** the doctor has erratic psychological behaviors, so we recommend interacting with it carefully.\n\nFor more information refer to the [Latency Monitoring Framework page][lm].\n\n[lm]: /operate/oss_and_stack/management/optimization/latency-monitor.md\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"latency-doctor-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): a human readable latency analysis report.\n\n-tab-sep-\n\n[Verbatim string reply](../../develop/reference/protocol-spec#verbatim-strings): a human readable latency analysis report.\n\n{{< /multitabs >}}",
+  "example": "127.0.0.1:6379> latency doctor\n\nDave, I have observed latency spikes in this Redis instance.\nYou don't mind talking about it, do you Dave?\n\n1. command: 5 latency spikes (average 300ms, mean deviation 120ms,\n    period 73.40 sec). Worst all time event 500ms.\n\nI have a few advices for you:\n\n- Your current Slow Log configuration only logs events that are\n    slower than your configured latency monitor threshold. Please\n    use 'CONFIG SET slowlog-log-slower-than 1000'.\n- Check your Slow Log to understand what are the commands you are\n    running which are too slow to execute. Please check\n    http://redis.io/commands/slowlog for more information.\n- Deleting, expiring or evicting (because of maxmemory policy)\n    large objects is a blocking operation. If you have very large\n    objects that are often deleted, expired, or evicted, try to\n    fragment those objects into multiple smaller objects.",
   "intro": "The `LATENCY DOCTOR` command reports about different latency-related issues and advises about possible remedies.\n\nThis command is the most powerful analysis tool in the latency monitoring\nframework, and is able to provide additional statistical data like the average\nperiod between latency spikes, the median deviation, and a human-readable\nanalysis of the event. For certain events, like `fork`, additional information\nis provided, like the rate at which the system forks processes.\n\nThis is the output you should post in the Redis mailing list if you are\nlooking for help about Latency related issues.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -70,7 +118,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): a human readable latency analysis report.\n\n**RESP3:**\n\n[Verbatim string reply](../../develop/reference/protocol-spec#verbatim-strings): a human readable latency analysis report."
+      "content": "{{< multitabs id=\"latency-doctor-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): a human readable latency analysis report.\n\n-tab-sep-\n\n[Verbatim string reply](../../develop/reference/protocol-spec#verbatim-strings): a human readable latency analysis report.\n\n{{< /multitabs >}}"
     }
   ]
 }

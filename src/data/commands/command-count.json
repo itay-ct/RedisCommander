@@ -13,6 +13,111 @@
     "@slow",
     "@connection"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "int"
+        },
+        "signature": "command_count(**kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "Long"
+        },
+        "signature": "Long commandCount()"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context",
+            "name": "ctx",
+            "type": "context.Context"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*IntCmd"
+        },
+        "signature": "CommandCount(ctx context.Context) *IntCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "NumberReply"
+        },
+        "signature": "commandCount()"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "Long"
+        },
+        "signature": "Long commandCount()"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "RedisFuture<Long>"
+        },
+        "signature": "RedisFuture<Long> commandCount()"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "Mono<Long>"
+        },
+        "signature": "Mono<Long> commandCount()"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$subcommand",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$args",
+            "type": "mixed"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "int"
+        },
+        "signature": "command(string $subcommand, ...$args)"
+      }
+    ]
+  },
   "commandFlags": [
     "loading",
     "stale"
@@ -30,24 +135,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Returns [Integer reply]() of number of total commands in this Redis server.\n\n## Examples\n\n\nCOMMAND COUNT\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of commands returned by `COMMAND`.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of commands returned by `COMMAND`.",
+  "content": "Returns [Integer reply]() of number of total commands in this Redis server.\n\n## Examples\n\n{{% redis-cli %}}\nCOMMAND COUNT\n{{% /redis-cli %}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"command-count-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of commands returned by `COMMAND`.\n\n-tab-sep-\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of commands returned by `COMMAND`.\n\n{{< /multitabs >}}",
+  "example": "COMMAND COUNT",
   "intro": "Returns [Integer reply]() of number of total commands in this Redis server.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -57,7 +151,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "COMMAND COUNT"
+      "content": "{{% redis-cli %}}\nCOMMAND COUNT\n{{% /redis-cli %}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -67,7 +161,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of commands returned by `COMMAND`.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of commands returned by `COMMAND`."
+      "content": "{{< multitabs id=\"command-count-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of commands returned by `COMMAND`.\n\n-tab-sep-\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of commands returned by `COMMAND`.\n\n{{< /multitabs >}}"
     }
   ]
 }

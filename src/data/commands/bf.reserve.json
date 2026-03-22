@@ -14,6 +14,327 @@
     "@write",
     "@fast"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "The name of the Bloom filter",
+            "name": "key",
+            "type": "str"
+          },
+          {
+            "description": "Desired probability for false positives (0-1)",
+            "name": "errorRate",
+            "type": "float"
+          },
+          {
+            "description": "Number of entries intended to be added",
+            "name": "capacity",
+            "type": "int"
+          },
+          {
+            "description": "Optional expansion rate",
+            "name": "expansion",
+            "type": "int"
+          },
+          {
+            "description": "If True, prevent auto-scaling",
+            "name": "noScale",
+            "type": "bool"
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "str"
+        },
+        "signature": "create(key, errorRate, capacity, expansion=None, noScale=None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The name of the Bloom filter",
+            "name": "key",
+            "type": "str"
+          },
+          {
+            "description": "Desired probability for false positives (0-1)",
+            "name": "errorRate",
+            "type": "float"
+          },
+          {
+            "description": "Number of entries intended to be added",
+            "name": "capacity",
+            "type": "int"
+          },
+          {
+            "description": "Optional expansion rate",
+            "name": "expansion",
+            "type": "int"
+          },
+          {
+            "description": "If True, prevent auto-scaling",
+            "name": "noScale",
+            "type": "bool"
+          }
+        ],
+        "returns": {
+          "description": "OK on success (alias for create)",
+          "type": "str"
+        },
+        "signature": "reserve(key, errorRate, capacity, expansion=None, noScale=None)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "The name of the Bloom filter",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "Error rate (0-1)",
+            "name": "errorRate",
+            "type": "double"
+          },
+          {
+            "description": "Initial capacity",
+            "name": "capacity",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "String"
+        },
+        "signature": "String bfReserve(String key, double errorRate, long capacity)"
+      },
+      {
+        "params": [
+          {
+            "description": "The name of the Bloom filter",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "Error rate (0-1)",
+            "name": "errorRate",
+            "type": "double"
+          },
+          {
+            "description": "Initial capacity",
+            "name": "capacity",
+            "type": "long"
+          },
+          {
+            "description": "Reserve parameters (expansion, nonscaling)",
+            "name": "reserveParams",
+            "type": "BFReserveParams"
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "String"
+        },
+        "signature": "String bfReserve(String key, double errorRate, long capacity, BFReserveParams reserveParams)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "The name of the Bloom filter",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "Error rate (0-1)",
+            "name": "errorRate",
+            "type": "float64"
+          },
+          {
+            "description": "Initial capacity",
+            "name": "capacity",
+            "type": "int64"
+          }
+        ],
+        "returns": {
+          "description": "Status command result",
+          "type": "*StatusCmd"
+        },
+        "signature": "BFReserve(ctx context.Context, key string, errorRate float64, capacity int64) *StatusCmd"
+      },
+      {
+        "params": [
+          {
+            "description": "Context",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "The name of the Bloom filter",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "Reserve options (Error, Capacity, Expansion, NonScaling)",
+            "name": "options",
+            "type": "*BFReserveOptions"
+          }
+        ],
+        "returns": {
+          "description": "Status command result",
+          "type": "*StatusCmd"
+        },
+        "signature": "BFReserveWithArgs(ctx context.Context, key string, options *BFReserveOptions) *StatusCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "The name of the Bloom filter",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "Error rate (0-1)",
+            "name": "errorRate",
+            "type": "number"
+          },
+          {
+            "description": "Initial capacity",
+            "name": "capacity",
+            "type": "number"
+          },
+          {
+            "description": "Optional: EXPANSION, NONSCALING",
+            "name": "options",
+            "type": "BfReserveOptions"
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "SimpleStringReply<'OK'>"
+        },
+        "signature": "BF.RESERVE(key: RedisArgument, errorRate: number, capacity: number, options?: BfReserveOptions)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The name of the Bloom filter",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "Error rate (0-1)",
+            "name": "errorRate",
+            "type": "double"
+          },
+          {
+            "description": "Initial capacity",
+            "name": "capacity",
+            "type": "long"
+          },
+          {
+            "description": "Optional expansion rate",
+            "name": "expansion",
+            "type": "int?"
+          },
+          {
+            "description": "If true, prevent scaling",
+            "name": "nonscaling",
+            "type": "bool"
+          }
+        ],
+        "returns": {
+          "description": "true on success",
+          "type": "bool"
+        },
+        "signature": "bool Reserve(RedisKey key, double errorRate, long capacity, int? expansion = null, bool nonscaling = false)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The name of the Bloom filter",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "Error rate (0-1)",
+            "name": "errorRate",
+            "type": "double"
+          },
+          {
+            "description": "Initial capacity",
+            "name": "capacity",
+            "type": "long"
+          },
+          {
+            "description": "Optional expansion rate",
+            "name": "expansion",
+            "type": "int?"
+          },
+          {
+            "description": "If true, prevent scaling",
+            "name": "nonscaling",
+            "type": "bool"
+          }
+        ],
+        "returns": {
+          "description": "true on success",
+          "type": "Task<bool>"
+        },
+        "signature": "async Task<bool> ReserveAsync(RedisKey key, double errorRate, long capacity, int? expansion = null, bool nonscaling = false)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "The name of the Bloom filter",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "Error rate (0-1)",
+            "name": "$errorRate",
+            "type": "float"
+          },
+          {
+            "description": "Initial capacity",
+            "name": "$capacity",
+            "type": "int"
+          },
+          {
+            "description": "Optional expansion rate (-1 for default)",
+            "name": "$expansion",
+            "type": "int"
+          },
+          {
+            "description": "If true, prevent scaling",
+            "name": "$nonScaling",
+            "type": "bool"
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "Status"
+        },
+        "signature": "bfreserve(string $key, float $errorRate, int $capacity, int $expansion = -1, bool $nonScaling = false)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -53,32 +374,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "optional-arguments",
-        "title": "Optional arguments"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Creates an empty Bloom filter with a single sub-filter for the initial specified capacity and with an upper bound `error_rate`.\n\nBy default, the filter auto-scales by creating additional sub-filters when `capacity` is reached.\nThe new sub-filter is created with size of the previous sub-filter multiplied by `expansion`.\n\nThough the filter can scale up by creating sub-filters, it is recommended to reserve the estimated required `capacity` since maintaining and querying\nsub-filters requires additional memory (each sub-filter uses an extra bits and hash function) and consume  further CPU time than an equivalent filter that had\nthe right capacity at creation time.\n\nThe optimal number of hash functions is `ceil(-ln(error_rate) / ln(2))`.\n\nThe required number of bits per item, given the desired `error_rate` and the optimal number of hash functions, is `-ln(error_rate) / ln(2)^2`. Hence, the required number of bits in the filter is `capacity * -ln(error_rate) / ln(2)^2`.\n\n* **1%**    error rate requires  7 hash functions and  9.585 bits per item.\n* **0.1%**  error rate requires 10 hash functions and 14.378 bits per item.\n* **0.01%** error rate requires 14 hash functions and 19.170 bits per item.\n\n## Required arguments\n\n<details open><summary><code>key</code></summary>\n\nis key name for the the Bloom filter to be created.\n</details>\n\n<details open><summary><code>error_rate</code></summary>\n\nThe desired probability for false positives. The rate is a decimal value between 0 and 1.\nFor example, for a desired false positive rate of 0.1% (1 in 1000), error_rate should be set to 0.001.\n</details>\n\n<details open><summary><code>capacity</code></summary>\n\nThe number of entries intended to be added to the filter.\nIf your filter allows scaling, performance will begin to degrade after adding more items than this number.\nThe actual degradation depends on how far the limit has been exceeded. Performance degrades linearly with the number of `sub-filters`.\n</details>\n\n## Optional arguments\n\n<details open><summary><code>NONSCALING</code></summary>\n\nPrevents the filter from creating additional sub-filters if initial capacity is reached.\nNon-scaling filters requires slightly less memory than their scaling counterparts. The filter returns an error when `capacity` is reached.\n</details>\n\n<details open><summary><code>EXPANSION expansion</code></summary>\n\nWhen `capacity` is reached, an additional sub-filter is created.\nThe size of the new sub-filter is the size of the last sub-filter multiplied by `expansion`, specified as a positive integer.\n\nIf the number of items to be stored in the filter is unknown, you use an `expansion` of `2` or more to reduce the number of sub-filters.\nOtherwise, you use an `expansion` of `1` to reduce memory consumption. The default value is `2`.\n</details>\n\n## Examples\n\n\nredis> BF.RESERVE bf 0.01 1000\nOK\n\n\n\nredis> BF.RESERVE bf 0.01 1000\n(error) ERR item exists\n\n\n\nredis> BF.RESERVE bf_exp 0.01 1000 EXPANSION 2\nOK\n\n\n\nredis> BF.RESERVE bf_non 0.01 1000 NONSCALING\nOK\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Simple string reply](): `OK` if the filter was created successfully.\n* [Simple error reply]() in these cases: invalid arguments or the key already exists.\n\n**RESP3:**\n\nOne of the following:\n* [Simple string reply](): `OK` if the filter was created successfully.\n* [Simple error reply]() in these cases: invalid arguments or the key already exists.",
+  "content": "Creates an empty Bloom filter with a single sub-filter for the initial specified capacity and with an upper bound `error_rate`.\n\nBy default, the filter auto-scales by creating additional sub-filters when `capacity` is reached.\nThe new sub-filter is created with size of the previous sub-filter multiplied by `expansion`.\n\nThough the filter can scale up by creating sub-filters, it is recommended to reserve the estimated required `capacity` since maintaining and querying\nsub-filters requires additional memory (each sub-filter uses an extra bits and hash function) and consume  further CPU time than an equivalent filter that had\nthe right capacity at creation time.\n\nThe optimal number of hash functions is `ceil(-ln(error_rate) / ln(2))`.\n\nThe required number of bits per item, given the desired `error_rate` and the optimal number of hash functions, is `-ln(error_rate) / ln(2)^2`. Hence, the required number of bits in the filter is `capacity * -ln(error_rate) / ln(2)^2`.\n\n* **1%**    error rate requires  7 hash functions and  9.585 bits per item.\n* **0.1%**  error rate requires 10 hash functions and 14.378 bits per item.\n* **0.01%** error rate requires 14 hash functions and 19.170 bits per item.\n\n## Required arguments\n\n<details open><summary><code>key</code></summary>\n\nis key name for the the Bloom filter to be created.\n</details>\n\n<details open><summary><code>error_rate</code></summary>\n\nThe desired probability for false positives. The rate is a decimal value between 0 and 1.\nFor example, for a desired false positive rate of 0.1% (1 in 1000), error_rate should be set to 0.001.\n</details>\n\n<details open><summary><code>capacity</code></summary>\n\nThe number of entries intended to be added to the filter.\nIf your filter allows scaling, performance will begin to degrade after adding more items than this number.\nThe actual degradation depends on how far the limit has been exceeded. Performance degrades linearly with the number of `sub-filters`.\n</details>\n\n## Optional arguments\n\n<details open><summary><code>NONSCALING</code></summary>\n\nPrevents the filter from creating additional sub-filters if initial capacity is reached.\nNon-scaling filters requires slightly less memory than their scaling counterparts. The filter returns an error when `capacity` is reached.\n</details>\n\n<details open><summary><code>EXPANSION expansion</code></summary>\n\nWhen `capacity` is reached, an additional sub-filter is created.\nThe size of the new sub-filter is the size of the last sub-filter multiplied by `expansion`, specified as a positive integer.\n\nIf the number of items to be stored in the filter is unknown, you use an `expansion` of `2` or more to reduce the number of sub-filters.\nOtherwise, you use an `expansion` of `1` to reduce memory consumption. The default value is `2`.\n</details>\n\n## Examples\n\n{{< highlight bash >}}\nredis> BF.RESERVE bf 0.01 1000\nOK\n{{< / highlight >}}\n\n{{< highlight bash >}}\nredis> BF.RESERVE bf 0.01 1000\n(error) ERR item exists\n{{< / highlight >}}\n\n{{< highlight bash >}}\nredis> BF.RESERVE bf_exp 0.01 1000 EXPANSION 2\nOK\n{{< / highlight >}}\n\n{{< highlight bash >}}\nredis> BF.RESERVE bf_non 0.01 1000 NONSCALING\nOK\n{{< / highlight >}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"bf-reserve-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` if the filter was created successfully.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments or the key already exists.\n\n-tab-sep-\n\nOne of the following:\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` if the filter was created successfully.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments or the key already exists.\n\n{{< /multitabs >}}",
+  "example": "redis> BF.RESERVE bf 0.01 1000\nOK",
   "intro": "Creates an empty Bloom filter with a single sub-filter for the initial specified capacity and with an upper bound `error_rate`.\n\nBy default, the filter auto-scales by creating additional sub-filters when `capacity` is reached.\nThe new sub-filter is created with size of the previous sub-filter multiplied by `expansion`.\n\nThough the filter can scale up by creating sub-filters, it is recommended to reserve the estimated required `capacity` since maintaining and querying\nsub-filters requires additional memory (each sub-filter uses an extra bits and hash function) and consume  further CPU time than an equivalent filter that had\nthe right capacity at creation time.\n\nThe optimal number of hash functions is `ceil(-ln(error_rate) / ln(2))`.\n\nThe required number of bits per item, given the desired `error_rate` and the optimal number of hash functions, is `-ln(error_rate) / ln(2)^2`. Hence, the required number of bits in the filter is `capacity * -ln(error_rate) / ln(2)^2`.\n\n* **1%**    error rate requires  7 hash functions and  9.585 bits per item.\n* **0.1%**  error rate requires 10 hash functions and 14.378 bits per item.\n* **0.01%** error rate requires 14 hash functions and 19.170 bits per item.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -98,7 +400,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "redis> BF.RESERVE bf 0.01 1000\nOK\n\n\n\nredis> BF.RESERVE bf 0.01 1000\n(error) ERR item exists\n\n\n\nredis> BF.RESERVE bf_exp 0.01 1000 EXPANSION 2\nOK\n\n\n\nredis> BF.RESERVE bf_non 0.01 1000 NONSCALING\nOK"
+      "content": "{{< highlight bash >}}\nredis> BF.RESERVE bf 0.01 1000\nOK\n{{< / highlight >}}\n\n{{< highlight bash >}}\nredis> BF.RESERVE bf 0.01 1000\n(error) ERR item exists\n{{< / highlight >}}\n\n{{< highlight bash >}}\nredis> BF.RESERVE bf_exp 0.01 1000 EXPANSION 2\nOK\n{{< / highlight >}}\n\n{{< highlight bash >}}\nredis> BF.RESERVE bf_non 0.01 1000 NONSCALING\nOK\n{{< / highlight >}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -108,7 +410,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Simple string reply](): `OK` if the filter was created successfully.\n* [Simple error reply]() in these cases: invalid arguments or the key already exists.\n\n**RESP3:**\n\nOne of the following:\n* [Simple string reply](): `OK` if the filter was created successfully.\n* [Simple error reply]() in these cases: invalid arguments or the key already exists."
+      "content": "{{< multitabs id=\"bf-reserve-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` if the filter was created successfully.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments or the key already exists.\n\n-tab-sep-\n\nOne of the following:\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` if the filter was created successfully.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments or the key already exists.\n\n{{< /multitabs >}}"
     }
   ]
 }

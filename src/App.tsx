@@ -16,6 +16,7 @@ import { commandDetailCatalog } from './data/loadCommandDetails'
 import { PRIMARY_GROUPS, getCategoryMeta } from './lib/categoryMeta'
 import { formatArity, formatCount, resolveRedisHref } from './lib/format'
 import type {
+  ApiMethod,
   CategoryMenuItem,
   CategoryRecord,
   CategoryShelf,
@@ -41,8 +42,29 @@ const CATEGORY_ROWS = 11
 const COMMAND_ROWS = 14
 const ARGUMENT_ROWS = 6
 const FIND_RESULT_LIMIT = 6
-const RELEASE_VERSION = '1.05'
+const API_METHOD_LIMIT = 4
+const RELEASE_VERSION = '1.07'
 const REPO_URL = 'https://github.com/itay-ct/RedisCommander'
+const CLIENT_COOKIE_NAME = 'redis-commander-client'
+const DEFAULT_CLIENT_ID = 'redis-cli'
+
+const CLIENT_OPTIONS = [
+  { id: DEFAULT_CLIENT_ID, label: 'Redis CLI' },
+  { id: 'redis_py', label: 'Python' },
+  { id: 'node_redis', label: 'Node.js' },
+  { id: 'jedis', label: 'Java-Sync' },
+  { id: 'lettuce_sync', label: 'Lettuce-Sync' },
+  { id: 'lettuce_async', label: 'Java-Async' },
+  { id: 'lettuce_reactive', label: 'Java-Reactive' },
+  { id: 'go-redis', label: 'Go' },
+  { id: 'nredisstack_sync', label: 'C#-Sync' },
+  { id: 'nredisstack_async', label: 'C#-Async' },
+  { id: 'php', label: 'PHP' },
+  { id: 'redis_rs_sync', label: 'Rust-Sync' },
+  { id: 'redis_rs_async', label: 'Rust-Async' },
+] as const
+
+type ClientOption = (typeof CLIENT_OPTIONS)[number]
 
 const commandIndex = commandIndexJson as CommandIndex
 
@@ -68,6 +90,14 @@ function clampIndex(index: number, size: number) {
   }
 
   return Math.min(Math.max(index, 0), size - 1)
+}
+
+function wrapIndex(index: number, size: number) {
+  if (size <= 0) {
+    return 0
+  }
+
+  return ((index % size) + size) % size
 }
 
 function buildCommandsByGroup(commands: CommandSummary[]) {
@@ -143,6 +173,7 @@ function formatClock(value: Date) {
 
 function toPlainText(value: string) {
   return value
+    .replace(/\{\{[<%][\s\S]*?[>%]\}\}/g, ' ')
     .replace(/```[\s\S]*?```/g, ' [code sample] ')
     .replace(/`([^`]+)`/g, '$1')
     .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '$1')
@@ -160,8 +191,14 @@ function toPlainText(value: string) {
 
 function makeExcerpt(value: string, maxLines: number, maxChars: number) {
   const lines = toPlainText(value)
-    .split('\n')
-    .map((line) => line.replace(/\s+/g, ' ').trim())
+    .split(/\n{2,}/)
+    .map((paragraph) =>
+      paragraph
+        .split('\n')
+        .map((line) => line.replace(/\s+/g, ' ').trim())
+        .filter(Boolean)
+        .join(' '),
+    )
     .filter(Boolean)
 
   const excerpt: string[] = []
@@ -236,6 +273,12 @@ function getExampleCard(
     }
   }
 
+  if (detail.example) {
+    return {
+      content: detail.example,
+    }
+  }
+
   for (const section of detail.sections.filter((entry) => /example/i.test(entry.title))) {
     const snippet = extractRedisCliSnippet(section.content)
     if (snippet) {
@@ -253,6 +296,7 @@ function getExampleCard(
 function buildFallbackDetail(command: CommandSummary, groupLabel: string): CommandDetail {
   return {
     aclCategories: [],
+    apiMethods: {},
     arguments: [],
     arity: command.arity,
     codeExamples: [],
@@ -261,10 +305,12 @@ function buildFallbackDetail(command: CommandSummary, groupLabel: string): Comma
     content: command.description,
     description: command.description,
     docsUrl: resolveRedisHref(commandIndex.sourceUrl, `./${command.slug}/`),
+    example: null,
     group: command.group,
     groupLabel,
     intro: command.description,
     keySpecs: [],
+    notes: [],
     redisCategories: [command.group],
     sections: [
       {
@@ -372,6 +418,73 @@ function getCompletionTail(query: string, command: CommandSummary | null) {
   return ''
 }
 
+function readCookie(name: string) {
+  if (typeof document === 'undefined') {
+    return null
+  }
+
+  const prefix = `${name}=`
+  const match = document.cookie
+    .split(';')
+    .map((entry) => entry.trim())
+    .find((entry) => entry.startsWith(prefix))
+
+  return match ? decodeURIComponent(match.slice(prefix.length)) : null
+}
+
+function writeCookie(name: string, value: string, days = 365) {
+  if (typeof document === 'undefined') {
+    return
+  }
+
+  const expires = new Date()
+  expires.setDate(expires.getDate() + days)
+  document.cookie = `${name}=${encodeURIComponent(value)}; expires=${expires.toUTCString()}; path=/; SameSite=Lax`
+}
+
+function getClientOptions(detail: CommandDetail | null) {
+  if (!detail) {
+    return [CLIENT_OPTIONS[0]]
+  }
+
+  const options: ClientOption[] = [CLIENT_OPTIONS[0]]
+
+  for (const option of CLIENT_OPTIONS.slice(1)) {
+    if ((detail.apiMethods[option.id] ?? []).length) {
+      options.push(option)
+    }
+  }
+
+  return options
+}
+
+function getClientOptionById(clientId: string) {
+  return CLIENT_OPTIONS.find((option) => option.id === clientId) ?? CLIENT_OPTIONS[0]
+}
+
+function formatApiMethodParams(method: ApiMethod) {
+  if (!method.params.length) {
+    return 'No parameters documented.'
+  }
+
+  return method.params.map((param) => `${param.name}: ${param.type}`).join(' • ')
+}
+
+function formatApiMethodReturn(method: ApiMethod) {
+  if (!method.returns?.type && !method.returns?.description) {
+    return null
+  }
+
+  const type = method.returns?.type?.trim() ?? ''
+  const description = method.returns?.description?.trim() ?? ''
+
+  if (type && description) {
+    return `${type} - ${description}`
+  }
+
+  return type || description
+}
+
 const commandsByGroup = buildCommandsByGroup(commandIndex.commands)
 const categoryRecords = buildCategoryRecords(commandsByGroup, commandIndex.categories)
 const categoryLookup = Object.fromEntries(
@@ -409,6 +522,7 @@ function App() {
   const [findOpen, setFindOpen] = useState(false)
   const [findQuery, setFindQuery] = useState('')
   const [findIndex, setFindIndex] = useState(0)
+  const [preferredClientId, setPreferredClientId] = useState(() => readCookie(CLIENT_COOKIE_NAME) ?? DEFAULT_CLIENT_ID)
   const findInputRef = useRef<HTMLInputElement | null>(null)
   const deferredFindQuery = useDeferredValue(findQuery)
 
@@ -431,10 +545,22 @@ function App() {
     ? makeExcerpt(
         commandDetail.intro || commandDetail.description || selectedCommand?.description || '',
         4,
-        340,
+        420,
       )
     : 'Select a command to open its local Redis transcript.'
+  const detailNotes = commandDetail?.notes ?? []
   const exampleCard = getExampleCard(commandDetail, selectedCommand)
+  const availableClientOptions = getClientOptions(commandDetail)
+  const preferredClient = getClientOptionById(preferredClientId)
+  const selectedClientOption =
+    availableClientOptions.find((option) => option.id === preferredClientId) ?? availableClientOptions[0]
+  const headerClientOption = commandDetail ? selectedClientOption : preferredClient
+  const selectedApiMethods =
+    commandDetail && selectedClientOption.id !== DEFAULT_CLIENT_ID
+      ? commandDetail.apiMethods[selectedClientOption.id] ?? []
+      : []
+  const visibleApiMethods = selectedApiMethods.slice(0, API_METHOD_LIMIT)
+  const hiddenApiMethodCount = Math.max(selectedApiMethods.length - visibleApiMethods.length, 0)
   const categoryAccent = highlightedCategoryItem.accent
   const currentAccent = currentCategory?.accent ?? '#ff4438'
   const docsUrl =
@@ -453,6 +579,10 @@ function App() {
   const activeFindIndex = clampIndex(findIndex, findResults.length)
   const highlightedFindResult = findResults[activeFindIndex] ?? null
   const findCompletionTail = getCompletionTail(findQuery, highlightedFindResult)
+
+  useEffect(() => {
+    writeCookie(CLIENT_COOKIE_NAME, preferredClientId)
+  }, [preferredClientId])
 
   useEffect(() => {
     const intervalId = window.setInterval(() => {
@@ -698,6 +828,20 @@ function App() {
     window.open(REPO_URL, '_blank', 'noopener,noreferrer')
   }
 
+  function shiftClientSelection(delta: number) {
+    if (availableClientOptions.length <= 1) {
+      return
+    }
+
+    const currentIndex = availableClientOptions.findIndex((option) => option.id === selectedClientOption.id)
+    const nextIndex = wrapIndex(currentIndex + delta, availableClientOptions.length)
+    const nextClient = availableClientOptions[nextIndex]
+
+    if (nextClient) {
+      setPreferredClientId(nextClient.id)
+    }
+  }
+
   function handleFindKeyDown(event: ReactKeyboardEvent<HTMLInputElement>) {
     if (event.key === 'Escape') {
       event.preventDefault()
@@ -930,6 +1074,20 @@ function App() {
       return
     }
 
+    if (paneFocus === 'details') {
+      if (event.key === 'ArrowUp') {
+        event.preventDefault()
+        shiftClientSelection(-1)
+        return
+      }
+
+      if (event.key === 'ArrowDown') {
+        event.preventDefault()
+        shiftClientSelection(1)
+        return
+      }
+    }
+
     if (event.key === 'Enter') {
       event.preventDefault()
       advanceFocus()
@@ -980,6 +1138,16 @@ function App() {
       hotkey: 'F5',
       label: 'Docs',
     },
+    ...(paneFocus === 'details'
+      ? [
+          {
+            action: () => shiftClientSelection(1),
+            disabled: availableClientOptions.length <= 1,
+            hotkey: 'UP/DN',
+            label: 'Select client',
+          },
+        ]
+      : []),
     {
       action: openFindPalette,
       disabled: false,
@@ -1009,6 +1177,7 @@ function App() {
           <span className="dos-header__brand">Redis Commander</span>
           <span>{commandIndex.commandCount} commands</span>
           <span>snapshot {docsSnapshotLabel}</span>
+          <span>Client: {headerClientOption.label}</span>
           <time className="dos-header__clock">{clock}</time>
           <button className="dos-header__link" onClick={openRepository} type="button">
             version {RELEASE_VERSION}
@@ -1178,12 +1347,59 @@ function App() {
                 </div>
 
                 <div className="dossier__body dossier__body--simple">
-                  <section className="dossier__card dossier__card--example">
-                    <div className="dossier__card-bar">Redis CLI</div>
-                    <div className="dossier__example">
-                      <pre className="dossier__example-code">{exampleCard.content}</pre>
-                    </div>
-                  </section>
+                  <div className="dossier__stack">
+                    <section className="dossier__card dossier__card--example">
+                      <div className="dossier__card-bar">{selectedClientOption.label}</div>
+                      {selectedClientOption.id === DEFAULT_CLIENT_ID ? (
+                        <div className="dossier__example">
+                          <pre className="dossier__example-code">{exampleCard.content}</pre>
+                        </div>
+                      ) : (
+                        <div className="dossier__api">
+                          {visibleApiMethods.length ? (
+                            <>
+                              {visibleApiMethods.map((method, methodIndex) => {
+                                const returnValue = formatApiMethodReturn(method)
+
+                                return (
+                                  <article
+                                    className="dossier__api-method"
+                                    key={`${selectedCommand?.slug ?? 'client'}-${selectedClientOption.id}-${methodIndex}-${method.signature}`}
+                                  >
+                                    <code className="dossier__api-signature">{method.signature}</code>
+                                    <p className="dossier__api-params">{formatApiMethodParams(method)}</p>
+                                    {returnValue ? (
+                                      <p className="dossier__api-return">{returnValue}</p>
+                                    ) : null}
+                                  </article>
+                                )
+                              })}
+                              {hiddenApiMethodCount ? (
+                                <div className="dossier__api-more">+{hiddenApiMethodCount} more overloads in the official docs</div>
+                              ) : null}
+                            </>
+                          ) : (
+                            <div className="dossier__api-empty">
+                              No API methods are mapped for this client in the local Redis docs mirror.
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </section>
+
+                    {detailNotes.length ? (
+                      <section className="dossier__card dossier__card--note">
+                        <div className="dossier__card-bar">Note</div>
+                        <div className="dossier__notes">
+                          {detailNotes.map((note, noteIndex) => (
+                            <p className="dossier__note-copy" key={`${selectedCommand?.slug ?? 'detail'}-note-${noteIndex}`}>
+                              {makeExcerpt(note, 3, 320)}
+                            </p>
+                          ))}
+                        </div>
+                      </section>
+                    ) : null}
+                  </div>
 
                   <section className="dossier__card">
                     <div className="dossier__card-bar">Arguments</div>

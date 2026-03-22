@@ -12,6 +12,100 @@
   "aclCategories": [
     "@fast"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "ResponseT"
+        },
+        "signature": "time(**kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "List<String>"
+        },
+        "signature": "List<String> time()"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context",
+            "name": "ctx",
+            "type": "context.Context"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*TimeCmd"
+        },
+        "signature": "Time(ctx context.Context) *TimeCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "Array containing the Unix timestamp in seconds and microseconds",
+          "type": "[BlobStringReply, BlobStringReply]"
+        },
+        "signature": "TIME()"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "List<V>"
+        },
+        "signature": "List<V> time()"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "RedisFuture<List<V>>"
+        },
+        "signature": "RedisFuture<List<V>> time()"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "Flux<V>"
+        },
+        "signature": "Flux<V> time()"
+      }
+    ],
+    "php": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "array"
+        },
+        "signature": "time()"
+      }
+    ]
+  },
   "commandFlags": [
     "loading",
     "stale",
@@ -30,24 +124,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "The `TIME` command returns the current server time as a two items lists: a Unix\ntimestamp and the amount of microseconds already elapsed in the current second.\nBasically the interface is very similar to the one of the `gettimeofday` system\ncall.\n\n## Examples\n\n\nTIME\nTIME\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): specifically, a two-element array consisting of the Unix timestamp in seconds and the microseconds' count.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): specifically, a two-element array consisting of the Unix timestamp in seconds and the microseconds' count.",
+  "content": "The `TIME` command returns the current server time as a two items lists: a Unix\ntimestamp and the amount of microseconds already elapsed in the current second.\nBasically the interface is very similar to the one of the `gettimeofday` system\ncall.\n\n## Examples\n\n{{% redis-cli %}}\nTIME\nTIME\n{{% /redis-cli %}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"time-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): specifically, a two-element array consisting of the Unix timestamp in seconds and the microseconds' count.\n\n-tab-sep-\n\n[Array reply](../../develop/reference/protocol-spec#arrays): specifically, a two-element array consisting of the Unix timestamp in seconds and the microseconds' count.\n\n{{< /multitabs >}}",
+  "example": "TIME\nTIME",
   "intro": "The `TIME` command returns the current server time as a two items lists: a Unix\ntimestamp and the amount of microseconds already elapsed in the current second.\nBasically the interface is very similar to the one of the `gettimeofday` system\ncall.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -57,7 +140,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "TIME\nTIME"
+      "content": "{{% redis-cli %}}\nTIME\nTIME\n{{% /redis-cli %}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -67,7 +150,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): specifically, a two-element array consisting of the Unix timestamp in seconds and the microseconds' count.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): specifically, a two-element array consisting of the Unix timestamp in seconds and the microseconds' count."
+      "content": "{{< multitabs id=\"time-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): specifically, a two-element array consisting of the Unix timestamp in seconds and the microseconds' count.\n\n-tab-sep-\n\n[Array reply](../../develop/reference/protocol-spec#arrays): specifically, a two-element array consisting of the Unix timestamp in seconds and the microseconds' count.\n\n{{< /multitabs >}}"
     }
   ]
 }

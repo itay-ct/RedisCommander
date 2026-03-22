@@ -12,6 +12,38 @@
   "aclCategories": [
     "@slow"
   ],
+  "apiMethods": {
+    "lettuce_sync": [
+      {
+        "params": [],
+        "returns": {
+          "description": "The shard ID",
+          "type": "String"
+        },
+        "signature": "String clusterMyShardId()"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [],
+        "returns": {
+          "description": "The shard ID",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> clusterMyShardId()"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [],
+        "returns": {
+          "description": "The shard ID",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> clusterMyShardId()"
+      }
+    ]
+  },
   "commandFlags": [
     "stale"
   ],
@@ -28,20 +60,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Returns the node's shard id.\n\nThe `CLUSTER MYSHARDID` command returns the unique, auto-generated identifier that is associated with the shard to which the connected cluster node belongs.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the node's shard ID.\n\n**RESP3:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the node's shard ID.",
+  "content": "Returns the node's shard id.\n\nThe `CLUSTER MYSHARDID` command returns the unique, auto-generated identifier that is associated with the shard to which the connected cluster node belongs.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"cluster-myshardid-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the node's shard ID.\n\n-tab-sep-\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the node's shard ID.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "Returns the node's shard id.\n\nThe `CLUSTER MYSHARDID` command returns the unique, auto-generated identifier that is associated with the shard to which the connected cluster node belongs.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -56,7 +81,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the node's shard ID.\n\n**RESP3:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the node's shard ID."
+      "content": "{{< multitabs id=\"cluster-myshardid-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the node's shard ID.\n\n-tab-sep-\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the node's shard ID.\n\n{{< /multitabs >}}"
     }
   ]
 }

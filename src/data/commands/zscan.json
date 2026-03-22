@@ -14,6 +14,825 @@
     "@sortedset",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "cursor",
+            "type": "int = 0"
+          },
+          {
+            "description": "",
+            "name": "match",
+            "type": "Union[PatternT, None] = None"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "Optional[int] = None"
+          },
+          {
+            "description": "",
+            "name": "score_cast_func",
+            "type": "Union[type, Callable] = float"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "ResponseT"
+        },
+        "signature": "zscan(, name: KeyT,, cursor: int = 0,, match: Union[PatternT, None] = None,, count: Optional[int] = None,, score_cast_func: Union[type, Callable] = float,)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "cursor",
+            "type": "byte[]"
+          }
+        ],
+        "returns": {
+          "description": "OK @deprecated Use Jedis#set(String, String, redis.clients.jedis.params.SetParams) with redis.clients.jedis.params.SetParams#px(long). Deprecated in Jedis 8.0.0. Mirrors Redis deprecation since 2.6.12.",
+          "type": "ScanResult<Tuple>"
+        },
+        "signature": "ScanResult<Tuple> zscan(final byte[] key, final byte[] cursor)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "cursor",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "ScanParams(",
+            "type": "new"
+          }
+        ],
+        "returns": {
+          "description": "OK @deprecated Use Jedis#set(String, String, redis.clients.jedis.params.SetParams) with redis.clients.jedis.params.SetParams#px(long). Deprecated in Jedis 8.0.0. Mirrors Redis deprecation since 2.6.12.",
+          "type": "return"
+        },
+        "signature": "return zscan(key, cursor, new ScanParams()"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "cursor",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "params",
+            "type": "ScanParams"
+          }
+        ],
+        "returns": {
+          "description": "OK @deprecated Use Jedis#set(String, String, redis.clients.jedis.params.SetParams) with redis.clients.jedis.params.SetParams#px(long). Deprecated in Jedis 8.0.0. Mirrors Redis deprecation since 2.6.12.",
+          "type": "ScanResult<Tuple>"
+        },
+        "signature": "ScanResult<Tuple> zscan(final byte[] key, final byte[] cursor, final ScanParams params)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "cursor",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "params",
+            "type": "ScanParams"
+          }
+        ],
+        "returns": {
+          "description": "OK @deprecated Use Jedis#set(String, String, redis.clients.jedis.params.SetParams) with redis.clients.jedis.params.SetParams#px(long). Deprecated in Jedis 8.0.0. Mirrors Redis deprecation since 2.6.12.",
+          "type": "ScanResult<Tuple>"
+        },
+        "signature": "ScanResult<Tuple> zscan(final String key, final String cursor, final ScanParams params)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "StreamScanCursor scan cursor.",
+          "type": "ScoredValueScanCursor<V>"
+        },
+        "signature": "ScoredValueScanCursor<V> zscan(K key)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "scanArgs",
+            "type": "ScanArgs"
+          }
+        ],
+        "returns": {
+          "description": "StreamScanCursor scan cursor.",
+          "type": "ScoredValueScanCursor<V>"
+        },
+        "signature": "ScoredValueScanCursor<V> zscan(K key, ScanArgs scanArgs)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "cursor to resume from a previous scan, must not be null.",
+            "name": "scanCursor",
+            "type": "ScanCursor"
+          },
+          {
+            "description": "",
+            "name": "scanArgs",
+            "type": "ScanArgs"
+          }
+        ],
+        "returns": {
+          "description": "StreamScanCursor scan cursor.",
+          "type": "ScoredValueScanCursor<V>"
+        },
+        "signature": "ScoredValueScanCursor<V> zscan(K key, ScanCursor scanCursor, ScanArgs scanArgs)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "cursor to resume from a previous scan, must not be null.",
+            "name": "scanCursor",
+            "type": "ScanCursor"
+          }
+        ],
+        "returns": {
+          "description": "StreamScanCursor scan cursor.",
+          "type": "ScoredValueScanCursor<V>"
+        },
+        "signature": "ScoredValueScanCursor<V> zscan(K key, ScanCursor scanCursor)"
+      },
+      {
+        "params": [
+          {
+            "description": "streaming channel that receives a call for every scored value.",
+            "name": "channel",
+            "type": "ScoredValueStreamingChannel<V>"
+          },
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "StreamScanCursor scan cursor.",
+          "type": "StreamScanCursor"
+        },
+        "signature": "StreamScanCursor zscan(ScoredValueStreamingChannel<V> channel, K key)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "StreamScanCursor scan cursor.",
+          "type": "RedisFuture<ScoredValueScanCursor<V>>"
+        },
+        "signature": "RedisFuture<ScoredValueScanCursor<V>> zscan(K key)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "scanArgs",
+            "type": "ScanArgs"
+          }
+        ],
+        "returns": {
+          "description": "StreamScanCursor scan cursor.",
+          "type": "RedisFuture<ScoredValueScanCursor<V>>"
+        },
+        "signature": "RedisFuture<ScoredValueScanCursor<V>> zscan(K key, ScanArgs scanArgs)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "cursor to resume from a previous scan, must not be null.",
+            "name": "scanCursor",
+            "type": "ScanCursor"
+          },
+          {
+            "description": "",
+            "name": "scanArgs",
+            "type": "ScanArgs"
+          }
+        ],
+        "returns": {
+          "description": "StreamScanCursor scan cursor.",
+          "type": "RedisFuture<ScoredValueScanCursor<V>>"
+        },
+        "signature": "RedisFuture<ScoredValueScanCursor<V>> zscan(K key, ScanCursor scanCursor, ScanArgs scanArgs)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "cursor to resume from a previous scan, must not be null.",
+            "name": "scanCursor",
+            "type": "ScanCursor"
+          }
+        ],
+        "returns": {
+          "description": "StreamScanCursor scan cursor.",
+          "type": "RedisFuture<ScoredValueScanCursor<V>>"
+        },
+        "signature": "RedisFuture<ScoredValueScanCursor<V>> zscan(K key, ScanCursor scanCursor)"
+      },
+      {
+        "params": [
+          {
+            "description": "streaming channel that receives a call for every scored value.",
+            "name": "channel",
+            "type": "ScoredValueStreamingChannel<V>"
+          },
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "StreamScanCursor scan cursor.",
+          "type": "RedisFuture<StreamScanCursor>"
+        },
+        "signature": "RedisFuture<StreamScanCursor> zscan(ScoredValueStreamingChannel<V> channel, K key)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "StreamScanCursor scan cursor. @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #zscan.",
+          "type": "Mono<ScoredValueScanCursor<V>>"
+        },
+        "signature": "Mono<ScoredValueScanCursor<V>> zscan(K key)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "scanArgs",
+            "type": "ScanArgs"
+          }
+        ],
+        "returns": {
+          "description": "StreamScanCursor scan cursor. @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #zscan.",
+          "type": "Mono<ScoredValueScanCursor<V>>"
+        },
+        "signature": "Mono<ScoredValueScanCursor<V>> zscan(K key, ScanArgs scanArgs)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "cursor to resume from a previous scan, must not be null.",
+            "name": "scanCursor",
+            "type": "ScanCursor"
+          },
+          {
+            "description": "",
+            "name": "scanArgs",
+            "type": "ScanArgs"
+          }
+        ],
+        "returns": {
+          "description": "StreamScanCursor scan cursor. @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #zscan.",
+          "type": "Mono<ScoredValueScanCursor<V>>"
+        },
+        "signature": "Mono<ScoredValueScanCursor<V>> zscan(K key, ScanCursor scanCursor, ScanArgs scanArgs)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "cursor to resume from a previous scan, must not be null.",
+            "name": "scanCursor",
+            "type": "ScanCursor"
+          }
+        ],
+        "returns": {
+          "description": "StreamScanCursor scan cursor. @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #zscan.",
+          "type": "Mono<ScoredValueScanCursor<V>>"
+        },
+        "signature": "Mono<ScoredValueScanCursor<V>> zscan(K key, ScanCursor scanCursor)"
+      },
+      {
+        "params": [
+          {
+            "description": "streaming channel that receives a call for every scored value.",
+            "name": "channel",
+            "type": "ScoredValueStreamingChannel<V>"
+          },
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "StreamScanCursor scan cursor. @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #zscan.",
+          "type": "Mono<StreamScanCursor>"
+        },
+        "signature": "Mono<StreamScanCursor> zscan(ScoredValueStreamingChannel<V> channel, K key)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "cursor",
+            "type": "uint64"
+          },
+          {
+            "description": "",
+            "name": "match",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "int64"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*ScanCmd"
+        },
+        "signature": "ZScan(ctx context.Context, key string, cursor uint64, match string, count int64)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "cursor",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "options?",
+            "type": "ScanCommonOptions"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "ZSCAN(key: RedisArgument, cursor: RedisArgument, options?: ScanCommonOptions)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "cursor",
+            "type": "number | string"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<[cursor"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zscan(key: RedisKey, cursor: number | string, callback?: Callback<[cursor: string, elements: string[]]>)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "cursor",
+            "type": "number | string"
+          },
+          {
+            "description": "",
+            "name": "countToken",
+            "type": "\"COUNT\""
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "number | string"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<[cursor"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zscan(key: RedisKey, cursor: number | string, countToken: \"COUNT\", count: number | string, callback?: Callback<[cursor: string, elements: string[]]>)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "cursor",
+            "type": "number | string"
+          },
+          {
+            "description": "",
+            "name": "patternToken",
+            "type": "\"MATCH\""
+          },
+          {
+            "description": "",
+            "name": "pattern",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<[cursor"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zscan(key: RedisKey, cursor: number | string, patternToken: \"MATCH\", pattern: string, callback?: Callback<[cursor: string, elements: string[]]>)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "cursor",
+            "type": "number | string"
+          },
+          {
+            "description": "",
+            "name": "patternToken",
+            "type": "\"MATCH\""
+          },
+          {
+            "description": "",
+            "name": "pattern",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "countToken",
+            "type": "\"COUNT\""
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "number | string"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<[cursor"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zscan(key: RedisKey, cursor: number | string, patternToken: \"MATCH\", pattern: string, countToken: \"COUNT\", count: number | string, callback?: Callback<[cursor: string, elements: string[]]>)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The key of the sorted set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The pattern to match.",
+            "name": "pattern",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The page size to iterate by.",
+            "name": "pageSize",
+            "type": "int"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "Yields all matching elements of the sorted set.",
+          "type": "IEnumerable<SortedSetEntry>"
+        },
+        "signature": "SortedSetScan(RedisKey key, RedisValue pattern, int pageSize, CommandFlags flags)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the sorted set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The pattern to match.",
+            "name": "pattern",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The page size to iterate by.",
+            "name": "pageSize",
+            "type": "int"
+          },
+          {
+            "description": "The cursor position to start at.",
+            "name": "cursor",
+            "type": "long"
+          },
+          {
+            "description": "The page offset to start at.",
+            "name": "pageOffset",
+            "type": "int"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "Yields all matching elements of the sorted set.",
+          "type": "IEnumerable<SortedSetEntry>"
+        },
+        "signature": "SortedSetScan(RedisKey key, RedisValue pattern = default, int pageSize = RedisBase.CursorUtils.DefaultLibraryPageSize, long cursor = RedisBase.CursorUtils.Origin, int pageOffset = 0, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The key of the sorted set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The pattern to match.",
+            "name": "pattern",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The page size to iterate by.",
+            "name": "pageSize",
+            "type": "int"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "Yields all matching elements of the sorted set.",
+          "type": "IEnumerable<SortedSetEntry>"
+        },
+        "signature": "SortedSetScan(RedisKey key, RedisValue pattern, int pageSize, CommandFlags flags)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the sorted set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The pattern to match.",
+            "name": "pattern",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The page size to iterate by.",
+            "name": "pageSize",
+            "type": "int"
+          },
+          {
+            "description": "The cursor position to start at.",
+            "name": "cursor",
+            "type": "long"
+          },
+          {
+            "description": "The page offset to start at.",
+            "name": "pageOffset",
+            "type": "int"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "Yields all matching elements of the sorted set.",
+          "type": "IEnumerable<SortedSetEntry>"
+        },
+        "signature": "SortedSetScan(RedisKey key, RedisValue pattern = default, int pageSize = RedisBase.CursorUtils.DefaultLibraryPageSize, long cursor = RedisBase.CursorUtils.Origin, int pageOffset = 0, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$cursor",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "?array $options = null",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array"
+        },
+        "signature": "zscan(string $key, int $cursor, ?array $options = null)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "the cursor of the iteration",
+            "name": "cursor",
+            "type": "String, Integer"
+          },
+          {
+            "description": "only return keys matching the pattern",
+            "name": "match",
+            "type": "String"
+          },
+          {
+            "description": "return count keys at most per iteration",
+            "name": "count",
+            "type": "Integer"
+          }
+        ],
+        "returns": {
+          "description": "the next cursor and all found members and scores",
+          "type": "Array"
+        },
+        "signature": "zscan(key, cursor, **options)"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly"
   ],
@@ -75,20 +894,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "See [`SCAN`]() for `ZSCAN` documentation.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): cursor and scan response in array form.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): cursor and scan response in array form.",
+  "content": "See [`SCAN`]() for `ZSCAN` documentation.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"zscan-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): cursor and scan response in array form.\n\n-tab-sep-\n\n[Array reply](../../develop/reference/protocol-spec#arrays): cursor and scan response in array form.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "See [`SCAN`]() for `ZSCAN` documentation.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -103,7 +915,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): cursor and scan response in array form.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): cursor and scan response in array form."
+      "content": "{{< multitabs id=\"zscan-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): cursor and scan response in array form.\n\n-tab-sep-\n\n[Array reply](../../develop/reference/protocol-spec#arrays): cursor and scan response in array form.\n\n{{< /multitabs >}}"
     }
   ]
 }

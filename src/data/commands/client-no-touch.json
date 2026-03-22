@@ -13,6 +13,66 @@
     "@slow",
     "@connection"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "mode",
+            "type": "str"
+          },
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "str"
+        },
+        "signature": "client_no_touch(mode: str, **kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "on",
+            "type": "boolean"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "String"
+        },
+        "signature": "String clientNoTouch(boolean on)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$subcommand",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$args",
+            "type": "mixed"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "string"
+        },
+        "signature": "client(string $subcommand, ...$args)"
+      }
+    ]
+  },
   "commandFlags": [
     "noscript",
     "loading",
@@ -50,20 +110,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "The `CLIENT NO-TOUCH` command controls whether commands sent by the client will alter the LRU/LFU of the keys they access.\n\nWhen turned on, the current client will not change LFU/LRU stats, unless it sends the [`TOUCH`]() command.\n\nWhen turned off, the client touches LFU/LRU stats just as a normal client.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n\n* [Simple string reply](): `OK` if the command was successful.\n* [Simple error reply]() in these cases: wrong number of or invalid arguments.\n\n**RESP3:**\n\nOne of the following:\n\n* [Simple string reply](): `OK` if the command was successful.\n* [Simple error reply]() in these cases: wrong number of or invalid arguments.",
+  "content": "The `CLIENT NO-TOUCH` command controls whether commands sent by the client will alter the LRU/LFU of the keys they access.\n\nWhen turned on, the current client will not change LFU/LRU stats, unless it sends the [`TOUCH`]() command.\n\nWhen turned off, the client touches LFU/LRU stats just as a normal client.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"client-no-touch-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\nOne of the following:\n\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` if the command was successful.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: wrong number of or invalid arguments.\n\n-tab-sep-\n\nOne of the following:\n\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` if the command was successful.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: wrong number of or invalid arguments.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "The `CLIENT NO-TOUCH` command controls whether commands sent by the client will alter the LRU/LFU of the keys they access.\n\nWhen turned on, the current client will not change LFU/LRU stats, unless it sends the [`TOUCH`]() command.\n\nWhen turned off, the client touches LFU/LRU stats just as a normal client.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -78,7 +131,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n\n* [Simple string reply](): `OK` if the command was successful.\n* [Simple error reply]() in these cases: wrong number of or invalid arguments.\n\n**RESP3:**\n\nOne of the following:\n\n* [Simple string reply](): `OK` if the command was successful.\n* [Simple error reply]() in these cases: wrong number of or invalid arguments."
+      "content": "{{< multitabs id=\"client-no-touch-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\nOne of the following:\n\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` if the command was successful.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: wrong number of or invalid arguments.\n\n-tab-sep-\n\nOne of the following:\n\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` if the command was successful.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: wrong number of or invalid arguments.\n\n{{< /multitabs >}}"
     }
   ]
 }

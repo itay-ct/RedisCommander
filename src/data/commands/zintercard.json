@@ -14,6 +14,447 @@
     "@sortedset",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "numkeys",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "List[str]"
+          },
+          {
+            "description": "",
+            "name": "limit",
+            "type": "int = 0"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Union[Awaitable[int], int]"
+        },
+        "signature": "zintercard(numkeys: int, keys: List[str], limit: int = 0)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keys",
+            "type": "byte[]..."
+          }
+        ],
+        "returns": {
+          "description": "A set with members of the resulting set with scores",
+          "type": "long"
+        },
+        "signature": "long zintercard(byte[]... keys)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "limit",
+            "type": "long"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "byte[]..."
+          }
+        ],
+        "returns": {
+          "description": "A set with members of the resulting set with scores",
+          "type": "long"
+        },
+        "signature": "long zintercard(long limit, byte[]... keys)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keys",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "A set with members of the resulting set with scores",
+          "type": "long"
+        },
+        "signature": "long zintercard(String... keys)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "limit",
+            "type": "long"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "A set with members of the resulting set with scores",
+          "type": "long"
+        },
+        "signature": "long zintercard(long limit, String... keys)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "Long Integer reply the number of elements in the resulting intersection. @since 6.2",
+          "type": "Long"
+        },
+        "signature": "Long zintercard(K... keys)"
+      },
+      {
+        "params": [
+          {
+            "description": "If the intersection cardinality reaches limit partway through the computation, the algorithm will exit and",
+            "name": "limit",
+            "type": "long"
+          },
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "Long Integer reply the number of elements in the resulting intersection. @since 6.2",
+          "type": "Long"
+        },
+        "signature": "Long zintercard(long limit, K... keys)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "Long Integer reply the number of elements in the resulting intersection. @since 6.2",
+          "type": "RedisFuture<Long>"
+        },
+        "signature": "RedisFuture<Long> zintercard(K... keys)"
+      },
+      {
+        "params": [
+          {
+            "description": "If the intersection cardinality reaches limit partway through the computation, the algorithm will exit and",
+            "name": "limit",
+            "type": "long"
+          },
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "Long Integer reply the number of elements in the resulting intersection. @since 6.2",
+          "type": "RedisFuture<Long>"
+        },
+        "signature": "RedisFuture<Long> zintercard(long limit, K... keys)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "Long Integer reply the number of elements in the resulting intersection. @since 6.2",
+          "type": "Mono<Long>"
+        },
+        "signature": "Mono<Long> zintercard(K... keys)"
+      },
+      {
+        "params": [
+          {
+            "description": "If the intersection cardinality reaches limit partway through the computation, the algorithm will exit and",
+            "name": "limit",
+            "type": "long"
+          },
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "Long Integer reply the number of elements in the resulting intersection. @since 6.2",
+          "type": "Mono<Long>"
+        },
+        "signature": "Mono<Long> zintercard(long limit, K... keys)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "limit",
+            "type": "int64"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "...string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*IntCmd"
+        },
+        "signature": "ZInterCard(ctx context.Context, limit int64, keys ...string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keys",
+            "type": "RedisVariadicArgument"
+          },
+          {
+            "description": "",
+            "name": "options?",
+            "type": "ZInterCardOptions['LIMIT'] | ZInterCardOptions"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "ZINTERCARD(keys: RedisVariadicArgument, options?: ZInterCardOptions['LIMIT'] | ZInterCardOptions)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, numkeys"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zintercard(...args: [, numkeys: number | string, ...keys: RedisKey[], callback: Callback<number>, ])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, numkeys"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zintercard(...args: [, numkeys: number | string, keys: RedisKey[], callback: Callback<number>, ])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[numkeys"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zintercard(...args: [numkeys: number | string, ...keys: RedisKey[]])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[numkeys"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zintercard(...args: [numkeys: number | string, keys: RedisKey[]])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, numkeys"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zintercard(...args: [, numkeys: number | string, ...keys: RedisKey[], limitToken: \"LIMIT\", limit: number | string, callback: Callback<number>, ])"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The keys of the sorted sets.",
+            "name": "keys",
+            "type": "RedisKey[]"
+          },
+          {
+            "description": "If the intersection cardinality reaches limit partway through the computation, the algorithm will exit and yield limit as the cardinality (defaults to 0 meaning unlimited).",
+            "name": "limit",
+            "type": "long"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The number of elements in the resulting intersection.",
+          "type": "long"
+        },
+        "signature": "SortedSetIntersectionLength(RedisKey[] keys, long limit = 0, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The keys of the sorted sets.",
+            "name": "keys",
+            "type": "RedisKey[]"
+          },
+          {
+            "description": "If the intersection cardinality reaches limit partway through the computation, the algorithm will exit and yield limit as the cardinality (defaults to 0 meaning unlimited).",
+            "name": "limit",
+            "type": "long"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The number of elements in the resulting intersection.",
+          "type": "long"
+        },
+        "signature": "SortedSetIntersectionLength(RedisKey[] keys, long limit = 0, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The keys of the sorted sets.",
+            "name": "keys",
+            "type": "RedisKey[]"
+          },
+          {
+            "description": "If the intersection cardinality reaches limit partway through the computation, the algorithm will exit and yield limit as the cardinality (defaults to 0 meaning unlimited).",
+            "name": "limit",
+            "type": "long"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The number of elements in the resulting intersection.",
+          "type": "long"
+        },
+        "signature": "SortedSetIntersectionLength(RedisKey[] keys, long limit = 0, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The keys of the sorted sets.",
+            "name": "keys",
+            "type": "RedisKey[]"
+          },
+          {
+            "description": "If the intersection cardinality reaches limit partway through the computation, the algorithm will exit and yield limit as the cardinality (defaults to 0 meaning unlimited).",
+            "name": "limit",
+            "type": "long"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The number of elements in the resulting intersection.",
+          "type": "long"
+        },
+        "signature": "SortedSetIntersectionLength(RedisKey[] keys, long limit = 0, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$keys",
+            "type": "array"
+          },
+          {
+            "description": "",
+            "name": "int $limit = 0",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "int"
+        },
+        "signature": "zintercard(array $keys, int $limit = 0)"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly",
     "movablekeys"
@@ -70,34 +511,25 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nThis command is similar to [`ZINTER`](), but instead of returning the result set, it returns just the cardinality of the result.\n\nKeys that do not exist are considered to be empty sets.\nWith one of the keys being an empty set, the resulting set is also empty (since set intersection with an empty set always results in an empty set).\n\nBy default, the command calculates the cardinality of the intersection of all given sets.\nWhen provided with the optional `LIMIT` argument (which defaults to 0 and means unlimited), if the intersection cardinality reaches limit partway through the computation, the algorithm will exit and yield limit as the cardinality.\nSuch implementation ensures a significant speedup for queries where the limit is lower than the actual intersection cardinality.\n\n## Examples\n\n\nZADD zset1 1 \"one\"\nZADD zset1 2 \"two\"\nZADD zset2 1 \"one\"\nZADD zset2 2 \"two\"\nZADD zset2 3 \"three\"\nZINTER 2 zset1 zset2\nZINTERCARD 2 zset1 zset2\nZINTERCARD 2 zset1 zset2 LIMIT 1\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of members in the resulting intersection.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of members in the resulting intersection.",
-  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nThis command is similar to [`ZINTER`](), but instead of returning the result set, it returns just the cardinality of the result.\n\nKeys that do not exist are considered to be empty sets.\nWith one of the keys being an empty set, the resulting set is also empty (since set intersection with an empty set always results in an empty set).\n\nBy default, the command calculates the cardinality of the intersection of all given sets.\nWhen provided with the optional `LIMIT` argument (which defaults to 0 and means unlimited), if the intersection cardinality reaches limit partway through the computation, the algorithm will exit and yield limit as the cardinality.\nSuch implementation ensures a significant speedup for queries where the limit is lower than the actual intersection cardinality.",
+  "content": "This command is similar to [`ZINTER`](), but instead of returning the result set, it returns just the cardinality of the result.\n\nKeys that do not exist are considered to be empty sets.\nWith one of the keys being an empty set, the resulting set is also empty (since set intersection with an empty set always results in an empty set).\n\nBy default, the command calculates the cardinality of the intersection of all given sets.\nWhen provided with the optional `LIMIT` argument (which defaults to 0 and means unlimited), if the intersection cardinality reaches limit partway through the computation, the algorithm will exit and yield limit as the cardinality.\nSuch implementation ensures a significant speedup for queries where the limit is lower than the actual intersection cardinality.\n\n## Examples\n\n{{% redis-cli %}}\nZADD zset1 1 \"one\"\nZADD zset1 2 \"two\"\nZADD zset2 1 \"one\"\nZADD zset2 2 \"two\"\nZADD zset2 3 \"three\"\nZINTER 2 zset1 zset2\nZINTERCARD 2 zset1 zset2\nZINTERCARD 2 zset1 zset2 LIMIT 1\n{{% /redis-cli %}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"zintercard-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of members in the resulting intersection.\n\n-tab-sep-\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of members in the resulting intersection.\n\n{{< /multitabs >}}",
+  "example": "ZADD zset1 1 \"one\"\nZADD zset1 2 \"two\"\nZADD zset2 1 \"one\"\nZADD zset2 2 \"two\"\nZADD zset2 3 \"three\"\nZINTER 2 zset1 zset2\nZINTERCARD 2 zset1 zset2\nZINTERCARD 2 zset1 zset2 LIMIT 1",
+  "intro": "This command is similar to [`ZINTER`](), but instead of returning the result set, it returns just the cardinality of the result.\n\nKeys that do not exist are considered to be empty sets.\nWith one of the keys being an empty set, the resulting set is also empty (since set intersection with an empty set always results in an empty set).\n\nBy default, the command calculates the cardinality of the intersection of all given sets.\nWhen provided with the optional `LIMIT` argument (which defaults to 0 and means unlimited), if the intersection cardinality reaches limit partway through the computation, the algorithm will exit and yield limit as the cardinality.\nSuch implementation ensures a significant speedup for queries where the limit is lower than the actual intersection cardinality.",
+  "notes": [
+    "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information."
+  ],
   "sections": [
     {
       "title": "Overview",
       "level": 1,
-      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nThis command is similar to [`ZINTER`](), but instead of returning the result set, it returns just the cardinality of the result.\n\nKeys that do not exist are considered to be empty sets.\nWith one of the keys being an empty set, the resulting set is also empty (since set intersection with an empty set always results in an empty set).\n\nBy default, the command calculates the cardinality of the intersection of all given sets.\nWhen provided with the optional `LIMIT` argument (which defaults to 0 and means unlimited), if the intersection cardinality reaches limit partway through the computation, the algorithm will exit and yield limit as the cardinality.\nSuch implementation ensures a significant speedup for queries where the limit is lower than the actual intersection cardinality."
+      "content": "This command is similar to [`ZINTER`](), but instead of returning the result set, it returns just the cardinality of the result.\n\nKeys that do not exist are considered to be empty sets.\nWith one of the keys being an empty set, the resulting set is also empty (since set intersection with an empty set always results in an empty set).\n\nBy default, the command calculates the cardinality of the intersection of all given sets.\nWhen provided with the optional `LIMIT` argument (which defaults to 0 and means unlimited), if the intersection cardinality reaches limit partway through the computation, the algorithm will exit and yield limit as the cardinality.\nSuch implementation ensures a significant speedup for queries where the limit is lower than the actual intersection cardinality."
     },
     {
       "title": "Examples",
       "level": 2,
-      "content": "ZADD zset1 1 \"one\"\nZADD zset1 2 \"two\"\nZADD zset2 1 \"one\"\nZADD zset2 2 \"two\"\nZADD zset2 3 \"three\"\nZINTER 2 zset1 zset2\nZINTERCARD 2 zset1 zset2\nZINTERCARD 2 zset1 zset2 LIMIT 1"
+      "content": "{{% redis-cli %}}\nZADD zset1 1 \"one\"\nZADD zset1 2 \"two\"\nZADD zset2 1 \"one\"\nZADD zset2 2 \"two\"\nZADD zset2 3 \"three\"\nZINTER 2 zset1 zset2\nZINTERCARD 2 zset1 zset2\nZINTERCARD 2 zset1 zset2 LIMIT 1\n{{% /redis-cli %}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -107,7 +539,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of members in the resulting intersection.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of members in the resulting intersection."
+      "content": "{{< multitabs id=\"zintercard-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of members in the resulting intersection.\n\n-tab-sep-\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of members in the resulting intersection.\n\n{{< /multitabs >}}"
     }
   ]
 }

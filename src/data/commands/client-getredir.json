@@ -13,6 +13,85 @@
     "@slow",
     "@connection"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "int"
+        },
+        "signature": "client_getredir(**kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "long"
+        },
+        "signature": "long clientGetredir()"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "Long"
+        },
+        "signature": "Long clientGetredir()"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "RedisFuture<Long>"
+        },
+        "signature": "RedisFuture<Long> clientGetredir()"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "Mono<Long>"
+        },
+        "signature": "Mono<Long> clientGetredir()"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$subcommand",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$args",
+            "type": "mixed"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "int"
+        },
+        "signature": "client(string $subcommand, ...$args)"
+      }
+    ]
+  },
   "commandFlags": [
     "noscript",
     "loading",
@@ -31,20 +110,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "This command returns the client ID we are redirecting our\n[tracking]() notifications to. We set a client\nto redirect to when using [`CLIENT TRACKING`]() to enable tracking. However in\norder to avoid forcing client libraries implementations to remember the\nID notifications are redirected to, this command exists in order to improve\nintrospection and allow clients to check later if redirection is active\nand towards which client ID.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` when not redirecting notifications to any client.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if client tracking is not enabled.\n* [Integer reply](../../develop/reference/protocol-spec#integers): the ID of the client to which notification are being redirected.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` when not redirecting notifications to any client.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if client tracking is not enabled.\n* [Integer reply](../../develop/reference/protocol-spec#integers): the ID of the client to which notification are being redirected.",
+  "content": "This command returns the client ID we are redirecting our\n[tracking]() notifications to. We set a client\nto redirect to when using [`CLIENT TRACKING`]() to enable tracking. However in\norder to avoid forcing client libraries implementations to remember the\nID notifications are redirected to, this command exists in order to improve\nintrospection and allow clients to check later if redirection is active\nand towards which client ID.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"client-getredir-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` when not redirecting notifications to any client.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if client tracking is not enabled.\n* [Integer reply](../../develop/reference/protocol-spec#integers): the ID of the client to which notification are being redirected.\n\n-tab-sep-\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` when not redirecting notifications to any client.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if client tracking is not enabled.\n* [Integer reply](../../develop/reference/protocol-spec#integers): the ID of the client to which notification are being redirected.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "This command returns the client ID we are redirecting our\n[tracking]() notifications to. We set a client\nto redirect to when using [`CLIENT TRACKING`]() to enable tracking. However in\norder to avoid forcing client libraries implementations to remember the\nID notifications are redirected to, this command exists in order to improve\nintrospection and allow clients to check later if redirection is active\nand towards which client ID.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -59,7 +131,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` when not redirecting notifications to any client.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if client tracking is not enabled.\n* [Integer reply](../../develop/reference/protocol-spec#integers): the ID of the client to which notification are being redirected.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` when not redirecting notifications to any client.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if client tracking is not enabled.\n* [Integer reply](../../develop/reference/protocol-spec#integers): the ID of the client to which notification are being redirected."
+      "content": "{{< multitabs id=\"client-getredir-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` when not redirecting notifications to any client.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if client tracking is not enabled.\n* [Integer reply](../../develop/reference/protocol-spec#integers): the ID of the client to which notification are being redirected.\n\n-tab-sep-\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` when not redirecting notifications to any client.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if client tracking is not enabled.\n* [Integer reply](../../develop/reference/protocol-spec#integers): the ID of the client to which notification are being redirected.\n\n{{< /multitabs >}}"
     }
   ]
 }

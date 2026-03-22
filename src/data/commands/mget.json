@@ -14,6 +14,324 @@
     "@string",
     "@fast"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keys",
+            "type": "KeysT"
+          },
+          {
+            "description": "",
+            "name": "*args",
+            "type": "EncodableT"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "ResponseT"
+        },
+        "signature": "mget(keys: KeysT, *args: EncodableT)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keys",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "Multi bulk reply",
+          "type": "List<String>"
+        },
+        "signature": "List<String> mget(final String... keys)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "Long array-reply list of values at the specified keys.",
+          "type": "List<KeyValue<K, V>>"
+        },
+        "signature": "List<KeyValue<K, V>> mget(K... keys)"
+      },
+      {
+        "params": [
+          {
+            "description": "the channel.",
+            "name": "channel",
+            "type": "KeyValueStreamingChannel<K, V>"
+          },
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "Long array-reply list of values at the specified keys.",
+          "type": "Long"
+        },
+        "signature": "Long mget(KeyValueStreamingChannel<K, V> channel, K... keys)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "Long array-reply list of values at the specified keys.",
+          "type": "RedisFuture<List<KeyValue<K, V>>>"
+        },
+        "signature": "RedisFuture<List<KeyValue<K, V>>> mget(K... keys)"
+      },
+      {
+        "params": [
+          {
+            "description": "the channel.",
+            "name": "channel",
+            "type": "KeyValueStreamingChannel<K, V>"
+          },
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "Long array-reply list of values at the specified keys.",
+          "type": "RedisFuture<Long>"
+        },
+        "signature": "RedisFuture<Long> mget(KeyValueStreamingChannel<K, V> channel, K... keys)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "Long array-reply list of values at the specified keys. @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #mget.",
+          "type": "Flux<KeyValue<K, V>>"
+        },
+        "signature": "Flux<KeyValue<K, V>> mget(K... keys)"
+      },
+      {
+        "params": [
+          {
+            "description": "the channel.",
+            "name": "channel",
+            "type": "KeyValueStreamingChannel<K, V>"
+          },
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "Long array-reply list of values at the specified keys. @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #mget.",
+          "type": "Mono<Long>"
+        },
+        "signature": "Mono<Long> mget(KeyValueStreamingChannel<K, V> channel, K... keys)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "...string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*SliceCmd"
+        },
+        "signature": "MGet(ctx context.Context, keys ...string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keys",
+            "type": "Array<RedisArgument>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "MGET(keys: Array<RedisArgument>)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[...keys"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "mget(...args: [...keys: RedisKey[], callback: Callback<(string | null)[]>])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[keys"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "mget(...args: [keys: RedisKey[], callback: Callback<(string | null)[]>])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[...keys"
+          },
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[...keys"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "mget(...args: [...keys: RedisKey[]]): Result<(string | null)[], Context>;, mgetBuffer(, ...args: [...keys: RedisKey[]])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[keys"
+          },
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, host"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "mget(...args: [keys: RedisKey[]]): Result<(string | null)[], Context>;, mgetBuffer(...args: [keys: RedisKey[]]): Result<(Buffer | null)[], Context>;, /**, * Atomically transfer a key from a Redis instance to another one., * - _group_: generic, * - _complexity_: This command actually executes a DUMP+DEL in the source instance, and a RESTORE in the target instance. See the pages of these commands for time complexity. Also an O(N) data transfer between the two instances is performed., * - _since_: 2.6.0, */, migrate(, ...args: [, host: string | Buffer, port: number | string, ...args: RedisValue[], callback: Callback<\"OK\">, ])"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Vec<Option<String>>)"
+        },
+        "signature": "mget(key: K)"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Vec<Option<String>>)"
+        },
+        "signature": "mget(key: K)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$keyOrKeys",
+            "type": "string[]|string"
+          },
+          {
+            "description": "",
+            "name": "string ...$keys = null",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array"
+        },
+        "signature": "mget(string[]|string $keyOrKeys, string ...$keys = null)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "*keys",
+            "type": "Array<String>"
+          }
+        ],
+        "returns": {
+          "description": "an array of values for the specified keys",
+          "type": "Array<String>"
+        },
+        "signature": "mget(*keys)"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly",
     "fast"
@@ -58,34 +376,25 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\nReturns the values of all specified keys.\nFor every key that does not hold a string value or does not exist, the special\nvalue `nil` is returned.\nBecause of this, the operation never fails.\n\n## Examples\n\n\nSET key1 \"Hello\"\nSET key2 \"World\"\nMGET key1 key2 nonexisting\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of values at the specified keys.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of values at the specified keys.",
-  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\nReturns the values of all specified keys.\nFor every key that does not hold a string value or does not exist, the special\nvalue `nil` is returned.\nBecause of this, the operation never fails.",
+  "content": "Returns the values of all specified keys.\nFor every key that does not hold a string value or does not exist, the special\nvalue `nil` is returned.\nBecause of this, the operation never fails.\n\n## Examples\n\n{{< clients-example set=\"cmds_string\" step=\"mget\" description=\"Returns the values of all specified keys.\" difficulty=\"beginner\" >}}\n> SET key1 \"Hello\"\n\"OK\"\n> SET key2 \"World\"\n\"OK\"\n> MGET key1 key2 nonexisting\n1) \"Hello\"\n2) \"World\"\n3) (nil)\n{{< /clients-example >}}\n\nGive these commands a try in the interactive console:\n\n{{% redis-cli %}}\nSET key1 \"Hello\"\nSET key2 \"World\"\nMGET key1 key2 nonexisting\n{{% /redis-cli %}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"mget-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of values at the specified keys.\n\n-tab-sep-\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of values at the specified keys.\n\n{{< /multitabs >}}",
+  "example": "> SET key1 \"Hello\"\n\"OK\"\n> SET key2 \"World\"\n\"OK\"\n> MGET key1 key2 nonexisting\n1) \"Hello\"\n2) \"World\"\n3) (nil)",
+  "intro": "Returns the values of all specified keys.\nFor every key that does not hold a string value or does not exist, the special\nvalue `nil` is returned.\nBecause of this, the operation never fails.",
+  "notes": [
+    "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information."
+  ],
   "sections": [
     {
       "title": "Overview",
       "level": 1,
-      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\nReturns the values of all specified keys.\nFor every key that does not hold a string value or does not exist, the special\nvalue `nil` is returned.\nBecause of this, the operation never fails."
+      "content": "Returns the values of all specified keys.\nFor every key that does not hold a string value or does not exist, the special\nvalue `nil` is returned.\nBecause of this, the operation never fails."
     },
     {
       "title": "Examples",
       "level": 2,
-      "content": "SET key1 \"Hello\"\nSET key2 \"World\"\nMGET key1 key2 nonexisting"
+      "content": "{{< clients-example set=\"cmds_string\" step=\"mget\" description=\"Returns the values of all specified keys.\" difficulty=\"beginner\" >}}\n> SET key1 \"Hello\"\n\"OK\"\n> SET key2 \"World\"\n\"OK\"\n> MGET key1 key2 nonexisting\n1) \"Hello\"\n2) \"World\"\n3) (nil)\n{{< /clients-example >}}\n\nGive these commands a try in the interactive console:\n\n{{% redis-cli %}}\nSET key1 \"Hello\"\nSET key2 \"World\"\nMGET key1 key2 nonexisting\n{{% /redis-cli %}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -95,7 +404,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of values at the specified keys.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of values at the specified keys."
+      "content": "{{< multitabs id=\"mget-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of values at the specified keys.\n\n-tab-sep-\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of values at the specified keys.\n\n{{< /multitabs >}}"
     }
   ]
 }

@@ -13,6 +13,160 @@
     "@search",
     "@write"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "The suggestion dictionary key",
+            "name": "key",
+            "type": "str"
+          },
+          {
+            "description": "The suggestion string to delete",
+            "name": "string",
+            "type": "str"
+          }
+        ],
+        "returns": {
+          "description": "1 if the suggestion was deleted, 0 otherwise",
+          "type": "int"
+        },
+        "signature": "sugdel(key: str, string: str)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "The suggestion dictionary key",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "The suggestion string to delete",
+            "name": "string",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "true if the suggestion was deleted",
+          "type": "boolean"
+        },
+        "signature": "boolean ftSugDel(String key, String string)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "The suggestion dictionary key",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "The suggestion string to delete",
+            "name": "suggestion",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "1 if the suggestion was deleted, 0 otherwise",
+          "type": "*IntCmd"
+        },
+        "signature": "FTSugDel(ctx context.Context, key string, suggestion string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "The suggestion dictionary key",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "The suggestion string to delete",
+            "name": "string",
+            "type": "RedisArgument"
+          }
+        ],
+        "returns": {
+          "description": "1 if the suggestion was deleted, 0 otherwise",
+          "type": "Promise<number>"
+        },
+        "signature": "SUGDEL(key: RedisArgument, string: RedisArgument)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The suggestion dictionary key",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "The suggestion string to delete",
+            "name": "str",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "true if the suggestion was deleted",
+          "type": "bool"
+        },
+        "signature": "bool SugDel(string key, string str)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The suggestion dictionary key",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "The suggestion string to delete",
+            "name": "str",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "true if the suggestion was deleted",
+          "type": "Task<bool>"
+        },
+        "signature": "Task<bool> SugDelAsync(string key, string str)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "The suggestion dictionary key",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "The suggestion string to delete",
+            "name": "$string",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "1 if deleted, 0 if not found",
+          "type": "int"
+        },
+        "signature": "ftsugdel(string $key, string $string)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -36,36 +190,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      },
-      {
-        "id": "see-also",
-        "title": "See also"
-      },
-      {
-        "id": "related-topics",
-        "title": "Related topics"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Delete a string from a suggestion index\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open>\n<summary><code>key</code></summary>\n\nis suggestion dictionary key.\n</details>\n\n<details open>\n<summary><code>string</code></summary> \n\nis suggestion string to index.\n</details>\n\n## Examples\n\n<details open>\n<summary><b>Delete a string from a suggestion index</b></summary>\n\n\n127.0.0.1:6379> FT.SUGDEL sug \"hello\"\n(integer) 1\n127.0.0.1:6379> FT.SUGDEL sug \"hello\"\n(integer) 0\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | Not supported on clustered databases. |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](): 1 if the suggestion was deleted, 0 if it was not found.\n\n**RESP3:**\n\n[Integer reply](): 1 if the suggestion was deleted, 0 if it was not found.\n\n\n\n## See also\n\n[`FT.SUGGET`]() | [`FT.SUGADD`]() | [`FT.SUGLEN`]() \n\n## Related topics\n\n[RediSearch]()",
+  "content": "Delete a string from a suggestion index\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open>\n<summary><code>key</code></summary>\n\nis suggestion dictionary key.\n</details>\n\n<details open>\n<summary><code>string</code></summary> \n\nis suggestion string to index.\n</details>\n\n## Examples\n\n<details open>\n<summary><b>Delete a string from a suggestion index</b></summary>\n\n{{< highlight bash >}}\n127.0.0.1:6379> FT.SUGDEL sug \"hello\"\n(integer) 1\n127.0.0.1:6379> FT.SUGDEL sug \"hello\"\n(integer) 0\n{{< / highlight >}}\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | Not supported on clustered databases. |\n\n## Return information\n\n{{< multitabs id=\"ft-sugdel-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): 1 if the suggestion was deleted, 0 if it was not found.\n\n-tab-sep-\n\n[Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): 1 if the suggestion was deleted, 0 if it was not found.\n\n{{< /multitabs >}}\n\n## See also\n\n[`FT.SUGGET`]({{< relref \"commands/ft.sugget/\" >}}) | [`FT.SUGADD`]({{< relref \"commands/ft.sugadd/\" >}}) | [`FT.SUGLEN`]({{< relref \"commands/ft.suglen/\" >}}) \n\n## Related topics\n\n[RediSearch]({{< relref \"/develop/ai/search-and-query/\" >}})",
+  "example": "127.0.0.1:6379> FT.SUGDEL sug \"hello\"\n(integer) 1\n127.0.0.1:6379> FT.SUGDEL sug \"hello\"\n(integer) 0",
   "intro": "Delete a string from a suggestion index\n\n[Examples](#examples)",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -80,7 +211,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "<details open>\n<summary><b>Delete a string from a suggestion index</b></summary>\n\n\n127.0.0.1:6379> FT.SUGDEL sug \"hello\"\n(integer) 1\n127.0.0.1:6379> FT.SUGDEL sug \"hello\"\n(integer) 0\n\n</details>"
+      "content": "<details open>\n<summary><b>Delete a string from a suggestion index</b></summary>\n\n{{< highlight bash >}}\n127.0.0.1:6379> FT.SUGDEL sug \"hello\"\n(integer) 1\n127.0.0.1:6379> FT.SUGDEL sug \"hello\"\n(integer) 0\n{{< / highlight >}}\n</details>"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -90,17 +221,17 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Integer reply](): 1 if the suggestion was deleted, 0 if it was not found.\n\n**RESP3:**\n\n[Integer reply](): 1 if the suggestion was deleted, 0 if it was not found."
+      "content": "{{< multitabs id=\"ft-sugdel-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): 1 if the suggestion was deleted, 0 if it was not found.\n\n-tab-sep-\n\n[Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): 1 if the suggestion was deleted, 0 if it was not found.\n\n{{< /multitabs >}}"
     },
     {
       "title": "See also",
       "level": 2,
-      "content": "[`FT.SUGGET`]() | [`FT.SUGADD`]() | [`FT.SUGLEN`]()"
+      "content": "[`FT.SUGGET`]({{< relref \"commands/ft.sugget/\" >}}) | [`FT.SUGADD`]({{< relref \"commands/ft.sugadd/\" >}}) | [`FT.SUGLEN`]({{< relref \"commands/ft.suglen/\" >}})"
     },
     {
       "title": "Related topics",
       "level": 2,
-      "content": "[RediSearch]()"
+      "content": "[RediSearch]({{< relref \"/develop/ai/search-and-query/\" >}})"
     }
   ]
 }

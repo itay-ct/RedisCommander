@@ -14,6 +14,302 @@
     "@read",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keys",
+            "type": "List[str]"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "str"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List[JsonType]"
+        },
+        "signature": "mget(keys: List[str], path: str)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "*args",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "jsonmget(*args, **kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "clazz",
+            "type": "Class<T>"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "default <T> List<T>"
+        },
+        "signature": "default <T> List<T> jsonMGet(Class<T> clazz, String... keys)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "Path.ROOT_PATH",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "clazz",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "return"
+        },
+        "signature": "return jsonMGet(Path.ROOT_PATH, clazz, keys)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "path",
+            "type": "Path"
+          },
+          {
+            "description": "",
+            "name": "clazz",
+            "type": "Class<T>"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "<T> List<T>"
+        },
+        "signature": "<T> List<T> jsonMGet(Path path, Class<T> clazz, String... keys)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keys",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "default List<JSONArray>"
+        },
+        "signature": "default List<JSONArray> jsonMGet(String... keys)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "Path2.ROOT_PATH",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "return"
+        },
+        "signature": "return jsonMGet(Path2.ROOT_PATH, keys)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the JsonPath pointing to the value to fetch.",
+            "name": "jsonPath",
+            "type": "JsonPath"
+          },
+          {
+            "description": "the keys holding the JsonValues to fetch.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "List<JsonValue> the values at path, or null if the path does not exist. @since 6.5",
+          "type": "List<JsonValue>"
+        },
+        "signature": "List<JsonValue> jsonMGet(JsonPath jsonPath, K... keys)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the JsonPath pointing to the value to fetch.",
+            "name": "jsonPath",
+            "type": "JsonPath"
+          },
+          {
+            "description": "the keys holding the JsonValues to fetch.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "List<JsonValue> the values at path, or null if the path does not exist. @since 6.5",
+          "type": "RedisFuture<List<JsonValue>>"
+        },
+        "signature": "RedisFuture<List<JsonValue>> jsonMGet(JsonPath jsonPath, K... keys)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the JsonPath pointing to the value to fetch.",
+            "name": "jsonPath",
+            "type": "JsonPath"
+          },
+          {
+            "description": "the keys holding the JsonValues to fetch.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "List<JsonValue> the values at path, or null if the path does not exist. @since 6.5",
+          "type": "Flux<JsonValue>"
+        },
+        "signature": "Flux<JsonValue> jsonMGet(JsonPath jsonPath, K... keys)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "...string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*JSONSliceCmd"
+        },
+        "signature": "JSONMGet(ctx context.Context, path string, keys ...string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keys",
+            "type": "Array<RedisArgument>"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "RedisArgument"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "MGET(keys: Array<RedisArgument>, path: RedisArgument)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keys",
+            "type": "RedisKey[]"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "RedisResult[]"
+        },
+        "signature": "MGet(RedisKey[] keys, string path)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$keys",
+            "type": "array"
+          },
+          {
+            "description": "",
+            "name": "$path",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array"
+        },
+        "signature": "jsonmget(array $keys, string $path)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -38,45 +334,20 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "optional-arguments",
-        "title": "Optional arguments"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      },
-      {
-        "id": "see-also",
-        "title": "See also"
-      },
-      {
-        "id": "related-topics",
-        "title": "Related topics"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nReturn the values at `path` from multiple `key` arguments\n\n\nWhen cluster mode is enabled, all specified keys must reside on the same [hash slot](https://redis.io/docs/latest/operate/oss_and_stack/reference/cluster-spec/#key-distribution-model).\n\nWhen the database has more than one shard, and the specified keys reside in different shards, Redis will not report a CROSSSLOT error (to avoid breaking changes) and the results may be partial.\n\n\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open><summary><code>key</code></summary> \n\nis key to parse. Returns `null` for nonexistent keys.\n</details>\n\n## Optional arguments\n\n<details open><summary><code>path</code></summary> \n\nis JSONPath to specify. Returns `null` for nonexistent paths.\n\n</details>\n\n## Examples\n\n<details open>\n<summary><b>Return the values at <code>path</code> from multiple <code>key</code> arguments</b></summary>\n\nCreate two JSON documents.\n\n\nredis> JSON.SET doc1 $ '{\"a\":1, \"b\": 2, \"nested\": {\"a\": 3}, \"c\": null}'\nOK\nredis> JSON.SET doc2 $ '{\"a\":4, \"b\": 5, \"nested\": {\"a\": 6}, \"c\": null}'\nOK\n\n\nGet values from all arguments in the documents.\n\n\nredis> JSON.MGET doc1 doc2 $..a\n1) \"[1,3]\"\n2) \"[4,6]\"\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply]() of [bulk string replies]() or [null replies](), where each element is the JSON serialization of the value at the corresponding key's path, or `null` if the key or path doesn't exist.\n\n**RESP3:**\n\n[Array reply]() of [bulk string replies]() or [null replies](), where each element is the JSON serialization of the value at the corresponding key's path, or `null` if the key or path doesn't exist.\n\n\n\n## See also\n\n[`JSON.SET`]() | [`JSON.GET`]() \n\n## Related topics\n\n* [RedisJSON]()\n* [Index and search JSON documents]()",
-  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nReturn the values at `path` from multiple `key` arguments\n\n\nWhen cluster mode is enabled, all specified keys must reside on the same [hash slot](https://redis.io/docs/latest/operate/oss_and_stack/reference/cluster-spec/#key-distribution-model).\n\nWhen the database has more than one shard, and the specified keys reside in different shards, Redis will not report a CROSSSLOT error (to avoid breaking changes) and the results may be partial.\n\n\n\n[Examples](#examples)",
+  "content": "Return the values at `path` from multiple `key` arguments\n\nWhen cluster mode is enabled, all specified keys must reside on the same [hash slot](https://redis.io/docs/latest/operate/oss_and_stack/reference/cluster-spec/#key-distribution-model).\n\nWhen the database has more than one shard, and the specified keys reside in different shards, Redis will not report a CROSSSLOT error (to avoid breaking changes) and the results may be partial.\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open><summary><code>key</code></summary> \n\nis key to parse. Returns `null` for nonexistent keys.\n</details>\n\n## Optional arguments\n\n<details open><summary><code>path</code></summary> \n\nis JSONPath to specify. Returns `null` for nonexistent paths.\n\n</details>\n\n## Examples\n\n<details open>\n<summary><b>Return the values at <code>path</code> from multiple <code>key</code> arguments</b></summary>\n\nCreate two JSON documents.\n\n{{< highlight bash >}}\nredis> JSON.SET doc1 $ '{\"a\":1, \"b\": 2, \"nested\": {\"a\": 3}, \"c\": null}'\nOK\nredis> JSON.SET doc2 $ '{\"a\":4, \"b\": 5, \"nested\": {\"a\": 6}, \"c\": null}'\nOK\n{{< / highlight >}}\n\nGet values from all arguments in the documents.\n\n{{< highlight bash >}}\nredis> JSON.MGET doc1 doc2 $..a\n1) \"[1,3]\"\n2) \"[4,6]\"\n{{< / highlight >}}\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"json-mget-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\n[Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [bulk string replies]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) or [null replies]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}), where each element is the JSON serialization of the value at the corresponding key's path, or `null` if the key or path doesn't exist.\n\n-tab-sep-\n\n[Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [bulk string replies]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) or [null replies]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}), where each element is the JSON serialization of the value at the corresponding key's path, or `null` if the key or path doesn't exist.\n\n{{< /multitabs >}}\n\n## See also\n\n[`JSON.SET`]({{< relref \"commands/json.set/\" >}}) | [`JSON.GET`]({{< relref \"commands/json.get/\" >}}) \n\n## Related topics\n\n* [RedisJSON]({{< relref \"/develop/data-types/json/\" >}})\n* [Index and search JSON documents]({{< relref \"/develop/ai/search-and-query/indexing/\" >}})",
+  "example": "redis> JSON.SET doc1 $ '{\"a\":1, \"b\": 2, \"nested\": {\"a\": 3}, \"c\": null}'\nOK\nredis> JSON.SET doc2 $ '{\"a\":4, \"b\": 5, \"nested\": {\"a\": 6}, \"c\": null}'\nOK",
+  "intro": "Return the values at `path` from multiple `key` arguments\n\nWhen cluster mode is enabled, all specified keys must reside on the same [hash slot](https://redis.io/docs/latest/operate/oss_and_stack/reference/cluster-spec/#key-distribution-model).\n\nWhen the database has more than one shard, and the specified keys reside in different shards, Redis will not report a CROSSSLOT error (to avoid breaking changes) and the results may be partial.\n\n[Examples](#examples)",
+  "notes": [
+    "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information."
+  ],
   "sections": [
     {
       "title": "Overview",
       "level": 1,
-      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nReturn the values at `path` from multiple `key` arguments\n\n\nWhen cluster mode is enabled, all specified keys must reside on the same [hash slot](https://redis.io/docs/latest/operate/oss_and_stack/reference/cluster-spec/#key-distribution-model).\n\nWhen the database has more than one shard, and the specified keys reside in different shards, Redis will not report a CROSSSLOT error (to avoid breaking changes) and the results may be partial.\n\n\n\n[Examples](#examples)"
+      "content": "Return the values at `path` from multiple `key` arguments\n\nWhen cluster mode is enabled, all specified keys must reside on the same [hash slot](https://redis.io/docs/latest/operate/oss_and_stack/reference/cluster-spec/#key-distribution-model).\n\nWhen the database has more than one shard, and the specified keys reside in different shards, Redis will not report a CROSSSLOT error (to avoid breaking changes) and the results may be partial.\n\n[Examples](#examples)"
     },
     {
       "title": "Required arguments",
@@ -91,7 +362,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "<details open>\n<summary><b>Return the values at <code>path</code> from multiple <code>key</code> arguments</b></summary>\n\nCreate two JSON documents.\n\n\nredis> JSON.SET doc1 $ '{\"a\":1, \"b\": 2, \"nested\": {\"a\": 3}, \"c\": null}'\nOK\nredis> JSON.SET doc2 $ '{\"a\":4, \"b\": 5, \"nested\": {\"a\": 6}, \"c\": null}'\nOK\n\n\nGet values from all arguments in the documents.\n\n\nredis> JSON.MGET doc1 doc2 $..a\n1) \"[1,3]\"\n2) \"[4,6]\"\n\n</details>"
+      "content": "<details open>\n<summary><b>Return the values at <code>path</code> from multiple <code>key</code> arguments</b></summary>\n\nCreate two JSON documents.\n\n{{< highlight bash >}}\nredis> JSON.SET doc1 $ '{\"a\":1, \"b\": 2, \"nested\": {\"a\": 3}, \"c\": null}'\nOK\nredis> JSON.SET doc2 $ '{\"a\":4, \"b\": 5, \"nested\": {\"a\": 6}, \"c\": null}'\nOK\n{{< / highlight >}}\n\nGet values from all arguments in the documents.\n\n{{< highlight bash >}}\nredis> JSON.MGET doc1 doc2 $..a\n1) \"[1,3]\"\n2) \"[4,6]\"\n{{< / highlight >}}\n</details>"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -101,17 +372,17 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Array reply]() of [bulk string replies]() or [null replies](), where each element is the JSON serialization of the value at the corresponding key's path, or `null` if the key or path doesn't exist.\n\n**RESP3:**\n\n[Array reply]() of [bulk string replies]() or [null replies](), where each element is the JSON serialization of the value at the corresponding key's path, or `null` if the key or path doesn't exist."
+      "content": "{{< multitabs id=\"json-mget-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\n[Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [bulk string replies]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) or [null replies]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}), where each element is the JSON serialization of the value at the corresponding key's path, or `null` if the key or path doesn't exist.\n\n-tab-sep-\n\n[Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [bulk string replies]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) or [null replies]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}), where each element is the JSON serialization of the value at the corresponding key's path, or `null` if the key or path doesn't exist.\n\n{{< /multitabs >}}"
     },
     {
       "title": "See also",
       "level": 2,
-      "content": "[`JSON.SET`]() | [`JSON.GET`]()"
+      "content": "[`JSON.SET`]({{< relref \"commands/json.set/\" >}}) | [`JSON.GET`]({{< relref \"commands/json.get/\" >}})"
     },
     {
       "title": "Related topics",
       "level": 2,
-      "content": "* [RedisJSON]()\n* [Index and search JSON documents]()"
+      "content": "* [RedisJSON]({{< relref \"/develop/data-types/json/\" >}})\n* [Index and search JSON documents]({{< relref \"/develop/ai/search-and-query/indexing/\" >}})"
     }
   ]
 }

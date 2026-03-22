@@ -13,6 +13,118 @@
     "@slow",
     "@connection"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "Attribute name",
+            "name": "attr",
+            "type": "str"
+          },
+          {
+            "description": "Attribute value",
+            "name": "value",
+            "type": "str"
+          },
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "ResponseT"
+        },
+        "signature": "client_setinfo(attr: str, value: str, **kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "Attribute option",
+            "name": "attr",
+            "type": "ClientAttributeOption"
+          },
+          {
+            "description": "Attribute value",
+            "name": "value",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "String"
+        },
+        "signature": "String clientSetInfo(ClientAttributeOption attr, String value)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "The key",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "The value",
+            "name": "value",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "String"
+        },
+        "signature": "String clientSetinfo(String key, String value)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "The key",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "The value",
+            "name": "value",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> clientSetinfo(String key, String value)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "The key",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "The value",
+            "name": "value",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> clientSetinfo(String key, String value)"
+      }
+    ]
+  },
   "commandFlags": [
     "noscript",
     "loading",
@@ -50,20 +162,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "The `CLIENT SETINFO` command assigns various info attributes to the current connection which are displayed in the output of [`CLIENT LIST`]() and [`CLIENT INFO`]().\n\nClient libraries are expected to pipeline this command after authentication on all connections\nand ignore failures since they could be connected to an older version that doesn't support them.\n\nCurrently the supported attributes are:\n* `lib-name` - meant to hold the name of the client library that's in use.\n* `lib-ver` - meant to hold the client library's version.\n\nThere is no limit to the length of these attributes. However it is not possible to use spaces, newlines, or other non-printable characters that would violate the format of the [`CLIENT LIST`]() reply.\n\n[Official client libraries](https://redis.io/docs/latest/develop/connect/clients/) allow extending `lib-name` with a custom suffix to expose additional information about the client. \nFor example, high-level libraries like [redis-om-spring](https://github.com/redis/redis-om-spring) can report their version. \nThe resulting `lib-name` would be `jedis(redis-om-spring_v1.0.0)`. \nBrace characters are used to delimit the custom suffix and should be avoided in the suffix itself.\nWe recommend using the following format for the custom suffixes for third-party libraries `(?<custom-name>[ -~]+)[ -~]v(?<custom-version>[\\d\\.]+)` and use `;` to delimit multiple suffixes.\n\nNote that these attributes are **not** cleared by the RESET command.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the attribute name was successfully set.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the attribute name was successfully set.",
+  "content": "The `CLIENT SETINFO` command assigns various info attributes to the current connection which are displayed in the output of [`CLIENT LIST`]() and [`CLIENT INFO`]().\n\nClient libraries are expected to pipeline this command after authentication on all connections\nand ignore failures since they could be connected to an older version that doesn't support them.\n\nCurrently the supported attributes are:\n* `lib-name` - meant to hold the name of the client library that's in use.\n* `lib-ver` - meant to hold the client library's version.\n\nThere is no limit to the length of these attributes. However it is not possible to use spaces, newlines, or other non-printable characters that would violate the format of the [`CLIENT LIST`]() reply.\n\n[Official client libraries](https://redis.io/docs/latest/develop/connect/clients/) allow extending `lib-name` with a custom suffix to expose additional information about the client. \nFor example, high-level libraries like [redis-om-spring](https://github.com/redis/redis-om-spring) can report their version. \nThe resulting `lib-name` would be `jedis(redis-om-spring_v1.0.0)`. \nBrace characters are used to delimit the custom suffix and should be avoided in the suffix itself.\nWe recommend using the following format for the custom suffixes for third-party libraries `(?<custom-name>[ -~]+)[ -~]v(?<custom-version>[\\d\\.]+)` and use `;` to delimit multiple suffixes.\n\nNote that these attributes are **not** cleared by the RESET command.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"client-setinfo-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the attribute name was successfully set.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the attribute name was successfully set.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "The `CLIENT SETINFO` command assigns various info attributes to the current connection which are displayed in the output of [`CLIENT LIST`]() and [`CLIENT INFO`]().\n\nClient libraries are expected to pipeline this command after authentication on all connections\nand ignore failures since they could be connected to an older version that doesn't support them.\n\nCurrently the supported attributes are:\n* `lib-name` - meant to hold the name of the client library that's in use.\n* `lib-ver` - meant to hold the client library's version.\n\nThere is no limit to the length of these attributes. However it is not possible to use spaces, newlines, or other non-printable characters that would violate the format of the [`CLIENT LIST`]() reply.\n\n[Official client libraries](https://redis.io/docs/latest/develop/connect/clients/) allow extending `lib-name` with a custom suffix to expose additional information about the client. \nFor example, high-level libraries like [redis-om-spring](https://github.com/redis/redis-om-spring) can report their version. \nThe resulting `lib-name` would be `jedis(redis-om-spring_v1.0.0)`. \nBrace characters are used to delimit the custom suffix and should be avoided in the suffix itself.\nWe recommend using the following format for the custom suffixes for third-party libraries `(?<custom-name>[ -~]+)[ -~]v(?<custom-version>[\\d\\.]+)` and use `;` to delimit multiple suffixes.\n\nNote that these attributes are **not** cleared by the RESET command.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -78,7 +183,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the attribute name was successfully set.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the attribute name was successfully set."
+      "content": "{{< multitabs id=\"client-setinfo-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the attribute name was successfully set.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the attribute name was successfully set.\n\n{{< /multitabs >}}"
     }
   ]
 }

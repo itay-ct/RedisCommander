@@ -13,6 +13,54 @@
     "@slow",
     "@scripting"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [],
+        "returns": {
+          "description": "Function execution statistics",
+          "type": "Union[Awaitable[List], List]"
+        },
+        "signature": "function_stats()"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "Function execution statistics",
+          "type": "FunctionStats"
+        },
+        "signature": "FunctionStats functionStats()"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context for the operation",
+            "name": "ctx",
+            "type": "context.Context"
+          }
+        ],
+        "returns": {
+          "description": "Function execution statistics",
+          "type": "*FunctionStatsCmd"
+        },
+        "signature": "FunctionStats(ctx context.Context)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "Function execution statistics and engine information",
+          "type": "Promise<FunctionStatsReply>"
+        },
+        "signature": "functionStats()"
+      }
+    ]
+  },
   "commandFlags": [
     "noscript",
     "allow_busy"
@@ -30,20 +78,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Return information about the function that's currently running and information about the available execution engines.\n\nThe reply is map with two keys:\n\n1. `running_script`: information about the running script.\n  If there's no in-flight function, the server replies with a _nil_.\n  Otherwise, this is a map with the following keys:\n  * **name:** the name of the function.\n  * **command:** the command and arguments used for invoking the function.\n  * **duration_ms:** the function's runtime duration in milliseconds.\n2. `engines`: this is a map of maps. Each entry in the map represent a single engine.\n   Engine map contains statistics about the engine like number of functions and number of libraries.\n\nYou can use this command to inspect the invocation of a long-running function and decide whether kill it with the [`FUNCTION KILL`]() command.\n\nFor more information please refer to [Introduction to Redis Functions]().\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): information about the function that's currently running and information about the available execution engines.\n\n**RESP3:**\n\n[Map reply](../../develop/reference/protocol-spec#maps): information about the function that's currently running and information about the available execution engines.",
+  "content": "Return information about the function that's currently running and information about the available execution engines.\n\nThe reply is map with two keys:\n\n1. `running_script`: information about the running script.\n  If there's no in-flight function, the server replies with a _nil_.\n  Otherwise, this is a map with the following keys:\n  * **name:** the name of the function.\n  * **command:** the command and arguments used for invoking the function.\n  * **duration_ms:** the function's runtime duration in milliseconds.\n2. `engines`: this is a map of maps. Each entry in the map represent a single engine.\n   Engine map contains statistics about the engine like number of functions and number of libraries.\n\nYou can use this command to inspect the invocation of a long-running function and decide whether kill it with the [`FUNCTION KILL`]() command.\n\nFor more information please refer to [Introduction to Redis Functions]().\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"function-stats-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): information about the function that's currently running and information about the available execution engines.\n\n-tab-sep-\n\n[Map reply](../../develop/reference/protocol-spec#maps): information about the function that's currently running and information about the available execution engines.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "Return information about the function that's currently running and information about the available execution engines.\n\nThe reply is map with two keys:\n\n1. `running_script`: information about the running script.\n  If there's no in-flight function, the server replies with a _nil_.\n  Otherwise, this is a map with the following keys:\n  * **name:** the name of the function.\n  * **command:** the command and arguments used for invoking the function.\n  * **duration_ms:** the function's runtime duration in milliseconds.\n2. `engines`: this is a map of maps. Each entry in the map represent a single engine.\n   Engine map contains statistics about the engine like number of functions and number of libraries.\n\nYou can use this command to inspect the invocation of a long-running function and decide whether kill it with the [`FUNCTION KILL`]() command.\n\nFor more information please refer to [Introduction to Redis Functions]().",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -58,7 +99,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): information about the function that's currently running and information about the available execution engines.\n\n**RESP3:**\n\n[Map reply](../../develop/reference/protocol-spec#maps): information about the function that's currently running and information about the available execution engines."
+      "content": "{{< multitabs id=\"function-stats-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): information about the function that's currently running and information about the available execution engines.\n\n-tab-sep-\n\n[Map reply](../../develop/reference/protocol-spec#maps): information about the function that's currently running and information about the available execution engines.\n\n{{< /multitabs >}}"
     }
   ]
 }

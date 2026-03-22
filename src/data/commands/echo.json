@@ -13,6 +13,145 @@
     "@fast",
     "@connection"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "The value to echo",
+            "name": "value",
+            "type": "EncodableT"
+          },
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "ResponseT"
+        },
+        "signature": "echo(value: EncodableT, **kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "The string to echo",
+            "name": "string",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "The echoed string",
+          "type": "String"
+        },
+        "signature": "String echo(final String string)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "The message to echo",
+            "name": "message",
+            "type": "interface{}"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StringCmd"
+        },
+        "signature": "Echo(ctx context.Context, message interface{}) *StringCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "The command parser",
+            "name": "parser",
+            "type": "CommandParser"
+          },
+          {
+            "description": "Message to echo back",
+            "name": "message",
+            "type": "RedisArgument"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "BlobStringReply"
+        },
+        "signature": "parseCommand(parser: CommandParser, message: RedisArgument)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The message to echo",
+            "name": "message",
+            "type": "RedisValue"
+          },
+          {
+            "description": "Command flags",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "RedisValue"
+        },
+        "signature": "RedisValue Echo(RedisValue message, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The message to echo",
+            "name": "message",
+            "type": "RedisValue"
+          },
+          {
+            "description": "Command flags",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Task<RedisValue>"
+        },
+        "signature": "Task<RedisValue> EchoAsync(RedisValue message, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "The message to echo",
+            "name": "$message",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "string"
+        },
+        "signature": "echo(string $message)"
+      }
+    ]
+  },
   "commandFlags": [
     "loading",
     "stale",
@@ -37,24 +176,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Returns `message`.\n\n## Examples\n\n\nECHO \"Hello World!\"\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the given string.\n\n**RESP3:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the given string.",
+  "content": "Returns `message`.\n\n## Examples\n\n{{% redis-cli %}}\nECHO \"Hello World!\"\n{{% /redis-cli %}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"echo-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the given string.\n\n-tab-sep-\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the given string.\n\n{{< /multitabs >}}",
+  "example": "ECHO \"Hello World!\"",
   "intro": "Returns `message`.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -64,7 +192,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "ECHO \"Hello World!\""
+      "content": "{{% redis-cli %}}\nECHO \"Hello World!\"\n{{% /redis-cli %}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -74,7 +202,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the given string.\n\n**RESP3:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the given string."
+      "content": "{{< multitabs id=\"echo-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the given string.\n\n-tab-sep-\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the given string.\n\n{{< /multitabs >}}"
     }
   ]
 }

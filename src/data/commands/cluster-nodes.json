@@ -12,6 +12,80 @@
   "aclCategories": [
     "@slow"
   ],
+  "apiMethods": {
+    "jedis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "OK",
+          "type": "String"
+        },
+        "signature": "String clusterNodes()"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StringCmd"
+        },
+        "signature": "ClusterNodes(ctx context.Context)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "The Redis command parser",
+            "name": "parser",
+            "type": "CommandParser"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "VerbatimStringReply"
+        },
+        "signature": "parseCommand(parser: CommandParser)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [],
+        "returns": {
+          "description": "Cluster nodes information",
+          "type": "String"
+        },
+        "signature": "String clusterNodes()"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [],
+        "returns": {
+          "description": "Cluster nodes information",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> clusterNodes()"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [],
+        "returns": {
+          "description": "Cluster nodes information",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> clusterNodes()"
+      }
+    ]
+  },
   "commandFlags": [
     "stale"
   ],
@@ -28,32 +102,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "serialization-format",
-        "title": "Serialization format"
-      },
-      {
-        "id": "notes-on-published-config-epochs",
-        "title": "Notes on published config epochs"
-      },
-      {
-        "id": "special-slot-entries",
-        "title": "Special slot entries"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Each node in a Redis Cluster has its view of the current cluster configuration,\ngiven by the set of known nodes, the state of the connection we have with such\nnodes, their flags, properties and assigned slots, and so forth.\n\n`CLUSTER NODES` provides all this information, that is, the current cluster\nconfiguration of the node we are contacting, in a serialization format which\nhappens to be exactly the same as the one used by Redis Cluster itself in\norder to store on disk the cluster state (however the on disk cluster state\nhas a few additional info appended at the end).\n\nNote that normally clients willing to fetch the map between Cluster\nhash slots and node addresses should use [`CLUSTER SHARDS`]() instead.\n`CLUSTER NODES`, that provides more information, should be used for\nadministrative tasks, debugging, and configuration inspections.\nIt is also used by `redis-cli` in order to manage a cluster.\n\n## Serialization format\n\nThe output of the command is just a space-separated CSV string, where\neach line represents a node in the cluster. The following\nis an example of output on Redis 7.2.0.\n\n```\n07c37dfeb235213a872192d90877d0cd55635b91 127.0.0.1:30004@31004,hostname4 slave e7d1eecce10fd6bb5eb35b9f99a514335d9ba9ca 0 1426238317239 4 connected\n67ed2db8d677e59ec4a4cefb06858cf2a1a89fa1 127.0.0.1:30002@31002,hostname2 master - 0 1426238316232 2 connected 5461-10922\n292f8b365bb7edb5e285caf0b7e6ddc7265d2f4f 127.0.0.1:30003@31003,hostname3 master - 0 1426238318243 3 connected 10923-16383\n6ec23923021cf3ffec47632106199cb7f496ce01 127.0.0.1:30005@31005,hostname5 slave 67ed2db8d677e59ec4a4cefb06858cf2a1a89fa1 0 1426238316232 5 connected\n824fe116063bc5fcf9f4ffd895bc17aee7731ac3 127.0.0.1:30006@31006,hostname6 slave 292f8b365bb7edb5e285caf0b7e6ddc7265d2f4f 0 1426238317741 6 connected\ne7d1eecce10fd6bb5eb35b9f99a514335d9ba9ca 127.0.0.1:30001@31001,hostname1 myself,master - 0 0 1 connected 0-5460\n```\n\nEach line is composed of the following fields:\n\n```\n<id> <ip:port@cport[,hostname]> <flags> <master> <ping-sent> <pong-recv> <config-epoch> <link-state> <slot> <slot> ... <slot>\n```\n\nThe meaning of each field is the following:\n\n1. `id`: The node ID, a 40-character globally unique string generated when a node is created and never changed again (unless `CLUSTER RESET HARD` is used).\n2. `ip:port@cport`: The node address that clients should contact to run queries, along with the used cluster bus port.\n   `:0@0` can be expected when the address is no longer known for this node ID, hence flagged with `noaddr`.\n3. `hostname`: A human readable string that can be configured via the `cluster-annouce-hostname` setting. The max length of the string is 256 characters, excluding the null terminator. The name can contain ASCII alphanumeric characters, '-', and '.' only.\n5. `flags`: A list of comma separated flags: `myself`, `master`, `slave`, `fail?`, `fail`, `handshake`, `noaddr`, `nofailover`, `noflags`. Flags are explained below.\n6. `master`: If the node is a replica, and the primary is known, the primary node ID, otherwise the \"-\" character.\n7. `ping-sent`: Unix time at which the currently active ping was sent, or zero if there are no pending pings, in milliseconds.\n8. `pong-recv`: Unix time the last pong was received, in milliseconds.\n9. `config-epoch`: The configuration epoch (or version) of the current node (or of the current primary if the node is a replica). Each time there is a failover, a new, unique, monotonically increasing configuration epoch is created. If multiple nodes claim to serve the same hash slots, the one with the higher configuration epoch wins.\n10. `link-state`: The state of the link used for the node-to-node cluster bus. Use this link to communicate with the node. Can be `connected` or `disconnected`.\n11. `slot`: A hash slot number or range. Starting from argument number 9, but there may be up to 16384 entries in total (limit never reached). This is the list of hash slots served by this node. If the entry is just a number, it is parsed as such.  If it is a range, it is in the form `start-end`, and means that the node is responsible for all the hash slots from `start` to `end` including the start and end values.\n\nFlags are:\n\n* `myself`: The node you are contacting.\n* `master`: Node is a primary.\n* `slave`: Node is a replica.\n* `fail?`: Node is in `PFAIL` state. Not reachable for the node you are contacting, but still logically reachable (not in `FAIL` state).\n* `fail`: Node is in `FAIL` state. It was not reachable for multiple nodes that promoted the `PFAIL` state to `FAIL`.\n* `handshake`: Untrusted node, we are handshaking.\n* `noaddr`: No address known for this node.\n* `nofailover`: Replica will not try to failover.\n* `noflags`: No flags at all.\n\n## Notes on published config epochs\n\nReplicas broadcast their primary's config epochs (in order to get an `UPDATE`\nmessage if they are found to be stale), so the real config epoch of the\nreplica (which is meaningless more or less, since they don't serve hash slots)\ncan be only obtained checking the node flagged as `myself`, which is the entry\nof the node we are asking to generate `CLUSTER NODES` output. The other\nreplicas epochs reflect what they publish in heartbeat packets, which is, the\nconfiguration epoch of the primaries they are currently replicating.\n\n## Special slot entries\n\nNormally hash slots associated to a given node are in one of the following formats,\nas already explained above:\n\n1. Single number: 3894\n2. Range: 3900-4000\n\nHowever node hash slots can be in a special state, used in order to communicate errors after a node restart (mismatch between the keys in the AOF/RDB file, and the node hash slots configuration), or when there is a resharding operation in progress. This two states are **importing** and **migrating**.\n\nThe meaning of the two states is explained in the Redis Specification, however the gist of the two states is the following:\n\n* **Importing** slots are yet not part of the nodes hash slot, there is a migration in progress. The node will accept queries about these slots only if the `ASK` command is used.\n* **Migrating** slots are assigned to the node, but are being migrated to some other node. The node will accept queries if all the keys in the command exist already, otherwise it will emit what is called an **ASK redirection**, to force new keys creation directly in the importing node.\n\nImporting and migrating slots are emitted in the `CLUSTER NODES` output as follows:\n\n* **Importing slot:** `[slot_number-<-importing_from_node_id]`\n* **Migrating slot:** `[slot_number->-migrating_to_node_id]`\n\nThe following are a few examples of importing and migrating slots:\n\n* `[93-<-292f8b365bb7edb5e285caf0b7e6ddc7265d2f4f]`\n* `[1002-<-67ed2db8d677e59ec4a4cefb06858cf2a1a89fa1]`\n* `[77->-e7d1eecce10fd6bb5eb35b9f99a514335d9ba9ca]`\n* `[16311->-292f8b365bb7edb5e285caf0b7e6ddc7265d2f4f]`\n\nNote that the format does not have any space, so `CLUSTER NODES` output format is plain CSV with space as separator even when this special slots are emitted. However a complete parser for the format should be able to handle them.\n\nNote that:\n\n1. Migration and importing slots are only added to the node flagged as `myself`. This information is local to a node, for its own slots.\n2. Importing and migrating slots are provided as **additional info**. If the node has a given hash slot assigned, it will be also a plain number in the list of hash slots, so clients that don't have a clue about hash slots migrations can just skip this special fields.\n\n**A note about the word slave used in this man page and command name**: Starting with Redis 5, if not for backward compatibility, the Redis project no longer uses the word slave. Unfortunately in this command the word slave is part of the protocol, so we'll be able to remove such occurrences only when this API will be naturally deprecated.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Only supported with the [OSS cluster API](). |\n\n## Return information\n\n**RESP2:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the serialized cluster configuration.\n\n**RESP3:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the serialized cluster configuration.",
+  "content": "Each node in a Redis Cluster has its view of the current cluster configuration,\ngiven by the set of known nodes, the state of the connection we have with such\nnodes, their flags, properties and assigned slots, and so forth.\n\n`CLUSTER NODES` provides all this information, that is, the current cluster\nconfiguration of the node we are contacting, in a serialization format which\nhappens to be exactly the same as the one used by Redis Cluster itself in\norder to store on disk the cluster state (however the on disk cluster state\nhas a few additional info appended at the end).\n\nNote that normally clients willing to fetch the map between Cluster\nhash slots and node addresses should use [`CLUSTER SHARDS`]() instead.\n`CLUSTER NODES`, that provides more information, should be used for\nadministrative tasks, debugging, and configuration inspections.\nIt is also used by `redis-cli` in order to manage a cluster.\n\n## Serialization format\n\nThe output of the command is just a space-separated CSV string, where\neach line represents a node in the cluster. The following\nis an example of output on Redis 7.2.0.\n\n```\n07c37dfeb235213a872192d90877d0cd55635b91 127.0.0.1:30004@31004,hostname4 slave e7d1eecce10fd6bb5eb35b9f99a514335d9ba9ca 0 1426238317239 4 connected\n67ed2db8d677e59ec4a4cefb06858cf2a1a89fa1 127.0.0.1:30002@31002,hostname2 master - 0 1426238316232 2 connected 5461-10922\n292f8b365bb7edb5e285caf0b7e6ddc7265d2f4f 127.0.0.1:30003@31003,hostname3 master - 0 1426238318243 3 connected 10923-16383\n6ec23923021cf3ffec47632106199cb7f496ce01 127.0.0.1:30005@31005,hostname5 slave 67ed2db8d677e59ec4a4cefb06858cf2a1a89fa1 0 1426238316232 5 connected\n824fe116063bc5fcf9f4ffd895bc17aee7731ac3 127.0.0.1:30006@31006,hostname6 slave 292f8b365bb7edb5e285caf0b7e6ddc7265d2f4f 0 1426238317741 6 connected\ne7d1eecce10fd6bb5eb35b9f99a514335d9ba9ca 127.0.0.1:30001@31001,hostname1 myself,master - 0 0 1 connected 0-5460\n```\n\nEach line is composed of the following fields:\n\n```\n<id> <ip:port@cport[,hostname]> <flags> <master> <ping-sent> <pong-recv> <config-epoch> <link-state> <slot> <slot> ... <slot>\n```\n\nThe meaning of each field is the following:\n\n1. `id`: The node ID, a 40-character globally unique string generated when a node is created and never changed again (unless `CLUSTER RESET HARD` is used).\n2. `ip:port@cport`: The node address that clients should contact to run queries, along with the used cluster bus port.\n   `:0@0` can be expected when the address is no longer known for this node ID, hence flagged with `noaddr`.\n3. `hostname`: A human readable string that can be configured via the `cluster-annouce-hostname` setting. The max length of the string is 256 characters, excluding the null terminator. The name can contain ASCII alphanumeric characters, '-', and '.' only.\n5. `flags`: A list of comma separated flags: `myself`, `master`, `slave`, `fail?`, `fail`, `handshake`, `noaddr`, `nofailover`, `noflags`. Flags are explained below.\n6. `master`: If the node is a replica, and the primary is known, the primary node ID, otherwise the \"-\" character.\n7. `ping-sent`: Unix time at which the currently active ping was sent, or zero if there are no pending pings, in milliseconds.\n8. `pong-recv`: Unix time the last pong was received, in milliseconds.\n9. `config-epoch`: The configuration epoch (or version) of the current node (or of the current primary if the node is a replica). Each time there is a failover, a new, unique, monotonically increasing configuration epoch is created. If multiple nodes claim to serve the same hash slots, the one with the higher configuration epoch wins.\n10. `link-state`: The state of the link used for the node-to-node cluster bus. Use this link to communicate with the node. Can be `connected` or `disconnected`.\n11. `slot`: A hash slot number or range. Starting from argument number 9, but there may be up to 16384 entries in total (limit never reached). This is the list of hash slots served by this node. If the entry is just a number, it is parsed as such.  If it is a range, it is in the form `start-end`, and means that the node is responsible for all the hash slots from `start` to `end` including the start and end values.\n\nFlags are:\n\n* `myself`: The node you are contacting.\n* `master`: Node is a primary.\n* `slave`: Node is a replica.\n* `fail?`: Node is in `PFAIL` state. Not reachable for the node you are contacting, but still logically reachable (not in `FAIL` state).\n* `fail`: Node is in `FAIL` state. It was not reachable for multiple nodes that promoted the `PFAIL` state to `FAIL`.\n* `handshake`: Untrusted node, we are handshaking.\n* `noaddr`: No address known for this node.\n* `nofailover`: Replica will not try to failover.\n* `noflags`: No flags at all.\n\n## Notes on published config epochs\n\nReplicas broadcast their primary's config epochs (in order to get an `UPDATE`\nmessage if they are found to be stale), so the real config epoch of the\nreplica (which is meaningless more or less, since they don't serve hash slots)\ncan be only obtained checking the node flagged as `myself`, which is the entry\nof the node we are asking to generate `CLUSTER NODES` output. The other\nreplicas epochs reflect what they publish in heartbeat packets, which is, the\nconfiguration epoch of the primaries they are currently replicating.\n\n## Special slot entries\n\nNormally hash slots associated to a given node are in one of the following formats,\nas already explained above:\n\n1. Single number: 3894\n2. Range: 3900-4000\n\nHowever node hash slots can be in a special state, used in order to communicate errors after a node restart (mismatch between the keys in the AOF/RDB file, and the node hash slots configuration), or when there is a resharding operation in progress. This two states are **importing** and **migrating**.\n\nThe meaning of the two states is explained in the Redis Specification, however the gist of the two states is the following:\n\n* **Importing** slots are yet not part of the nodes hash slot, there is a migration in progress. The node will accept queries about these slots only if the `ASK` command is used.\n* **Migrating** slots are assigned to the node, but are being migrated to some other node. The node will accept queries if all the keys in the command exist already, otherwise it will emit what is called an **ASK redirection**, to force new keys creation directly in the importing node.\n\nImporting and migrating slots are emitted in the `CLUSTER NODES` output as follows:\n\n* **Importing slot:** `[slot_number-<-importing_from_node_id]`\n* **Migrating slot:** `[slot_number->-migrating_to_node_id]`\n\nThe following are a few examples of importing and migrating slots:\n\n* `[93-<-292f8b365bb7edb5e285caf0b7e6ddc7265d2f4f]`\n* `[1002-<-67ed2db8d677e59ec4a4cefb06858cf2a1a89fa1]`\n* `[77->-e7d1eecce10fd6bb5eb35b9f99a514335d9ba9ca]`\n* `[16311->-292f8b365bb7edb5e285caf0b7e6ddc7265d2f4f]`\n\nNote that the format does not have any space, so `CLUSTER NODES` output format is plain CSV with space as separator even when this special slots are emitted. However a complete parser for the format should be able to handle them.\n\nNote that:\n\n1. Migration and importing slots are only added to the node flagged as `myself`. This information is local to a node, for its own slots.\n2. Importing and migrating slots are provided as **additional info**. If the node has a given hash slot assigned, it will be also a plain number in the list of hash slots, so clients that don't have a clue about hash slots migrations can just skip this special fields.\n\n**A note about the word slave used in this man page and command name**: Starting with Redis 5, if not for backward compatibility, the Redis project no longer uses the word slave. Unfortunately in this command the word slave is part of the protocol, so we'll be able to remove such occurrences only when this API will be naturally deprecated.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Only supported with the [OSS cluster API]({{< relref \"/operate/rs/databases/configure/oss-cluster-api\" >}}). |\n\n## Return information\n\n{{< multitabs id=\"cluster-nodes-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the serialized cluster configuration.\n\n-tab-sep-\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the serialized cluster configuration.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "Each node in a Redis Cluster has its view of the current cluster configuration,\ngiven by the set of known nodes, the state of the connection we have with such\nnodes, their flags, properties and assigned slots, and so forth.\n\n`CLUSTER NODES` provides all this information, that is, the current cluster\nconfiguration of the node we are contacting, in a serialization format which\nhappens to be exactly the same as the one used by Redis Cluster itself in\norder to store on disk the cluster state (however the on disk cluster state\nhas a few additional info appended at the end).\n\nNote that normally clients willing to fetch the map between Cluster\nhash slots and node addresses should use [`CLUSTER SHARDS`]() instead.\n`CLUSTER NODES`, that provides more information, should be used for\nadministrative tasks, debugging, and configuration inspections.\nIt is also used by `redis-cli` in order to manage a cluster.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -78,12 +133,12 @@
     {
       "title": "Redis Software and Redis Cloud compatibility",
       "level": 2,
-      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Only supported with the [OSS cluster API](). |"
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Only supported with the [OSS cluster API]({{< relref \"/operate/rs/databases/configure/oss-cluster-api\" >}}). |"
     },
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the serialized cluster configuration.\n\n**RESP3:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the serialized cluster configuration."
+      "content": "{{< multitabs id=\"cluster-nodes-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the serialized cluster configuration.\n\n-tab-sep-\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the serialized cluster configuration.\n\n{{< /multitabs >}}"
     }
   ]
 }

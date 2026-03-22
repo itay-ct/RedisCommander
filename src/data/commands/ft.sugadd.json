@@ -13,6 +13,278 @@
     "@search",
     "@write"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "The suggestion dictionary key",
+            "name": "key",
+            "type": "str"
+          },
+          {
+            "description": "Suggestions to add",
+            "name": "suggestions",
+            "type": "*Suggestion"
+          }
+        ],
+        "returns": {
+          "description": "The current size of the suggestion dictionary",
+          "type": "int"
+        },
+        "signature": "sugadd(key: str, *suggestions: Suggestion)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "The suggestion dictionary key",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "The suggestion string",
+            "name": "string",
+            "type": "String"
+          },
+          {
+            "description": "The suggestion score",
+            "name": "score",
+            "type": "double"
+          }
+        ],
+        "returns": {
+          "description": "The current size of the suggestion dictionary",
+          "type": "long"
+        },
+        "signature": "long ftSugAdd(String key, String string, double score)"
+      },
+      {
+        "params": [
+          {
+            "description": "The suggestion dictionary key",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "The suggestion string",
+            "name": "string",
+            "type": "String"
+          },
+          {
+            "description": "The suggestion score",
+            "name": "score",
+            "type": "double"
+          }
+        ],
+        "returns": {
+          "description": "The current size of the suggestion dictionary",
+          "type": "long"
+        },
+        "signature": "long ftSugAddIncr(String key, String string, double score)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "The suggestion dictionary key",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "The suggestion string",
+            "name": "suggestion",
+            "type": "string"
+          },
+          {
+            "description": "The suggestion score",
+            "name": "score",
+            "type": "float64"
+          }
+        ],
+        "returns": {
+          "description": "The current size of the suggestion dictionary",
+          "type": "*IntCmd"
+        },
+        "signature": "FTSugAdd(ctx context.Context, key string, suggestion string, score float64)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "The suggestion dictionary key",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "The suggestion string",
+            "name": "suggestion",
+            "type": "string"
+          },
+          {
+            "description": "The suggestion score",
+            "name": "score",
+            "type": "float64"
+          },
+          {
+            "description": "Add options",
+            "name": "options",
+            "type": "*FTSugAddOptions"
+          }
+        ],
+        "returns": {
+          "description": "The current size of the suggestion dictionary",
+          "type": "*IntCmd"
+        },
+        "signature": "FTSugAddWithArgs(ctx context.Context, key string, suggestion string, score float64, options *FTSugAddOptions)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "The suggestion dictionary key",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "The suggestion string",
+            "name": "string",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "The suggestion score",
+            "name": "score",
+            "type": "number"
+          },
+          {
+            "description": "Optional add options",
+            "name": "options",
+            "type": "{ INCR?: boolean, PAYLOAD?: RedisArgument }"
+          }
+        ],
+        "returns": {
+          "description": "The current size of the suggestion dictionary",
+          "type": "Promise<number>"
+        },
+        "signature": "SUGADD(key: RedisArgument, string: RedisArgument, score: number, options?: { INCR?: boolean, PAYLOAD?: RedisArgument })"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The suggestion dictionary key",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "The suggestion string",
+            "name": "str",
+            "type": "string"
+          },
+          {
+            "description": "The suggestion score",
+            "name": "score",
+            "type": "double"
+          },
+          {
+            "description": "Whether to increment the score if the suggestion exists",
+            "name": "increment",
+            "type": "bool"
+          },
+          {
+            "description": "Optional payload",
+            "name": "payload",
+            "type": "string?"
+          }
+        ],
+        "returns": {
+          "description": "The current size of the suggestion dictionary",
+          "type": "long"
+        },
+        "signature": "long SugAdd(string key, string str, double score, bool increment = false, string? payload = null)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The suggestion dictionary key",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "The suggestion string",
+            "name": "str",
+            "type": "string"
+          },
+          {
+            "description": "The suggestion score",
+            "name": "score",
+            "type": "double"
+          },
+          {
+            "description": "Whether to increment the score if the suggestion exists",
+            "name": "increment",
+            "type": "bool"
+          },
+          {
+            "description": "Optional payload",
+            "name": "payload",
+            "type": "string?"
+          }
+        ],
+        "returns": {
+          "description": "The current size of the suggestion dictionary",
+          "type": "Task<long>"
+        },
+        "signature": "Task<long> SugAddAsync(string key, string str, double score, bool increment = false, string? payload = null)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "The suggestion dictionary key",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "The suggestion string",
+            "name": "$string",
+            "type": "string"
+          },
+          {
+            "description": "The suggestion score",
+            "name": "$score",
+            "type": "float"
+          },
+          {
+            "description": "Optional arguments (INCR, PAYLOAD)",
+            "name": "$arguments",
+            "type": "?SugAddArguments"
+          }
+        ],
+        "returns": {
+          "description": "The current size of the suggestion dictionary",
+          "type": "int"
+        },
+        "signature": "ftsugadd(string $key, string $string, float $score, ?SugAddArguments $arguments = null)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -58,40 +330,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "optional-arguments",
-        "title": "Optional arguments"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      },
-      {
-        "id": "see-also",
-        "title": "See also"
-      },
-      {
-        "id": "related-topics",
-        "title": "Related topics"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Add a suggestion string to an auto-complete suggestion dictionary\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open>\n<summary><code>key</code></summary>\n\nis suggestion dictionary key.\n</details>\n\n<details open>\n<summary><code>string</code></summary> \n\nis suggestion string to index.\n</details>\n\n<details open>\n<summary><code>score</code></summary> \n\nis floating point number of the suggestion string's weight.\n</details>\n\nThe auto-complete suggestion dictionary is disconnected from the index definitions and leaves creating and updating suggestions dictionaries to the user.\n\n## Optional arguments\n\n<details open>\n<summary><code>INCR</code></summary> \n\nincrements the existing entry of the suggestion by the given score, instead of replacing the score. This is useful for updating the dictionary based on user queries in real time.\n</details>\n\n<details open>\n<summary><code>PAYLOAD {payload}</code></summary> \n\nsaves an extra payload with the suggestion, that can be fetched by adding the `WITHPAYLOADS` argument to [`FT.SUGGET`]().\n</details>\n\n## Examples\n\n<details open>\n<summary><b>Add a suggestion string to an auto-complete suggestion dictionary</b></summary>\n\n\n127.0.0.1:6379> FT.SUGADD sug \"hello world\" 1\n(integer) 3\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | Not supported on clustered databases. |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](): number of elements added to the suggestion dictionary.\n\n**RESP3:**\n\n[Integer reply](): number of elements added to the suggestion dictionary.\n\n\n\n## See also\n\n[`FT.SUGGET`]() | [`FT.SUGDEL`]() | [`FT.SUGLEN`]() \n\n## Related topics\n\n[RediSearch]()",
+  "content": "Add a suggestion string to an auto-complete suggestion dictionary\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open>\n<summary><code>key</code></summary>\n\nis suggestion dictionary key.\n</details>\n\n<details open>\n<summary><code>string</code></summary> \n\nis suggestion string to index.\n</details>\n\n<details open>\n<summary><code>score</code></summary> \n\nis floating point number of the suggestion string's weight.\n</details>\n\nThe auto-complete suggestion dictionary is disconnected from the index definitions and leaves creating and updating suggestions dictionaries to the user.\n\n## Optional arguments\n\n<details open>\n<summary><code>INCR</code></summary> \n\nincrements the existing entry of the suggestion by the given score, instead of replacing the score. This is useful for updating the dictionary based on user queries in real time.\n</details>\n\n<details open>\n<summary><code>PAYLOAD {payload}</code></summary> \n\nsaves an extra payload with the suggestion, that can be fetched by adding the `WITHPAYLOADS` argument to [`FT.SUGGET`]({{< relref \"commands/ft.sugget/\" >}}).\n</details>\n\n## Examples\n\n<details open>\n<summary><b>Add a suggestion string to an auto-complete suggestion dictionary</b></summary>\n\n{{< highlight bash >}}\n127.0.0.1:6379> FT.SUGADD sug \"hello world\" 1\n(integer) 3\n{{< / highlight >}}\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | Not supported on clustered databases. |\n\n## Return information\n\n{{< multitabs id=\"ft-sugadd-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): number of elements added to the suggestion dictionary.\n\n-tab-sep-\n\n[Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): number of elements added to the suggestion dictionary.\n\n{{< /multitabs >}}\n\n## See also\n\n[`FT.SUGGET`]({{< relref \"commands/ft.sugget/\" >}}) | [`FT.SUGDEL`]({{< relref \"commands/ft.sugdel/\" >}}) | [`FT.SUGLEN`]({{< relref \"commands/ft.suglen/\" >}}) \n\n## Related topics\n\n[RediSearch]({{< relref \"/develop/ai/search-and-query/\" >}})",
+  "example": "127.0.0.1:6379> FT.SUGADD sug \"hello world\" 1\n(integer) 3",
   "intro": "Add a suggestion string to an auto-complete suggestion dictionary\n\n[Examples](#examples)",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -106,12 +351,12 @@
     {
       "title": "Optional arguments",
       "level": 2,
-      "content": "<details open>\n<summary><code>INCR</code></summary> \n\nincrements the existing entry of the suggestion by the given score, instead of replacing the score. This is useful for updating the dictionary based on user queries in real time.\n</details>\n\n<details open>\n<summary><code>PAYLOAD {payload}</code></summary> \n\nsaves an extra payload with the suggestion, that can be fetched by adding the `WITHPAYLOADS` argument to [`FT.SUGGET`]().\n</details>"
+      "content": "<details open>\n<summary><code>INCR</code></summary> \n\nincrements the existing entry of the suggestion by the given score, instead of replacing the score. This is useful for updating the dictionary based on user queries in real time.\n</details>\n\n<details open>\n<summary><code>PAYLOAD {payload}</code></summary> \n\nsaves an extra payload with the suggestion, that can be fetched by adding the `WITHPAYLOADS` argument to [`FT.SUGGET`]({{< relref \"commands/ft.sugget/\" >}}).\n</details>"
     },
     {
       "title": "Examples",
       "level": 2,
-      "content": "<details open>\n<summary><b>Add a suggestion string to an auto-complete suggestion dictionary</b></summary>\n\n\n127.0.0.1:6379> FT.SUGADD sug \"hello world\" 1\n(integer) 3\n\n</details>"
+      "content": "<details open>\n<summary><b>Add a suggestion string to an auto-complete suggestion dictionary</b></summary>\n\n{{< highlight bash >}}\n127.0.0.1:6379> FT.SUGADD sug \"hello world\" 1\n(integer) 3\n{{< / highlight >}}\n</details>"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -121,17 +366,17 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Integer reply](): number of elements added to the suggestion dictionary.\n\n**RESP3:**\n\n[Integer reply](): number of elements added to the suggestion dictionary."
+      "content": "{{< multitabs id=\"ft-sugadd-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): number of elements added to the suggestion dictionary.\n\n-tab-sep-\n\n[Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): number of elements added to the suggestion dictionary.\n\n{{< /multitabs >}}"
     },
     {
       "title": "See also",
       "level": 2,
-      "content": "[`FT.SUGGET`]() | [`FT.SUGDEL`]() | [`FT.SUGLEN`]()"
+      "content": "[`FT.SUGGET`]({{< relref \"commands/ft.sugget/\" >}}) | [`FT.SUGDEL`]({{< relref \"commands/ft.sugdel/\" >}}) | [`FT.SUGLEN`]({{< relref \"commands/ft.suglen/\" >}})"
     },
     {
       "title": "Related topics",
       "level": 2,
-      "content": "[RediSearch]()"
+      "content": "[RediSearch]({{< relref \"/develop/ai/search-and-query/\" >}})"
     }
   ]
 }

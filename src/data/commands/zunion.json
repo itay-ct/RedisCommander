@@ -14,6 +14,481 @@
     "@sortedset",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keys",
+            "type": "Union[Sequence[KeyT], Mapping[AnyKeyT, float]]"
+          },
+          {
+            "description": "",
+            "name": "aggregate",
+            "type": "Optional[str] = None"
+          },
+          {
+            "description": "",
+            "name": "withscores",
+            "type": "bool = False"
+          },
+          {
+            "description": "",
+            "name": "score_cast_func",
+            "type": "Union[type, Callable] = float"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "ResponseT"
+        },
+        "signature": "zunion(, keys: Union[Sequence[KeyT], Mapping[AnyKeyT, float]],, aggregate: Optional[str] = None,, withscores: bool = False,, score_cast_func: Union[type, Callable] = float,)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "params",
+            "type": "ZParams"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "A set with members of the resulting set",
+          "type": "List<String>"
+        },
+        "signature": "List<String> zunion(ZParams params, String... keys)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "List&lt;V&gt; array-reply list of elements. @since 6.1",
+          "type": "List<V>"
+        },
+        "signature": "List<V> zunion(K... keys)"
+      },
+      {
+        "params": [
+          {
+            "description": "arguments to define aggregation and weights.",
+            "name": "aggregateArgs",
+            "type": "ZAggregateArgs"
+          },
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "List&lt;V&gt; array-reply list of elements. @since 6.1",
+          "type": "List<V>"
+        },
+        "signature": "List<V> zunion(ZAggregateArgs aggregateArgs, K... keys)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "List&lt;V&gt; array-reply list of elements. @since 6.1",
+          "type": "RedisFuture<List<V>>"
+        },
+        "signature": "RedisFuture<List<V>> zunion(K... keys)"
+      },
+      {
+        "params": [
+          {
+            "description": "arguments to define aggregation and weights.",
+            "name": "aggregateArgs",
+            "type": "ZAggregateArgs"
+          },
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "List&lt;V&gt; array-reply list of elements. @since 6.1",
+          "type": "RedisFuture<List<V>>"
+        },
+        "signature": "RedisFuture<List<V>> zunion(ZAggregateArgs aggregateArgs, K... keys)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "V array-reply list of elements. @since 6.1",
+          "type": "Flux<V>"
+        },
+        "signature": "Flux<V> zunion(K... keys)"
+      },
+      {
+        "params": [
+          {
+            "description": "arguments to define aggregation and weights.",
+            "name": "aggregateArgs",
+            "type": "ZAggregateArgs"
+          },
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "V array-reply list of elements. @since 6.1",
+          "type": "Flux<V>"
+        },
+        "signature": "Flux<V> zunion(ZAggregateArgs aggregateArgs, K... keys)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "store",
+            "type": "ZStore"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StringSliceCmd"
+        },
+        "signature": "ZUnion(ctx context.Context, store ZStore)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keys",
+            "type": "ZKeys"
+          },
+          {
+            "description": "",
+            "name": "options?",
+            "type": "ZUnionOptions"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "ZUNION(keys: ZKeys, options?: ZUnionOptions)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, numkeys"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zunion(...args: [, numkeys: number | string, ...keys: RedisKey[], callback: Callback<string[]>, ])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, numkeys"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zunion(...args: [, numkeys: number | string, keys: RedisKey[], callback: Callback<string[]>, ])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[numkeys"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zunion(...args: [numkeys: number | string, ...keys: RedisKey[]])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[numkeys"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zunion(...args: [numkeys: number | string, keys: RedisKey[]])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, numkeys"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zunion(...args: [, numkeys: number | string, ...keys: RedisKey[], withscores: \"WITHSCORES\", callback: Callback<string[]>, ])"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The operation to perform.",
+            "name": "operation",
+            "type": "SetOperation"
+          },
+          {
+            "description": "The keys of the sorted sets.",
+            "name": "keys",
+            "type": "RedisKey[]"
+          },
+          {
+            "description": "The optional weights per set that correspond to keys.",
+            "name": "weights",
+            "type": "double[]?"
+          },
+          {
+            "description": "The aggregation method (defaults to Sum).",
+            "name": "aggregate",
+            "type": "Aggregate"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The resulting sorted set.",
+          "type": "RedisValue[]"
+        },
+        "signature": "SortedSetCombine(SetOperation operation, RedisKey[] keys, double[]? weights = null, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The operation to perform.",
+            "name": "operation",
+            "type": "SetOperation"
+          },
+          {
+            "description": "The keys of the sorted sets.",
+            "name": "keys",
+            "type": "RedisKey[]"
+          },
+          {
+            "description": "The optional weights per set that correspond to keys.",
+            "name": "weights",
+            "type": "double[]?"
+          },
+          {
+            "description": "The aggregation method (defaults to Sum).",
+            "name": "aggregate",
+            "type": "Aggregate"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The resulting sorted set.",
+          "type": "RedisValue[]"
+        },
+        "signature": "SortedSetCombine(SetOperation operation, RedisKey[] keys, double[]? weights = null, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The operation to perform.",
+            "name": "operation",
+            "type": "SetOperation"
+          },
+          {
+            "description": "The keys of the sorted sets.",
+            "name": "keys",
+            "type": "RedisKey[]"
+          },
+          {
+            "description": "The optional weights per set that correspond to keys.",
+            "name": "weights",
+            "type": "double[]?"
+          },
+          {
+            "description": "The aggregation method (defaults to Sum).",
+            "name": "aggregate",
+            "type": "Aggregate"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The resulting sorted set.",
+          "type": "RedisValue[]"
+        },
+        "signature": "SortedSetCombine(SetOperation operation, RedisKey[] keys, double[]? weights = null, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The operation to perform.",
+            "name": "operation",
+            "type": "SetOperation"
+          },
+          {
+            "description": "The keys of the sorted sets.",
+            "name": "keys",
+            "type": "RedisKey[]"
+          },
+          {
+            "description": "The optional weights per set that correspond to keys.",
+            "name": "weights",
+            "type": "double[]?"
+          },
+          {
+            "description": "The aggregation method (defaults to Sum).",
+            "name": "aggregate",
+            "type": "Aggregate"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The resulting sorted set.",
+          "type": "RedisValue[]"
+        },
+        "signature": "SortedSetCombine(SetOperation operation, RedisKey[] keys, double[]? weights = null, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$keys",
+            "type": "array"
+          },
+          {
+            "description": "",
+            "name": "int[] $weights = []",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "string $aggregate = 'sum'",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "bool $withScores = false",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array"
+        },
+        "signature": "zunion(array $keys, int[] $weights = [], string $aggregate = 'sum', bool $withScores = false)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "one or more keys to union",
+            "name": "*keys",
+            "type": "String, Array<String>"
+          },
+          {
+            "description": "weights to associate with source sorted sets",
+            "name": "weights",
+            "type": "Array<Float>"
+          },
+          {
+            "description": "aggregate function to use (sum, min, max)",
+            "name": "aggregate",
+            "type": "String"
+          },
+          {
+            "description": "include scores in output",
+            "name": "with_scores",
+            "type": "Boolean"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Array<String>, Array<[String, Float]>"
+        },
+        "signature": "zunion(*keys, weights: nil, aggregate: nil, with_scores: false)"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly",
     "movablekeys"
@@ -104,34 +579,25 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nThis command is similar to [`ZUNIONSTORE`](), but instead of storing the resulting\nsorted set, it is returned to the client.\n\nFor a description of the `WEIGHTS` and `AGGREGATE` options, see [`ZUNIONSTORE`]().\n\n## Examples\n\n\nZADD zset1 1 \"one\"\nZADD zset1 2 \"two\"\nZADD zset2 1 \"one\"\nZADD zset2 2 \"two\"\nZADD zset2 3 \"three\"\nZUNION 2 zset1 zset2\nZUNION 2 zset1 zset2 WITHSCORES\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): the result of the union with, optionally, their scores when _WITHSCORES_ is used.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): the result of the union with, optionally, their scores when _WITHSCORES_ is used.",
-  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nThis command is similar to [`ZUNIONSTORE`](), but instead of storing the resulting\nsorted set, it is returned to the client.\n\nFor a description of the `WEIGHTS` and `AGGREGATE` options, see [`ZUNIONSTORE`]().",
+  "content": "This command is similar to [`ZUNIONSTORE`](), but instead of storing the resulting\nsorted set, it is returned to the client.\n\nFor a description of the `WEIGHTS` and `AGGREGATE` options, see [`ZUNIONSTORE`]().\n\n## Examples\n\n{{% redis-cli %}}\nZADD zset1 1 \"one\"\nZADD zset1 2 \"two\"\nZADD zset2 1 \"one\"\nZADD zset2 2 \"two\"\nZADD zset2 3 \"three\"\nZUNION 2 zset1 zset2\nZUNION 2 zset1 zset2 WITHSCORES\n{{% /redis-cli %}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"zunion-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): the result of the union with, optionally, their scores when _WITHSCORES_ is used.\n\n-tab-sep-\n\n[Array reply](../../develop/reference/protocol-spec#arrays): the result of the union with, optionally, their scores when _WITHSCORES_ is used.\n\n{{< /multitabs >}}",
+  "example": "ZADD zset1 1 \"one\"\nZADD zset1 2 \"two\"\nZADD zset2 1 \"one\"\nZADD zset2 2 \"two\"\nZADD zset2 3 \"three\"\nZUNION 2 zset1 zset2\nZUNION 2 zset1 zset2 WITHSCORES",
+  "intro": "This command is similar to [`ZUNIONSTORE`](), but instead of storing the resulting\nsorted set, it is returned to the client.\n\nFor a description of the `WEIGHTS` and `AGGREGATE` options, see [`ZUNIONSTORE`]().",
+  "notes": [
+    "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information."
+  ],
   "sections": [
     {
       "title": "Overview",
       "level": 1,
-      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nThis command is similar to [`ZUNIONSTORE`](), but instead of storing the resulting\nsorted set, it is returned to the client.\n\nFor a description of the `WEIGHTS` and `AGGREGATE` options, see [`ZUNIONSTORE`]()."
+      "content": "This command is similar to [`ZUNIONSTORE`](), but instead of storing the resulting\nsorted set, it is returned to the client.\n\nFor a description of the `WEIGHTS` and `AGGREGATE` options, see [`ZUNIONSTORE`]()."
     },
     {
       "title": "Examples",
       "level": 2,
-      "content": "ZADD zset1 1 \"one\"\nZADD zset1 2 \"two\"\nZADD zset2 1 \"one\"\nZADD zset2 2 \"two\"\nZADD zset2 3 \"three\"\nZUNION 2 zset1 zset2\nZUNION 2 zset1 zset2 WITHSCORES"
+      "content": "{{% redis-cli %}}\nZADD zset1 1 \"one\"\nZADD zset1 2 \"two\"\nZADD zset2 1 \"one\"\nZADD zset2 2 \"two\"\nZADD zset2 3 \"three\"\nZUNION 2 zset1 zset2\nZUNION 2 zset1 zset2 WITHSCORES\n{{% /redis-cli %}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -141,7 +607,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): the result of the union with, optionally, their scores when _WITHSCORES_ is used.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): the result of the union with, optionally, their scores when _WITHSCORES_ is used."
+      "content": "{{< multitabs id=\"zunion-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): the result of the union with, optionally, their scores when _WITHSCORES_ is used.\n\n-tab-sep-\n\n[Array reply](../../develop/reference/protocol-spec#arrays): the result of the union with, optionally, their scores when _WITHSCORES_ is used.\n\n{{< /multitabs >}}"
     }
   ]
 }

@@ -13,6 +13,40 @@
     "@pubsub",
     "@slow"
   ],
+  "apiMethods": {
+    "php": [
+      {
+        "params": [
+          {
+            "description": "Shard channels to unsubscribe from (null for all)",
+            "name": "$shardChannels",
+            "type": "?string..."
+          }
+        ],
+        "returns": {
+          "description": "Unsubscription confirmation messages",
+          "type": "array"
+        },
+        "signature": "sunsubscribe(?string ...$shardChannels = null)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "*channels",
+            "type": "Array<String>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "nil"
+        },
+        "signature": "sunsubscribe(*channels)"
+      }
+    ]
+  },
   "commandFlags": [
     "pubsub",
     "noscript",
@@ -58,20 +92,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Unsubscribes the client from the given shard channels, or from all of them if none is given.\n\nWhen no shard channels are specified, the client is unsubscribed from all the previously subscribed shard channels. \nIn this case a message for every unsubscribed shard channel will be sent to the client. \n\nNote: The global channels and shard channels needs to be unsubscribed from separately.\n\nFor more information about sharded Pub/Sub, see [Sharded Pub/Sub]().\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nWhen successful, this command doesn't return anything. Instead, for each shard channel, one message with the first element being the string `sunsubscribe` is pushed as a confirmation that the command succeeded.\n\n**RESP3:**\n\nWhen successful, this command doesn't return anything. Instead, for each shard channel, one message with the first element being the string `sunsubscribe` is pushed as a confirmation that the command succeeded.",
+  "content": "Unsubscribes the client from the given shard channels, or from all of them if none is given.\n\nWhen no shard channels are specified, the client is unsubscribed from all the previously subscribed shard channels. \nIn this case a message for every unsubscribed shard channel will be sent to the client. \n\nNote: The global channels and shard channels needs to be unsubscribed from separately.\n\nFor more information about sharded Pub/Sub, see [Sharded Pub/Sub]().\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"sunsubscribe-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nWhen successful, this command doesn't return anything. Instead, for each shard channel, one message with the first element being the string `sunsubscribe` is pushed as a confirmation that the command succeeded.\n\n-tab-sep-\n\nWhen successful, this command doesn't return anything. Instead, for each shard channel, one message with the first element being the string `sunsubscribe` is pushed as a confirmation that the command succeeded.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "Unsubscribes the client from the given shard channels, or from all of them if none is given.\n\nWhen no shard channels are specified, the client is unsubscribed from all the previously subscribed shard channels. \nIn this case a message for every unsubscribed shard channel will be sent to the client. \n\nNote: The global channels and shard channels needs to be unsubscribed from separately.\n\nFor more information about sharded Pub/Sub, see [Sharded Pub/Sub]().",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -86,7 +113,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nWhen successful, this command doesn't return anything. Instead, for each shard channel, one message with the first element being the string `sunsubscribe` is pushed as a confirmation that the command succeeded.\n\n**RESP3:**\n\nWhen successful, this command doesn't return anything. Instead, for each shard channel, one message with the first element being the string `sunsubscribe` is pushed as a confirmation that the command succeeded."
+      "content": "{{< multitabs id=\"sunsubscribe-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nWhen successful, this command doesn't return anything. Instead, for each shard channel, one message with the first element being the string `sunsubscribe` is pushed as a confirmation that the command succeeded.\n\n-tab-sep-\n\nWhen successful, this command doesn't return anything. Instead, for each shard channel, one message with the first element being the string `sunsubscribe` is pushed as a confirmation that the command succeeded.\n\n{{< /multitabs >}}"
     }
   ]
 }

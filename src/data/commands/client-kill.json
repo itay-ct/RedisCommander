@@ -15,6 +15,270 @@
     "@dangerous",
     "@connection"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "address",
+            "type": "str"
+          },
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "int"
+        },
+        "signature": "client_kill(address: str, **kwargs)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "_id",
+            "type": "int | None"
+          },
+          {
+            "description": "",
+            "name": "_type",
+            "type": "str | None"
+          },
+          {
+            "description": "",
+            "name": "addr",
+            "type": "str | None"
+          },
+          {
+            "description": "",
+            "name": "skipme",
+            "type": "bool | None"
+          },
+          {
+            "description": "",
+            "name": "laddr",
+            "type": "str | None"
+          },
+          {
+            "description": "",
+            "name": "user",
+            "type": "str | None"
+          },
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "int"
+        },
+        "signature": "client_kill_filter(_id: int | None = None, _type: str | None = None, addr: str | None = None, skipme: bool | None = None, laddr: str | None = None, user: str | None = None, **kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ipPort",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "long"
+        },
+        "signature": "long clientKill(String ipPort)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "params",
+            "type": "ClientKillParams"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "long"
+        },
+        "signature": "long clientKill(ClientKillParams params)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "ipPort",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StatusCmd"
+        },
+        "signature": "ClientKill(ctx context.Context, ipPort string) *StatusCmd"
+      },
+      {
+        "params": [
+          {
+            "description": "Context",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "...string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*IntCmd"
+        },
+        "signature": "ClientKillByFilter(ctx context.Context, keys ...string) *IntCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "One or more filters to match client connections to kill",
+            "name": "filters",
+            "type": "ClientKillFilter | Array<ClientKillFilter>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "NumberReply"
+        },
+        "signature": "clientKill(filters: ClientKillFilter | Array<ClientKillFilter>)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "addr",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "String"
+        },
+        "signature": "String clientKill(String addr)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "killArgs",
+            "type": "KillArgs"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Long"
+        },
+        "signature": "Long clientKill(KillArgs killArgs)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "addr",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> clientKill(String addr)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "killArgs",
+            "type": "KillArgs"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "RedisFuture<Long>"
+        },
+        "signature": "RedisFuture<Long> clientKill(KillArgs killArgs)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "addr",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> clientKill(String addr)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "killArgs",
+            "type": "KillArgs"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Mono<Long>"
+        },
+        "signature": "Mono<Long> clientKill(KillArgs killArgs)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$subcommand",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$args",
+            "type": "mixed"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "int|string"
+        },
+        "signature": "client(string $subcommand, ...$args)"
+      }
+    ]
+  },
   "commandFlags": [
     "admin",
     "noscript",
@@ -153,28 +417,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "client-kill-and-redis-sentinel",
-        "title": "CLIENT KILL and Redis Sentinel"
-      },
-      {
-        "id": "notes",
-        "title": "Notes"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "The `CLIENT KILL` command closes a given client connection. This command support two formats, the old format:\n\n    CLIENT KILL addr:port\n\nThe `ip:port` should match a line returned by the [`CLIENT LIST`]() command (`addr` field).\n\nThe new format:\n\n    CLIENT KILL <filter> <value> ... ... <filter> <value>\n\nWith the new form it is possible to kill clients by different attributes\ninstead of killing just by address. The following filters are available:\n\n* `CLIENT KILL ADDR ip:port`. This is exactly the same as the old three-arguments behavior.\n* `CLIENT KILL LADDR ip:port`. Kill all clients connected to specified local (bind) address.\n* `CLIENT KILL ID client-id`. Allows to kill a client by its unique `ID` field. Client `ID`'s are retrieved using the [`CLIENT LIST`]() command.\n* `CLIENT KILL TYPE type`, where *type* is one of `normal`, `master`, `replica` and `pubsub`. This closes the connections of **all the clients** in the specified class. Note that clients blocked into the [`MONITOR`]() command are considered to belong to the `normal` class.\n* `CLIENT KILL USER username`. Closes all the connections that are authenticated with the specified [ACL]() username, however it returns an error if the username does not map to an existing ACL user.\n* `CLIENT KILL SKIPME yes/no`. By default this option is set to `yes`, that is, the client calling the command will not get killed, however setting this option to `no` will have the effect of also killing the client calling the command.\n* `CLIENT KILL MAXAGE maxage`. Closes all the connections that are older than the specified age, in seconds. Added in Redis v7.4.\n\nIt is possible to provide multiple filters at the same time. The command will handle multiple filters via logical AND. For example:\n\n    CLIENT KILL addr 127.0.0.1:12345 type pubsub\n\nis valid and will kill only a pubsub client with the specified address. This format containing multiple filters is rarely useful currently.\n\nWhen the new form is used the command no longer returns `OK` or an error, but instead the number of killed clients, that may be zero.\n\n## CLIENT KILL and Redis Sentinel\n\nRecent versions of Redis Sentinel (Redis 2.8.12 or greater) use CLIENT KILL\nin order to kill clients when an instance is reconfigured, in order to\nforce clients to perform the handshake with one Sentinel again and update\nits configuration.\n\n## Notes\n\nDue to the single-threaded nature of Redis, it is not possible to\nkill a client connection while it is executing a command. From\nthe client point of view, the connection can never be closed\nin the middle of the execution of a command. However, the client\nwill notice the connection has been closed only when the\nnext command is sent (and results in network error).\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` when called in 3 argument format and the connection has been closed.\n* [Integer reply](../../develop/reference/protocol-spec#integers): when called in filter/value format, the number of clients killed.\n\n**RESP3:**\n\nOne of the following:\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` when called in 3 argument format and the connection has been closed.\n* [Integer reply](../../develop/reference/protocol-spec#integers): when called in filter/value format, the number of clients killed.",
+  "content": "The `CLIENT KILL` command closes a given client connection. This command support two formats, the old format:\n\n    CLIENT KILL addr:port\n\nThe `ip:port` should match a line returned by the [`CLIENT LIST`]() command (`addr` field).\n\nThe new format:\n\n    CLIENT KILL <filter> <value> ... ... <filter> <value>\n\nWith the new form it is possible to kill clients by different attributes\ninstead of killing just by address. The following filters are available:\n\n* `CLIENT KILL ADDR ip:port`. This is exactly the same as the old three-arguments behavior.\n* `CLIENT KILL LADDR ip:port`. Kill all clients connected to specified local (bind) address.\n* `CLIENT KILL ID client-id`. Allows to kill a client by its unique `ID` field. Client `ID`'s are retrieved using the [`CLIENT LIST`]() command.\n* `CLIENT KILL TYPE type`, where *type* is one of `normal`, `master`, `replica` and `pubsub`. This closes the connections of **all the clients** in the specified class. Note that clients blocked into the [`MONITOR`]() command are considered to belong to the `normal` class.\n* `CLIENT KILL USER username`. Closes all the connections that are authenticated with the specified [ACL]() username, however it returns an error if the username does not map to an existing ACL user.\n* `CLIENT KILL SKIPME yes/no`. By default this option is set to `yes`, that is, the client calling the command will not get killed, however setting this option to `no` will have the effect of also killing the client calling the command.\n* `CLIENT KILL MAXAGE maxage`. Closes all the connections that are older than the specified age, in seconds. Added in Redis v7.4.\n\nIt is possible to provide multiple filters at the same time. The command will handle multiple filters via logical AND. For example:\n\n    CLIENT KILL addr 127.0.0.1:12345 type pubsub\n\nis valid and will kill only a pubsub client with the specified address. This format containing multiple filters is rarely useful currently.\n\nWhen the new form is used the command no longer returns `OK` or an error, but instead the number of killed clients, that may be zero.\n\n## CLIENT KILL and Redis Sentinel\n\nRecent versions of Redis Sentinel (Redis 2.8.12 or greater) use CLIENT KILL\nin order to kill clients when an instance is reconfigured, in order to\nforce clients to perform the handshake with one Sentinel again and update\nits configuration.\n\n## Notes\n\nDue to the single-threaded nature of Redis, it is not possible to\nkill a client connection while it is executing a command. From\nthe client point of view, the connection can never be closed\nin the middle of the execution of a command. However, the client\nwill notice the connection has been closed only when the\nnext command is sent (and results in network error).\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"client-kill-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` when called in 3 argument format and the connection has been closed.\n* [Integer reply](../../develop/reference/protocol-spec#integers): when called in filter/value format, the number of clients killed.\n\n-tab-sep-\n\nOne of the following:\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` when called in 3 argument format and the connection has been closed.\n* [Integer reply](../../develop/reference/protocol-spec#integers): when called in filter/value format, the number of clients killed.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "The `CLIENT KILL` command closes a given client connection. This command support two formats, the old format:\n\n    CLIENT KILL addr:port\n\nThe `ip:port` should match a line returned by the [`CLIENT LIST`]() command (`addr` field).\n\nThe new format:\n\n    CLIENT KILL <filter> <value> ... ... <filter> <value>\n\nWith the new form it is possible to kill clients by different attributes\ninstead of killing just by address. The following filters are available:\n\n* `CLIENT KILL ADDR ip:port`. This is exactly the same as the old three-arguments behavior.\n* `CLIENT KILL LADDR ip:port`. Kill all clients connected to specified local (bind) address.\n* `CLIENT KILL ID client-id`. Allows to kill a client by its unique `ID` field. Client `ID`'s are retrieved using the [`CLIENT LIST`]() command.\n* `CLIENT KILL TYPE type`, where *type* is one of `normal`, `master`, `replica` and `pubsub`. This closes the connections of **all the clients** in the specified class. Note that clients blocked into the [`MONITOR`]() command are considered to belong to the `normal` class.\n* `CLIENT KILL USER username`. Closes all the connections that are authenticated with the specified [ACL]() username, however it returns an error if the username does not map to an existing ACL user.\n* `CLIENT KILL SKIPME yes/no`. By default this option is set to `yes`, that is, the client calling the command will not get killed, however setting this option to `no` will have the effect of also killing the client calling the command.\n* `CLIENT KILL MAXAGE maxage`. Closes all the connections that are older than the specified age, in seconds. Added in Redis v7.4.\n\nIt is possible to provide multiple filters at the same time. The command will handle multiple filters via logical AND. For example:\n\n    CLIENT KILL addr 127.0.0.1:12345 type pubsub\n\nis valid and will kill only a pubsub client with the specified address. This format containing multiple filters is rarely useful currently.\n\nWhen the new form is used the command no longer returns `OK` or an error, but instead the number of killed clients, that may be zero.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -199,7 +448,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` when called in 3 argument format and the connection has been closed.\n* [Integer reply](../../develop/reference/protocol-spec#integers): when called in filter/value format, the number of clients killed.\n\n**RESP3:**\n\nOne of the following:\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` when called in 3 argument format and the connection has been closed.\n* [Integer reply](../../develop/reference/protocol-spec#integers): when called in filter/value format, the number of clients killed."
+      "content": "{{< multitabs id=\"client-kill-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` when called in 3 argument format and the connection has been closed.\n* [Integer reply](../../develop/reference/protocol-spec#integers): when called in filter/value format, the number of clients killed.\n\n-tab-sep-\n\nOne of the following:\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` when called in 3 argument format and the connection has been closed.\n* [Integer reply](../../develop/reference/protocol-spec#integers): when called in filter/value format, the number of clients killed.\n\n{{< /multitabs >}}"
     }
   ]
 }

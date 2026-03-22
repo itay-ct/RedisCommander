@@ -14,6 +14,213 @@
     "@read",
     "@fast"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "KeyT"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "int"
+        },
+        "signature": "pttl(name: KeyT)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "byte[]"
+          }
+        ],
+        "returns": {
+          "description": "TTL in milliseconds, or a negative value in order to signal an error",
+          "type": "long"
+        },
+        "signature": "long pttl(final byte[] key)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "TTL in milliseconds, or a negative value in order to signal an error",
+          "type": "long"
+        },
+        "signature": "long pttl(final String key)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*DurationCmd"
+        },
+        "signature": "PTTL(ctx context.Context, key string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "PTTL(key: RedisArgument)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "Long integer-reply TTL in milliseconds, or a negative value in order to signal an error.",
+          "type": "Long"
+        },
+        "signature": "Long pttl(K key)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "Long integer-reply TTL in milliseconds, or a negative value in order to signal an error.",
+          "type": "RedisFuture<Long>"
+        },
+        "signature": "RedisFuture<Long> pttl(K key)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "Long integer-reply TTL in milliseconds, or a negative value in order to signal an error.",
+          "type": "Mono<Long>"
+        },
+        "signature": "Mono<Long> pttl(K key)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The key to check.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The time to live, or null if the key does not exist or has no associated expiration.",
+          "type": "TimeSpan?"
+        },
+        "signature": "KeyTimeToLive(RedisKey key, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The key to check.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The time to live, or null if the key does not exist or has no associated expiration.",
+          "type": "Task<TimeSpan?>"
+        },
+        "signature": "KeyTimeToLiveAsync(RedisKey key, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "int"
+        },
+        "signature": "pttl(string $key)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "remaining time to live in milliseconds",
+          "type": "Integer"
+        },
+        "signature": "pttl(key)"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly",
     "fast"
@@ -57,24 +264,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Like [`TTL`]() this command returns the remaining time to live of a key that has an\nexpire set, with the sole difference that [`TTL`]() returns the amount of remaining\ntime in seconds while `PTTL` returns it in milliseconds.\n\nIn Redis 2.6 or older the command returns `-1` if the key does not exist or if the key exist but has no associated expire.\n\nStarting with Redis 2.8 the return value in case of error changed:\n\n* The command returns `-2` if the key does not exist.\n* The command returns `-1` if the key exists but has no associated expire.\n\n## Examples\n\n\nSET mykey \"Hello\"\nEXPIRE mykey 1\nPTTL mykey\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): TTL in milliseconds.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the key exists but has no associated expiration.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if the key does not exist.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): TTL in milliseconds.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the key exists but has no associated expiration.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if the key does not exist.",
+  "content": "Like [`TTL`]() this command returns the remaining time to live of a key that has an\nexpire set, with the sole difference that [`TTL`]() returns the amount of remaining\ntime in seconds while `PTTL` returns it in milliseconds.\n\nIn Redis 2.6 or older the command returns `-1` if the key does not exist or if the key exist but has no associated expire.\n\nStarting with Redis 2.8 the return value in case of error changed:\n\n* The command returns `-2` if the key does not exist.\n* The command returns `-1` if the key exists but has no associated expire.\n\n## Examples\n\n{{% redis-cli %}}\nSET mykey \"Hello\"\nEXPIRE mykey 1\nPTTL mykey\n{{% /redis-cli %}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"pttl-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): TTL in milliseconds.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the key exists but has no associated expiration.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if the key does not exist.\n\n-tab-sep-\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): TTL in milliseconds.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the key exists but has no associated expiration.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if the key does not exist.\n\n{{< /multitabs >}}",
+  "example": "SET mykey \"Hello\"\nEXPIRE mykey 1\nPTTL mykey",
   "intro": "Like [`TTL`]() this command returns the remaining time to live of a key that has an\nexpire set, with the sole difference that [`TTL`]() returns the amount of remaining\ntime in seconds while `PTTL` returns it in milliseconds.\n\nIn Redis 2.6 or older the command returns `-1` if the key does not exist or if the key exist but has no associated expire.\n\nStarting with Redis 2.8 the return value in case of error changed:\n\n* The command returns `-2` if the key does not exist.\n* The command returns `-1` if the key exists but has no associated expire.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -84,7 +280,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "SET mykey \"Hello\"\nEXPIRE mykey 1\nPTTL mykey"
+      "content": "{{% redis-cli %}}\nSET mykey \"Hello\"\nEXPIRE mykey 1\nPTTL mykey\n{{% /redis-cli %}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -94,7 +290,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): TTL in milliseconds.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the key exists but has no associated expiration.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if the key does not exist.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): TTL in milliseconds.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the key exists but has no associated expiration.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if the key does not exist."
+      "content": "{{< multitabs id=\"pttl-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): TTL in milliseconds.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the key exists but has no associated expiration.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if the key does not exist.\n\n-tab-sep-\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): TTL in milliseconds.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the key exists but has no associated expiration.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if the key does not exist.\n\n{{< /multitabs >}}"
     }
   ]
 }

@@ -14,6 +14,213 @@
     "@read",
     "@fast"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "KeyT"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "str"
+        },
+        "signature": "type(name: KeyT)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "byte[]"
+          }
+        ],
+        "returns": {
+          "description": "type of key, or none when key does not exist.",
+          "type": "String"
+        },
+        "signature": "String type(final byte[] key)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "type of key, or none when key does not exist.",
+          "type": "String"
+        },
+        "signature": "String type(final String key)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StatusCmd"
+        },
+        "signature": "Type(ctx context.Context, key string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "TYPE(key: RedisArgument)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "String simple-string-reply type of key, or none when key does not exist.",
+          "type": "String"
+        },
+        "signature": "String type(K key)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "String simple-string-reply type of key, or none when key does not exist.",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> type(K key)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "String simple-string-reply type of key, or none when key does not exist.",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> type(K key)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The key to check.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The type of the key, or RedisType.None if the key does not exist.",
+          "type": "RedisType"
+        },
+        "signature": "KeyType(RedisKey key, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The key to check.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The type of the key, or RedisType.None if the key does not exist.",
+          "type": "Task<RedisType>"
+        },
+        "signature": "KeyTypeAsync(RedisKey key, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "string"
+        },
+        "signature": "type(string $key)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "string, list, set, zset, hash or none",
+          "type": "String"
+        },
+        "signature": "type(key)"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly",
     "fast"
@@ -56,24 +263,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Returns the string representation of the type of the value stored at `key`.\nThe different types that can be returned are: `string`, `list`, `set`, `zset`,\n`hash`, `stream`, and `vectorset`.\n\n## Examples\n\n\nSET key1 \"value\"\nLPUSH key2 \"value\"\nSADD key3 \"value\"\nTYPE key1\nTYPE key2\nTYPE key3\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): the type of _key_, or `none` when _key_ doesn't exist.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): the type of _key_, or `none` when _key_ doesn't exist.",
+  "content": "Returns the string representation of the type of the value stored at `key`.\nThe different types that can be returned are: `string`, `list`, `set`, `zset`,\n`hash`, `stream`, and `vectorset`.\n\n## Examples\n\n{{% redis-cli %}}\nSET key1 \"value\"\nLPUSH key2 \"value\"\nSADD key3 \"value\"\nTYPE key1\nTYPE key2\nTYPE key3\n{{% /redis-cli %}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"type-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): the type of _key_, or `none` when _key_ doesn't exist.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): the type of _key_, or `none` when _key_ doesn't exist.\n\n{{< /multitabs >}}",
+  "example": "SET key1 \"value\"\nLPUSH key2 \"value\"\nSADD key3 \"value\"\nTYPE key1\nTYPE key2\nTYPE key3",
   "intro": "Returns the string representation of the type of the value stored at `key`.\nThe different types that can be returned are: `string`, `list`, `set`, `zset`,\n`hash`, `stream`, and `vectorset`.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -83,7 +279,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "SET key1 \"value\"\nLPUSH key2 \"value\"\nSADD key3 \"value\"\nTYPE key1\nTYPE key2\nTYPE key3"
+      "content": "{{% redis-cli %}}\nSET key1 \"value\"\nLPUSH key2 \"value\"\nSADD key3 \"value\"\nTYPE key1\nTYPE key2\nTYPE key3\n{{% /redis-cli %}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -93,7 +289,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): the type of _key_, or `none` when _key_ doesn't exist.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): the type of _key_, or `none` when _key_ doesn't exist."
+      "content": "{{< multitabs id=\"type-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): the type of _key_, or `none` when _key_ doesn't exist.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): the type of _key_, or `none` when _key_ doesn't exist.\n\n{{< /multitabs >}}"
     }
   ]
 }

@@ -14,6 +14,337 @@
     "@hyperloglog",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "One or more HyperLogLog keys",
+            "name": "*sources",
+            "type": "KeyT"
+          }
+        ],
+        "returns": {
+          "description": "The approximated number of unique elements observed via PFADD",
+          "type": "ResponseT"
+        },
+        "signature": "pfcount(*sources: KeyT)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "The HyperLogLog key",
+            "name": "key",
+            "type": "byte[]"
+          }
+        ],
+        "returns": {
+          "description": "The approximated number of unique elements",
+          "type": "long"
+        },
+        "signature": "long pfcount(final byte[] key)"
+      },
+      {
+        "params": [
+          {
+            "description": "One or more HyperLogLog keys",
+            "name": "keys",
+            "type": "byte[]..."
+          }
+        ],
+        "returns": {
+          "description": "The approximated number of unique elements across all keys",
+          "type": "long"
+        },
+        "signature": "long pfcount(final byte[]... keys)"
+      },
+      {
+        "params": [
+          {
+            "description": "The HyperLogLog key",
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "The approximated number of unique elements",
+          "type": "long"
+        },
+        "signature": "long pfcount(final String key)"
+      },
+      {
+        "params": [
+          {
+            "description": "One or more HyperLogLog keys",
+            "name": "keys",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "The approximated number of unique elements across all keys",
+          "type": "long"
+        },
+        "signature": "long pfcount(final String... keys)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "The keys",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "The approximated number of unique elements observed via PFADD",
+          "type": "Long"
+        },
+        "signature": "Long pfcount(K... keys)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "The keys",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "The approximated number of unique elements observed via PFADD",
+          "type": "RedisFuture<Long>"
+        },
+        "signature": "RedisFuture<Long> pfcount(K... keys)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "The keys",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "The approximated number of unique elements observed via PFADD",
+          "type": "Mono<Long>"
+        },
+        "signature": "Mono<Long> pfcount(K... keys)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "One or more HyperLogLog keys",
+            "name": "...keys",
+            "type": "RedisKey[]"
+          },
+          {
+            "description": "Optional callback",
+            "name": "callback",
+            "type": "Callback<number>"
+          }
+        ],
+        "returns": {
+          "description": "The approximated number of unique elements",
+          "type": "Result<number, Context>"
+        },
+        "signature": "pfcount(...keys: RedisKey[], callback?: Callback<number>)"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "The HyperLogLog key",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "The approximated number of unique elements",
+          "type": "usize"
+        },
+        "signature": "pfcount(key: K)"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "The HyperLogLog key",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "The approximated number of unique elements",
+          "type": "usize"
+        },
+        "signature": "pfcount(key: K)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The HyperLogLog key",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The flags to use for this operation",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The approximated number of unique elements observed via HyperLogLogAdd",
+          "type": "long"
+        },
+        "signature": "HyperLogLogLength(RedisKey key, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The keys of the HyperLogLogs",
+            "name": "keys",
+            "type": "RedisKey[]"
+          },
+          {
+            "description": "The flags to use for this operation",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The approximated number of unique elements observed via HyperLogLogAdd",
+          "type": "long"
+        },
+        "signature": "HyperLogLogLength(RedisKey[] keys, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The HyperLogLog key",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The flags to use for this operation",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The approximated number of unique elements observed via HyperLogLogAdd",
+          "type": "Task<long>"
+        },
+        "signature": "HyperLogLogLengthAsync(RedisKey key, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The keys of the HyperLogLogs",
+            "name": "keys",
+            "type": "RedisKey[]"
+          },
+          {
+            "description": "The flags to use for this operation",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The approximated number of unique elements observed via HyperLogLogAdd",
+          "type": "Task<long>"
+        },
+        "signature": "HyperLogLogLengthAsync(RedisKey[] keys, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "One or more HyperLogLog keys",
+            "name": "$keyOrKeys",
+            "type": "string[]|string"
+          },
+          {
+            "description": "Additional keys (optional)",
+            "name": "...$keys",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "The approximated number of unique elements",
+          "type": "int"
+        },
+        "signature": "pfcount(string[]|string $keyOrKeys, string ...$keys = null)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context for the command",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "One or more HyperLogLog keys",
+            "name": "keys",
+            "type": "...string"
+          }
+        ],
+        "returns": {
+          "description": "The approximated number of unique elements",
+          "type": "*IntCmd"
+        },
+        "signature": "PFCount(ctx context.Context, keys ...string) *IntCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "One or more keys of HyperLogLog structures to count",
+            "name": "keys",
+            "type": "RedisVariadicArgument"
+          }
+        ],
+        "returns": {
+          "description": "The approximated number of unique elements",
+          "type": "NumberReply"
+        },
+        "signature": "PFCOUNT(keys: RedisVariadicArgument)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "*keys",
+            "type": "String, Array<String>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Integer"
+        },
+        "signature": "pfcount(*keys)"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly"
   ],
@@ -58,34 +389,25 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\nWhen called with a single key, returns the approximated cardinality computed by the HyperLogLog data structure stored at the specified variable, which is 0 if the variable does not exist.\n\nWhen called with multiple keys, returns the approximated cardinality of the union of the HyperLogLogs passed, by internally merging the HyperLogLogs stored at the provided keys into a temporary HyperLogLog.\n\nThe HyperLogLog data structure can be used in order to count **unique** elements in a set using just a small constant amount of memory, specifically 12k bytes for every HyperLogLog (plus a few bytes for the key itself).\n\nThe returned cardinality of the observed set is not exact, but approximated with a standard error of 0.81%.\n\nFor example in order to take the count of all the unique search queries performed in a day, a program needs to call [`PFADD`]() every time a query is processed. The estimated number of unique queries can be retrieved with `PFCOUNT` at any time.\n\nNote: as a side effect of calling this function, it is possible that the HyperLogLog is modified, since the last 8 bytes encode the latest computed cardinality\nfor caching purposes. So `PFCOUNT` is technically a write command.\n\n## Examples\n\n\nPFADD hll foo bar zap\nPFADD hll zap zap zap\nPFADD hll foo bar\nPFCOUNT hll\nPFADD some-other-hll 1 2 3\nPFCOUNT hll some-other-hll\n\n\nPerformances\n---\n\nWhen `PFCOUNT` is called with a single key, performances are excellent even if\nin theory constant times to process a dense HyperLogLog are high. This is\npossible because the `PFCOUNT` uses caching in order to remember the cardinality\npreviously computed, that rarely changes because most [`PFADD`]() operations will\nnot update any register. Hundreds of operations per second are possible.\n\nWhen `PFCOUNT` is called with multiple keys, an on-the-fly merge of the\nHyperLogLogs is performed, which is slow, moreover the cardinality of the union\ncan't be cached, so when used with multiple keys `PFCOUNT` may take a time in\nthe order of magnitude of the millisecond, and should be not abused.\n\nThe user should take in mind that single-key and multiple-keys executions of\nthis command are semantically different and have different performances.\n\nHyperLogLog representation\n---\n\n\n\nRedis HyperLogLogs are represented using a double representation: the *sparse* representation suitable for HLLs counting a small number of elements (resulting in a small number of registers set to non-zero value), and a *dense* representation suitable for higher cardinalities. Redis automatically switches from the sparse to the dense representation when needed.\n\nThe sparse representation uses a run-length encoding optimized to store efficiently a big number of registers set to zero. The dense representation is a Redis string of 12288 bytes in order to store 16384 6-bit counters. The need for the double representation comes from the fact that using 12k (which is the dense representation memory requirement) to encode just a few registers for smaller cardinalities is extremely suboptimal.\n\nBoth representations are prefixed with a 16 bytes header, that includes a magic, an encoding / version field, and the cached cardinality estimation computed, stored in little endian format (the most significant bit is 1 if the estimation is invalid since the HyperLogLog was updated since the cardinality was computed).\n\nThe HyperLogLog, being a Redis string, can be retrieved with [`GET`]() and restored with [`SET`](). Calling [`PFADD`](), `PFCOUNT` or [`PFMERGE`]() commands with a corrupted HyperLogLog is never a problem, it may return random values but does not affect the stability of the server. Most of the times when corrupting a sparse representation, the server recognizes the corruption and returns an error.\n\nThe representation is neutral from the point of view of the processor word size and endianness, so the same representation is used by 32 bit and 64 bit processor, big endian or little endian.\n\nMore details about the Redis HyperLogLog implementation can be found in [this blog post](http://antirez.com/news/75). The source code of the implementation in the `hyperloglog.c` file is also easy to read and understand, and includes a full specification for the exact encoding used for the sparse and dense representations.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the approximated number of unique elements observed via `PFADD`.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the approximated number of unique elements observed via `PFADD`",
-  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\nWhen called with a single key, returns the approximated cardinality computed by the HyperLogLog data structure stored at the specified variable, which is 0 if the variable does not exist.\n\nWhen called with multiple keys, returns the approximated cardinality of the union of the HyperLogLogs passed, by internally merging the HyperLogLogs stored at the provided keys into a temporary HyperLogLog.\n\nThe HyperLogLog data structure can be used in order to count **unique** elements in a set using just a small constant amount of memory, specifically 12k bytes for every HyperLogLog (plus a few bytes for the key itself).\n\nThe returned cardinality of the observed set is not exact, but approximated with a standard error of 0.81%.\n\nFor example in order to take the count of all the unique search queries performed in a day, a program needs to call [`PFADD`]() every time a query is processed. The estimated number of unique queries can be retrieved with `PFCOUNT` at any time.\n\nNote: as a side effect of calling this function, it is possible that the HyperLogLog is modified, since the last 8 bytes encode the latest computed cardinality\nfor caching purposes. So `PFCOUNT` is technically a write command.",
+  "content": "When called with a single key, returns the approximated cardinality computed by the HyperLogLog data structure stored at the specified variable, which is 0 if the variable does not exist.\n\nWhen called with multiple keys, returns the approximated cardinality of the union of the HyperLogLogs passed, by internally merging the HyperLogLogs stored at the provided keys into a temporary HyperLogLog.\n\nThe HyperLogLog data structure can be used in order to count **unique** elements in a set using just a small constant amount of memory, specifically 12k bytes for every HyperLogLog (plus a few bytes for the key itself).\n\nThe returned cardinality of the observed set is not exact, but approximated with a standard error of 0.81%.\n\nFor example in order to take the count of all the unique search queries performed in a day, a program needs to call [`PFADD`]() every time a query is processed. The estimated number of unique queries can be retrieved with `PFCOUNT` at any time.\n\nNote: as a side effect of calling this function, it is possible that the HyperLogLog is modified, since the last 8 bytes encode the latest computed cardinality\nfor caching purposes. So `PFCOUNT` is technically a write command.\n\n## Examples\n\n{{% redis-cli %}}\nPFADD hll foo bar zap\nPFADD hll zap zap zap\nPFADD hll foo bar\nPFCOUNT hll\nPFADD some-other-hll 1 2 3\nPFCOUNT hll some-other-hll\n{{% /redis-cli %}}\n\nPerformances\n---\n\nWhen `PFCOUNT` is called with a single key, performances are excellent even if\nin theory constant times to process a dense HyperLogLog are high. This is\npossible because the `PFCOUNT` uses caching in order to remember the cardinality\npreviously computed, that rarely changes because most [`PFADD`]({{< relref \"/commands/pfadd\" >}}) operations will\nnot update any register. Hundreds of operations per second are possible.\n\nWhen `PFCOUNT` is called with multiple keys, an on-the-fly merge of the\nHyperLogLogs is performed, which is slow, moreover the cardinality of the union\ncan't be cached, so when used with multiple keys `PFCOUNT` may take a time in\nthe order of magnitude of the millisecond, and should be not abused.\n\nThe user should take in mind that single-key and multiple-keys executions of\nthis command are semantically different and have different performances.\n\nHyperLogLog representation\n---\n\n\n\nRedis HyperLogLogs are represented using a double representation: the *sparse* representation suitable for HLLs counting a small number of elements (resulting in a small number of registers set to non-zero value), and a *dense* representation suitable for higher cardinalities. Redis automatically switches from the sparse to the dense representation when needed.\n\nThe sparse representation uses a run-length encoding optimized to store efficiently a big number of registers set to zero. The dense representation is a Redis string of 12288 bytes in order to store 16384 6-bit counters. The need for the double representation comes from the fact that using 12k (which is the dense representation memory requirement) to encode just a few registers for smaller cardinalities is extremely suboptimal.\n\nBoth representations are prefixed with a 16 bytes header, that includes a magic, an encoding / version field, and the cached cardinality estimation computed, stored in little endian format (the most significant bit is 1 if the estimation is invalid since the HyperLogLog was updated since the cardinality was computed).\n\nThe HyperLogLog, being a Redis string, can be retrieved with [`GET`]({{< relref \"/commands/get\" >}}) and restored with [`SET`]({{< relref \"/commands/set\" >}}). Calling [`PFADD`]({{< relref \"/commands/pfadd\" >}}), `PFCOUNT` or [`PFMERGE`]({{< relref \"/commands/pfmerge\" >}}) commands with a corrupted HyperLogLog is never a problem, it may return random values but does not affect the stability of the server. Most of the times when corrupting a sparse representation, the server recognizes the corruption and returns an error.\n\nThe representation is neutral from the point of view of the processor word size and endianness, so the same representation is used by 32 bit and 64 bit processor, big endian or little endian.\n\nMore details about the Redis HyperLogLog implementation can be found in [this blog post](http://antirez.com/news/75). The source code of the implementation in the `hyperloglog.c` file is also easy to read and understand, and includes a full specification for the exact encoding used for the sparse and dense representations.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"pfcount-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the approximated number of unique elements observed via `PFADD`.\n\n-tab-sep-\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the approximated number of unique elements observed via `PFADD`\n\n{{< /multitabs >}}",
+  "example": "PFADD hll foo bar zap\nPFADD hll zap zap zap\nPFADD hll foo bar\nPFCOUNT hll\nPFADD some-other-hll 1 2 3\nPFCOUNT hll some-other-hll",
+  "intro": "When called with a single key, returns the approximated cardinality computed by the HyperLogLog data structure stored at the specified variable, which is 0 if the variable does not exist.\n\nWhen called with multiple keys, returns the approximated cardinality of the union of the HyperLogLogs passed, by internally merging the HyperLogLogs stored at the provided keys into a temporary HyperLogLog.\n\nThe HyperLogLog data structure can be used in order to count **unique** elements in a set using just a small constant amount of memory, specifically 12k bytes for every HyperLogLog (plus a few bytes for the key itself).\n\nThe returned cardinality of the observed set is not exact, but approximated with a standard error of 0.81%.\n\nFor example in order to take the count of all the unique search queries performed in a day, a program needs to call [`PFADD`]() every time a query is processed. The estimated number of unique queries can be retrieved with `PFCOUNT` at any time.\n\nNote: as a side effect of calling this function, it is possible that the HyperLogLog is modified, since the last 8 bytes encode the latest computed cardinality\nfor caching purposes. So `PFCOUNT` is technically a write command.",
+  "notes": [
+    "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information."
+  ],
   "sections": [
     {
       "title": "Overview",
       "level": 1,
-      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\nWhen called with a single key, returns the approximated cardinality computed by the HyperLogLog data structure stored at the specified variable, which is 0 if the variable does not exist.\n\nWhen called with multiple keys, returns the approximated cardinality of the union of the HyperLogLogs passed, by internally merging the HyperLogLogs stored at the provided keys into a temporary HyperLogLog.\n\nThe HyperLogLog data structure can be used in order to count **unique** elements in a set using just a small constant amount of memory, specifically 12k bytes for every HyperLogLog (plus a few bytes for the key itself).\n\nThe returned cardinality of the observed set is not exact, but approximated with a standard error of 0.81%.\n\nFor example in order to take the count of all the unique search queries performed in a day, a program needs to call [`PFADD`]() every time a query is processed. The estimated number of unique queries can be retrieved with `PFCOUNT` at any time.\n\nNote: as a side effect of calling this function, it is possible that the HyperLogLog is modified, since the last 8 bytes encode the latest computed cardinality\nfor caching purposes. So `PFCOUNT` is technically a write command."
+      "content": "When called with a single key, returns the approximated cardinality computed by the HyperLogLog data structure stored at the specified variable, which is 0 if the variable does not exist.\n\nWhen called with multiple keys, returns the approximated cardinality of the union of the HyperLogLogs passed, by internally merging the HyperLogLogs stored at the provided keys into a temporary HyperLogLog.\n\nThe HyperLogLog data structure can be used in order to count **unique** elements in a set using just a small constant amount of memory, specifically 12k bytes for every HyperLogLog (plus a few bytes for the key itself).\n\nThe returned cardinality of the observed set is not exact, but approximated with a standard error of 0.81%.\n\nFor example in order to take the count of all the unique search queries performed in a day, a program needs to call [`PFADD`]() every time a query is processed. The estimated number of unique queries can be retrieved with `PFCOUNT` at any time.\n\nNote: as a side effect of calling this function, it is possible that the HyperLogLog is modified, since the last 8 bytes encode the latest computed cardinality\nfor caching purposes. So `PFCOUNT` is technically a write command."
     },
     {
       "title": "Examples",
       "level": 2,
-      "content": "PFADD hll foo bar zap\nPFADD hll zap zap zap\nPFADD hll foo bar\nPFCOUNT hll\nPFADD some-other-hll 1 2 3\nPFCOUNT hll some-other-hll\n\n\nPerformances\n---\n\nWhen `PFCOUNT` is called with a single key, performances are excellent even if\nin theory constant times to process a dense HyperLogLog are high. This is\npossible because the `PFCOUNT` uses caching in order to remember the cardinality\npreviously computed, that rarely changes because most [`PFADD`]() operations will\nnot update any register. Hundreds of operations per second are possible.\n\nWhen `PFCOUNT` is called with multiple keys, an on-the-fly merge of the\nHyperLogLogs is performed, which is slow, moreover the cardinality of the union\ncan't be cached, so when used with multiple keys `PFCOUNT` may take a time in\nthe order of magnitude of the millisecond, and should be not abused.\n\nThe user should take in mind that single-key and multiple-keys executions of\nthis command are semantically different and have different performances.\n\nHyperLogLog representation\n---\n\n\n\nRedis HyperLogLogs are represented using a double representation: the *sparse* representation suitable for HLLs counting a small number of elements (resulting in a small number of registers set to non-zero value), and a *dense* representation suitable for higher cardinalities. Redis automatically switches from the sparse to the dense representation when needed.\n\nThe sparse representation uses a run-length encoding optimized to store efficiently a big number of registers set to zero. The dense representation is a Redis string of 12288 bytes in order to store 16384 6-bit counters. The need for the double representation comes from the fact that using 12k (which is the dense representation memory requirement) to encode just a few registers for smaller cardinalities is extremely suboptimal.\n\nBoth representations are prefixed with a 16 bytes header, that includes a magic, an encoding / version field, and the cached cardinality estimation computed, stored in little endian format (the most significant bit is 1 if the estimation is invalid since the HyperLogLog was updated since the cardinality was computed).\n\nThe HyperLogLog, being a Redis string, can be retrieved with [`GET`]() and restored with [`SET`](). Calling [`PFADD`](), `PFCOUNT` or [`PFMERGE`]() commands with a corrupted HyperLogLog is never a problem, it may return random values but does not affect the stability of the server. Most of the times when corrupting a sparse representation, the server recognizes the corruption and returns an error.\n\nThe representation is neutral from the point of view of the processor word size and endianness, so the same representation is used by 32 bit and 64 bit processor, big endian or little endian.\n\nMore details about the Redis HyperLogLog implementation can be found in [this blog post](http://antirez.com/news/75). The source code of the implementation in the `hyperloglog.c` file is also easy to read and understand, and includes a full specification for the exact encoding used for the sparse and dense representations."
+      "content": "{{% redis-cli %}}\nPFADD hll foo bar zap\nPFADD hll zap zap zap\nPFADD hll foo bar\nPFCOUNT hll\nPFADD some-other-hll 1 2 3\nPFCOUNT hll some-other-hll\n{{% /redis-cli %}}\n\nPerformances\n---\n\nWhen `PFCOUNT` is called with a single key, performances are excellent even if\nin theory constant times to process a dense HyperLogLog are high. This is\npossible because the `PFCOUNT` uses caching in order to remember the cardinality\npreviously computed, that rarely changes because most [`PFADD`]({{< relref \"/commands/pfadd\" >}}) operations will\nnot update any register. Hundreds of operations per second are possible.\n\nWhen `PFCOUNT` is called with multiple keys, an on-the-fly merge of the\nHyperLogLogs is performed, which is slow, moreover the cardinality of the union\ncan't be cached, so when used with multiple keys `PFCOUNT` may take a time in\nthe order of magnitude of the millisecond, and should be not abused.\n\nThe user should take in mind that single-key and multiple-keys executions of\nthis command are semantically different and have different performances.\n\nHyperLogLog representation\n---\n\n\n\nRedis HyperLogLogs are represented using a double representation: the *sparse* representation suitable for HLLs counting a small number of elements (resulting in a small number of registers set to non-zero value), and a *dense* representation suitable for higher cardinalities. Redis automatically switches from the sparse to the dense representation when needed.\n\nThe sparse representation uses a run-length encoding optimized to store efficiently a big number of registers set to zero. The dense representation is a Redis string of 12288 bytes in order to store 16384 6-bit counters. The need for the double representation comes from the fact that using 12k (which is the dense representation memory requirement) to encode just a few registers for smaller cardinalities is extremely suboptimal.\n\nBoth representations are prefixed with a 16 bytes header, that includes a magic, an encoding / version field, and the cached cardinality estimation computed, stored in little endian format (the most significant bit is 1 if the estimation is invalid since the HyperLogLog was updated since the cardinality was computed).\n\nThe HyperLogLog, being a Redis string, can be retrieved with [`GET`]({{< relref \"/commands/get\" >}}) and restored with [`SET`]({{< relref \"/commands/set\" >}}). Calling [`PFADD`]({{< relref \"/commands/pfadd\" >}}), `PFCOUNT` or [`PFMERGE`]({{< relref \"/commands/pfmerge\" >}}) commands with a corrupted HyperLogLog is never a problem, it may return random values but does not affect the stability of the server. Most of the times when corrupting a sparse representation, the server recognizes the corruption and returns an error.\n\nThe representation is neutral from the point of view of the processor word size and endianness, so the same representation is used by 32 bit and 64 bit processor, big endian or little endian.\n\nMore details about the Redis HyperLogLog implementation can be found in [this blog post](http://antirez.com/news/75). The source code of the implementation in the `hyperloglog.c` file is also easy to read and understand, and includes a full specification for the exact encoding used for the sparse and dense representations."
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -95,7 +417,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the approximated number of unique elements observed via `PFADD`.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the approximated number of unique elements observed via `PFADD`"
+      "content": "{{< multitabs id=\"pfcount-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the approximated number of unique elements observed via `PFADD`.\n\n-tab-sep-\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the approximated number of unique elements observed via `PFADD`\n\n{{< /multitabs >}}"
     }
   ]
 }

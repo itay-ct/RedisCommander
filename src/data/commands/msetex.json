@@ -14,6 +14,256 @@
     "@string",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "mapping",
+            "type": "Mapping[AnyKeyT, EncodableT]"
+          },
+          {
+            "description": "",
+            "name": "data_persist_option",
+            "type": "Optional[DataPersistOptions] = None"
+          },
+          {
+            "description": "",
+            "name": "ex",
+            "type": "Optional[ExpiryT] = None"
+          },
+          {
+            "description": "",
+            "name": "px",
+            "type": "Optional[ExpiryT] = None"
+          },
+          {
+            "description": "",
+            "name": "exat",
+            "type": "Optional[AbsExpiryT] = None"
+          },
+          {
+            "description": "",
+            "name": "pxat",
+            "type": "Optional[AbsExpiryT] = None"
+          },
+          {
+            "description": "",
+            "name": "keepttl",
+            "type": "bool = False"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Union[Awaitable[int], int]"
+        },
+        "signature": "msetex(, mapping: Mapping[AnyKeyT, EncodableT],, data_persist_option: Optional[DataPersistOptions] = None,, ex: Optional[ExpiryT] = None,, px: Optional[ExpiryT] = None,, exat: Optional[AbsExpiryT] = None,, pxat: Optional[AbsExpiryT] = None,, keepttl: bool = False,)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "params",
+            "type": "MSetExParams"
+          },
+          {
+            "description": "",
+            "name": "keysvalues",
+            "type": "byte[]..."
+          }
+        ],
+        "returns": {
+          "description": "1 if the all the keys were set, 0 if no key was set (at least one key already existed)",
+          "type": "boolean"
+        },
+        "signature": "boolean msetex(final MSetExParams params, final byte[]... keysvalues)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "params",
+            "type": "MSetExParams"
+          },
+          {
+            "description": "",
+            "name": "keysvalues",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "1 if the all the keys were set, 0 if no key was set (at least one key already existed)",
+          "type": "boolean"
+        },
+        "signature": "boolean msetex(final MSetExParams params, final String... keysvalues)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the map of keys and values.",
+            "name": "map",
+            "type": "Map<K, V>"
+          },
+          {
+            "description": "the MSetExArgs specifying NX/XX and expiration.",
+            "name": "args",
+            "type": "MSetExArgs"
+          }
+        ],
+        "returns": {
+          "description": "Boolean from integer-reply: 1 if all keys were set, 0 otherwise. @since 7.1",
+          "type": "Boolean"
+        },
+        "signature": "Boolean msetex(Map<K, V> map, MSetExArgs args)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the map of keys and values.",
+            "name": "map",
+            "type": "Map<K, V>"
+          },
+          {
+            "description": "the MSetExArgs specifying NX/XX and expiration.",
+            "name": "args",
+            "type": "MSetExArgs"
+          }
+        ],
+        "returns": {
+          "description": "Boolean from integer-reply: 1 if all keys were set, 0 otherwise. @since 7.1",
+          "type": "RedisFuture<Boolean>"
+        },
+        "signature": "RedisFuture<Boolean> msetex(Map<K, V> map, MSetExArgs args)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the map of keys and values.",
+            "name": "map",
+            "type": "Map<K, V>"
+          },
+          {
+            "description": "the MSetExArgs specifying NX/XX and expiration.",
+            "name": "args",
+            "type": "MSetExArgs"
+          }
+        ],
+        "returns": {
+          "description": "Boolean from integer-reply: 1 if all keys were set, 0 otherwise. @since 7.1",
+          "type": "Mono<Boolean>"
+        },
+        "signature": "Mono<Boolean> msetex(Map<K, V> map, MSetExArgs args)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "args",
+            "type": "MSetEXArgs"
+          },
+          {
+            "description": "",
+            "name": "values",
+            "type": "...interface{}"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*IntCmd"
+        },
+        "signature": "MSetEX(ctx context.Context, args MSetEXArgs, values ...interface{})"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "items",
+            "type": "&'a [(K, V)]"
+          },
+          {
+            "description": "",
+            "name": "options",
+            "type": "MSetOptions"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(bool)"
+        },
+        "signature": "mset_ex(items: &'a [(K, V)], options: MSetOptions)"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "items",
+            "type": "&'a [(K, V)]"
+          },
+          {
+            "description": "",
+            "name": "options",
+            "type": "MSetOptions"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(bool)"
+        },
+        "signature": "mset_ex(items: &'a [(K, V)], options: MSetOptions)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$dictionary",
+            "type": "array"
+          },
+          {
+            "description": "",
+            "name": "?string $existModifier = null",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "?string $expireResolution = null",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "?int $expireTTL = null",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array"
+        },
+        "signature": "msetex(array $dictionary, ?string $existModifier = null, ?string $expireResolution = null, ?int $expireTTL = null)"
+      }
+    ]
+  },
   "commandFlags": [
     "write",
     "denyoom",
@@ -131,28 +381,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "optional-arguments",
-        "title": "Optional arguments"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Atomically sets multiple string keys with an optional shared expiration in a single operation.\n\n## Required arguments\n\n<details open><summary><code>numkeys</code></summary>\n\nThe number of keys being set.\n\n</details>\n\n<details open><summary><code>key value [key value ...]</code></summary>\n\nA series of key/value pairs.\n\n</details>\n\n## Optional arguments\n\n<details open><summary><code>condition and expiration flags</code></summary>\n\nThe `MSETEX` command supports a set of options that modify its behavior:\n\n* `NX` -- Set the keys and their expiration time only if none of the specified keys exist.\n* `XX` -- Set the keys and their expiration time only if all of the specified keys already exist.\n* `EX seconds` -- Set the specified expiration time in seconds (a positive integer).\n* `PX milliseconds` -- Set the specified expiration time in milliseconds (a positive integer).\n* `EXAT unix-time-seconds` -- Set the specified Unix time in seconds (a positive integer) at which the key(s) will expire.\n* `PXAT unix-time-milliseconds` -- Set the specified Unix time in milliseconds (a positive integer) at which the key(s) will expire.\n* `KEEPTTL` -- Retain the time to live associated with the keys.\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](): 0 if none of the keys were set; 1 if all of the keys were set.\n\n**RESP3:**\n\n[Integer reply](): 0 if none of the keys were set; 1 if all of the keys were set.",
+  "content": "Atomically sets multiple string keys with an optional shared expiration in a single operation.\n\n## Required arguments\n\n<details open><summary><code>numkeys</code></summary>\n\nThe number of keys being set.\n\n</details>\n\n<details open><summary><code>key value [key value ...]</code></summary>\n\nA series of key/value pairs.\n\n</details>\n\n## Optional arguments\n\n<details open><summary><code>condition and expiration flags</code></summary>\n\nThe `MSETEX` command supports a set of options that modify its behavior:\n\n* `NX` -- Set the keys and their expiration time only if none of the specified keys exist.\n* `XX` -- Set the keys and their expiration time only if all of the specified keys already exist.\n* `EX seconds` -- Set the specified expiration time in seconds (a positive integer).\n* `PX milliseconds` -- Set the specified expiration time in milliseconds (a positive integer).\n* `EXAT unix-time-seconds` -- Set the specified Unix time in seconds (a positive integer) at which the key(s) will expire.\n* `PXAT unix-time-milliseconds` -- Set the specified Unix time in milliseconds (a positive integer) at which the key(s) will expire.\n* `KEEPTTL` -- Retain the time to live associated with the keys.\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\n[Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): 0 if none of the keys were set; 1 if all of the keys were set.\n\n-tab-sep-\n\n[Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): 0 if none of the keys were set; 1 if all of the keys were set.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "Atomically sets multiple string keys with an optional shared expiration in a single operation.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -177,7 +412,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Integer reply](): 0 if none of the keys were set; 1 if all of the keys were set.\n\n**RESP3:**\n\n[Integer reply](): 0 if none of the keys were set; 1 if all of the keys were set."
+      "content": "{{< multitabs id=\"return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\n[Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): 0 if none of the keys were set; 1 if all of the keys were set.\n\n-tab-sep-\n\n[Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): 0 if none of the keys were set; 1 if all of the keys were set.\n\n{{< /multitabs >}}"
     }
   ]
 }

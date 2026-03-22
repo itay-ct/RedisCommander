@@ -14,6 +14,197 @@
     "@slow",
     "@dangerous"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "host",
+            "type": "str | None"
+          },
+          {
+            "description": "",
+            "name": "port",
+            "type": "int | str | None"
+          },
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "str"
+        },
+        "signature": "slaveof(host: str | None = None, port: int | str | None = None, **kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "host",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "port",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "String"
+        },
+        "signature": "String slaveof(String host, int port)"
+      },
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "String"
+        },
+        "signature": "String slaveofNoOne()"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "host",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "port",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StatusCmd"
+        },
+        "signature": "SlaveOf(ctx context.Context, host, port string) *StatusCmd"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "host",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "port",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "String"
+        },
+        "signature": "String slaveof(String host, int port)"
+      },
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "String"
+        },
+        "signature": "String slaveofNoOne()"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "host",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "port",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> slaveof(String host, int port)"
+      },
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> slaveofNoOne()"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "host",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "port",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> slaveof(String host, int port)"
+      },
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> slaveofNoOne()"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$host",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$port",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "string"
+        },
+        "signature": "slaveof(string $host, int $port)"
+      }
+    ]
+  },
   "commandFlags": [
     "admin",
     "noscript",
@@ -74,20 +265,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "**A note about the word slave used in this man page and command name**: starting with Redis version 5, if not for backward compatibility, the Redis project no longer uses the word slave. Please use the new command [`REPLICAOF`](). The command `SLAVEOF` will continue to work for backward compatibility.\n\nThe `SLAVEOF` command can change the replication settings of a replica on the fly.\nIf a Redis server is already acting as replica, the command `SLAVEOF` NO ONE will\nturn off the replication, turning the Redis server into a MASTER.\nIn the proper form `SLAVEOF` hostname port will make the server a replica of\nanother server listening at the specified hostname and port.\n\nIf a server is already a replica of some master, `SLAVEOF` hostname port will stop\nthe replication against the old server and start the synchronization against the\nnew one, discarding the old dataset.\n\nThe form `SLAVEOF` NO ONE will stop replication, turning the server into a\nMASTER, but will not discard the replication.\nSo, if the old master stops working, it is possible to turn the replica into a\nmaster and set the application to use this new master in read/write.\nLater when the other Redis server is fixed, it can be reconfigured to work as a\nreplica.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | Deprecated as of Redis v5.0.0. |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.",
+  "content": "**A note about the word slave used in this man page and command name**: starting with Redis version 5, if not for backward compatibility, the Redis project no longer uses the word slave. Please use the new command [`REPLICAOF`](). The command `SLAVEOF` will continue to work for backward compatibility.\n\nThe `SLAVEOF` command can change the replication settings of a replica on the fly.\nIf a Redis server is already acting as replica, the command `SLAVEOF` NO ONE will\nturn off the replication, turning the Redis server into a MASTER.\nIn the proper form `SLAVEOF` hostname port will make the server a replica of\nanother server listening at the specified hostname and port.\n\nIf a server is already a replica of some master, `SLAVEOF` hostname port will stop\nthe replication against the old server and start the synchronization against the\nnew one, discarding the old dataset.\n\nThe form `SLAVEOF` NO ONE will stop replication, turning the server into a\nMASTER, but will not discard the replication.\nSo, if the old master stops working, it is possible to turn the replica into a\nmaster and set the application to use this new master in read/write.\nLater when the other Redis server is fixed, it can be reconfigured to work as a\nreplica.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | Deprecated as of Redis v5.0.0. |\n\n## Return information\n\n{{< multitabs id=\"slaveof-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "**A note about the word slave used in this man page and command name**: starting with Redis version 5, if not for backward compatibility, the Redis project no longer uses the word slave. Please use the new command [`REPLICAOF`](). The command `SLAVEOF` will continue to work for backward compatibility.\n\nThe `SLAVEOF` command can change the replication settings of a replica on the fly.\nIf a Redis server is already acting as replica, the command `SLAVEOF` NO ONE will\nturn off the replication, turning the Redis server into a MASTER.\nIn the proper form `SLAVEOF` hostname port will make the server a replica of\nanother server listening at the specified hostname and port.\n\nIf a server is already a replica of some master, `SLAVEOF` hostname port will stop\nthe replication against the old server and start the synchronization against the\nnew one, discarding the old dataset.\n\nThe form `SLAVEOF` NO ONE will stop replication, turning the server into a\nMASTER, but will not discard the replication.\nSo, if the old master stops working, it is possible to turn the replica into a\nmaster and set the application to use this new master in read/write.\nLater when the other Redis server is fixed, it can be reconfigured to work as a\nreplica.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -102,7 +286,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`."
+      "content": "{{< multitabs id=\"slaveof-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n{{< /multitabs >}}"
     }
   ]
 }

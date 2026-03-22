@@ -12,6 +12,125 @@
   "aclCategories": [
     "@search"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "The dictionary name",
+            "name": "dict_name",
+            "type": "str"
+          }
+        ],
+        "returns": {
+          "description": "All terms in the dictionary",
+          "type": "List[str]"
+        },
+        "signature": "dictdump(dict_name: str)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "The dictionary name",
+            "name": "dict",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "All terms in the dictionary",
+          "type": "Set<String>"
+        },
+        "signature": "Set<String> ftDictDump(String dict)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "The dictionary name",
+            "name": "dict",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "All terms in the dictionary",
+          "type": "*StringSliceCmd"
+        },
+        "signature": "FTDictDump(ctx context.Context, dict string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "The dictionary name",
+            "name": "dictionary",
+            "type": "RedisArgument"
+          }
+        ],
+        "returns": {
+          "description": "All terms in the dictionary",
+          "type": "Promise<Array<string>>"
+        },
+        "signature": "DICTDUMP(dictionary: RedisArgument)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The dictionary name",
+            "name": "dict",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "All terms in the dictionary",
+          "type": "RedisResult[]"
+        },
+        "signature": "RedisResult[] DictDump(string dict)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The dictionary name",
+            "name": "dict",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "All terms in the dictionary",
+          "type": "Task<RedisResult[]>"
+        },
+        "signature": "Task<RedisResult[]> DictDumpAsync(string dict)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "The dictionary name",
+            "name": "$dict",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "All terms in the dictionary",
+          "type": "array"
+        },
+        "signature": "ftdictdump(string $dict)"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly"
   ],
@@ -33,36 +152,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-argumemts",
-        "title": "Required argumemts"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      },
-      {
-        "id": "see-also",
-        "title": "See also"
-      },
-      {
-        "id": "related-topics",
-        "title": "Related topics"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Dump all terms in the given dictionary\n\n[Examples](#examples)\n\n## Required argumemts\n\n<details open>\n<summary><code>dict</code></summary>\n\nis dictionary name.\n</details>\n\n## Examples\n\n<details open>\n<summary><b>Dump all terms in the dictionary</b></summary>\n\n\n127.0.0.1:6379> FT.DICTDUMP dict\n1) \"foo\"\n2) \"bar\"\n3) \"hello world\"\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array]() of dictionary terms.\n\n**RESP3:**\n\n[Set]() of dictionary terms.\n\n\n\n## See also\n\n[`FT.DICTADD`]() | [`FT.DICTDEL`]()\n\n## Related topics\n\n[RediSearch]()",
+  "content": "Dump all terms in the given dictionary\n\n[Examples](#examples)\n\n## Required argumemts\n\n<details open>\n<summary><code>dict</code></summary>\n\nis dictionary name.\n</details>\n\n## Examples\n\n<details open>\n<summary><b>Dump all terms in the dictionary</b></summary>\n\n{{< highlight bash >}}\n127.0.0.1:6379> FT.DICTDUMP dict\n1) \"foo\"\n2) \"bar\"\n3) \"hello world\"\n{{< / highlight >}}\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"ft-dictdump-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of dictionary terms.\n\n-tab-sep-\n\n[Set]({{< relref \"/develop/reference/protocol-spec#sets\" >}}) of dictionary terms.\n\n{{< /multitabs >}}\n\n## See also\n\n[`FT.DICTADD`]({{< relref \"commands/ft.dictadd/\" >}}) | [`FT.DICTDEL`]({{< relref \"commands/ft.dictdel/\" >}})\n\n## Related topics\n\n[RediSearch]({{< relref \"/develop/ai/search-and-query/\" >}})",
+  "example": "127.0.0.1:6379> FT.DICTDUMP dict\n1) \"foo\"\n2) \"bar\"\n3) \"hello world\"",
   "intro": "Dump all terms in the given dictionary\n\n[Examples](#examples)",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -77,7 +173,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "<details open>\n<summary><b>Dump all terms in the dictionary</b></summary>\n\n\n127.0.0.1:6379> FT.DICTDUMP dict\n1) \"foo\"\n2) \"bar\"\n3) \"hello world\"\n\n</details>"
+      "content": "<details open>\n<summary><b>Dump all terms in the dictionary</b></summary>\n\n{{< highlight bash >}}\n127.0.0.1:6379> FT.DICTDUMP dict\n1) \"foo\"\n2) \"bar\"\n3) \"hello world\"\n{{< / highlight >}}\n</details>"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -87,17 +183,17 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Array]() of dictionary terms.\n\n**RESP3:**\n\n[Set]() of dictionary terms."
+      "content": "{{< multitabs id=\"ft-dictdump-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of dictionary terms.\n\n-tab-sep-\n\n[Set]({{< relref \"/develop/reference/protocol-spec#sets\" >}}) of dictionary terms.\n\n{{< /multitabs >}}"
     },
     {
       "title": "See also",
       "level": 2,
-      "content": "[`FT.DICTADD`]() | [`FT.DICTDEL`]()"
+      "content": "[`FT.DICTADD`]({{< relref \"commands/ft.dictadd/\" >}}) | [`FT.DICTDEL`]({{< relref \"commands/ft.dictdel/\" >}})"
     },
     {
       "title": "Related topics",
       "level": 2,
-      "content": "[RediSearch]()"
+      "content": "[RediSearch]({{< relref \"/develop/ai/search-and-query/\" >}})"
     }
   ]
 }

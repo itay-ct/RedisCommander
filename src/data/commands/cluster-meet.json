@@ -14,6 +14,144 @@
     "@slow",
     "@dangerous"
   ],
+  "apiMethods": {
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ip",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "port",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "String"
+        },
+        "signature": "String clusterMeet(final String ip, final int port)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "host",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "port",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StatusCmd"
+        },
+        "signature": "ClusterMeet(ctx context.Context, host, port string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "The Redis command parser",
+            "name": "parser",
+            "type": "CommandParser"
+          },
+          {
+            "description": "Host name or IP address of the node",
+            "name": "host",
+            "type": "string"
+          },
+          {
+            "description": "TCP port of the node",
+            "name": "port",
+            "type": "number"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "SimpleStringReply<'OK'>"
+        },
+        "signature": "parseCommand(parser: CommandParser, host: string, port: number)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "Host name or IP address of the node",
+            "name": "ip",
+            "type": "String"
+          },
+          {
+            "description": "TCP port of the node",
+            "name": "port",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "String"
+        },
+        "signature": "String clusterMeet(String ip, int port)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "Host name or IP address of the node",
+            "name": "ip",
+            "type": "String"
+          },
+          {
+            "description": "TCP port of the node",
+            "name": "port",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> clusterMeet(String ip, int port)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "Host name or IP address of the node",
+            "name": "ip",
+            "type": "String"
+          },
+          {
+            "description": "TCP port of the node",
+            "name": "port",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> clusterMeet(String ip, int port)"
+      }
+    ]
+  },
   "commandFlags": [
     "admin",
     "stale",
@@ -50,24 +188,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "implementation-details-meet-and-ping-packets",
-        "title": "Implementation details: MEET and PING packets"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "`CLUSTER MEET` is used in order to connect different Redis nodes with cluster\nsupport enabled, into a working cluster.\n\nThe basic idea is that nodes by default don't trust each other, and are\nconsidered unknown, so that it is unlikely that different cluster nodes will\nmix into a single one because of system administration errors or network\naddresses modifications.\n\nSo in order for a given node to accept another one into the list of nodes\ncomposing a Redis Cluster, there are only two ways:\n\n1. The system administrator sends a `CLUSTER MEET` command to force a node to meet another one.\n2. An already known node sends a list of nodes in the gossip section that we are not aware of. If the receiving node trusts the sending node as a known node, it will process the gossip section and send a handshake to the nodes that are still not known.\n\nNote that Redis Cluster needs to form a full mesh (each node is connected with each other node), but in order to create a cluster, there is no need to send all the `CLUSTER MEET` commands needed to form the full mesh. What matter is to send enough `CLUSTER MEET` messages so that each node can reach each other node through a *chain of known nodes*. Thanks to the exchange of gossip information in heartbeat packets, the missing links will be created.\n\nSo, if we link node A with node B via `CLUSTER MEET`, and B with C, A and C will find their ways to handshake and create a link.\n\nAnother example: if we imagine a cluster formed of the following four nodes called A, B, C and D, we may send just the following set of commands to A:\n\n1. `CLUSTER MEET B-ip B-port`\n2. `CLUSTER MEET C-ip C-port`\n3. `CLUSTER MEET D-ip D-port`\n\nAs a side effect of `A` knowing and being known by all the other nodes, it will send gossip sections in the heartbeat packets that will allow each other node to create a link with each other one, forming a full mesh in a matter of seconds, even if the cluster is large.\n\nMoreover `CLUSTER MEET` does not need to be reciprocal. If I send the command to A in order to join B, I don't need to also send it to B in order to join A.\n\nIf the optional `cluster_bus_port` argument is not provided, the default of port + 10000 will be used.\n\n## Implementation details: MEET and PING packets\n\nWhen a given node receives a `CLUSTER MEET` message, the node specified in the\ncommand still does not know the node we sent the command to. So in order for\nthe node to force the receiver to accept it as a trusted node, it sends a\n`MEET` packet instead of a [`PING`]() packet. The two packets have exactly the\nsame format, but the former forces the receiver to acknowledge the node as\ntrusted.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. If the address or port specified are invalid an error is returned.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. If the address or port specified are invalid an error is returned.",
+  "content": "`CLUSTER MEET` is used in order to connect different Redis nodes with cluster\nsupport enabled, into a working cluster.\n\nThe basic idea is that nodes by default don't trust each other, and are\nconsidered unknown, so that it is unlikely that different cluster nodes will\nmix into a single one because of system administration errors or network\naddresses modifications.\n\nSo in order for a given node to accept another one into the list of nodes\ncomposing a Redis Cluster, there are only two ways:\n\n1. The system administrator sends a `CLUSTER MEET` command to force a node to meet another one.\n2. An already known node sends a list of nodes in the gossip section that we are not aware of. If the receiving node trusts the sending node as a known node, it will process the gossip section and send a handshake to the nodes that are still not known.\n\nNote that Redis Cluster needs to form a full mesh (each node is connected with each other node), but in order to create a cluster, there is no need to send all the `CLUSTER MEET` commands needed to form the full mesh. What matter is to send enough `CLUSTER MEET` messages so that each node can reach each other node through a *chain of known nodes*. Thanks to the exchange of gossip information in heartbeat packets, the missing links will be created.\n\nSo, if we link node A with node B via `CLUSTER MEET`, and B with C, A and C will find their ways to handshake and create a link.\n\nAnother example: if we imagine a cluster formed of the following four nodes called A, B, C and D, we may send just the following set of commands to A:\n\n1. `CLUSTER MEET B-ip B-port`\n2. `CLUSTER MEET C-ip C-port`\n3. `CLUSTER MEET D-ip D-port`\n\nAs a side effect of `A` knowing and being known by all the other nodes, it will send gossip sections in the heartbeat packets that will allow each other node to create a link with each other one, forming a full mesh in a matter of seconds, even if the cluster is large.\n\nMoreover `CLUSTER MEET` does not need to be reciprocal. If I send the command to A in order to join B, I don't need to also send it to B in order to join A.\n\nIf the optional `cluster_bus_port` argument is not provided, the default of port + 10000 will be used.\n\n## Implementation details: MEET and PING packets\n\nWhen a given node receives a `CLUSTER MEET` message, the node specified in the\ncommand still does not know the node we sent the command to. So in order for\nthe node to force the receiver to accept it as a trusted node, it sends a\n`MEET` packet instead of a [`PING`]({{< relref \"/commands/ping\" >}}) packet. The two packets have exactly the\nsame format, but the former forces the receiver to acknowledge the node as\ntrusted.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"cluster-meet-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. If the address or port specified are invalid an error is returned.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. If the address or port specified are invalid an error is returned.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "`CLUSTER MEET` is used in order to connect different Redis nodes with cluster\nsupport enabled, into a working cluster.\n\nThe basic idea is that nodes by default don't trust each other, and are\nconsidered unknown, so that it is unlikely that different cluster nodes will\nmix into a single one because of system administration errors or network\naddresses modifications.\n\nSo in order for a given node to accept another one into the list of nodes\ncomposing a Redis Cluster, there are only two ways:\n\n1. The system administrator sends a `CLUSTER MEET` command to force a node to meet another one.\n2. An already known node sends a list of nodes in the gossip section that we are not aware of. If the receiving node trusts the sending node as a known node, it will process the gossip section and send a handshake to the nodes that are still not known.\n\nNote that Redis Cluster needs to form a full mesh (each node is connected with each other node), but in order to create a cluster, there is no need to send all the `CLUSTER MEET` commands needed to form the full mesh. What matter is to send enough `CLUSTER MEET` messages so that each node can reach each other node through a *chain of known nodes*. Thanks to the exchange of gossip information in heartbeat packets, the missing links will be created.\n\nSo, if we link node A with node B via `CLUSTER MEET`, and B with C, A and C will find their ways to handshake and create a link.\n\nAnother example: if we imagine a cluster formed of the following four nodes called A, B, C and D, we may send just the following set of commands to A:\n\n1. `CLUSTER MEET B-ip B-port`\n2. `CLUSTER MEET C-ip C-port`\n3. `CLUSTER MEET D-ip D-port`\n\nAs a side effect of `A` knowing and being known by all the other nodes, it will send gossip sections in the heartbeat packets that will allow each other node to create a link with each other one, forming a full mesh in a matter of seconds, even if the cluster is large.\n\nMoreover `CLUSTER MEET` does not need to be reciprocal. If I send the command to A in order to join B, I don't need to also send it to B in order to join A.\n\nIf the optional `cluster_bus_port` argument is not provided, the default of port + 10000 will be used.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -77,7 +204,7 @@
     {
       "title": "Implementation details: MEET and PING packets",
       "level": 2,
-      "content": "When a given node receives a `CLUSTER MEET` message, the node specified in the\ncommand still does not know the node we sent the command to. So in order for\nthe node to force the receiver to accept it as a trusted node, it sends a\n`MEET` packet instead of a [`PING`]() packet. The two packets have exactly the\nsame format, but the former forces the receiver to acknowledge the node as\ntrusted."
+      "content": "When a given node receives a `CLUSTER MEET` message, the node specified in the\ncommand still does not know the node we sent the command to. So in order for\nthe node to force the receiver to accept it as a trusted node, it sends a\n`MEET` packet instead of a [`PING`]({{< relref \"/commands/ping\" >}}) packet. The two packets have exactly the\nsame format, but the former forces the receiver to acknowledge the node as\ntrusted."
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -87,7 +214,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. If the address or port specified are invalid an error is returned.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. If the address or port specified are invalid an error is returned."
+      "content": "{{< multitabs id=\"cluster-meet-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. If the address or port specified are invalid an error is returned.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. If the address or port specified are invalid an error is returned.\n\n{{< /multitabs >}}"
     }
   ]
 }

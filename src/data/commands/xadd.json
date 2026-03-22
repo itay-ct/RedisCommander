@@ -14,6 +14,1362 @@
     "@stream",
     "@fast"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "fields",
+            "type": "Dict[FieldT, EncodableT]"
+          },
+          {
+            "description": "",
+            "name": "id",
+            "type": "StreamIdT = \"*\""
+          },
+          {
+            "description": "",
+            "name": "maxlen",
+            "type": "Optional[int] = None"
+          },
+          {
+            "description": "",
+            "name": "approximate",
+            "type": "bool = True"
+          },
+          {
+            "description": "",
+            "name": "nomkstream",
+            "type": "bool = False"
+          },
+          {
+            "description": "",
+            "name": "minid",
+            "type": "Union[StreamIdT, None] = None"
+          },
+          {
+            "description": "",
+            "name": "limit",
+            "type": "Optional[int] = None"
+          },
+          {
+            "description": "",
+            "name": "ref_policy",
+            "type": "Optional[Literal[\"KEEPREF\", \"DELREF\", \"ACKED\"]] = None"
+          },
+          {
+            "description": "",
+            "name": "idmpauto",
+            "type": "Optional[str] = None"
+          },
+          {
+            "description": "",
+            "name": "idmp",
+            "type": "Optional[tuple[str, bytes]] = None"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "ResponseT"
+        },
+        "signature": "xadd(, name: KeyT,, fields: Dict[FieldT, EncodableT],, id: StreamIdT = \"*\",, maxlen: Optional[int] = None,, approximate: bool = True,, nomkstream: bool = False,, minid: Union[StreamIdT, None] = None,, limit: Optional[int] = None,, ref_policy: Optional[Literal[\"KEEPREF\", \"DELREF\", \"ACKED\"]] = None,, idmpauto: Optional[str] = None,, idmp: Optional[tuple[str, bytes]] = None,)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "id",
+            "type": "StreamEntryID"
+          },
+          {
+            "description": "",
+            "name": "hash",
+            "type": "Map<String, String>"
+          }
+        ],
+        "returns": {
+          "description": "the ID of the added entry",
+          "type": "StreamEntryID"
+        },
+        "signature": "StreamEntryID xadd(final String key, final StreamEntryID id, final Map<String, String> hash)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "params",
+            "type": "XAddParams"
+          },
+          {
+            "description": "",
+            "name": "hash",
+            "type": "Map<String, String>"
+          }
+        ],
+        "returns": {
+          "description": "the ID of the added entry",
+          "type": "StreamEntryID"
+        },
+        "signature": "StreamEntryID xadd(final String key, final XAddParams params, final Map<String, String> hash)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "id",
+            "type": "StreamEntryID"
+          },
+          {
+            "description": "",
+            "name": "hash",
+            "type": "Map<String, String>"
+          }
+        ],
+        "returns": {
+          "description": "the ID of the added entry",
+          "type": "StreamEntryID"
+        },
+        "signature": "StreamEntryID xadd(String key, StreamEntryID id, Map<String, String> hash)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "hash",
+            "type": "Map<String, String>"
+          },
+          {
+            "description": "",
+            "name": "params",
+            "type": "XAddParams"
+          }
+        ],
+        "returns": {
+          "description": "the ID of the added entry",
+          "type": "default StreamEntryID"
+        },
+        "signature": "default StreamEntryID xadd(String key, Map<String, String> hash, XAddParams params)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "params",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "hash",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "the ID of the added entry",
+          "type": "return"
+        },
+        "signature": "return xadd(key, params, hash)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "body",
+            "type": "Map<K, V>"
+          }
+        ],
+        "returns": {
+          "description": "simple-reply the message Id.",
+          "type": "String"
+        },
+        "signature": "String xadd(K key, Map<K, V> body)"
+      },
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "args",
+            "type": "XAddArgs"
+          },
+          {
+            "description": "",
+            "name": "body",
+            "type": "Map<K, V>"
+          }
+        ],
+        "returns": {
+          "description": "simple-reply the message Id.",
+          "type": "String"
+        },
+        "signature": "String xadd(K key, XAddArgs args, Map<K, V> body)"
+      },
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "message body.",
+            "name": "keysAndValues",
+            "type": "Object..."
+          }
+        ],
+        "returns": {
+          "description": "simple-reply the message Id.",
+          "type": "String"
+        },
+        "signature": "String xadd(K key, Object... keysAndValues)"
+      },
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "args",
+            "type": "XAddArgs"
+          },
+          {
+            "description": "message body.",
+            "name": "keysAndValues",
+            "type": "Object..."
+          }
+        ],
+        "returns": {
+          "description": "simple-reply the message Id.",
+          "type": "String"
+        },
+        "signature": "String xadd(K key, XAddArgs args, Object... keysAndValues)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "body",
+            "type": "Map<K, V>"
+          }
+        ],
+        "returns": {
+          "description": "simple-reply the message Id.",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> xadd(K key, Map<K, V> body)"
+      },
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "args",
+            "type": "XAddArgs"
+          },
+          {
+            "description": "",
+            "name": "body",
+            "type": "Map<K, V>"
+          }
+        ],
+        "returns": {
+          "description": "simple-reply the message Id.",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> xadd(K key, XAddArgs args, Map<K, V> body)"
+      },
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "message body.",
+            "name": "keysAndValues",
+            "type": "Object..."
+          }
+        ],
+        "returns": {
+          "description": "simple-reply the message Id.",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> xadd(K key, Object... keysAndValues)"
+      },
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "args",
+            "type": "XAddArgs"
+          },
+          {
+            "description": "message body.",
+            "name": "keysAndValues",
+            "type": "Object..."
+          }
+        ],
+        "returns": {
+          "description": "simple-reply the message Id.",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> xadd(K key, XAddArgs args, Object... keysAndValues)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "body",
+            "type": "Map<K, V>"
+          }
+        ],
+        "returns": {
+          "description": "simple-reply the message Id.",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> xadd(K key, Map<K, V> body)"
+      },
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "args",
+            "type": "XAddArgs"
+          },
+          {
+            "description": "",
+            "name": "body",
+            "type": "Map<K, V>"
+          }
+        ],
+        "returns": {
+          "description": "simple-reply the message Id.",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> xadd(K key, XAddArgs args, Map<K, V> body)"
+      },
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "message body.",
+            "name": "keysAndValues",
+            "type": "Object..."
+          }
+        ],
+        "returns": {
+          "description": "simple-reply the message Id.",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> xadd(K key, Object... keysAndValues)"
+      },
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "args",
+            "type": "XAddArgs"
+          },
+          {
+            "description": "message body.",
+            "name": "keysAndValues",
+            "type": "Object..."
+          }
+        ],
+        "returns": {
+          "description": "simple-reply the message Id.",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> xadd(K key, XAddArgs args, Object... keysAndValues)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "a",
+            "type": "*XAddArgs"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StringCmd"
+        },
+        "signature": "XAdd(ctx context.Context, a *XAddArgs)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "Tail<Parameters<typeof parseXAddArguments>>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "XADD(...args: Tail<Parameters<typeof parseXAddArguments>>)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, key"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "xadd(...args: [, key: RedisKey, ...args: RedisValue[], callback: Callback<string | null>, ])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[key"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "xadd(...args: [key: RedisKey, ...args: RedisValue[]])"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "id",
+            "type": "ID"
+          },
+          {
+            "description": "",
+            "name": "items",
+            "type": "&'a [(F, V"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "xadd(key: K, id: ID, items: &'a [(F, V)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "id",
+            "type": "ID"
+          },
+          {
+            "description": "",
+            "name": "map",
+            "type": "BTM"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Option<String>)"
+        },
+        "signature": "xadd_map(key: K, id: ID, map: BTM)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "id",
+            "type": "ID"
+          },
+          {
+            "description": "",
+            "name": "items",
+            "type": "I"
+          },
+          {
+            "description": "",
+            "name": "options",
+            "type": "&'a streams"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Option<String>)"
+        },
+        "signature": "xadd_options(key: K, id: ID, items: I, options: &'a streams::StreamAddOptions)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "maxlen",
+            "type": "streams"
+          },
+          {
+            "description": "",
+            "name": "id",
+            "type": "ID"
+          },
+          {
+            "description": "",
+            "name": "items",
+            "type": "&'a [(F, V"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "xadd_maxlen(key: K, maxlen: streams::StreamMaxlen, id: ID, items: &'a [(F, V)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "maxlen",
+            "type": "streams"
+          },
+          {
+            "description": "",
+            "name": "id",
+            "type": "ID"
+          },
+          {
+            "description": "",
+            "name": "map",
+            "type": "BTM"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Option<String>)"
+        },
+        "signature": "xadd_maxlen_map(key: K, maxlen: streams::StreamMaxlen, id: ID, map: BTM)"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "id",
+            "type": "ID"
+          },
+          {
+            "description": "",
+            "name": "items",
+            "type": "&'a [(F, V"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "xadd(key: K, id: ID, items: &'a [(F, V)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "id",
+            "type": "ID"
+          },
+          {
+            "description": "",
+            "name": "map",
+            "type": "BTM"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Option<String>)"
+        },
+        "signature": "xadd_map(key: K, id: ID, map: BTM)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "id",
+            "type": "ID"
+          },
+          {
+            "description": "",
+            "name": "items",
+            "type": "I"
+          },
+          {
+            "description": "",
+            "name": "options",
+            "type": "&'a streams"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Option<String>)"
+        },
+        "signature": "xadd_options(key: K, id: ID, items: I, options: &'a streams::StreamAddOptions)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "maxlen",
+            "type": "streams"
+          },
+          {
+            "description": "",
+            "name": "id",
+            "type": "ID"
+          },
+          {
+            "description": "",
+            "name": "items",
+            "type": "&'a [(F, V"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "xadd_maxlen(key: K, maxlen: streams::StreamMaxlen, id: ID, items: &'a [(F, V)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "maxlen",
+            "type": "streams"
+          },
+          {
+            "description": "",
+            "name": "id",
+            "type": "ID"
+          },
+          {
+            "description": "",
+            "name": "map",
+            "type": "BTM"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Option<String>)"
+        },
+        "signature": "xadd_maxlen_map(key: K, maxlen: streams::StreamMaxlen, id: ID, map: BTM)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The key of the stream.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "streamField",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "streamValue",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The ID to assign to the stream entry, defaults to an auto-generated ID (\"*\").",
+            "name": "messageId",
+            "type": "RedisValue?"
+          },
+          {
+            "description": "The maximum length of the stream.",
+            "name": "maxLength",
+            "type": "int?"
+          },
+          {
+            "description": "If true, the \"~\" argument is used to allow the stream to exceed max length by a small number. This improves performance when removing messages.",
+            "name": "useApproximateMaxLength",
+            "type": "bool"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The ID of the newly created message.",
+          "type": "RedisValue"
+        },
+        "signature": "StreamAdd(RedisKey key, RedisValue streamField, RedisValue streamValue, RedisValue? messageId, int? maxLength, bool useApproximateMaxLength, CommandFlags flags)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the stream.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The fields and their associated values to set in the stream entry.",
+            "name": "streamPairs",
+            "type": "NameValueEntry[]"
+          },
+          {
+            "description": "The ID to assign to the stream entry, defaults to an auto-generated ID (\"*\").",
+            "name": "messageId",
+            "type": "RedisValue?"
+          },
+          {
+            "description": "The maximum length of the stream.",
+            "name": "maxLength",
+            "type": "int?"
+          },
+          {
+            "description": "If true, the \"~\" argument is used to allow the stream to exceed max length by a small number. This improves performance when removing messages.",
+            "name": "useApproximateMaxLength",
+            "type": "bool"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The ID of the newly created message.",
+          "type": "RedisValue"
+        },
+        "signature": "StreamAdd(RedisKey key, NameValueEntry[] streamPairs, RedisValue? messageId, int? maxLength, bool useApproximateMaxLength, CommandFlags flags)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the stream.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "streamField",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "streamValue",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The ID to assign to the stream entry, defaults to an auto-generated ID (\"*\").",
+            "name": "messageId",
+            "type": "RedisValue?"
+          },
+          {
+            "description": "The maximum length of the stream.",
+            "name": "maxLength",
+            "type": "long?"
+          },
+          {
+            "description": "If true, the \"~\" argument is used to allow the stream to exceed max length by a small number. This improves performance when removing messages.",
+            "name": "useApproximateMaxLength",
+            "type": "bool"
+          },
+          {
+            "description": "Specifies the maximal count of entries that will be evicted.",
+            "name": "limit",
+            "type": "long?"
+          },
+          {
+            "description": "Determines how stream trimming should be performed.",
+            "name": "trimMode",
+            "type": "StreamTrimMode"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The ID of the newly created message.",
+          "type": "RedisValue"
+        },
+        "signature": "StreamAdd(RedisKey key, RedisValue streamField, RedisValue streamValue, RedisValue? messageId = null, long? maxLength = null, bool useApproximateMaxLength = false, long? limit = null, StreamTrimMode trimMode = StreamTrimMode.KeepReferences, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the stream.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "streamField",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "streamValue",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "idempotentId",
+            "type": "StreamIdempotentId"
+          },
+          {
+            "description": "The maximum length of the stream.",
+            "name": "maxLength",
+            "type": "long?"
+          },
+          {
+            "description": "If true, the \"~\" argument is used to allow the stream to exceed max length by a small number. This improves performance when removing messages.",
+            "name": "useApproximateMaxLength",
+            "type": "bool"
+          },
+          {
+            "description": "Specifies the maximal count of entries that will be evicted.",
+            "name": "limit",
+            "type": "long?"
+          },
+          {
+            "description": "Determines how stream trimming should be performed.",
+            "name": "trimMode",
+            "type": "StreamTrimMode"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The ID of the newly created message.",
+          "type": "RedisValue"
+        },
+        "signature": "StreamAdd(RedisKey key, RedisValue streamField, RedisValue streamValue, StreamIdempotentId idempotentId, long? maxLength = null, bool useApproximateMaxLength = false, long? limit = null, StreamTrimMode trimMode = StreamTrimMode.KeepReferences, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the stream.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The fields and their associated values to set in the stream entry.",
+            "name": "streamPairs",
+            "type": "NameValueEntry[]"
+          },
+          {
+            "description": "The ID to assign to the stream entry, defaults to an auto-generated ID (\"*\").",
+            "name": "messageId",
+            "type": "RedisValue?"
+          },
+          {
+            "description": "The maximum length of the stream.",
+            "name": "maxLength",
+            "type": "long?"
+          },
+          {
+            "description": "If true, the \"~\" argument is used to allow the stream to exceed max length by a small number. This improves performance when removing messages.",
+            "name": "useApproximateMaxLength",
+            "type": "bool"
+          },
+          {
+            "description": "Specifies the maximal count of entries that will be evicted.",
+            "name": "limit",
+            "type": "long?"
+          },
+          {
+            "description": "Determines how stream trimming should be performed.",
+            "name": "trimMode",
+            "type": "StreamTrimMode"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The ID of the newly created message.",
+          "type": "RedisValue"
+        },
+        "signature": "StreamAdd(RedisKey key, NameValueEntry[] streamPairs, RedisValue? messageId = null, long? maxLength = null, bool useApproximateMaxLength = false, long? limit = null, StreamTrimMode trimMode = StreamTrimMode.KeepReferences, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The key of the stream.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "streamField",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "streamValue",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The ID to assign to the stream entry, defaults to an auto-generated ID (\"*\").",
+            "name": "messageId",
+            "type": "RedisValue?"
+          },
+          {
+            "description": "The maximum length of the stream.",
+            "name": "maxLength",
+            "type": "int?"
+          },
+          {
+            "description": "If true, the \"~\" argument is used to allow the stream to exceed max length by a small number. This improves performance when removing messages.",
+            "name": "useApproximateMaxLength",
+            "type": "bool"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The ID of the newly created message.",
+          "type": "RedisValue"
+        },
+        "signature": "StreamAdd(RedisKey key, RedisValue streamField, RedisValue streamValue, RedisValue? messageId, int? maxLength, bool useApproximateMaxLength, CommandFlags flags)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the stream.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The fields and their associated values to set in the stream entry.",
+            "name": "streamPairs",
+            "type": "NameValueEntry[]"
+          },
+          {
+            "description": "The ID to assign to the stream entry, defaults to an auto-generated ID (\"*\").",
+            "name": "messageId",
+            "type": "RedisValue?"
+          },
+          {
+            "description": "The maximum length of the stream.",
+            "name": "maxLength",
+            "type": "int?"
+          },
+          {
+            "description": "If true, the \"~\" argument is used to allow the stream to exceed max length by a small number. This improves performance when removing messages.",
+            "name": "useApproximateMaxLength",
+            "type": "bool"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The ID of the newly created message.",
+          "type": "RedisValue"
+        },
+        "signature": "StreamAdd(RedisKey key, NameValueEntry[] streamPairs, RedisValue? messageId, int? maxLength, bool useApproximateMaxLength, CommandFlags flags)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the stream.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "streamField",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "streamValue",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The ID to assign to the stream entry, defaults to an auto-generated ID (\"*\").",
+            "name": "messageId",
+            "type": "RedisValue?"
+          },
+          {
+            "description": "The maximum length of the stream.",
+            "name": "maxLength",
+            "type": "long?"
+          },
+          {
+            "description": "If true, the \"~\" argument is used to allow the stream to exceed max length by a small number. This improves performance when removing messages.",
+            "name": "useApproximateMaxLength",
+            "type": "bool"
+          },
+          {
+            "description": "Specifies the maximal count of entries that will be evicted.",
+            "name": "limit",
+            "type": "long?"
+          },
+          {
+            "description": "Determines how stream trimming should be performed.",
+            "name": "trimMode",
+            "type": "StreamTrimMode"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The ID of the newly created message.",
+          "type": "RedisValue"
+        },
+        "signature": "StreamAdd(RedisKey key, RedisValue streamField, RedisValue streamValue, RedisValue? messageId = null, long? maxLength = null, bool useApproximateMaxLength = false, long? limit = null, StreamTrimMode trimMode = StreamTrimMode.KeepReferences, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the stream.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "streamField",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "streamValue",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "idempotentId",
+            "type": "StreamIdempotentId"
+          },
+          {
+            "description": "The maximum length of the stream.",
+            "name": "maxLength",
+            "type": "long?"
+          },
+          {
+            "description": "If true, the \"~\" argument is used to allow the stream to exceed max length by a small number. This improves performance when removing messages.",
+            "name": "useApproximateMaxLength",
+            "type": "bool"
+          },
+          {
+            "description": "Specifies the maximal count of entries that will be evicted.",
+            "name": "limit",
+            "type": "long?"
+          },
+          {
+            "description": "Determines how stream trimming should be performed.",
+            "name": "trimMode",
+            "type": "StreamTrimMode"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The ID of the newly created message.",
+          "type": "RedisValue"
+        },
+        "signature": "StreamAdd(RedisKey key, RedisValue streamField, RedisValue streamValue, StreamIdempotentId idempotentId, long? maxLength = null, bool useApproximateMaxLength = false, long? limit = null, StreamTrimMode trimMode = StreamTrimMode.KeepReferences, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the stream.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The fields and their associated values to set in the stream entry.",
+            "name": "streamPairs",
+            "type": "NameValueEntry[]"
+          },
+          {
+            "description": "The ID to assign to the stream entry, defaults to an auto-generated ID (\"*\").",
+            "name": "messageId",
+            "type": "RedisValue?"
+          },
+          {
+            "description": "The maximum length of the stream.",
+            "name": "maxLength",
+            "type": "long?"
+          },
+          {
+            "description": "If true, the \"~\" argument is used to allow the stream to exceed max length by a small number. This improves performance when removing messages.",
+            "name": "useApproximateMaxLength",
+            "type": "bool"
+          },
+          {
+            "description": "Specifies the maximal count of entries that will be evicted.",
+            "name": "limit",
+            "type": "long?"
+          },
+          {
+            "description": "Determines how stream trimming should be performed.",
+            "name": "trimMode",
+            "type": "StreamTrimMode"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The ID of the newly created message.",
+          "type": "RedisValue"
+        },
+        "signature": "StreamAdd(RedisKey key, NameValueEntry[] streamPairs, RedisValue? messageId = null, long? maxLength = null, bool useApproximateMaxLength = false, long? limit = null, StreamTrimMode trimMode = StreamTrimMode.KeepReferences, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$dictionary",
+            "type": "array"
+          },
+          {
+            "description": "",
+            "name": "string $id = '*'",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "array $options = null",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "string"
+        },
+        "signature": "xadd(string $key, array $dictionary, string $id = '*', array $options = null)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "the stream key",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "one or multiple field-value pairs",
+            "name": "entry",
+            "type": "Hash"
+          },
+          {
+            "description": "whether to add ~ modifier of maxlen/minid or not",
+            "name": "approximate",
+            "type": "Boolean"
+          },
+          {
+            "description": "max length of entries to keep",
+            "name": "maxlen",
+            "type": "Integer"
+          },
+          {
+            "description": "min id of entries to keep",
+            "name": "minid",
+            "type": "Integer"
+          },
+          {
+            "description": "whether to add NOMKSTREAM",
+            "name": "nomkstream",
+            "type": "Boolean"
+          },
+          {
+            "description": "the entry id, default value is *",
+            "name": "id",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "the entry id",
+          "type": "String"
+        },
+        "signature": "xadd(key, entry, approximate: nil, maxlen: nil, minid: nil, nomkstream: nil, id: '*')"
+      }
+    ]
+  },
   "commandFlags": [
     "write",
     "denyoom",
@@ -213,50 +1569,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "optional-arguments",
-        "title": "Optional arguments"
-      },
-      {
-        "id": "specifying-a-stream-id-as-an-argument",
-        "title": "Specifying a Stream ID as an argument"
-      },
-      {
-        "id": "capped-streams",
-        "title": "Capped streams"
-      },
-      {
-        "id": "additional-information-about-streams",
-        "title": "Additional information about streams"
-      },
-      {
-        "children": [
-          {
-            "id": "idempotent-message-processing-examples",
-            "title": "Idempotent message processing examples"
-          }
-        ],
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Appends the specified stream entry to the stream at the specified `key`.\nIf the key does not exist, `XADD` will create a new key with the given stream value as a side effect of running this command.\nYou can turn off key creation with the `NOMKSTREAM` option.\n\n## Required arguments\n\n<details open>\n<summary><code>key</code></summary>\n\nThe name of the stream key.\n</details>\n\n<details open>\n<summary><code>id</code></summary>\n\nThe stream entry ID. Use `*` to auto-generate a unique ID, or specify a well-formed ID in the format `<ms>-<seq>` (for example, `1526919030474-55`).\n</details>\n\n<details open>\n<summary><code>field value [field value ...]</code></summary>\n\nOne or more field-value pairs that make up the stream entry. You must provide at least one field-value pair.\n</details>\n\n## Optional arguments\n\n<details open>\n<summary><code>NOMKSTREAM</code></summary>\n\nPrevents the creation of a new stream if the key does not exist. Available since Redis 6.2.0.\n</details>\n\n<details open>\n<summary><code>IDMPAUTO producer-id | IDMP producer-id idempotent-id</code></summary>\n\nEnables idempotent message processing (at-most-once production) to prevent duplicate entries. Available since Redis 8.6.\n\n- `IDMPAUTO producer-id`: Automatically generates a unique idempotent ID (iid) for the specified producer-id. Redis tracks this iid to prevent duplicate messages from the same producer-id.\n- `IDMP producer-id idempotent-id`: Uses the specified idempotent-id for the given producer-id. If this producer-id/idempotent-id combination was already used, the command returns the ID of the existing entry instead of creating a duplicate.\n\nThe producer-id identifies the source of the message, while the idempotent-id ensures uniqueness within that producer-id's message stream. Redis maintains an internal map of recent producer-id/idempotent-id combinations to detect and prevent duplicates.\n\nBoth modes can only be specified when the entry ID is `*` (auto-generated).\n\nUse [`XCFGSET`]() to configure how long idempotent IDs are retained (`IDMP-DURATION`) and the maximum number tracked per producer (`IDMP-MAXSIZE`).\n\nSee [Idempotent message processing]() for more information.\n\n</details>\n\n<details open>\n<summary><code>KEEPREF | DELREF | ACKED</code></summary>\n\nSpecifies how to handle consumer group references when trimming. If there are no consumer groups, these arguments have no effect. Available since Redis 8.2.\n\nIf no option is specified, `KEEPREF` is used by default. Unlike the `XDELEX` and `XACKDEL` commands where one of these options is required, here they are optional to maintain backward compatibility:\n\n- `KEEPREF` (default): When trimming, removes entries from the stream according to the specified strategy (`MAXLEN` or `MINID`), regardless of whether they are referenced by any consumer groups, but preserves existing references to these entries in all consumer groups' PEL (Pending Entries List).\n- `DELREF`: When trimming, removes entries from the stream according to the specified strategy and also removes all references to these entries from all consumer groups' PEL.\n- `ACKED`: When trimming, only removes entries that were read and acknowledged by all consumer groups. Note that if the number of referenced entries is larger than `MAXLEN`, trimming will still stop at the limit.\n</details>\n\n<details open>\n<summary><code>MAXLEN | MINID [= | ~] threshold [LIMIT count]></code></summary>\n\nTrims the stream to maintain a specific size or remove old entries:\n\n<details open>\n<summary><code>MAXLEN | MINID</code></summary>\n\nThe trimming strategy:\n- `MAXLEN`: Evicts entries as long as the stream's length exceeds the specified threshold\n- `MINID`: Evicts entries with IDs lower than the specified threshold (available since Redis 6.2.0)\n</details>\n\n<details open>\n<summary><code>= | ~</code></summary>\n\nThe trimming operator:\n- `=`: Exact trimming (default) - trims to the exact threshold\n- `~`: Approximate trimming - more efficient, may leave slightly more entries than the threshold\n</details>\n\n<details open>\n<summary><code>threshold</code></summary>\n\nThe trimming threshold:\n- For `MAXLEN`: `threshold` is a non-negative integer specifying the maximum number of entries that may remain in the stream after trimming. Redis enforces this by removing the oldest entries - that is, the entries with the lowest stream IDs - so that only the newest entries are kept.\n- For `MINID`: `threshold` is a stream ID. All entries whose IDs are less than `threshold` are trimmed. All entries with IDs greater than or equal to `threshold` are kept.\n</details>\n\n<details open>\n<summary><code>LIMIT count</code></summary>\n\nLimits the number of entries to examine during trimming. Available since Redis 6.2.0. When not specified, Redis uses a default value of 100 * the number of entries in a macro node. Specifying 0 disables the limiting mechanism entirely.\n</details>\n\n</details>\n  \nEach entry consists of a list of field-value pairs.\nRedis stores the field-value pairs in the same order you provide them.\nCommands that read the stream, such as [`XRANGE`]() or [`XREAD`](), return the fields and values in exactly the same order you added them with `XADD`.\n\n\n`XADD` is the only Redis command that can add data to a stream. However,\nother commands, such as [`XDEL`]() and [`XTRIM`](), can\nremove data from a stream.\n\n\n## Specifying a Stream ID as an argument\n\nA stream entry ID identifies a specific entry inside a stream.\n\n`XADD` auto-generates a unique ID for you if you specify the `*` character (asterisk) as the ID argument. However, you can also specify a well-formed ID to add the new entry with that exact ID, though this is useful only in rare cases.\n\nSpecify IDs using two numbers separated by a `-` character:\n\n    1526919030474-55\n\nBoth numbers are 64-bit integers. When Redis auto-generates an ID, the\nfirst part is the Unix time in milliseconds of the Redis instance generating\nthe ID. The second part is a sequence number used to\ndistinguish IDs generated in the same millisecond.\n\nYou can also specify an incomplete ID that consists only of the milliseconds part, which Redis interprets as a zero value for the sequence part.\nTo have only the sequence part automatically generated, specify the milliseconds part followed by the `-` separator and the `*` character:\n\n```\n> XADD mystream 1526919030474-55 message \"Hello,\"\n\"1526919030474-55\"\n> XADD mystream 1526919030474-* message \" World!\"\n\"1526919030474-56\"\n```\n\nRedis guarantees that IDs are always incremental: the ID of any entry you insert will be greater than any previous ID, so entries are totally ordered inside a stream. To guarantee this property, if the current top ID in the stream has a time greater than the current local time of the instance, Redis uses the top entry time instead and increments the sequence part of the ID. This may happen when, for instance, the local clock jumps backward, or after a failover when the new master has a different absolute time.\n\nWhen you specify an explicit ID to `XADD`, the minimum valid ID is `0-1`, and you *must* specify an ID that is greater than any other ID currently inside the stream, otherwise the command fails and returns an error. Specifying explicit IDs is usually useful only if you have another system generating unique IDs (for instance an SQL table) and you want the Redis stream IDs to match those from your other system.\n\n## Capped streams\n\n`XADD` incorporates the same semantics as the [`XTRIM`]() command - refer to its documentation page for more information.\nThis allows you to add new entries and keep the stream's size in check with a single call to `XADD`, effectively capping the stream with an arbitrary threshold.\nAlthough exact trimming is possible and is the default, due to the internal representation of streams, it is more efficient to add an entry and trim the stream with `XADD` using **almost exact** trimming (the `~` argument).\n\nFor example, calling `XADD` in the following form:\n\n    XADD mystream MAXLEN ~ 1000 * ... entry fields here ...\n\nThis adds a new entry but also evicts old entries so that the stream contains only 1000 entries, or at most a few tens more.\n\n## Additional information about streams\n\nFor more information about Redis streams, see the\n[introduction to Redis Streams document]().\n\n## Examples\n\n\nXADD mystream * name Sara surname OConnor\nXADD mystream * field1 value1 field2 value2 field3 value3\nXLEN mystream\nXRANGE mystream - +\n\n\n### Idempotent message processing examples\n\n\nXADD mystream IDMP producer1 msg1 * field value\nXADD mystream IDMP producer1 msg1 * field different_value\nXADD mystream IDMPAUTO producer2 * field value\nXADD mystream IDMPAUTO producer2 * field value\nXCFGSET mystream IDMP-DURATION 300 IDMP-MAXSIZE 1000\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The ID of the added entry. The ID is the one automatically generated if an asterisk (`*`) is passed as the _id_ argument, otherwise the command just returns the same ID specified by the user during insertion. When using IDMP and a duplicate is detected, returns the ID of the existing entry.\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the NOMKSTREAM option is given and the key doesn't exist.\n\n**RESP3:**\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The ID of the added entry. The ID is the one automatically generated if an asterisk (`*`) is passed as the _id_ argument, otherwise the command just returns the same ID specified by the user during insertion. When using IDMP and a duplicate is detected, returns the ID of the existing entry.\n* [Null reply](../../develop/reference/protocol-spec#nulls): if the NOMKSTREAM option is given and the key doesn't exist.",
+  "content": "Appends the specified stream entry to the stream at the specified `key`.\nIf the key does not exist, `XADD` will create a new key with the given stream value as a side effect of running this command.\nYou can turn off key creation with the `NOMKSTREAM` option.\n\n## Required arguments\n\n<details open>\n<summary><code>key</code></summary>\n\nThe name of the stream key.\n</details>\n\n<details open>\n<summary><code>id</code></summary>\n\nThe stream entry ID. Use `*` to auto-generate a unique ID, or specify a well-formed ID in the format `<ms>-<seq>` (for example, `1526919030474-55`).\n</details>\n\n<details open>\n<summary><code>field value [field value ...]</code></summary>\n\nOne or more field-value pairs that make up the stream entry. You must provide at least one field-value pair.\n</details>\n\n## Optional arguments\n\n<details open>\n<summary><code>NOMKSTREAM</code></summary>\n\nPrevents the creation of a new stream if the key does not exist. Available since Redis 6.2.0.\n</details>\n\n<details open>\n<summary><code>IDMPAUTO producer-id | IDMP producer-id idempotent-id</code></summary>\n\nEnables idempotent message processing (at-most-once production) to prevent duplicate entries. Available since Redis 8.6.\n\n- `IDMPAUTO producer-id`: Automatically generates a unique idempotent ID (iid) for the specified producer-id. Redis tracks this iid to prevent duplicate messages from the same producer-id.\n- `IDMP producer-id idempotent-id`: Uses the specified idempotent-id for the given producer-id. If this producer-id/idempotent-id combination was already used, the command returns the ID of the existing entry instead of creating a duplicate.\n\nThe producer-id identifies the source of the message, while the idempotent-id ensures uniqueness within that producer-id's message stream. Redis maintains an internal map of recent producer-id/idempotent-id combinations to detect and prevent duplicates.\n\nBoth modes can only be specified when the entry ID is `*` (auto-generated).\n\nUse [`XCFGSET`]({{< relref \"/commands/xcfgset\" >}}) to configure how long idempotent IDs are retained (`IDMP-DURATION`) and the maximum number tracked per producer (`IDMP-MAXSIZE`).\n\nSee [Idempotent message processing]({{< relref \"/develop/data-types/streams/idempotency\" >}}) for more information.\n\n</details>\n\n<details open>\n<summary><code>KEEPREF | DELREF | ACKED</code></summary>\n\nSpecifies how to handle consumer group references when trimming. If there are no consumer groups, these arguments have no effect. Available since Redis 8.2.\n\nIf no option is specified, `KEEPREF` is used by default. Unlike the `XDELEX` and `XACKDEL` commands where one of these options is required, here they are optional to maintain backward compatibility:\n\n- `KEEPREF` (default): When trimming, removes entries from the stream according to the specified strategy (`MAXLEN` or `MINID`), regardless of whether they are referenced by any consumer groups, but preserves existing references to these entries in all consumer groups' PEL (Pending Entries List).\n- `DELREF`: When trimming, removes entries from the stream according to the specified strategy and also removes all references to these entries from all consumer groups' PEL.\n- `ACKED`: When trimming, only removes entries that were read and acknowledged by all consumer groups. Note that if the number of referenced entries is larger than `MAXLEN`, trimming will still stop at the limit.\n</details>\n\n<details open>\n<summary><code>MAXLEN | MINID [= | ~] threshold [LIMIT count]></code></summary>\n\nTrims the stream to maintain a specific size or remove old entries:\n\n<details open>\n<summary><code>MAXLEN | MINID</code></summary>\n\nThe trimming strategy:\n- `MAXLEN`: Evicts entries as long as the stream's length exceeds the specified threshold\n- `MINID`: Evicts entries with IDs lower than the specified threshold (available since Redis 6.2.0)\n</details>\n\n<details open>\n<summary><code>= | ~</code></summary>\n\nThe trimming operator:\n- `=`: Exact trimming (default) - trims to the exact threshold\n- `~`: Approximate trimming - more efficient, may leave slightly more entries than the threshold\n</details>\n\n<details open>\n<summary><code>threshold</code></summary>\n\nThe trimming threshold:\n- For `MAXLEN`: `threshold` is a non-negative integer specifying the maximum number of entries that may remain in the stream after trimming. Redis enforces this by removing the oldest entries - that is, the entries with the lowest stream IDs - so that only the newest entries are kept.\n- For `MINID`: `threshold` is a stream ID. All entries whose IDs are less than `threshold` are trimmed. All entries with IDs greater than or equal to `threshold` are kept.\n</details>\n\n<details open>\n<summary><code>LIMIT count</code></summary>\n\nLimits the number of entries to examine during trimming. Available since Redis 6.2.0. When not specified, Redis uses a default value of 100 * the number of entries in a macro node. Specifying 0 disables the limiting mechanism entirely.\n</details>\n\n</details>\n  \nEach entry consists of a list of field-value pairs.\nRedis stores the field-value pairs in the same order you provide them.\nCommands that read the stream, such as [`XRANGE`]({{< relref \"/commands/xrange\" >}}) or [`XREAD`]({{< relref \"/commands/xread\" >}}), return the fields and values in exactly the same order you added them with `XADD`.\n\n{{< note >}}\n`XADD` is the only Redis command that can add data to a stream. However,\nother commands, such as [`XDEL`]({{< relref \"/commands/xdel\" >}}) and [`XTRIM`]({{< relref \"/commands/xtrim\" >}}), can\nremove data from a stream.\n{{< /note >}}\n\n## Specifying a Stream ID as an argument\n\nA stream entry ID identifies a specific entry inside a stream.\n\n`XADD` auto-generates a unique ID for you if you specify the `*` character (asterisk) as the ID argument. However, you can also specify a well-formed ID to add the new entry with that exact ID, though this is useful only in rare cases.\n\nSpecify IDs using two numbers separated by a `-` character:\n\n    1526919030474-55\n\nBoth numbers are 64-bit integers. When Redis auto-generates an ID, the\nfirst part is the Unix time in milliseconds of the Redis instance generating\nthe ID. The second part is a sequence number used to\ndistinguish IDs generated in the same millisecond.\n\nYou can also specify an incomplete ID that consists only of the milliseconds part, which Redis interprets as a zero value for the sequence part.\nTo have only the sequence part automatically generated, specify the milliseconds part followed by the `-` separator and the `*` character:\n\n```\n> XADD mystream 1526919030474-55 message \"Hello,\"\n\"1526919030474-55\"\n> XADD mystream 1526919030474-* message \" World!\"\n\"1526919030474-56\"\n```\n\nRedis guarantees that IDs are always incremental: the ID of any entry you insert will be greater than any previous ID, so entries are totally ordered inside a stream. To guarantee this property, if the current top ID in the stream has a time greater than the current local time of the instance, Redis uses the top entry time instead and increments the sequence part of the ID. This may happen when, for instance, the local clock jumps backward, or after a failover when the new master has a different absolute time.\n\nWhen you specify an explicit ID to `XADD`, the minimum valid ID is `0-1`, and you *must* specify an ID that is greater than any other ID currently inside the stream, otherwise the command fails and returns an error. Specifying explicit IDs is usually useful only if you have another system generating unique IDs (for instance an SQL table) and you want the Redis stream IDs to match those from your other system.\n\n## Capped streams\n\n`XADD` incorporates the same semantics as the [`XTRIM`]({{< relref \"/commands/xtrim\" >}}) command - refer to its documentation page for more information.\nThis allows you to add new entries and keep the stream's size in check with a single call to `XADD`, effectively capping the stream with an arbitrary threshold.\nAlthough exact trimming is possible and is the default, due to the internal representation of streams, it is more efficient to add an entry and trim the stream with `XADD` using **almost exact** trimming (the `~` argument).\n\nFor example, calling `XADD` in the following form:\n\n    XADD mystream MAXLEN ~ 1000 * ... entry fields here ...\n\nThis adds a new entry but also evicts old entries so that the stream contains only 1000 entries, or at most a few tens more.\n\n## Additional information about streams\n\nFor more information about Redis streams, see the\n[introduction to Redis Streams document]({{< relref \"/develop/data-types/streams\" >}}).\n\n## Examples\n\n{{% redis-cli %}}\nXADD mystream * name Sara surname OConnor\nXADD mystream * field1 value1 field2 value2 field3 value3\nXLEN mystream\nXRANGE mystream - +\n{{% /redis-cli %}}\n\n### Idempotent message processing examples\n\n{{% redis-cli %}}\nXADD mystream IDMP producer1 msg1 * field value\nXADD mystream IDMP producer1 msg1 * field different_value\nXADD mystream IDMPAUTO producer2 * field value\nXADD mystream IDMPAUTO producer2 * field value\nXCFGSET mystream IDMP-DURATION 300 IDMP-MAXSIZE 1000\n{{% /redis-cli %}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"xadd-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The ID of the added entry. The ID is the one automatically generated if an asterisk (`*`) is passed as the _id_ argument, otherwise the command just returns the same ID specified by the user during insertion. When using IDMP and a duplicate is detected, returns the ID of the existing entry.\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the NOMKSTREAM option is given and the key doesn't exist.\n\n-tab-sep-\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The ID of the added entry. The ID is the one automatically generated if an asterisk (`*`) is passed as the _id_ argument, otherwise the command just returns the same ID specified by the user during insertion. When using IDMP and a duplicate is detected, returns the ID of the existing entry.\n* [Null reply](../../develop/reference/protocol-spec#nulls): if the NOMKSTREAM option is given and the key doesn't exist.\n\n{{< /multitabs >}}",
+  "example": "XADD mystream * name Sara surname OConnor\nXADD mystream * field1 value1 field2 value2 field3 value3\nXLEN mystream\nXRANGE mystream - +",
   "intro": "Appends the specified stream entry to the stream at the specified `key`.\nIf the key does not exist, `XADD` will create a new key with the given stream value as a side effect of running this command.\nYou can turn off key creation with the `NOMKSTREAM` option.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -271,7 +1590,7 @@
     {
       "title": "Optional arguments",
       "level": 2,
-      "content": "<details open>\n<summary><code>NOMKSTREAM</code></summary>\n\nPrevents the creation of a new stream if the key does not exist. Available since Redis 6.2.0.\n</details>\n\n<details open>\n<summary><code>IDMPAUTO producer-id | IDMP producer-id idempotent-id</code></summary>\n\nEnables idempotent message processing (at-most-once production) to prevent duplicate entries. Available since Redis 8.6.\n\n- `IDMPAUTO producer-id`: Automatically generates a unique idempotent ID (iid) for the specified producer-id. Redis tracks this iid to prevent duplicate messages from the same producer-id.\n- `IDMP producer-id idempotent-id`: Uses the specified idempotent-id for the given producer-id. If this producer-id/idempotent-id combination was already used, the command returns the ID of the existing entry instead of creating a duplicate.\n\nThe producer-id identifies the source of the message, while the idempotent-id ensures uniqueness within that producer-id's message stream. Redis maintains an internal map of recent producer-id/idempotent-id combinations to detect and prevent duplicates.\n\nBoth modes can only be specified when the entry ID is `*` (auto-generated).\n\nUse [`XCFGSET`]() to configure how long idempotent IDs are retained (`IDMP-DURATION`) and the maximum number tracked per producer (`IDMP-MAXSIZE`).\n\nSee [Idempotent message processing]() for more information.\n\n</details>\n\n<details open>\n<summary><code>KEEPREF | DELREF | ACKED</code></summary>\n\nSpecifies how to handle consumer group references when trimming. If there are no consumer groups, these arguments have no effect. Available since Redis 8.2.\n\nIf no option is specified, `KEEPREF` is used by default. Unlike the `XDELEX` and `XACKDEL` commands where one of these options is required, here they are optional to maintain backward compatibility:\n\n- `KEEPREF` (default): When trimming, removes entries from the stream according to the specified strategy (`MAXLEN` or `MINID`), regardless of whether they are referenced by any consumer groups, but preserves existing references to these entries in all consumer groups' PEL (Pending Entries List).\n- `DELREF`: When trimming, removes entries from the stream according to the specified strategy and also removes all references to these entries from all consumer groups' PEL.\n- `ACKED`: When trimming, only removes entries that were read and acknowledged by all consumer groups. Note that if the number of referenced entries is larger than `MAXLEN`, trimming will still stop at the limit.\n</details>\n\n<details open>\n<summary><code>MAXLEN | MINID [= | ~] threshold [LIMIT count]></code></summary>\n\nTrims the stream to maintain a specific size or remove old entries:\n\n<details open>\n<summary><code>MAXLEN | MINID</code></summary>\n\nThe trimming strategy:\n- `MAXLEN`: Evicts entries as long as the stream's length exceeds the specified threshold\n- `MINID`: Evicts entries with IDs lower than the specified threshold (available since Redis 6.2.0)\n</details>\n\n<details open>\n<summary><code>= | ~</code></summary>\n\nThe trimming operator:\n- `=`: Exact trimming (default) - trims to the exact threshold\n- `~`: Approximate trimming - more efficient, may leave slightly more entries than the threshold\n</details>\n\n<details open>\n<summary><code>threshold</code></summary>\n\nThe trimming threshold:\n- For `MAXLEN`: `threshold` is a non-negative integer specifying the maximum number of entries that may remain in the stream after trimming. Redis enforces this by removing the oldest entries - that is, the entries with the lowest stream IDs - so that only the newest entries are kept.\n- For `MINID`: `threshold` is a stream ID. All entries whose IDs are less than `threshold` are trimmed. All entries with IDs greater than or equal to `threshold` are kept.\n</details>\n\n<details open>\n<summary><code>LIMIT count</code></summary>\n\nLimits the number of entries to examine during trimming. Available since Redis 6.2.0. When not specified, Redis uses a default value of 100 * the number of entries in a macro node. Specifying 0 disables the limiting mechanism entirely.\n</details>\n\n</details>\n  \nEach entry consists of a list of field-value pairs.\nRedis stores the field-value pairs in the same order you provide them.\nCommands that read the stream, such as [`XRANGE`]() or [`XREAD`](), return the fields and values in exactly the same order you added them with `XADD`.\n\n\n`XADD` is the only Redis command that can add data to a stream. However,\nother commands, such as [`XDEL`]() and [`XTRIM`](), can\nremove data from a stream."
+      "content": "<details open>\n<summary><code>NOMKSTREAM</code></summary>\n\nPrevents the creation of a new stream if the key does not exist. Available since Redis 6.2.0.\n</details>\n\n<details open>\n<summary><code>IDMPAUTO producer-id | IDMP producer-id idempotent-id</code></summary>\n\nEnables idempotent message processing (at-most-once production) to prevent duplicate entries. Available since Redis 8.6.\n\n- `IDMPAUTO producer-id`: Automatically generates a unique idempotent ID (iid) for the specified producer-id. Redis tracks this iid to prevent duplicate messages from the same producer-id.\n- `IDMP producer-id idempotent-id`: Uses the specified idempotent-id for the given producer-id. If this producer-id/idempotent-id combination was already used, the command returns the ID of the existing entry instead of creating a duplicate.\n\nThe producer-id identifies the source of the message, while the idempotent-id ensures uniqueness within that producer-id's message stream. Redis maintains an internal map of recent producer-id/idempotent-id combinations to detect and prevent duplicates.\n\nBoth modes can only be specified when the entry ID is `*` (auto-generated).\n\nUse [`XCFGSET`]({{< relref \"/commands/xcfgset\" >}}) to configure how long idempotent IDs are retained (`IDMP-DURATION`) and the maximum number tracked per producer (`IDMP-MAXSIZE`).\n\nSee [Idempotent message processing]({{< relref \"/develop/data-types/streams/idempotency\" >}}) for more information.\n\n</details>\n\n<details open>\n<summary><code>KEEPREF | DELREF | ACKED</code></summary>\n\nSpecifies how to handle consumer group references when trimming. If there are no consumer groups, these arguments have no effect. Available since Redis 8.2.\n\nIf no option is specified, `KEEPREF` is used by default. Unlike the `XDELEX` and `XACKDEL` commands where one of these options is required, here they are optional to maintain backward compatibility:\n\n- `KEEPREF` (default): When trimming, removes entries from the stream according to the specified strategy (`MAXLEN` or `MINID`), regardless of whether they are referenced by any consumer groups, but preserves existing references to these entries in all consumer groups' PEL (Pending Entries List).\n- `DELREF`: When trimming, removes entries from the stream according to the specified strategy and also removes all references to these entries from all consumer groups' PEL.\n- `ACKED`: When trimming, only removes entries that were read and acknowledged by all consumer groups. Note that if the number of referenced entries is larger than `MAXLEN`, trimming will still stop at the limit.\n</details>\n\n<details open>\n<summary><code>MAXLEN | MINID [= | ~] threshold [LIMIT count]></code></summary>\n\nTrims the stream to maintain a specific size or remove old entries:\n\n<details open>\n<summary><code>MAXLEN | MINID</code></summary>\n\nThe trimming strategy:\n- `MAXLEN`: Evicts entries as long as the stream's length exceeds the specified threshold\n- `MINID`: Evicts entries with IDs lower than the specified threshold (available since Redis 6.2.0)\n</details>\n\n<details open>\n<summary><code>= | ~</code></summary>\n\nThe trimming operator:\n- `=`: Exact trimming (default) - trims to the exact threshold\n- `~`: Approximate trimming - more efficient, may leave slightly more entries than the threshold\n</details>\n\n<details open>\n<summary><code>threshold</code></summary>\n\nThe trimming threshold:\n- For `MAXLEN`: `threshold` is a non-negative integer specifying the maximum number of entries that may remain in the stream after trimming. Redis enforces this by removing the oldest entries - that is, the entries with the lowest stream IDs - so that only the newest entries are kept.\n- For `MINID`: `threshold` is a stream ID. All entries whose IDs are less than `threshold` are trimmed. All entries with IDs greater than or equal to `threshold` are kept.\n</details>\n\n<details open>\n<summary><code>LIMIT count</code></summary>\n\nLimits the number of entries to examine during trimming. Available since Redis 6.2.0. When not specified, Redis uses a default value of 100 * the number of entries in a macro node. Specifying 0 disables the limiting mechanism entirely.\n</details>\n\n</details>\n  \nEach entry consists of a list of field-value pairs.\nRedis stores the field-value pairs in the same order you provide them.\nCommands that read the stream, such as [`XRANGE`]({{< relref \"/commands/xrange\" >}}) or [`XREAD`]({{< relref \"/commands/xread\" >}}), return the fields and values in exactly the same order you added them with `XADD`.\n\n{{< note >}}\n`XADD` is the only Redis command that can add data to a stream. However,\nother commands, such as [`XDEL`]({{< relref \"/commands/xdel\" >}}) and [`XTRIM`]({{< relref \"/commands/xtrim\" >}}), can\nremove data from a stream.\n{{< /note >}}"
     },
     {
       "title": "Specifying a Stream ID as an argument",
@@ -281,22 +1600,22 @@
     {
       "title": "Capped streams",
       "level": 2,
-      "content": "`XADD` incorporates the same semantics as the [`XTRIM`]() command - refer to its documentation page for more information.\nThis allows you to add new entries and keep the stream's size in check with a single call to `XADD`, effectively capping the stream with an arbitrary threshold.\nAlthough exact trimming is possible and is the default, due to the internal representation of streams, it is more efficient to add an entry and trim the stream with `XADD` using **almost exact** trimming (the `~` argument).\n\nFor example, calling `XADD` in the following form:\n\n    XADD mystream MAXLEN ~ 1000 * ... entry fields here ...\n\nThis adds a new entry but also evicts old entries so that the stream contains only 1000 entries, or at most a few tens more."
+      "content": "`XADD` incorporates the same semantics as the [`XTRIM`]({{< relref \"/commands/xtrim\" >}}) command - refer to its documentation page for more information.\nThis allows you to add new entries and keep the stream's size in check with a single call to `XADD`, effectively capping the stream with an arbitrary threshold.\nAlthough exact trimming is possible and is the default, due to the internal representation of streams, it is more efficient to add an entry and trim the stream with `XADD` using **almost exact** trimming (the `~` argument).\n\nFor example, calling `XADD` in the following form:\n\n    XADD mystream MAXLEN ~ 1000 * ... entry fields here ...\n\nThis adds a new entry but also evicts old entries so that the stream contains only 1000 entries, or at most a few tens more."
     },
     {
       "title": "Additional information about streams",
       "level": 2,
-      "content": "For more information about Redis streams, see the\n[introduction to Redis Streams document]()."
+      "content": "For more information about Redis streams, see the\n[introduction to Redis Streams document]({{< relref \"/develop/data-types/streams\" >}})."
     },
     {
       "title": "Examples",
       "level": 2,
-      "content": "XADD mystream * name Sara surname OConnor\nXADD mystream * field1 value1 field2 value2 field3 value3\nXLEN mystream\nXRANGE mystream - +"
+      "content": "{{% redis-cli %}}\nXADD mystream * name Sara surname OConnor\nXADD mystream * field1 value1 field2 value2 field3 value3\nXLEN mystream\nXRANGE mystream - +\n{{% /redis-cli %}}"
     },
     {
       "title": "Idempotent message processing examples",
       "level": 3,
-      "content": "XADD mystream IDMP producer1 msg1 * field value\nXADD mystream IDMP producer1 msg1 * field different_value\nXADD mystream IDMPAUTO producer2 * field value\nXADD mystream IDMPAUTO producer2 * field value\nXCFGSET mystream IDMP-DURATION 300 IDMP-MAXSIZE 1000"
+      "content": "{{% redis-cli %}}\nXADD mystream IDMP producer1 msg1 * field value\nXADD mystream IDMP producer1 msg1 * field different_value\nXADD mystream IDMPAUTO producer2 * field value\nXADD mystream IDMPAUTO producer2 * field value\nXCFGSET mystream IDMP-DURATION 300 IDMP-MAXSIZE 1000\n{{% /redis-cli %}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -306,7 +1625,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The ID of the added entry. The ID is the one automatically generated if an asterisk (`*`) is passed as the _id_ argument, otherwise the command just returns the same ID specified by the user during insertion. When using IDMP and a duplicate is detected, returns the ID of the existing entry.\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the NOMKSTREAM option is given and the key doesn't exist.\n\n**RESP3:**\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The ID of the added entry. The ID is the one automatically generated if an asterisk (`*`) is passed as the _id_ argument, otherwise the command just returns the same ID specified by the user during insertion. When using IDMP and a duplicate is detected, returns the ID of the existing entry.\n* [Null reply](../../develop/reference/protocol-spec#nulls): if the NOMKSTREAM option is given and the key doesn't exist."
+      "content": "{{< multitabs id=\"xadd-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The ID of the added entry. The ID is the one automatically generated if an asterisk (`*`) is passed as the _id_ argument, otherwise the command just returns the same ID specified by the user during insertion. When using IDMP and a duplicate is detected, returns the ID of the existing entry.\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the NOMKSTREAM option is given and the key doesn't exist.\n\n-tab-sep-\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The ID of the added entry. The ID is the one automatically generated if an asterisk (`*`) is passed as the _id_ argument, otherwise the command just returns the same ID specified by the user during insertion. When using IDMP and a duplicate is detected, returns the ID of the existing entry.\n* [Null reply](../../develop/reference/protocol-spec#nulls): if the NOMKSTREAM option is given and the key doesn't exist.\n\n{{< /multitabs >}}"
     }
   ]
 }

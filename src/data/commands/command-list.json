@@ -13,6 +13,84 @@
     "@slow",
     "@connection"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "module",
+            "type": "str | None"
+          },
+          {
+            "description": "",
+            "name": "category",
+            "type": "str | None"
+          },
+          {
+            "description": "",
+            "name": "pattern",
+            "type": "str | None"
+          },
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "list"
+        },
+        "signature": "command_list(module: str | None = None, category: str | None = None, pattern: str | None = None, **kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "List<String>"
+        },
+        "signature": "List<String> commandList()"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "filterBy",
+            "type": "CommandListFilterBy"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List<String>"
+        },
+        "signature": "List<String> commandList(CommandListFilterBy filterBy)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$subcommand",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$args",
+            "type": "mixed"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array"
+        },
+        "signature": "command(string $subcommand, ...$args)"
+      }
+    ]
+  },
   "commandFlags": [
     "loading",
     "stale"
@@ -57,20 +135,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Return an array of the server's command names.\n\nYou can use the optional _FILTERBY_ modifier to apply one of the following filters:\n\n - **MODULE module-name**: get the commands that belong to the module specified by _module-name_.\n - **ACLCAT category**: get the commands in the [ACL category]() specified by _category_.\n - **PATTERN pattern**: get the commands that match the given glob-like _pattern_.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of command names.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of command names.",
+  "content": "Return an array of the server's command names.\n\nYou can use the optional _FILTERBY_ modifier to apply one of the following filters:\n\n - **MODULE module-name**: get the commands that belong to the module specified by _module-name_.\n - **ACLCAT category**: get the commands in the [ACL category]() specified by _category_.\n - **PATTERN pattern**: get the commands that match the given glob-like _pattern_.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"command-list-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of command names.\n\n-tab-sep-\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of command names.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "Return an array of the server's command names.\n\nYou can use the optional _FILTERBY_ modifier to apply one of the following filters:\n\n - **MODULE module-name**: get the commands that belong to the module specified by _module-name_.\n - **ACLCAT category**: get the commands in the [ACL category]() specified by _category_.\n - **PATTERN pattern**: get the commands that match the given glob-like _pattern_.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -85,7 +156,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of command names.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of command names."
+      "content": "{{< multitabs id=\"command-list-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of command names.\n\n-tab-sep-\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of command names.\n\n{{< /multitabs >}}"
     }
   ]
 }

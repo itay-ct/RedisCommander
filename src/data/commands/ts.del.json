@@ -14,6 +14,195 @@
     "@write",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "from_time",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "to_time",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "The number of samples deleted.",
+          "type": "Any"
+        },
+        "signature": "delete(key: KeyT, from_time: int, to_time: int)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "fromTimestamp",
+            "type": "long"
+          },
+          {
+            "description": "",
+            "name": "toTimestamp",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "The number of samples that were removed",
+          "type": "long"
+        },
+        "signature": "long tsDel(String key, long fromTimestamp, long toTimestamp)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "Key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "fromTimestamp",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "toTimestamp",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*IntCmd"
+        },
+        "signature": "TSDel(ctx context.Context, Key string, fromTimestamp int, toTimestamp int)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "fromTimestamp",
+            "type": "Timestamp"
+          },
+          {
+            "description": "",
+            "name": "toTimestamp",
+            "type": "Timestamp"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "DEL(key: RedisArgument, fromTimestamp: Timestamp, toTimestamp: Timestamp)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "fromTimeStamp",
+            "type": "TimeStamp"
+          },
+          {
+            "description": "",
+            "name": "toTimeStamp",
+            "type": "TimeStamp"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "long"
+        },
+        "signature": "Del(string key, TimeStamp fromTimeStamp, TimeStamp toTimeStamp)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "fromTimeStamp",
+            "type": "TimeStamp"
+          },
+          {
+            "description": "",
+            "name": "toTimeStamp",
+            "type": "TimeStamp"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Task<long>"
+        },
+        "signature": "DelAsync(string key, TimeStamp fromTimeStamp, TimeStamp toTimeStamp)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$fromTimestamp",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "$toTimestamp",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "int"
+        },
+        "signature": "tsdel(string $key, int $fromTimestamp, int $toTimestamp)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -41,36 +230,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      },
-      {
-        "id": "see-also",
-        "title": "See also"
-      },
-      {
-        "id": "related-topics",
-        "title": "Related topics"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Delete all samples between two timestamps for a given time series\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open><summary><code>key</code></summary> \n\nis key name for the time series.\n</details>\n\n<details open><summary><code>fromTimestamp</code></summary> \n\nis start timestamp for the range deletion.\n</details>\n\n<details open><summary><code>toTimestamp</code></summary>\n\nis end timestamp for the range deletion.\n\nThe given timestamp interval is closed (inclusive), meaning that samples whose timestamp eqauls the `fromTimestamp` or `toTimestamp` are also deleted.\n\n<note><b>Notes:</b>\n  \n- If fromTimestamp is older than the retention period compared to the maximum existing timestamp, the deletion is discarded and an error is returned.\n- When deleting a sample from a time series for which compaction rules are defined:\n  - If all the original samples for an affected compaction bucket are available, the compacted value is recalculated based on the remaining original samples, or removed if all original samples within the compaction bucket  were deleted.\n  - If original samples for an affected compaction bucket were expired, the deletion is discarded and an error is returned.\n- Explicitly deleting samples from a compacted time series may result in inconsistencies between the raw and the compacted data. The compaction process may override such samples. That being said, it is safe to explicitly delete samples from a compacted time series beyond the retention period of the original time series.\n\n</note>\n\n## Examples\n\n<details open><summary><b>Delete range of data points</b></summary>\n\nCreate time series for temperature in Tel Aviv and Jerusalem, then add different temperature samples.\n\n\n127.0.0.1:6379> TS.CREATE temp:TLV LABELS type temp location TLV\nOK\n127.0.0.1:6379> TS.CREATE temp:JLM LABELS type temp location JLM\nOK\n127.0.0.1:6379> TS.MADD temp:TLV 1000 30 temp:TLV 1010 35 temp:TLV 1020 9999 temp:TLV 1030 40\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n4) (integer) 1030\n127.0.0.1:6379> TS.MADD temp:JLM 1005 30 temp:JLM 1015 35 temp:JLM 1025 9999 temp:JLM 1035 40\n1) (integer) 1005\n2) (integer) 1015\n3) (integer) 1025\n4) (integer) 1035\n\n\nDelete the range of data points for temperature in Tel Aviv.\n\n\n127.0.0.1:6379> TS.DEL temp:TLV 1000 1030\n(integer) 4\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Integer reply](): the number of samples that were deleted.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, `timestamp` is older than the retention period compared to the maximum existing timestamp, or when an affected compaction bucket cannot be recalculated.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](): the number of samples that were deleted.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, `timestamp` is older than the retention period compared to the maximum existing timestamp, or when an affected compaction bucket cannot be recalculated.\n\n\n\n## See also\n\n[`TS.ADD`]() \n\n## Related topics\n\n[RedisTimeSeries]()",
+  "content": "Delete all samples between two timestamps for a given time series\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open><summary><code>key</code></summary> \n\nis key name for the time series.\n</details>\n\n<details open><summary><code>fromTimestamp</code></summary> \n\nis start timestamp for the range deletion.\n</details>\n\n<details open><summary><code>toTimestamp</code></summary>\n\nis end timestamp for the range deletion.\n\nThe given timestamp interval is closed (inclusive), meaning that samples whose timestamp eqauls the `fromTimestamp` or `toTimestamp` are also deleted.\n\n<note><b>Notes:</b>\n  \n- If fromTimestamp is older than the retention period compared to the maximum existing timestamp, the deletion is discarded and an error is returned.\n- When deleting a sample from a time series for which compaction rules are defined:\n  - If all the original samples for an affected compaction bucket are available, the compacted value is recalculated based on the remaining original samples, or removed if all original samples within the compaction bucket  were deleted.\n  - If original samples for an affected compaction bucket were expired, the deletion is discarded and an error is returned.\n- Explicitly deleting samples from a compacted time series may result in inconsistencies between the raw and the compacted data. The compaction process may override such samples. That being said, it is safe to explicitly delete samples from a compacted time series beyond the retention period of the original time series.\n\n</note>\n\n## Examples\n\n<details open><summary><b>Delete range of data points</b></summary>\n\nCreate time series for temperature in Tel Aviv and Jerusalem, then add different temperature samples.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.CREATE temp:TLV LABELS type temp location TLV\nOK\n127.0.0.1:6379> TS.CREATE temp:JLM LABELS type temp location JLM\nOK\n127.0.0.1:6379> TS.MADD temp:TLV 1000 30 temp:TLV 1010 35 temp:TLV 1020 9999 temp:TLV 1030 40\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n4) (integer) 1030\n127.0.0.1:6379> TS.MADD temp:JLM 1005 30 temp:JLM 1015 35 temp:JLM 1025 9999 temp:JLM 1035 40\n1) (integer) 1005\n2) (integer) 1015\n3) (integer) 1025\n4) (integer) 1035\n{{< / highlight >}}\n\nDelete the range of data points for temperature in Tel Aviv.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.DEL temp:TLV 1000 1030\n(integer) 4\n{{< / highlight >}}\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"ts-del-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): the number of samples that were deleted.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, wrong key type, `timestamp` is older than the retention period compared to the maximum existing timestamp, or when an affected compaction bucket cannot be recalculated.\n\n-tab-sep-\n\nOne of the following:\n* [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): the number of samples that were deleted.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, wrong key type, `timestamp` is older than the retention period compared to the maximum existing timestamp, or when an affected compaction bucket cannot be recalculated.\n\n{{< /multitabs >}}\n\n## See also\n\n[`TS.ADD`]({{< relref \"commands/ts.add/\" >}}) \n\n## Related topics\n\n[RedisTimeSeries]({{< relref \"/develop/data-types/timeseries/\" >}})",
+  "example": "127.0.0.1:6379> TS.CREATE temp:TLV LABELS type temp location TLV\nOK\n127.0.0.1:6379> TS.CREATE temp:JLM LABELS type temp location JLM\nOK\n127.0.0.1:6379> TS.MADD temp:TLV 1000 30 temp:TLV 1010 35 temp:TLV 1020 9999 temp:TLV 1030 40\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n4) (integer) 1030\n127.0.0.1:6379> TS.MADD temp:JLM 1005 30 temp:JLM 1015 35 temp:JLM 1025 9999 temp:JLM 1035 40\n1) (integer) 1005\n2) (integer) 1015\n3) (integer) 1025\n4) (integer) 1035",
   "intro": "Delete all samples between two timestamps for a given time series\n\n[Examples](#examples)",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -85,7 +251,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "<details open><summary><b>Delete range of data points</b></summary>\n\nCreate time series for temperature in Tel Aviv and Jerusalem, then add different temperature samples.\n\n\n127.0.0.1:6379> TS.CREATE temp:TLV LABELS type temp location TLV\nOK\n127.0.0.1:6379> TS.CREATE temp:JLM LABELS type temp location JLM\nOK\n127.0.0.1:6379> TS.MADD temp:TLV 1000 30 temp:TLV 1010 35 temp:TLV 1020 9999 temp:TLV 1030 40\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n4) (integer) 1030\n127.0.0.1:6379> TS.MADD temp:JLM 1005 30 temp:JLM 1015 35 temp:JLM 1025 9999 temp:JLM 1035 40\n1) (integer) 1005\n2) (integer) 1015\n3) (integer) 1025\n4) (integer) 1035\n\n\nDelete the range of data points for temperature in Tel Aviv.\n\n\n127.0.0.1:6379> TS.DEL temp:TLV 1000 1030\n(integer) 4\n\n</details>"
+      "content": "<details open><summary><b>Delete range of data points</b></summary>\n\nCreate time series for temperature in Tel Aviv and Jerusalem, then add different temperature samples.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.CREATE temp:TLV LABELS type temp location TLV\nOK\n127.0.0.1:6379> TS.CREATE temp:JLM LABELS type temp location JLM\nOK\n127.0.0.1:6379> TS.MADD temp:TLV 1000 30 temp:TLV 1010 35 temp:TLV 1020 9999 temp:TLV 1030 40\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n4) (integer) 1030\n127.0.0.1:6379> TS.MADD temp:JLM 1005 30 temp:JLM 1015 35 temp:JLM 1025 9999 temp:JLM 1035 40\n1) (integer) 1005\n2) (integer) 1015\n3) (integer) 1025\n4) (integer) 1035\n{{< / highlight >}}\n\nDelete the range of data points for temperature in Tel Aviv.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.DEL temp:TLV 1000 1030\n(integer) 4\n{{< / highlight >}}\n</details>"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -95,17 +261,17 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Integer reply](): the number of samples that were deleted.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, `timestamp` is older than the retention period compared to the maximum existing timestamp, or when an affected compaction bucket cannot be recalculated.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](): the number of samples that were deleted.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, `timestamp` is older than the retention period compared to the maximum existing timestamp, or when an affected compaction bucket cannot be recalculated."
+      "content": "{{< multitabs id=\"ts-del-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): the number of samples that were deleted.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, wrong key type, `timestamp` is older than the retention period compared to the maximum existing timestamp, or when an affected compaction bucket cannot be recalculated.\n\n-tab-sep-\n\nOne of the following:\n* [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): the number of samples that were deleted.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, wrong key type, `timestamp` is older than the retention period compared to the maximum existing timestamp, or when an affected compaction bucket cannot be recalculated.\n\n{{< /multitabs >}}"
     },
     {
       "title": "See also",
       "level": 2,
-      "content": "[`TS.ADD`]()"
+      "content": "[`TS.ADD`]({{< relref \"commands/ts.add/\" >}})"
     },
     {
       "title": "Related topics",
       "level": 2,
-      "content": "[RedisTimeSeries]()"
+      "content": "[RedisTimeSeries]({{< relref \"/develop/data-types/timeseries/\" >}})"
     }
   ]
 }

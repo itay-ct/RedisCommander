@@ -14,6 +14,284 @@
     "@write",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "names",
+            "type": "KeyT"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "int"
+        },
+        "signature": "delete(*names: KeyT)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keys",
+            "type": "byte[]..."
+          }
+        ],
+        "returns": {
+          "description": "An integer greater than 0 if one or more keys were removed, 0 if none of the specified keys existed",
+          "type": "long"
+        },
+        "signature": "long del(final byte[]... keys)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "byte[]"
+          }
+        ],
+        "returns": {
+          "description": "An integer greater than 0 if one or more keys were removed, 0 if none of the specified keys existed",
+          "type": "long"
+        },
+        "signature": "long del(final byte[] key)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keys",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "An integer greater than 0 if one or more keys were removed, 0 if none of the specified keys existed",
+          "type": "long"
+        },
+        "signature": "long del(final String... keys)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "An integer greater than 0 if one or more keys were removed, 0 if none of the specified keys existed",
+          "type": "long"
+        },
+        "signature": "long del(final String key)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "...string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*IntCmd"
+        },
+        "signature": "Del(ctx context.Context, keys ...string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keys",
+            "type": "RedisVariadicArgument"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "DEL(keys: RedisVariadicArgument)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "Long integer-reply The number of keys that were removed.",
+          "type": "Long"
+        },
+        "signature": "Long del(K... keys)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "Long integer-reply The number of keys that were removed.",
+          "type": "RedisFuture<Long>"
+        },
+        "signature": "RedisFuture<Long> del(K... keys)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "Long integer-reply The number of keys that were removed.",
+          "type": "Mono<Long>"
+        },
+        "signature": "Mono<Long> del(K... keys)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The number of keys that were removed.",
+          "type": "bool"
+        },
+        "signature": "KeyDelete(RedisKey key, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The keys to delete.",
+            "name": "keys",
+            "type": "RedisKey[]"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The number of keys that were removed.",
+          "type": "long"
+        },
+        "signature": "KeyDelete(RedisKey[] keys, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The number of keys that were removed.",
+          "type": "Task<bool>"
+        },
+        "signature": "KeyDeleteAsync(RedisKey key, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The keys to delete.",
+            "name": "keys",
+            "type": "RedisKey[]"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The number of keys that were removed.",
+          "type": "Task<long>"
+        },
+        "signature": "KeyDeleteAsync(RedisKey[] keys, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$keyOrKeys",
+            "type": "string[]|string"
+          },
+          {
+            "description": "",
+            "name": "$keys",
+            "type": "string ..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "int"
+        },
+        "signature": "del(string[]|string $keyOrKeys, string ...$keys = null)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "*keys",
+            "type": "String, Array<String>"
+          }
+        ],
+        "returns": {
+          "description": "number of keys that were deleted",
+          "type": "Integer"
+        },
+        "signature": "del(*keys)"
+      }
+    ]
+  },
   "commandFlags": [
     "write"
   ],
@@ -57,131 +335,25 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
-  "codeExamples": [
-    {
-      "codetabsId": "cmds_generic-stepdel",
-      "commands": [
-        {
-          "acl_categories": [
-            "@write",
-            "@string",
-            "@slow"
-          ],
-          "complexity": "O(1)",
-          "name": "SET"
-        },
-        {
-          "acl_categories": [
-            "@keyspace",
-            "@write",
-            "@slow"
-          ],
-          "complexity": "O(N)",
-          "name": "DEL"
-        }
-      ],
-      "description": "Foundational: Delete one or more keys using DEL (ignores non-existent keys, returns count of deleted keys)",
-      "difficulty": "beginner",
-      "id": "del",
-      "languages": [
-        {
-          "id": "redis-cli",
-          "panelId": "panel_redis-cli_cmds_generic-stepdel"
-        },
-        {
-          "clientId": "redis-py",
-          "clientName": "redis-py",
-          "id": "Python",
-          "langId": "python",
-          "panelId": "panel_Python_cmds_generic-stepdel"
-        },
-        {
-          "id": "Node-js",
-          "panelId": "panel_Nodejs_cmds_generic-stepdel"
-        },
-        {
-          "clientId": "jedis",
-          "clientName": "Jedis",
-          "id": "Java-Sync",
-          "langId": "java",
-          "panelId": "panel_Java-Sync_cmds_generic-stepdel"
-        },
-        {
-          "clientId": "lettuce",
-          "clientName": "Lettuce",
-          "id": "Java-Async",
-          "langId": "java",
-          "panelId": "panel_Java-Async_cmds_generic-stepdel"
-        },
-        {
-          "clientId": "lettuce",
-          "clientName": "Lettuce",
-          "id": "Java-Reactive",
-          "langId": "java",
-          "panelId": "panel_Java-Reactive_cmds_generic-stepdel"
-        },
-        {
-          "clientId": "go-redis",
-          "clientName": "go-redis",
-          "id": "Go",
-          "langId": "go",
-          "panelId": "panel_Go_cmds_generic-stepdel"
-        },
-        {
-          "id": "dotnet-Sync",
-          "panelId": "panel_Csharp-Sync_cmds_generic-stepdel"
-        },
-        {
-          "clientId": "predis",
-          "clientName": "Predis",
-          "id": "PHP",
-          "langId": "php",
-          "panelId": "panel_PHP_cmds_generic-stepdel"
-        },
-        {
-          "clientId": "redis-rs",
-          "clientName": "redis-rs",
-          "id": "Rust-Sync",
-          "langId": "rust",
-          "panelId": "panel_Rust-Sync_cmds_generic-stepdel"
-        },
-        {
-          "clientId": "redis-rs",
-          "clientName": "redis-rs",
-          "id": "Rust-Async",
-          "langId": "rust",
-          "panelId": "panel_Rust-Async_cmds_generic-stepdel"
-        }
-      ]
-    }
+  "codeExamples": [],
+  "content": "Removes the specified keys.\nA key is ignored if it does not exist.\n\n## Examples\n\n{{< clients-example set=\"cmds_generic\" step=\"del\" description=\"Foundational: Delete one or more keys using DEL (ignores non-existent keys, returns count of deleted keys)\" difficulty=\"beginner\" >}}\n> SET key1 \"Hello\"\n\"OK\"\n> SET key2 \"World\"\n\"OK\"\n> DEL key1 key2 key3\n(integer) 2\n{{< /clients-example >}}\n\nGive these commands a try in the interactive console:\n\n{{% redis-cli %}}\nSET key1 \"Hello\"\nSET key2 \"World\"\nDEL key1 key2 key3\n{{% /redis-cli %}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"del-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of keys that were removed.\n\n-tab-sep-\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of keys that were removed.\n\n{{< /multitabs >}}",
+  "example": "> SET key1 \"Hello\"\n\"OK\"\n> SET key2 \"World\"\n\"OK\"\n> DEL key1 key2 key3\n(integer) 2",
+  "intro": "Removes the specified keys.\nA key is ignored if it does not exist.",
+  "notes": [
+    "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information."
   ],
-  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nRemoves the specified keys.\nA key is ignored if it does not exist.\n\n## Examples\n\n#### Code Examples\n\nFoundational: Delete one or more keys using DEL (ignores non-existent keys, returns count of deleted keys)\n\n**Difficulty:** Beginner\n\n**Commands:** SET, DEL\n\n**Complexity:**\n- SET: O(1)\n- DEL: O(N)\n\n**Redis CLI:**\n\n```\n> SET key1 \"Hello\"\n\"OK\"\n> SET key2 \"World\"\n\"OK\"\n> DEL key1 key2 key3\n(integer) 2\n```\n\n**Available in:** Redis CLI, C# (Synchronous), Go, Java (Asynchronous - Lettuce), Java (Reactive - Lettuce), Java (Synchronous - Jedis), JavaScript (Node.js), PHP, Python, Rust (Asynchronous), Rust (Synchronous)\n\n**C# (Synchronous):**\n\n```csharp\n        bool delResult1 = db.StringSet(\"key1\", \"Hello\");\n        Console.WriteLine(delResult1);  // >>> true\n\n        bool delResult2 = db.StringSet(\"key2\", \"World\");\n        Console.WriteLine(delResult2);  // >>> true\n\n        long delResult3 = db.KeyDelete([\"key1\", \"key2\", \"key3\"]);\n        Console.WriteLine(delResult3);  // >>> 2\n```\n\n**Go:**\n\n```go\n\tdelResult1, err := rdb.Set(ctx, \"key1\", \"Hello\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(delResult1) // >>> OK\n\n\tdelResult2, err := rdb.Set(ctx, \"key2\", \"World\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(delResult2) // >>> OK\n\n\tdelResult3, err := rdb.Del(ctx, \"key1\", \"key2\", \"key3\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(delResult3) // >>> 2\n```\n\n**Java (Asynchronous - Lettuce):**\n\n```java\npackage io.redis.examples.async;\n\nimport io.lettuce.core.*;\n\nimport io.lettuce.core.api.async.RedisAsyncCommands;\n\nimport io.lettuce.core.api.StatefulRedisConnection;\n\nimport java.util.concurrent.CompletableFuture;\n\npublic class CmdsGenericExample {\n\n    public void run() {\n\n            CompletableFuture<Void> existsExample = asyncCommands.set(\"key1\", \"Hello\").thenCompose(res1 -> {\n                System.out.println(res1); // >>> OK\n\n                return asyncCommands.exists(\"key1\");\n            }).thenCompose(res2 -> {\n                System.out.println(res2); // >>> 1\n\n                return asyncCommands.exists(\"nosuchkey\");\n            }).thenCompose(res3 -> {\n                System.out.println(res3); // >>> 0\n\n                return asyncCommands.set(\"key2\", \"World\");\n            }).thenCompose(res4 -> {\n                System.out.println(res4); // >>> OK\n\n                return asyncCommands.exists(\"key1\", \"key2\", \"nosuchkey\");\n            }).thenAccept(res5 -> {\n                System.out.println(res5); // >>> 2\n            }).toCompletableFuture();\n            existsExample.join();\n        } finally {\n            redisClient.shutdown();\n        }\n    }\n}\n\n```\n\n**Java (Reactive - Lettuce):**\n\n```java\npackage io.redis.examples.reactive;\n\nimport io.lettuce.core.*;\nimport io.lettuce.core.api.reactive.RedisReactiveCommands;\nimport io.lettuce.core.api.StatefulRedisConnection;\nimport reactor.core.publisher.Mono;\n\n\npublic class CmdsGenericExample {\n\n    public void run() {\n        RedisClient redisClient = RedisClient.create(\"redis://localhost:6379\");\n\n        try (StatefulRedisConnection<String, String> connection = redisClient.connect()) {\n            RedisReactiveCommands<String, String> reactiveCommands = connection.reactive();\n\n            Mono<Void> existsExample = reactiveCommands.set(\"key1\", \"Hello\").doOnNext(res1 -> {\n                System.out.println(res1); // >>> OK\n            }).then(reactiveCommands.exists(\"key1\")).doOnNext(res2 -> {\n                System.out.println(res2); // >>> 1\n            }).then(reactiveCommands.exists(\"nosuchkey\")).doOnNext(res3 -> {\n                System.out.println(res3); // >>> 0\n            }).then(reactiveCommands.set(\"key2\", \"World\")).doOnNext(res4 -> {\n                System.out.println(res4); // >>> OK\n            }).then(reactiveCommands.exists(\"key1\", \"key2\", \"nosuchkey\")).doOnNext(res5 -> {\n                System.out.println(res5); // >>> 2\n            }).then();\n\n            Mono.when(existsExample).block();\n\n        } finally {\n            redisClient.shutdown();\n        }\n    }\n\n}\n\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n        String delResult1 = jedis.set(\"key1\", \"Hello\");\n        System.out.println(delResult1); // >>> OK\n\n        String delResult2 = jedis.set(\"key2\", \"World\");\n        System.out.println(delResult2); // >>> OK\n\n        long delResult3 = jedis.del(\"key1\", \"key2\", \"key3\");\n        System.out.println(delResult3); // >>> 2\n```\n\n**JavaScript (Node.js):**\n\n```javascript\nconst delRes1 = await client.set('key1', 'Hello');\nconsole.log(delRes1); // OK\n\nconst delRes2 = await client.set('key2', 'World');\nconsole.log(delRes2); // OK\n\nconst delRes3 = await client.del(['key1', 'key2', 'key3']);\nconsole.log(delRes3); // 2\n```\n\n**PHP:**\n\n```php\n<?php\nrequire_once 'vendor/autoload.php';\n\nuse Predis\\Client as PredisClient;\n\nclass CmdsGenericTest\n{\n    public function testCmdsGeneric() {\n        $r = new PredisClient([\n            'scheme'   => 'tcp',\n            'host'     => '127.0.0.1',\n            'port'     => 6379,\n            'password' => '',\n            'database' => 0,\n        ]);\n\n        $existsResult1 = $r->set('key1', 'Hello');\n        echo $existsResult1 . PHP_EOL; // >>> OK\n\n        $existsResult2 = $r->exists('key1');\n        echo $existsResult2 . PHP_EOL; // >>> 1\n\n        $existsResult3 = $r->exists('nosuchkey');\n        echo $existsResult3 . PHP_EOL; // >>> 0\n\n        $existsResult4 = $r->set('key2', 'World');\n        echo $existsResult4 . PHP_EOL; // >>> OK\n\n        $existsResult5 = $r->exists('key1', 'key2', 'nosuchkey');\n        echo $existsResult5 . PHP_EOL; // >>> 2\n\n    }\n}\n\n```\n\n**Python:**\n\n```python\nres = r.set(\"key1\", \"Hello\")\nprint(res)\n# >>> True\n\nres = r.set(\"key2\", \"World\")\nprint(res)\n# >>> True\n\nres = r.delete(\"key1\", \"key2\", \"key3\")\nprint(res)\n# >>> 2\n```\n\n**Rust (Asynchronous):**\n\n```rust\n        if let Ok(res) = r.set(\"key1\", \"Hello\").await {\n            let res: String = res;\n            println!(\"{res}\");    // >>> OK\n        }\n\n        if let Ok(res) = r.set(\"key2\", \"World\").await {\n            let res: String = res;\n            println!(\"{res}\");    // >>> OK\n        }\n\n        match r.del(&[\"key1\", \"key2\", \"key3\"]).await {\n            Ok(res) => {\n                let res: i32 = res;\n                println!(\"{res}\");    // >>> 2\n            },\n            Err(e) => {\n                println!(\"Error deleting keys: {e}\");\n                return;\n            }\n        }\n```\n\n**Rust (Synchronous):**\n\n```rust\n        if let Ok(res) = r.set(\"key1\", \"Hello\") {\n            let res: String = res;\n            println!(\"{res}\");    // >>> OK\n        }\n\n        if let Ok(res) = r.set(\"key2\", \"World\") {\n            let res: String = res;\n            println!(\"{res}\");    // >>> OK\n        }\n\n        match r.del(&[\"key1\", \"key2\", \"key3\"]) {\n            Ok(res) => {\n                let res: i32 = res;\n                println!(\"{res}\");    // >>> 2\n            },\n            Err(e) => {\n                println!(\"Error deleting keys: {e}\");\n                return;\n            }\n        }\n```\n\n\n\nGive these commands a try in the interactive console:\n\n\nSET key1 \"Hello\"\nSET key2 \"World\"\nDEL key1 key2 key3\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of keys that were removed.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of keys that were removed.",
-  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nRemoves the specified keys.\nA key is ignored if it does not exist.",
   "sections": [
     {
       "title": "Overview",
       "level": 1,
-      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nRemoves the specified keys.\nA key is ignored if it does not exist."
+      "content": "Removes the specified keys.\nA key is ignored if it does not exist."
     },
     {
       "title": "Examples",
       "level": 2,
-      "content": "#### Code Examples\n\nFoundational: Delete one or more keys using DEL (ignores non-existent keys, returns count of deleted keys)\n\n**Difficulty:** Beginner\n\n**Commands:** SET, DEL\n\n**Complexity:**\n- SET: O(1)\n- DEL: O(N)\n\n**Redis CLI:**\n\n```\n> SET key1 \"Hello\"\n\"OK\"\n> SET key2 \"World\"\n\"OK\"\n> DEL key1 key2 key3\n(integer) 2\n```\n\n**Available in:** Redis CLI, C# (Synchronous), Go, Java (Asynchronous - Lettuce), Java (Reactive - Lettuce), Java (Synchronous - Jedis), JavaScript (Node.js), PHP, Python, Rust (Asynchronous), Rust (Synchronous)\n\n**C# (Synchronous):**\n\n```csharp\n        bool delResult1 = db.StringSet(\"key1\", \"Hello\");\n        Console.WriteLine(delResult1);  // >>> true\n\n        bool delResult2 = db.StringSet(\"key2\", \"World\");\n        Console.WriteLine(delResult2);  // >>> true\n\n        long delResult3 = db.KeyDelete([\"key1\", \"key2\", \"key3\"]);\n        Console.WriteLine(delResult3);  // >>> 2\n```\n\n**Go:**\n\n```go\n\tdelResult1, err := rdb.Set(ctx, \"key1\", \"Hello\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(delResult1) // >>> OK\n\n\tdelResult2, err := rdb.Set(ctx, \"key2\", \"World\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(delResult2) // >>> OK\n\n\tdelResult3, err := rdb.Del(ctx, \"key1\", \"key2\", \"key3\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(delResult3) // >>> 2\n```\n\n**Java (Asynchronous - Lettuce):**\n\n```java\npackage io.redis.examples.async;\n\nimport io.lettuce.core.*;\n\nimport io.lettuce.core.api.async.RedisAsyncCommands;\n\nimport io.lettuce.core.api.StatefulRedisConnection;\n\nimport java.util.concurrent.CompletableFuture;\n\npublic class CmdsGenericExample {\n\n    public void run() {\n\n            CompletableFuture<Void> existsExample = asyncCommands.set(\"key1\", \"Hello\").thenCompose(res1 -> {\n                System.out.println(res1); // >>> OK\n\n                return asyncCommands.exists(\"key1\");\n            }).thenCompose(res2 -> {\n                System.out.println(res2); // >>> 1\n\n                return asyncCommands.exists(\"nosuchkey\");\n            }).thenCompose(res3 -> {\n                System.out.println(res3); // >>> 0\n\n                return asyncCommands.set(\"key2\", \"World\");\n            }).thenCompose(res4 -> {\n                System.out.println(res4); // >>> OK\n\n                return asyncCommands.exists(\"key1\", \"key2\", \"nosuchkey\");\n            }).thenAccept(res5 -> {\n                System.out.println(res5); // >>> 2\n            }).toCompletableFuture();\n            existsExample.join();\n        } finally {\n            redisClient.shutdown();\n        }\n    }\n}\n\n```\n\n**Java (Reactive - Lettuce):**\n\n```java\npackage io.redis.examples.reactive;\n\nimport io.lettuce.core.*;\nimport io.lettuce.core.api.reactive.RedisReactiveCommands;\nimport io.lettuce.core.api.StatefulRedisConnection;\nimport reactor.core.publisher.Mono;\n\n\npublic class CmdsGenericExample {\n\n    public void run() {\n        RedisClient redisClient = RedisClient.create(\"redis://localhost:6379\");\n\n        try (StatefulRedisConnection<String, String> connection = redisClient.connect()) {\n            RedisReactiveCommands<String, String> reactiveCommands = connection.reactive();\n\n            Mono<Void> existsExample = reactiveCommands.set(\"key1\", \"Hello\").doOnNext(res1 -> {\n                System.out.println(res1); // >>> OK\n            }).then(reactiveCommands.exists(\"key1\")).doOnNext(res2 -> {\n                System.out.println(res2); // >>> 1\n            }).then(reactiveCommands.exists(\"nosuchkey\")).doOnNext(res3 -> {\n                System.out.println(res3); // >>> 0\n            }).then(reactiveCommands.set(\"key2\", \"World\")).doOnNext(res4 -> {\n                System.out.println(res4); // >>> OK\n            }).then(reactiveCommands.exists(\"key1\", \"key2\", \"nosuchkey\")).doOnNext(res5 -> {\n                System.out.println(res5); // >>> 2\n            }).then();\n\n            Mono.when(existsExample).block();\n\n        } finally {\n            redisClient.shutdown();\n        }\n    }\n\n}\n\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n        String delResult1 = jedis.set(\"key1\", \"Hello\");\n        System.out.println(delResult1); // >>> OK\n\n        String delResult2 = jedis.set(\"key2\", \"World\");\n        System.out.println(delResult2); // >>> OK\n\n        long delResult3 = jedis.del(\"key1\", \"key2\", \"key3\");\n        System.out.println(delResult3); // >>> 2\n```\n\n**JavaScript (Node.js):**\n\n```javascript\nconst delRes1 = await client.set('key1', 'Hello');\nconsole.log(delRes1); // OK\n\nconst delRes2 = await client.set('key2', 'World');\nconsole.log(delRes2); // OK\n\nconst delRes3 = await client.del(['key1', 'key2', 'key3']);\nconsole.log(delRes3); // 2\n```\n\n**PHP:**\n\n```php\n<?php\nrequire_once 'vendor/autoload.php';\n\nuse Predis\\Client as PredisClient;\n\nclass CmdsGenericTest\n{\n    public function testCmdsGeneric() {\n        $r = new PredisClient([\n            'scheme'   => 'tcp',\n            'host'     => '127.0.0.1',\n            'port'     => 6379,\n            'password' => '',\n            'database' => 0,\n        ]);\n\n        $existsResult1 = $r->set('key1', 'Hello');\n        echo $existsResult1 . PHP_EOL; // >>> OK\n\n        $existsResult2 = $r->exists('key1');\n        echo $existsResult2 . PHP_EOL; // >>> 1\n\n        $existsResult3 = $r->exists('nosuchkey');\n        echo $existsResult3 . PHP_EOL; // >>> 0\n\n        $existsResult4 = $r->set('key2', 'World');\n        echo $existsResult4 . PHP_EOL; // >>> OK\n\n        $existsResult5 = $r->exists('key1', 'key2', 'nosuchkey');\n        echo $existsResult5 . PHP_EOL; // >>> 2\n\n    }\n}\n\n```\n\n**Python:**\n\n```python\nres = r.set(\"key1\", \"Hello\")\nprint(res)\n# >>> True\n\nres = r.set(\"key2\", \"World\")\nprint(res)\n# >>> True\n\nres = r.delete(\"key1\", \"key2\", \"key3\")\nprint(res)\n# >>> 2\n```\n\n**Rust (Asynchronous):**\n\n```rust\n        if let Ok(res) = r.set(\"key1\", \"Hello\").await {\n            let res: String = res;\n            println!(\"{res}\");    // >>> OK\n        }\n\n        if let Ok(res) = r.set(\"key2\", \"World\").await {\n            let res: String = res;\n            println!(\"{res}\");    // >>> OK\n        }\n\n        match r.del(&[\"key1\", \"key2\", \"key3\"]).await {\n            Ok(res) => {\n                let res: i32 = res;\n                println!(\"{res}\");    // >>> 2\n            },\n            Err(e) => {\n                println!(\"Error deleting keys: {e}\");\n                return;\n            }\n        }\n```\n\n**Rust (Synchronous):**\n\n```rust\n        if let Ok(res) = r.set(\"key1\", \"Hello\") {\n            let res: String = res;\n            println!(\"{res}\");    // >>> OK\n        }\n\n        if let Ok(res) = r.set(\"key2\", \"World\") {\n            let res: String = res;\n            println!(\"{res}\");    // >>> OK\n        }\n\n        match r.del(&[\"key1\", \"key2\", \"key3\"]) {\n            Ok(res) => {\n                let res: i32 = res;\n                println!(\"{res}\");    // >>> 2\n            },\n            Err(e) => {\n                println!(\"Error deleting keys: {e}\");\n                return;\n            }\n        }\n```\n\n\n\nGive these commands a try in the interactive console:\n\n\nSET key1 \"Hello\"\nSET key2 \"World\"\nDEL key1 key2 key3"
+      "content": "{{< clients-example set=\"cmds_generic\" step=\"del\" description=\"Foundational: Delete one or more keys using DEL (ignores non-existent keys, returns count of deleted keys)\" difficulty=\"beginner\" >}}\n> SET key1 \"Hello\"\n\"OK\"\n> SET key2 \"World\"\n\"OK\"\n> DEL key1 key2 key3\n(integer) 2\n{{< /clients-example >}}\n\nGive these commands a try in the interactive console:\n\n{{% redis-cli %}}\nSET key1 \"Hello\"\nSET key2 \"World\"\nDEL key1 key2 key3\n{{% /redis-cli %}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -191,7 +363,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of keys that were removed.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of keys that were removed."
+      "content": "{{< multitabs id=\"del-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of keys that were removed.\n\n-tab-sep-\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of keys that were removed.\n\n{{< /multitabs >}}"
     }
   ]
 }

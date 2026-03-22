@@ -12,6 +12,119 @@
   "aclCategories": [
     "@search"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [],
+        "returns": {
+          "description": "Index information and statistics",
+          "type": "Dict[str, Any]"
+        },
+        "signature": "info()"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "The index name",
+            "name": "indexName",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "Index information and statistics",
+          "type": "Map<String, Object>"
+        },
+        "signature": "Map<String, Object> ftInfo(String indexName)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "The index name",
+            "name": "index",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "Index information and statistics",
+          "type": "*FTInfoCmd"
+        },
+        "signature": "FTInfo(ctx context.Context, index string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "The index name",
+            "name": "index",
+            "type": "RedisArgument"
+          }
+        ],
+        "returns": {
+          "description": "Index information and statistics",
+          "type": "Promise<FTInfoResult>"
+        },
+        "signature": "INFO(index: RedisArgument)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The index name",
+            "name": "index",
+            "type": "RedisValue"
+          }
+        ],
+        "returns": {
+          "description": "Index information",
+          "type": "InfoResult"
+        },
+        "signature": "InfoResult Info(RedisValue index)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The index name",
+            "name": "index",
+            "type": "RedisValue"
+          }
+        ],
+        "returns": {
+          "description": "Index information",
+          "type": "Task<InfoResult>"
+        },
+        "signature": "Task<InfoResult> InfoAsync(RedisValue index)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "The index name",
+            "name": "$index",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "Index information",
+          "type": "array"
+        },
+        "signature": "ftinfo(string $index)"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly"
   ],
@@ -33,66 +146,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "children": [
-          {
-            "id": "general",
-            "title": "General"
-          },
-          {
-            "id": "various-size-statistics",
-            "title": "Various size statistics"
-          },
-          {
-            "id": "indexing-related-statistics",
-            "title": "Indexing-related statistics"
-          },
-          {
-            "id": "garbage-collection-statistics",
-            "title": "Garbage collection statistics"
-          },
-          {
-            "id": "cursor-statistics",
-            "title": "Cursor statistics"
-          },
-          {
-            "id": "other-statistics",
-            "title": "Other statistics"
-          }
-        ],
-        "id": "returned-values",
-        "title": "Returned values"
-      },
-      {
-        "id": "example",
-        "title": "Example"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      },
-      {
-        "id": "see-also",
-        "title": "See also"
-      },
-      {
-        "id": "related-topics",
-        "title": "Related topics"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Returns information and statistics about a given index.\n\n## Required arguments\n\n`index`\n<br />\nis the name of the given index. You must first create the index using [`FT.CREATE`](). You can also use an alias of `index` created using [`FT.ALIASADD`]() or [`FT.ALIASUPDATE`]().\n\n## Returned values\n\n### General\n\n| Return field name | Definition |\n|:---               |:---        |\n| `index_name` | The index name that was defined when index was created. |\n| `index_options` | The index options selected during `FT.CREATE` such as `FILTER {filter}`, `LANGUAGE {default_lang}`, etc. |\n| `index_definition` | Includes `key_type`, hash or JSON; `prefixes`, if any; and `default_score`. |\n| `attributes` | The index schema field names, types, and attributes. |\n| `num_docs` | The number of documents. |\n| `max_doc_id` | The maximum document ID. |\n| `num_terms` | The number of distinct terms. |\n| `num_records` | The total number of records. |\n\n### Various size statistics\n\n| Statistic | Definition |\n|:---       |:---        |\n| `inverted_sz_mb` | The memory used by the inverted index, which is the core data structure used for searching in RediSearch. The size is given in megabytes. |\n| `vector_index_sz_mb` | The memory used by the vector index, which stores any vectors associated with each document. |\n| `total_inverted_index_blocks` | The total number of blocks in the inverted index. |\n| `offset_vectors_sz_mb` | The memory used by the offset vectors, which store positional information for terms in documents. |\n| `doc_table_size_mb` | The memory used by the document table, which contains metadata about each document in the index. |\n| `sortable_values_size_mb` | The memory used by sortable values, which are values associated with documents and used for sorting purposes. |\n| `key_table_size_mb` | The memory used by the key table, which stores the mapping between document IDs and Redis keys. |\n| `geoshapes_sz_mb` | The memory used by GEO-related fields. |\n| `records_per_doc_avg` | The average number of records (including deletions) per document. |\n| `bytes_per_record_avg` | The average size of each record in bytes. |\n| `offsets_per_term_avg` | The average number of offsets (position information) per term. |\n| `offset_bits_per_record_avg` | The average number of bits used for offsets per record. |\n| `tag_overhead_sz_mb` | The size of the TAG index structures used for optimising performance. |\n| `text_overhead_sz_mb` | The size of the TEXT index structures used for optimising performance. |\n| `total_index_memory_sz_mb` | The total memory consumed by all indexes in the DB. |\n\n### Indexing-related statistics\n\n| Statistic | Definition |\n|:---       |:---        |\n| `hash_indexing_failures` | The number of failures encountered during indexing. |\n| `total_indexing_time` | The cumulative wall-clock time spent indexing documents in ms. |\n| `indexing` | Indicates whether the index is currently being generated. |\n| `percent_indexed` | The percentage of the index that has been successfully generated (1 means 100%). |\n| `number_of_uses` | The number of times the index has been used. |\n| `cleaning` | The index deletion flag. A value of `1` indicates index deletion is in progress. |\n\n### Garbage collection statistics\n\n| Statistic | Definition |\n|:---       |:---        |\n| `bytes_collected` | The number of bytes collected during garbage collection. |\n| `total_ms_run` | The total time in milliseconds spent on garbage collection. |\n| `total_cycles` | The total number of garbage collection cycles. |\n| `average_cycle_time_ms` | The average time in milliseconds for each garbage collection cycle. The value `nan` indicates that the average cycle time is not available. |\n| `last_run_time_ms` | The time in milliseconds taken by the last garbage collection run. |\n\nThe next two GC-related fields are relevant in scenarios where simultaneous changes occurred in the same memory area for both the parent process and the child process, resulting in the parent discarding these changes.\n\n| Statistic | Definition |\n|:---       |:---        |\n| `gc_numeric_trees_missed` | The number of numeric tree nodes whose changes were discarded due to splitting by the parent process during garbage collection. |\n| `gc_blocks_denied` | The number of blocks whose changes were discarded (skipped) because they were modified by the parent process during the garbage collection. Notably, as inverted index blocks are append-only, only the last block of an inverted index can be skipped. |\n\n### Cursor statistics\n\n| Statistic | Definition |\n|:---       |:---        |\n| `global_idle` | The number of idle cursors in the system. |\n| `global_total` | The total number of cursors in the system. |\n| `index_capacity` | The maximum number of cursors allowed per index. |\n| `index_total` | The total number of cursors open on the index. |\n\n### Other statistics\n\n- Dialect statistics: the number of times the index was searched using each DIALECT, 1 - 4.\n- Index error statistics, including `indexing failures`, `last indexing error`, and `last indexing error key`.\n- Field statistics, including `indexing failures`, `last indexing error`, and `last indexing error key` for each schema field.\n\n## Example\n\n<details open>\n<summary><b>Return statistics about an index</b></summary>\n\n\n127.0.0.1:6379> ft.info idx:bicycle\n 1) index_name\n 2) idx:bicycle\n 3) index_options\n 4) (empty array)\n 5) index_definition\n 6) 1) key_type\n    2) JSON\n    3) prefixes\n    4) 1) bicycle:\n    5) default_score\n    6) \"1\"\n 7) attributes\n 8) 1) 1) identifier\n       2) $.pickup_zone\n       3) attribute\n       4) pickup_zone\n       5) type\n       6) GEOSHAPE\n       7) coord_system\n       8) SPHERICAL\n    2) 1) identifier\n       2) $.store_location\n       3) attribute\n       4) store_location\n       5) type\n       6) GEO\n    3) 1) identifier\n       2) $.brand\n       3) attribute\n       4) brand\n       5) type\n       6) TEXT\n       7) WEIGHT\n       8) \"1\"\n    4) 1) identifier\n       2) $.model\n       3) attribute\n       4) model\n       5) type\n       6) TEXT\n       7) WEIGHT\n       8) \"1\"\n    5) 1) identifier\n       2) $.description\n       3) attribute\n       4) description\n       5) type\n       6) TEXT\n       7) WEIGHT\n       8) \"1\"\n    6) 1) identifier\n       2) $.price\n       3) attribute\n       4) price\n       5) type\n       6) NUMERIC\n    7) 1) identifier\n       2) $.condition\n       3) attribute\n       4) condition\n       5) type\n       6) TAG\n       7) SEPARATOR\n       8) ,\n 9) num_docs\n10) \"10\"\n11) max_doc_id\n12) \"10\"\n13) num_terms\n14) \"546\"\n15) num_records\n16) \"692\"\n17) inverted_sz_mb\n18) \"0.003993034362792969\"\n19) vector_index_sz_mb\n20) \"0\"\n21) total_inverted_index_blocks\n22) \"551\"\n23) offset_vectors_sz_mb\n24) \"7.047653198242188e-4\"\n25) doc_table_size_mb\n26) \"7.152557373046875e-4\"\n27) sortable_values_size_mb\n28) \"0\"\n29) key_table_size_mb\n30) \"3.0422210693359375e-4\"\n31) geoshapes_sz_mb\n32) \"0.00426483154296875\"\n33) records_per_doc_avg\n34) \"69.19999694824219\"\n35) bytes_per_record_avg\n36) \"6.0505781173706055\"\n37) offsets_per_term_avg\n38) \"1.0679190158843994\"\n39) offset_bits_per_record_avg\n40) \"8\"\n41) hash_indexing_failures\n42) \"0\"\n43) total_indexing_time\n44) \"4.539999961853027\"\n45) indexing\n46) \"0\"\n47) percent_indexed\n48) \"1\"\n49) number_of_uses\n50) (integer) 1\n51) cleaning\n52) (integer) 0\n53) gc_stats\n54)  1) bytes_collected\n     2) \"0\"\n     3) total_ms_run\n     4) \"0\"\n     5) total_cycles\n     6) \"0\"\n     7) average_cycle_time_ms\n     8) \"nan\"\n     9) last_run_time_ms\n    10) \"0\"\n    11) gc_numeric_trees_missed\n    12) \"0\"\n    13) gc_blocks_denied\n    14) \"0\"\n55) cursor_stats\n56) 1) global_idle\n    2) (integer) 0\n    3) global_total\n    4) (integer) 0\n    5) index_capacity\n    6) (integer) 128\n    7) index_total\n    8) (integer) 0\n57) dialect_stats\n58) 1) dialect_1\n    2) (integer) 0\n    3) dialect_2\n    4) (integer) 0\n    5) dialect_3\n    6) (integer) 0\n    7) dialect_4\n    8) (integer) 0\n59) Index Errors\n60) 1) indexing failures\n    2) (integer) 0\n    3) last indexing error\n    4) N/A\n    5) last indexing error key\n    6) \"N/A\"\n61) field statistics\n62) 1) 1) identifier\n       2) $.pickup_zone\n       3) attribute\n       4) pickup_zone\n       5) Index Errors\n       6) 1) indexing failures\n          2) (integer) 0\n          3) last indexing error\n          4) N/A\n          5) last indexing error key\n          6) \"N/A\"\n    2) 1) identifier\n       2) $.store_location\n       3) attribute\n       4) store_location\n       5) Index Errors\n       6) 1) indexing failures\n          2) (integer) 0\n          3) last indexing error\n          4) N/A\n          5) last indexing error key\n          6) \"N/A\"\n    3) 1) identifier\n       2) $.brand\n       3) attribute\n       4) brand\n       5) Index Errors\n       6) 1) indexing failures\n          2) (integer) 0\n          3) last indexing error\n          4) N/A\n          5) last indexing error key\n          6) \"N/A\"\n    4) 1) identifier\n       2) $.model\n       3) attribute\n       4) model\n       5) Index Errors\n       6) 1) indexing failures\n          2) (integer) 0\n          3) last indexing error\n          4) N/A\n          5) last indexing error key\n          6) \"N/A\"\n    5) 1) identifier\n       2) $.description\n       3) attribute\n       4) description\n       5) Index Errors\n       6) 1) indexing failures\n          2) (integer) 0\n          3) last indexing error\n          4) N/A\n          5) last indexing error key\n          6) \"N/A\"\n    6) 1) identifier\n       2) $.price\n       3) attribute\n       4) price\n       5) Index Errors\n       6) 1) indexing failures\n          2) (integer) 0\n          3) last indexing error\n          4) N/A\n          5) last indexing error key\n          6) \"N/A\"\n    7) 1) identifier\n       2) $.condition\n       3) attribute\n       4) condition\n       5) Index Errors\n       6) 1) indexing failures\n          2) (integer) 0\n          3) last indexing error\n          4) N/A\n          5) last indexing error key\n          6) \"N/A\"\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Array]() of key-value pairs containing index information and statistics.\n* [Simple error reply]() in these cases: no such index.\n\n**RESP3:**\n\nOne of the following:\n* [Map]() containing index information and statistics as key-value pairs.\n* [Simple error reply]() in these cases: no such index.\n\n\n\n## See also\n\n[`FT.CREATE`]() | [`FT.SEARCH`]() | [`FT.ALIASADD`]() | [`FT.ALIASUPDATE`]()\n\n## Related topics\n\n[RediSearch]()",
+  "content": "Returns information and statistics about a given index.\n\n## Required arguments\n\n`index`\n<br />\nis the name of the given index. You must first create the index using [`FT.CREATE`]({{< relref \"commands/ft.create/\" >}}). You can also use an alias of `index` created using [`FT.ALIASADD`]({{< relref \"commands/ft.aliasadd/\" >}}) or [`FT.ALIASUPDATE`]({{< relref \"commands/ft.aliasupdate/\" >}}).\n\n## Returned values\n\n### General\n\n| Return field name | Definition |\n|:---               |:---        |\n| `index_name` | The index name that was defined when index was created. |\n| `index_options` | The index options selected during `FT.CREATE` such as `FILTER {filter}`, `LANGUAGE {default_lang}`, etc. |\n| `index_definition` | Includes `key_type`, hash or JSON; `prefixes`, if any; and `default_score`. |\n| `attributes` | The index schema field names, types, and attributes. |\n| `num_docs` | The number of documents. |\n| `max_doc_id` | The maximum document ID. |\n| `num_terms` | The number of distinct terms. |\n| `num_records` | The total number of records. |\n\n### Various size statistics\n\n| Statistic | Definition |\n|:---       |:---        |\n| `inverted_sz_mb` | The memory used by the inverted index, which is the core data structure used for searching in RediSearch. The size is given in megabytes. |\n| `vector_index_sz_mb` | The memory used by the vector index, which stores any vectors associated with each document. |\n| `total_inverted_index_blocks` | The total number of blocks in the inverted index. |\n| `offset_vectors_sz_mb` | The memory used by the offset vectors, which store positional information for terms in documents. |\n| `doc_table_size_mb` | The memory used by the document table, which contains metadata about each document in the index. |\n| `sortable_values_size_mb` | The memory used by sortable values, which are values associated with documents and used for sorting purposes. |\n| `key_table_size_mb` | The memory used by the key table, which stores the mapping between document IDs and Redis keys. |\n| `geoshapes_sz_mb` | The memory used by GEO-related fields. |\n| `records_per_doc_avg` | The average number of records (including deletions) per document. |\n| `bytes_per_record_avg` | The average size of each record in bytes. |\n| `offsets_per_term_avg` | The average number of offsets (position information) per term. |\n| `offset_bits_per_record_avg` | The average number of bits used for offsets per record. |\n| `tag_overhead_sz_mb` | The size of the TAG index structures used for optimising performance. |\n| `text_overhead_sz_mb` | The size of the TEXT index structures used for optimising performance. |\n| `total_index_memory_sz_mb` | The total memory consumed by all indexes in the DB. |\n\n### Indexing-related statistics\n\n| Statistic | Definition |\n|:---       |:---        |\n| `hash_indexing_failures` | The number of failures encountered during indexing. |\n| `total_indexing_time` | The cumulative wall-clock time spent indexing documents in ms. |\n| `indexing` | Indicates whether the index is currently being generated. |\n| `percent_indexed` | The percentage of the index that has been successfully generated (1 means 100%). |\n| `number_of_uses` | The number of times the index has been used. |\n| `cleaning` | The index deletion flag. A value of `1` indicates index deletion is in progress. |\n\n### Garbage collection statistics\n\n| Statistic | Definition |\n|:---       |:---        |\n| `bytes_collected` | The number of bytes collected during garbage collection. |\n| `total_ms_run` | The total time in milliseconds spent on garbage collection. |\n| `total_cycles` | The total number of garbage collection cycles. |\n| `average_cycle_time_ms` | The average time in milliseconds for each garbage collection cycle. The value `nan` indicates that the average cycle time is not available. |\n| `last_run_time_ms` | The time in milliseconds taken by the last garbage collection run. |\n\nThe next two GC-related fields are relevant in scenarios where simultaneous changes occurred in the same memory area for both the parent process and the child process, resulting in the parent discarding these changes.\n\n| Statistic | Definition |\n|:---       |:---        |\n| `gc_numeric_trees_missed` | The number of numeric tree nodes whose changes were discarded due to splitting by the parent process during garbage collection. |\n| `gc_blocks_denied` | The number of blocks whose changes were discarded (skipped) because they were modified by the parent process during the garbage collection. Notably, as inverted index blocks are append-only, only the last block of an inverted index can be skipped. |\n\n### Cursor statistics\n\n| Statistic | Definition |\n|:---       |:---        |\n| `global_idle` | The number of idle cursors in the system. |\n| `global_total` | The total number of cursors in the system. |\n| `index_capacity` | The maximum number of cursors allowed per index. |\n| `index_total` | The total number of cursors open on the index. |\n\n### Other statistics\n\n- Dialect statistics: the number of times the index was searched using each DIALECT, 1 - 4.\n- Index error statistics, including `indexing failures`, `last indexing error`, and `last indexing error key`.\n- Field statistics, including `indexing failures`, `last indexing error`, and `last indexing error key` for each schema field.\n\n## Example\n\n<details open>\n<summary><b>Return statistics about an index</b></summary>\n\n{{< highlight bash >}}\n127.0.0.1:6379> ft.info idx:bicycle\n 1) index_name\n 2) idx:bicycle\n 3) index_options\n 4) (empty array)\n 5) index_definition\n 6) 1) key_type\n    2) JSON\n    3) prefixes\n    4) 1) bicycle:\n    5) default_score\n    6) \"1\"\n 7) attributes\n 8) 1) 1) identifier\n       2) $.pickup_zone\n       3) attribute\n       4) pickup_zone\n       5) type\n       6) GEOSHAPE\n       7) coord_system\n       8) SPHERICAL\n    2) 1) identifier\n       2) $.store_location\n       3) attribute\n       4) store_location\n       5) type\n       6) GEO\n    3) 1) identifier\n       2) $.brand\n       3) attribute\n       4) brand\n       5) type\n       6) TEXT\n       7) WEIGHT\n       8) \"1\"\n    4) 1) identifier\n       2) $.model\n       3) attribute\n       4) model\n       5) type\n       6) TEXT\n       7) WEIGHT\n       8) \"1\"\n    5) 1) identifier\n       2) $.description\n       3) attribute\n       4) description\n       5) type\n       6) TEXT\n       7) WEIGHT\n       8) \"1\"\n    6) 1) identifier\n       2) $.price\n       3) attribute\n       4) price\n       5) type\n       6) NUMERIC\n    7) 1) identifier\n       2) $.condition\n       3) attribute\n       4) condition\n       5) type\n       6) TAG\n       7) SEPARATOR\n       8) ,\n 9) num_docs\n10) \"10\"\n11) max_doc_id\n12) \"10\"\n13) num_terms\n14) \"546\"\n15) num_records\n16) \"692\"\n17) inverted_sz_mb\n18) \"0.003993034362792969\"\n19) vector_index_sz_mb\n20) \"0\"\n21) total_inverted_index_blocks\n22) \"551\"\n23) offset_vectors_sz_mb\n24) \"7.047653198242188e-4\"\n25) doc_table_size_mb\n26) \"7.152557373046875e-4\"\n27) sortable_values_size_mb\n28) \"0\"\n29) key_table_size_mb\n30) \"3.0422210693359375e-4\"\n31) geoshapes_sz_mb\n32) \"0.00426483154296875\"\n33) records_per_doc_avg\n34) \"69.19999694824219\"\n35) bytes_per_record_avg\n36) \"6.0505781173706055\"\n37) offsets_per_term_avg\n38) \"1.0679190158843994\"\n39) offset_bits_per_record_avg\n40) \"8\"\n41) hash_indexing_failures\n42) \"0\"\n43) total_indexing_time\n44) \"4.539999961853027\"\n45) indexing\n46) \"0\"\n47) percent_indexed\n48) \"1\"\n49) number_of_uses\n50) (integer) 1\n51) cleaning\n52) (integer) 0\n53) gc_stats\n54)  1) bytes_collected\n     2) \"0\"\n     3) total_ms_run\n     4) \"0\"\n     5) total_cycles\n     6) \"0\"\n     7) average_cycle_time_ms\n     8) \"nan\"\n     9) last_run_time_ms\n    10) \"0\"\n    11) gc_numeric_trees_missed\n    12) \"0\"\n    13) gc_blocks_denied\n    14) \"0\"\n55) cursor_stats\n56) 1) global_idle\n    2) (integer) 0\n    3) global_total\n    4) (integer) 0\n    5) index_capacity\n    6) (integer) 128\n    7) index_total\n    8) (integer) 0\n57) dialect_stats\n58) 1) dialect_1\n    2) (integer) 0\n    3) dialect_2\n    4) (integer) 0\n    5) dialect_3\n    6) (integer) 0\n    7) dialect_4\n    8) (integer) 0\n59) Index Errors\n60) 1) indexing failures\n    2) (integer) 0\n    3) last indexing error\n    4) N/A\n    5) last indexing error key\n    6) \"N/A\"\n61) field statistics\n62) 1) 1) identifier\n       2) $.pickup_zone\n       3) attribute\n       4) pickup_zone\n       5) Index Errors\n       6) 1) indexing failures\n          2) (integer) 0\n          3) last indexing error\n          4) N/A\n          5) last indexing error key\n          6) \"N/A\"\n    2) 1) identifier\n       2) $.store_location\n       3) attribute\n       4) store_location\n       5) Index Errors\n       6) 1) indexing failures\n          2) (integer) 0\n          3) last indexing error\n          4) N/A\n          5) last indexing error key\n          6) \"N/A\"\n    3) 1) identifier\n       2) $.brand\n       3) attribute\n       4) brand\n       5) Index Errors\n       6) 1) indexing failures\n          2) (integer) 0\n          3) last indexing error\n          4) N/A\n          5) last indexing error key\n          6) \"N/A\"\n    4) 1) identifier\n       2) $.model\n       3) attribute\n       4) model\n       5) Index Errors\n       6) 1) indexing failures\n          2) (integer) 0\n          3) last indexing error\n          4) N/A\n          5) last indexing error key\n          6) \"N/A\"\n    5) 1) identifier\n       2) $.description\n       3) attribute\n       4) description\n       5) Index Errors\n       6) 1) indexing failures\n          2) (integer) 0\n          3) last indexing error\n          4) N/A\n          5) last indexing error key\n          6) \"N/A\"\n    6) 1) identifier\n       2) $.price\n       3) attribute\n       4) price\n       5) Index Errors\n       6) 1) indexing failures\n          2) (integer) 0\n          3) last indexing error\n          4) N/A\n          5) last indexing error key\n          6) \"N/A\"\n    7) 1) identifier\n       2) $.condition\n       3) attribute\n       4) condition\n       5) Index Errors\n       6) 1) indexing failures\n          2) (integer) 0\n          3) last indexing error\n          4) N/A\n          5) last indexing error key\n          6) \"N/A\"\n{{< / highlight >}}\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"ft-info-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of key-value pairs containing index information and statistics.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: no such index.\n\n-tab-sep-\n\nOne of the following:\n* [Map]({{< relref \"/develop/reference/protocol-spec#maps\" >}}) containing index information and statistics as key-value pairs.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: no such index.\n\n{{< /multitabs >}}\n\n## See also\n\n[`FT.CREATE`]({{< relref \"commands/ft.create/\" >}}) | [`FT.SEARCH`]({{< relref \"commands/ft.search/\" >}}) | [`FT.ALIASADD`]({{< relref \"commands/ft.aliasadd/\" >}}) | [`FT.ALIASUPDATE`]({{< relref \"commands/ft.aliasupdate/\" >}})\n\n## Related topics\n\n[RediSearch]({{< relref \"/develop/ai/search-and-query/\" >}})",
+  "example": "127.0.0.1:6379> ft.info idx:bicycle\n 1) index_name\n 2) idx:bicycle\n 3) index_options\n 4) (empty array)\n 5) index_definition\n 6) 1) key_type\n    2) JSON\n    3) prefixes\n    4) 1) bicycle:\n    5) default_score\n    6) \"1\"\n 7) attributes\n 8) 1) 1) identifier\n       2) $.pickup_zone\n       3) attribute\n       4) pickup_zone\n       5) type\n       6) GEOSHAPE\n       7) coord_system\n       8) SPHERICAL\n    2) 1) identifier\n       2) $.store_location\n       3) attribute\n       4) store_location\n       5) type\n       6) GEO\n    3) 1) identifier\n       2) $.brand\n       3) attribute\n       4) brand\n       5) type\n       6) TEXT\n       7) WEIGHT\n       8) \"1\"\n    4) 1) identifier\n       2) $.model\n       3) attribute\n       4) model\n       5) type\n       6) TEXT\n       7) WEIGHT\n       8) \"1\"\n    5) 1) identifier\n       2) $.description\n       3) attribute\n       4) description\n       5) type\n       6) TEXT\n       7) WEIGHT\n       8) \"1\"\n    6) 1) identifier\n       2) $.price\n       3) attribute\n       4) price\n       5) type\n       6) NUMERIC\n    7) 1) identifier\n       2) $.condition\n       3) attribute\n       4) condition\n       5) type\n       6) TAG\n       7) SEPARATOR\n       8) ,\n 9) num_docs\n10) \"10\"\n11) max_doc_id\n12) \"10\"\n13) num_terms\n14) \"546\"\n15) num_records\n16) \"692\"\n17) inverted_sz_mb\n18) \"0.003993034362792969\"\n19) vector_index_sz_mb\n20) \"0\"\n21) total_inverted_index_blocks\n22) \"551\"\n23) offset_vectors_sz_mb\n24) \"7.047653198242188e-4\"\n25) doc_table_size_mb\n26) \"7.152557373046875e-4\"\n27) sortable_values_size_mb\n28) \"0\"\n29) key_table_size_mb\n30) \"3.0422210693359375e-4\"\n31) geoshapes_sz_mb\n32) \"0.00426483154296875\"\n33) records_per_doc_avg\n34) \"69.19999694824219\"\n35) bytes_per_record_avg\n36) \"6.0505781173706055\"\n37) offsets_per_term_avg\n38) \"1.0679190158843994\"\n39) offset_bits_per_record_avg\n40) \"8\"\n41) hash_indexing_failures\n42) \"0\"\n43) total_indexing_time\n44) \"4.539999961853027\"\n45) indexing\n46) \"0\"\n47) percent_indexed\n48) \"1\"\n49) number_of_uses\n50) (integer) 1\n51) cleaning\n52) (integer) 0\n53) gc_stats\n54)  1) bytes_collected\n     2) \"0\"\n     3) total_ms_run\n     4) \"0\"\n     5) total_cycles\n     6) \"0\"\n     7) average_cycle_time_ms\n     8) \"nan\"\n     9) last_run_time_ms\n    10) \"0\"\n    11) gc_numeric_trees_missed\n    12) \"0\"\n    13) gc_blocks_denied\n    14) \"0\"\n55) cursor_stats\n56) 1) global_idle\n    2) (integer) 0\n    3) global_total\n    4) (integer) 0\n    5) index_capacity\n    6) (integer) 128\n    7) index_total\n    8) (integer) 0\n57) dialect_stats\n58) 1) dialect_1\n    2) (integer) 0\n    3) dialect_2\n    4) (integer) 0\n    5) dialect_3\n    6) (integer) 0\n    7) dialect_4\n    8) (integer) 0\n59) Index Errors\n60) 1) indexing failures\n    2) (integer) 0\n    3) last indexing error\n    4) N/A\n    5) last indexing error key\n    6) \"N/A\"\n61) field statistics\n62) 1) 1) identifier\n       2) $.pickup_zone\n       3) attribute\n       4) pickup_zone\n       5) Index Errors\n       6) 1) indexing failures\n          2) (integer) 0\n          3) last indexing error\n          4) N/A\n          5) last indexing error key\n          6) \"N/A\"\n    2) 1) identifier\n       2) $.store_location\n       3) attribute\n       4) store_location\n       5) Index Errors\n       6) 1) indexing failures\n          2) (integer) 0\n          3) last indexing error\n          4) N/A\n          5) last indexing error key\n          6) \"N/A\"\n    3) 1) identifier\n       2) $.brand\n       3) attribute\n       4) brand\n       5) Index Errors\n       6) 1) indexing failures\n          2) (integer) 0\n          3) last indexing error\n          4) N/A\n          5) last indexing error key\n          6) \"N/A\"\n    4) 1) identifier\n       2) $.model\n       3) attribute\n       4) model\n       5) Index Errors\n       6) 1) indexing failures\n          2) (integer) 0\n          3) last indexing error\n          4) N/A\n          5) last indexing error key\n          6) \"N/A\"\n    5) 1) identifier\n       2) $.description\n       3) attribute\n       4) description\n       5) Index Errors\n       6) 1) indexing failures\n          2) (integer) 0\n          3) last indexing error\n          4) N/A\n          5) last indexing error key\n          6) \"N/A\"\n    6) 1) identifier\n       2) $.price\n       3) attribute\n       4) price\n       5) Index Errors\n       6) 1) indexing failures\n          2) (integer) 0\n          3) last indexing error\n          4) N/A\n          5) last indexing error key\n          6) \"N/A\"\n    7) 1) identifier\n       2) $.condition\n       3) attribute\n       4) condition\n       5) Index Errors\n       6) 1) indexing failures\n          2) (integer) 0\n          3) last indexing error\n          4) N/A\n          5) last indexing error key\n          6) \"N/A\"",
   "intro": "Returns information and statistics about a given index.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -102,7 +162,7 @@
     {
       "title": "Required arguments",
       "level": 2,
-      "content": "`index`\n<br />\nis the name of the given index. You must first create the index using [`FT.CREATE`](). You can also use an alias of `index` created using [`FT.ALIASADD`]() or [`FT.ALIASUPDATE`]()."
+      "content": "`index`\n<br />\nis the name of the given index. You must first create the index using [`FT.CREATE`]({{< relref \"commands/ft.create/\" >}}). You can also use an alias of `index` created using [`FT.ALIASADD`]({{< relref \"commands/ft.aliasadd/\" >}}) or [`FT.ALIASUPDATE`]({{< relref \"commands/ft.aliasupdate/\" >}})."
     },
     {
       "title": "General",
@@ -137,7 +197,7 @@
     {
       "title": "Example",
       "level": 2,
-      "content": "<details open>\n<summary><b>Return statistics about an index</b></summary>\n\n\n127.0.0.1:6379> ft.info idx:bicycle\n 1) index_name\n 2) idx:bicycle\n 3) index_options\n 4) (empty array)\n 5) index_definition\n 6) 1) key_type\n    2) JSON\n    3) prefixes\n    4) 1) bicycle:\n    5) default_score\n    6) \"1\"\n 7) attributes\n 8) 1) 1) identifier\n       2) $.pickup_zone\n       3) attribute\n       4) pickup_zone\n       5) type\n       6) GEOSHAPE\n       7) coord_system\n       8) SPHERICAL\n    2) 1) identifier\n       2) $.store_location\n       3) attribute\n       4) store_location\n       5) type\n       6) GEO\n    3) 1) identifier\n       2) $.brand\n       3) attribute\n       4) brand\n       5) type\n       6) TEXT\n       7) WEIGHT\n       8) \"1\"\n    4) 1) identifier\n       2) $.model\n       3) attribute\n       4) model\n       5) type\n       6) TEXT\n       7) WEIGHT\n       8) \"1\"\n    5) 1) identifier\n       2) $.description\n       3) attribute\n       4) description\n       5) type\n       6) TEXT\n       7) WEIGHT\n       8) \"1\"\n    6) 1) identifier\n       2) $.price\n       3) attribute\n       4) price\n       5) type\n       6) NUMERIC\n    7) 1) identifier\n       2) $.condition\n       3) attribute\n       4) condition\n       5) type\n       6) TAG\n       7) SEPARATOR\n       8) ,\n 9) num_docs\n10) \"10\"\n11) max_doc_id\n12) \"10\"\n13) num_terms\n14) \"546\"\n15) num_records\n16) \"692\"\n17) inverted_sz_mb\n18) \"0.003993034362792969\"\n19) vector_index_sz_mb\n20) \"0\"\n21) total_inverted_index_blocks\n22) \"551\"\n23) offset_vectors_sz_mb\n24) \"7.047653198242188e-4\"\n25) doc_table_size_mb\n26) \"7.152557373046875e-4\"\n27) sortable_values_size_mb\n28) \"0\"\n29) key_table_size_mb\n30) \"3.0422210693359375e-4\"\n31) geoshapes_sz_mb\n32) \"0.00426483154296875\"\n33) records_per_doc_avg\n34) \"69.19999694824219\"\n35) bytes_per_record_avg\n36) \"6.0505781173706055\"\n37) offsets_per_term_avg\n38) \"1.0679190158843994\"\n39) offset_bits_per_record_avg\n40) \"8\"\n41) hash_indexing_failures\n42) \"0\"\n43) total_indexing_time\n44) \"4.539999961853027\"\n45) indexing\n46) \"0\"\n47) percent_indexed\n48) \"1\"\n49) number_of_uses\n50) (integer) 1\n51) cleaning\n52) (integer) 0\n53) gc_stats\n54)  1) bytes_collected\n     2) \"0\"\n     3) total_ms_run\n     4) \"0\"\n     5) total_cycles\n     6) \"0\"\n     7) average_cycle_time_ms\n     8) \"nan\"\n     9) last_run_time_ms\n    10) \"0\"\n    11) gc_numeric_trees_missed\n    12) \"0\"\n    13) gc_blocks_denied\n    14) \"0\"\n55) cursor_stats\n56) 1) global_idle\n    2) (integer) 0\n    3) global_total\n    4) (integer) 0\n    5) index_capacity\n    6) (integer) 128\n    7) index_total\n    8) (integer) 0\n57) dialect_stats\n58) 1) dialect_1\n    2) (integer) 0\n    3) dialect_2\n    4) (integer) 0\n    5) dialect_3\n    6) (integer) 0\n    7) dialect_4\n    8) (integer) 0\n59) Index Errors\n60) 1) indexing failures\n    2) (integer) 0\n    3) last indexing error\n    4) N/A\n    5) last indexing error key\n    6) \"N/A\"\n61) field statistics\n62) 1) 1) identifier\n       2) $.pickup_zone\n       3) attribute\n       4) pickup_zone\n       5) Index Errors\n       6) 1) indexing failures\n          2) (integer) 0\n          3) last indexing error\n          4) N/A\n          5) last indexing error key\n          6) \"N/A\"\n    2) 1) identifier\n       2) $.store_location\n       3) attribute\n       4) store_location\n       5) Index Errors\n       6) 1) indexing failures\n          2) (integer) 0\n          3) last indexing error\n          4) N/A\n          5) last indexing error key\n          6) \"N/A\"\n    3) 1) identifier\n       2) $.brand\n       3) attribute\n       4) brand\n       5) Index Errors\n       6) 1) indexing failures\n          2) (integer) 0\n          3) last indexing error\n          4) N/A\n          5) last indexing error key\n          6) \"N/A\"\n    4) 1) identifier\n       2) $.model\n       3) attribute\n       4) model\n       5) Index Errors\n       6) 1) indexing failures\n          2) (integer) 0\n          3) last indexing error\n          4) N/A\n          5) last indexing error key\n          6) \"N/A\"\n    5) 1) identifier\n       2) $.description\n       3) attribute\n       4) description\n       5) Index Errors\n       6) 1) indexing failures\n          2) (integer) 0\n          3) last indexing error\n          4) N/A\n          5) last indexing error key\n          6) \"N/A\"\n    6) 1) identifier\n       2) $.price\n       3) attribute\n       4) price\n       5) Index Errors\n       6) 1) indexing failures\n          2) (integer) 0\n          3) last indexing error\n          4) N/A\n          5) last indexing error key\n          6) \"N/A\"\n    7) 1) identifier\n       2) $.condition\n       3) attribute\n       4) condition\n       5) Index Errors\n       6) 1) indexing failures\n          2) (integer) 0\n          3) last indexing error\n          4) N/A\n          5) last indexing error key\n          6) \"N/A\"\n\n</details>"
+      "content": "<details open>\n<summary><b>Return statistics about an index</b></summary>\n\n{{< highlight bash >}}\n127.0.0.1:6379> ft.info idx:bicycle\n 1) index_name\n 2) idx:bicycle\n 3) index_options\n 4) (empty array)\n 5) index_definition\n 6) 1) key_type\n    2) JSON\n    3) prefixes\n    4) 1) bicycle:\n    5) default_score\n    6) \"1\"\n 7) attributes\n 8) 1) 1) identifier\n       2) $.pickup_zone\n       3) attribute\n       4) pickup_zone\n       5) type\n       6) GEOSHAPE\n       7) coord_system\n       8) SPHERICAL\n    2) 1) identifier\n       2) $.store_location\n       3) attribute\n       4) store_location\n       5) type\n       6) GEO\n    3) 1) identifier\n       2) $.brand\n       3) attribute\n       4) brand\n       5) type\n       6) TEXT\n       7) WEIGHT\n       8) \"1\"\n    4) 1) identifier\n       2) $.model\n       3) attribute\n       4) model\n       5) type\n       6) TEXT\n       7) WEIGHT\n       8) \"1\"\n    5) 1) identifier\n       2) $.description\n       3) attribute\n       4) description\n       5) type\n       6) TEXT\n       7) WEIGHT\n       8) \"1\"\n    6) 1) identifier\n       2) $.price\n       3) attribute\n       4) price\n       5) type\n       6) NUMERIC\n    7) 1) identifier\n       2) $.condition\n       3) attribute\n       4) condition\n       5) type\n       6) TAG\n       7) SEPARATOR\n       8) ,\n 9) num_docs\n10) \"10\"\n11) max_doc_id\n12) \"10\"\n13) num_terms\n14) \"546\"\n15) num_records\n16) \"692\"\n17) inverted_sz_mb\n18) \"0.003993034362792969\"\n19) vector_index_sz_mb\n20) \"0\"\n21) total_inverted_index_blocks\n22) \"551\"\n23) offset_vectors_sz_mb\n24) \"7.047653198242188e-4\"\n25) doc_table_size_mb\n26) \"7.152557373046875e-4\"\n27) sortable_values_size_mb\n28) \"0\"\n29) key_table_size_mb\n30) \"3.0422210693359375e-4\"\n31) geoshapes_sz_mb\n32) \"0.00426483154296875\"\n33) records_per_doc_avg\n34) \"69.19999694824219\"\n35) bytes_per_record_avg\n36) \"6.0505781173706055\"\n37) offsets_per_term_avg\n38) \"1.0679190158843994\"\n39) offset_bits_per_record_avg\n40) \"8\"\n41) hash_indexing_failures\n42) \"0\"\n43) total_indexing_time\n44) \"4.539999961853027\"\n45) indexing\n46) \"0\"\n47) percent_indexed\n48) \"1\"\n49) number_of_uses\n50) (integer) 1\n51) cleaning\n52) (integer) 0\n53) gc_stats\n54)  1) bytes_collected\n     2) \"0\"\n     3) total_ms_run\n     4) \"0\"\n     5) total_cycles\n     6) \"0\"\n     7) average_cycle_time_ms\n     8) \"nan\"\n     9) last_run_time_ms\n    10) \"0\"\n    11) gc_numeric_trees_missed\n    12) \"0\"\n    13) gc_blocks_denied\n    14) \"0\"\n55) cursor_stats\n56) 1) global_idle\n    2) (integer) 0\n    3) global_total\n    4) (integer) 0\n    5) index_capacity\n    6) (integer) 128\n    7) index_total\n    8) (integer) 0\n57) dialect_stats\n58) 1) dialect_1\n    2) (integer) 0\n    3) dialect_2\n    4) (integer) 0\n    5) dialect_3\n    6) (integer) 0\n    7) dialect_4\n    8) (integer) 0\n59) Index Errors\n60) 1) indexing failures\n    2) (integer) 0\n    3) last indexing error\n    4) N/A\n    5) last indexing error key\n    6) \"N/A\"\n61) field statistics\n62) 1) 1) identifier\n       2) $.pickup_zone\n       3) attribute\n       4) pickup_zone\n       5) Index Errors\n       6) 1) indexing failures\n          2) (integer) 0\n          3) last indexing error\n          4) N/A\n          5) last indexing error key\n          6) \"N/A\"\n    2) 1) identifier\n       2) $.store_location\n       3) attribute\n       4) store_location\n       5) Index Errors\n       6) 1) indexing failures\n          2) (integer) 0\n          3) last indexing error\n          4) N/A\n          5) last indexing error key\n          6) \"N/A\"\n    3) 1) identifier\n       2) $.brand\n       3) attribute\n       4) brand\n       5) Index Errors\n       6) 1) indexing failures\n          2) (integer) 0\n          3) last indexing error\n          4) N/A\n          5) last indexing error key\n          6) \"N/A\"\n    4) 1) identifier\n       2) $.model\n       3) attribute\n       4) model\n       5) Index Errors\n       6) 1) indexing failures\n          2) (integer) 0\n          3) last indexing error\n          4) N/A\n          5) last indexing error key\n          6) \"N/A\"\n    5) 1) identifier\n       2) $.description\n       3) attribute\n       4) description\n       5) Index Errors\n       6) 1) indexing failures\n          2) (integer) 0\n          3) last indexing error\n          4) N/A\n          5) last indexing error key\n          6) \"N/A\"\n    6) 1) identifier\n       2) $.price\n       3) attribute\n       4) price\n       5) Index Errors\n       6) 1) indexing failures\n          2) (integer) 0\n          3) last indexing error\n          4) N/A\n          5) last indexing error key\n          6) \"N/A\"\n    7) 1) identifier\n       2) $.condition\n       3) attribute\n       4) condition\n       5) Index Errors\n       6) 1) indexing failures\n          2) (integer) 0\n          3) last indexing error\n          4) N/A\n          5) last indexing error key\n          6) \"N/A\"\n{{< / highlight >}}\n</details>"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -147,17 +207,17 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Array]() of key-value pairs containing index information and statistics.\n* [Simple error reply]() in these cases: no such index.\n\n**RESP3:**\n\nOne of the following:\n* [Map]() containing index information and statistics as key-value pairs.\n* [Simple error reply]() in these cases: no such index."
+      "content": "{{< multitabs id=\"ft-info-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of key-value pairs containing index information and statistics.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: no such index.\n\n-tab-sep-\n\nOne of the following:\n* [Map]({{< relref \"/develop/reference/protocol-spec#maps\" >}}) containing index information and statistics as key-value pairs.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: no such index.\n\n{{< /multitabs >}}"
     },
     {
       "title": "See also",
       "level": 2,
-      "content": "[`FT.CREATE`]() | [`FT.SEARCH`]() | [`FT.ALIASADD`]() | [`FT.ALIASUPDATE`]()"
+      "content": "[`FT.CREATE`]({{< relref \"commands/ft.create/\" >}}) | [`FT.SEARCH`]({{< relref \"commands/ft.search/\" >}}) | [`FT.ALIASADD`]({{< relref \"commands/ft.aliasadd/\" >}}) | [`FT.ALIASUPDATE`]({{< relref \"commands/ft.aliasupdate/\" >}})"
     },
     {
       "title": "Related topics",
       "level": 2,
-      "content": "[RediSearch]()"
+      "content": "[RediSearch]({{< relref \"/develop/ai/search-and-query/\" >}})"
     }
   ]
 }

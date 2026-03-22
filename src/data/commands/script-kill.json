@@ -13,6 +13,105 @@
     "@slow",
     "@scripting"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [],
+        "returns": {
+          "description": "Status response",
+          "type": "ResponseT"
+        },
+        "signature": "script_kill()"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "Status response",
+          "type": "String"
+        },
+        "signature": "String scriptKill()"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context for the operation",
+            "name": "ctx",
+            "type": "context.Context"
+          }
+        ],
+        "returns": {
+          "description": "Status response",
+          "type": "*StatusCmd"
+        },
+        "signature": "ScriptKill(ctx context.Context)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "Status response",
+          "type": "Promise<SimpleStringReply<'OK'>>"
+        },
+        "signature": "scriptKill()"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [],
+        "returns": {
+          "description": "Status response",
+          "type": "String"
+        },
+        "signature": "String scriptKill()"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [],
+        "returns": {
+          "description": "Status response",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> scriptKill()"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [],
+        "returns": {
+          "description": "Status response",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> scriptKill()"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "SCRIPT subcommand (e.g., 'KILL')",
+            "name": "$subcommand",
+            "type": "string"
+          },
+          {
+            "description": "Optional argument for the subcommand",
+            "name": "$argument",
+            "type": "mixed"
+          }
+        ],
+        "returns": {
+          "description": "Command result",
+          "type": "mixed"
+        },
+        "signature": "script($subcommand, $argument = null)"
+      }
+    ]
+  },
   "commandFlags": [
     "noscript",
     "allow_busy"
@@ -30,20 +129,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Kills the currently executing [`EVAL`]() script, assuming no write operation was yet\nperformed by the script.\n\nThis command is mainly useful to kill a script that is running for too much\ntime(for instance, because it entered an infinite loop because of a bug).\nThe script will be killed, and the client currently blocked into EVAL will see\nthe command returning with an error.\n\nIf the script has already performed write operations, it can not be killed in this\nway because it would violate Lua's script atomicity contract.\nIn such a case, only `SHUTDOWN NOSAVE` can kill the script, killing\nthe Redis process in a hard way and preventing it from persisting with half-written\ninformation.\n\nFor more information about [`EVAL`]() scripts please refer to [Introduction to Eval Scripts]().\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.",
+  "content": "Kills the currently executing [`EVAL`]() script, assuming no write operation was yet\nperformed by the script.\n\nThis command is mainly useful to kill a script that is running for too much\ntime(for instance, because it entered an infinite loop because of a bug).\nThe script will be killed, and the client currently blocked into EVAL will see\nthe command returning with an error.\n\nIf the script has already performed write operations, it can not be killed in this\nway because it would violate Lua's script atomicity contract.\nIn such a case, only `SHUTDOWN NOSAVE` can kill the script, killing\nthe Redis process in a hard way and preventing it from persisting with half-written\ninformation.\n\nFor more information about [`EVAL`]() scripts please refer to [Introduction to Eval Scripts]().\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"script-kill-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "Kills the currently executing [`EVAL`]() script, assuming no write operation was yet\nperformed by the script.\n\nThis command is mainly useful to kill a script that is running for too much\ntime(for instance, because it entered an infinite loop because of a bug).\nThe script will be killed, and the client currently blocked into EVAL will see\nthe command returning with an error.\n\nIf the script has already performed write operations, it can not be killed in this\nway because it would violate Lua's script atomicity contract.\nIn such a case, only `SHUTDOWN NOSAVE` can kill the script, killing\nthe Redis process in a hard way and preventing it from persisting with half-written\ninformation.\n\nFor more information about [`EVAL`]() scripts please refer to [Introduction to Eval Scripts]().",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -58,7 +150,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`."
+      "content": "{{< multitabs id=\"script-kill-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n{{< /multitabs >}}"
     }
   ]
 }

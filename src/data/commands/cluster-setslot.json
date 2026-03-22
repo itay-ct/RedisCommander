@@ -14,6 +14,227 @@
     "@slow",
     "@dangerous"
   ],
+  "apiMethods": {
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "The hash slot",
+            "name": "slot",
+            "type": "int"
+          },
+          {
+            "description": "The node ID",
+            "name": "nodeId",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "String"
+        },
+        "signature": "String clusterSetSlotImporting(int slot, String nodeId)"
+      },
+      {
+        "params": [
+          {
+            "description": "The hash slot",
+            "name": "slot",
+            "type": "int"
+          },
+          {
+            "description": "The node ID",
+            "name": "nodeId",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "String"
+        },
+        "signature": "String clusterSetSlotMigrating(int slot, String nodeId)"
+      },
+      {
+        "params": [
+          {
+            "description": "The hash slot",
+            "name": "slot",
+            "type": "int"
+          },
+          {
+            "description": "The node ID",
+            "name": "nodeId",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "String"
+        },
+        "signature": "String clusterSetSlotNode(int slot, String nodeId)"
+      },
+      {
+        "params": [
+          {
+            "description": "The hash slot",
+            "name": "slot",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "String"
+        },
+        "signature": "String clusterSetSlotStable(int slot)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "The hash slot",
+            "name": "slot",
+            "type": "int"
+          },
+          {
+            "description": "The node ID",
+            "name": "nodeId",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> clusterSetSlotImporting(int slot, String nodeId)"
+      },
+      {
+        "params": [
+          {
+            "description": "The hash slot",
+            "name": "slot",
+            "type": "int"
+          },
+          {
+            "description": "The node ID",
+            "name": "nodeId",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> clusterSetSlotMigrating(int slot, String nodeId)"
+      },
+      {
+        "params": [
+          {
+            "description": "The hash slot",
+            "name": "slot",
+            "type": "int"
+          },
+          {
+            "description": "The node ID",
+            "name": "nodeId",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> clusterSetSlotNode(int slot, String nodeId)"
+      },
+      {
+        "params": [
+          {
+            "description": "The hash slot",
+            "name": "slot",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> clusterSetSlotStable(int slot)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "The hash slot",
+            "name": "slot",
+            "type": "int"
+          },
+          {
+            "description": "The node ID",
+            "name": "nodeId",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> clusterSetSlotImporting(int slot, String nodeId)"
+      },
+      {
+        "params": [
+          {
+            "description": "The hash slot",
+            "name": "slot",
+            "type": "int"
+          },
+          {
+            "description": "The node ID",
+            "name": "nodeId",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> clusterSetSlotMigrating(int slot, String nodeId)"
+      },
+      {
+        "params": [
+          {
+            "description": "The hash slot",
+            "name": "slot",
+            "type": "int"
+          },
+          {
+            "description": "The node ID",
+            "name": "nodeId",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> clusterSetSlotNode(int slot, String nodeId)"
+      },
+      {
+        "params": [
+          {
+            "description": "The hash slot",
+            "name": "slot",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> clusterSetSlotStable(int slot)"
+      }
+    ]
+  },
   "commandFlags": [
     "admin",
     "stale",
@@ -68,40 +289,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "cluster-setslot-slot-migrating-destination-node-id",
-        "title": "CLUSTER SETSLOT <slot> MIGRATING <destination-node-id>"
-      },
-      {
-        "id": "cluster-setslot-slot-importing-source-node-id",
-        "title": "CLUSTER SETSLOT <slot> IMPORTING <source-node-id>"
-      },
-      {
-        "id": "cluster-setslot-slot-stable",
-        "title": "CLUSTER SETSLOT <slot> STABLE"
-      },
-      {
-        "id": "cluster-setslot-slot-node-node-id",
-        "title": "CLUSTER SETSLOT <slot> NODE <node-id>"
-      },
-      {
-        "id": "redis-cluster-live-resharding-explained",
-        "title": "Redis Cluster live resharding explained"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "`CLUSTER SETSLOT` is responsible of changing the state of a hash slot in the receiving node in different ways. It can, depending on the subcommand used:\n\n1. `MIGRATING` subcommand: Set a hash slot in *migrating* state.\n2. `IMPORTING` subcommand: Set a hash slot in *importing* state.\n3. `STABLE` subcommand: Clear any importing / migrating state from hash slot.\n4. `NODE` subcommand: Bind the hash slot to a different node.\n\nThe command with its set of subcommands is useful in order to start and end cluster live resharding operations, which are accomplished by setting a hash slot in migrating state in the source node, and importing state in the destination node.\n\nEach subcommand is documented below. At the end you'll find a description of\nhow live resharding is performed using this command and other related commands.\n\n## CLUSTER SETSLOT `<slot>` MIGRATING `<destination-node-id>`\n\nThis subcommand sets a slot to *migrating* state. In order to set a slot\nin this state, the node receiving the command must be the hash slot owner,\notherwise an error is returned.\n\nWhen a slot is set in migrating state, the node changes behavior in the\nfollowing way:\n\n1. If a command is received about an existing key, the command is processed as usually.\n2. If a command is received about a key that does not exists, an `ASK` redirection is emitted by the node, asking the client to retry only that specific query into `destination-node`. In this case the client should not update its hash slot to node mapping.\n3. If the command contains multiple keys, in case none exist, the behavior is the same as point 2, if all exist, it is the same as point 1, however if only a partial number of keys exist, the command emits a `TRYAGAIN` error in order for the keys interested to finish being migrated to the target node, so that the multi keys command can be executed.\n\n## CLUSTER SETSLOT `<slot>` IMPORTING `<source-node-id>`\n\nThis subcommand is the reverse of `MIGRATING`, and prepares the destination\nnode to import keys from the specified source node. The command only works if\nthe node is not already owner of the specified hash slot.\n\nWhen a slot is set in importing state, the node changes behavior in the following way:\n\n1. Commands about this hash slot are refused and a `MOVED` redirection is generated as usually, but in the case the command follows an [`ASKING`]() command, in this case the command is executed.\n\nIn this way when a node in migrating state generates an `ASK` redirection, the client contacts the target node, sends [`ASKING`](), and immediately after sends the command. This way commands about non-existing keys in the old node or keys already migrated to the target node are executed in the target node, so that:\n\n1. New keys are always created in the target node. During a hash slot migration we'll have to move only old keys, not new ones.\n2. Commands about keys already migrated are correctly processed in the context of the node which is the target of the migration, the new hash slot owner, in order to guarantee consistency.\n3. Without [`ASKING`]() the behavior is the same as usually. This guarantees that clients with a broken hash slots mapping will not write for error in the target node, creating a new version of a key that has yet to be migrated.\n\n## CLUSTER SETSLOT `<slot>` STABLE\n\nThis subcommand just clears migrating / importing state from the slot. It is\nmainly used to fix a cluster stuck in a wrong state by `redis-cli --cluster fix`.\nNormally the two states are cleared automatically at the end of the migration\nusing the `SETSLOT ... NODE ...` subcommand as explained in the next section.\n\n## CLUSTER SETSLOT `<slot>` NODE `<node-id>`\n\nThe `NODE` subcommand is the one with the most complex semantics. It\nassociates the hash slot with the specified node, however the command works\nonly in specific situations and has different side effects depending on the\nslot state. The following is the set of pre-conditions and side effects of the\ncommand:\n\n1. If the current hash slot owner is the node receiving the command, but for effect of the command the slot would be assigned to a different node, the command will return an error if there are still keys for that hash slot in the node receiving the command.\n2. If the slot is in *migrating* state, the state gets cleared when the slot is assigned to another node.\n3. If the slot was in *importing* state in the node receiving the command, and the command assigns the slot to this node (which happens in the target node at the end of the resharding of a hash slot from one node to another), the command has the following side effects: A) the *importing* state is cleared. B) If the node config epoch is not already the greatest of the cluster, it generates a new one and assigns the new config epoch to itself. This way its new hash slot ownership will win over any past configuration created by previous failovers or slot migrations.\n\nIt is important to note that step 3 is the only time when a Redis Cluster node will create a new config epoch without agreement from other nodes. This only happens when a manual configuration is operated. However it is impossible that this creates a non-transient setup where two nodes have the same config epoch, since Redis Cluster uses a config epoch collision resolution algorithm.\n\n## Redis Cluster live resharding explained\n\nThe `CLUSTER SETSLOT` command is an important piece used by Redis Cluster in order to migrate all the keys contained in one hash slot from one node to another. This is how the migration is orchestrated, with the help of other commands as well. We'll call the node that has the current ownership of the hash slot the `source` node, and the node where we want to migrate the `destination` node.\n\n1. Set the destination node slot to *importing* state using `CLUSTER SETSLOT <slot> IMPORTING <source-node-id>`.\n2. Set the source node slot to *migrating* state using `CLUSTER SETSLOT <slot> MIGRATING <destination-node-id>`.\n3. Get keys from the source node with [`CLUSTER GETKEYSINSLOT`]() command and move them into the destination node using the [`MIGRATE`]() command.\n4. Send `CLUSTER SETSLOT <slot> NODE <destination-node-id>` to the destination node.\n5. Send `CLUSTER SETSLOT <slot> NODE <destination-node-id>` to the source node.\n6. Send `CLUSTER SETSLOT <slot> NODE <destination-node-id>` to the other master nodes (optional).\n\nNotes:\n\n* The order of step 1 and 2 is important. We want the destination node to be ready to accept `ASK` redirections when the source node is configured to redirect.\n* The order of step 4 and 5 is important.\n  The destination node is responsible for propagating the change to the rest of the cluster.\n  If the source node is informed before the destination node and the destination node crashes before it is set as new slot owner, the slot is left with no owner, even after a successful failover.\n* Step 6, sending `SETSLOT` to the nodes not involved in the resharding, is not technically necessary since the configuration will eventually propagate itself.\n  However, it is a good idea to do so in order to stop nodes from pointing to the wrong node for the hash slot moved as soon as possible, resulting in less redirections to find the right node.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): all the sub-commands return `OK` if the command was successful. Otherwise an error is returned.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): all the sub-commands return `OK` if the command was successful. Otherwise an error is returned.",
+  "content": "`CLUSTER SETSLOT` is responsible of changing the state of a hash slot in the receiving node in different ways. It can, depending on the subcommand used:\n\n1. `MIGRATING` subcommand: Set a hash slot in *migrating* state.\n2. `IMPORTING` subcommand: Set a hash slot in *importing* state.\n3. `STABLE` subcommand: Clear any importing / migrating state from hash slot.\n4. `NODE` subcommand: Bind the hash slot to a different node.\n\nThe command with its set of subcommands is useful in order to start and end cluster live resharding operations, which are accomplished by setting a hash slot in migrating state in the source node, and importing state in the destination node.\n\nEach subcommand is documented below. At the end you'll find a description of\nhow live resharding is performed using this command and other related commands.\n\n## CLUSTER SETSLOT `<slot>` MIGRATING `<destination-node-id>`\n\nThis subcommand sets a slot to *migrating* state. In order to set a slot\nin this state, the node receiving the command must be the hash slot owner,\notherwise an error is returned.\n\nWhen a slot is set in migrating state, the node changes behavior in the\nfollowing way:\n\n1. If a command is received about an existing key, the command is processed as usually.\n2. If a command is received about a key that does not exists, an `ASK` redirection is emitted by the node, asking the client to retry only that specific query into `destination-node`. In this case the client should not update its hash slot to node mapping.\n3. If the command contains multiple keys, in case none exist, the behavior is the same as point 2, if all exist, it is the same as point 1, however if only a partial number of keys exist, the command emits a `TRYAGAIN` error in order for the keys interested to finish being migrated to the target node, so that the multi keys command can be executed.\n\n## CLUSTER SETSLOT `<slot>` IMPORTING `<source-node-id>`\n\nThis subcommand is the reverse of `MIGRATING`, and prepares the destination\nnode to import keys from the specified source node. The command only works if\nthe node is not already owner of the specified hash slot.\n\nWhen a slot is set in importing state, the node changes behavior in the following way:\n\n1. Commands about this hash slot are refused and a `MOVED` redirection is generated as usually, but in the case the command follows an [`ASKING`]({{< relref \"/commands/asking\" >}}) command, in this case the command is executed.\n\nIn this way when a node in migrating state generates an `ASK` redirection, the client contacts the target node, sends [`ASKING`]({{< relref \"/commands/asking\" >}}), and immediately after sends the command. This way commands about non-existing keys in the old node or keys already migrated to the target node are executed in the target node, so that:\n\n1. New keys are always created in the target node. During a hash slot migration we'll have to move only old keys, not new ones.\n2. Commands about keys already migrated are correctly processed in the context of the node which is the target of the migration, the new hash slot owner, in order to guarantee consistency.\n3. Without [`ASKING`]({{< relref \"/commands/asking\" >}}) the behavior is the same as usually. This guarantees that clients with a broken hash slots mapping will not write for error in the target node, creating a new version of a key that has yet to be migrated.\n\n## CLUSTER SETSLOT `<slot>` STABLE\n\nThis subcommand just clears migrating / importing state from the slot. It is\nmainly used to fix a cluster stuck in a wrong state by `redis-cli --cluster fix`.\nNormally the two states are cleared automatically at the end of the migration\nusing the `SETSLOT ... NODE ...` subcommand as explained in the next section.\n\n## CLUSTER SETSLOT `<slot>` NODE `<node-id>`\n\nThe `NODE` subcommand is the one with the most complex semantics. It\nassociates the hash slot with the specified node, however the command works\nonly in specific situations and has different side effects depending on the\nslot state. The following is the set of pre-conditions and side effects of the\ncommand:\n\n1. If the current hash slot owner is the node receiving the command, but for effect of the command the slot would be assigned to a different node, the command will return an error if there are still keys for that hash slot in the node receiving the command.\n2. If the slot is in *migrating* state, the state gets cleared when the slot is assigned to another node.\n3. If the slot was in *importing* state in the node receiving the command, and the command assigns the slot to this node (which happens in the target node at the end of the resharding of a hash slot from one node to another), the command has the following side effects: A) the *importing* state is cleared. B) If the node config epoch is not already the greatest of the cluster, it generates a new one and assigns the new config epoch to itself. This way its new hash slot ownership will win over any past configuration created by previous failovers or slot migrations.\n\nIt is important to note that step 3 is the only time when a Redis Cluster node will create a new config epoch without agreement from other nodes. This only happens when a manual configuration is operated. However it is impossible that this creates a non-transient setup where two nodes have the same config epoch, since Redis Cluster uses a config epoch collision resolution algorithm.\n\n## Redis Cluster live resharding explained\n\nThe `CLUSTER SETSLOT` command is an important piece used by Redis Cluster in order to migrate all the keys contained in one hash slot from one node to another. This is how the migration is orchestrated, with the help of other commands as well. We'll call the node that has the current ownership of the hash slot the `source` node, and the node where we want to migrate the `destination` node.\n\n1. Set the destination node slot to *importing* state using `CLUSTER SETSLOT <slot> IMPORTING <source-node-id>`.\n2. Set the source node slot to *migrating* state using `CLUSTER SETSLOT <slot> MIGRATING <destination-node-id>`.\n3. Get keys from the source node with [`CLUSTER GETKEYSINSLOT`]({{< relref \"/commands/cluster-getkeysinslot\" >}}) command and move them into the destination node using the [`MIGRATE`]({{< relref \"/commands/migrate\" >}}) command.\n4. Send `CLUSTER SETSLOT <slot> NODE <destination-node-id>` to the destination node.\n5. Send `CLUSTER SETSLOT <slot> NODE <destination-node-id>` to the source node.\n6. Send `CLUSTER SETSLOT <slot> NODE <destination-node-id>` to the other master nodes (optional).\n\nNotes:\n\n* The order of step 1 and 2 is important. We want the destination node to be ready to accept `ASK` redirections when the source node is configured to redirect.\n* The order of step 4 and 5 is important.\n  The destination node is responsible for propagating the change to the rest of the cluster.\n  If the source node is informed before the destination node and the destination node crashes before it is set as new slot owner, the slot is left with no owner, even after a successful failover.\n* Step 6, sending `SETSLOT` to the nodes not involved in the resharding, is not technically necessary since the configuration will eventually propagate itself.\n  However, it is a good idea to do so in order to stop nodes from pointing to the wrong node for the hash slot moved as soon as possible, resulting in less redirections to find the right node.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"cluster-setslot-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): all the sub-commands return `OK` if the command was successful. Otherwise an error is returned.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): all the sub-commands return `OK` if the command was successful. Otherwise an error is returned.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "`CLUSTER SETSLOT` is responsible of changing the state of a hash slot in the receiving node in different ways. It can, depending on the subcommand used:\n\n1. `MIGRATING` subcommand: Set a hash slot in *migrating* state.\n2. `IMPORTING` subcommand: Set a hash slot in *importing* state.\n3. `STABLE` subcommand: Clear any importing / migrating state from hash slot.\n4. `NODE` subcommand: Bind the hash slot to a different node.\n\nThe command with its set of subcommands is useful in order to start and end cluster live resharding operations, which are accomplished by setting a hash slot in migrating state in the source node, and importing state in the destination node.\n\nEach subcommand is documented below. At the end you'll find a description of\nhow live resharding is performed using this command and other related commands.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -116,7 +310,7 @@
     {
       "title": "CLUSTER SETSLOT `<slot>` IMPORTING `<source-node-id>`",
       "level": 2,
-      "content": "This subcommand is the reverse of `MIGRATING`, and prepares the destination\nnode to import keys from the specified source node. The command only works if\nthe node is not already owner of the specified hash slot.\n\nWhen a slot is set in importing state, the node changes behavior in the following way:\n\n1. Commands about this hash slot are refused and a `MOVED` redirection is generated as usually, but in the case the command follows an [`ASKING`]() command, in this case the command is executed.\n\nIn this way when a node in migrating state generates an `ASK` redirection, the client contacts the target node, sends [`ASKING`](), and immediately after sends the command. This way commands about non-existing keys in the old node or keys already migrated to the target node are executed in the target node, so that:\n\n1. New keys are always created in the target node. During a hash slot migration we'll have to move only old keys, not new ones.\n2. Commands about keys already migrated are correctly processed in the context of the node which is the target of the migration, the new hash slot owner, in order to guarantee consistency.\n3. Without [`ASKING`]() the behavior is the same as usually. This guarantees that clients with a broken hash slots mapping will not write for error in the target node, creating a new version of a key that has yet to be migrated."
+      "content": "This subcommand is the reverse of `MIGRATING`, and prepares the destination\nnode to import keys from the specified source node. The command only works if\nthe node is not already owner of the specified hash slot.\n\nWhen a slot is set in importing state, the node changes behavior in the following way:\n\n1. Commands about this hash slot are refused and a `MOVED` redirection is generated as usually, but in the case the command follows an [`ASKING`]({{< relref \"/commands/asking\" >}}) command, in this case the command is executed.\n\nIn this way when a node in migrating state generates an `ASK` redirection, the client contacts the target node, sends [`ASKING`]({{< relref \"/commands/asking\" >}}), and immediately after sends the command. This way commands about non-existing keys in the old node or keys already migrated to the target node are executed in the target node, so that:\n\n1. New keys are always created in the target node. During a hash slot migration we'll have to move only old keys, not new ones.\n2. Commands about keys already migrated are correctly processed in the context of the node which is the target of the migration, the new hash slot owner, in order to guarantee consistency.\n3. Without [`ASKING`]({{< relref \"/commands/asking\" >}}) the behavior is the same as usually. This guarantees that clients with a broken hash slots mapping will not write for error in the target node, creating a new version of a key that has yet to be migrated."
     },
     {
       "title": "CLUSTER SETSLOT `<slot>` STABLE",
@@ -131,7 +325,7 @@
     {
       "title": "Redis Cluster live resharding explained",
       "level": 2,
-      "content": "The `CLUSTER SETSLOT` command is an important piece used by Redis Cluster in order to migrate all the keys contained in one hash slot from one node to another. This is how the migration is orchestrated, with the help of other commands as well. We'll call the node that has the current ownership of the hash slot the `source` node, and the node where we want to migrate the `destination` node.\n\n1. Set the destination node slot to *importing* state using `CLUSTER SETSLOT <slot> IMPORTING <source-node-id>`.\n2. Set the source node slot to *migrating* state using `CLUSTER SETSLOT <slot> MIGRATING <destination-node-id>`.\n3. Get keys from the source node with [`CLUSTER GETKEYSINSLOT`]() command and move them into the destination node using the [`MIGRATE`]() command.\n4. Send `CLUSTER SETSLOT <slot> NODE <destination-node-id>` to the destination node.\n5. Send `CLUSTER SETSLOT <slot> NODE <destination-node-id>` to the source node.\n6. Send `CLUSTER SETSLOT <slot> NODE <destination-node-id>` to the other master nodes (optional).\n\nNotes:\n\n* The order of step 1 and 2 is important. We want the destination node to be ready to accept `ASK` redirections when the source node is configured to redirect.\n* The order of step 4 and 5 is important.\n  The destination node is responsible for propagating the change to the rest of the cluster.\n  If the source node is informed before the destination node and the destination node crashes before it is set as new slot owner, the slot is left with no owner, even after a successful failover.\n* Step 6, sending `SETSLOT` to the nodes not involved in the resharding, is not technically necessary since the configuration will eventually propagate itself.\n  However, it is a good idea to do so in order to stop nodes from pointing to the wrong node for the hash slot moved as soon as possible, resulting in less redirections to find the right node."
+      "content": "The `CLUSTER SETSLOT` command is an important piece used by Redis Cluster in order to migrate all the keys contained in one hash slot from one node to another. This is how the migration is orchestrated, with the help of other commands as well. We'll call the node that has the current ownership of the hash slot the `source` node, and the node where we want to migrate the `destination` node.\n\n1. Set the destination node slot to *importing* state using `CLUSTER SETSLOT <slot> IMPORTING <source-node-id>`.\n2. Set the source node slot to *migrating* state using `CLUSTER SETSLOT <slot> MIGRATING <destination-node-id>`.\n3. Get keys from the source node with [`CLUSTER GETKEYSINSLOT`]({{< relref \"/commands/cluster-getkeysinslot\" >}}) command and move them into the destination node using the [`MIGRATE`]({{< relref \"/commands/migrate\" >}}) command.\n4. Send `CLUSTER SETSLOT <slot> NODE <destination-node-id>` to the destination node.\n5. Send `CLUSTER SETSLOT <slot> NODE <destination-node-id>` to the source node.\n6. Send `CLUSTER SETSLOT <slot> NODE <destination-node-id>` to the other master nodes (optional).\n\nNotes:\n\n* The order of step 1 and 2 is important. We want the destination node to be ready to accept `ASK` redirections when the source node is configured to redirect.\n* The order of step 4 and 5 is important.\n  The destination node is responsible for propagating the change to the rest of the cluster.\n  If the source node is informed before the destination node and the destination node crashes before it is set as new slot owner, the slot is left with no owner, even after a successful failover.\n* Step 6, sending `SETSLOT` to the nodes not involved in the resharding, is not technically necessary since the configuration will eventually propagate itself.\n  However, it is a good idea to do so in order to stop nodes from pointing to the wrong node for the hash slot moved as soon as possible, resulting in less redirections to find the right node."
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -141,7 +335,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): all the sub-commands return `OK` if the command was successful. Otherwise an error is returned.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): all the sub-commands return `OK` if the command was successful. Otherwise an error is returned."
+      "content": "{{< multitabs id=\"cluster-setslot-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): all the sub-commands return `OK` if the command was successful. Otherwise an error is returned.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): all the sub-commands return `OK` if the command was successful. Otherwise an error is returned.\n\n{{< /multitabs >}}"
     }
   ]
 }

@@ -14,6 +14,565 @@
     "@sortedset",
     "@fast"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "*values",
+            "type": "FieldT"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "ResponseT"
+        },
+        "signature": "zrem(name: KeyT, *values: FieldT)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "members",
+            "type": "byte[]..."
+          }
+        ],
+        "returns": {
+          "description": "1 if the new element was removed, 0 if the new element was not a member of the set",
+          "type": "long"
+        },
+        "signature": "long zrem(final byte[] key, final byte[]... members)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "members",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "1 if the new element was removed, 0 if the new element was not a member of the set",
+          "type": "long"
+        },
+        "signature": "long zrem(final String key, final String... members)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the member type: value.",
+            "name": "members",
+            "type": "V..."
+          }
+        ],
+        "returns": {
+          "description": "Long integer-reply specifically: The number of members removed from the sorted set, not including non existing members.",
+          "type": "Long"
+        },
+        "signature": "Long zrem(K key, V... members)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the member type: value.",
+            "name": "members",
+            "type": "V..."
+          }
+        ],
+        "returns": {
+          "description": "Long integer-reply specifically: The number of members removed from the sorted set, not including non existing members.",
+          "type": "RedisFuture<Long>"
+        },
+        "signature": "RedisFuture<Long> zrem(K key, V... members)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the member type: value.",
+            "name": "members",
+            "type": "V..."
+          }
+        ],
+        "returns": {
+          "description": "Long integer-reply specifically: The number of members removed from the sorted set, not including non existing members.",
+          "type": "Mono<Long>"
+        },
+        "signature": "Mono<Long> zrem(K key, V... members)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "members",
+            "type": "...interface{}"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*IntCmd"
+        },
+        "signature": "ZRem(ctx context.Context, key string, members ...interface{})"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "member",
+            "type": "RedisVariadicArgument"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "ZREM(key: RedisArgument, member: RedisVariadicArgument)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, key"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zrem(...args: [, key: RedisKey, ...members: (string | Buffer | number)[], callback: Callback<number>, ])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, key"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zrem(...args: [, key: RedisKey, members: (string | Buffer | number)[], callback: Callback<number>, ])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[key"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zrem(...args: [key: RedisKey, ...members: (string | Buffer | number)[]])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[key"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zrem(...args: [key: RedisKey, members: (string | Buffer | number)[]])"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "members",
+            "type": "M"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(usize)"
+        },
+        "signature": "zrem(key: K, members: M)"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "members",
+            "type": "M"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(usize)"
+        },
+        "signature": "zrem(key: K, members: M)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The key of the sorted set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "member",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The number of members removed from the sorted set, not including non existing members.",
+          "type": "bool"
+        },
+        "signature": "SortedSetRemove(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the sorted set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The members to remove.",
+            "name": "members",
+            "type": "RedisValue[]"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The number of members removed from the sorted set, not including non existing members.",
+          "type": "long"
+        },
+        "signature": "SortedSetRemove(RedisKey key, RedisValue[] members, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the sorted set.",
+            "name": "key",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "member",
+            "type": "Any"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "The number of members removed from the sorted set, not including non existing members.",
+          "type": "return"
+        },
+        "signature": "SortedSetRemove(key, member, flags)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the sorted set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "member",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The number of members removed from the sorted set, not including non existing members.",
+          "type": "bool"
+        },
+        "signature": "SortedSetRemove(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the sorted set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The members to remove.",
+            "name": "members",
+            "type": "RedisValue[]"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The number of members removed from the sorted set, not including non existing members.",
+          "type": "long"
+        },
+        "signature": "SortedSetRemove(RedisKey key, RedisValue[] members, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The key of the sorted set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "member",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The number of members removed from the sorted set, not including non existing members.",
+          "type": "bool"
+        },
+        "signature": "SortedSetRemove(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the sorted set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The members to remove.",
+            "name": "members",
+            "type": "RedisValue[]"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The number of members removed from the sorted set, not including non existing members.",
+          "type": "long"
+        },
+        "signature": "SortedSetRemove(RedisKey key, RedisValue[] members, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the sorted set.",
+            "name": "key",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "member",
+            "type": "Any"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "The number of members removed from the sorted set, not including non existing members.",
+          "type": "return"
+        },
+        "signature": "SortedSetRemove(key, member, flags)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the sorted set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "member",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The number of members removed from the sorted set, not including non existing members.",
+          "type": "bool"
+        },
+        "signature": "SortedSetRemove(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the sorted set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The members to remove.",
+            "name": "members",
+            "type": "RedisValue[]"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The number of members removed from the sorted set, not including non existing members.",
+          "type": "long"
+        },
+        "signature": "SortedSetRemove(RedisKey key, RedisValue[] members, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$member",
+            "type": "string ..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "int"
+        },
+        "signature": "zrem(string $key, string ...$member)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "a single member or an array of members",
+            "name": "member",
+            "type": "String, Array<String>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Boolean, Integer"
+        },
+        "signature": "zrem(key, member)"
+      }
+    ]
+  },
   "commandFlags": [
     "write",
     "fast"
@@ -63,24 +622,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Removes the specified members from the sorted set stored at `key`.\nNon existing members are ignored.\n\nAn error is returned when `key` exists and does not hold a sorted set.\n\n## Examples\n\n\nZADD myzset 1 \"one\"\nZADD myzset 2 \"two\"\nZADD myzset 3 \"three\"\nZREM myzset \"two\"\nZRANGE myzset 0 -1 WITHSCORES\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of members removed from the sorted set, not including non-existing members.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of members removed from the sorted set, not including non-existing members.",
+  "content": "Removes the specified members from the sorted set stored at `key`.\nNon existing members are ignored.\n\nAn error is returned when `key` exists and does not hold a sorted set.\n\n## Examples\n\n{{% redis-cli %}}\nZADD myzset 1 \"one\"\nZADD myzset 2 \"two\"\nZADD myzset 3 \"three\"\nZREM myzset \"two\"\nZRANGE myzset 0 -1 WITHSCORES\n{{% /redis-cli %}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"zrem-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of members removed from the sorted set, not including non-existing members.\n\n-tab-sep-\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of members removed from the sorted set, not including non-existing members.\n\n{{< /multitabs >}}",
+  "example": "ZADD myzset 1 \"one\"\nZADD myzset 2 \"two\"\nZADD myzset 3 \"three\"\nZREM myzset \"two\"\nZRANGE myzset 0 -1 WITHSCORES",
   "intro": "Removes the specified members from the sorted set stored at `key`.\nNon existing members are ignored.\n\nAn error is returned when `key` exists and does not hold a sorted set.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -90,7 +638,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "ZADD myzset 1 \"one\"\nZADD myzset 2 \"two\"\nZADD myzset 3 \"three\"\nZREM myzset \"two\"\nZRANGE myzset 0 -1 WITHSCORES"
+      "content": "{{% redis-cli %}}\nZADD myzset 1 \"one\"\nZADD myzset 2 \"two\"\nZADD myzset 3 \"three\"\nZREM myzset \"two\"\nZRANGE myzset 0 -1 WITHSCORES\n{{% /redis-cli %}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -100,7 +648,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of members removed from the sorted set, not including non-existing members.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of members removed from the sorted set, not including non-existing members."
+      "content": "{{< multitabs id=\"zrem-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of members removed from the sorted set, not including non-existing members.\n\n-tab-sep-\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of members removed from the sorted set, not including non-existing members.\n\n{{< /multitabs >}}"
     }
   ]
 }

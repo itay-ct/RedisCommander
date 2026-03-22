@@ -13,6 +13,380 @@
     "@slow",
     "@scripting"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "Lua script to execute",
+            "name": "script",
+            "type": "str"
+          },
+          {
+            "description": "Number of keys in the script",
+            "name": "numkeys",
+            "type": "int"
+          },
+          {
+            "description": "Keys and arguments for the script",
+            "name": "*keys_and_args",
+            "type": "Union[KeyT, EncodableT]"
+          }
+        ],
+        "returns": {
+          "description": "Script execution result",
+          "type": "Union[Awaitable[str], str]"
+        },
+        "signature": "eval_ro(script: str, numkeys: int, *keys_and_args: Union[KeyT, EncodableT])"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "Lua script to execute",
+            "name": "script",
+            "type": "String"
+          },
+          {
+            "description": "Keys for the script",
+            "name": "keys",
+            "type": "List<String>"
+          },
+          {
+            "description": "Arguments for the script",
+            "name": "args",
+            "type": "List<String>"
+          }
+        ],
+        "returns": {
+          "description": "Script execution result",
+          "type": "Object"
+        },
+        "signature": "Object evalReadonly(String script, List<String> keys, List<String> args)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context for the operation",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "Lua script to execute",
+            "name": "script",
+            "type": "string"
+          },
+          {
+            "description": "Keys for the script",
+            "name": "keys",
+            "type": "[]string"
+          },
+          {
+            "description": "Arguments for the script",
+            "name": "args",
+            "type": "...interface{}"
+          }
+        ],
+        "returns": {
+          "description": "Script execution result",
+          "type": "*Cmd"
+        },
+        "signature": "EvalRO(ctx context.Context, script string, keys []string, args ...interface{})"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "Lua script to execute",
+            "name": "script",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "Script execution options including keys and arguments",
+            "name": "options",
+            "type": "EvalOptions"
+          }
+        ],
+        "returns": {
+          "description": "Script execution result",
+          "type": "Promise<ReplyUnion>"
+        },
+        "signature": "evalRo(script: RedisArgument, options?: EvalOptions)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "Lua 5.1 script",
+            "name": "script",
+            "type": "String"
+          },
+          {
+            "description": "Output type",
+            "name": "type",
+            "type": "ScriptOutputType"
+          },
+          {
+            "description": "The keys",
+            "name": "keys",
+            "type": "K[]"
+          },
+          {
+            "description": "The values",
+            "name": "values",
+            "type": "V..."
+          }
+        ],
+        "returns": {
+          "description": "Script result",
+          "type": "<T> T"
+        },
+        "signature": "<T> T evalReadOnly(String script, ScriptOutputType type, K[] keys, V... values)"
+      },
+      {
+        "params": [
+          {
+            "description": "Lua 5.1 script",
+            "name": "script",
+            "type": "byte[]"
+          },
+          {
+            "description": "Output type",
+            "name": "type",
+            "type": "ScriptOutputType"
+          },
+          {
+            "description": "The keys",
+            "name": "keys",
+            "type": "K[]"
+          },
+          {
+            "description": "The values",
+            "name": "values",
+            "type": "V..."
+          }
+        ],
+        "returns": {
+          "description": "Script result",
+          "type": "<T> T"
+        },
+        "signature": "<T> T evalReadOnly(byte[] script, ScriptOutputType type, K[] keys, V... values)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "Lua 5.1 script",
+            "name": "script",
+            "type": "String"
+          },
+          {
+            "description": "The type",
+            "name": "type",
+            "type": "ScriptOutputType"
+          },
+          {
+            "description": "The keys",
+            "name": "keys",
+            "type": "K[]"
+          },
+          {
+            "description": "The values",
+            "name": "values",
+            "type": "V..."
+          }
+        ],
+        "returns": {
+          "description": "Script result",
+          "type": "<T> RedisFuture<T>"
+        },
+        "signature": "<T> RedisFuture<T> evalReadOnly(String script, ScriptOutputType type, K[] keys, V... values)"
+      },
+      {
+        "params": [
+          {
+            "description": "Lua 5.1 script",
+            "name": "script",
+            "type": "byte[]"
+          },
+          {
+            "description": "The type",
+            "name": "type",
+            "type": "ScriptOutputType"
+          },
+          {
+            "description": "The keys",
+            "name": "keys",
+            "type": "K[]"
+          },
+          {
+            "description": "The values",
+            "name": "values",
+            "type": "V..."
+          }
+        ],
+        "returns": {
+          "description": "Script result",
+          "type": "<T> RedisFuture<T>"
+        },
+        "signature": "<T> RedisFuture<T> evalReadOnly(byte[] script, ScriptOutputType type, K[] keys, V... values)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "Lua 5.1 script",
+            "name": "script",
+            "type": "String"
+          },
+          {
+            "description": "The type",
+            "name": "type",
+            "type": "ScriptOutputType"
+          },
+          {
+            "description": "The keys",
+            "name": "keys",
+            "type": "K[]"
+          },
+          {
+            "description": "The values",
+            "name": "values",
+            "type": "V..."
+          }
+        ],
+        "returns": {
+          "description": "Script result",
+          "type": "<T> Flux<T>"
+        },
+        "signature": "<T> Flux<T> evalReadOnly(String script, ScriptOutputType type, K[] keys, V... values)"
+      },
+      {
+        "params": [
+          {
+            "description": "Lua 5.1 script",
+            "name": "script",
+            "type": "byte[]"
+          },
+          {
+            "description": "The type",
+            "name": "type",
+            "type": "ScriptOutputType"
+          },
+          {
+            "description": "The keys",
+            "name": "keys",
+            "type": "K[]"
+          },
+          {
+            "description": "The values",
+            "name": "values",
+            "type": "V..."
+          }
+        ],
+        "returns": {
+          "description": "Script result",
+          "type": "<T> Flux<T>"
+        },
+        "signature": "<T> Flux<T> evalReadOnly(byte[] script, ScriptOutputType type, K[] keys, V... values)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "Lua script to execute",
+            "name": "script",
+            "type": "string"
+          },
+          {
+            "description": "Keys for the script",
+            "name": "keys",
+            "type": "RedisKey[]?"
+          },
+          {
+            "description": "Arguments for the script",
+            "name": "values",
+            "type": "RedisValue[]?"
+          },
+          {
+            "description": "Command flags",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "Script execution result",
+          "type": "RedisResult"
+        },
+        "signature": "RedisResult ScriptEvaluateReadOnly(string script, RedisKey[]? keys = null, RedisValue[]? values = null, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "Lua script to execute",
+            "name": "script",
+            "type": "string"
+          },
+          {
+            "description": "Keys for the script",
+            "name": "keys",
+            "type": "RedisKey[]?"
+          },
+          {
+            "description": "Arguments for the script",
+            "name": "values",
+            "type": "RedisValue[]?"
+          },
+          {
+            "description": "Command flags",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "Script execution result",
+          "type": "Task<RedisResult>"
+        },
+        "signature": "Task<RedisResult> ScriptEvaluateReadOnlyAsync(string script, RedisKey[]? keys = null, RedisValue[]? values = null, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "Lua script to execute",
+            "name": "$script",
+            "type": "string"
+          },
+          {
+            "description": "Keys for the script",
+            "name": "$keys",
+            "type": "array"
+          },
+          {
+            "description": "Arguments for the script",
+            "name": "$argument",
+            "type": "..."
+          }
+        ],
+        "returns": {
+          "description": "Script execution result",
+          "type": "mixed"
+        },
+        "signature": "eval_ro(string $script, array $keys, ...$argument)"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly",
     "noscript",
@@ -80,24 +454,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "This is a read-only variant of the [`EVAL`]() command that cannot execute commands that modify data.\n\nFor more information about when to use this command vs [`EVAL`](), please refer to [Read-only scripts]().\n\nFor more information about [`EVAL`]() scripts please refer to [Introduction to Eval Scripts]().\n\n## Examples\n\n```\n> SET mykey \"Hello\"\nOK\n\n> EVAL_RO \"return redis.call('GET', KEYS[1])\" 1 mykey\n\"Hello\"\n\n> EVAL_RO \"return redis.call('DEL', KEYS[1])\" 1 mykey\n(error) ERR Error running script (call to b0d697da25b13e49157b2c214a4033546aba2104): @user_script:1: @user_script: 1: Write commands are not allowed from read-only scripts.\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nThe return value depends on the script that was executed.\n\n**RESP3:**\n\nThe return value depends on the script that was executed.",
+  "content": "This is a read-only variant of the [`EVAL`]() command that cannot execute commands that modify data.\n\nFor more information about when to use this command vs [`EVAL`](), please refer to [Read-only scripts]().\n\nFor more information about [`EVAL`]() scripts please refer to [Introduction to Eval Scripts]().\n\n## Examples\n\n```\n> SET mykey \"Hello\"\nOK\n\n> EVAL_RO \"return redis.call('GET', KEYS[1])\" 1 mykey\n\"Hello\"\n\n> EVAL_RO \"return redis.call('DEL', KEYS[1])\" 1 mykey\n(error) ERR Error running script (call to b0d697da25b13e49157b2c214a4033546aba2104): @user_script:1: @user_script: 1: Write commands are not allowed from read-only scripts.\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"eval-ro-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nThe return value depends on the script that was executed.\n\n-tab-sep-\n\nThe return value depends on the script that was executed.\n\n{{< /multitabs >}}",
+  "example": "> SET mykey \"Hello\"\nOK\n\n> EVAL_RO \"return redis.call('GET', KEYS[1])\" 1 mykey\n\"Hello\"\n\n> EVAL_RO \"return redis.call('DEL', KEYS[1])\" 1 mykey\n(error) ERR Error running script (call to b0d697da25b13e49157b2c214a4033546aba2104): @user_script:1: @user_script: 1: Write commands are not allowed from read-only scripts.",
   "intro": "This is a read-only variant of the [`EVAL`]() command that cannot execute commands that modify data.\n\nFor more information about when to use this command vs [`EVAL`](), please refer to [Read-only scripts]().\n\nFor more information about [`EVAL`]() scripts please refer to [Introduction to Eval Scripts]().",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -117,7 +480,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nThe return value depends on the script that was executed.\n\n**RESP3:**\n\nThe return value depends on the script that was executed."
+      "content": "{{< multitabs id=\"eval-ro-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nThe return value depends on the script that was executed.\n\n-tab-sep-\n\nThe return value depends on the script that was executed.\n\n{{< /multitabs >}}"
     }
   ]
 }

@@ -14,6 +14,726 @@
     "@write",
     "@fast"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "time",
+            "type": "ExpiryT"
+          },
+          {
+            "description": "",
+            "name": "nx",
+            "type": "bool"
+          },
+          {
+            "description": "",
+            "name": "xx",
+            "type": "bool"
+          },
+          {
+            "description": "",
+            "name": "gt",
+            "type": "bool"
+          },
+          {
+            "description": "",
+            "name": "lt",
+            "type": "bool"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "int"
+        },
+        "signature": "expire(name: KeyT, time: ExpiryT, nx: bool = False, xx: bool = False, gt: bool = False, lt: bool = False)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "byte[]"
+          },
+          {
+            "description": "time to expire",
+            "name": "seconds",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "1 if the timeout was set, 0 otherwise",
+          "type": "long"
+        },
+        "signature": "long expire(final byte[] key, final long seconds)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "byte[]"
+          },
+          {
+            "description": "time to expire",
+            "name": "seconds",
+            "type": "long"
+          },
+          {
+            "description": "can be NX, XX, GT or LT",
+            "name": "expiryOption",
+            "type": "ExpiryOption"
+          }
+        ],
+        "returns": {
+          "description": "1 if the timeout was set, 0 otherwise",
+          "type": "long"
+        },
+        "signature": "long expire(final byte[] key, final long seconds, final ExpiryOption expiryOption)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "time to expire",
+            "name": "seconds",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "1 if the timeout was set, 0 otherwise",
+          "type": "long"
+        },
+        "signature": "long expire(final String key, final long seconds)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "time to expire",
+            "name": "seconds",
+            "type": "long"
+          },
+          {
+            "description": "can be NX, XX, GT or LT",
+            "name": "expiryOption",
+            "type": "ExpiryOption"
+          }
+        ],
+        "returns": {
+          "description": "1 if the timeout was set, 0 otherwise",
+          "type": "long"
+        },
+        "signature": "long expire(final String key, final long seconds, final ExpiryOption expiryOption)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "expiration",
+            "type": "time.Duration"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*BoolCmd"
+        },
+        "signature": "Expire(ctx context.Context, key string, expiration time.Duration)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "expiration",
+            "type": "time.Duration"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*BoolCmd"
+        },
+        "signature": "ExpireNX(ctx context.Context, key string, expiration time.Duration)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "expiration",
+            "type": "time.Duration"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*BoolCmd"
+        },
+        "signature": "ExpireXX(ctx context.Context, key string, expiration time.Duration)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "expiration",
+            "type": "time.Duration"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*BoolCmd"
+        },
+        "signature": "ExpireGT(ctx context.Context, key string, expiration time.Duration)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "expiration",
+            "type": "time.Duration"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*BoolCmd"
+        },
+        "signature": "ExpireLT(ctx context.Context, key string, expiration time.Duration)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "seconds",
+            "type": "number"
+          },
+          {
+            "description": "",
+            "name": "mode?",
+            "type": "'NX' | 'XX' | 'GT' | 'LT'"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "EXPIRE(key: RedisArgument, seconds: number, mode?: 'NX' | 'XX' | 'GT' | 'LT')"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the seconds.",
+            "name": "seconds",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "Boolean integer-reply specifically: true if the timeout was set. false if key does not exist or the timeout could not be set.",
+          "type": "Boolean"
+        },
+        "signature": "Boolean expire(K key, long seconds)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the seconds.",
+            "name": "seconds",
+            "type": "long"
+          },
+          {
+            "description": "the expiry arguments.",
+            "name": "expireArgs",
+            "type": "ExpireArgs"
+          }
+        ],
+        "returns": {
+          "description": "Boolean integer-reply specifically: true if the timeout was set. false if key does not exist or the timeout could not be set.",
+          "type": "Boolean"
+        },
+        "signature": "Boolean expire(K key, long seconds, ExpireArgs expireArgs)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the seconds.",
+            "name": "seconds",
+            "type": "Duration"
+          }
+        ],
+        "returns": {
+          "description": "Boolean integer-reply specifically: true if the timeout was set. false if key does not exist or the timeout could not be set.",
+          "type": "Boolean"
+        },
+        "signature": "Boolean expire(K key, Duration seconds)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the seconds.",
+            "name": "seconds",
+            "type": "Duration"
+          },
+          {
+            "description": "the expiry arguments.",
+            "name": "expireArgs",
+            "type": "ExpireArgs"
+          }
+        ],
+        "returns": {
+          "description": "Boolean integer-reply specifically: true if the timeout was set. false if key does not exist or the timeout could not be set.",
+          "type": "Boolean"
+        },
+        "signature": "Boolean expire(K key, Duration seconds, ExpireArgs expireArgs)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the seconds.",
+            "name": "seconds",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "Boolean integer-reply specifically: true if the timeout was set. false if key does not exist or the timeout could not be set.",
+          "type": "RedisFuture<Boolean>"
+        },
+        "signature": "RedisFuture<Boolean> expire(K key, long seconds)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the seconds.",
+            "name": "seconds",
+            "type": "long"
+          },
+          {
+            "description": "the expiry arguments.",
+            "name": "expireArgs",
+            "type": "ExpireArgs"
+          }
+        ],
+        "returns": {
+          "description": "Boolean integer-reply specifically: true if the timeout was set. false if key does not exist or the timeout could not be set.",
+          "type": "RedisFuture<Boolean>"
+        },
+        "signature": "RedisFuture<Boolean> expire(K key, long seconds, ExpireArgs expireArgs)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the seconds.",
+            "name": "seconds",
+            "type": "Duration"
+          }
+        ],
+        "returns": {
+          "description": "Boolean integer-reply specifically: true if the timeout was set. false if key does not exist or the timeout could not be set.",
+          "type": "RedisFuture<Boolean>"
+        },
+        "signature": "RedisFuture<Boolean> expire(K key, Duration seconds)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the seconds.",
+            "name": "seconds",
+            "type": "Duration"
+          },
+          {
+            "description": "the expiry arguments.",
+            "name": "expireArgs",
+            "type": "ExpireArgs"
+          }
+        ],
+        "returns": {
+          "description": "Boolean integer-reply specifically: true if the timeout was set. false if key does not exist or the timeout could not be set.",
+          "type": "RedisFuture<Boolean>"
+        },
+        "signature": "RedisFuture<Boolean> expire(K key, Duration seconds, ExpireArgs expireArgs)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the seconds.",
+            "name": "seconds",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "Boolean integer-reply specifically: true if the timeout was set. false if key does not exist or the timeout could not be set.",
+          "type": "Mono<Boolean>"
+        },
+        "signature": "Mono<Boolean> expire(K key, long seconds)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the seconds.",
+            "name": "seconds",
+            "type": "long"
+          },
+          {
+            "description": "the expiry arguments.",
+            "name": "expireArgs",
+            "type": "ExpireArgs"
+          }
+        ],
+        "returns": {
+          "description": "Boolean integer-reply specifically: true if the timeout was set. false if key does not exist or the timeout could not be set.",
+          "type": "Mono<Boolean>"
+        },
+        "signature": "Mono<Boolean> expire(K key, long seconds, ExpireArgs expireArgs)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the seconds.",
+            "name": "seconds",
+            "type": "Duration"
+          }
+        ],
+        "returns": {
+          "description": "Boolean integer-reply specifically: true if the timeout was set. false if key does not exist or the timeout could not be set.",
+          "type": "Mono<Boolean>"
+        },
+        "signature": "Mono<Boolean> expire(K key, Duration seconds)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the seconds.",
+            "name": "seconds",
+            "type": "Duration"
+          },
+          {
+            "description": "the expiry arguments.",
+            "name": "expireArgs",
+            "type": "ExpireArgs"
+          }
+        ],
+        "returns": {
+          "description": "Boolean integer-reply specifically: true if the timeout was set. false if key does not exist or the timeout could not be set.",
+          "type": "Mono<Boolean>"
+        },
+        "signature": "Mono<Boolean> expire(K key, Duration seconds, ExpireArgs expireArgs)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The key to set the expiration for.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The timeout to set.",
+            "name": "expiry",
+            "type": "TimeSpan?"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "true if the timeout was set. false if key does not exist or the timeout could not be set.",
+          "type": "bool"
+        },
+        "signature": "KeyExpire(RedisKey key, TimeSpan? expiry, CommandFlags flags)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key to set the expiration for.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The timeout to set.",
+            "name": "expiry",
+            "type": "TimeSpan?"
+          },
+          {
+            "description": "In Redis 7+, we choose under which condition the expiration will be set using ExpireWhen.",
+            "name": "when",
+            "type": "ExpireWhen"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "true if the timeout was set. false if key does not exist or the timeout could not be set.",
+          "type": "bool"
+        },
+        "signature": "KeyExpire(RedisKey key, TimeSpan? expiry, ExpireWhen when = ExpireWhen.Always, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The key to set the expiration for.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The timeout to set.",
+            "name": "expiry",
+            "type": "TimeSpan?"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "true if the timeout was set. false if key does not exist or the timeout could not be set.",
+          "type": "Task<bool>"
+        },
+        "signature": "KeyExpireAsync(RedisKey key, TimeSpan? expiry, CommandFlags flags)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key to set the expiration for.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The timeout to set.",
+            "name": "expiry",
+            "type": "TimeSpan?"
+          },
+          {
+            "description": "In Redis 7+, we choose under which condition the expiration will be set using ExpireWhen.",
+            "name": "when",
+            "type": "ExpireWhen"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "true if the timeout was set. false if key does not exist or the timeout could not be set.",
+          "type": "Task<bool>"
+        },
+        "signature": "KeyExpireAsync(RedisKey key, TimeSpan? expiry, ExpireWhen when = ExpireWhen.Always, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$seconds",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "$expireOption",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "int"
+        },
+        "signature": "expire(string $key, int $seconds, string $expireOption = '')"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "time to live",
+            "name": "seconds",
+            "type": "Integer"
+          },
+          {
+            "description": "Set expiry only when the key has no expiry.",
+            "name": "nx",
+            "type": "Boolean"
+          },
+          {
+            "description": "Set expiry only when the key has an existing expiry.",
+            "name": "xx",
+            "type": "Boolean"
+          },
+          {
+            "description": "Set expiry only when the new expiry is greater than current one.",
+            "name": "gt",
+            "type": "Boolean"
+          },
+          {
+            "description": "Set expiry only when the new expiry is less than current one.",
+            "name": "lt",
+            "type": "Boolean"
+          }
+        ],
+        "returns": {
+          "description": "whether the timeout was set or not",
+          "type": "Boolean"
+        },
+        "signature": "expire(key, seconds, nx: nil, xx: nil, gt: nil, lt: nil)"
+      }
+    ]
+  },
   "commandFlags": [
     "write",
     "fast"
@@ -94,176 +814,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "options",
-        "title": "Options"
-      },
-      {
-        "id": "refreshing-expires",
-        "title": "Refreshing expires"
-      },
-      {
-        "id": "differences-in-redis-prior-213",
-        "title": "Differences in Redis prior 2.1.3"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "pattern-navigation-session",
-        "title": "Pattern: Navigation session"
-      },
-      {
-        "children": [
-          {
-            "id": "keys-with-an-expire",
-            "title": "Keys with an expire"
-          },
-          {
-            "id": "expire-accuracy",
-            "title": "Expire accuracy"
-          },
-          {
-            "id": "expires-and-persistence",
-            "title": "Expires and persistence"
-          },
-          {
-            "id": "how-redis-expires-keys",
-            "title": "How Redis expires keys"
-          },
-          {
-            "id": "how-expires-are-handled-in-the-replication-link-and-aof-file",
-            "title": "How expires are handled in the replication link and AOF file"
-          },
-          {
-            "id": "redis-search-and-expiration",
-            "title": "Redis Search and expiration"
-          }
-        ],
-        "id": "appendix-redis-expires",
-        "title": "Appendix: Redis expires"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
-  "codeExamples": [
-    {
-      "codetabsId": "cmds_generic-stepexpire",
-      "commands": [
-        {
-          "acl_categories": [
-            "@write",
-            "@string",
-            "@slow"
-          ],
-          "complexity": "O(1)",
-          "name": "SET"
-        },
-        {
-          "acl_categories": [
-            "@keyspace",
-            "@write",
-            "@fast"
-          ],
-          "complexity": "O(1)",
-          "name": "EXPIRE"
-        },
-        {
-          "acl_categories": [
-            "@keyspace",
-            "@read",
-            "@fast"
-          ],
-          "complexity": "O(1)",
-          "name": "TTL"
-        }
-      ],
-      "description": "Foundational: Set key expiration time using EXPIRE (supports conditional options NX/XX/GT/LT, returns 1 if set or 0 if not)",
-      "difficulty": "beginner",
-      "id": "expire",
-      "languages": [
-        {
-          "id": "redis-cli",
-          "panelId": "panel_redis-cli_cmds_generic-stepexpire"
-        },
-        {
-          "clientId": "redis-py",
-          "clientName": "redis-py",
-          "id": "Python",
-          "langId": "python",
-          "panelId": "panel_Python_cmds_generic-stepexpire"
-        },
-        {
-          "id": "Node-js",
-          "panelId": "panel_Nodejs_cmds_generic-stepexpire"
-        },
-        {
-          "clientId": "jedis",
-          "clientName": "Jedis",
-          "id": "Java-Sync",
-          "langId": "java",
-          "panelId": "panel_Java-Sync_cmds_generic-stepexpire"
-        },
-        {
-          "clientId": "lettuce",
-          "clientName": "Lettuce",
-          "id": "Java-Async",
-          "langId": "java",
-          "panelId": "panel_Java-Async_cmds_generic-stepexpire"
-        },
-        {
-          "clientId": "lettuce",
-          "clientName": "Lettuce",
-          "id": "Java-Reactive",
-          "langId": "java",
-          "panelId": "panel_Java-Reactive_cmds_generic-stepexpire"
-        },
-        {
-          "clientId": "go-redis",
-          "clientName": "go-redis",
-          "id": "Go",
-          "langId": "go",
-          "panelId": "panel_Go_cmds_generic-stepexpire"
-        },
-        {
-          "id": "dotnet-Sync",
-          "panelId": "panel_Csharp-Sync_cmds_generic-stepexpire"
-        },
-        {
-          "clientId": "predis",
-          "clientName": "Predis",
-          "id": "PHP",
-          "langId": "php",
-          "panelId": "panel_PHP_cmds_generic-stepexpire"
-        },
-        {
-          "clientId": "redis-rs",
-          "clientName": "redis-rs",
-          "id": "Rust-Sync",
-          "langId": "rust",
-          "panelId": "panel_Rust-Sync_cmds_generic-stepexpire"
-        },
-        {
-          "clientId": "redis-rs",
-          "clientName": "redis-rs",
-          "id": "Rust-Async",
-          "langId": "rust",
-          "panelId": "panel_Rust-Async_cmds_generic-stepexpire"
-        }
-      ]
-    }
-  ],
-  "content": "Set a timeout on `key`.\nAfter the timeout has expired, the key will automatically be deleted.\nA key with an associated timeout is often said to be _volatile_ in Redis\nterminology.\n\nThe timeout will only be cleared by commands that delete or overwrite the\ncontents of the key, including [`DEL`](), [`SET`](), [`GETSET`]() and all the `*STORE`\ncommands.\nThis means that all the operations that conceptually _alter_ the value stored at\nthe key without replacing it with a new one will leave the timeout untouched.\nFor instance, incrementing the value of a key with [`INCR`](), pushing a new value\ninto a list with [`LPUSH`](), or altering the field value of a hash with [`HSET`]() are\nall operations that will leave the timeout untouched.\n\nThe timeout can also be cleared, turning the key back into a persistent key,\nusing the [`PERSIST`]() command.\n\nIf a key is renamed with [`RENAME`](), the associated time to live is transferred to\nthe new key name.\n\nIf a key is overwritten by [`RENAME`](), like in the case of an existing key `Key_A`\nthat is overwritten by a call like `RENAME Key_B Key_A`, it does not matter if\nthe original `Key_A` had a timeout associated or not, the new key `Key_A` will\ninherit all the characteristics of `Key_B`.\n\nNote that calling `EXPIRE`/[`PEXPIRE`]() with a non-positive timeout or\n[`EXPIREAT`]()/[`PEXPIREAT`]() with a time in the past will result in the key being\n[deleted][del] rather than expired (accordingly, the emitted [key event][ntf]\nwill be `del`, not `expired`).\n\n[del]: /commands/del\n[ntf]: /develop/use/keyspace-notifications\n\n## Options\n\nThe `EXPIRE` command supports a set of options:\n\n* `NX` -- Set expiry only when the key has no expiry\n* `XX` -- Set expiry only when the key has an existing expiry\n* `GT` -- Set expiry only when the new expiry is greater than current one\n* `LT` -- Set expiry only when the new expiry is less than current one\n\nA non-volatile key is treated as an infinite TTL for the purpose of `GT` and `LT`.\nThe `GT`, `LT` and `NX` options are mutually exclusive.\n\n## Refreshing expires\n\nIt is possible to call `EXPIRE` using as argument a key that already has an\nexisting expire set.\nIn this case the time to live of a key is _updated_ to the new value.\nThere are many useful applications for this, an example is documented in the\n_Navigation session_ pattern section below.\n\n## Differences in Redis prior 2.1.3\n\nIn Redis versions prior **2.1.3** altering a key with an expire set using a\ncommand altering its value had the effect of removing the key entirely.\nThis semantics was needed because of limitations in the replication layer that\nare now fixed.\n\n`EXPIRE` would return 0 and not alter the timeout for a key with a timeout set.\n\n## Examples\n\n#### Code Examples\n\nFoundational: Set key expiration time using EXPIRE (supports conditional options NX/XX/GT/LT, returns 1 if set or 0 if not)\n\n**Difficulty:** Beginner\n\n**Commands:** SET, EXPIRE, TTL\n\n**Complexity:**\n- SET: O(1)\n- EXPIRE: O(1)\n- TTL: O(1)\n\n**Redis CLI:**\n\n```\n> SET mykey \"Hello\"\n\"OK\"\n> EXPIRE mykey 10\n(integer) 1\n> TTL mykey\n(integer) 10\n> SET mykey \"Hello World\"\n\"OK\"\n> TTL mykey\n(integer) -1\n> EXPIRE mykey 10 XX\n(integer) 0\n> TTL mykey\n(integer) -1\n> EXPIRE mykey 10 NX\n(integer) 1\n> TTL mykey\n(integer) 10\n```\n\n**Available in:** Redis CLI, C# (Synchronous), Go, Java (Asynchronous - Lettuce), Java (Reactive - Lettuce), Java (Synchronous - Jedis), JavaScript (Node.js), PHP, Python, Rust (Asynchronous), Rust (Synchronous)\n\n**C# (Synchronous):**\n\n```csharp\n        bool expireResult1 = db.StringSet(\"mykey\", \"Hello\");\n        Console.WriteLine(expireResult1);   // >>> true\n\n        bool expireResult2 = db.KeyExpire(\"mykey\", new TimeSpan(0, 0, 10));\n        Console.WriteLine(expireResult2);   // >>> true\n\n        TimeSpan expireResult3 = db.KeyTimeToLive(\"mykey\") ?? TimeSpan.Zero;\n        Console.WriteLine(Math.Round(expireResult3.TotalSeconds));   // >>> 10\n\n        bool expireResult4 = db.StringSet(\"mykey\", \"Hello World\");\n        Console.WriteLine(expireResult4);   // >>> true\n\n        TimeSpan expireResult5 = db.KeyTimeToLive(\"mykey\") ?? TimeSpan.Zero;\n        Console.WriteLine(Math.Round(expireResult5.TotalSeconds).ToString());   // >>> 0\n\n        bool expireResult6 = db.KeyExpire(\"mykey\", new TimeSpan(0, 0, 10), ExpireWhen.HasExpiry);\n        Console.WriteLine(expireResult6);   // >>> false\n\n        TimeSpan expireResult7 = db.KeyTimeToLive(\"mykey\") ?? TimeSpan.Zero;\n        Console.WriteLine(Math.Round(expireResult7.TotalSeconds));   // >>> 0\n\n        bool expireResult8 = db.KeyExpire(\"mykey\", new TimeSpan(0, 0, 10), ExpireWhen.HasNoExpiry);\n        Console.WriteLine(expireResult8);   // >>> true\n\n        TimeSpan expireResult9 = db.KeyTimeToLive(\"mykey\") ?? TimeSpan.Zero;\n        Console.WriteLine(Math.Round(expireResult9.TotalSeconds));   // >>> 10\n```\n\n**Go:**\n\n```go\n\texpireResult1, err := rdb.Set(ctx, \"mykey\", \"Hello\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult1) // >>> OK\n\n\texpireResult2, err := rdb.Expire(ctx, \"mykey\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult2) // >>> true\n\n\texpireResult3, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(math.Round(expireResult3.Seconds())) // >>> 10\n\n\texpireResult4, err := rdb.Set(ctx, \"mykey\", \"Hello World\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult4) // >>> OK\n\n\texpireResult5, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult5) // >>> -1ns\n\n\texpireResult6, err := rdb.ExpireXX(ctx, \"mykey\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult6) // >>> false\n\n\texpireResult7, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult7) // >>> -1ns\n\n\texpireResult8, err := rdb.ExpireNX(ctx, \"mykey\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult8) // >>> true\n\n\texpireResult9, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(math.Round(expireResult9.Seconds())) // >>> 10\n```\n\n**Java (Asynchronous - Lettuce):**\n\n```java\npackage io.redis.examples.async;\n\nimport io.lettuce.core.*;\n\nimport io.lettuce.core.api.async.RedisAsyncCommands;\n\nimport io.lettuce.core.api.StatefulRedisConnection;\n\nimport java.util.concurrent.CompletableFuture;\n\npublic class CmdsGenericExample {\n\n    public void run() {\n\n            CompletableFuture<Void> existsExample = asyncCommands.set(\"key1\", \"Hello\").thenCompose(res1 -> {\n                System.out.println(res1); // >>> OK\n\n                return asyncCommands.exists(\"key1\");\n            }).thenCompose(res2 -> {\n                System.out.println(res2); // >>> 1\n\n                return asyncCommands.exists(\"nosuchkey\");\n            }).thenCompose(res3 -> {\n                System.out.println(res3); // >>> 0\n\n                return asyncCommands.set(\"key2\", \"World\");\n            }).thenCompose(res4 -> {\n                System.out.println(res4); // >>> OK\n\n                return asyncCommands.exists(\"key1\", \"key2\", \"nosuchkey\");\n            }).thenAccept(res5 -> {\n                System.out.println(res5); // >>> 2\n            }).toCompletableFuture();\n            existsExample.join();\n        } finally {\n            redisClient.shutdown();\n        }\n    }\n}\n\n```\n\n**Java (Reactive - Lettuce):**\n\n```java\npackage io.redis.examples.reactive;\n\nimport io.lettuce.core.*;\nimport io.lettuce.core.api.reactive.RedisReactiveCommands;\nimport io.lettuce.core.api.StatefulRedisConnection;\nimport reactor.core.publisher.Mono;\n\n\npublic class CmdsGenericExample {\n\n    public void run() {\n        RedisClient redisClient = RedisClient.create(\"redis://localhost:6379\");\n\n        try (StatefulRedisConnection<String, String> connection = redisClient.connect()) {\n            RedisReactiveCommands<String, String> reactiveCommands = connection.reactive();\n\n            Mono<Void> existsExample = reactiveCommands.set(\"key1\", \"Hello\").doOnNext(res1 -> {\n                System.out.println(res1); // >>> OK\n            }).then(reactiveCommands.exists(\"key1\")).doOnNext(res2 -> {\n                System.out.println(res2); // >>> 1\n            }).then(reactiveCommands.exists(\"nosuchkey\")).doOnNext(res3 -> {\n                System.out.println(res3); // >>> 0\n            }).then(reactiveCommands.set(\"key2\", \"World\")).doOnNext(res4 -> {\n                System.out.println(res4); // >>> OK\n            }).then(reactiveCommands.exists(\"key1\", \"key2\", \"nosuchkey\")).doOnNext(res5 -> {\n                System.out.println(res5); // >>> 2\n            }).then();\n\n            Mono.when(existsExample).block();\n\n        } finally {\n            redisClient.shutdown();\n        }\n    }\n\n}\n\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n        String expireResult1 = jedis.set(\"mykey\", \"Hello\");\n        System.out.println(expireResult1);  // >>> OK\n\n        long expireResult2 = jedis.expire(\"mykey\", 10);\n        System.out.println(expireResult2);  // >>> 1\n\n        long expireResult3 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult3);  // >>> 10\n\n        String expireResult4 = jedis.set(\"mykey\", \"Hello World\");\n        System.out.println(expireResult4);  // >>> OK\n\n        long expireResult5 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult5);  // >>> -1\n\n        long expireResult6 = jedis.expire(\"mykey\", 10, ExpiryOption.XX);\n        System.out.println(expireResult6);  // >>> 0\n\n        long expireResult7 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult7);  // >>> -1\n\n        long expireResult8 = jedis.expire(\"mykey\", 10, ExpiryOption.NX);\n        System.out.println(expireResult8);  // >>> 1\n\n        long expireResult9 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult9);  // >>> 10\n```\n\n**JavaScript (Node.js):**\n\n```javascript\nconst expireRes1 = await client.set('mykey', 'Hello');\nconsole.log(expireRes1); // OK\n\nconst expireRes2 = await client.expire('mykey', 10);\nconsole.log(expireRes2); // 1\n\nconst expireRes3 = await client.ttl('mykey');\nconsole.log(expireRes3); // 10\n\nconst expireRes4 = await client.set('mykey', 'Hello World');\nconsole.log(expireRes4); // OK\n\nconst expireRes5 = await client.ttl('mykey');\nconsole.log(expireRes5); // -1\n\nconst expireRes6 = await client.expire('mykey', 10, \"XX\");\nconsole.log(expireRes6); // 0\n\nconst expireRes7 = await client.ttl('mykey');\nconsole.log(expireRes7); // -1\n\nconst expireRes8 = await client.expire('mykey', 10, \"NX\");\nconsole.log(expireRes8); // 1\n\nconst expireRes9 = await client.ttl('mykey');\nconsole.log(expireRes9); // 10\n```\n\n**PHP:**\n\n```php\n<?php\nrequire_once 'vendor/autoload.php';\n\nuse Predis\\Client as PredisClient;\n\nclass CmdsGenericTest\n{\n    public function testCmdsGeneric() {\n        $r = new PredisClient([\n            'scheme'   => 'tcp',\n            'host'     => '127.0.0.1',\n            'port'     => 6379,\n            'password' => '',\n            'database' => 0,\n        ]);\n\n        $existsResult1 = $r->set('key1', 'Hello');\n        echo $existsResult1 . PHP_EOL; // >>> OK\n\n        $existsResult2 = $r->exists('key1');\n        echo $existsResult2 . PHP_EOL; // >>> 1\n\n        $existsResult3 = $r->exists('nosuchkey');\n        echo $existsResult3 . PHP_EOL; // >>> 0\n\n        $existsResult4 = $r->set('key2', 'World');\n        echo $existsResult4 . PHP_EOL; // >>> OK\n\n        $existsResult5 = $r->exists('key1', 'key2', 'nosuchkey');\n        echo $existsResult5 . PHP_EOL; // >>> 2\n\n    }\n}\n\n```\n\n**Python:**\n\n```python\nres = r.set(\"mykey\", \"Hello\")\nprint(res)\n# >>> True\n\nres = r.expire(\"mykey\", 10)\nprint(res)\n# >>> True\n\nres = r.ttl(\"mykey\")\nprint(res)\n# >>> 10\n\nres = r.set(\"mykey\", \"Hello World\")\nprint(res)\n# >>> True\n\nres = r.ttl(\"mykey\")\nprint(res)\n# >>> -1\n\nres = r.expire(\"mykey\", 10, xx=True)\nprint(res)\n# >>> False\n\nres = r.ttl(\"mykey\")\nprint(res)\n# >>> -1\n\nres = r.expire(\"mykey\", 10, nx=True)\nprint(res)\n# >>> True\n\nres = r.ttl(\"mykey\")\nprint(res)\n# >>> 10\n```\n\n**Rust (Asynchronous):**\n\n```rust\n        if let Ok(res) = r.set(\"mykey\", \"Hello\").await {\n            let res: String = res;\n            println!(\"{res}\");    // >>> OK\n        }\n\n        match r.expire(\"mykey\", 10).await {\n            Ok(res) => {\n                let res: bool = res;\n                println!(\"{res}\");    // >>> true\n            },\n            Err(e) => {\n                println!(\"Error setting key expiration: {e}\");\n                return;\n            }\n        }\n\n        match r.ttl(\"mykey\").await {\n            Ok(res) => {\n                let res: i64 = res;\n                println!(\"{res}\");    // >>> 10\n            },\n            Err(e) => {\n                println!(\"Error getting key TTL: {e}\");\n                return;\n            }\n        }\n\n        if let Ok(res) = r.set(\"mykey\", \"Hello World\").await {\n            let res: String = res;\n            println!(\"{res}\");    // >>> OK\n        }\n\n        match r.ttl(\"mykey\").await {\n            Ok(res) => {\n                let res: i64 = res;\n                println!(\"{res}\");    // >>> -1\n            },\n            Err(e) => {\n                println!(\"Error getting key TTL: {e}\");\n                return;\n            }\n        }\n\n        // Note: Rust redis client doesn't support expire with NX/XX flags directly\n        // This simulates the Python behavior but without the exact flags\n\n        // Try to expire a key that doesn't have expiration (simulates xx=True failing)\n        match r.ttl(\"mykey\").await {\n            Ok(res) => {\n                let res: i64 = res;\n                println!(\"false\");    // >>> false (simulating expire xx=True failure)\n            },\n            Err(e) => {\n                println!(\"Error getting key TTL: {e}\");\n                return;\n            }\n        }\n\n        match r.ttl(\"mykey\").await {\n            Ok(res) => {\n                let res: i64 = res;\n                println!(\"{res}\");    // >>> -1\n            },\n            Err(e) => {\n                println!(\"Error getting key TTL: {e}\");\n                return;\n            }\n        }\n\n        // Now set expiration (simulates nx=True succeeding)\n        match r.expire(\"mykey\", 10).await {\n            Ok(res) => {\n                let res: bool = res;\n                println!(\"{res}\");    // >>> true\n            },\n            Err(e) => {\n                println!(\"Error setting key expiration: {e}\");\n                return;\n            }\n        }\n\n        match r.ttl(\"mykey\").await {\n            Ok(res) => {\n                let res: i64 = res;\n                println!(\"{res}\");    // >>> 10\n            },\n            Err(e) => {\n                println!(\"Error getting key TTL: {e}\");\n                return;\n            }\n        }\n```\n\n**Rust (Synchronous):**\n\n```rust\n        if let Ok(res) = r.set(\"mykey\", \"Hello\") {\n            let res: String = res;\n            println!(\"{res}\");    // >>> OK\n        }\n\n        match r.expire(\"mykey\", 10) {\n            Ok(res) => {\n                let res: bool = res;\n                println!(\"{res}\");    // >>> true\n            },\n            Err(e) => {\n                println!(\"Error setting key expiration: {e}\");\n                return;\n            }\n        }\n\n        match r.ttl(\"mykey\") {\n            Ok(res) => {\n                let res: i64 = res;\n                println!(\"{res}\");    // >>> 10\n            },\n            Err(e) => {\n                println!(\"Error getting key TTL: {e}\");\n                return;\n            }\n        }\n\n        if let Ok(res) = r.set(\"mykey\", \"Hello World\") {\n            let res: String = res;\n            println!(\"{res}\");    // >>> OK\n        }\n\n        match r.ttl(\"mykey\") {\n            Ok(res) => {\n                let res: i64 = res;\n                println!(\"{res}\");    // >>> -1\n            },\n            Err(e) => {\n                println!(\"Error getting key TTL: {e}\");\n                return;\n            }\n        }\n\n        // Note: Rust redis client doesn't support expire with NX/XX flags directly\n        // This simulates the Python behavior but without the exact flags\n\n        // Try to expire a key that doesn't have expiration (simulates xx=True failing)\n        match r.ttl(\"mykey\") {\n            Ok(res) => {\n                let res: i64 = res;\n                println!(\"false\");    // >>> false (simulating expire xx=True failure)\n            },\n            Err(e) => {\n                println!(\"Error getting key TTL: {e}\");\n                return;\n            }\n        }\n\n        match r.ttl(\"mykey\") {\n            Ok(res) => {\n                let res: i64 = res;\n                println!(\"{res}\");    // >>> -1\n            },\n            Err(e) => {\n                println!(\"Error getting key TTL: {e}\");\n                return;\n            }\n        }\n\n        // Now set expiration (simulates nx=True succeeding)\n        match r.expire(\"mykey\", 10) {\n            Ok(res) => {\n                let res: bool = res;\n                println!(\"{res}\");    // >>> true\n            },\n            Err(e) => {\n                println!(\"Error setting key expiration: {e}\");\n                return;\n            }\n        }\n\n        match r.ttl(\"mykey\") {\n            Ok(res) => {\n                let res: i64 = res;\n                println!(\"{res}\");    // >>> 10\n            },\n            Err(e) => {\n                println!(\"Error getting key TTL: {e}\");\n                return;\n            }\n        }\n```\n\n\n\nGive these commands a try in the interactive console:\n\n\nSET mykey \"Hello\"\nEXPIRE mykey 10\nTTL mykey\nSET mykey \"Hello World\"\nTTL mykey\nEXPIRE mykey 10 XX\nTTL mykey\nEXPIRE mykey 10 NX\nTTL mykey\n\n\n## Pattern: Navigation session\n\nImagine you have a web service and you are interested in the latest N pages\n_recently_ visited by your users, such that each adjacent page view was not\nperformed more than 60 seconds after the previous.\nConceptually you may consider this set of page views as a _Navigation session_\nof your user, that may contain interesting information about what kind of\nproducts he or she is looking for currently, so that you can recommend related\nproducts.\n\nYou can easily model this pattern in Redis using the following strategy: every\ntime the user does a page view you call the following commands:\n\n```\nMULTI\nRPUSH pagewviews.user:<userid> http://.....\nEXPIRE pagewviews.user:<userid> 60\nEXEC\n```\n\nIf the user will be idle more than 60 seconds, the key will be deleted and only\nsubsequent page views that have less than 60 seconds of difference will be\nrecorded.\n\nThis pattern is easily modified to use counters using [`INCR`]() instead of lists\nusing [`RPUSH`]().\n\n## Appendix: Redis expires\n\n### Keys with an expire\n\nNormally Redis keys are created without an associated time to live.\nThe key will simply live forever, unless it is removed by the user in an\nexplicit way, for instance using the [`DEL`]() command.\n\nThe `EXPIRE` family of commands is able to associate an expire to a given key,\nat the cost of some additional memory used by the key.\nWhen a key has an expire set, Redis will make sure to remove the key when the\nspecified amount of time elapsed.\n\nThe key time to live can be updated or entirely removed using the `EXPIRE` and\n[`PERSIST`]() command (or other strictly related commands).\n\n### Expire accuracy\n\nIn Redis 2.4 the expire might not be pin-point accurate, and it could be between\nzero to one seconds out.\n\nSince Redis 2.6 the expire error is from 0 to 1 milliseconds.\n\n### Expires and persistence\n\nKeys expiring information is stored as absolute Unix timestamps (in milliseconds\nin case of Redis version 2.6 or greater).\nThis means that the time is flowing even when the Redis instance is not active.\n\nFor expires to work well, the computer time must be taken stable.\nIf you move an RDB file from two computers with a big desync in their clocks,\nfunny things may happen (like all the keys loaded to be expired at loading\ntime).\n\nEven running instances will always check the computer clock, so for instance if\nyou set a key with a time to live of 1000 seconds, and then set your computer\ntime 2000 seconds in the future, the key will be expired immediately, instead of\nlasting for 1000 seconds.\n\n### How Redis expires keys\n\nRedis keys are expired in two ways: a passive way and an active way.\n\nA key is passively expired when a client tries to access it and the\nkey is timed out.\n\nHowever, this is not enough as there are expired keys that will never be\naccessed again.\nThese keys should be expired anyway, so periodically, Redis tests a few keys at\nrandom amongst the set of keys with an expiration.\nAll the keys that are already expired are deleted from the keyspace.\n\n### How expires are handled in the replication link and AOF file\n\nIn order to obtain a correct behavior without sacrificing consistency, when a\nkey expires, a [`DEL`]() operation is synthesized in both the AOF file and gains all\nthe attached replicas nodes.\nThis way the expiration process is centralized in the master instance, and there\nis no chance of consistency errors.\n\nHowever while the replicas connected to a master will not expire keys\nindependently (but will wait for the [`DEL`]() coming from the master), they'll\nstill take the full state of the expires existing in the dataset, so when a\nreplica is elected to master it will be able to expire the keys independently,\nfully acting as a master.\n\n###  Redis Search and expiration\n\nStarting with Redis 8, Redis Search has enhanced behavior when handling expiring keys. For detailed information about how [`FT.SEARCH`]() and [`FT.AGGREGATE`]() commands interact with expiring keys, see [Key and field expiration behavior]().\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the timeout was not set; for example, the key doesn't exist, or the operation was skipped because of the provided arguments.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the timeout was set.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the timeout was not set; for example, the key doesn't exist, or the operation was skipped because of the provided arguments.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the timeout was set.",
+  "codeExamples": [],
+  "content": "Set a timeout on `key`.\nAfter the timeout has expired, the key will automatically be deleted.\nA key with an associated timeout is often said to be _volatile_ in Redis\nterminology.\n\nThe timeout will only be cleared by commands that delete or overwrite the\ncontents of the key, including [`DEL`](), [`SET`](), [`GETSET`]() and all the `*STORE`\ncommands.\nThis means that all the operations that conceptually _alter_ the value stored at\nthe key without replacing it with a new one will leave the timeout untouched.\nFor instance, incrementing the value of a key with [`INCR`](), pushing a new value\ninto a list with [`LPUSH`](), or altering the field value of a hash with [`HSET`]() are\nall operations that will leave the timeout untouched.\n\nThe timeout can also be cleared, turning the key back into a persistent key,\nusing the [`PERSIST`]() command.\n\nIf a key is renamed with [`RENAME`](), the associated time to live is transferred to\nthe new key name.\n\nIf a key is overwritten by [`RENAME`](), like in the case of an existing key `Key_A`\nthat is overwritten by a call like `RENAME Key_B Key_A`, it does not matter if\nthe original `Key_A` had a timeout associated or not, the new key `Key_A` will\ninherit all the characteristics of `Key_B`.\n\nNote that calling `EXPIRE`/[`PEXPIRE`]() with a non-positive timeout or\n[`EXPIREAT`]()/[`PEXPIREAT`]() with a time in the past will result in the key being\n[deleted][del] rather than expired (accordingly, the emitted [key event][ntf]\nwill be `del`, not `expired`).\n\n[del]: /commands/del\n[ntf]: /develop/use/keyspace-notifications\n\n## Options\n\nThe `EXPIRE` command supports a set of options:\n\n* `NX` -- Set expiry only when the key has no expiry\n* `XX` -- Set expiry only when the key has an existing expiry\n* `GT` -- Set expiry only when the new expiry is greater than current one\n* `LT` -- Set expiry only when the new expiry is less than current one\n\nA non-volatile key is treated as an infinite TTL for the purpose of `GT` and `LT`.\nThe `GT`, `LT` and `NX` options are mutually exclusive.\n\n## Refreshing expires\n\nIt is possible to call `EXPIRE` using as argument a key that already has an\nexisting expire set.\nIn this case the time to live of a key is _updated_ to the new value.\nThere are many useful applications for this, an example is documented in the\n_Navigation session_ pattern section below.\n\n## Differences in Redis prior 2.1.3\n\nIn Redis versions prior **2.1.3** altering a key with an expire set using a\ncommand altering its value had the effect of removing the key entirely.\nThis semantics was needed because of limitations in the replication layer that\nare now fixed.\n\n`EXPIRE` would return 0 and not alter the timeout for a key with a timeout set.\n\n## Examples\n\n{{< clients-example set=\"cmds_generic\" step=\"expire\" description=\"Foundational: Set key expiration time using EXPIRE (supports conditional options NX/XX/GT/LT, returns 1 if set or 0 if not)\" difficulty=\"beginner\" >}}\n> SET mykey \"Hello\"\n\"OK\"\n> EXPIRE mykey 10\n(integer) 1\n> TTL mykey\n(integer) 10\n> SET mykey \"Hello World\"\n\"OK\"\n> TTL mykey\n(integer) -1\n> EXPIRE mykey 10 XX\n(integer) 0\n> TTL mykey\n(integer) -1\n> EXPIRE mykey 10 NX\n(integer) 1\n> TTL mykey\n(integer) 10\n{{< /clients-example >}}\n\nGive these commands a try in the interactive console:\n\n{{% redis-cli %}}\nSET mykey \"Hello\"\nEXPIRE mykey 10\nTTL mykey\nSET mykey \"Hello World\"\nTTL mykey\nEXPIRE mykey 10 XX\nTTL mykey\nEXPIRE mykey 10 NX\nTTL mykey\n{{% /redis-cli %}}\n\n## Pattern: Navigation session\n\nImagine you have a web service and you are interested in the latest N pages\n_recently_ visited by your users, such that each adjacent page view was not\nperformed more than 60 seconds after the previous.\nConceptually you may consider this set of page views as a _Navigation session_\nof your user, that may contain interesting information about what kind of\nproducts he or she is looking for currently, so that you can recommend related\nproducts.\n\nYou can easily model this pattern in Redis using the following strategy: every\ntime the user does a page view you call the following commands:\n\n```\nMULTI\nRPUSH pagewviews.user:<userid> http://.....\nEXPIRE pagewviews.user:<userid> 60\nEXEC\n```\n\nIf the user will be idle more than 60 seconds, the key will be deleted and only\nsubsequent page views that have less than 60 seconds of difference will be\nrecorded.\n\nThis pattern is easily modified to use counters using [`INCR`]({{< relref \"/commands/incr\" >}}) instead of lists\nusing [`RPUSH`]({{< relref \"/commands/rpush\" >}}).\n\n## Appendix: Redis expires\n\n### Keys with an expire\n\nNormally Redis keys are created without an associated time to live.\nThe key will simply live forever, unless it is removed by the user in an\nexplicit way, for instance using the [`DEL`]({{< relref \"/commands/del\" >}}) command.\n\nThe `EXPIRE` family of commands is able to associate an expire to a given key,\nat the cost of some additional memory used by the key.\nWhen a key has an expire set, Redis will make sure to remove the key when the\nspecified amount of time elapsed.\n\nThe key time to live can be updated or entirely removed using the `EXPIRE` and\n[`PERSIST`]({{< relref \"/commands/persist\" >}}) command (or other strictly related commands).\n\n### Expire accuracy\n\nIn Redis 2.4 the expire might not be pin-point accurate, and it could be between\nzero to one seconds out.\n\nSince Redis 2.6 the expire error is from 0 to 1 milliseconds.\n\n### Expires and persistence\n\nKeys expiring information is stored as absolute Unix timestamps (in milliseconds\nin case of Redis version 2.6 or greater).\nThis means that the time is flowing even when the Redis instance is not active.\n\nFor expires to work well, the computer time must be taken stable.\nIf you move an RDB file from two computers with a big desync in their clocks,\nfunny things may happen (like all the keys loaded to be expired at loading\ntime).\n\nEven running instances will always check the computer clock, so for instance if\nyou set a key with a time to live of 1000 seconds, and then set your computer\ntime 2000 seconds in the future, the key will be expired immediately, instead of\nlasting for 1000 seconds.\n\n### How Redis expires keys\n\nRedis keys are expired in two ways: a passive way and an active way.\n\nA key is passively expired when a client tries to access it and the\nkey is timed out.\n\nHowever, this is not enough as there are expired keys that will never be\naccessed again.\nThese keys should be expired anyway, so periodically, Redis tests a few keys at\nrandom amongst the set of keys with an expiration.\nAll the keys that are already expired are deleted from the keyspace.\n\n### How expires are handled in the replication link and AOF file\n\nIn order to obtain a correct behavior without sacrificing consistency, when a\nkey expires, a [`DEL`]({{< relref \"/commands/del\" >}}) operation is synthesized in both the AOF file and gains all\nthe attached replicas nodes.\nThis way the expiration process is centralized in the master instance, and there\nis no chance of consistency errors.\n\nHowever while the replicas connected to a master will not expire keys\nindependently (but will wait for the [`DEL`]({{< relref \"/commands/del\" >}}) coming from the master), they'll\nstill take the full state of the expires existing in the dataset, so when a\nreplica is elected to master it will be able to expire the keys independently,\nfully acting as a master.\n\n###  Redis Search and expiration\n\nStarting with Redis 8, Redis Search has enhanced behavior when handling expiring keys. For detailed information about how [`FT.SEARCH`]({{< relref \"/commands/ft.search\" >}}) and [`FT.AGGREGATE`]({{< relref \"/commands/ft.aggregate\" >}}) commands interact with expiring keys, see [Key and field expiration behavior]({{< relref \"/develop/ai/search-and-query/advanced-concepts/expiration\" >}}).\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"expire-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the timeout was not set; for example, the key doesn't exist, or the operation was skipped because of the provided arguments.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the timeout was set.\n\n-tab-sep-\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the timeout was not set; for example, the key doesn't exist, or the operation was skipped because of the provided arguments.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the timeout was set.\n\n{{< /multitabs >}}",
+  "example": "> SET mykey \"Hello\"\n\"OK\"\n> EXPIRE mykey 10\n(integer) 1\n> TTL mykey\n(integer) 10\n> SET mykey \"Hello World\"\n\"OK\"\n> TTL mykey\n(integer) -1\n> EXPIRE mykey 10 XX\n(integer) 0\n> TTL mykey\n(integer) -1\n> EXPIRE mykey 10 NX\n(integer) 1\n> TTL mykey\n(integer) 10",
   "intro": "Set a timeout on `key`.\nAfter the timeout has expired, the key will automatically be deleted.\nA key with an associated timeout is often said to be _volatile_ in Redis\nterminology.\n\nThe timeout will only be cleared by commands that delete or overwrite the\ncontents of the key, including [`DEL`](), [`SET`](), [`GETSET`]() and all the `*STORE`\ncommands.\nThis means that all the operations that conceptually _alter_ the value stored at\nthe key without replacing it with a new one will leave the timeout untouched.\nFor instance, incrementing the value of a key with [`INCR`](), pushing a new value\ninto a list with [`LPUSH`](), or altering the field value of a hash with [`HSET`]() are\nall operations that will leave the timeout untouched.\n\nThe timeout can also be cleared, turning the key back into a persistent key,\nusing the [`PERSIST`]() command.\n\nIf a key is renamed with [`RENAME`](), the associated time to live is transferred to\nthe new key name.\n\nIf a key is overwritten by [`RENAME`](), like in the case of an existing key `Key_A`\nthat is overwritten by a call like `RENAME Key_B Key_A`, it does not matter if\nthe original `Key_A` had a timeout associated or not, the new key `Key_A` will\ninherit all the characteristics of `Key_B`.\n\nNote that calling `EXPIRE`/[`PEXPIRE`]() with a non-positive timeout or\n[`EXPIREAT`]()/[`PEXPIREAT`]() with a time in the past will result in the key being\n[deleted][del] rather than expired (accordingly, the emitted [key event][ntf]\nwill be `del`, not `expired`).\n\n[del]: /commands/del\n[ntf]: /develop/use/keyspace-notifications",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -288,17 +845,17 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "#### Code Examples\n\nFoundational: Set key expiration time using EXPIRE (supports conditional options NX/XX/GT/LT, returns 1 if set or 0 if not)\n\n**Difficulty:** Beginner\n\n**Commands:** SET, EXPIRE, TTL\n\n**Complexity:**\n- SET: O(1)\n- EXPIRE: O(1)\n- TTL: O(1)\n\n**Redis CLI:**\n\n```\n> SET mykey \"Hello\"\n\"OK\"\n> EXPIRE mykey 10\n(integer) 1\n> TTL mykey\n(integer) 10\n> SET mykey \"Hello World\"\n\"OK\"\n> TTL mykey\n(integer) -1\n> EXPIRE mykey 10 XX\n(integer) 0\n> TTL mykey\n(integer) -1\n> EXPIRE mykey 10 NX\n(integer) 1\n> TTL mykey\n(integer) 10\n```\n\n**Available in:** Redis CLI, C# (Synchronous), Go, Java (Asynchronous - Lettuce), Java (Reactive - Lettuce), Java (Synchronous - Jedis), JavaScript (Node.js), PHP, Python, Rust (Asynchronous), Rust (Synchronous)\n\n**C# (Synchronous):**\n\n```csharp\n        bool expireResult1 = db.StringSet(\"mykey\", \"Hello\");\n        Console.WriteLine(expireResult1);   // >>> true\n\n        bool expireResult2 = db.KeyExpire(\"mykey\", new TimeSpan(0, 0, 10));\n        Console.WriteLine(expireResult2);   // >>> true\n\n        TimeSpan expireResult3 = db.KeyTimeToLive(\"mykey\") ?? TimeSpan.Zero;\n        Console.WriteLine(Math.Round(expireResult3.TotalSeconds));   // >>> 10\n\n        bool expireResult4 = db.StringSet(\"mykey\", \"Hello World\");\n        Console.WriteLine(expireResult4);   // >>> true\n\n        TimeSpan expireResult5 = db.KeyTimeToLive(\"mykey\") ?? TimeSpan.Zero;\n        Console.WriteLine(Math.Round(expireResult5.TotalSeconds).ToString());   // >>> 0\n\n        bool expireResult6 = db.KeyExpire(\"mykey\", new TimeSpan(0, 0, 10), ExpireWhen.HasExpiry);\n        Console.WriteLine(expireResult6);   // >>> false\n\n        TimeSpan expireResult7 = db.KeyTimeToLive(\"mykey\") ?? TimeSpan.Zero;\n        Console.WriteLine(Math.Round(expireResult7.TotalSeconds));   // >>> 0\n\n        bool expireResult8 = db.KeyExpire(\"mykey\", new TimeSpan(0, 0, 10), ExpireWhen.HasNoExpiry);\n        Console.WriteLine(expireResult8);   // >>> true\n\n        TimeSpan expireResult9 = db.KeyTimeToLive(\"mykey\") ?? TimeSpan.Zero;\n        Console.WriteLine(Math.Round(expireResult9.TotalSeconds));   // >>> 10\n```\n\n**Go:**\n\n```go\n\texpireResult1, err := rdb.Set(ctx, \"mykey\", \"Hello\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult1) // >>> OK\n\n\texpireResult2, err := rdb.Expire(ctx, \"mykey\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult2) // >>> true\n\n\texpireResult3, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(math.Round(expireResult3.Seconds())) // >>> 10\n\n\texpireResult4, err := rdb.Set(ctx, \"mykey\", \"Hello World\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult4) // >>> OK\n\n\texpireResult5, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult5) // >>> -1ns\n\n\texpireResult6, err := rdb.ExpireXX(ctx, \"mykey\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult6) // >>> false\n\n\texpireResult7, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult7) // >>> -1ns\n\n\texpireResult8, err := rdb.ExpireNX(ctx, \"mykey\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult8) // >>> true\n\n\texpireResult9, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(math.Round(expireResult9.Seconds())) // >>> 10\n```\n\n**Java (Asynchronous - Lettuce):**\n\n```java\npackage io.redis.examples.async;\n\nimport io.lettuce.core.*;\n\nimport io.lettuce.core.api.async.RedisAsyncCommands;\n\nimport io.lettuce.core.api.StatefulRedisConnection;\n\nimport java.util.concurrent.CompletableFuture;\n\npublic class CmdsGenericExample {\n\n    public void run() {\n\n            CompletableFuture<Void> existsExample = asyncCommands.set(\"key1\", \"Hello\").thenCompose(res1 -> {\n                System.out.println(res1); // >>> OK\n\n                return asyncCommands.exists(\"key1\");\n            }).thenCompose(res2 -> {\n                System.out.println(res2); // >>> 1\n\n                return asyncCommands.exists(\"nosuchkey\");\n            }).thenCompose(res3 -> {\n                System.out.println(res3); // >>> 0\n\n                return asyncCommands.set(\"key2\", \"World\");\n            }).thenCompose(res4 -> {\n                System.out.println(res4); // >>> OK\n\n                return asyncCommands.exists(\"key1\", \"key2\", \"nosuchkey\");\n            }).thenAccept(res5 -> {\n                System.out.println(res5); // >>> 2\n            }).toCompletableFuture();\n            existsExample.join();\n        } finally {\n            redisClient.shutdown();\n        }\n    }\n}\n\n```\n\n**Java (Reactive - Lettuce):**\n\n```java\npackage io.redis.examples.reactive;\n\nimport io.lettuce.core.*;\nimport io.lettuce.core.api.reactive.RedisReactiveCommands;\nimport io.lettuce.core.api.StatefulRedisConnection;\nimport reactor.core.publisher.Mono;\n\n\npublic class CmdsGenericExample {\n\n    public void run() {\n        RedisClient redisClient = RedisClient.create(\"redis://localhost:6379\");\n\n        try (StatefulRedisConnection<String, String> connection = redisClient.connect()) {\n            RedisReactiveCommands<String, String> reactiveCommands = connection.reactive();\n\n            Mono<Void> existsExample = reactiveCommands.set(\"key1\", \"Hello\").doOnNext(res1 -> {\n                System.out.println(res1); // >>> OK\n            }).then(reactiveCommands.exists(\"key1\")).doOnNext(res2 -> {\n                System.out.println(res2); // >>> 1\n            }).then(reactiveCommands.exists(\"nosuchkey\")).doOnNext(res3 -> {\n                System.out.println(res3); // >>> 0\n            }).then(reactiveCommands.set(\"key2\", \"World\")).doOnNext(res4 -> {\n                System.out.println(res4); // >>> OK\n            }).then(reactiveCommands.exists(\"key1\", \"key2\", \"nosuchkey\")).doOnNext(res5 -> {\n                System.out.println(res5); // >>> 2\n            }).then();\n\n            Mono.when(existsExample).block();\n\n        } finally {\n            redisClient.shutdown();\n        }\n    }\n\n}\n\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n        String expireResult1 = jedis.set(\"mykey\", \"Hello\");\n        System.out.println(expireResult1);  // >>> OK\n\n        long expireResult2 = jedis.expire(\"mykey\", 10);\n        System.out.println(expireResult2);  // >>> 1\n\n        long expireResult3 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult3);  // >>> 10\n\n        String expireResult4 = jedis.set(\"mykey\", \"Hello World\");\n        System.out.println(expireResult4);  // >>> OK\n\n        long expireResult5 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult5);  // >>> -1\n\n        long expireResult6 = jedis.expire(\"mykey\", 10, ExpiryOption.XX);\n        System.out.println(expireResult6);  // >>> 0\n\n        long expireResult7 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult7);  // >>> -1\n\n        long expireResult8 = jedis.expire(\"mykey\", 10, ExpiryOption.NX);\n        System.out.println(expireResult8);  // >>> 1\n\n        long expireResult9 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult9);  // >>> 10\n```\n\n**JavaScript (Node.js):**\n\n```javascript\nconst expireRes1 = await client.set('mykey', 'Hello');\nconsole.log(expireRes1); // OK\n\nconst expireRes2 = await client.expire('mykey', 10);\nconsole.log(expireRes2); // 1\n\nconst expireRes3 = await client.ttl('mykey');\nconsole.log(expireRes3); // 10\n\nconst expireRes4 = await client.set('mykey', 'Hello World');\nconsole.log(expireRes4); // OK\n\nconst expireRes5 = await client.ttl('mykey');\nconsole.log(expireRes5); // -1\n\nconst expireRes6 = await client.expire('mykey', 10, \"XX\");\nconsole.log(expireRes6); // 0\n\nconst expireRes7 = await client.ttl('mykey');\nconsole.log(expireRes7); // -1\n\nconst expireRes8 = await client.expire('mykey', 10, \"NX\");\nconsole.log(expireRes8); // 1\n\nconst expireRes9 = await client.ttl('mykey');\nconsole.log(expireRes9); // 10\n```\n\n**PHP:**\n\n```php\n<?php\nrequire_once 'vendor/autoload.php';\n\nuse Predis\\Client as PredisClient;\n\nclass CmdsGenericTest\n{\n    public function testCmdsGeneric() {\n        $r = new PredisClient([\n            'scheme'   => 'tcp',\n            'host'     => '127.0.0.1',\n            'port'     => 6379,\n            'password' => '',\n            'database' => 0,\n        ]);\n\n        $existsResult1 = $r->set('key1', 'Hello');\n        echo $existsResult1 . PHP_EOL; // >>> OK\n\n        $existsResult2 = $r->exists('key1');\n        echo $existsResult2 . PHP_EOL; // >>> 1\n\n        $existsResult3 = $r->exists('nosuchkey');\n        echo $existsResult3 . PHP_EOL; // >>> 0\n\n        $existsResult4 = $r->set('key2', 'World');\n        echo $existsResult4 . PHP_EOL; // >>> OK\n\n        $existsResult5 = $r->exists('key1', 'key2', 'nosuchkey');\n        echo $existsResult5 . PHP_EOL; // >>> 2\n\n    }\n}\n\n```\n\n**Python:**\n\n```python\nres = r.set(\"mykey\", \"Hello\")\nprint(res)\n# >>> True\n\nres = r.expire(\"mykey\", 10)\nprint(res)\n# >>> True\n\nres = r.ttl(\"mykey\")\nprint(res)\n# >>> 10\n\nres = r.set(\"mykey\", \"Hello World\")\nprint(res)\n# >>> True\n\nres = r.ttl(\"mykey\")\nprint(res)\n# >>> -1\n\nres = r.expire(\"mykey\", 10, xx=True)\nprint(res)\n# >>> False\n\nres = r.ttl(\"mykey\")\nprint(res)\n# >>> -1\n\nres = r.expire(\"mykey\", 10, nx=True)\nprint(res)\n# >>> True\n\nres = r.ttl(\"mykey\")\nprint(res)\n# >>> 10\n```\n\n**Rust (Asynchronous):**\n\n```rust\n        if let Ok(res) = r.set(\"mykey\", \"Hello\").await {\n            let res: String = res;\n            println!(\"{res}\");    // >>> OK\n        }\n\n        match r.expire(\"mykey\", 10).await {\n            Ok(res) => {\n                let res: bool = res;\n                println!(\"{res}\");    // >>> true\n            },\n            Err(e) => {\n                println!(\"Error setting key expiration: {e}\");\n                return;\n            }\n        }\n\n        match r.ttl(\"mykey\").await {\n            Ok(res) => {\n                let res: i64 = res;\n                println!(\"{res}\");    // >>> 10\n            },\n            Err(e) => {\n                println!(\"Error getting key TTL: {e}\");\n                return;\n            }\n        }\n\n        if let Ok(res) = r.set(\"mykey\", \"Hello World\").await {\n            let res: String = res;\n            println!(\"{res}\");    // >>> OK\n        }\n\n        match r.ttl(\"mykey\").await {\n            Ok(res) => {\n                let res: i64 = res;\n                println!(\"{res}\");    // >>> -1\n            },\n            Err(e) => {\n                println!(\"Error getting key TTL: {e}\");\n                return;\n            }\n        }\n\n        // Note: Rust redis client doesn't support expire with NX/XX flags directly\n        // This simulates the Python behavior but without the exact flags\n\n        // Try to expire a key that doesn't have expiration (simulates xx=True failing)\n        match r.ttl(\"mykey\").await {\n            Ok(res) => {\n                let res: i64 = res;\n                println!(\"false\");    // >>> false (simulating expire xx=True failure)\n            },\n            Err(e) => {\n                println!(\"Error getting key TTL: {e}\");\n                return;\n            }\n        }\n\n        match r.ttl(\"mykey\").await {\n            Ok(res) => {\n                let res: i64 = res;\n                println!(\"{res}\");    // >>> -1\n            },\n            Err(e) => {\n                println!(\"Error getting key TTL: {e}\");\n                return;\n            }\n        }\n\n        // Now set expiration (simulates nx=True succeeding)\n        match r.expire(\"mykey\", 10).await {\n            Ok(res) => {\n                let res: bool = res;\n                println!(\"{res}\");    // >>> true\n            },\n            Err(e) => {\n                println!(\"Error setting key expiration: {e}\");\n                return;\n            }\n        }\n\n        match r.ttl(\"mykey\").await {\n            Ok(res) => {\n                let res: i64 = res;\n                println!(\"{res}\");    // >>> 10\n            },\n            Err(e) => {\n                println!(\"Error getting key TTL: {e}\");\n                return;\n            }\n        }\n```\n\n**Rust (Synchronous):**\n\n```rust\n        if let Ok(res) = r.set(\"mykey\", \"Hello\") {\n            let res: String = res;\n            println!(\"{res}\");    // >>> OK\n        }\n\n        match r.expire(\"mykey\", 10) {\n            Ok(res) => {\n                let res: bool = res;\n                println!(\"{res}\");    // >>> true\n            },\n            Err(e) => {\n                println!(\"Error setting key expiration: {e}\");\n                return;\n            }\n        }\n\n        match r.ttl(\"mykey\") {\n            Ok(res) => {\n                let res: i64 = res;\n                println!(\"{res}\");    // >>> 10\n            },\n            Err(e) => {\n                println!(\"Error getting key TTL: {e}\");\n                return;\n            }\n        }\n\n        if let Ok(res) = r.set(\"mykey\", \"Hello World\") {\n            let res: String = res;\n            println!(\"{res}\");    // >>> OK\n        }\n\n        match r.ttl(\"mykey\") {\n            Ok(res) => {\n                let res: i64 = res;\n                println!(\"{res}\");    // >>> -1\n            },\n            Err(e) => {\n                println!(\"Error getting key TTL: {e}\");\n                return;\n            }\n        }\n\n        // Note: Rust redis client doesn't support expire with NX/XX flags directly\n        // This simulates the Python behavior but without the exact flags\n\n        // Try to expire a key that doesn't have expiration (simulates xx=True failing)\n        match r.ttl(\"mykey\") {\n            Ok(res) => {\n                let res: i64 = res;\n                println!(\"false\");    // >>> false (simulating expire xx=True failure)\n            },\n            Err(e) => {\n                println!(\"Error getting key TTL: {e}\");\n                return;\n            }\n        }\n\n        match r.ttl(\"mykey\") {\n            Ok(res) => {\n                let res: i64 = res;\n                println!(\"{res}\");    // >>> -1\n            },\n            Err(e) => {\n                println!(\"Error getting key TTL: {e}\");\n                return;\n            }\n        }\n\n        // Now set expiration (simulates nx=True succeeding)\n        match r.expire(\"mykey\", 10) {\n            Ok(res) => {\n                let res: bool = res;\n                println!(\"{res}\");    // >>> true\n            },\n            Err(e) => {\n                println!(\"Error setting key expiration: {e}\");\n                return;\n            }\n        }\n\n        match r.ttl(\"mykey\") {\n            Ok(res) => {\n                let res: i64 = res;\n                println!(\"{res}\");    // >>> 10\n            },\n            Err(e) => {\n                println!(\"Error getting key TTL: {e}\");\n                return;\n            }\n        }\n```\n\n\n\nGive these commands a try in the interactive console:\n\n\nSET mykey \"Hello\"\nEXPIRE mykey 10\nTTL mykey\nSET mykey \"Hello World\"\nTTL mykey\nEXPIRE mykey 10 XX\nTTL mykey\nEXPIRE mykey 10 NX\nTTL mykey"
+      "content": "{{< clients-example set=\"cmds_generic\" step=\"expire\" description=\"Foundational: Set key expiration time using EXPIRE (supports conditional options NX/XX/GT/LT, returns 1 if set or 0 if not)\" difficulty=\"beginner\" >}}\n> SET mykey \"Hello\"\n\"OK\"\n> EXPIRE mykey 10\n(integer) 1\n> TTL mykey\n(integer) 10\n> SET mykey \"Hello World\"\n\"OK\"\n> TTL mykey\n(integer) -1\n> EXPIRE mykey 10 XX\n(integer) 0\n> TTL mykey\n(integer) -1\n> EXPIRE mykey 10 NX\n(integer) 1\n> TTL mykey\n(integer) 10\n{{< /clients-example >}}\n\nGive these commands a try in the interactive console:\n\n{{% redis-cli %}}\nSET mykey \"Hello\"\nEXPIRE mykey 10\nTTL mykey\nSET mykey \"Hello World\"\nTTL mykey\nEXPIRE mykey 10 XX\nTTL mykey\nEXPIRE mykey 10 NX\nTTL mykey\n{{% /redis-cli %}}"
     },
     {
       "title": "Pattern: Navigation session",
       "level": 2,
-      "content": "Imagine you have a web service and you are interested in the latest N pages\n_recently_ visited by your users, such that each adjacent page view was not\nperformed more than 60 seconds after the previous.\nConceptually you may consider this set of page views as a _Navigation session_\nof your user, that may contain interesting information about what kind of\nproducts he or she is looking for currently, so that you can recommend related\nproducts.\n\nYou can easily model this pattern in Redis using the following strategy: every\ntime the user does a page view you call the following commands:\n\n```\nMULTI\nRPUSH pagewviews.user:<userid> http://.....\nEXPIRE pagewviews.user:<userid> 60\nEXEC\n```\n\nIf the user will be idle more than 60 seconds, the key will be deleted and only\nsubsequent page views that have less than 60 seconds of difference will be\nrecorded.\n\nThis pattern is easily modified to use counters using [`INCR`]() instead of lists\nusing [`RPUSH`]()."
+      "content": "Imagine you have a web service and you are interested in the latest N pages\n_recently_ visited by your users, such that each adjacent page view was not\nperformed more than 60 seconds after the previous.\nConceptually you may consider this set of page views as a _Navigation session_\nof your user, that may contain interesting information about what kind of\nproducts he or she is looking for currently, so that you can recommend related\nproducts.\n\nYou can easily model this pattern in Redis using the following strategy: every\ntime the user does a page view you call the following commands:\n\n```\nMULTI\nRPUSH pagewviews.user:<userid> http://.....\nEXPIRE pagewviews.user:<userid> 60\nEXEC\n```\n\nIf the user will be idle more than 60 seconds, the key will be deleted and only\nsubsequent page views that have less than 60 seconds of difference will be\nrecorded.\n\nThis pattern is easily modified to use counters using [`INCR`]({{< relref \"/commands/incr\" >}}) instead of lists\nusing [`RPUSH`]({{< relref \"/commands/rpush\" >}})."
     },
     {
       "title": "Keys with an expire",
       "level": 3,
-      "content": "Normally Redis keys are created without an associated time to live.\nThe key will simply live forever, unless it is removed by the user in an\nexplicit way, for instance using the [`DEL`]() command.\n\nThe `EXPIRE` family of commands is able to associate an expire to a given key,\nat the cost of some additional memory used by the key.\nWhen a key has an expire set, Redis will make sure to remove the key when the\nspecified amount of time elapsed.\n\nThe key time to live can be updated or entirely removed using the `EXPIRE` and\n[`PERSIST`]() command (or other strictly related commands)."
+      "content": "Normally Redis keys are created without an associated time to live.\nThe key will simply live forever, unless it is removed by the user in an\nexplicit way, for instance using the [`DEL`]({{< relref \"/commands/del\" >}}) command.\n\nThe `EXPIRE` family of commands is able to associate an expire to a given key,\nat the cost of some additional memory used by the key.\nWhen a key has an expire set, Redis will make sure to remove the key when the\nspecified amount of time elapsed.\n\nThe key time to live can be updated or entirely removed using the `EXPIRE` and\n[`PERSIST`]({{< relref \"/commands/persist\" >}}) command (or other strictly related commands)."
     },
     {
       "title": "Expire accuracy",
@@ -318,12 +875,12 @@
     {
       "title": "How expires are handled in the replication link and AOF file",
       "level": 3,
-      "content": "In order to obtain a correct behavior without sacrificing consistency, when a\nkey expires, a [`DEL`]() operation is synthesized in both the AOF file and gains all\nthe attached replicas nodes.\nThis way the expiration process is centralized in the master instance, and there\nis no chance of consistency errors.\n\nHowever while the replicas connected to a master will not expire keys\nindependently (but will wait for the [`DEL`]() coming from the master), they'll\nstill take the full state of the expires existing in the dataset, so when a\nreplica is elected to master it will be able to expire the keys independently,\nfully acting as a master."
+      "content": "In order to obtain a correct behavior without sacrificing consistency, when a\nkey expires, a [`DEL`]({{< relref \"/commands/del\" >}}) operation is synthesized in both the AOF file and gains all\nthe attached replicas nodes.\nThis way the expiration process is centralized in the master instance, and there\nis no chance of consistency errors.\n\nHowever while the replicas connected to a master will not expire keys\nindependently (but will wait for the [`DEL`]({{< relref \"/commands/del\" >}}) coming from the master), they'll\nstill take the full state of the expires existing in the dataset, so when a\nreplica is elected to master it will be able to expire the keys independently,\nfully acting as a master."
     },
     {
       "title": "Redis Search and expiration",
       "level": 3,
-      "content": "Starting with Redis 8, Redis Search has enhanced behavior when handling expiring keys. For detailed information about how [`FT.SEARCH`]() and [`FT.AGGREGATE`]() commands interact with expiring keys, see [Key and field expiration behavior]()."
+      "content": "Starting with Redis 8, Redis Search has enhanced behavior when handling expiring keys. For detailed information about how [`FT.SEARCH`]({{< relref \"/commands/ft.search\" >}}) and [`FT.AGGREGATE`]({{< relref \"/commands/ft.aggregate\" >}}) commands interact with expiring keys, see [Key and field expiration behavior]({{< relref \"/develop/ai/search-and-query/advanced-concepts/expiration\" >}})."
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -333,7 +890,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the timeout was not set; for example, the key doesn't exist, or the operation was skipped because of the provided arguments.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the timeout was set.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the timeout was not set; for example, the key doesn't exist, or the operation was skipped because of the provided arguments.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the timeout was set."
+      "content": "{{< multitabs id=\"expire-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the timeout was not set; for example, the key doesn't exist, or the operation was skipped because of the provided arguments.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the timeout was set.\n\n-tab-sep-\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the timeout was not set; for example, the key doesn't exist, or the operation was skipped because of the provided arguments.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the timeout was set.\n\n{{< /multitabs >}}"
     }
   ]
 }

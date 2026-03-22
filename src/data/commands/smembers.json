@@ -14,6 +14,347 @@
     "@set",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "KeyT"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Union[Awaitable[Set], Set]"
+        },
+        "signature": "smembers(name: KeyT)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "Multi bulk reply",
+          "type": "Set<String>"
+        },
+        "signature": "Set<String> smembers(final String key)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the keys.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "Long count of members of the resulting set.",
+          "type": "Set<V>"
+        },
+        "signature": "Set<V> smembers(K key)"
+      },
+      {
+        "params": [
+          {
+            "description": "the channel.",
+            "name": "channel",
+            "type": "ValueStreamingChannel<V>"
+          },
+          {
+            "description": "the keys.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "Long count of members of the resulting set.",
+          "type": "Long"
+        },
+        "signature": "Long smembers(ValueStreamingChannel<V> channel, K key)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the keys.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "Long count of members of the resulting set.",
+          "type": "RedisFuture<Set<V>>"
+        },
+        "signature": "RedisFuture<Set<V>> smembers(K key)"
+      },
+      {
+        "params": [
+          {
+            "description": "the channel.",
+            "name": "channel",
+            "type": "ValueStreamingChannel<V>"
+          },
+          {
+            "description": "the keys.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "Long count of members of the resulting set.",
+          "type": "RedisFuture<Long>"
+        },
+        "signature": "RedisFuture<Long> smembers(ValueStreamingChannel<V> channel, K key)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the keys.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "Long count of members of the resulting set. @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #smembers.",
+          "type": "Flux<V>"
+        },
+        "signature": "Flux<V> smembers(K key)"
+      },
+      {
+        "params": [
+          {
+            "description": "the channel.",
+            "name": "channel",
+            "type": "ValueStreamingChannel<V>"
+          },
+          {
+            "description": "the keys.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "Long count of members of the resulting set. @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #smembers.",
+          "type": "Mono<Long>"
+        },
+        "signature": "Mono<Long> smembers(ValueStreamingChannel<V> channel, K key)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StringSliceCmd"
+        },
+        "signature": "SMembers(ctx context.Context, key string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "SMEMBERS(key: RedisArgument)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<string[]>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "smembers(key: RedisKey, callback?: Callback<string[]>)"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(HashSet<String>)"
+        },
+        "signature": "smembers(key: K)"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(HashSet<String>)"
+        },
+        "signature": "smembers(key: K)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The key of the set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "All elements of the set.",
+          "type": "RedisValue[]"
+        },
+        "signature": "SetMembers(RedisKey key, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "All elements of the set.",
+          "type": "RedisValue[]"
+        },
+        "signature": "SetMembers(RedisKey key, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The key of the set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "All elements of the set.",
+          "type": "RedisValue[]"
+        },
+        "signature": "SetMembers(RedisKey key, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "All elements of the set.",
+          "type": "RedisValue[]"
+        },
+        "signature": "SetMembers(RedisKey key, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "string[]"
+        },
+        "signature": "smembers(string $key)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Array<String>"
+        },
+        "signature": "smembers(key)"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly"
   ],
@@ -56,107 +397,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
-  "codeExamples": [
-    {
-      "codetabsId": "cmds_set-stepsmembers",
-      "commands": [
-        {
-          "acl_categories": [
-            "@write",
-            "@set",
-            "@fast"
-          ],
-          "complexity": "O(1)",
-          "name": "SADD"
-        },
-        {
-          "acl_categories": [
-            "@read",
-            "@set",
-            "@slow"
-          ],
-          "complexity": "O(N)",
-          "name": "SMEMBERS"
-        }
-      ],
-      "description": "Foundational: Retrieve all members of a set using SMEMBERS (returns unordered collection, useful for iterating all set members)",
-      "difficulty": "beginner",
-      "id": "smembers",
-      "languages": [
-        {
-          "id": "redis-cli",
-          "panelId": "panel_redis-cli_cmds_set-stepsmembers"
-        },
-        {
-          "clientId": "redis-py",
-          "clientName": "redis-py",
-          "id": "Python",
-          "langId": "python",
-          "panelId": "panel_Python_cmds_set-stepsmembers"
-        },
-        {
-          "id": "Node-js",
-          "panelId": "panel_Nodejs_cmds_set-stepsmembers"
-        },
-        {
-          "clientId": "jedis",
-          "clientName": "Jedis",
-          "id": "Java-Sync",
-          "langId": "java",
-          "panelId": "panel_Java-Sync_cmds_set-stepsmembers"
-        },
-        {
-          "clientId": "lettuce",
-          "clientName": "Lettuce",
-          "id": "Java-Async",
-          "langId": "java",
-          "panelId": "panel_Java-Async_cmds_set-stepsmembers"
-        },
-        {
-          "clientId": "lettuce",
-          "clientName": "Lettuce",
-          "id": "Java-Reactive",
-          "langId": "java",
-          "panelId": "panel_Java-Reactive_cmds_set-stepsmembers"
-        },
-        {
-          "clientId": "go-redis",
-          "clientName": "go-redis",
-          "id": "Go",
-          "langId": "go",
-          "panelId": "panel_Go_cmds_set-stepsmembers"
-        },
-        {
-          "id": "dotnet-Sync",
-          "panelId": "panel_Csharp-Sync_cmds_set-stepsmembers"
-        },
-        {
-          "clientId": "predis",
-          "clientName": "Predis",
-          "id": "PHP",
-          "langId": "php",
-          "panelId": "panel_PHP_cmds_set-stepsmembers"
-        }
-      ]
-    }
-  ],
-  "content": "Returns all the members of the set value stored at `key`.\n\nThis has the same effect as running [`SINTER`]() with one argument `key`.\n\n## Examples\n\n#### Code Examples\n\nFoundational: Retrieve all members of a set using SMEMBERS (returns unordered collection, useful for iterating all set members)\n\n**Difficulty:** Beginner\n\n**Commands:** SADD, SMEMBERS\n\n**Complexity:**\n- SADD: O(1)\n- SMEMBERS: O(N)\n\n**Redis CLI:**\n\n```\nredis> SADD myset \"Hello\"\n(integer) 1\nredis> SADD myset \"World\"\n(integer) 1\nredis> SMEMBERS myset\n1) \"Hello\"\n2) \"World\"\n```\n\n**Available in:** Redis CLI, C# (Synchronous), Go, Java (Asynchronous - Lettuce), Java (Reactive - Lettuce), Java (Synchronous - Jedis), JavaScript (Node.js), PHP, Python\n\n**C# (Synchronous):**\n\n```csharp\n        long sMembersResult1 = db.SetAdd(\n            \"myset\", [\"Hello\", \"World\"]\n        );\n        Console.WriteLine(sMembersResult1); // >>> 2\n\n        RedisValue[] sMembersResult2 = db.SetMembers(\"myset\");\n        Array.Sort(sMembersResult2);\n        Console.WriteLine(string.Join(\", \", sMembersResult2));\n        // >>> Hello, World\n```\n\n**Go:**\n\n```go\n\tsAddResult, err := rdb.SAdd(ctx, \"myset\", \"Hello\", \"World\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(sAddResult) // >>> 2\n\n\tsMembersResult, err := rdb.SMembers(ctx, \"myset\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(sMembersResult) // >>> [Hello World]\n```\n\n**Java (Asynchronous - Lettuce):**\n\n```java\n            CompletableFuture<Void> smembers = asyncCommands.sadd(\"myset\", \"Hello\", \"World\").thenCompose(r -> {\n                return asyncCommands.smembers(\"myset\");\n            })\n                    .thenAccept(System.out::println)\n                    // >>> [Hello, World]\n                    .toCompletableFuture();\n```\n\n**Java (Reactive - Lettuce):**\n\n```java\n            Mono<Void> smembers = reactiveCommands.sadd(\"myset\", \"Hello\", \"World\").doOnNext(r -> {\n                System.out.println(r); // >>> 2\n            }).flatMap(r -> reactiveCommands.smembers(\"myset\").collectList()).doOnNext(r -> {\n                System.out.println(r); // >>> [Hello, World]\n            }).then();\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n        long sMembersResult1 = jedis.sadd(\"myset\", \"Hello\", \"World\");\n        System.out.println(sMembersResult1); // >>> 2\n\n        Set<String> sMembersResult2 = jedis.smembers(\"myset\");\n        System.out.println(sMembersResult2.stream().sorted().collect(toList()));\n        // >>> [Hello, World]\n```\n\n**JavaScript (Node.js):**\n\n```javascript\nconst res4 = await client.sAdd('myset', ['Hello', 'World']);\nconsole.log(res4);  // 2\n\nconst res5 = await client.sMembers('myset')\nconsole.log(res5);  // ['Hello', 'World']\n\n```\n\n**PHP:**\n\n```php\n        $res4 = $r->sadd('myset', ['Hello', 'World']);\n        echo $res4 . PHP_EOL;\n        // >>> 2\n\n        $res5 = $r->smembers('myset');\n        sort($res5);\n        echo json_encode($res5) . PHP_EOL;\n        // >>> [\"Hello\",\"World\"]\n```\n\n**Python:**\n\n```python\nres4 = r.sadd(\"myset\", \"Hello\", \"World\")\nprint(res4)  # >>> 2\n\nres5 = r.smembers(\"myset\")\nprint(res5)  # >>> {'Hello', 'World'}\n\n```\n\n\n\nGive these commands a try in the interactive console:\n\n\nSADD myset \"Hello\"\nSADD myset \"World\"\nSMEMBERS myset\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): an array with all the members of the set.\n\n**RESP3:**\n\n[Set reply](../../develop/reference/protocol-spec#sets): a set with all the members of the set.",
+  "codeExamples": [],
+  "content": "Returns all the members of the set value stored at `key`.\n\nThis has the same effect as running [`SINTER`]() with one argument `key`.\n\n## Examples\n\n{{< clients-example set=\"cmds_set\" step=\"smembers\" description=\"Foundational: Retrieve all members of a set using SMEMBERS (returns unordered collection, useful for iterating all set members)\" difficulty=\"beginner\" >}}\nredis> SADD myset \"Hello\"\n(integer) 1\nredis> SADD myset \"World\"\n(integer) 1\nredis> SMEMBERS myset\n1) \"Hello\"\n2) \"World\"\n{{< /clients-example >}}\n\nGive these commands a try in the interactive console:\n\n{{% redis-cli %}}\nSADD myset \"Hello\"\nSADD myset \"World\"\nSMEMBERS myset\n{{% /redis-cli %}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"smembers-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): an array with all the members of the set.\n\n-tab-sep-\n\n[Set reply](../../develop/reference/protocol-spec#sets): a set with all the members of the set.\n\n{{< /multitabs >}}",
+  "example": "redis> SADD myset \"Hello\"\n(integer) 1\nredis> SADD myset \"World\"\n(integer) 1\nredis> SMEMBERS myset\n1) \"Hello\"\n2) \"World\"",
   "intro": "Returns all the members of the set value stored at `key`.\n\nThis has the same effect as running [`SINTER`]() with one argument `key`.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -166,7 +413,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "#### Code Examples\n\nFoundational: Retrieve all members of a set using SMEMBERS (returns unordered collection, useful for iterating all set members)\n\n**Difficulty:** Beginner\n\n**Commands:** SADD, SMEMBERS\n\n**Complexity:**\n- SADD: O(1)\n- SMEMBERS: O(N)\n\n**Redis CLI:**\n\n```\nredis> SADD myset \"Hello\"\n(integer) 1\nredis> SADD myset \"World\"\n(integer) 1\nredis> SMEMBERS myset\n1) \"Hello\"\n2) \"World\"\n```\n\n**Available in:** Redis CLI, C# (Synchronous), Go, Java (Asynchronous - Lettuce), Java (Reactive - Lettuce), Java (Synchronous - Jedis), JavaScript (Node.js), PHP, Python\n\n**C# (Synchronous):**\n\n```csharp\n        long sMembersResult1 = db.SetAdd(\n            \"myset\", [\"Hello\", \"World\"]\n        );\n        Console.WriteLine(sMembersResult1); // >>> 2\n\n        RedisValue[] sMembersResult2 = db.SetMembers(\"myset\");\n        Array.Sort(sMembersResult2);\n        Console.WriteLine(string.Join(\", \", sMembersResult2));\n        // >>> Hello, World\n```\n\n**Go:**\n\n```go\n\tsAddResult, err := rdb.SAdd(ctx, \"myset\", \"Hello\", \"World\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(sAddResult) // >>> 2\n\n\tsMembersResult, err := rdb.SMembers(ctx, \"myset\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(sMembersResult) // >>> [Hello World]\n```\n\n**Java (Asynchronous - Lettuce):**\n\n```java\n            CompletableFuture<Void> smembers = asyncCommands.sadd(\"myset\", \"Hello\", \"World\").thenCompose(r -> {\n                return asyncCommands.smembers(\"myset\");\n            })\n                    .thenAccept(System.out::println)\n                    // >>> [Hello, World]\n                    .toCompletableFuture();\n```\n\n**Java (Reactive - Lettuce):**\n\n```java\n            Mono<Void> smembers = reactiveCommands.sadd(\"myset\", \"Hello\", \"World\").doOnNext(r -> {\n                System.out.println(r); // >>> 2\n            }).flatMap(r -> reactiveCommands.smembers(\"myset\").collectList()).doOnNext(r -> {\n                System.out.println(r); // >>> [Hello, World]\n            }).then();\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n        long sMembersResult1 = jedis.sadd(\"myset\", \"Hello\", \"World\");\n        System.out.println(sMembersResult1); // >>> 2\n\n        Set<String> sMembersResult2 = jedis.smembers(\"myset\");\n        System.out.println(sMembersResult2.stream().sorted().collect(toList()));\n        // >>> [Hello, World]\n```\n\n**JavaScript (Node.js):**\n\n```javascript\nconst res4 = await client.sAdd('myset', ['Hello', 'World']);\nconsole.log(res4);  // 2\n\nconst res5 = await client.sMembers('myset')\nconsole.log(res5);  // ['Hello', 'World']\n\n```\n\n**PHP:**\n\n```php\n        $res4 = $r->sadd('myset', ['Hello', 'World']);\n        echo $res4 . PHP_EOL;\n        // >>> 2\n\n        $res5 = $r->smembers('myset');\n        sort($res5);\n        echo json_encode($res5) . PHP_EOL;\n        // >>> [\"Hello\",\"World\"]\n```\n\n**Python:**\n\n```python\nres4 = r.sadd(\"myset\", \"Hello\", \"World\")\nprint(res4)  # >>> 2\n\nres5 = r.smembers(\"myset\")\nprint(res5)  # >>> {'Hello', 'World'}\n\n```\n\n\n\nGive these commands a try in the interactive console:\n\n\nSADD myset \"Hello\"\nSADD myset \"World\"\nSMEMBERS myset"
+      "content": "{{< clients-example set=\"cmds_set\" step=\"smembers\" description=\"Foundational: Retrieve all members of a set using SMEMBERS (returns unordered collection, useful for iterating all set members)\" difficulty=\"beginner\" >}}\nredis> SADD myset \"Hello\"\n(integer) 1\nredis> SADD myset \"World\"\n(integer) 1\nredis> SMEMBERS myset\n1) \"Hello\"\n2) \"World\"\n{{< /clients-example >}}\n\nGive these commands a try in the interactive console:\n\n{{% redis-cli %}}\nSADD myset \"Hello\"\nSADD myset \"World\"\nSMEMBERS myset\n{{% /redis-cli %}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -176,7 +423,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): an array with all the members of the set.\n\n**RESP3:**\n\n[Set reply](../../develop/reference/protocol-spec#sets): a set with all the members of the set."
+      "content": "{{< multitabs id=\"smembers-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): an array with all the members of the set.\n\n-tab-sep-\n\n[Set reply](../../develop/reference/protocol-spec#sets): a set with all the members of the set.\n\n{{< /multitabs >}}"
     }
   ]
 }

@@ -10,6 +10,219 @@
   "since": "8.4.0",
   "arity": -4,
   "aclCategories": [],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "start",
+            "type": "str"
+          },
+          {
+            "description": "",
+            "name": "end",
+            "type": "str"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "Optional[int] = None"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Union[Awaitable[List[str]], List[str]]"
+        },
+        "signature": "vrange(key: KeyT, start: str, end: str, count: Optional[int] = None)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "start",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "end",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "int64"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StringSliceCmd"
+        },
+        "signature": "VRange(ctx context.Context, key, start, end string, count int64)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "start",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "end",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "count?",
+            "type": "number"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "VRANGE(key: RedisArgument, start: RedisArgument, end: RedisArgument, count?: number)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "start",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "end",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "long"
+          },
+          {
+            "description": "",
+            "name": "exclude",
+            "type": "Exclude"
+          },
+          {
+            "description": "",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Lease<RedisValue>"
+        },
+        "signature": "VectorSetRange(RedisKey key, RedisValue start = default, RedisValue end = default, long count = -1, Exclude exclude = Exclude.None, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "start",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "end",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "long"
+          },
+          {
+            "description": "",
+            "name": "exclude",
+            "type": "Exclude"
+          },
+          {
+            "description": "",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Task<Lease<RedisValue>?>"
+        },
+        "signature": "VectorSetRangeAsync(RedisKey key, RedisValue start = default, RedisValue end = default, long count = -1, Exclude exclude = Exclude.None, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$start",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$end",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "int $count = null",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array"
+        },
+        "signature": "vrange(string $key, string $start, string $end, int $count = null)"
+      }
+    ]
+  },
   "commandFlags": [
     "READONLY"
   ],
@@ -44,36 +257,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "optional-arguments",
-        "title": "Optional arguments"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      },
-      {
-        "id": "behavior",
-        "title": "Behavior"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "The `VRANGE` command provides a stateless iterator for the elements inside a vector set. It allows you to retrieve all the elements inside a vector set in small amounts for each call, without an explicit cursor, and with guarantees about what you will miss in case the vector set is changing (elements added and/or removed) during the iteration.\n\nThe command returns elements in lexicographical order, using byte-by-byte comparison (like `memcmp()`) to establish a total order among elements.\n\n## Required arguments\n\n<details open><summary><code>key</code></summary>\n\nThe name of the vector set key from which to retrieve elements.\n\n</details>\n\n<details open><summary><code>start</code></summary>\n\nThe starting point of the lexicographical range. Can be:\n- A string prefixed with `[` for inclusive range (e.g., `[Redis`)\n- A string prefixed with `(` for exclusive range (e.g., `(a7`)\n- The special symbol `-` to indicate the minimum element\n\n</details>\n\n<details open><summary><code>end</code></summary>\n\nThe ending point of the lexicographical range. Can be:\n- A string prefixed with `[` for inclusive range\n- A string prefixed with `(` for exclusive range\n- The special symbol `+` to indicate the maximum element\n\n</details>\n\n## Optional arguments\n\n<details open><summary><code>count</code></summary>\n\nThe maximum number of elements to return. If `count` is negative, the command returns all elements in the specified range (which may block the server for a long time with large sets).\n\n</details>\n\n## Examples\n\nRetrieve the first 10 elements starting from the string \"Redis\" (inclusive):\n\n```\nVRANGE word_embeddings [Redis + 10\n```\n\nIterate through all elements, 10 at a time:\n\n```\nVRANGE mykey - + 10\n```\n\nContinue iteration from the last element of the previous result (exclusive):\n\n```\nVRANGE mykey (a7 + 10\n```\n\nReturn all elements in the set (use with caution):\n\n```\nVRANGE mykey - + -1\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n\n- [Array reply]() of elements in lexicographical order within the specified range.\n- [Array reply]() (empty array) if the key doesn't exist.\n\n**RESP3:**\n\nOne of the following:\n\n- [Array reply]() of elements in lexicographical order within the specified range.\n- [Array reply]() (empty array) if the key doesn't exist.\n\n\n\n## Behavior\n\n- **Iteration guarantees**: Each range will produce exactly the elements that were present in the range at the moment the `VRANGE` command was executed.\n- **Concurrent modifications**: Elements removed or added during iteration may or may not be returned, depending on when they were modified.\n- **Empty key**: If the key doesn't exist, returns an empty array.",
+  "content": "The `VRANGE` command provides a stateless iterator for the elements inside a vector set. It allows you to retrieve all the elements inside a vector set in small amounts for each call, without an explicit cursor, and with guarantees about what you will miss in case the vector set is changing (elements added and/or removed) during the iteration.\n\nThe command returns elements in lexicographical order, using byte-by-byte comparison (like `memcmp()`) to establish a total order among elements.\n\n## Required arguments\n\n<details open><summary><code>key</code></summary>\n\nThe name of the vector set key from which to retrieve elements.\n\n</details>\n\n<details open><summary><code>start</code></summary>\n\nThe starting point of the lexicographical range. Can be:\n- A string prefixed with `[` for inclusive range (e.g., `[Redis`)\n- A string prefixed with `(` for exclusive range (e.g., `(a7`)\n- The special symbol `-` to indicate the minimum element\n\n</details>\n\n<details open><summary><code>end</code></summary>\n\nThe ending point of the lexicographical range. Can be:\n- A string prefixed with `[` for inclusive range\n- A string prefixed with `(` for exclusive range\n- The special symbol `+` to indicate the maximum element\n\n</details>\n\n## Optional arguments\n\n<details open><summary><code>count</code></summary>\n\nThe maximum number of elements to return. If `count` is negative, the command returns all elements in the specified range (which may block the server for a long time with large sets).\n\n</details>\n\n## Examples\n\nRetrieve the first 10 elements starting from the string \"Redis\" (inclusive):\n\n```\nVRANGE word_embeddings [Redis + 10\n```\n\nIterate through all elements, 10 at a time:\n\n```\nVRANGE mykey - + 10\n```\n\nContinue iteration from the last element of the previous result (exclusive):\n\n```\nVRANGE mykey (a7 + 10\n```\n\nReturn all elements in the set (use with caution):\n\n```\nVRANGE mykey - + -1\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\nOne of the following:\n\n- [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of elements in lexicographical order within the specified range.\n- [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) (empty array) if the key doesn't exist.\n\n-tab-sep-\n\nOne of the following:\n\n- [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of elements in lexicographical order within the specified range.\n- [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) (empty array) if the key doesn't exist.\n\n{{< /multitabs >}}\n\n## Behavior\n\n- **Iteration guarantees**: Each range will produce exactly the elements that were present in the range at the moment the `VRANGE` command was executed.\n- **Concurrent modifications**: Elements removed or added during iteration may or may not be returned, depending on when they were modified.\n- **Empty key**: If the key doesn't exist, returns an empty array.",
+  "example": "VRANGE word_embeddings [Redis + 10",
   "intro": "The `VRANGE` command provides a stateless iterator for the elements inside a vector set. It allows you to retrieve all the elements inside a vector set in small amounts for each call, without an explicit cursor, and with guarantees about what you will miss in case the vector set is changing (elements added and/or removed) during the iteration.\n\nThe command returns elements in lexicographical order, using byte-by-byte comparison (like `memcmp()`) to establish a total order among elements.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -103,7 +293,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n\n- [Array reply]() of elements in lexicographical order within the specified range.\n- [Array reply]() (empty array) if the key doesn't exist.\n\n**RESP3:**\n\nOne of the following:\n\n- [Array reply]() of elements in lexicographical order within the specified range.\n- [Array reply]() (empty array) if the key doesn't exist."
+      "content": "{{< multitabs id=\"return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\nOne of the following:\n\n- [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of elements in lexicographical order within the specified range.\n- [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) (empty array) if the key doesn't exist.\n\n-tab-sep-\n\nOne of the following:\n\n- [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of elements in lexicographical order within the specified range.\n- [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) (empty array) if the key doesn't exist.\n\n{{< /multitabs >}}"
     },
     {
       "title": "Behavior",

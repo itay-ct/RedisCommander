@@ -12,6 +12,215 @@
   "aclCategories": [
     "@search"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "The synonym group ID",
+            "name": "groupid",
+            "type": "Union[str, int]"
+          },
+          {
+            "description": "Whether to skip initial scan",
+            "name": "skipinitial",
+            "type": "bool"
+          },
+          {
+            "description": "Terms to add to the synonym group",
+            "name": "terms",
+            "type": "*str"
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "str"
+        },
+        "signature": "synupdate(groupid: Union[str, int], skipinitial: bool = False, *terms: str)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "The index name",
+            "name": "indexName",
+            "type": "String"
+          },
+          {
+            "description": "The synonym group ID",
+            "name": "synonymGroupId",
+            "type": "String"
+          },
+          {
+            "description": "Terms to add",
+            "name": "terms",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "String"
+        },
+        "signature": "String ftSynUpdate(String indexName, String synonymGroupId, String... terms)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "The index name",
+            "name": "index",
+            "type": "string"
+          },
+          {
+            "description": "The synonym group ID",
+            "name": "synGroupId",
+            "type": "interface{}"
+          },
+          {
+            "description": "Terms to add",
+            "name": "terms",
+            "type": "...interface{}"
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "*StatusCmd"
+        },
+        "signature": "FTSynUpdate(ctx context.Context, index string, synGroupId interface{}, terms ...interface{})"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "The index name",
+            "name": "index",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "The synonym group ID",
+            "name": "synonymGroupId",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "Terms to add",
+            "name": "terms",
+            "type": "Array<RedisArgument> | RedisArgument"
+          },
+          {
+            "description": "Optional update options",
+            "name": "options",
+            "type": "{ SKIPINITIALSCAN?: boolean }"
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "Promise<string>"
+        },
+        "signature": "SYNUPDATE(index: RedisArgument, synonymGroupId: RedisArgument, terms: Array<RedisArgument> | RedisArgument, options?: { SKIPINITIALSCAN?: boolean })"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The index name",
+            "name": "indexName",
+            "type": "string"
+          },
+          {
+            "description": "The synonym group ID",
+            "name": "synonymGroupId",
+            "type": "string"
+          },
+          {
+            "description": "Whether to skip the initial scan",
+            "name": "skipInitialScan",
+            "type": "bool"
+          },
+          {
+            "description": "Synonym terms",
+            "name": "terms",
+            "type": "string[]"
+          }
+        ],
+        "returns": {
+          "description": "true if the synonym group was updated",
+          "type": "bool"
+        },
+        "signature": "bool SynUpdate(string indexName, string synonymGroupId, bool skipInitialScan = false, params string[] terms)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The index name",
+            "name": "indexName",
+            "type": "string"
+          },
+          {
+            "description": "The synonym group ID",
+            "name": "synonymGroupId",
+            "type": "string"
+          },
+          {
+            "description": "Whether to skip the initial scan",
+            "name": "skipInitialScan",
+            "type": "bool"
+          },
+          {
+            "description": "Synonym terms",
+            "name": "terms",
+            "type": "string[]"
+          }
+        ],
+        "returns": {
+          "description": "true if the synonym group was updated",
+          "type": "Task<bool>"
+        },
+        "signature": "Task<bool> SynUpdateAsync(string indexName, string synonymGroupId, bool skipInitialScan = false, params string[] terms)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "The index name",
+            "name": "$index",
+            "type": "string"
+          },
+          {
+            "description": "The synonym group ID",
+            "name": "$synonymGroupId",
+            "type": "string"
+          },
+          {
+            "description": "Optional arguments (SKIPINITIALSCAN)",
+            "name": "$arguments",
+            "type": "?SynUpdateArguments"
+          },
+          {
+            "description": "Synonym terms (variadic)",
+            "name": "$terms",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "Status"
+        },
+        "signature": "ftsynupdate(string $index, string $synonymGroupId, ?SynUpdateArguments $arguments = null, string ...$terms)"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly"
   ],
@@ -48,40 +257,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "optional-parameters",
-        "title": "Optional parameters"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      },
-      {
-        "id": "see-also",
-        "title": "See also"
-      },
-      {
-        "id": "related-topics",
-        "title": "Related topics"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Update a synonym group\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open>\n<summary><code>index</code></summary>\n\nis index name.\n</details>\n\n<details open>\n<summary><code>synonym_group_id</code></summary>\n\nis synonym group to return.\n</details>\n\nUse FT.SYNUPDATE to create or update a synonym group with additional terms. The command triggers a scan of all documents.\n\n## Optional parameters\n\n<details open>\n<summary><code>SKIPINITIALSCAN</code></summary>\n\ndoes not scan and index, and only documents that are indexed after the update are affected.\n</details>\n\n## Examples\n\n<details open>\n<summary><b>Update a synonym group</b></summary>\n\n\n127.0.0.1:6379> FT.SYNUPDATE idx synonym hello hi shalom\nOK\n\n\n\n127.0.0.1:6379> FT.SYNUPDATE idx synonym SKIPINITIALSCAN hello hi shalom\nOK\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply]() in these cases: no such index.\n\n**RESP3:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply]() in these cases: no such index.\n\n\n\n## See also\n\n[`FT.SYNDUMP`]() \n\n## Related topics\n\n[RediSearch]()",
+  "content": "Update a synonym group\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open>\n<summary><code>index</code></summary>\n\nis index name.\n</details>\n\n<details open>\n<summary><code>synonym_group_id</code></summary>\n\nis synonym group to return.\n</details>\n\nUse FT.SYNUPDATE to create or update a synonym group with additional terms. The command triggers a scan of all documents.\n\n## Optional parameters\n\n<details open>\n<summary><code>SKIPINITIALSCAN</code></summary>\n\ndoes not scan and index, and only documents that are indexed after the update are affected.\n</details>\n\n## Examples\n\n<details open>\n<summary><b>Update a synonym group</b></summary>\n\n{{< highlight bash >}}\n127.0.0.1:6379> FT.SYNUPDATE idx synonym hello hi shalom\nOK\n{{< / highlight >}}\n\n{{< highlight bash >}}\n127.0.0.1:6379> FT.SYNUPDATE idx synonym SKIPINITIALSCAN hello hi shalom\nOK\n{{< / highlight >}}\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"ft-synupdate-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` if executed correctly.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: no such index.\n\n-tab-sep-\n\nOne of the following:\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` if executed correctly.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: no such index.\n\n{{< /multitabs >}}\n\n## See also\n\n[`FT.SYNDUMP`]({{< relref \"commands/ft.syndump/\" >}}) \n\n## Related topics\n\n[RediSearch]({{< relref \"/develop/ai/search-and-query/\" >}})",
+  "example": "127.0.0.1:6379> FT.SYNUPDATE idx synonym hello hi shalom\nOK",
   "intro": "Update a synonym group\n\n[Examples](#examples)",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -101,7 +283,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "<details open>\n<summary><b>Update a synonym group</b></summary>\n\n\n127.0.0.1:6379> FT.SYNUPDATE idx synonym hello hi shalom\nOK\n\n\n\n127.0.0.1:6379> FT.SYNUPDATE idx synonym SKIPINITIALSCAN hello hi shalom\nOK\n\n</details>"
+      "content": "<details open>\n<summary><b>Update a synonym group</b></summary>\n\n{{< highlight bash >}}\n127.0.0.1:6379> FT.SYNUPDATE idx synonym hello hi shalom\nOK\n{{< / highlight >}}\n\n{{< highlight bash >}}\n127.0.0.1:6379> FT.SYNUPDATE idx synonym SKIPINITIALSCAN hello hi shalom\nOK\n{{< / highlight >}}\n</details>"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -111,17 +293,17 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply]() in these cases: no such index.\n\n**RESP3:**\n\nOne of the following:\n* [Simple string reply](): `OK` if executed correctly.\n* [Simple error reply]() in these cases: no such index."
+      "content": "{{< multitabs id=\"ft-synupdate-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` if executed correctly.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: no such index.\n\n-tab-sep-\n\nOne of the following:\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` if executed correctly.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: no such index.\n\n{{< /multitabs >}}"
     },
     {
       "title": "See also",
       "level": 2,
-      "content": "[`FT.SYNDUMP`]()"
+      "content": "[`FT.SYNDUMP`]({{< relref \"commands/ft.syndump/\" >}})"
     },
     {
       "title": "Related topics",
       "level": 2,
-      "content": "[RediSearch]()"
+      "content": "[RediSearch]({{< relref \"/develop/ai/search-and-query/\" >}})"
     }
   ]
 }

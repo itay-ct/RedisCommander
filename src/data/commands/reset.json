@@ -13,6 +13,24 @@
     "@fast",
     "@connection"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "ResponseT"
+        },
+        "signature": "reset(**kwargs)"
+      }
+    ]
+  },
   "commandFlags": [
     "noscript",
     "loading",
@@ -34,20 +52,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "This command performs a full reset of the connection's server-side context, \nmimicking the effect of disconnecting and reconnecting again.\n\nWhen the command is called from a regular client connection, it does the\nfollowing:\n\n* Discards the current [`MULTI`]() transaction block, if one exists.\n* Unwatches all keys [`WATCH`]()ed by the connection.\n* Disables [`CLIENT TRACKING`](), if in use.\n* Sets the connection to [`READWRITE`]() mode.\n* Cancels the connection's [`ASKING`]() mode, if previously set.\n* Sets [`CLIENT REPLY`]() to `ON`.\n* Sets the protocol version to RESP2.\n* [`SELECT`]()s database 0.\n* Exits [`MONITOR`]() mode, when applicable.\n* Aborts Pub/Sub's subscription state ([`SUBSCRIBE`]() and [`PSUBSCRIBE`]()), when\n  appropriate.\n* Deauthenticates the connection, requiring a call [`AUTH`]() to reauthenticate when\n  authentication is enabled.\n* Turns off `NO-EVICT` mode.\n* Turns off `NO-TOUCH` mode.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `RESET`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `RESET`.",
+  "content": "This command performs a full reset of the connection's server-side context, \nmimicking the effect of disconnecting and reconnecting again.\n\nWhen the command is called from a regular client connection, it does the\nfollowing:\n\n* Discards the current [`MULTI`]() transaction block, if one exists.\n* Unwatches all keys [`WATCH`]()ed by the connection.\n* Disables [`CLIENT TRACKING`](), if in use.\n* Sets the connection to [`READWRITE`]() mode.\n* Cancels the connection's [`ASKING`]() mode, if previously set.\n* Sets [`CLIENT REPLY`]() to `ON`.\n* Sets the protocol version to RESP2.\n* [`SELECT`]()s database 0.\n* Exits [`MONITOR`]() mode, when applicable.\n* Aborts Pub/Sub's subscription state ([`SUBSCRIBE`]() and [`PSUBSCRIBE`]()), when\n  appropriate.\n* Deauthenticates the connection, requiring a call [`AUTH`]() to reauthenticate when\n  authentication is enabled.\n* Turns off `NO-EVICT` mode.\n* Turns off `NO-TOUCH` mode.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"reset-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `RESET`.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `RESET`.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "This command performs a full reset of the connection's server-side context, \nmimicking the effect of disconnecting and reconnecting again.\n\nWhen the command is called from a regular client connection, it does the\nfollowing:\n\n* Discards the current [`MULTI`]() transaction block, if one exists.\n* Unwatches all keys [`WATCH`]()ed by the connection.\n* Disables [`CLIENT TRACKING`](), if in use.\n* Sets the connection to [`READWRITE`]() mode.\n* Cancels the connection's [`ASKING`]() mode, if previously set.\n* Sets [`CLIENT REPLY`]() to `ON`.\n* Sets the protocol version to RESP2.\n* [`SELECT`]()s database 0.\n* Exits [`MONITOR`]() mode, when applicable.\n* Aborts Pub/Sub's subscription state ([`SUBSCRIBE`]() and [`PSUBSCRIBE`]()), when\n  appropriate.\n* Deauthenticates the connection, requiring a call [`AUTH`]() to reauthenticate when\n  authentication is enabled.\n* Turns off `NO-EVICT` mode.\n* Turns off `NO-TOUCH` mode.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -62,7 +73,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `RESET`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `RESET`."
+      "content": "{{< multitabs id=\"reset-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `RESET`.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `RESET`.\n\n{{< /multitabs >}}"
     }
   ]
 }

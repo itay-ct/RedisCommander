@@ -13,6 +13,151 @@
     "@slow",
     "@connection"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "*args",
+            "type": "str"
+          },
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "command_info(*args, **kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "commands",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List<Object>"
+        },
+        "signature": "List<Object> commandInfo(String... commands)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "commands",
+            "type": "...string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*CommandsInfoCmd"
+        },
+        "signature": "CommandInfo(ctx context.Context, commands ...string) *CommandsInfoCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "Array of command names to get information about",
+            "name": "commands",
+            "type": "Array<string>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Array<CommandReply | null>"
+        },
+        "signature": "commandInfo(commands: Array<string>)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "commands",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List<Object>"
+        },
+        "signature": "List<Object> commandInfo(String... commands)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "commands",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "RedisFuture<List<Object>>"
+        },
+        "signature": "RedisFuture<List<Object>> commandInfo(String... commands)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "commands",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Flux<Object>"
+        },
+        "signature": "Flux<Object> commandInfo(String... commands)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$subcommand",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$args",
+            "type": "mixed"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array"
+        },
+        "signature": "command(string $subcommand, ...$args)"
+      }
+    ]
+  },
   "commandFlags": [
     "loading",
     "stale"
@@ -38,24 +183,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Returns [Array reply]() of details about multiple Redis commands.\n\nSame result format as [`COMMAND`]() except you can specify which commands\nget returned.\n\nIf you request details about non-existing commands, their return\nposition will be nil.\n\n## Examples\n\n\nCOMMAND INFO get set eval\nCOMMAND INFO foo evalsha config bar\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a nested list of command details.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a nested list of command details.",
+  "content": "Returns [Array reply]() of details about multiple Redis commands.\n\nSame result format as [`COMMAND`]() except you can specify which commands\nget returned.\n\nIf you request details about non-existing commands, their return\nposition will be nil.\n\n## Examples\n\n{{% redis-cli %}}\nCOMMAND INFO get set eval\nCOMMAND INFO foo evalsha config bar\n{{% /redis-cli %}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"command-info-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a nested list of command details.\n\n-tab-sep-\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a nested list of command details.\n\n{{< /multitabs >}}",
+  "example": "COMMAND INFO get set eval\nCOMMAND INFO foo evalsha config bar",
   "intro": "Returns [Array reply]() of details about multiple Redis commands.\n\nSame result format as [`COMMAND`]() except you can specify which commands\nget returned.\n\nIf you request details about non-existing commands, their return\nposition will be nil.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -65,7 +199,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "COMMAND INFO get set eval\nCOMMAND INFO foo evalsha config bar"
+      "content": "{{% redis-cli %}}\nCOMMAND INFO get set eval\nCOMMAND INFO foo evalsha config bar\n{{% /redis-cli %}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -75,7 +209,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a nested list of command details.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a nested list of command details."
+      "content": "{{< multitabs id=\"command-info-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a nested list of command details.\n\n-tab-sep-\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a nested list of command details.\n\n{{< /multitabs >}}"
     }
   ]
 }

@@ -13,6 +13,109 @@
     "@json",
     "@read"
   ],
+  "apiMethods": {
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "long"
+        },
+        "signature": "long jsonDebugMemory(String key)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "Path"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "long"
+        },
+        "signature": "long jsonDebugMemory(String key, Path path)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "Path2"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List<Long>"
+        },
+        "signature": "List<Long> jsonDebugMemory(String key, Path2 path)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*IntCmd"
+        },
+        "signature": "JSONDebugMemory(ctx context.Context, key, path string)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "string?"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "long"
+        },
+        "signature": "DebugMemory(string key, string? path = null)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -37,45 +140,18 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "optional-arguments",
-        "title": "Optional arguments"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      },
-      {
-        "id": "see-also",
-        "title": "See also"
-      },
-      {
-        "id": "related-topics",
-        "title": "Related topics"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Report a value's memory usage in bytes \n\n\nThe actual total memory consumption by a key could be much lower than the value reported by this command because of an internal JSON string reuse mechanism. For more information, see the [JSON memory usage page]().\n\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open><summary><code>key</code></summary> \n\nis key to parse.\n</details>\n\n## Optional arguments\n\n<details open><summary><code>path</code></summary> \n\nis JSONPath to specify. Default is root `$`. \n</details>\n\n## Examples\n\n<details open>\n<summary><b>Report a value's memory usage in bytes</b></summary>\n\nCreate a JSON document.\n\n\nredis> JSON.SET item:2 $ '{\"name\":\"Wireless earbuds\",\"description\":\"Wireless Bluetooth in-ear headphones\",\"connection\":{\"wireless\":true,\"type\":\"Bluetooth\"},\"price\":64.99,\"stock\":17,\"colors\":[\"black\",\"white\"], \"max_level\":[80, 100, 120]}'\nOK\n\n\nGet the values' memory usage in bytes.\n\n\nredis> JSON.DEBUG MEMORY item:2\n(integer) 573\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](): the value size in bytes.\n\n**RESP3:**\n\n[Integer reply](): the value size in bytes.\n\n\n\n## See also\n\n[`JSON.SET`]() | [`JSON.ARRLEN`]() \n\n## Related topics\n\n* [RedisJSON]()\n* [Index and search JSON documents]()",
-  "intro": "Report a value's memory usage in bytes \n\n\nThe actual total memory consumption by a key could be much lower than the value reported by this command because of an internal JSON string reuse mechanism. For more information, see the [JSON memory usage page]().\n\n\n[Examples](#examples)",
+  "content": "Report a value's memory usage in bytes \n\nThe actual total memory consumption by a key could be much lower than the value reported by this command because of an internal JSON string reuse mechanism. For more information, see the [JSON memory usage page]().\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open><summary><code>key</code></summary> \n\nis key to parse.\n</details>\n\n## Optional arguments\n\n<details open><summary><code>path</code></summary> \n\nis JSONPath to specify. Default is root `$`. \n</details>\n\n## Examples\n\n<details open>\n<summary><b>Report a value's memory usage in bytes</b></summary>\n\nCreate a JSON document.\n\n{{< highlight bash >}}\nredis> JSON.SET item:2 $ '{\"name\":\"Wireless earbuds\",\"description\":\"Wireless Bluetooth in-ear headphones\",\"connection\":{\"wireless\":true,\"type\":\"Bluetooth\"},\"price\":64.99,\"stock\":17,\"colors\":[\"black\",\"white\"], \"max_level\":[80, 100, 120]}'\nOK\n{{< / highlight >}}\n\nGet the values' memory usage in bytes.\n\n{{< highlight bash >}}\nredis> JSON.DEBUG MEMORY item:2\n(integer) 573\n{{< / highlight >}}\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"json-debug-memory-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\n[Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): the value size in bytes.\n\n-tab-sep-\n\n[Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): the value size in bytes.\n\n{{< /multitabs >}}\n\n## See also\n\n[`JSON.SET`]({{< relref \"commands/json.set/\" >}}) | [`JSON.ARRLEN`]({{< relref \"commands/json.arrlen/\" >}}) \n\n## Related topics\n\n* [RedisJSON]({{< relref \"/develop/data-types/json/\" >}})\n* [Index and search JSON documents]({{< relref \"/develop/ai/search-and-query/indexing/\" >}})",
+  "example": "redis> JSON.SET item:2 $ '{\"name\":\"Wireless earbuds\",\"description\":\"Wireless Bluetooth in-ear headphones\",\"connection\":{\"wireless\":true,\"type\":\"Bluetooth\"},\"price\":64.99,\"stock\":17,\"colors\":[\"black\",\"white\"], \"max_level\":[80, 100, 120]}'\nOK",
+  "intro": "Report a value's memory usage in bytes \n\nThe actual total memory consumption by a key could be much lower than the value reported by this command because of an internal JSON string reuse mechanism. For more information, see the [JSON memory usage page]().\n\n[Examples](#examples)",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
       "level": 1,
-      "content": "Report a value's memory usage in bytes \n\n\nThe actual total memory consumption by a key could be much lower than the value reported by this command because of an internal JSON string reuse mechanism. For more information, see the [JSON memory usage page]().\n\n\n[Examples](#examples)"
+      "content": "Report a value's memory usage in bytes \n\nThe actual total memory consumption by a key could be much lower than the value reported by this command because of an internal JSON string reuse mechanism. For more information, see the [JSON memory usage page]().\n\n[Examples](#examples)"
     },
     {
       "title": "Required arguments",
@@ -90,7 +166,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "<details open>\n<summary><b>Report a value's memory usage in bytes</b></summary>\n\nCreate a JSON document.\n\n\nredis> JSON.SET item:2 $ '{\"name\":\"Wireless earbuds\",\"description\":\"Wireless Bluetooth in-ear headphones\",\"connection\":{\"wireless\":true,\"type\":\"Bluetooth\"},\"price\":64.99,\"stock\":17,\"colors\":[\"black\",\"white\"], \"max_level\":[80, 100, 120]}'\nOK\n\n\nGet the values' memory usage in bytes.\n\n\nredis> JSON.DEBUG MEMORY item:2\n(integer) 573\n\n</details>"
+      "content": "<details open>\n<summary><b>Report a value's memory usage in bytes</b></summary>\n\nCreate a JSON document.\n\n{{< highlight bash >}}\nredis> JSON.SET item:2 $ '{\"name\":\"Wireless earbuds\",\"description\":\"Wireless Bluetooth in-ear headphones\",\"connection\":{\"wireless\":true,\"type\":\"Bluetooth\"},\"price\":64.99,\"stock\":17,\"colors\":[\"black\",\"white\"], \"max_level\":[80, 100, 120]}'\nOK\n{{< / highlight >}}\n\nGet the values' memory usage in bytes.\n\n{{< highlight bash >}}\nredis> JSON.DEBUG MEMORY item:2\n(integer) 573\n{{< / highlight >}}\n</details>"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -100,17 +176,17 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Integer reply](): the value size in bytes.\n\n**RESP3:**\n\n[Integer reply](): the value size in bytes."
+      "content": "{{< multitabs id=\"json-debug-memory-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\n[Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): the value size in bytes.\n\n-tab-sep-\n\n[Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): the value size in bytes.\n\n{{< /multitabs >}}"
     },
     {
       "title": "See also",
       "level": 2,
-      "content": "[`JSON.SET`]() | [`JSON.ARRLEN`]()"
+      "content": "[`JSON.SET`]({{< relref \"commands/json.set/\" >}}) | [`JSON.ARRLEN`]({{< relref \"commands/json.arrlen/\" >}})"
     },
     {
       "title": "Related topics",
       "level": 2,
-      "content": "* [RedisJSON]()\n* [Index and search JSON documents]()"
+      "content": "* [RedisJSON]({{< relref \"/develop/data-types/json/\" >}})\n* [Index and search JSON documents]({{< relref \"/develop/ai/search-and-query/indexing/\" >}})"
     }
   ]
 }

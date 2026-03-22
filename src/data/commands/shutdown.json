@@ -14,6 +14,234 @@
     "@slow",
     "@dangerous"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "Save before shutdown",
+            "name": "save",
+            "type": "bool"
+          },
+          {
+            "description": "Don't save",
+            "name": "nosave",
+            "type": "bool"
+          },
+          {
+            "description": "Shutdown now",
+            "name": "now",
+            "type": "bool"
+          },
+          {
+            "description": "Force shutdown",
+            "name": "force",
+            "type": "bool"
+          },
+          {
+            "description": "Abort shutdown",
+            "name": "abort",
+            "type": "bool"
+          },
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "None"
+        },
+        "signature": "shutdown(save: bool = False, nosave: bool = False, now: bool = False, force: bool = False, abort: bool = False, **kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "void"
+        },
+        "signature": "void shutdown()"
+      },
+      {
+        "params": [
+          {
+            "description": "Shutdown parameters",
+            "name": "shutdownParams",
+            "type": "ShutdownParams"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "void"
+        },
+        "signature": "void shutdown(ShutdownParams shutdownParams)"
+      },
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "String"
+        },
+        "signature": "String shutdownAbort()"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context",
+            "name": "ctx",
+            "type": "context.Context"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StatusCmd"
+        },
+        "signature": "Shutdown(ctx context.Context) *StatusCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "Options for the shutdown process",
+            "name": "options",
+            "type": "ShutdownOptions"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "void | SimpleStringReply"
+        },
+        "signature": "SHUTDOWN(options?: ShutdownOptions)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "save",
+            "type": "boolean"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "void"
+        },
+        "signature": "void shutdown(boolean save)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "args",
+            "type": "ShutdownArgs"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "void"
+        },
+        "signature": "void shutdown(ShutdownArgs args)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "save",
+            "type": "boolean"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "void"
+        },
+        "signature": "void shutdown(boolean save)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "args",
+            "type": "ShutdownArgs"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "void"
+        },
+        "signature": "void shutdown(ShutdownArgs args)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "save",
+            "type": "boolean"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Mono<Void>"
+        },
+        "signature": "Mono<Void> shutdown(boolean save)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "args",
+            "type": "ShutdownArgs"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Mono<Void>"
+        },
+        "signature": "Mono<Void> shutdown(ShutdownArgs args)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$noSave",
+            "type": "bool|null"
+          },
+          {
+            "description": "",
+            "name": "$now",
+            "type": "bool"
+          },
+          {
+            "description": "",
+            "name": "$force",
+            "type": "bool"
+          },
+          {
+            "description": "",
+            "name": "$abort",
+            "type": "bool"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Status"
+        },
+        "signature": "shutdown(?bool $noSave = null, bool $now = false, bool $force = false, bool $abort = false)"
+      }
+    ]
+  },
   "commandFlags": [
     "admin",
     "noscript",
@@ -79,36 +307,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "modifiers",
-        "title": "Modifiers"
-      },
-      {
-        "id": "conditions-where-a-shutdown-fails",
-        "title": "Conditions where a SHUTDOWN fails"
-      },
-      {
-        "id": "minimize-the-risk-of-data-loss",
-        "title": "Minimize the risk of data loss"
-      },
-      {
-        "id": "behavior-change-history",
-        "title": "Behavior change history"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "The command behavior is the following:\n\n* If there are any replicas lagging behind in replication:\n  * Pause clients attempting to write by performing a [`CLIENT PAUSE`]() with the `WRITE` option.\n  * Wait up to the configured `shutdown-timeout` (default 10 seconds) for replicas to catch up the replication offset.\n* Stop all the clients.\n* Perform a blocking SAVE if at least one **save point** is configured.\n* Flush the Append Only File if AOF is enabled.\n* Quit the server.\n\nIf persistence is enabled this commands makes sure that Redis is switched off\nwithout any data loss.\n\nNote: A Redis instance that is configured for not persisting on disk (no AOF\nconfigured, nor \"save\" directive) will not dump the RDB file on `SHUTDOWN`, as\nusually you don't want Redis instances used only for caching to block on when\nshutting down.\n\nAlso note: If Redis receives one of the signals `SIGTERM` and `SIGINT`, the same shutdown sequence is performed.\nSee also [Signal Handling]().\n\n## Modifiers\n\nIt is possible to specify optional modifiers to alter the behavior of the command.\nSpecifically:\n\n* **SAVE** will force a DB saving operation even if no save points are configured.\n* **NOSAVE** will prevent a DB saving operation even if one or more save points are configured.\n* **NOW** skips waiting for lagging replicas, i.e. it bypasses the first step in the shutdown sequence.\n* **FORCE** ignores any errors that would normally prevent the server from exiting.\n  For details, see the following section.\n* **ABORT** cancels an ongoing shutdown and cannot be combined with other flags.\n\n## Conditions where a SHUTDOWN fails\n\nWhen a save point is configured or the **SAVE** modifier is specified, the shutdown may fail if the RDB file can't be saved.\nThen, the server continues to run in order to ensure no data loss.\nThis may be bypassed using the **FORCE** modifier, causing the server to exit anyway.\n\nWhen the Append Only File is enabled the shutdown may fail because the\nsystem is in a state that does not allow to safely immediately persist\non disk.\n\nNormally if there is an AOF child process performing an AOF rewrite, Redis\nwill simply kill it and exit.\nHowever, there are situations where it is unsafe to do so and, unless the **FORCE** modifier is specified, the **SHUTDOWN** command will be refused with an error instead.\nThis happens in the following situations:\n\n* The user just turned on AOF, and the server triggered the first AOF rewrite in order to create the initial AOF file. In this context, stopping will result in losing the dataset at all: once restarted, the server will potentially have AOF enabled without having any AOF file at all.\n* A replica with AOF enabled, reconnected with its master, performed a full resynchronization, and restarted the AOF file, triggering the initial AOF creation process. In this case not completing the AOF rewrite is dangerous because the latest dataset received from the master would be lost. The new master can actually be even a different instance (if the **REPLICAOF** or **SLAVEOF** command was used in order to reconfigure the replica), so it is important to finish the AOF rewrite and start with the correct data set representing the data set in memory when the server was terminated.\n\nThere are situations when we want just to terminate a Redis instance ASAP, regardless of what its content is.\nIn such a case, the command **SHUTDOWN NOW NOSAVE FORCE** can be used.\nIn versions before 7.0, where the **NOW** and **FORCE** flags are not available, the right combination of commands is to send a **CONFIG appendonly no** followed by a **SHUTDOWN NOSAVE**.\nThe first command will turn off the AOF if needed, and will terminate the AOF rewriting child if there is one active.\nThe second command will not have any problem to execute since the AOF is no longer enabled.\n\n## Minimize the risk of data loss\n\nSince Redis 7.0, the server waits for lagging replicas up to a configurable `shutdown-timeout`, by default 10 seconds, before shutting down.\nThis provides a best effort minimizing the risk of data loss in a situation where no save points are configured and AOF is disabled.\nBefore version 7.0, shutting down a heavily loaded master node in a diskless setup was more likely to result in data loss.\nTo minimize the risk of data loss in such setups, it's advised to trigger a manual [`FAILOVER`]() (or [`CLUSTER FAILOVER`]()) to demote the master to a replica and promote one of the replicas to be the new master, before shutting down a master node.\n\n## Behavior change history\n\n*   `>= 7.0.0`: Introduced waiting for lagging replicas before exiting.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if _ABORT_ was specified and shutdown was aborted. On successful shutdown, nothing is returned because the server quits and the connection is closed. On failure, an error is returned.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if _ABORT_ was specified and shutdown was aborted. On successful shutdown, nothing is returned because the server quits and the connection is closed. On failure, an error is returned.",
+  "content": "The command behavior is the following:\n\n* If there are any replicas lagging behind in replication:\n  * Pause clients attempting to write by performing a [`CLIENT PAUSE`]() with the `WRITE` option.\n  * Wait up to the configured `shutdown-timeout` (default 10 seconds) for replicas to catch up the replication offset.\n* Stop all the clients.\n* Perform a blocking SAVE if at least one **save point** is configured.\n* Flush the Append Only File if AOF is enabled.\n* Quit the server.\n\nIf persistence is enabled this commands makes sure that Redis is switched off\nwithout any data loss.\n\nNote: A Redis instance that is configured for not persisting on disk (no AOF\nconfigured, nor \"save\" directive) will not dump the RDB file on `SHUTDOWN`, as\nusually you don't want Redis instances used only for caching to block on when\nshutting down.\n\nAlso note: If Redis receives one of the signals `SIGTERM` and `SIGINT`, the same shutdown sequence is performed.\nSee also [Signal Handling]().\n\n## Modifiers\n\nIt is possible to specify optional modifiers to alter the behavior of the command.\nSpecifically:\n\n* **SAVE** will force a DB saving operation even if no save points are configured.\n* **NOSAVE** will prevent a DB saving operation even if one or more save points are configured.\n* **NOW** skips waiting for lagging replicas, i.e. it bypasses the first step in the shutdown sequence.\n* **FORCE** ignores any errors that would normally prevent the server from exiting.\n  For details, see the following section.\n* **ABORT** cancels an ongoing shutdown and cannot be combined with other flags.\n\n## Conditions where a SHUTDOWN fails\n\nWhen a save point is configured or the **SAVE** modifier is specified, the shutdown may fail if the RDB file can't be saved.\nThen, the server continues to run in order to ensure no data loss.\nThis may be bypassed using the **FORCE** modifier, causing the server to exit anyway.\n\nWhen the Append Only File is enabled the shutdown may fail because the\nsystem is in a state that does not allow to safely immediately persist\non disk.\n\nNormally if there is an AOF child process performing an AOF rewrite, Redis\nwill simply kill it and exit.\nHowever, there are situations where it is unsafe to do so and, unless the **FORCE** modifier is specified, the **SHUTDOWN** command will be refused with an error instead.\nThis happens in the following situations:\n\n* The user just turned on AOF, and the server triggered the first AOF rewrite in order to create the initial AOF file. In this context, stopping will result in losing the dataset at all: once restarted, the server will potentially have AOF enabled without having any AOF file at all.\n* A replica with AOF enabled, reconnected with its master, performed a full resynchronization, and restarted the AOF file, triggering the initial AOF creation process. In this case not completing the AOF rewrite is dangerous because the latest dataset received from the master would be lost. The new master can actually be even a different instance (if the **REPLICAOF** or **SLAVEOF** command was used in order to reconfigure the replica), so it is important to finish the AOF rewrite and start with the correct data set representing the data set in memory when the server was terminated.\n\nThere are situations when we want just to terminate a Redis instance ASAP, regardless of what its content is.\nIn such a case, the command **SHUTDOWN NOW NOSAVE FORCE** can be used.\nIn versions before 7.0, where the **NOW** and **FORCE** flags are not available, the right combination of commands is to send a **CONFIG appendonly no** followed by a **SHUTDOWN NOSAVE**.\nThe first command will turn off the AOF if needed, and will terminate the AOF rewriting child if there is one active.\nThe second command will not have any problem to execute since the AOF is no longer enabled.\n\n## Minimize the risk of data loss\n\nSince Redis 7.0, the server waits for lagging replicas up to a configurable `shutdown-timeout`, by default 10 seconds, before shutting down.\nThis provides a best effort minimizing the risk of data loss in a situation where no save points are configured and AOF is disabled.\nBefore version 7.0, shutting down a heavily loaded master node in a diskless setup was more likely to result in data loss.\nTo minimize the risk of data loss in such setups, it's advised to trigger a manual [`FAILOVER`]({{< relref \"/commands/failover\" >}}) (or [`CLUSTER FAILOVER`]({{< relref \"/commands/cluster-failover\" >}})) to demote the master to a replica and promote one of the replicas to be the new master, before shutting down a master node.\n\n## Behavior change history\n\n*   `>= 7.0.0`: Introduced waiting for lagging replicas before exiting.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"shutdown-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if _ABORT_ was specified and shutdown was aborted. On successful shutdown, nothing is returned because the server quits and the connection is closed. On failure, an error is returned.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if _ABORT_ was specified and shutdown was aborted. On successful shutdown, nothing is returned because the server quits and the connection is closed. On failure, an error is returned.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "The command behavior is the following:\n\n* If there are any replicas lagging behind in replication:\n  * Pause clients attempting to write by performing a [`CLIENT PAUSE`]() with the `WRITE` option.\n  * Wait up to the configured `shutdown-timeout` (default 10 seconds) for replicas to catch up the replication offset.\n* Stop all the clients.\n* Perform a blocking SAVE if at least one **save point** is configured.\n* Flush the Append Only File if AOF is enabled.\n* Quit the server.\n\nIf persistence is enabled this commands makes sure that Redis is switched off\nwithout any data loss.\n\nNote: A Redis instance that is configured for not persisting on disk (no AOF\nconfigured, nor \"save\" directive) will not dump the RDB file on `SHUTDOWN`, as\nusually you don't want Redis instances used only for caching to block on when\nshutting down.\n\nAlso note: If Redis receives one of the signals `SIGTERM` and `SIGINT`, the same shutdown sequence is performed.\nSee also [Signal Handling]().",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -128,7 +333,7 @@
     {
       "title": "Minimize the risk of data loss",
       "level": 2,
-      "content": "Since Redis 7.0, the server waits for lagging replicas up to a configurable `shutdown-timeout`, by default 10 seconds, before shutting down.\nThis provides a best effort minimizing the risk of data loss in a situation where no save points are configured and AOF is disabled.\nBefore version 7.0, shutting down a heavily loaded master node in a diskless setup was more likely to result in data loss.\nTo minimize the risk of data loss in such setups, it's advised to trigger a manual [`FAILOVER`]() (or [`CLUSTER FAILOVER`]()) to demote the master to a replica and promote one of the replicas to be the new master, before shutting down a master node."
+      "content": "Since Redis 7.0, the server waits for lagging replicas up to a configurable `shutdown-timeout`, by default 10 seconds, before shutting down.\nThis provides a best effort minimizing the risk of data loss in a situation where no save points are configured and AOF is disabled.\nBefore version 7.0, shutting down a heavily loaded master node in a diskless setup was more likely to result in data loss.\nTo minimize the risk of data loss in such setups, it's advised to trigger a manual [`FAILOVER`]({{< relref \"/commands/failover\" >}}) (or [`CLUSTER FAILOVER`]({{< relref \"/commands/cluster-failover\" >}})) to demote the master to a replica and promote one of the replicas to be the new master, before shutting down a master node."
     },
     {
       "title": "Behavior change history",
@@ -143,7 +348,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if _ABORT_ was specified and shutdown was aborted. On successful shutdown, nothing is returned because the server quits and the connection is closed. On failure, an error is returned.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if _ABORT_ was specified and shutdown was aborted. On successful shutdown, nothing is returned because the server quits and the connection is closed. On failure, an error is returned."
+      "content": "{{< multitabs id=\"shutdown-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if _ABORT_ was specified and shutdown was aborted. On successful shutdown, nothing is returned because the server quits and the connection is closed. On failure, an error is returned.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if _ABORT_ was specified and shutdown was aborted. On successful shutdown, nothing is returned because the server quits and the connection is closed. On failure, an error is returned.\n\n{{< /multitabs >}}"
     }
   ]
 }

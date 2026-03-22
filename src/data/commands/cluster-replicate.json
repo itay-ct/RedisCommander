@@ -14,6 +14,114 @@
     "@slow",
     "@dangerous"
   ],
+  "apiMethods": {
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "nodeId",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "String"
+        },
+        "signature": "String clusterReplicate(final String nodeId)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "nodeID",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StatusCmd"
+        },
+        "signature": "ClusterReplicate(ctx context.Context, nodeID string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "The Redis command parser",
+            "name": "parser",
+            "type": "CommandParser"
+          },
+          {
+            "description": "Node ID of the primary node to replicate",
+            "name": "nodeId",
+            "type": "RedisArgument"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "SimpleStringReply"
+        },
+        "signature": "parseCommand(parser: CommandParser, nodeId: RedisArgument)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "Node ID of the primary node to replicate",
+            "name": "nodeId",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "String"
+        },
+        "signature": "String clusterReplicate(String nodeId)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "Node ID of the primary node to replicate",
+            "name": "nodeId",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> clusterReplicate(String nodeId)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "Node ID of the primary node to replicate",
+            "name": "nodeId",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> clusterReplicate(String nodeId)"
+      }
+    ]
+  },
   "commandFlags": [
     "admin",
     "stale",
@@ -38,20 +146,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "The command reconfigures a node as a replica of the specified master.\nIf the node receiving the command is an *empty master*, as a side effect\nof the command, the node role is changed from master to replica.\n\nOnce a node is turned into the replica of another master node, there is no need\nto inform the other cluster nodes about the change: heartbeat packets exchanged\nbetween nodes will propagate the new configuration automatically.\n\nA replica will always accept the command, assuming that:\n\n1. The specified node ID exists in its nodes table.\n2. The specified node ID does not identify the instance we are sending the command to.\n3. The specified node ID is a master.\n\nIf the node receiving the command is not already a replica, but is a master,\nthe command will only succeed, and the node will be converted into a replica,\nonly if the following additional conditions are met:\n\n1. The node is not serving any hash slots.\n2. The node is empty, no keys are stored at all in the key space.\n\nIf the command succeeds the new replica will immediately try to contact its master in order to replicate from it.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.",
+  "content": "The command reconfigures a node as a replica of the specified master.\nIf the node receiving the command is an *empty master*, as a side effect\nof the command, the node role is changed from master to replica.\n\nOnce a node is turned into the replica of another master node, there is no need\nto inform the other cluster nodes about the change: heartbeat packets exchanged\nbetween nodes will propagate the new configuration automatically.\n\nA replica will always accept the command, assuming that:\n\n1. The specified node ID exists in its nodes table.\n2. The specified node ID does not identify the instance we are sending the command to.\n3. The specified node ID is a master.\n\nIf the node receiving the command is not already a replica, but is a master,\nthe command will only succeed, and the node will be converted into a replica,\nonly if the following additional conditions are met:\n\n1. The node is not serving any hash slots.\n2. The node is empty, no keys are stored at all in the key space.\n\nIf the command succeeds the new replica will immediately try to contact its master in order to replicate from it.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"cluster-replicate-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "The command reconfigures a node as a replica of the specified master.\nIf the node receiving the command is an *empty master*, as a side effect\nof the command, the node role is changed from master to replica.\n\nOnce a node is turned into the replica of another master node, there is no need\nto inform the other cluster nodes about the change: heartbeat packets exchanged\nbetween nodes will propagate the new configuration automatically.\n\nA replica will always accept the command, assuming that:\n\n1. The specified node ID exists in its nodes table.\n2. The specified node ID does not identify the instance we are sending the command to.\n3. The specified node ID is a master.\n\nIf the node receiving the command is not already a replica, but is a master,\nthe command will only succeed, and the node will be converted into a replica,\nonly if the following additional conditions are met:\n\n1. The node is not serving any hash slots.\n2. The node is empty, no keys are stored at all in the key space.\n\nIf the command succeeds the new replica will immediately try to contact its master in order to replicate from it.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -66,7 +167,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned."
+      "content": "{{< multitabs id=\"cluster-replicate-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.\n\n{{< /multitabs >}}"
     }
   ]
 }

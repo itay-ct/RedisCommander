@@ -12,6 +12,341 @@
   "aclCategories": [
     "@search"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "The suggestion dictionary key",
+            "name": "key",
+            "type": "str"
+          },
+          {
+            "description": "The prefix to search for",
+            "name": "prefix",
+            "type": "str"
+          },
+          {
+            "description": "Whether to use fuzzy matching",
+            "name": "fuzzy",
+            "type": "bool"
+          },
+          {
+            "description": "Maximum number of suggestions to return",
+            "name": "num",
+            "type": "int"
+          },
+          {
+            "description": "Whether to include scores",
+            "name": "with_scores",
+            "type": "bool"
+          },
+          {
+            "description": "Whether to include payloads",
+            "name": "with_payloads",
+            "type": "bool"
+          }
+        ],
+        "returns": {
+          "description": "List of suggestions",
+          "type": "List[Union[str, Tuple]]"
+        },
+        "signature": "sugget(key: str, prefix: str, fuzzy: bool = False, num: int = 5, with_scores: bool = False, with_payloads: bool = False)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "The suggestion dictionary key",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "The prefix to search for",
+            "name": "prefix",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "List of suggestions",
+          "type": "List<String>"
+        },
+        "signature": "List<String> ftSugGet(String key, String prefix)"
+      },
+      {
+        "params": [
+          {
+            "description": "The suggestion dictionary key",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "The prefix to search for",
+            "name": "prefix",
+            "type": "String"
+          },
+          {
+            "description": "Maximum number of suggestions",
+            "name": "max",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "List of suggestions with scores",
+          "type": "List<Suggestion>"
+        },
+        "signature": "List<Suggestion> ftSugGetWithScores(String key, String prefix, int max)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "The suggestion dictionary key",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "The prefix to search for",
+            "name": "prefix",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "List of suggestions",
+          "type": "*StringSliceCmd"
+        },
+        "signature": "FTSugGet(ctx context.Context, key string, prefix string)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "The suggestion dictionary key",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "The prefix to search for",
+            "name": "prefix",
+            "type": "string"
+          },
+          {
+            "description": "Get options",
+            "name": "options",
+            "type": "*FTSugGetOptions"
+          }
+        ],
+        "returns": {
+          "description": "List of suggestions",
+          "type": "*FTSugGetCmd"
+        },
+        "signature": "FTSugGetWithArgs(ctx context.Context, key string, prefix string, options *FTSugGetOptions)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "The suggestion dictionary key",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "The prefix to search for",
+            "name": "prefix",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "Optional get options",
+            "name": "options",
+            "type": "FTSugGetOptions"
+          }
+        ],
+        "returns": {
+          "description": "List of suggestions",
+          "type": "Promise<Array<string> | Array<FTSuggestion>>"
+        },
+        "signature": "SUGGET(key: RedisArgument, prefix: RedisArgument, options?: FTSugGetOptions)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The suggestion dictionary key",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "The prefix to search for",
+            "name": "prefix",
+            "type": "string"
+          },
+          {
+            "description": "Whether to use fuzzy matching",
+            "name": "fuzzy",
+            "type": "bool"
+          },
+          {
+            "description": "Whether to return payloads",
+            "name": "withPayloads",
+            "type": "bool"
+          },
+          {
+            "description": "Maximum number of suggestions to return",
+            "name": "max",
+            "type": "int?"
+          }
+        ],
+        "returns": {
+          "description": "List of suggestions",
+          "type": "List<string>"
+        },
+        "signature": "List<string> SugGet(string key, string prefix, bool fuzzy = false, bool withPayloads = false, int? max = null)"
+      },
+      {
+        "params": [
+          {
+            "description": "The suggestion dictionary key",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "The prefix to search for",
+            "name": "prefix",
+            "type": "string"
+          },
+          {
+            "description": "Whether to use fuzzy matching",
+            "name": "fuzzy",
+            "type": "bool"
+          },
+          {
+            "description": "Whether to return payloads",
+            "name": "withPayloads",
+            "type": "bool"
+          },
+          {
+            "description": "Maximum number of suggestions to return",
+            "name": "max",
+            "type": "int?"
+          }
+        ],
+        "returns": {
+          "description": "List of suggestions with scores",
+          "type": "List<Tuple<string, double>>"
+        },
+        "signature": "List<Tuple<string, double>> SugGetWithScores(string key, string prefix, bool fuzzy = false, bool withPayloads = false, int? max = null)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The suggestion dictionary key",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "The prefix to search for",
+            "name": "prefix",
+            "type": "string"
+          },
+          {
+            "description": "Whether to use fuzzy matching",
+            "name": "fuzzy",
+            "type": "bool"
+          },
+          {
+            "description": "Whether to return payloads",
+            "name": "withPayloads",
+            "type": "bool"
+          },
+          {
+            "description": "Maximum number of suggestions to return",
+            "name": "max",
+            "type": "int?"
+          }
+        ],
+        "returns": {
+          "description": "List of suggestions",
+          "type": "Task<List<string>>"
+        },
+        "signature": "Task<List<string>> SugGetAsync(string key, string prefix, bool fuzzy = false, bool withPayloads = false, int? max = null)"
+      },
+      {
+        "params": [
+          {
+            "description": "The suggestion dictionary key",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "The prefix to search for",
+            "name": "prefix",
+            "type": "string"
+          },
+          {
+            "description": "Whether to use fuzzy matching",
+            "name": "fuzzy",
+            "type": "bool"
+          },
+          {
+            "description": "Whether to return payloads",
+            "name": "withPayloads",
+            "type": "bool"
+          },
+          {
+            "description": "Maximum number of suggestions to return",
+            "name": "max",
+            "type": "int?"
+          }
+        ],
+        "returns": {
+          "description": "List of suggestions with scores",
+          "type": "Task<List<Tuple<string, double>>>"
+        },
+        "signature": "Task<List<Tuple<string, double>>> SugGetWithScoresAsync(string key, string prefix, bool fuzzy = false, bool withPayloads = false, int? max = null)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "The suggestion dictionary key",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "The prefix to search for",
+            "name": "$prefix",
+            "type": "string"
+          },
+          {
+            "description": "Optional arguments (FUZZY, WITHSCORES, WITHPAYLOADS, MAX)",
+            "name": "$arguments",
+            "type": "?SugGetArguments"
+          }
+        ],
+        "returns": {
+          "description": "List of suggestions",
+          "type": "array"
+        },
+        "signature": "ftsugget(string $key, string $prefix, ?SugGetArguments $arguments = null)"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly"
   ],
@@ -61,44 +396,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "optional-arguments",
-        "title": "Optional arguments"
-      },
-      {
-        "id": "return",
-        "title": "Return"
-      },
-      {
-        "id": "example",
-        "title": "Example"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      },
-      {
-        "id": "see-also",
-        "title": "See also"
-      },
-      {
-        "id": "related-topics",
-        "title": "Related topics"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Get completion suggestions for a prefix\n\n## Required arguments\n\n<details open>\n<summary><code>key</code></summary>\n\nis suggestion dictionary key.\n</details>\n\n<details open>\n<summary><code>prefix</code></summary>\n\nis prefix to complete on.\n</details>\n\n## Optional arguments\n\n<details open>\n<summary><code>FUZZY</code></summary> \n\nperforms a fuzzy prefix search, including prefixes at Levenshtein distance of 1 from the prefix sent.\n</details>\n\n<details open>\n<summary><code>MAX num</code></summary> \n\nlimits the results to a maximum of `num` (default: 5).\n</details>\n\n<details open>\n<summary><code>WITHSCORES</code></summary> \n\nalso returns the score of each suggestion. This can be used to merge results from multiple instances.\n</details>\n\n<details open>\n<summary><code>WITHPAYLOADS</code></summary> \n\nreturns optional payloads saved along with the suggestions. If no payload is present for an entry, it returns a null reply.\n</details>\n\n## Return\n\nFT.SUGGET returns an array reply, which is a list of the top suggestions matching the prefix, optionally with score after each entry.\n\n## Example\n\n<details open>\n<summary><b>Get completion suggestions for a prefix</b></summary>\n\n\n127.0.0.1:6379> FT.SUGGET sug hell FUZZY MAX 3 WITHSCORES\n1) \"hell\"\n2) \"2147483648\"\n3) \"hello\"\n4) \"0.70710676908493042\"\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | Not supported on clustered databases. |\n\n## Return information\n\n**RESP2:**\n\n[Array]() of the top suggestions matching the prefix, optionally with a score after each entry.\n\n**RESP3:**\n\n[Array]() of the top suggestions matching the prefix, optionally with a score after each entry.\n\n\n\n## See also\n\n[`FT.SUGADD`]() | [`FT.SUGDEL`]() | [`FT.SUGLEN`]() \n\n## Related topics\n\n[RediSearch]()",
+  "content": "Get completion suggestions for a prefix\n\n## Required arguments\n\n<details open>\n<summary><code>key</code></summary>\n\nis suggestion dictionary key.\n</details>\n\n<details open>\n<summary><code>prefix</code></summary>\n\nis prefix to complete on.\n</details>\n\n## Optional arguments\n\n<details open>\n<summary><code>FUZZY</code></summary> \n\nperforms a fuzzy prefix search, including prefixes at Levenshtein distance of 1 from the prefix sent.\n</details>\n\n<details open>\n<summary><code>MAX num</code></summary> \n\nlimits the results to a maximum of `num` (default: 5).\n</details>\n\n<details open>\n<summary><code>WITHSCORES</code></summary> \n\nalso returns the score of each suggestion. This can be used to merge results from multiple instances.\n</details>\n\n<details open>\n<summary><code>WITHPAYLOADS</code></summary> \n\nreturns optional payloads saved along with the suggestions. If no payload is present for an entry, it returns a null reply.\n</details>\n\n## Return\n\nFT.SUGGET returns an array reply, which is a list of the top suggestions matching the prefix, optionally with score after each entry.\n\n## Example\n\n<details open>\n<summary><b>Get completion suggestions for a prefix</b></summary>\n\n{{< highlight bash >}}\n127.0.0.1:6379> FT.SUGGET sug hell FUZZY MAX 3 WITHSCORES\n1) \"hell\"\n2) \"2147483648\"\n3) \"hello\"\n4) \"0.70710676908493042\"\n{{< / highlight >}}\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | Not supported on clustered databases. |\n\n## Return information\n\n{{< multitabs id=\"ft-sugget-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of the top suggestions matching the prefix, optionally with a score after each entry.\n\n-tab-sep-\n\n[Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of the top suggestions matching the prefix, optionally with a score after each entry.\n\n{{< /multitabs >}}\n\n## See also\n\n[`FT.SUGADD`]({{< relref \"commands/ft.sugadd/\" >}}) | [`FT.SUGDEL`]({{< relref \"commands/ft.sugdel/\" >}}) | [`FT.SUGLEN`]({{< relref \"commands/ft.suglen/\" >}}) \n\n## Related topics\n\n[RediSearch]({{< relref \"/develop/ai/search-and-query/\" >}})",
+  "example": "127.0.0.1:6379> FT.SUGGET sug hell FUZZY MAX 3 WITHSCORES\n1) \"hell\"\n2) \"2147483648\"\n3) \"hello\"\n4) \"0.70710676908493042\"",
   "intro": "Get completion suggestions for a prefix",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -123,7 +427,7 @@
     {
       "title": "Example",
       "level": 2,
-      "content": "<details open>\n<summary><b>Get completion suggestions for a prefix</b></summary>\n\n\n127.0.0.1:6379> FT.SUGGET sug hell FUZZY MAX 3 WITHSCORES\n1) \"hell\"\n2) \"2147483648\"\n3) \"hello\"\n4) \"0.70710676908493042\"\n\n</details>"
+      "content": "<details open>\n<summary><b>Get completion suggestions for a prefix</b></summary>\n\n{{< highlight bash >}}\n127.0.0.1:6379> FT.SUGGET sug hell FUZZY MAX 3 WITHSCORES\n1) \"hell\"\n2) \"2147483648\"\n3) \"hello\"\n4) \"0.70710676908493042\"\n{{< / highlight >}}\n</details>"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -133,17 +437,17 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Array]() of the top suggestions matching the prefix, optionally with a score after each entry.\n\n**RESP3:**\n\n[Array]() of the top suggestions matching the prefix, optionally with a score after each entry."
+      "content": "{{< multitabs id=\"ft-sugget-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of the top suggestions matching the prefix, optionally with a score after each entry.\n\n-tab-sep-\n\n[Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of the top suggestions matching the prefix, optionally with a score after each entry.\n\n{{< /multitabs >}}"
     },
     {
       "title": "See also",
       "level": 2,
-      "content": "[`FT.SUGADD`]() | [`FT.SUGDEL`]() | [`FT.SUGLEN`]()"
+      "content": "[`FT.SUGADD`]({{< relref \"commands/ft.sugadd/\" >}}) | [`FT.SUGDEL`]({{< relref \"commands/ft.sugdel/\" >}}) | [`FT.SUGLEN`]({{< relref \"commands/ft.suglen/\" >}})"
     },
     {
       "title": "Related topics",
       "level": 2,
-      "content": "[RediSearch]()"
+      "content": "[RediSearch]({{< relref \"/develop/ai/search-and-query/\" >}})"
     }
   ]
 }

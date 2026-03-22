@@ -1,26 +1,23 @@
-import { mkdir, rm, writeFile } from 'node:fs/promises'
+import { mkdir, readFile, readdir, rm, stat, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+
+import { parse as parseYaml } from 'yaml'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const rootDir = path.resolve(__dirname, '..')
 const outputDir = path.join(rootDir, 'src', 'data')
 const commandsDir = path.join(outputDir, 'commands')
 const publicDataDir = path.join(rootDir, 'public', 'data')
+const vendorDir = path.join(rootDir, 'vendor', 'redis-docs')
+const commandsSourceDir = path.join(vendorDir, 'content', 'commands')
+const apiMappingSourceDir = path.join(vendorDir, 'data', 'command-api-mapping')
+const sourceManifestPath = path.join(vendorDir, 'source-manifest.json')
 
 const COMMANDS_URL = 'https://redis.io/docs/latest/commands/'
-const INDEX_LINK_RE = /href="\/docs\/latest\/commands\/([^"/]+)\/"/g
-const METADATA_BLOCK_RE = /```json metadata\n([\s\S]*?)\n```\n?([\s\S]*)$/
-const DATE_MODIFIED_RE = /<meta itemprop="dateModified" content="([^"]+)"/
-const EXCLUDE_SLUGS = new Set([
-  'redis-8-6-commands',
-  'redis-8-4-commands',
-  'redis-8-2-commands',
-  'redis-8-0-commands',
-  'redis-7-4-commands',
-  'redis-7-2-commands',
-  'redis-6-2-commands',
-])
+const FRONTMATTER_RE = /^---\n([\s\S]*?)\n---\n?([\s\S]*)$/
+const LEADING_NOTE_RE =
+  /^\s*\{\{[<%]\s*note\b[^}]*[>%]\}\}\s*([\s\S]*?)\s*\{\{[<%]\s*\/note\s*[>%]\}\}\s*/i
 
 const GROUP_LABELS = {
   bitmap: 'Bitmaps',
@@ -54,30 +51,6 @@ const GROUP_LABELS = {
   vector_set: 'Vector Sets',
 }
 
-async function fetchText(url, attempt = 1) {
-  const response = await fetch(url, {
-    headers: {
-      'user-agent': 'RedisApiExplorer/1.0',
-      accept: 'text/html, text/markdown, application/json;q=0.9,*/*;q=0.8',
-    },
-  })
-
-  if (!response.ok) {
-    if (attempt < 4) {
-      await wait(250 * attempt)
-      return fetchText(url, attempt + 1)
-    }
-
-    throw new Error(`Request failed for ${url}: ${response.status} ${response.statusText}`)
-  }
-
-  return response.text()
-}
-
-function wait(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms))
-}
-
 function unique(values) {
   return [...new Set(values)]
 }
@@ -92,18 +65,50 @@ function getGroupLabel(group) {
   return GROUP_LABELS[group] ?? escapeTitleCase(group)
 }
 
-function stripBoilerplate(markdown) {
-  const legendIndex = markdown.indexOf('## Code Examples Legend')
-  if (legendIndex === -1) {
-    return markdown.trim()
+function normalizeSourceKey(value) {
+  return value.replace(/\s+/g, ' ').trim()
+}
+
+function splitOverviewBody(markdown) {
+  const headingIndex = markdown.search(/^##\s+/m)
+  if (headingIndex === -1) {
+    return {
+      preface: markdown.trim(),
+      remainder: '',
+    }
   }
 
-  const splitIndex = markdown.indexOf('\n---\n', legendIndex)
-  if (splitIndex === -1) {
-    return markdown.trim()
+  return {
+    preface: markdown.slice(0, headingIndex).trim(),
+    remainder: markdown.slice(headingIndex).trim(),
+  }
+}
+
+function extractLeadingNotes(markdown) {
+  const notes = []
+  let remaining = markdown.trim()
+
+  while (remaining) {
+    const match = LEADING_NOTE_RE.exec(remaining)
+    if (!match) {
+      break
+    }
+
+    notes.push(match[1].trim())
+    remaining = remaining.slice(match[0].length).trim()
   }
 
-  return markdown.slice(splitIndex + '\n---\n'.length).trim()
+  return {
+    intro: remaining,
+    notes,
+  }
+}
+
+function stripShortcodes(markdown) {
+  return markdown
+    .replace(/\{\{[<%]\s*\/?\s*[\w.-]+\b[^}]*[>%]\}\}/g, '')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim()
 }
 
 function buildSections(markdown) {
@@ -146,63 +151,121 @@ function buildSections(markdown) {
   return sections
 }
 
-function extractIntro(sections) {
-  const overview = sections.find((section) => section.title === 'Overview')
-  return overview?.content ?? ''
+function extractShortcodeBlock(markdown, name) {
+  const regex = new RegExp(
+    String.raw`\{\{[<%]\s*${name}\b[^}]*[>%]\}\}\s*([\s\S]*?)\s*\{\{[<%]\s*\/\s*${name}\s*[>%]\}\}`,
+    'i',
+  )
+
+  return regex.exec(markdown)?.[1]?.trim() ?? null
+}
+
+function normalizeExampleBlock(markdown) {
+  return markdown
+    .replace(/\r/g, '')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim()
+}
+
+function extractExample(sections) {
+  const exampleSection = sections.find((section) => /example/i.test(section.title))
+  if (!exampleSection) {
+    return null
+  }
+
+  const clientsExample = extractShortcodeBlock(exampleSection.content, 'clients-example')
+  if (clientsExample) {
+    return normalizeExampleBlock(clientsExample)
+  }
+
+  const redisCliExample = extractShortcodeBlock(exampleSection.content, 'redis-cli')
+  if (redisCliExample) {
+    return normalizeExampleBlock(redisCliExample)
+  }
+
+  const highlightedExample = extractShortcodeBlock(exampleSection.content, 'highlight')
+  if (highlightedExample) {
+    return normalizeExampleBlock(highlightedExample)
+  }
+
+  const fencedCodeMatch = /```[\w-]*\n([\s\S]*?)```/i.exec(exampleSection.content)
+  if (fencedCodeMatch?.[1]) {
+    return normalizeExampleBlock(fencedCodeMatch[1])
+  }
+
+  return null
 }
 
 function parseCommandMarkdown(slug, rawMarkdown) {
   const markdown = rawMarkdown.trim()
-  const match = METADATA_BLOCK_RE.exec(markdown)
+  const match = FRONTMATTER_RE.exec(markdown)
 
   if (!match) {
-    throw new Error(`Could not parse metadata block for ${slug}`)
+    throw new Error(`Could not parse frontmatter for ${slug}`)
   }
 
-  const metadata = JSON.parse(match[1])
-  const content = stripBoilerplate(match[2] ?? '')
-  const sections = buildSections(content)
+  const metadata = parseYaml(match[1]) ?? {}
+  const rawBody = match[2]?.trim() ?? ''
+  const { preface, remainder } = splitOverviewBody(rawBody)
+  const { intro, notes } = extractLeadingNotes(preface)
+  const sanitizedIntro = stripShortcodes(intro)
+  const sanitizedNotes = notes.map(stripShortcodes).filter(Boolean)
+  const normalizedBody = [sanitizedIntro, remainder].filter(Boolean).join('\n\n').trim()
+  const sections = buildSections(normalizedBody)
 
   return {
+    example: extractExample(sections),
     metadata,
-    content,
+    notes: sanitizedNotes,
     sections,
+    content: normalizedBody,
+    intro: sanitizedIntro,
   }
 }
 
-async function mapWithConcurrency(items, concurrency, handler) {
-  const results = new Array(items.length)
-  let cursor = 0
+function normalizeApiMethods(apiCalls) {
+  return Object.fromEntries(
+    Object.entries(apiCalls ?? {})
+      .map(([clientId, methods]) => {
+        const normalizedMethods = (methods ?? [])
+          .filter((method) => method?.signature?.trim())
+          .map((method) => ({
+            params: (method.params ?? []).map((param) => ({
+              description: param.description ?? '',
+              name: param.name ?? '',
+              type: param.type ?? '',
+            })),
+            returns: method.returns
+              ? {
+                  description: method.returns.description ?? '',
+                  type: method.returns.type ?? '',
+                }
+              : undefined,
+            signature: method.signature.trim(),
+          }))
 
-  async function worker() {
-    while (cursor < items.length) {
-      const index = cursor++
-      results[index] = await handler(items[index], index)
-    }
-  }
-
-  await Promise.all(
-    Array.from({ length: Math.min(concurrency, items.length) }, () => worker()),
+        return [clientId, normalizedMethods]
+      })
+      .filter(([, methods]) => methods.length),
   )
-
-  return results
 }
 
-function normalizeCommandRecord(slug, parsed) {
-  const { metadata, content, sections } = parsed
+function normalizeCommandRecord(slug, parsed, apiMethods) {
+  const { metadata, content, example, intro, notes, sections } = parsed
   const title = metadata.title?.trim()
   const group = metadata.group?.trim()
 
-  if (!title || !group) {
+  if (metadata.hidden || !title || !group) {
     return null
   }
 
   const docsUrl = `${COMMANDS_URL}${slug}/`
+  const description = metadata.description ?? metadata.summary ?? ''
 
   return {
     slug,
     title,
-    description: metadata.description ?? '',
+    description,
     docsUrl,
     group,
     groupLabel: getGroupLabel(group),
@@ -211,14 +274,17 @@ function normalizeCommandRecord(slug, parsed) {
     since: metadata.since ?? null,
     arity: metadata.arity ?? null,
     aclCategories: metadata.acl_categories ?? [],
+    apiMethods,
     commandFlags: metadata.command_flags ?? [],
     arguments: metadata.arguments ?? [],
     keySpecs: metadata.key_specs ?? [],
     redisCategories: unique(metadata.categories ?? []),
-    tableOfContents: metadata.tableOfContents ?? { sections: [] },
-    codeExamples: metadata.codeExamples ?? [],
+    tableOfContents: { sections: [] },
+    codeExamples: [],
     content,
-    intro: extractIntro(sections),
+    example,
+    intro: intro || description,
+    notes,
     sections,
   }
 }
@@ -245,34 +311,138 @@ function buildCategoryRecords(commands) {
     })
 }
 
+async function getSourceDate() {
+  try {
+    const manifest = JSON.parse(await readFile(sourceManifestPath, 'utf8'))
+    const dates = [
+      manifest.sources?.commands?.commitDate,
+      manifest.sources?.apiMapping?.commitDate,
+      manifest.mirroredAt,
+    ].filter(Boolean)
+
+    return dates.sort().at(-1) ?? null
+  } catch {
+    try {
+      const [commandsStat, apiMappingStat] = await Promise.all([
+        stat(commandsSourceDir),
+        stat(apiMappingSourceDir),
+      ])
+
+      return [commandsStat.mtime.toISOString(), apiMappingStat.mtime.toISOString()].sort().at(-1) ?? null
+    } catch {
+      return null
+    }
+  }
+}
+
+async function getSourceFiles(sourceDir, extension) {
+  const files = await readdir(sourceDir)
+  return files.filter((file) => file.endsWith(extension)).sort()
+}
+
+async function buildApiMappingLookup() {
+  const files = await getSourceFiles(apiMappingSourceDir, '.json')
+  const lookup = new Map()
+
+  for (const file of files) {
+    const raw = await readFile(path.join(apiMappingSourceDir, file), 'utf8')
+    const data = JSON.parse(raw)
+    lookup.set(normalizeSourceKey(path.basename(file, '.json')), normalizeApiMethods(data.api_calls))
+  }
+
+  return lookup
+}
+
+function validateRecords(records, apiMappingLookup) {
+  const seenSlugs = new Set()
+  const errors = []
+  const hasShortcode = (value) => /\{\{[<%]/.test(value)
+
+  for (const record of records) {
+    if (seenSlugs.has(record.slug)) {
+      errors.push(`${record.slug}: duplicate slug`)
+    }
+
+    seenSlugs.add(record.slug)
+
+    if (!record.title || !record.group || !record.syntax) {
+      errors.push(`${record.slug}: missing required command fields`)
+    }
+
+    if (!record.intro && !record.description) {
+      errors.push(`${record.slug}: missing intro and description`)
+    }
+
+    if (hasShortcode(record.intro)) {
+      errors.push(`${record.slug}: intro still contains shortcode markup`)
+    }
+
+    if (record.notes.some((note) => hasShortcode(note))) {
+      errors.push(`${record.slug}: note still contains shortcode markup`)
+    }
+
+    if (record.example && hasShortcode(record.example)) {
+      errors.push(`${record.slug}: example still contains shortcode markup`)
+    }
+
+    const expectedApiMethods = apiMappingLookup.get(normalizeSourceKey(record.title))
+    if (expectedApiMethods && Object.keys(expectedApiMethods).length && !Object.keys(record.apiMethods).length) {
+      errors.push(`${record.slug}: expected API methods were not attached`)
+    }
+  }
+
+  if (errors.length) {
+    throw new Error(`Command validation failed:\n${errors.slice(0, 20).join('\n')}`)
+  }
+}
+
+async function ensureLocalMirror() {
+  try {
+    await Promise.all([stat(commandsSourceDir), stat(apiMappingSourceDir)])
+  } catch {
+    throw new Error(
+      `Redis docs source mirror is missing. Run "npm run sync:redis-docs" first or copy the upstream source into ${vendorDir}.`,
+    )
+  }
+}
+
 async function main() {
-  console.log('Fetching commands index...')
-  const indexHtml = await fetchText(COMMANDS_URL)
-  const indexDate = DATE_MODIFIED_RE.exec(indexHtml)?.[1] ?? null
-  const discoveredSlugs = unique(
-    [...indexHtml.matchAll(INDEX_LINK_RE)]
-      .map((match) => match[1])
-      .filter((slug) => !EXCLUDE_SLUGS.has(slug)),
-  ).sort()
+  await ensureLocalMirror()
 
-  console.log(`Found ${discoveredSlugs.length} command pages`)
+  console.log('Reading Redis command source markdown from the local vendor mirror...')
 
-  const records = (
-    await mapWithConcurrency(discoveredSlugs, 12, async (slug, index) => {
-      const markdownUrl = `${COMMANDS_URL}${slug}/index.html.md`
-      console.log(`[${index + 1}/${discoveredSlugs.length}] ${slug}`)
-      const rawMarkdown = await fetchText(markdownUrl)
-      return normalizeCommandRecord(slug, parseCommandMarkdown(slug, rawMarkdown))
-    })
-  )
-    .filter(Boolean)
-    .sort((a, b) => {
-      if (a.group === b.group) {
-        return a.title.localeCompare(b.title)
-      }
+  const [commandFiles, apiMappingLookup, sourceDate] = await Promise.all([
+    getSourceFiles(commandsSourceDir, '.md'),
+    buildApiMappingLookup(),
+    getSourceDate(),
+  ])
 
-      return a.group.localeCompare(b.group)
-    })
+  console.log(`Found ${commandFiles.length} command markdown files`)
+
+  const records = []
+
+  for (const [index, file] of commandFiles.entries()) {
+    const slug = path.basename(file, '.md')
+    console.log(`[${index + 1}/${commandFiles.length}] ${slug}`)
+    const rawMarkdown = await readFile(path.join(commandsSourceDir, file), 'utf8')
+    const parsed = parseCommandMarkdown(slug, rawMarkdown)
+    const title = normalizeSourceKey(parsed.metadata.title?.trim() ?? '')
+    const apiMethods = title ? apiMappingLookup.get(title) ?? {} : {}
+    const record = normalizeCommandRecord(slug, parsed, apiMethods)
+    if (record) {
+      records.push(record)
+    }
+  }
+
+  records.sort((a, b) => {
+    if (a.group === b.group) {
+      return a.title.localeCompare(b.title)
+    }
+
+    return a.group.localeCompare(b.group)
+  })
+
+  validateRecords(records, apiMappingLookup)
 
   const commands = records.map((record) => ({
     arity: record.arity,
@@ -303,7 +473,7 @@ async function main() {
 
   const commandIndex = {
     generatedAt: new Date().toISOString(),
-    sourceDate: indexDate,
+    sourceDate,
     sourceUrl: COMMANDS_URL,
     commandCount: commands.length,
     categories: buildCategoryRecords(commands),
@@ -316,6 +486,7 @@ async function main() {
     JSON.stringify(commandIndex, null, 2) + '\n',
     'utf8',
   )
+
   await mkdir(publicDataDir, { recursive: true })
   await writeFile(
     path.join(publicDataDir, 'command-details.json'),

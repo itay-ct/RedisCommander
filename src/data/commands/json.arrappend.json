@@ -14,6 +14,462 @@
     "@write",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "str"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "Optional[str] = Path.root_path()"
+          },
+          {
+            "description": "",
+            "name": "*args",
+            "type": "JsonType"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List[Optional[int]]"
+        },
+        "signature": "arrappend(name: str, path: Optional[str] = Path.root_path(), *args: JsonType)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "Path"
+          },
+          {
+            "description": "",
+            "name": "pojos",
+            "type": "Object..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Long"
+        },
+        "signature": "Long jsonArrAppend(String key, Path path, Object... pojos)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "Path2"
+          },
+          {
+            "description": "",
+            "name": "objects",
+            "type": "Object..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List<Long>"
+        },
+        "signature": "List<Long> jsonArrAppend(String key, Path2 path, Object... objects)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the JsonPath pointing to the array inside the document.",
+            "name": "jsonPath",
+            "type": "JsonPath"
+          },
+          {
+            "description": "",
+            "name": "values",
+            "type": "JsonValue..."
+          }
+        ],
+        "returns": {
+          "description": "Long the resulting size of the arrays after the new data was appended, or null if the path does not exist. @since 6.8",
+          "type": "List<Long>"
+        },
+        "signature": "List<Long> jsonArrappend(K key, JsonPath jsonPath, JsonValue... values)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "values",
+            "type": "JsonValue..."
+          }
+        ],
+        "returns": {
+          "description": "Long the resulting size of the arrays after the new data was appended, or null if the path does not exist. @since 6.8",
+          "type": "List<Long>"
+        },
+        "signature": "List<Long> jsonArrappend(K key, JsonValue... values)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "one or more JSON strings to be appended.",
+            "name": "jsonStrings",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "Long the resulting size of the arrays after the new data was appended, or null if the path does not exist. @since 6.8",
+          "type": "List<Long>"
+        },
+        "signature": "List<Long> jsonArrappend(K key, String... jsonStrings)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the JsonPath pointing to the array inside the document.",
+            "name": "jsonPath",
+            "type": "JsonPath"
+          },
+          {
+            "description": "one or more JSON strings to be appended.",
+            "name": "jsonStrings",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "Long the resulting size of the arrays after the new data was appended, or null if the path does not exist. @since 6.8",
+          "type": "List<Long>"
+        },
+        "signature": "List<Long> jsonArrappend(K key, JsonPath jsonPath, String... jsonStrings)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the JsonPath pointing to the array inside the document.",
+            "name": "jsonPath",
+            "type": "JsonPath"
+          },
+          {
+            "description": "",
+            "name": "values",
+            "type": "JsonValue..."
+          }
+        ],
+        "returns": {
+          "description": "Long the resulting size of the arrays after the new data was appended, or null if the path does not exist. @since 6.8",
+          "type": "RedisFuture<List<Long>>"
+        },
+        "signature": "RedisFuture<List<Long>> jsonArrappend(K key, JsonPath jsonPath, JsonValue... values)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "values",
+            "type": "JsonValue..."
+          }
+        ],
+        "returns": {
+          "description": "Long the resulting size of the arrays after the new data was appended, or null if the path does not exist. @since 6.8",
+          "type": "RedisFuture<List<Long>>"
+        },
+        "signature": "RedisFuture<List<Long>> jsonArrappend(K key, JsonValue... values)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "one or more JSON strings to be appended.",
+            "name": "jsonStrings",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "Long the resulting size of the arrays after the new data was appended, or null if the path does not exist. @since 6.8",
+          "type": "RedisFuture<List<Long>>"
+        },
+        "signature": "RedisFuture<List<Long>> jsonArrappend(K key, String... jsonStrings)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the JsonPath pointing to the array inside the document.",
+            "name": "jsonPath",
+            "type": "JsonPath"
+          },
+          {
+            "description": "one or more JSON strings to be appended.",
+            "name": "jsonStrings",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "Long the resulting size of the arrays after the new data was appended, or null if the path does not exist. @since 6.8",
+          "type": "RedisFuture<List<Long>>"
+        },
+        "signature": "RedisFuture<List<Long>> jsonArrappend(K key, JsonPath jsonPath, String... jsonStrings)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the JsonPath pointing to the array inside the document.",
+            "name": "jsonPath",
+            "type": "JsonPath"
+          },
+          {
+            "description": "",
+            "name": "values",
+            "type": "JsonValue..."
+          }
+        ],
+        "returns": {
+          "description": "Long the resulting size of the arrays after the new data was appended, or null if the path does not exist. @since 6.8",
+          "type": "Flux<Long>"
+        },
+        "signature": "Flux<Long> jsonArrappend(K key, JsonPath jsonPath, JsonValue... values)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "values",
+            "type": "JsonValue..."
+          }
+        ],
+        "returns": {
+          "description": "Long the resulting size of the arrays after the new data was appended, or null if the path does not exist. @since 6.8",
+          "type": "Flux<Long>"
+        },
+        "signature": "Flux<Long> jsonArrappend(K key, JsonValue... values)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "one or more JSON strings to be appended.",
+            "name": "jsonStrings",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "Long the resulting size of the arrays after the new data was appended, or null if the path does not exist. @since 6.8",
+          "type": "Flux<Long>"
+        },
+        "signature": "Flux<Long> jsonArrappend(K key, String... jsonStrings)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the JsonPath pointing to the array inside the document.",
+            "name": "jsonPath",
+            "type": "JsonPath"
+          },
+          {
+            "description": "one or more JSON strings to be appended.",
+            "name": "jsonStrings",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "Long the resulting size of the arrays after the new data was appended, or null if the path does not exist. @since 6.8",
+          "type": "Flux<Long>"
+        },
+        "signature": "Flux<Long> jsonArrappend(K key, JsonPath jsonPath, String... jsonStrings)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "values",
+            "type": "...interface{}"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*IntSliceCmd"
+        },
+        "signature": "JSONArrAppend(ctx context.Context, key, path string, values ...interface{})"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "json",
+            "type": "RedisJSON"
+          },
+          {
+            "description": "",
+            "name": "...jsons",
+            "type": "Array<RedisJSON>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "ARRAPPEND(key: RedisArgument, path: RedisArgument, json: RedisJSON, ...jsons: Array<RedisJSON>)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "string?"
+          },
+          {
+            "description": "",
+            "name": "values",
+            "type": "object[]"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "long?[]"
+        },
+        "signature": "ArrAppend(RedisKey key, string? path = null, params object[] values)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "string $path = '$'",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "$value",
+            "type": "..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array"
+        },
+        "signature": "jsonarrappend(string $key, string $path = '$', ...$value)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -43,36 +499,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      },
-      {
-        "id": "see-also",
-        "title": "See also"
-      },
-      {
-        "id": "related-topics",
-        "title": "Related topics"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Append the JSON values into the array at `path` after the last element in it.\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open><summary><code>key</code></summary> \n\nis the key to modify.\n</details>\n\n<details open><summary><code>path</code></summary>\n\nis the JSONPath to specify.\n</details>\n\n<details open><summary><code>value</code></summary> \n\nis one or more values to append to one or more arrays. \n\n\nTo specify a string as an array value to append, wrap the quoted string with an additional set of single quotes. Example: `'\"silver\"'`. For more detailed use, see [Examples](#examples).\n\n</details>\n\n## Examples\n\n<details open>\n<summary><b>Add a new color to a list of product colors</b></summary>\n\nCreate a document for noise-cancelling headphones in black and silver colors.\n\n\nredis> JSON.SET item:1 $ '{\"name\":\"Noise-cancelling Bluetooth headphones\",\"description\":\"Wireless Bluetooth headphones with noise-cancelling technology\",\"connection\":{\"wireless\":true,\"type\":\"Bluetooth\"},\"price\":99.98,\"stock\":25,\"colors\":[\"black\",\"silver\"]}'\nOK\n\n\nAdd `blue` to the end of the `colors` array. `JSON.ARRAPPEND` returns the new length of the `colors` array.\n\n\nredis> JSON.ARRAPPEND item:1 $.colors '\"blue\"'\n1) (integer) 3\n\n\nGet the updated value of the `colors` array.\n\n\nredis> JSON.GET item:1 $.colors\n\"[[\\\"black\\\",\\\"silver\\\",\\\"blue\\\"]]\"\n\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\"><nobr>&#x2705; Flexible & Annual</nobr></span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nWith `$`-based path argument: [Array reply]() of [integer replies]() or [null replies](), where each element is the array's new length, or `null` if the matching value is not an array.\n\nWith `.`-based path argument: [Integer reply]() representing the array's new length, or [null reply]() if the matching value is not an array.\n\n**RESP3:**\n\nWith `$`-based path argument (default): [Array reply]() of [integer replies]() or [null replies](), where each element is the array's new length, or `null` if the matching value is not an array.\n\nWith `.`-based path argument: [Integer reply]() representing the array's new length, or [null reply]() if the matching value is not an array.\n\n\n\n## See also\n\n[`JSON.ARRINDEX`]() | [`JSON.ARRINSERT`]() \n\n## Related topics\n\n* [RedisJSON]()\n* [Index and search JSON documents]()",
+  "content": "Append the JSON values into the array at `path` after the last element in it.\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open><summary><code>key</code></summary> \n\nis the key to modify.\n</details>\n\n<details open><summary><code>path</code></summary>\n\nis the JSONPath to specify.\n</details>\n\n<details open><summary><code>value</code></summary> \n\nis one or more values to append to one or more arrays. \n\n{{% alert title=\"About using strings with JSON commands\" color=\"warning\" %}}\nTo specify a string as an array value to append, wrap the quoted string with an additional set of single quotes. Example: `'\"silver\"'`. For more detailed use, see [Examples](#examples).\n{{% /alert %}}\n</details>\n\n## Examples\n\n<details open>\n<summary><b>Add a new color to a list of product colors</b></summary>\n\nCreate a document for noise-cancelling headphones in black and silver colors.\n\n{{< highlight bash >}}\nredis> JSON.SET item:1 $ '{\"name\":\"Noise-cancelling Bluetooth headphones\",\"description\":\"Wireless Bluetooth headphones with noise-cancelling technology\",\"connection\":{\"wireless\":true,\"type\":\"Bluetooth\"},\"price\":99.98,\"stock\":25,\"colors\":[\"black\",\"silver\"]}'\nOK\n{{< / highlight >}}\n\nAdd `blue` to the end of the `colors` array. `JSON.ARRAPPEND` returns the new length of the `colors` array.\n\n{{< highlight bash >}}\nredis> JSON.ARRAPPEND item:1 $.colors '\"blue\"'\n1) (integer) 3\n{{< / highlight >}}\n\nGet the updated value of the `colors` array.\n\n{{< highlight bash >}}\nredis> JSON.GET item:1 $.colors\n\"[[\\\"black\\\",\\\"silver\\\",\\\"blue\\\"]]\"\n{{< / highlight >}}\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\"><nobr>&#x2705; Flexible & Annual</nobr></span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"json-arrappend-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\nWith `$`-based path argument: [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [integer replies]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) or [null replies]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}), where each element is the array's new length, or `null` if the matching value is not an array.\n\nWith `.`-based path argument: [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) representing the array's new length, or [null reply]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}) if the matching value is not an array.\n\n-tab-sep-\n\nWith `$`-based path argument (default): [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [integer replies]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) or [null replies]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}), where each element is the array's new length, or `null` if the matching value is not an array.\n\nWith `.`-based path argument: [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) representing the array's new length, or [null reply]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}) if the matching value is not an array.\n\n{{< /multitabs >}}\n\n## See also\n\n[`JSON.ARRINDEX`]({{< relref \"commands/json.arrindex/\" >}}) | [`JSON.ARRINSERT`]({{< relref \"commands/json.arrinsert/\" >}}) \n\n## Related topics\n\n* [RedisJSON]({{< relref \"/develop/data-types/json/\" >}})\n* [Index and search JSON documents]({{< relref \"/develop/ai/search-and-query/indexing/\" >}})",
+  "example": "redis> JSON.SET item:1 $ '{\"name\":\"Noise-cancelling Bluetooth headphones\",\"description\":\"Wireless Bluetooth headphones with noise-cancelling technology\",\"connection\":{\"wireless\":true,\"type\":\"Bluetooth\"},\"price\":99.98,\"stock\":25,\"colors\":[\"black\",\"silver\"]}'\nOK",
   "intro": "Append the JSON values into the array at `path` after the last element in it.\n\n[Examples](#examples)",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -82,12 +515,12 @@
     {
       "title": "Required arguments",
       "level": 2,
-      "content": "<details open><summary><code>key</code></summary> \n\nis the key to modify.\n</details>\n\n<details open><summary><code>path</code></summary>\n\nis the JSONPath to specify.\n</details>\n\n<details open><summary><code>value</code></summary> \n\nis one or more values to append to one or more arrays. \n\n\nTo specify a string as an array value to append, wrap the quoted string with an additional set of single quotes. Example: `'\"silver\"'`. For more detailed use, see [Examples](#examples).\n\n</details>"
+      "content": "<details open><summary><code>key</code></summary> \n\nis the key to modify.\n</details>\n\n<details open><summary><code>path</code></summary>\n\nis the JSONPath to specify.\n</details>\n\n<details open><summary><code>value</code></summary> \n\nis one or more values to append to one or more arrays. \n\n{{% alert title=\"About using strings with JSON commands\" color=\"warning\" %}}\nTo specify a string as an array value to append, wrap the quoted string with an additional set of single quotes. Example: `'\"silver\"'`. For more detailed use, see [Examples](#examples).\n{{% /alert %}}\n</details>"
     },
     {
       "title": "Examples",
       "level": 2,
-      "content": "<details open>\n<summary><b>Add a new color to a list of product colors</b></summary>\n\nCreate a document for noise-cancelling headphones in black and silver colors.\n\n\nredis> JSON.SET item:1 $ '{\"name\":\"Noise-cancelling Bluetooth headphones\",\"description\":\"Wireless Bluetooth headphones with noise-cancelling technology\",\"connection\":{\"wireless\":true,\"type\":\"Bluetooth\"},\"price\":99.98,\"stock\":25,\"colors\":[\"black\",\"silver\"]}'\nOK\n\n\nAdd `blue` to the end of the `colors` array. `JSON.ARRAPPEND` returns the new length of the `colors` array.\n\n\nredis> JSON.ARRAPPEND item:1 $.colors '\"blue\"'\n1) (integer) 3\n\n\nGet the updated value of the `colors` array.\n\n\nredis> JSON.GET item:1 $.colors\n\"[[\\\"black\\\",\\\"silver\\\",\\\"blue\\\"]]\"\n\n\n</details>"
+      "content": "<details open>\n<summary><b>Add a new color to a list of product colors</b></summary>\n\nCreate a document for noise-cancelling headphones in black and silver colors.\n\n{{< highlight bash >}}\nredis> JSON.SET item:1 $ '{\"name\":\"Noise-cancelling Bluetooth headphones\",\"description\":\"Wireless Bluetooth headphones with noise-cancelling technology\",\"connection\":{\"wireless\":true,\"type\":\"Bluetooth\"},\"price\":99.98,\"stock\":25,\"colors\":[\"black\",\"silver\"]}'\nOK\n{{< / highlight >}}\n\nAdd `blue` to the end of the `colors` array. `JSON.ARRAPPEND` returns the new length of the `colors` array.\n\n{{< highlight bash >}}\nredis> JSON.ARRAPPEND item:1 $.colors '\"blue\"'\n1) (integer) 3\n{{< / highlight >}}\n\nGet the updated value of the `colors` array.\n\n{{< highlight bash >}}\nredis> JSON.GET item:1 $.colors\n\"[[\\\"black\\\",\\\"silver\\\",\\\"blue\\\"]]\"\n{{< / highlight >}}\n\n</details>"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -97,17 +530,17 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nWith `$`-based path argument: [Array reply]() of [integer replies]() or [null replies](), where each element is the array's new length, or `null` if the matching value is not an array.\n\nWith `.`-based path argument: [Integer reply]() representing the array's new length, or [null reply]() if the matching value is not an array.\n\n**RESP3:**\n\nWith `$`-based path argument (default): [Array reply]() of [integer replies]() or [null replies](), where each element is the array's new length, or `null` if the matching value is not an array.\n\nWith `.`-based path argument: [Integer reply]() representing the array's new length, or [null reply]() if the matching value is not an array."
+      "content": "{{< multitabs id=\"json-arrappend-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\nWith `$`-based path argument: [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [integer replies]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) or [null replies]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}), where each element is the array's new length, or `null` if the matching value is not an array.\n\nWith `.`-based path argument: [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) representing the array's new length, or [null reply]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}) if the matching value is not an array.\n\n-tab-sep-\n\nWith `$`-based path argument (default): [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [integer replies]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) or [null replies]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}), where each element is the array's new length, or `null` if the matching value is not an array.\n\nWith `.`-based path argument: [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) representing the array's new length, or [null reply]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}) if the matching value is not an array.\n\n{{< /multitabs >}}"
     },
     {
       "title": "See also",
       "level": 2,
-      "content": "[`JSON.ARRINDEX`]() | [`JSON.ARRINSERT`]()"
+      "content": "[`JSON.ARRINDEX`]({{< relref \"commands/json.arrindex/\" >}}) | [`JSON.ARRINSERT`]({{< relref \"commands/json.arrinsert/\" >}})"
     },
     {
       "title": "Related topics",
       "level": 2,
-      "content": "* [RedisJSON]()\n* [Index and search JSON documents]()"
+      "content": "* [RedisJSON]({{< relref \"/develop/data-types/json/\" >}})\n* [Index and search JSON documents]({{< relref \"/develop/ai/search-and-query/indexing/\" >}})"
     }
   ]
 }

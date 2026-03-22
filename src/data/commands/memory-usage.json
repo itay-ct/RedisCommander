@@ -13,6 +13,185 @@
     "@read",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "samples",
+            "type": "int | None"
+          },
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "int"
+        },
+        "signature": "memory_usage(key: KeyT, samples: int | None = None, **kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Long"
+        },
+        "signature": "Long memoryUsage(String key)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "samples",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Long"
+        },
+        "signature": "Long memoryUsage(String key, int samples)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "samples",
+            "type": "...int"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*IntCmd"
+        },
+        "signature": "MemoryUsage(ctx context.Context, key string, samples ...int) *IntCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "The key to get memory usage for",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "Optional parameters including SAMPLES",
+            "name": "options",
+            "type": "MemoryUsageOptions"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "NumberReply | NullReply"
+        },
+        "signature": "memoryUsage(key: RedisArgument, options?: MemoryUsageOptions)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Long"
+        },
+        "signature": "Long memoryUsage(K key)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "RedisFuture<Long>"
+        },
+        "signature": "RedisFuture<Long> memoryUsage(K key)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Mono<Long>"
+        },
+        "signature": "Mono<Long> memoryUsage(K key)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$subcommand",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$args",
+            "type": "mixed"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "int"
+        },
+        "signature": "memory(string $subcommand, ...$args)"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly"
   ],
@@ -61,24 +240,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "The `MEMORY USAGE` command reports the number of bytes that a key and its value\nrequire to be stored in RAM.\n\nThe reported usage is the total of memory allocations for data and\nadministrative overheads that a key and its value require.\n\nFor nested data types, the optional `SAMPLES` option can be provided, where\n`count` is the number of sampled nested values. The samples are averaged to estimate the total size.\nBy default, this option is set to `5`. To sample the all of the nested values, use `SAMPLES 0`.\n\n## Examples\n\nWith Redis v7.2.0 64-bit and **jemalloc**, the empty string measures as follows:\n\n```\n> SET \"\" \"\"\nOK\n> MEMORY USAGE \"\"\n(integer) 56\n```\n\nThese bytes are pure overhead at the moment as no actual data is stored, and are\nused for maintaining the internal data structures of the server (include internal allocator fragmentation). Longer keys and\nvalues show asymptotically linear usage.\n\n```\n> SET foo bar\nOK\n> MEMORY USAGE foo\n(integer) 56\n> SET foo2 mybar\nOK\n> MEMORY USAGE foo2\n(integer) 64\n> SET foo3 0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789\nOK\n> MEMORY USAGE foo3\n(integer) 160\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n|<span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Not supported for [scripts]() in Redis versions earlier than 7. |\n\nNote: key memory usage is different on Redis Software or Redis Cloud active-active databases than on non-active-active databases. This is because memory usage includes some amount of CRDB overhead.\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): the memory usage in bytes.\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the key does not exist.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): the memory usage in bytes.\n* [Null reply](../../develop/reference/protocol-spec#nulls): if the key does not exist.",
+  "content": "The `MEMORY USAGE` command reports the number of bytes that a key and its value\nrequire to be stored in RAM.\n\nThe reported usage is the total of memory allocations for data and\nadministrative overheads that a key and its value require.\n\nFor nested data types, the optional `SAMPLES` option can be provided, where\n`count` is the number of sampled nested values. The samples are averaged to estimate the total size.\nBy default, this option is set to `5`. To sample the all of the nested values, use `SAMPLES 0`.\n\n## Examples\n\nWith Redis v7.2.0 64-bit and **jemalloc**, the empty string measures as follows:\n\n```\n> SET \"\" \"\"\nOK\n> MEMORY USAGE \"\"\n(integer) 56\n```\n\nThese bytes are pure overhead at the moment as no actual data is stored, and are\nused for maintaining the internal data structures of the server (include internal allocator fragmentation). Longer keys and\nvalues show asymptotically linear usage.\n\n```\n> SET foo bar\nOK\n> MEMORY USAGE foo\n(integer) 56\n> SET foo2 mybar\nOK\n> MEMORY USAGE foo2\n(integer) 64\n> SET foo3 0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789\nOK\n> MEMORY USAGE foo3\n(integer) 160\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n|<span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Not supported for [scripts]({{<relref \"/develop/programmability\">}}) in Redis versions earlier than 7. |\n\nNote: key memory usage is different on Redis Software or Redis Cloud active-active databases than on non-active-active databases. This is because memory usage includes some amount of CRDB overhead.\n\n## Return information\n\n{{< multitabs id=\"memory-usage-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): the memory usage in bytes.\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the key does not exist.\n\n-tab-sep-\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): the memory usage in bytes.\n* [Null reply](../../develop/reference/protocol-spec#nulls): if the key does not exist.\n\n{{< /multitabs >}}",
+  "example": "> SET \"\" \"\"\nOK\n> MEMORY USAGE \"\"\n(integer) 56",
   "intro": "The `MEMORY USAGE` command reports the number of bytes that a key and its value\nrequire to be stored in RAM.\n\nThe reported usage is the total of memory allocations for data and\nadministrative overheads that a key and its value require.\n\nFor nested data types, the optional `SAMPLES` option can be provided, where\n`count` is the number of sampled nested values. The samples are averaged to estimate the total size.\nBy default, this option is set to `5`. To sample the all of the nested values, use `SAMPLES 0`.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -93,12 +261,12 @@
     {
       "title": "Redis Software and Redis Cloud compatibility",
       "level": 2,
-      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n|<span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Not supported for [scripts]() in Redis versions earlier than 7. |\n\nNote: key memory usage is different on Redis Software or Redis Cloud active-active databases than on non-active-active databases. This is because memory usage includes some amount of CRDB overhead."
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n|<span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Not supported for [scripts]({{<relref \"/develop/programmability\">}}) in Redis versions earlier than 7. |\n\nNote: key memory usage is different on Redis Software or Redis Cloud active-active databases than on non-active-active databases. This is because memory usage includes some amount of CRDB overhead."
     },
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): the memory usage in bytes.\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the key does not exist.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): the memory usage in bytes.\n* [Null reply](../../develop/reference/protocol-spec#nulls): if the key does not exist."
+      "content": "{{< multitabs id=\"memory-usage-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): the memory usage in bytes.\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the key does not exist.\n\n-tab-sep-\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): the memory usage in bytes.\n* [Null reply](../../develop/reference/protocol-spec#nulls): if the key does not exist.\n\n{{< /multitabs >}}"
     }
   ]
 }

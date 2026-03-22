@@ -14,6 +14,296 @@
     "@write",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "str"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "str"
+          },
+          {
+            "description": "",
+            "name": "start",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "stop",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List[Optional[int]]"
+        },
+        "signature": "arrtrim(name: str, path: str, start: int, stop: int)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "Path"
+          },
+          {
+            "description": "",
+            "name": "start",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "stop",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Long"
+        },
+        "signature": "Long jsonArrTrim(String key, Path path, int start, int stop)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "Path2"
+          },
+          {
+            "description": "",
+            "name": "start",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "stop",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List<Long>"
+        },
+        "signature": "List<Long> jsonArrTrim(String key, Path2 path, int start, int stop)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the JsonPath pointing to the array inside the document.",
+            "name": "jsonPath",
+            "type": "JsonPath"
+          },
+          {
+            "description": "the JsonRangeArgs to trim by.",
+            "name": "range",
+            "type": "JsonRangeArgs"
+          }
+        ],
+        "returns": {
+          "description": "Long the resulting size of the arrays after the trimming, or null if the path does not exist. @since 6.5",
+          "type": "List<Long>"
+        },
+        "signature": "List<Long> jsonArrtrim(K key, JsonPath jsonPath, JsonRangeArgs range)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the JsonPath pointing to the array inside the document.",
+            "name": "jsonPath",
+            "type": "JsonPath"
+          },
+          {
+            "description": "the JsonRangeArgs to trim by.",
+            "name": "range",
+            "type": "JsonRangeArgs"
+          }
+        ],
+        "returns": {
+          "description": "Long the resulting size of the arrays after the trimming, or null if the path does not exist. @since 6.5",
+          "type": "RedisFuture<List<Long>>"
+        },
+        "signature": "RedisFuture<List<Long>> jsonArrtrim(K key, JsonPath jsonPath, JsonRangeArgs range)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the JsonPath pointing to the array inside the document.",
+            "name": "jsonPath",
+            "type": "JsonPath"
+          },
+          {
+            "description": "the JsonRangeArgs to trim by.",
+            "name": "range",
+            "type": "JsonRangeArgs"
+          }
+        ],
+        "returns": {
+          "description": "Long the resulting size of the arrays after the trimming, or null if the path does not exist. @since 6.5",
+          "type": "Flux<Long>"
+        },
+        "signature": "Flux<Long> jsonArrtrim(K key, JsonPath jsonPath, JsonRangeArgs range)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*IntSliceCmd"
+        },
+        "signature": "JSONArrTrim(ctx context.Context, key, path string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "start",
+            "type": "number"
+          },
+          {
+            "description": "",
+            "name": "stop",
+            "type": "number"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "ARRTRIM(key: RedisArgument, path: RedisArgument, start: number, stop: number)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "start",
+            "type": "long"
+          },
+          {
+            "description": "",
+            "name": "stop",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "long?[]"
+        },
+        "signature": "ArrTrim(RedisKey key, string path, long start, long stop)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$path",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$start",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "$stop",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array"
+        },
+        "signature": "jsonarrtrim(string $key, string $path, int $start, int $stop)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -45,40 +335,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "optional-arguments",
-        "title": "Optional arguments"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      },
-      {
-        "id": "see-also",
-        "title": "See also"
-      },
-      {
-        "id": "related-topics",
-        "title": "Related topics"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Trim an array so that it contains only the specified inclusive range of elements\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open><summary><code>key</code></summary> \n\nis key to modify.\n</details>\n\n## Optional arguments\n\n<details open><summary><code>path</code></summary> \n\nis JSONPath to specify. Default is root `$`.\n</details>\n\n<details open><summary><code>start</code></summary> \n\nis index of the first element to keep (previous elements are trimmed). Default is 0. \n</details>\n\n<details open><summary><code>stop</code></summary> \n\nis the index of the last element to keep (following elements are trimmed), including the last element. Default is 0. Negative values are interpreted as starting from the end.\n</details>\n\n\n\nJSON.ARRTRIM is extremely forgiving, and using it with out-of-range indexes does not produce an error. Note a few differences between how RedisJSON v2.0 and legacy versions handle out-of-range indexes.\n\nBehavior as of RedisJSON v2.0:\n\n* If `start` is larger than the array's size or `start` > `stop`, returns 0 and an empty array. \n* If `start` is < 0, then start from the end of the array.\n* If `stop` is larger than the end of the array, it is treated like the last element.\n\n\n## Examples\n\n<details open>\n<summary><b>Trim an array to a specific set of values</b></summary>\n\nCreate two headphone products with maximum sound levels.\n\n\nredis> JSON.SET key $\n\"[{\\\"name\\\":\\\"Healthy headphones\\\",\\\"description\\\":\\\"Wireless Bluetooth headphones with noise-cancelling technology\\\",\\\"connection\\\":{\\\"wireless\\\":true,\\\"type\\\":\\\"Bluetooth\\\"},\\\"price\\\":99.98,\\\"stock\\\":25,\\\"colors\\\":[\\\"black\\\",\\\"silver\\\"],\\\"max_level\\\":[60,70,80]},{\\\"name\\\":\\\"Noisy headphones\\\",\\\"description\\\":\\\"Wireless Bluetooth headphones with noise-cancelling technology\\\",\\\"connection\\\":{\\\"wireless\\\":true,\\\"type\\\":\\\"Bluetooth\\\"},\\\"price\\\":99.98,\\\"stock\\\":25,\\\"colors\\\":[\\\"black\\\",\\\"silver\\\"],\\\"max_level\\\":[85,90,100,120]}]\"\nOK\n\n\nAdd new sound level values to the second product.\n\n\nredis> JSON.ARRAPPEND key $.[1].max_level 140 160 180 200 220 240 260 280\n1) (integer) 12\n\n\nGet the updated array.\n\n\nredis> JSON.GET key $.[1].max_level\n\"[[85,90,100,120,140,160,180,200,220,240,260,280]]\"\n\n\nKeep only the values between the fifth and the ninth element, inclusive of that last element.\n\n\nredis> JSON.ARRTRIM key $.[1].max_level 4 8\n1) (integer) 5\n\n\nGet the updated array.\n\n\nredis> JSON.GET key $.[1].max_level\n\"[[140,160,180,200,220]]\"\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nWith `$`-based path argument: [Array reply]() of [integer replies]() or [null replies](), where each element is the array's new size, or `null` if the matching value is not an array.\n\nWith `.`-based path argument: [Integer reply]() representing the array's new size, or [null reply]() if the matching value is not an array.\n\n**RESP3:**\n\nWith `$`-based path argument (default): [Array reply]() of [integer replies]() or [null replies](), where each element is the array's new size, or `null` if the matching value is not an array.\n\nWith `.`-based path argument: [Integer reply]() representing the array's new size, or [null reply]() if the matching value is not an array.\n\n\n\n## See also\n\n[`JSON.ARRINDEX`]() | [`JSON.ARRINSERT`]() \n\n## Related topics\n\n* [RedisJSON]()\n* [Index and search JSON documents]()",
+  "content": "Trim an array so that it contains only the specified inclusive range of elements\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open><summary><code>key</code></summary> \n\nis key to modify.\n</details>\n\n## Optional arguments\n\n<details open><summary><code>path</code></summary> \n\nis JSONPath to specify. Default is root `$`.\n</details>\n\n<details open><summary><code>start</code></summary> \n\nis index of the first element to keep (previous elements are trimmed). Default is 0. \n</details>\n\n<details open><summary><code>stop</code></summary> \n\nis the index of the last element to keep (following elements are trimmed), including the last element. Default is 0. Negative values are interpreted as starting from the end.\n</details>\n\n{{% alert title=\"About out-of-range indexes\" color=\"warning\" %}}\n\nJSON.ARRTRIM is extremely forgiving, and using it with out-of-range indexes does not produce an error. Note a few differences between how RedisJSON v2.0 and legacy versions handle out-of-range indexes.\n\nBehavior as of RedisJSON v2.0:\n\n* If `start` is larger than the array's size or `start` > `stop`, returns 0 and an empty array. \n* If `start` is < 0, then start from the end of the array.\n* If `stop` is larger than the end of the array, it is treated like the last element.\n{{% /alert %}}\n\n## Examples\n\n<details open>\n<summary><b>Trim an array to a specific set of values</b></summary>\n\nCreate two headphone products with maximum sound levels.\n\n{{< highlight bash >}}\nredis> JSON.SET key $\n\"[{\\\"name\\\":\\\"Healthy headphones\\\",\\\"description\\\":\\\"Wireless Bluetooth headphones with noise-cancelling technology\\\",\\\"connection\\\":{\\\"wireless\\\":true,\\\"type\\\":\\\"Bluetooth\\\"},\\\"price\\\":99.98,\\\"stock\\\":25,\\\"colors\\\":[\\\"black\\\",\\\"silver\\\"],\\\"max_level\\\":[60,70,80]},{\\\"name\\\":\\\"Noisy headphones\\\",\\\"description\\\":\\\"Wireless Bluetooth headphones with noise-cancelling technology\\\",\\\"connection\\\":{\\\"wireless\\\":true,\\\"type\\\":\\\"Bluetooth\\\"},\\\"price\\\":99.98,\\\"stock\\\":25,\\\"colors\\\":[\\\"black\\\",\\\"silver\\\"],\\\"max_level\\\":[85,90,100,120]}]\"\nOK\n{{< / highlight >}}\n\nAdd new sound level values to the second product.\n\n{{< highlight bash >}}\nredis> JSON.ARRAPPEND key $.[1].max_level 140 160 180 200 220 240 260 280\n1) (integer) 12\n{{< / highlight >}}\n\nGet the updated array.\n\n{{< highlight bash >}}\nredis> JSON.GET key $.[1].max_level\n\"[[85,90,100,120,140,160,180,200,220,240,260,280]]\"\n{{< / highlight >}}\n\nKeep only the values between the fifth and the ninth element, inclusive of that last element.\n\n{{< highlight bash >}}\nredis> JSON.ARRTRIM key $.[1].max_level 4 8\n1) (integer) 5\n{{< / highlight >}}\n\nGet the updated array.\n\n{{< highlight bash >}}\nredis> JSON.GET key $.[1].max_level\n\"[[140,160,180,200,220]]\"\n{{< / highlight >}}\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"json-arrtrim-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\nWith `$`-based path argument: [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [integer replies]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) or [null replies]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}), where each element is the array's new size, or `null` if the matching value is not an array.\n\nWith `.`-based path argument: [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) representing the array's new size, or [null reply]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}) if the matching value is not an array.\n\n-tab-sep-\n\nWith `$`-based path argument (default): [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [integer replies]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) or [null replies]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}), where each element is the array's new size, or `null` if the matching value is not an array.\n\nWith `.`-based path argument: [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) representing the array's new size, or [null reply]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}) if the matching value is not an array.\n\n{{< /multitabs >}}\n\n## See also\n\n[`JSON.ARRINDEX`]({{< relref \"commands/json.arrindex/\" >}}) | [`JSON.ARRINSERT`]({{< relref \"commands/json.arrinsert/\" >}}) \n\n## Related topics\n\n* [RedisJSON]({{< relref \"/develop/data-types/json/\" >}})\n* [Index and search JSON documents]({{< relref \"/develop/ai/search-and-query/indexing/\" >}})",
+  "example": "redis> JSON.SET key $\n\"[{\\\"name\\\":\\\"Healthy headphones\\\",\\\"description\\\":\\\"Wireless Bluetooth headphones with noise-cancelling technology\\\",\\\"connection\\\":{\\\"wireless\\\":true,\\\"type\\\":\\\"Bluetooth\\\"},\\\"price\\\":99.98,\\\"stock\\\":25,\\\"colors\\\":[\\\"black\\\",\\\"silver\\\"],\\\"max_level\\\":[60,70,80]},{\\\"name\\\":\\\"Noisy headphones\\\",\\\"description\\\":\\\"Wireless Bluetooth headphones with noise-cancelling technology\\\",\\\"connection\\\":{\\\"wireless\\\":true,\\\"type\\\":\\\"Bluetooth\\\"},\\\"price\\\":99.98,\\\"stock\\\":25,\\\"colors\\\":[\\\"black\\\",\\\"silver\\\"],\\\"max_level\\\":[85,90,100,120]}]\"\nOK",
   "intro": "Trim an array so that it contains only the specified inclusive range of elements\n\n[Examples](#examples)",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -93,12 +356,12 @@
     {
       "title": "Optional arguments",
       "level": 2,
-      "content": "<details open><summary><code>path</code></summary> \n\nis JSONPath to specify. Default is root `$`.\n</details>\n\n<details open><summary><code>start</code></summary> \n\nis index of the first element to keep (previous elements are trimmed). Default is 0. \n</details>\n\n<details open><summary><code>stop</code></summary> \n\nis the index of the last element to keep (following elements are trimmed), including the last element. Default is 0. Negative values are interpreted as starting from the end.\n</details>\n\n\n\nJSON.ARRTRIM is extremely forgiving, and using it with out-of-range indexes does not produce an error. Note a few differences between how RedisJSON v2.0 and legacy versions handle out-of-range indexes.\n\nBehavior as of RedisJSON v2.0:\n\n* If `start` is larger than the array's size or `start` > `stop`, returns 0 and an empty array. \n* If `start` is < 0, then start from the end of the array.\n* If `stop` is larger than the end of the array, it is treated like the last element."
+      "content": "<details open><summary><code>path</code></summary> \n\nis JSONPath to specify. Default is root `$`.\n</details>\n\n<details open><summary><code>start</code></summary> \n\nis index of the first element to keep (previous elements are trimmed). Default is 0. \n</details>\n\n<details open><summary><code>stop</code></summary> \n\nis the index of the last element to keep (following elements are trimmed), including the last element. Default is 0. Negative values are interpreted as starting from the end.\n</details>\n\n{{% alert title=\"About out-of-range indexes\" color=\"warning\" %}}\n\nJSON.ARRTRIM is extremely forgiving, and using it with out-of-range indexes does not produce an error. Note a few differences between how RedisJSON v2.0 and legacy versions handle out-of-range indexes.\n\nBehavior as of RedisJSON v2.0:\n\n* If `start` is larger than the array's size or `start` > `stop`, returns 0 and an empty array. \n* If `start` is < 0, then start from the end of the array.\n* If `stop` is larger than the end of the array, it is treated like the last element.\n{{% /alert %}}"
     },
     {
       "title": "Examples",
       "level": 2,
-      "content": "<details open>\n<summary><b>Trim an array to a specific set of values</b></summary>\n\nCreate two headphone products with maximum sound levels.\n\n\nredis> JSON.SET key $\n\"[{\\\"name\\\":\\\"Healthy headphones\\\",\\\"description\\\":\\\"Wireless Bluetooth headphones with noise-cancelling technology\\\",\\\"connection\\\":{\\\"wireless\\\":true,\\\"type\\\":\\\"Bluetooth\\\"},\\\"price\\\":99.98,\\\"stock\\\":25,\\\"colors\\\":[\\\"black\\\",\\\"silver\\\"],\\\"max_level\\\":[60,70,80]},{\\\"name\\\":\\\"Noisy headphones\\\",\\\"description\\\":\\\"Wireless Bluetooth headphones with noise-cancelling technology\\\",\\\"connection\\\":{\\\"wireless\\\":true,\\\"type\\\":\\\"Bluetooth\\\"},\\\"price\\\":99.98,\\\"stock\\\":25,\\\"colors\\\":[\\\"black\\\",\\\"silver\\\"],\\\"max_level\\\":[85,90,100,120]}]\"\nOK\n\n\nAdd new sound level values to the second product.\n\n\nredis> JSON.ARRAPPEND key $.[1].max_level 140 160 180 200 220 240 260 280\n1) (integer) 12\n\n\nGet the updated array.\n\n\nredis> JSON.GET key $.[1].max_level\n\"[[85,90,100,120,140,160,180,200,220,240,260,280]]\"\n\n\nKeep only the values between the fifth and the ninth element, inclusive of that last element.\n\n\nredis> JSON.ARRTRIM key $.[1].max_level 4 8\n1) (integer) 5\n\n\nGet the updated array.\n\n\nredis> JSON.GET key $.[1].max_level\n\"[[140,160,180,200,220]]\"\n\n</details>"
+      "content": "<details open>\n<summary><b>Trim an array to a specific set of values</b></summary>\n\nCreate two headphone products with maximum sound levels.\n\n{{< highlight bash >}}\nredis> JSON.SET key $\n\"[{\\\"name\\\":\\\"Healthy headphones\\\",\\\"description\\\":\\\"Wireless Bluetooth headphones with noise-cancelling technology\\\",\\\"connection\\\":{\\\"wireless\\\":true,\\\"type\\\":\\\"Bluetooth\\\"},\\\"price\\\":99.98,\\\"stock\\\":25,\\\"colors\\\":[\\\"black\\\",\\\"silver\\\"],\\\"max_level\\\":[60,70,80]},{\\\"name\\\":\\\"Noisy headphones\\\",\\\"description\\\":\\\"Wireless Bluetooth headphones with noise-cancelling technology\\\",\\\"connection\\\":{\\\"wireless\\\":true,\\\"type\\\":\\\"Bluetooth\\\"},\\\"price\\\":99.98,\\\"stock\\\":25,\\\"colors\\\":[\\\"black\\\",\\\"silver\\\"],\\\"max_level\\\":[85,90,100,120]}]\"\nOK\n{{< / highlight >}}\n\nAdd new sound level values to the second product.\n\n{{< highlight bash >}}\nredis> JSON.ARRAPPEND key $.[1].max_level 140 160 180 200 220 240 260 280\n1) (integer) 12\n{{< / highlight >}}\n\nGet the updated array.\n\n{{< highlight bash >}}\nredis> JSON.GET key $.[1].max_level\n\"[[85,90,100,120,140,160,180,200,220,240,260,280]]\"\n{{< / highlight >}}\n\nKeep only the values between the fifth and the ninth element, inclusive of that last element.\n\n{{< highlight bash >}}\nredis> JSON.ARRTRIM key $.[1].max_level 4 8\n1) (integer) 5\n{{< / highlight >}}\n\nGet the updated array.\n\n{{< highlight bash >}}\nredis> JSON.GET key $.[1].max_level\n\"[[140,160,180,200,220]]\"\n{{< / highlight >}}\n</details>"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -108,17 +371,17 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nWith `$`-based path argument: [Array reply]() of [integer replies]() or [null replies](), where each element is the array's new size, or `null` if the matching value is not an array.\n\nWith `.`-based path argument: [Integer reply]() representing the array's new size, or [null reply]() if the matching value is not an array.\n\n**RESP3:**\n\nWith `$`-based path argument (default): [Array reply]() of [integer replies]() or [null replies](), where each element is the array's new size, or `null` if the matching value is not an array.\n\nWith `.`-based path argument: [Integer reply]() representing the array's new size, or [null reply]() if the matching value is not an array."
+      "content": "{{< multitabs id=\"json-arrtrim-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\nWith `$`-based path argument: [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [integer replies]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) or [null replies]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}), where each element is the array's new size, or `null` if the matching value is not an array.\n\nWith `.`-based path argument: [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) representing the array's new size, or [null reply]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}) if the matching value is not an array.\n\n-tab-sep-\n\nWith `$`-based path argument (default): [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [integer replies]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) or [null replies]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}), where each element is the array's new size, or `null` if the matching value is not an array.\n\nWith `.`-based path argument: [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) representing the array's new size, or [null reply]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}) if the matching value is not an array.\n\n{{< /multitabs >}}"
     },
     {
       "title": "See also",
       "level": 2,
-      "content": "[`JSON.ARRINDEX`]() | [`JSON.ARRINSERT`]()"
+      "content": "[`JSON.ARRINDEX`]({{< relref \"commands/json.arrindex/\" >}}) | [`JSON.ARRINSERT`]({{< relref \"commands/json.arrinsert/\" >}})"
     },
     {
       "title": "Related topics",
       "level": 2,
-      "content": "* [RedisJSON]()\n* [Index and search JSON documents]()"
+      "content": "* [RedisJSON]({{< relref \"/develop/data-types/json/\" >}})\n* [Index and search JSON documents]({{< relref \"/develop/ai/search-and-query/indexing/\" >}})"
     }
   ]
 }

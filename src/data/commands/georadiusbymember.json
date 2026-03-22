@@ -14,6 +14,759 @@
     "@geo",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "member",
+            "type": "FieldT"
+          },
+          {
+            "description": "",
+            "name": "radius",
+            "type": "float"
+          },
+          {
+            "description": "",
+            "name": "unit",
+            "type": "Optional[str] = None"
+          },
+          {
+            "description": "",
+            "name": "withdist",
+            "type": "bool = False"
+          },
+          {
+            "description": "",
+            "name": "withcoord",
+            "type": "bool = False"
+          },
+          {
+            "description": "",
+            "name": "withhash",
+            "type": "bool = False"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "Optional[int] = None"
+          },
+          {
+            "description": "",
+            "name": "sort",
+            "type": "Optional[str] = None"
+          },
+          {
+            "description": "",
+            "name": "store",
+            "type": "Union[KeyT, None] = None"
+          },
+          {
+            "description": "",
+            "name": "store_dist",
+            "type": "Union[KeyT, None] = None"
+          },
+          {
+            "description": "",
+            "name": "any",
+            "type": "bool = False"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "ResponseT"
+        },
+        "signature": "georadiusbymember(, name: KeyT,, member: FieldT,, radius: float,, unit: Optional[str] = None,, withdist: bool = False,, withcoord: bool = False,, withhash: bool = False,, count: Optional[int] = None,, sort: Optional[str] = None,, store: Union[KeyT, None] = None,, store_dist: Union[KeyT, None] = None,, any: bool = False,)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "byte[]"
+          },
+          {
+            "description": "of the area",
+            "name": "radius",
+            "type": "byte[] member final double"
+          },
+          {
+            "description": "can be M, KM, MI or FT",
+            "name": "unit",
+            "type": "GeoUnit"
+          }
+        ],
+        "returns": {
+          "description": "List of GeoRadiusResponse",
+          "type": "List<GeoRadiusResponse>"
+        },
+        "signature": "List<GeoRadiusResponse> georadiusByMember(final byte[] key, final byte[] member final double radius, final GeoUnit unit)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "byte[]"
+          },
+          {
+            "description": "of the area",
+            "name": "radius",
+            "type": "byte[] member final double"
+          },
+          {
+            "description": "can be M, KM, MI or FT",
+            "name": "unit",
+            "type": "GeoUnit"
+          },
+          {
+            "description": "GeoRadiusParam",
+            "name": "param",
+            "type": "GeoRadiusParam"
+          }
+        ],
+        "returns": {
+          "description": "List of GeoRadiusResponse",
+          "type": "List<GeoRadiusResponse>"
+        },
+        "signature": "List<GeoRadiusResponse> georadiusByMember(final byte[] key, final byte[] member final double radius, final GeoUnit unit, final GeoRadiusParam param)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "of the area",
+            "name": "radius",
+            "type": "String member final double"
+          },
+          {
+            "description": "can be M, KM, MI or FT",
+            "name": "unit",
+            "type": "GeoUnit"
+          }
+        ],
+        "returns": {
+          "description": "List of GeoRadiusResponse",
+          "type": "List<GeoRadiusResponse>"
+        },
+        "signature": "List<GeoRadiusResponse> georadiusByMember(final String key, final String member final double radius, final GeoUnit unit)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "of the area",
+            "name": "radius",
+            "type": "String member final double"
+          },
+          {
+            "description": "can be M, KM, MI or FT",
+            "name": "unit",
+            "type": "GeoUnit"
+          },
+          {
+            "description": "GeoRadiusParam",
+            "name": "param",
+            "type": "GeoRadiusParam"
+          }
+        ],
+        "returns": {
+          "description": "List of GeoRadiusResponse",
+          "type": "List<GeoRadiusResponse>"
+        },
+        "signature": "List<GeoRadiusResponse> georadiusByMember(final String key, final String member final double radius, final GeoUnit unit, final GeoRadiusParam param)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "represents the center of the area",
+            "name": "member",
+            "type": "String"
+          },
+          {
+            "description": "of the area",
+            "name": "radius",
+            "type": "double"
+          },
+          {
+            "description": "can be M, KM, MI or FT",
+            "name": "unit",
+            "type": "GeoUnit"
+          }
+        ],
+        "returns": {
+          "description": "List of GeoRadiusResponse",
+          "type": "List<GeoRadiusResponse>"
+        },
+        "signature": "List<GeoRadiusResponse> georadiusByMember(String key, String member, double radius, GeoUnit unit)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the key of the geo set.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "reference member.",
+            "name": "member",
+            "type": "V"
+          },
+          {
+            "description": "radius distance.",
+            "name": "distance",
+            "type": "double"
+          },
+          {
+            "description": "distance unit.",
+            "name": "unit",
+            "type": "GeoArgs.Unit"
+          }
+        ],
+        "returns": {
+          "description": "Long integer-reply the number of elements in the result.",
+          "type": "Set<V>"
+        },
+        "signature": "Set<V> georadiusbymember(K key, V member, double distance, GeoArgs.Unit unit)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key of the geo set.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "reference member.",
+            "name": "member",
+            "type": "V"
+          },
+          {
+            "description": "radius distance.",
+            "name": "distance",
+            "type": "double"
+          },
+          {
+            "description": "distance unit.",
+            "name": "unit",
+            "type": "GeoArgs.Unit"
+          },
+          {
+            "description": "",
+            "name": "geoArgs",
+            "type": "GeoArgs"
+          }
+        ],
+        "returns": {
+          "description": "Long integer-reply the number of elements in the result.",
+          "type": "List<GeoWithin<V>>"
+        },
+        "signature": "List<GeoWithin<V>> georadiusbymember(K key, V member, double distance, GeoArgs.Unit unit, GeoArgs geoArgs)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key of the geo set.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "reference member.",
+            "name": "member",
+            "type": "V"
+          },
+          {
+            "description": "radius distance.",
+            "name": "distance",
+            "type": "double"
+          },
+          {
+            "description": "distance unit.",
+            "name": "unit",
+            "type": "GeoArgs.Unit"
+          },
+          {
+            "description": "their locations a sorted set.",
+            "name": "geoRadiusStoreArgs",
+            "type": "GeoRadiusStoreArgs<K>"
+          }
+        ],
+        "returns": {
+          "description": "Long integer-reply the number of elements in the result.",
+          "type": "Long"
+        },
+        "signature": "Long georadiusbymember(K key, V member, double distance, GeoArgs.Unit unit, GeoRadiusStoreArgs<K> geoRadiusStoreArgs)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the key of the geo set.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "reference member.",
+            "name": "member",
+            "type": "V"
+          },
+          {
+            "description": "radius distance.",
+            "name": "distance",
+            "type": "double"
+          },
+          {
+            "description": "distance unit.",
+            "name": "unit",
+            "type": "GeoArgs.Unit"
+          }
+        ],
+        "returns": {
+          "description": "Long integer-reply the number of elements in the result.",
+          "type": "RedisFuture<Set<V>>"
+        },
+        "signature": "RedisFuture<Set<V>> georadiusbymember(K key, V member, double distance, GeoArgs.Unit unit)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key of the geo set.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "reference member.",
+            "name": "member",
+            "type": "V"
+          },
+          {
+            "description": "radius distance.",
+            "name": "distance",
+            "type": "double"
+          },
+          {
+            "description": "distance unit.",
+            "name": "unit",
+            "type": "GeoArgs.Unit"
+          },
+          {
+            "description": "",
+            "name": "geoArgs",
+            "type": "GeoArgs"
+          }
+        ],
+        "returns": {
+          "description": "Long integer-reply the number of elements in the result.",
+          "type": "RedisFuture<List<GeoWithin<V>>>"
+        },
+        "signature": "RedisFuture<List<GeoWithin<V>>> georadiusbymember(K key, V member, double distance, GeoArgs.Unit unit, GeoArgs geoArgs)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key of the geo set.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "reference member.",
+            "name": "member",
+            "type": "V"
+          },
+          {
+            "description": "radius distance.",
+            "name": "distance",
+            "type": "double"
+          },
+          {
+            "description": "their locations a sorted set.",
+            "name": "geoRadiusStoreArgs",
+            "type": "GeoArgs.Unit unit GeoRadiusStoreArgs<K>"
+          }
+        ],
+        "returns": {
+          "description": "Long integer-reply the number of elements in the result.",
+          "type": "RedisFuture<Long>"
+        },
+        "signature": "RedisFuture<Long> georadiusbymember(K key, V member, double distance, GeoArgs.Unit unit GeoRadiusStoreArgs<K> geoRadiusStoreArgs)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the key of the geo set.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "reference member.",
+            "name": "member",
+            "type": "V"
+          },
+          {
+            "description": "radius distance.",
+            "name": "distance",
+            "type": "double"
+          },
+          {
+            "description": "distance unit.",
+            "name": "unit",
+            "type": "GeoArgs.Unit"
+          }
+        ],
+        "returns": {
+          "description": "Long integer-reply the number of elements in the result.",
+          "type": "Flux<V>"
+        },
+        "signature": "Flux<V> georadiusbymember(K key, V member, double distance, GeoArgs.Unit unit)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key of the geo set.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "reference member.",
+            "name": "member",
+            "type": "V"
+          },
+          {
+            "description": "radius distance.",
+            "name": "distance",
+            "type": "double"
+          },
+          {
+            "description": "distance unit.",
+            "name": "unit",
+            "type": "GeoArgs.Unit"
+          },
+          {
+            "description": "",
+            "name": "geoArgs",
+            "type": "GeoArgs"
+          }
+        ],
+        "returns": {
+          "description": "Long integer-reply the number of elements in the result.",
+          "type": "Flux<GeoWithin<V>>"
+        },
+        "signature": "Flux<GeoWithin<V>> georadiusbymember(K key, V member, double distance, GeoArgs.Unit unit, GeoArgs geoArgs)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key of the geo set.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "reference member.",
+            "name": "member",
+            "type": "V"
+          },
+          {
+            "description": "radius distance.",
+            "name": "distance",
+            "type": "double"
+          },
+          {
+            "description": "distance unit.",
+            "name": "unit",
+            "type": "GeoArgs.Unit"
+          },
+          {
+            "description": "their locations a sorted set.",
+            "name": "geoRadiusStoreArgs",
+            "type": "GeoRadiusStoreArgs<K>"
+          }
+        ],
+        "returns": {
+          "description": "Long integer-reply the number of elements in the result.",
+          "type": "Mono<Long>"
+        },
+        "signature": "Mono<Long> georadiusbymember(K key, V member, double distance, GeoArgs.Unit unit, GeoRadiusStoreArgs<K> geoRadiusStoreArgs)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "member",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "query",
+            "type": "*GeoRadiusQuery"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*GeoLocationCmd"
+        },
+        "signature": "GeoRadiusByMember(ctx context.Context, key, member string, query *GeoRadiusQuery)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "from",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "radius",
+            "type": "number"
+          },
+          {
+            "description": "",
+            "name": "unit",
+            "type": "GeoUnits"
+          },
+          {
+            "description": "",
+            "name": "options?",
+            "type": "GeoSearchOptions"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "GEORADIUSBYMEMBER(key: RedisArgument, from: RedisArgument, radius: number, unit: GeoUnits, options?: GeoSearchOptions)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, key"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "georadiusbymember(...args: [, key: RedisKey, member: string | Buffer | number, radius: number | string, ...args: RedisValue[], callback: Callback<unknown>, ])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, key"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "georadiusbymember(...args: [, key: RedisKey, member: string | Buffer | number, radius: number | string, ...args: RedisValue[], ])"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "member",
+            "type": "M"
+          },
+          {
+            "description": "",
+            "name": "radius",
+            "type": "f64"
+          },
+          {
+            "description": "",
+            "name": "unit",
+            "type": "geo"
+          },
+          {
+            "description": "",
+            "name": "options",
+            "type": "geo"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Vec<geo::RadiusSearchResult>)"
+        },
+        "signature": "geo_radius_by_member(key: K, member: M, radius: f64, unit: geo::Unit, options: geo::RadiusOptions)"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "member",
+            "type": "M"
+          },
+          {
+            "description": "",
+            "name": "radius",
+            "type": "f64"
+          },
+          {
+            "description": "",
+            "name": "unit",
+            "type": "geo"
+          },
+          {
+            "description": "",
+            "name": "options",
+            "type": "geo"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Vec<geo::RadiusSearchResult>)"
+        },
+        "signature": "geo_radius_by_member(key: K, member: M, radius: f64, unit: geo::Unit, options: geo::RadiusOptions)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$member",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "$radius",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "$unit",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "?array $options = null",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array"
+        },
+        "signature": "georadiusbymember(string $key, $member, $radius, $unit, ?array $options = null)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "member",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "radius",
+            "type": "Float"
+          },
+          {
+            "description": "m|km|ft|mi",
+            "name": "unit",
+            "type": "String"
+          },
+          {
+            "description": "asc or desc",
+            "name": "sort",
+            "type": "String"
+          },
+          {
+            "description": "limit the results",
+            "name": "count",
+            "type": "Integer"
+          },
+          {
+            "description": "WITHDIST, WITHCOORD, WITHHASH",
+            "name": "options",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Array<String>"
+        },
+        "signature": "georadiusbymember(*args, **geoptions)"
+      }
+    ]
+  },
   "commandFlags": [
     "write",
     "denyoom",
@@ -217,34 +970,25 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nThis command is exactly like [`GEORADIUS`]() with the sole difference that instead\nof taking, as the center of the area to query, a longitude and latitude value, it takes the name of a member already existing inside the geospatial index represented by the sorted set.\n\nThe position of the specified member is used as the center of the query.\n\nPlease check the example below and the [`GEORADIUS`]() documentation for more information about the command and its options.\n\nNote that [`GEORADIUSBYMEMBER_RO`]() is also available since Redis 3.2.10 and Redis 4.0.0 in order to provide a read-only command that can be used in replicas. See the [`GEORADIUS`]() page for more information.\n\n## Examples\n\n\nGEOADD Sicily 13.583333 37.316667 \"Agrigento\"\nGEOADD Sicily 13.361389 38.115556 \"Palermo\" 15.087269 37.502669 \"Catania\"\nGEORADIUSBYMEMBER Sicily Agrigento 100 km\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v6.2.0. |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* If no `WITH*` option is specified, an [Array reply](../../develop/reference/protocol-spec#arrays) of matched member names\n* If `WITHCOORD`, `WITHDIST`, or `WITHHASH` options are specified, the command returns an [Array reply](../../develop/reference/protocol-spec#arrays) of arrays, where each sub-array represents a single item:\n    * The distance from the center as a floating point number, in the same unit specified in the radius.\n    * The Geohash integer.\n    * The coordinates as a two items x,y array (longitude,latitude).\n\n**RESP3:**\n\nOne of the following:\n* If no `WITH*` option is specified, an [Array reply](../../develop/reference/protocol-spec#arrays) of matched member names\n* If `WITHCOORD`, `WITHDIST`, or `WITHHASH` options are specified, the command returns an [Array reply](../../develop/reference/protocol-spec#arrays) of arrays, where each sub-array represents a single item:\n    * The distance from the center as a floating point number, in the same unit specified in the radius.\n    * The Geohash integer.\n    * The coordinates as a two items x,y array (longitude,latitude).",
-  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nThis command is exactly like [`GEORADIUS`]() with the sole difference that instead\nof taking, as the center of the area to query, a longitude and latitude value, it takes the name of a member already existing inside the geospatial index represented by the sorted set.\n\nThe position of the specified member is used as the center of the query.\n\nPlease check the example below and the [`GEORADIUS`]() documentation for more information about the command and its options.\n\nNote that [`GEORADIUSBYMEMBER_RO`]() is also available since Redis 3.2.10 and Redis 4.0.0 in order to provide a read-only command that can be used in replicas. See the [`GEORADIUS`]() page for more information.",
+  "content": "This command is exactly like [`GEORADIUS`]() with the sole difference that instead\nof taking, as the center of the area to query, a longitude and latitude value, it takes the name of a member already existing inside the geospatial index represented by the sorted set.\n\nThe position of the specified member is used as the center of the query.\n\nPlease check the example below and the [`GEORADIUS`]() documentation for more information about the command and its options.\n\nNote that [`GEORADIUSBYMEMBER_RO`]() is also available since Redis 3.2.10 and Redis 4.0.0 in order to provide a read-only command that can be used in replicas. See the [`GEORADIUS`]() page for more information.\n\n## Examples\n\n{{% redis-cli %}}\nGEOADD Sicily 13.583333 37.316667 \"Agrigento\"\nGEOADD Sicily 13.361389 38.115556 \"Palermo\" 15.087269 37.502669 \"Catania\"\nGEORADIUSBYMEMBER Sicily Agrigento 100 km\n{{% /redis-cli %}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v6.2.0. |\n\n## Return information\n\n{{< multitabs id=\"georadiusbymember-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* If no `WITH*` option is specified, an [Array reply](../../develop/reference/protocol-spec#arrays) of matched member names\n* If `WITHCOORD`, `WITHDIST`, or `WITHHASH` options are specified, the command returns an [Array reply](../../develop/reference/protocol-spec#arrays) of arrays, where each sub-array represents a single item:\n    * The distance from the center as a floating point number, in the same unit specified in the radius.\n    * The Geohash integer.\n    * The coordinates as a two items x,y array (longitude,latitude).\n\n-tab-sep-\n\nOne of the following:\n* If no `WITH*` option is specified, an [Array reply](../../develop/reference/protocol-spec#arrays) of matched member names\n* If `WITHCOORD`, `WITHDIST`, or `WITHHASH` options are specified, the command returns an [Array reply](../../develop/reference/protocol-spec#arrays) of arrays, where each sub-array represents a single item:\n    * The distance from the center as a floating point number, in the same unit specified in the radius.\n    * The Geohash integer.\n    * The coordinates as a two items x,y array (longitude,latitude).\n\n{{< /multitabs >}}",
+  "example": "GEOADD Sicily 13.583333 37.316667 \"Agrigento\"\nGEOADD Sicily 13.361389 38.115556 \"Palermo\" 15.087269 37.502669 \"Catania\"\nGEORADIUSBYMEMBER Sicily Agrigento 100 km",
+  "intro": "This command is exactly like [`GEORADIUS`]() with the sole difference that instead\nof taking, as the center of the area to query, a longitude and latitude value, it takes the name of a member already existing inside the geospatial index represented by the sorted set.\n\nThe position of the specified member is used as the center of the query.\n\nPlease check the example below and the [`GEORADIUS`]() documentation for more information about the command and its options.\n\nNote that [`GEORADIUSBYMEMBER_RO`]() is also available since Redis 3.2.10 and Redis 4.0.0 in order to provide a read-only command that can be used in replicas. See the [`GEORADIUS`]() page for more information.",
+  "notes": [
+    "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information."
+  ],
   "sections": [
     {
       "title": "Overview",
       "level": 1,
-      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nThis command is exactly like [`GEORADIUS`]() with the sole difference that instead\nof taking, as the center of the area to query, a longitude and latitude value, it takes the name of a member already existing inside the geospatial index represented by the sorted set.\n\nThe position of the specified member is used as the center of the query.\n\nPlease check the example below and the [`GEORADIUS`]() documentation for more information about the command and its options.\n\nNote that [`GEORADIUSBYMEMBER_RO`]() is also available since Redis 3.2.10 and Redis 4.0.0 in order to provide a read-only command that can be used in replicas. See the [`GEORADIUS`]() page for more information."
+      "content": "This command is exactly like [`GEORADIUS`]() with the sole difference that instead\nof taking, as the center of the area to query, a longitude and latitude value, it takes the name of a member already existing inside the geospatial index represented by the sorted set.\n\nThe position of the specified member is used as the center of the query.\n\nPlease check the example below and the [`GEORADIUS`]() documentation for more information about the command and its options.\n\nNote that [`GEORADIUSBYMEMBER_RO`]() is also available since Redis 3.2.10 and Redis 4.0.0 in order to provide a read-only command that can be used in replicas. See the [`GEORADIUS`]() page for more information."
     },
     {
       "title": "Examples",
       "level": 2,
-      "content": "GEOADD Sicily 13.583333 37.316667 \"Agrigento\"\nGEOADD Sicily 13.361389 38.115556 \"Palermo\" 15.087269 37.502669 \"Catania\"\nGEORADIUSBYMEMBER Sicily Agrigento 100 km"
+      "content": "{{% redis-cli %}}\nGEOADD Sicily 13.583333 37.316667 \"Agrigento\"\nGEOADD Sicily 13.361389 38.115556 \"Palermo\" 15.087269 37.502669 \"Catania\"\nGEORADIUSBYMEMBER Sicily Agrigento 100 km\n{{% /redis-cli %}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -254,7 +998,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* If no `WITH*` option is specified, an [Array reply](../../develop/reference/protocol-spec#arrays) of matched member names\n* If `WITHCOORD`, `WITHDIST`, or `WITHHASH` options are specified, the command returns an [Array reply](../../develop/reference/protocol-spec#arrays) of arrays, where each sub-array represents a single item:\n    * The distance from the center as a floating point number, in the same unit specified in the radius.\n    * The Geohash integer.\n    * The coordinates as a two items x,y array (longitude,latitude).\n\n**RESP3:**\n\nOne of the following:\n* If no `WITH*` option is specified, an [Array reply](../../develop/reference/protocol-spec#arrays) of matched member names\n* If `WITHCOORD`, `WITHDIST`, or `WITHHASH` options are specified, the command returns an [Array reply](../../develop/reference/protocol-spec#arrays) of arrays, where each sub-array represents a single item:\n    * The distance from the center as a floating point number, in the same unit specified in the radius.\n    * The Geohash integer.\n    * The coordinates as a two items x,y array (longitude,latitude)."
+      "content": "{{< multitabs id=\"georadiusbymember-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* If no `WITH*` option is specified, an [Array reply](../../develop/reference/protocol-spec#arrays) of matched member names\n* If `WITHCOORD`, `WITHDIST`, or `WITHHASH` options are specified, the command returns an [Array reply](../../develop/reference/protocol-spec#arrays) of arrays, where each sub-array represents a single item:\n    * The distance from the center as a floating point number, in the same unit specified in the radius.\n    * The Geohash integer.\n    * The coordinates as a two items x,y array (longitude,latitude).\n\n-tab-sep-\n\nOne of the following:\n* If no `WITH*` option is specified, an [Array reply](../../develop/reference/protocol-spec#arrays) of matched member names\n* If `WITHCOORD`, `WITHDIST`, or `WITHHASH` options are specified, the command returns an [Array reply](../../develop/reference/protocol-spec#arrays) of arrays, where each sub-array represents a single item:\n    * The distance from the center as a floating point number, in the same unit specified in the radius.\n    * The Geohash integer.\n    * The coordinates as a two items x,y array (longitude,latitude).\n\n{{< /multitabs >}}"
     }
   ]
 }

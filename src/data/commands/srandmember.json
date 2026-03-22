@@ -14,6 +14,397 @@
     "@set",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "number",
+            "type": "Optional[int] = None"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Union[Awaitable[Union[str, List, None]], str, List, None]"
+        },
+        "signature": "srandmember(name: KeyT, number: Optional[int] = None)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "A list of randomly selected elements",
+          "type": "String"
+        },
+        "signature": "String srandmember(final String key)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "If negative the behavior changes and the command is allowed to return the same element multiple times",
+            "name": "count",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "A list of randomly selected elements",
+          "type": "List<String>"
+        },
+        "signature": "List<String> srandmember(final String key, final int count)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "Long count of members of the resulting set.",
+          "type": "V"
+        },
+        "signature": "V srandmember(K key)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the count.",
+            "name": "count",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "Long count of members of the resulting set.",
+          "type": "List<V>"
+        },
+        "signature": "List<V> srandmember(K key, long count)"
+      },
+      {
+        "params": [
+          {
+            "description": "streaming channel that receives a call for every value.",
+            "name": "channel",
+            "type": "ValueStreamingChannel<V>"
+          },
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the count.",
+            "name": "count",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "Long count of members of the resulting set.",
+          "type": "Long"
+        },
+        "signature": "Long srandmember(ValueStreamingChannel<V> channel, K key, long count)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "Long count of members of the resulting set.",
+          "type": "RedisFuture<V>"
+        },
+        "signature": "RedisFuture<V> srandmember(K key)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the count.",
+            "name": "count",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "Long count of members of the resulting set.",
+          "type": "RedisFuture<List<V>>"
+        },
+        "signature": "RedisFuture<List<V>> srandmember(K key, long count)"
+      },
+      {
+        "params": [
+          {
+            "description": "streaming channel that receives a call for every value.",
+            "name": "channel",
+            "type": "ValueStreamingChannel<V>"
+          },
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the count.",
+            "name": "count",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "Long count of members of the resulting set.",
+          "type": "RedisFuture<Long>"
+        },
+        "signature": "RedisFuture<Long> srandmember(ValueStreamingChannel<V> channel, K key, long count)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "Long count of members of the resulting set. @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #srandmember.",
+          "type": "Mono<V>"
+        },
+        "signature": "Mono<V> srandmember(K key)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the count.",
+            "name": "count",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "Long count of members of the resulting set. @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #srandmember.",
+          "type": "Flux<V>"
+        },
+        "signature": "Flux<V> srandmember(K key, long count)"
+      },
+      {
+        "params": [
+          {
+            "description": "streaming channel that receives a call for every value.",
+            "name": "channel",
+            "type": "ValueStreamingChannel<V>"
+          },
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the count.",
+            "name": "count",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "Long count of members of the resulting set. @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #srandmember.",
+          "type": "Mono<Long>"
+        },
+        "signature": "Mono<Long> srandmember(ValueStreamingChannel<V> channel, K key, long count)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StringCmd"
+        },
+        "signature": "SRandMember(ctx context.Context, key string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "SRANDMEMBER(key: RedisArgument)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<string | null>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "srandmember(key: RedisKey, callback?: Callback<string | null>)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "number | string"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<string[]>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "srandmember(key: RedisKey, count: number | string, callback?: Callback<string[]>)"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Option<String>)"
+        },
+        "signature": "srandmember(key: K)"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Option<String>)"
+        },
+        "signature": "srandmember(key: K)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "?int $count = null",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "string|null"
+        },
+        "signature": "srandmember(string $key, ?int $count = null)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "Integer"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "String"
+        },
+        "signature": "srandmember(key, count = nil)"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly"
   ],
@@ -63,32 +454,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "specification-of-the-behavior-when-count-is-passed",
-        "title": "Specification of the behavior when count is passed"
-      },
-      {
-        "id": "distribution-of-returned-elements",
-        "title": "Distribution of returned elements"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "When called with just the `key` argument, return a random element from the set value stored at `key`.\n\nIf the provided `count` argument is positive, return an array of **distinct elements**.\nThe array's length is either `count` or the set's cardinality ([`SCARD`]()), whichever is lower.\n\nIf called with a negative `count`, the behavior changes and the command is allowed to return the **same element multiple times**.\nIn this case, the number of returned elements is the absolute value of the specified `count`.\n\n## Examples\n\n\nSADD myset one two three\nSRANDMEMBER myset\nSRANDMEMBER myset 2\nSRANDMEMBER myset -5\n\n\n## Specification of the behavior when count is passed\n\nWhen the `count` argument is a positive value this command behaves as follows:\n\n* No repeated elements are returned.\n* If `count` is bigger than the set's cardinality, the command will only return the whole set without additional elements.\n* The order of elements in the reply is not truly random, so it is up to the client to shuffle them if needed.\n\nWhen the `count` is a negative value, the behavior changes as follows:\n\n* Repeating elements are possible.\n* Exactly `count` elements, or an empty array if the set is empty (non-existing key), are always returned.\n* The order of elements in the reply is truly random.\n\n## Distribution of returned elements\n\nNote: this section is relevant only for Redis 5 or below, as Redis 6 implements a fairer algorithm. \n\nThe distribution of the returned elements is far from perfect when the number of elements in the set is small, this is due to the fact that we used an approximated random element function that does not really guarantees good distribution.\n\nThe algorithm used, that is implemented inside dict.c, samples the hash table buckets to find a non-empty one. Once a non empty bucket is found, since we use chaining in our hash table implementation, the number of elements inside the bucket is checked and a random element is selected.\n\nThis means that if you have two non-empty buckets in the entire hash table, and one has three elements while one has just one, the element that is alone in its bucket will be returned with much higher probability.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): without the additional _count_ argument, the command returns a randomly selected member, or a [Nil reply](../../develop/reference/protocol-spec#bulk-strings) when _key_ doesn't exist.\n* [Array reply](../../develop/reference/protocol-spec#arrays): when the optional _count_ argument is passed, the command returns an array of members, or an empty array when _key_ doesn't exist.\n\n**RESP3:**\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): without the additional _count_ argument, the command returns a randomly selected member, or a [Null reply](../../develop/reference/protocol-spec#nulls) when _key_ doesn't exist.\n* [Array reply](../../develop/reference/protocol-spec#arrays): when the optional _count_ argument is passed, the command returns an array of members, or an empty array when _key_ doesn't exist.",
+  "content": "When called with just the `key` argument, return a random element from the set value stored at `key`.\n\nIf the provided `count` argument is positive, return an array of **distinct elements**.\nThe array's length is either `count` or the set's cardinality ([`SCARD`]()), whichever is lower.\n\nIf called with a negative `count`, the behavior changes and the command is allowed to return the **same element multiple times**.\nIn this case, the number of returned elements is the absolute value of the specified `count`.\n\n## Examples\n\n{{% redis-cli %}}\nSADD myset one two three\nSRANDMEMBER myset\nSRANDMEMBER myset 2\nSRANDMEMBER myset -5\n{{% /redis-cli %}}\n\n## Specification of the behavior when count is passed\n\nWhen the `count` argument is a positive value this command behaves as follows:\n\n* No repeated elements are returned.\n* If `count` is bigger than the set's cardinality, the command will only return the whole set without additional elements.\n* The order of elements in the reply is not truly random, so it is up to the client to shuffle them if needed.\n\nWhen the `count` is a negative value, the behavior changes as follows:\n\n* Repeating elements are possible.\n* Exactly `count` elements, or an empty array if the set is empty (non-existing key), are always returned.\n* The order of elements in the reply is truly random.\n\n## Distribution of returned elements\n\nNote: this section is relevant only for Redis 5 or below, as Redis 6 implements a fairer algorithm. \n\nThe distribution of the returned elements is far from perfect when the number of elements in the set is small, this is due to the fact that we used an approximated random element function that does not really guarantees good distribution.\n\nThe algorithm used, that is implemented inside dict.c, samples the hash table buckets to find a non-empty one. Once a non empty bucket is found, since we use chaining in our hash table implementation, the number of elements inside the bucket is checked and a random element is selected.\n\nThis means that if you have two non-empty buckets in the entire hash table, and one has three elements while one has just one, the element that is alone in its bucket will be returned with much higher probability.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"srandmember-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): without the additional _count_ argument, the command returns a randomly selected member, or a [Nil reply](../../develop/reference/protocol-spec#bulk-strings) when _key_ doesn't exist.\n* [Array reply](../../develop/reference/protocol-spec#arrays): when the optional _count_ argument is passed, the command returns an array of members, or an empty array when _key_ doesn't exist.\n\n-tab-sep-\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): without the additional _count_ argument, the command returns a randomly selected member, or a [Null reply](../../develop/reference/protocol-spec#nulls) when _key_ doesn't exist.\n* [Array reply](../../develop/reference/protocol-spec#arrays): when the optional _count_ argument is passed, the command returns an array of members, or an empty array when _key_ doesn't exist.\n\n{{< /multitabs >}}",
+  "example": "SADD myset one two three\nSRANDMEMBER myset\nSRANDMEMBER myset 2\nSRANDMEMBER myset -5",
   "intro": "When called with just the `key` argument, return a random element from the set value stored at `key`.\n\nIf the provided `count` argument is positive, return an array of **distinct elements**.\nThe array's length is either `count` or the set's cardinality ([`SCARD`]()), whichever is lower.\n\nIf called with a negative `count`, the behavior changes and the command is allowed to return the **same element multiple times**.\nIn this case, the number of returned elements is the absolute value of the specified `count`.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -98,7 +470,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "SADD myset one two three\nSRANDMEMBER myset\nSRANDMEMBER myset 2\nSRANDMEMBER myset -5"
+      "content": "{{% redis-cli %}}\nSADD myset one two three\nSRANDMEMBER myset\nSRANDMEMBER myset 2\nSRANDMEMBER myset -5\n{{% /redis-cli %}}"
     },
     {
       "title": "Specification of the behavior when count is passed",
@@ -118,7 +490,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): without the additional _count_ argument, the command returns a randomly selected member, or a [Nil reply](../../develop/reference/protocol-spec#bulk-strings) when _key_ doesn't exist.\n* [Array reply](../../develop/reference/protocol-spec#arrays): when the optional _count_ argument is passed, the command returns an array of members, or an empty array when _key_ doesn't exist.\n\n**RESP3:**\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): without the additional _count_ argument, the command returns a randomly selected member, or a [Null reply](../../develop/reference/protocol-spec#nulls) when _key_ doesn't exist.\n* [Array reply](../../develop/reference/protocol-spec#arrays): when the optional _count_ argument is passed, the command returns an array of members, or an empty array when _key_ doesn't exist."
+      "content": "{{< multitabs id=\"srandmember-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): without the additional _count_ argument, the command returns a randomly selected member, or a [Nil reply](../../develop/reference/protocol-spec#bulk-strings) when _key_ doesn't exist.\n* [Array reply](../../develop/reference/protocol-spec#arrays): when the optional _count_ argument is passed, the command returns an array of members, or an empty array when _key_ doesn't exist.\n\n-tab-sep-\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): without the additional _count_ argument, the command returns a randomly selected member, or a [Null reply](../../develop/reference/protocol-spec#nulls) when _key_ doesn't exist.\n* [Array reply](../../develop/reference/protocol-spec#arrays): when the optional _count_ argument is passed, the command returns an array of members, or an empty array when _key_ doesn't exist.\n\n{{< /multitabs >}}"
     }
   ]
 }

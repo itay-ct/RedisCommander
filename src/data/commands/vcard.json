@@ -10,6 +10,243 @@
   "since": "8.0.0",
   "arity": null,
   "aclCategories": [],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "KeyT"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Union[Awaitable[int], int]"
+        },
+        "signature": "vcard(key: KeyT)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "the name of the key that holds the vector set",
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "the number of elements in the vector set",
+          "type": "long"
+        },
+        "signature": "long vcard(String key)"
+      },
+      {
+        "params": [
+          {
+            "description": "the name of the key that holds the vector set",
+            "name": "key",
+            "type": "byte[]"
+          }
+        ],
+        "returns": {
+          "description": "the number of elements in the vector set",
+          "type": "long"
+        },
+        "signature": "long vcard(byte[] key)"
+      },
+      {
+        "params": [
+          {
+            "description": "the name of the key that holds the vector set",
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "the number of elements in the vector set",
+          "type": "long"
+        },
+        "signature": "long vcard(String key)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the key of the vector set",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "the number of elements in the vector set, or 0 if the key does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vcard/\">Redis Documentation: VCARD</a>",
+          "type": "Long"
+        },
+        "signature": "Long vcard(K key)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the key of the vector set",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "the number of elements in the vector set, or 0 if the key does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vcard/\">Redis Documentation: VCARD</a>",
+          "type": "RedisFuture<Long>"
+        },
+        "signature": "RedisFuture<Long> vcard(K key)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the key of the vector set",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "the number of elements in the vector set, or 0 if the key does not exist @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vcard/\">Redis Documentation: VCARD</a>",
+          "type": "Mono<Long>"
+        },
+        "signature": "Mono<Long> vcard(K key)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*IntCmd"
+        },
+        "signature": "VCard(ctx context.Context, key string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "VCARD(key: RedisArgument)"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(usize)"
+        },
+        "signature": "vcard(key: K)"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(usize)"
+        },
+        "signature": "vcard(key: K)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "long"
+        },
+        "signature": "VectorSetLength(RedisKey key, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Task<long>"
+        },
+        "signature": "VectorSetLengthAsync(RedisKey key, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "int"
+        },
+        "signature": "vcard(string $key)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [],
   "keySpecs": [],
@@ -24,28 +261,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "related-topics",
-        "title": "Related topics"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Return the number of elements in the specified vector set.\n\n```shell\nVCARD word_embeddings\n(integer) 3000000\n```\n\n## Required arguments\n\n<details open>\n<summary><code>key</code></summary>\n\nis the name of the key that holds the vector set.\n</details>\n\n## Related topics\n\n- [Vector sets]()\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): 0 if the key doesn't exist or the number of elements contained in the vector set.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): 0 if the key doesn't exist or the number of elements contained in the vector set.",
+  "content": "Return the number of elements in the specified vector set.\n\n```shell\nVCARD word_embeddings\n(integer) 3000000\n```\n\n## Required arguments\n\n<details open>\n<summary><code>key</code></summary>\n\nis the name of the key that holds the vector set.\n</details>\n\n## Related topics\n\n- [Vector sets]({{< relref \"/develop/data-types/vector-sets\" >}})\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"vcard-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Integer reply](../../develop/reference/protocol-spec#integers): 0 if the key doesn't exist or the number of elements contained in the vector set.\n\n-tab-sep-\n\n[Integer reply](../../develop/reference/protocol-spec#integers): 0 if the key doesn't exist or the number of elements contained in the vector set.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "Return the number of elements in the specified vector set.\n\n```shell\nVCARD word_embeddings\n(integer) 3000000\n```",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -60,7 +282,7 @@
     {
       "title": "Related topics",
       "level": 2,
-      "content": "- [Vector sets]()"
+      "content": "- [Vector sets]({{< relref \"/develop/data-types/vector-sets\" >}})"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -70,7 +292,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): 0 if the key doesn't exist or the number of elements contained in the vector set.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): 0 if the key doesn't exist or the number of elements contained in the vector set."
+      "content": "{{< multitabs id=\"vcard-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Integer reply](../../develop/reference/protocol-spec#integers): 0 if the key doesn't exist or the number of elements contained in the vector set.\n\n-tab-sep-\n\n[Integer reply](../../develop/reference/protocol-spec#integers): 0 if the key doesn't exist or the number of elements contained in the vector set.\n\n{{< /multitabs >}}"
     }
   ]
 }

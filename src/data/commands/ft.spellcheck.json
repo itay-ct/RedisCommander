@@ -12,6 +12,243 @@
   "aclCategories": [
     "@search"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "The query to spell check",
+            "name": "query",
+            "type": "str"
+          },
+          {
+            "description": "Maximum Levenshtein distance",
+            "name": "distance",
+            "type": "Optional[int]"
+          },
+          {
+            "description": "Dictionary to include",
+            "name": "include",
+            "type": "Optional[str]"
+          },
+          {
+            "description": "Dictionary to exclude",
+            "name": "exclude",
+            "type": "Optional[str]"
+          }
+        ],
+        "returns": {
+          "description": "Spelling suggestions",
+          "type": "Dict[str, List[Dict[str, Any]]]"
+        },
+        "signature": "spellcheck(query: str, distance: Optional[int] = None, include: Optional[str] = None, exclude: Optional[str] = None)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "The index name",
+            "name": "indexName",
+            "type": "String"
+          },
+          {
+            "description": "The query to spell check",
+            "name": "query",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "Spelling suggestions",
+          "type": "Map<String, Map<String, Double>>"
+        },
+        "signature": "Map<String, Map<String, Double>> ftSpellCheck(String indexName, String query)"
+      },
+      {
+        "params": [
+          {
+            "description": "The index name",
+            "name": "indexName",
+            "type": "String"
+          },
+          {
+            "description": "The query to spell check",
+            "name": "query",
+            "type": "String"
+          },
+          {
+            "description": "Spell check parameters",
+            "name": "spellCheckParams",
+            "type": "FTSpellCheckParams"
+          }
+        ],
+        "returns": {
+          "description": "Spelling suggestions",
+          "type": "Map<String, Map<String, Double>>"
+        },
+        "signature": "Map<String, Map<String, Double>> ftSpellCheck(String indexName, String query, FTSpellCheckParams spellCheckParams)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "The index name",
+            "name": "index",
+            "type": "string"
+          },
+          {
+            "description": "The query to spell check",
+            "name": "query",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "Spelling suggestions",
+          "type": "*FTSpellCheckCmd"
+        },
+        "signature": "FTSpellCheck(ctx context.Context, index string, query string)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "The index name",
+            "name": "index",
+            "type": "string"
+          },
+          {
+            "description": "The query to spell check",
+            "name": "query",
+            "type": "string"
+          },
+          {
+            "description": "Spell check options",
+            "name": "options",
+            "type": "*FTSpellCheckOptions"
+          }
+        ],
+        "returns": {
+          "description": "Spelling suggestions",
+          "type": "*FTSpellCheckCmd"
+        },
+        "signature": "FTSpellCheckWithArgs(ctx context.Context, index string, query string, options *FTSpellCheckOptions)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "The index name",
+            "name": "index",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "The query to spell check",
+            "name": "query",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "Optional spell check options",
+            "name": "options",
+            "type": "FTSpellCheckOptions"
+          }
+        ],
+        "returns": {
+          "description": "Spelling suggestions",
+          "type": "Promise<FTSpellCheckResult>"
+        },
+        "signature": "SPELLCHECK(index: RedisArgument, query: RedisArgument, options?: FTSpellCheckOptions)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The index name",
+            "name": "indexName",
+            "type": "string"
+          },
+          {
+            "description": "The query to spell check",
+            "name": "query",
+            "type": "string"
+          },
+          {
+            "description": "Optional spell check parameters",
+            "name": "spellCheckParams",
+            "type": "FTSpellCheckParams?"
+          }
+        ],
+        "returns": {
+          "description": "Spell check suggestions with scores",
+          "type": "Dictionary<string, Dictionary<string, double>>"
+        },
+        "signature": "Dictionary<string, Dictionary<string, double>> SpellCheck(string indexName, string query, FTSpellCheckParams? spellCheckParams = null)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The index name",
+            "name": "indexName",
+            "type": "string"
+          },
+          {
+            "description": "The query to spell check",
+            "name": "query",
+            "type": "string"
+          },
+          {
+            "description": "Optional spell check parameters",
+            "name": "spellCheckParams",
+            "type": "FTSpellCheckParams?"
+          }
+        ],
+        "returns": {
+          "description": "Spell check suggestions with scores",
+          "type": "Task<Dictionary<string, Dictionary<string, double>>>"
+        },
+        "signature": "Task<Dictionary<string, Dictionary<string, double>>> SpellCheckAsync(string indexName, string query, FTSpellCheckParams? spellCheckParams = null)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "The index name",
+            "name": "$index",
+            "type": "string"
+          },
+          {
+            "description": "The query to spell check",
+            "name": "$query",
+            "type": "string"
+          },
+          {
+            "description": "Optional search arguments",
+            "name": "$arguments",
+            "type": "?SearchArguments"
+          }
+        ],
+        "returns": {
+          "description": "Spell check suggestions",
+          "type": "array"
+        },
+        "signature": "ftspellcheck(string $index, string $query, ?SearchArguments $arguments = null)"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly"
   ],
@@ -84,44 +321,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "optional-arguments",
-        "title": "Optional arguments"
-      },
-      {
-        "id": "return",
-        "title": "Return"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      },
-      {
-        "id": "see-also",
-        "title": "See also"
-      },
-      {
-        "id": "related-topics",
-        "title": "Related topics"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Perform spelling correction on a query, returning suggestions for misspelled terms\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open>\n<summary><code>index</code></summary>\n\nis index with the indexed terms.\n</details>\n\n<details open>\n<summary><code>query</code></summary> \n\nis search query.\n</details>\n\nSee [Spellchecking]() for more details.\n\n## Optional arguments\n\n<details open>\n<summary><code>TERMS</code></summary>\n\nspecifies an inclusion (`INCLUDE`) or exclusion (`EXCLUDE`) of a custom dictionary. To learn more about managing custom dictionaries, see [`FT.DICTADD`](), [`FT.DICTDEL`](), and [`FT.DICTDUMP`]().\n\nYou can specify multiple inclusion and exclusion `TERMS`.\n</details>\n\n<details open>\n<summary><code>DISTANCE</code></summary> \n\nis maximum Levenshtein distance for spelling suggestions (default: 1, max: 4).\n</details>\n\n<details open>\n<summary><code>DIALECT {dialect_version}</code></summary> \n\nselects the dialect version under which to execute the query. If not specified, the query will execute under the default dialect version set during module initial loading or via [`FT.CONFIG SET`]() command.\n</details>\n\n## Return\n\nFT.SPELLCHECK returns an array reply, in which each element represents a misspelled term from the query. The misspelled terms are ordered by their order of appearance in the query. \nEach misspelled term, in turn, is a 3-element array consisting of the constant string `TERM`, the term itself and an array of suggestions for spelling corrections.\nEach element in the spelling corrections array consists of the score of the suggestion and the suggestion itself. The suggestions array, per misspelled term, is ordered in descending order by score.\nThe score is calculated by dividing the number of documents in which the suggested term exists by the total number of documents in the index. Results can be normalized by dividing scores by the highest score.\n\n## Examples\n\n<details open>\n<summary><b>Perform spelling correction on a query</b></summary>\n\n\n127.0.0.1:6379> FT.SPELLCHECK idx held DISTANCE 2\n1) 1) \"TERM\"\n   2) \"held\"\n   3) 1) 1) \"0.66666666666666663\"\n         2) \"hello\"\n      2) 1) \"0.33333333333333331\"\n         2) \"help\"\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Array]() of spell check results for each term.\n* [Simple error reply]() in these cases: no such index.\n\n**RESP3:**\n\nOne of the following:\n* [Map]() with a `results` key containing spell check results for each term.\n* [Simple error reply]() in these cases: no such index.\n\n\n\n## See also\n\n[`FT.CONFIG SET`]() | [`FT.DICTADD`]() | [`FT.DICTDEL`]() | [`FT.DICTDUMP`]()\n\n## Related topics\n\n- [Spellchecking]()\n- [RediSearch]()",
+  "content": "Perform spelling correction on a query, returning suggestions for misspelled terms\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open>\n<summary><code>index</code></summary>\n\nis index with the indexed terms.\n</details>\n\n<details open>\n<summary><code>query</code></summary> \n\nis search query.\n</details>\n\nSee [Spellchecking]({{< relref \"/develop/ai/search-and-query/advanced-concepts/spellcheck\" >}}) for more details.\n\n## Optional arguments\n\n<details open>\n<summary><code>TERMS</code></summary>\n\nspecifies an inclusion (`INCLUDE`) or exclusion (`EXCLUDE`) of a custom dictionary. To learn more about managing custom dictionaries, see [`FT.DICTADD`]({{< relref \"commands/ft.dictadd/\" >}}), [`FT.DICTDEL`]({{< relref \"commands/ft.dictdel/\" >}}), and [`FT.DICTDUMP`]({{< relref \"commands/ft.dictdump/\" >}}).\n\nYou can specify multiple inclusion and exclusion `TERMS`.\n</details>\n\n<details open>\n<summary><code>DISTANCE</code></summary> \n\nis maximum Levenshtein distance for spelling suggestions (default: 1, max: 4).\n</details>\n\n<details open>\n<summary><code>DIALECT {dialect_version}</code></summary> \n\nselects the dialect version under which to execute the query. If not specified, the query will execute under the default dialect version set during module initial loading or via [`FT.CONFIG SET`]({{< relref \"commands/ft.config-set/\" >}}) command.\n</details>\n\n## Return\n\nFT.SPELLCHECK returns an array reply, in which each element represents a misspelled term from the query. The misspelled terms are ordered by their order of appearance in the query. \nEach misspelled term, in turn, is a 3-element array consisting of the constant string `TERM`, the term itself and an array of suggestions for spelling corrections.\nEach element in the spelling corrections array consists of the score of the suggestion and the suggestion itself. The suggestions array, per misspelled term, is ordered in descending order by score.\nThe score is calculated by dividing the number of documents in which the suggested term exists by the total number of documents in the index. Results can be normalized by dividing scores by the highest score.\n\n## Examples\n\n<details open>\n<summary><b>Perform spelling correction on a query</b></summary>\n\n{{< highlight bash >}}\n127.0.0.1:6379> FT.SPELLCHECK idx held DISTANCE 2\n1) 1) \"TERM\"\n   2) \"held\"\n   3) 1) 1) \"0.66666666666666663\"\n         2) \"hello\"\n      2) 1) \"0.33333333333333331\"\n         2) \"help\"\n{{< / highlight >}}\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"ft-spellcheck-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of spell check results for each term.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: no such index.\n\n-tab-sep-\n\nOne of the following:\n* [Map]({{< relref \"/develop/reference/protocol-spec#maps\" >}}) with a `results` key containing spell check results for each term.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: no such index.\n\n{{< /multitabs >}}\n\n## See also\n\n[`FT.CONFIG SET`]({{< relref \"commands/ft.config-set/\" >}}) | [`FT.DICTADD`]({{< relref \"commands/ft.dictadd/\" >}}) | [`FT.DICTDEL`]({{< relref \"commands/ft.dictdel/\" >}}) | [`FT.DICTDUMP`]({{< relref \"commands/ft.dictdump/\" >}})\n\n## Related topics\n\n- [Spellchecking]({{< relref \"/develop/ai/search-and-query/advanced-concepts/spellcheck\" >}})\n- [RediSearch]({{< relref \"/develop/ai/search-and-query/\" >}})",
+  "example": "127.0.0.1:6379> FT.SPELLCHECK idx held DISTANCE 2\n1) 1) \"TERM\"\n   2) \"held\"\n   3) 1) 1) \"0.66666666666666663\"\n         2) \"hello\"\n      2) 1) \"0.33333333333333331\"\n         2) \"help\"",
   "intro": "Perform spelling correction on a query, returning suggestions for misspelled terms\n\n[Examples](#examples)",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -131,12 +337,12 @@
     {
       "title": "Required arguments",
       "level": 2,
-      "content": "<details open>\n<summary><code>index</code></summary>\n\nis index with the indexed terms.\n</details>\n\n<details open>\n<summary><code>query</code></summary> \n\nis search query.\n</details>\n\nSee [Spellchecking]() for more details."
+      "content": "<details open>\n<summary><code>index</code></summary>\n\nis index with the indexed terms.\n</details>\n\n<details open>\n<summary><code>query</code></summary> \n\nis search query.\n</details>\n\nSee [Spellchecking]({{< relref \"/develop/ai/search-and-query/advanced-concepts/spellcheck\" >}}) for more details."
     },
     {
       "title": "Optional arguments",
       "level": 2,
-      "content": "<details open>\n<summary><code>TERMS</code></summary>\n\nspecifies an inclusion (`INCLUDE`) or exclusion (`EXCLUDE`) of a custom dictionary. To learn more about managing custom dictionaries, see [`FT.DICTADD`](), [`FT.DICTDEL`](), and [`FT.DICTDUMP`]().\n\nYou can specify multiple inclusion and exclusion `TERMS`.\n</details>\n\n<details open>\n<summary><code>DISTANCE</code></summary> \n\nis maximum Levenshtein distance for spelling suggestions (default: 1, max: 4).\n</details>\n\n<details open>\n<summary><code>DIALECT {dialect_version}</code></summary> \n\nselects the dialect version under which to execute the query. If not specified, the query will execute under the default dialect version set during module initial loading or via [`FT.CONFIG SET`]() command.\n</details>"
+      "content": "<details open>\n<summary><code>TERMS</code></summary>\n\nspecifies an inclusion (`INCLUDE`) or exclusion (`EXCLUDE`) of a custom dictionary. To learn more about managing custom dictionaries, see [`FT.DICTADD`]({{< relref \"commands/ft.dictadd/\" >}}), [`FT.DICTDEL`]({{< relref \"commands/ft.dictdel/\" >}}), and [`FT.DICTDUMP`]({{< relref \"commands/ft.dictdump/\" >}}).\n\nYou can specify multiple inclusion and exclusion `TERMS`.\n</details>\n\n<details open>\n<summary><code>DISTANCE</code></summary> \n\nis maximum Levenshtein distance for spelling suggestions (default: 1, max: 4).\n</details>\n\n<details open>\n<summary><code>DIALECT {dialect_version}</code></summary> \n\nselects the dialect version under which to execute the query. If not specified, the query will execute under the default dialect version set during module initial loading or via [`FT.CONFIG SET`]({{< relref \"commands/ft.config-set/\" >}}) command.\n</details>"
     },
     {
       "title": "Return",
@@ -146,7 +352,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "<details open>\n<summary><b>Perform spelling correction on a query</b></summary>\n\n\n127.0.0.1:6379> FT.SPELLCHECK idx held DISTANCE 2\n1) 1) \"TERM\"\n   2) \"held\"\n   3) 1) 1) \"0.66666666666666663\"\n         2) \"hello\"\n      2) 1) \"0.33333333333333331\"\n         2) \"help\"\n\n</details>"
+      "content": "<details open>\n<summary><b>Perform spelling correction on a query</b></summary>\n\n{{< highlight bash >}}\n127.0.0.1:6379> FT.SPELLCHECK idx held DISTANCE 2\n1) 1) \"TERM\"\n   2) \"held\"\n   3) 1) 1) \"0.66666666666666663\"\n         2) \"hello\"\n      2) 1) \"0.33333333333333331\"\n         2) \"help\"\n{{< / highlight >}}\n</details>"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -156,17 +362,17 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Array]() of spell check results for each term.\n* [Simple error reply]() in these cases: no such index.\n\n**RESP3:**\n\nOne of the following:\n* [Map]() with a `results` key containing spell check results for each term.\n* [Simple error reply]() in these cases: no such index."
+      "content": "{{< multitabs id=\"ft-spellcheck-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of spell check results for each term.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: no such index.\n\n-tab-sep-\n\nOne of the following:\n* [Map]({{< relref \"/develop/reference/protocol-spec#maps\" >}}) with a `results` key containing spell check results for each term.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: no such index.\n\n{{< /multitabs >}}"
     },
     {
       "title": "See also",
       "level": 2,
-      "content": "[`FT.CONFIG SET`]() | [`FT.DICTADD`]() | [`FT.DICTDEL`]() | [`FT.DICTDUMP`]()"
+      "content": "[`FT.CONFIG SET`]({{< relref \"commands/ft.config-set/\" >}}) | [`FT.DICTADD`]({{< relref \"commands/ft.dictadd/\" >}}) | [`FT.DICTDEL`]({{< relref \"commands/ft.dictdel/\" >}}) | [`FT.DICTDUMP`]({{< relref \"commands/ft.dictdump/\" >}})"
     },
     {
       "title": "Related topics",
       "level": 2,
-      "content": "- [Spellchecking]()\n- [RediSearch]()"
+      "content": "- [Spellchecking]({{< relref \"/develop/ai/search-and-query/advanced-concepts/spellcheck\" >}})\n- [RediSearch]({{< relref \"/develop/ai/search-and-query/\" >}})"
     }
   ]
 }

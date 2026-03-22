@@ -14,6 +14,203 @@
     "@stream",
     "@fast"
   ],
+  "apiMethods": {
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "lastId",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "options?",
+            "type": "XSetIdOptions"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "XSETID(key: RedisArgument, lastId: RedisArgument, options?: XSetIdOptions)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "lastId",
+            "type": "string | Buffer | number"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<unknown>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "xsetid(key: RedisKey, lastId: string | Buffer | number, callback?: Callback<unknown>)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "lastId",
+            "type": "string | Buffer | number"
+          },
+          {
+            "description": "",
+            "name": "maxDeletedEntryIdToken",
+            "type": "\"MAXDELETEDID\""
+          },
+          {
+            "description": "",
+            "name": "maxDeletedEntryId",
+            "type": "string | Buffer | number"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<unknown>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "xsetid(key: RedisKey, lastId: string | Buffer | number, maxDeletedEntryIdToken: \"MAXDELETEDID\", maxDeletedEntryId: string | Buffer | number, callback?: Callback<unknown>)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "lastId",
+            "type": "string | Buffer | number"
+          },
+          {
+            "description": "",
+            "name": "entriesAddedToken",
+            "type": "\"ENTRIESADDED\""
+          },
+          {
+            "description": "",
+            "name": "entriesAdded",
+            "type": "number | string"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<unknown>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "xsetid(key: RedisKey, lastId: string | Buffer | number, entriesAddedToken: \"ENTRIESADDED\", entriesAdded: number | string, callback?: Callback<unknown>)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "lastId",
+            "type": "string | Buffer | number"
+          },
+          {
+            "description": "",
+            "name": "entriesAddedToken",
+            "type": "\"ENTRIESADDED\""
+          },
+          {
+            "description": "",
+            "name": "entriesAdded",
+            "type": "number | string"
+          },
+          {
+            "description": "",
+            "name": "maxDeletedEntryIdToken",
+            "type": "\"MAXDELETEDID\""
+          },
+          {
+            "description": "",
+            "name": "maxDeletedEntryId",
+            "type": "string | Buffer | number"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<unknown>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "xsetid(key: RedisKey, lastId: string | Buffer | number, entriesAddedToken: \"ENTRIESADDED\", entriesAdded: number | string, maxDeletedEntryIdToken: \"MAXDELETEDID\", maxDeletedEntryId: string | Buffer | number, callback?: Callback<unknown>)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$lastId",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "?int $entriesAdded = null",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "?string $maxDeleteId = null",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Status"
+        },
+        "signature": "xsetid(string $key, string $lastId, ?int $entriesAdded = null, ?string $maxDeleteId = null)"
+      }
+    ]
+  },
   "commandFlags": [
     "write",
     "denyoom",
@@ -79,20 +276,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "The `XSETID` command is an internal command.\nIt is used by a Redis master to replicate the last delivered ID of streams.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.",
+  "content": "The `XSETID` command is an internal command.\nIt is used by a Redis master to replicate the last delivered ID of streams.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"xsetid-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "The `XSETID` command is an internal command.\nIt is used by a Redis master to replicate the last delivered ID of streams.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -107,7 +297,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`."
+      "content": "{{< multitabs id=\"xsetid-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n{{< /multitabs >}}"
     }
   ]
 }

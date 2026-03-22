@@ -14,6 +14,84 @@
     "@search",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [],
+        "returns": {
+          "description": "A list of all existing indexes",
+          "type": "List[str]"
+        },
+        "signature": "_list()"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "A set of all existing indexes",
+          "type": "Set<String>"
+        },
+        "signature": "Set<String> ftList()"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          }
+        ],
+        "returns": {
+          "description": "A list of all existing indexes",
+          "type": "*StringSliceCmd"
+        },
+        "signature": "FT_List(ctx context.Context)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "A list of all existing indexes",
+          "type": "Promise<Array<string>>"
+        },
+        "signature": "_LIST()"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [],
+        "returns": {
+          "description": "List of all existing indexes",
+          "type": "RedisResult[]"
+        },
+        "signature": "RedisResult[] _List()"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [],
+        "returns": {
+          "description": "List of all existing indexes",
+          "type": "Task<RedisResult[]>"
+        },
+        "signature": "Task<RedisResult[]> _ListAsync()"
+      }
+    ],
+    "php": [
+      {
+        "params": [],
+        "returns": {
+          "description": "List of all existing indexes",
+          "type": "array"
+        },
+        "signature": "ft_list()"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly"
   ],
@@ -30,29 +108,18 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Returns a list of all existing indexes.\n\n\nThe prefix `_` in the command indicates, this is a temporary command.\n\nIn the future, a [`SCAN`]() type of command will be added, for use when a database\ncontains a large number of indices.\n\n\n## Examples\n\n```sql\nFT._LIST\n1) \"idx\"\n2) \"movies\"\n3) \"imdb\"\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array]() of index names as [simple strings]().\n\n**RESP3:**\n\n[Set]() of index names as [simple strings]().",
-  "intro": "Returns a list of all existing indexes.\n\n\nThe prefix `_` in the command indicates, this is a temporary command.\n\nIn the future, a [`SCAN`]() type of command will be added, for use when a database\ncontains a large number of indices.",
+  "content": "Returns a list of all existing indexes.\n\nThe prefix `_` in the command indicates, this is a temporary command.\n\nIn the future, a [`SCAN`]() type of command will be added, for use when a database\ncontains a large number of indices.\n\n## Examples\n\n```sql\nFT._LIST\n1) \"idx\"\n2) \"movies\"\n3) \"imdb\"\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"ft-_list-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of index names as [simple strings]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}).\n\n-tab-sep-\n\n[Set]({{< relref \"/develop/reference/protocol-spec#sets\" >}}) of index names as [simple strings]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}).\n\n{{< /multitabs >}}",
+  "example": "FT._LIST\n1) \"idx\"\n2) \"movies\"\n3) \"imdb\"",
+  "intro": "Returns a list of all existing indexes.\n\nThe prefix `_` in the command indicates, this is a temporary command.\n\nIn the future, a [`SCAN`]() type of command will be added, for use when a database\ncontains a large number of indices.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
       "level": 1,
-      "content": "Returns a list of all existing indexes.\n\n\nThe prefix `_` in the command indicates, this is a temporary command.\n\nIn the future, a [`SCAN`]() type of command will be added, for use when a database\ncontains a large number of indices."
+      "content": "Returns a list of all existing indexes.\n\nThe prefix `_` in the command indicates, this is a temporary command.\n\nIn the future, a [`SCAN`]() type of command will be added, for use when a database\ncontains a large number of indices."
     },
     {
       "title": "Examples",
@@ -67,7 +134,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Array]() of index names as [simple strings]().\n\n**RESP3:**\n\n[Set]() of index names as [simple strings]()."
+      "content": "{{< multitabs id=\"ft-_list-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of index names as [simple strings]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}).\n\n-tab-sep-\n\n[Set]({{< relref \"/develop/reference/protocol-spec#sets\" >}}) of index names as [simple strings]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}).\n\n{{< /multitabs >}}"
     }
   ]
 }

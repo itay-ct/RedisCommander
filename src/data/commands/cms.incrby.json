@@ -13,6 +13,237 @@
     "@cms",
     "@write"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "str"
+          },
+          {
+            "description": "Items to increment",
+            "name": "items",
+            "type": "List"
+          },
+          {
+            "description": "Increment values for each item",
+            "name": "increments",
+            "type": "List"
+          }
+        ],
+        "returns": {
+          "description": "Count of each item after increment",
+          "type": "List[int]"
+        },
+        "signature": "incrby(key, items, increments)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "item",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "increment",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "Count for item after increment",
+          "type": "long"
+        },
+        "signature": "cmsIncrBy(String key, String item, long increment)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "itemIncrements",
+            "type": "Map<String, Long>"
+          }
+        ],
+        "returns": {
+          "description": "Count of each item after increment",
+          "type": "List<Long>"
+        },
+        "signature": "cmsIncrBy(String key, Map<String, Long> itemIncrements)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "Alternating items and increments",
+            "name": "elements",
+            "type": "...interface{}"
+          }
+        ],
+        "returns": {
+          "description": "Counts after increment",
+          "type": "*IntSliceCmd"
+        },
+        "signature": "CMSIncrBy(ctx context.Context, key string, elements ...interface{}) *IntSliceCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "{ item, incrementBy }",
+            "name": "items",
+            "type": "BfIncrByItem | Array<BfIncrByItem>"
+          }
+        ],
+        "returns": {
+          "description": "Counts after increment",
+          "type": "ArrayReply<NumberReply>"
+        },
+        "signature": "CMS.INCRBY(key, items)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "item",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "increment",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "Count after increment",
+          "type": "long"
+        },
+        "signature": "IncrBy(RedisKey key, RedisValue item, long increment)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "itemIncrements",
+            "type": "Tuple<RedisValue, long>[]"
+          }
+        ],
+        "returns": {
+          "description": "Counts after increment",
+          "type": "long[]"
+        },
+        "signature": "IncrBy(RedisKey key, Tuple<RedisValue, long>[] itemIncrements)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "item",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "increment",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "Count after increment",
+          "type": "Task<long>"
+        },
+        "signature": "IncrByAsync(RedisKey key, RedisValue item, long increment)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "itemIncrements",
+            "type": "Tuple<RedisValue, long>[]"
+          }
+        ],
+        "returns": {
+          "description": "Counts after increment",
+          "type": "Task<long[]>"
+        },
+        "signature": "IncrByAsync(RedisKey key, Tuple<RedisValue, long>[] itemIncrements)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "Alternating items and increments",
+            "name": "itemsAndIncrements",
+            "type": "mixed..."
+          }
+        ],
+        "returns": {
+          "description": "Counts after increment",
+          "type": "array"
+        },
+        "signature": "cmsincrby($key, ...$itemsAndIncrements)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -47,24 +278,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Increases the count of item by increment. Multiple items can be increased with one call. \n\n### Parameters:\n\n* **key**: The name of the sketch.\n* **item**: The item which counter is to be increased.\n* **increment**: Amount by which the item counter is to be increased.\n\n## Examples\n\n```\nredis> CMS.INCRBY test foo 10 bar 42\n1) (integer) 10\n2) (integer) 42\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\"><nobr>&#x2705; Flexible & Annual</nobr></span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n\n* [Array]() of [integer replies]() representing updated min-counts of each of the provided items in the sketch.\n* [Simple error reply]() in these cases: invalid arguments, missing key, overflow, or wrong key type.\n\n**RESP3:**\n\nOne of the following:\n\n* [Array]() of [integer replies]() representing updated min-counts of each of the provided items in the sketch.\n* [Simple error reply]() in these cases: invalid arguments, missing key, overflow, or wrong key type.",
-  "intro": "Increases the count of item by increment. Multiple items can be increased with one call.",
+  "content": "Increases the count of item by increment. Multiple items can be increased with one call. \n\n### Parameters:\n\n* **key**: The name of the sketch.\n* **item**: The item which counter is to be increased.\n* **increment**: Amount by which the item counter is to be increased.\n\n## Examples\n\n```\nredis> CMS.INCRBY test foo 10 bar 42\n1) (integer) 10\n2) (integer) 42\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\"><nobr>&#x2705; Flexible & Annual</nobr></span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"cms-incrby-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n\n* [Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [integer replies]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) representing updated min-counts of each of the provided items in the sketch.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, missing key, overflow, or wrong key type.\n\n-tab-sep-\n\nOne of the following:\n\n* [Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [integer replies]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) representing updated min-counts of each of the provided items in the sketch.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, missing key, overflow, or wrong key type.\n\n{{< /multitabs >}}",
+  "example": "redis> CMS.INCRBY test foo 10 bar 42\n1) (integer) 10\n2) (integer) 42",
+  "intro": "Increases the count of item by increment. Multiple items can be increased with one call. \n\n### Parameters:\n\n* **key**: The name of the sketch.\n* **item**: The item which counter is to be increased.\n* **increment**: Amount by which the item counter is to be increased.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -89,7 +309,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n\n* [Array]() of [integer replies]() representing updated min-counts of each of the provided items in the sketch.\n* [Simple error reply]() in these cases: invalid arguments, missing key, overflow, or wrong key type.\n\n**RESP3:**\n\nOne of the following:\n\n* [Array]() of [integer replies]() representing updated min-counts of each of the provided items in the sketch.\n* [Simple error reply]() in these cases: invalid arguments, missing key, overflow, or wrong key type."
+      "content": "{{< multitabs id=\"cms-incrby-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n\n* [Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [integer replies]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) representing updated min-counts of each of the provided items in the sketch.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, missing key, overflow, or wrong key type.\n\n-tab-sep-\n\nOne of the following:\n\n* [Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [integer replies]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) representing updated min-counts of each of the provided items in the sketch.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, missing key, overflow, or wrong key type.\n\n{{< /multitabs >}}"
     }
   ]
 }

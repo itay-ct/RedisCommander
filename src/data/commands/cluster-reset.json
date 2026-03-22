@@ -14,6 +14,110 @@
     "@slow",
     "@dangerous"
   ],
+  "apiMethods": {
+    "jedis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "OK",
+          "type": "String"
+        },
+        "signature": "String clusterReset()"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "resetType",
+            "type": "ClusterResetType"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "String"
+        },
+        "signature": "String clusterReset(final ClusterResetType resetType)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StatusCmd"
+        },
+        "signature": "ClusterResetSoft(ctx context.Context)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StatusCmd"
+        },
+        "signature": "ClusterResetHard(ctx context.Context)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "Hard reset if true, soft reset if false",
+            "name": "hard",
+            "type": "boolean"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "String"
+        },
+        "signature": "String clusterReset(boolean hard)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "Hard reset if true, soft reset if false",
+            "name": "hard",
+            "type": "boolean"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> clusterReset(boolean hard)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "Hard reset if true, soft reset if false",
+            "name": "hard",
+            "type": "boolean"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> clusterReset(boolean hard)"
+      }
+    ]
+  },
   "commandFlags": [
     "admin",
     "noscript",
@@ -52,20 +156,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Reset a Redis Cluster node, in a more or less drastic way depending on the\nreset type, that can be **hard** or **soft**. Note that this command\n**does not work for masters if they hold one or more keys**, in that case\nto completely reset a master node keys must be removed first, e.g. by using [`FLUSHALL`]() first,\nand then `CLUSTER RESET`.\n\nEffects on the node:\n\n1. All the other nodes in the cluster are forgotten.\n2. All the assigned / open slots are reset, so the slots-to-nodes mapping is totally cleared.\n3. If the node is a replica it is turned into an (empty) master. Its dataset is flushed, so at the end the node will be an empty master.\n4. **Hard reset only**: a new Node ID is generated.\n5. **Hard reset only**: `currentEpoch` and `configEpoch` vars are set to 0.\n6. The new configuration is persisted on disk in the node cluster configuration file.\n\nThis command is mainly useful to re-provision a Redis Cluster node\nin order to be used in the context of a new, different cluster. The command\nis also extensively used by the Redis Cluster testing framework in order to\nreset the state of the cluster every time a new test unit is executed.\n\nIf no reset type is specified, the default is **soft**.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.",
+  "content": "Reset a Redis Cluster node, in a more or less drastic way depending on the\nreset type, that can be **hard** or **soft**. Note that this command\n**does not work for masters if they hold one or more keys**, in that case\nto completely reset a master node keys must be removed first, e.g. by using [`FLUSHALL`]() first,\nand then `CLUSTER RESET`.\n\nEffects on the node:\n\n1. All the other nodes in the cluster are forgotten.\n2. All the assigned / open slots are reset, so the slots-to-nodes mapping is totally cleared.\n3. If the node is a replica it is turned into an (empty) master. Its dataset is flushed, so at the end the node will be an empty master.\n4. **Hard reset only**: a new Node ID is generated.\n5. **Hard reset only**: `currentEpoch` and `configEpoch` vars are set to 0.\n6. The new configuration is persisted on disk in the node cluster configuration file.\n\nThis command is mainly useful to re-provision a Redis Cluster node\nin order to be used in the context of a new, different cluster. The command\nis also extensively used by the Redis Cluster testing framework in order to\nreset the state of the cluster every time a new test unit is executed.\n\nIf no reset type is specified, the default is **soft**.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"cluster-reset-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "Reset a Redis Cluster node, in a more or less drastic way depending on the\nreset type, that can be **hard** or **soft**. Note that this command\n**does not work for masters if they hold one or more keys**, in that case\nto completely reset a master node keys must be removed first, e.g. by using [`FLUSHALL`]() first,\nand then `CLUSTER RESET`.\n\nEffects on the node:\n\n1. All the other nodes in the cluster are forgotten.\n2. All the assigned / open slots are reset, so the slots-to-nodes mapping is totally cleared.\n3. If the node is a replica it is turned into an (empty) master. Its dataset is flushed, so at the end the node will be an empty master.\n4. **Hard reset only**: a new Node ID is generated.\n5. **Hard reset only**: `currentEpoch` and `configEpoch` vars are set to 0.\n6. The new configuration is persisted on disk in the node cluster configuration file.\n\nThis command is mainly useful to re-provision a Redis Cluster node\nin order to be used in the context of a new, different cluster. The command\nis also extensively used by the Redis Cluster testing framework in order to\nreset the state of the cluster every time a new test unit is executed.\n\nIf no reset type is specified, the default is **soft**.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -80,7 +177,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned."
+      "content": "{{< multitabs id=\"cluster-reset-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.\n\n{{< /multitabs >}}"
     }
   ]
 }

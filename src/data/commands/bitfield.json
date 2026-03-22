@@ -14,6 +14,417 @@
     "@bitmap",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "default_overflow",
+            "type": "Optional[str] = None"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "BitFieldOperation"
+        },
+        "signature": "bitfield(self: Union[\"redis.client.Redis\", \"redis.asyncio.client.Redis\"],, key: KeyT,, default_overflow: Optional[str] = None,)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "arguments",
+            "type": "byte[]..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List<Long>"
+        },
+        "signature": "List<Long> bitfield(final byte[] key, final byte[]... arguments)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "arguments",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List<Long>"
+        },
+        "signature": "List<Long> bitfield(final String key, final String... arguments)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the args containing subcommands, must not be null.",
+            "name": "bitFieldArgs",
+            "type": "BitFieldArgs"
+          }
+        ],
+        "returns": {
+          "description": "Long bulk-reply the results from the bitfield commands.",
+          "type": "List<Long>"
+        },
+        "signature": "List<Long> bitfield(K key, BitFieldArgs bitFieldArgs)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the args containing subcommands, must not be null.",
+            "name": "bitFieldArgs",
+            "type": "BitFieldArgs"
+          }
+        ],
+        "returns": {
+          "description": "Long bulk-reply the results from the bitfield commands.",
+          "type": "RedisFuture<List<Long>>"
+        },
+        "signature": "RedisFuture<List<Long>> bitfield(K key, BitFieldArgs bitFieldArgs)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the args containing subcommands, must not be null.",
+            "name": "bitFieldArgs",
+            "type": "BitFieldArgs"
+          }
+        ],
+        "returns": {
+          "description": "Long bulk-reply the results from the bitfield commands.",
+          "type": "Flux<Value<Long>>"
+        },
+        "signature": "Flux<Value<Long>> bitfield(K key, BitFieldArgs bitFieldArgs)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "values",
+            "type": "...interface{}"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*IntSliceCmd"
+        },
+        "signature": "BitField(ctx context.Context, key string, values ...interface{})"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "operations",
+            "type": "BitFieldOperations"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "BITFIELD(key: RedisArgument, operations: BitFieldOperations)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "encodingOffsetToken",
+            "type": "\"GET\""
+          },
+          {
+            "description": "",
+            "name": "encoding",
+            "type": "string | Buffer"
+          },
+          {
+            "description": "",
+            "name": "offset",
+            "type": "number | string"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<unknown>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "bitfield(key: RedisKey, encodingOffsetToken: \"GET\", encoding: string | Buffer, offset: number | string, callback?: Callback<unknown>)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "encodingOffsetValueToken",
+            "type": "\"SET\""
+          },
+          {
+            "description": "",
+            "name": "encoding",
+            "type": "string | Buffer"
+          },
+          {
+            "description": "",
+            "name": "offset",
+            "type": "number | string"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "number | string"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<unknown>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "bitfield(key: RedisKey, encodingOffsetValueToken: \"SET\", encoding: string | Buffer, offset: number | string, value: number | string, callback?: Callback<unknown>)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "encodingOffsetIncrementToken",
+            "type": "\"INCRBY\""
+          },
+          {
+            "description": "",
+            "name": "encoding",
+            "type": "string | Buffer"
+          },
+          {
+            "description": "",
+            "name": "offset",
+            "type": "number | string"
+          },
+          {
+            "description": "",
+            "name": "increment",
+            "type": "number | string"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<unknown>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "bitfield(key: RedisKey, encodingOffsetIncrementToken: \"INCRBY\", encoding: string | Buffer, offset: number | string, increment: number | string, callback?: Callback<unknown>)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "overflow",
+            "type": "\"OVERFLOW\""
+          },
+          {
+            "description": "",
+            "name": "wrap",
+            "type": "\"WRAP\""
+          },
+          {
+            "description": "",
+            "name": "encodingOffsetValueToken",
+            "type": "\"SET\""
+          },
+          {
+            "description": "",
+            "name": "encoding",
+            "type": "string | Buffer"
+          },
+          {
+            "description": "",
+            "name": "offset",
+            "type": "number | string"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "number | string"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<unknown>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "bitfield(key: RedisKey, overflow: \"OVERFLOW\", wrap: \"WRAP\", encodingOffsetValueToken: \"SET\", encoding: string | Buffer, offset: number | string, value: number | string, callback?: Callback<unknown>)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "overflow",
+            "type": "\"OVERFLOW\""
+          },
+          {
+            "description": "",
+            "name": "wrap",
+            "type": "\"WRAP\""
+          },
+          {
+            "description": "",
+            "name": "encodingOffsetIncrementToken",
+            "type": "\"INCRBY\""
+          },
+          {
+            "description": "",
+            "name": "encoding",
+            "type": "string | Buffer"
+          },
+          {
+            "description": "",
+            "name": "offset",
+            "type": "number | string"
+          },
+          {
+            "description": "",
+            "name": "increment",
+            "type": "number | string"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<unknown>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "bitfield(key: RedisKey, overflow: \"OVERFLOW\", wrap: \"WRAP\", encodingOffsetIncrementToken: \"INCRBY\", encoding: string | Buffer, offset: number | string, increment: number | string, callback?: Callback<unknown>)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$subcommand",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "$subcommandArg",
+            "type": "..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array|null"
+        },
+        "signature": "bitfield(string $key, $subcommand, ...$subcommandArg)"
+      }
+    ]
+  },
   "commandFlags": [
     "write",
     "denyoom"
@@ -167,44 +578,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "supported-subcommands-and-integer-encoding",
-        "title": "Supported subcommands and integer encoding"
-      },
-      {
-        "id": "bits-and-positional-offsets",
-        "title": "Bits and positional offsets"
-      },
-      {
-        "id": "overflow-control",
-        "title": "Overflow control"
-      },
-      {
-        "id": "motivations",
-        "title": "Motivations"
-      },
-      {
-        "id": "performance-considerations",
-        "title": "Performance considerations"
-      },
-      {
-        "id": "orders-of-bits",
-        "title": "Orders of bits"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "The command treats a Redis string as an array of bits, and is capable of addressing specific integer fields of varying bit widths and arbitrary non (necessary) aligned offset. In practical terms using this command you can set, for example, a signed 5 bits integer at bit offset 1234 to a specific value, retrieve a 31 bit unsigned integer from offset 4567. Similarly the command handles increments and decrements of the specified integers, providing guaranteed and well specified overflow and underflow behavior that the user can configure.\n\n`BITFIELD` is able to operate with multiple bit fields in the same command call. It takes a list of operations to perform, and returns an array of replies, where each array matches the corresponding operation in the list of arguments.\n\nFor example the following command increments a 5 bit signed integer at bit offset 100, and gets the value of the 4 bit unsigned integer at bit offset 0:\n\n    > BITFIELD mykey INCRBY i5 100 1 GET u4 0\n    1) (integer) 1\n    2) (integer) 0\n\nNote that:\n\n1. Addressing with `GET` bits outside the current string length (including the case the key does not exist at all), results in the operation to be performed like the missing part all consists of bits set to 0.\n2. Addressing with `SET` or `INCRBY` bits outside the current string length will enlarge the string, zero-padding it, as needed, for the minimal length needed, according to the most far bit touched.\n\n## Supported subcommands and integer encoding\n\nThe following is the list of supported commands.\n\n* **GET** `<encoding>` `<offset>` -- Returns the specified bit field.\n* **SET** `<encoding>` `<offset>` `<value>` -- Set the specified bit field and returns its old value.\n* **INCRBY** `<encoding>` `<offset>` `<increment>` -- Increments or decrements (if a negative increment is given) the specified bit field and returns the new value.\n\nThere is another subcommand that only changes the behavior of successive\n`INCRBY` and `SET` subcommands calls by setting the overflow behavior:\n\n* **OVERFLOW** `[WRAP|SAT|FAIL]`\n\nWhere an integer encoding is expected, it can be composed by prefixing with `i` for signed integers and `u` for unsigned integers with the number of bits of our integer encoding. So for example `u8` is an unsigned integer of 8 bits and `i16` is a\nsigned integer of 16 bits.\n\nThe supported encodings are up to 64 bits for signed integers, and up to 63 bits for\nunsigned integers. This limitation with unsigned integers is due to the fact\nthat currently the Redis protocol is unable to return 64 bit unsigned integers\nas replies.\n\n## Bits and positional offsets\n\nThere are two ways in order to specify offsets in the bitfield command.\nIf a number without any prefix is specified, it is used just as a zero based\nbit offset inside the string.\n\nHowever if the offset is prefixed with a `#` character, the specified offset\nis multiplied by the integer encoding's width, so for example:\n\n    BITFIELD mystring SET i8 #0 100 SET i8 #1 200\n\nWill set the first i8 integer at offset 0 and the second at offset 8.\nThis way you don't have to do the math yourself inside your client if what\nyou want is a plain array of integers of a given size.\n\n## Overflow control\n\nUsing the `OVERFLOW` command the user is able to fine-tune the behavior of\nthe increment or decrement overflow (or underflow) by specifying one of\nthe following behaviors:\n\n* **WRAP**: wrap around, both with signed and unsigned integers. In the case of unsigned integers, wrapping is like performing the operation modulo the maximum value the integer can contain (the C standard behavior). With signed integers instead wrapping means that overflows restart towards the most negative value and underflows towards the most positive ones, so for example if an `i8` integer is set to the value 127, incrementing it by 1 will yield `-128`.\n* **SAT**: uses saturation arithmetic, that is, on underflows the value is set to the minimum integer value, and on overflows to the maximum integer value. For example incrementing an `i8` integer starting from value 120 with an increment of 10, will result into the value 127, and further increments will always keep the value at 127. The same happens on underflows, but towards the value is blocked at the most negative value.\n* **FAIL**: in this mode no operation is performed on overflows or underflows detected. The corresponding return value is set to NULL to signal the condition to the caller.\n\nNote that each `OVERFLOW` statement only affects the `INCRBY` and `SET`\ncommands that follow it in the list of subcommands, up to the next `OVERFLOW`\nstatement.\n\nBy default, **WRAP** is used if not otherwise specified.\n\n    > BITFIELD mykey incrby u2 100 1 OVERFLOW SAT incrby u2 102 1\n    1) (integer) 1\n    2) (integer) 1\n    > BITFIELD mykey incrby u2 100 1 OVERFLOW SAT incrby u2 102 1\n    1) (integer) 2\n    2) (integer) 2\n    > BITFIELD mykey incrby u2 100 1 OVERFLOW SAT incrby u2 102 1\n    1) (integer) 3\n    2) (integer) 3\n    > BITFIELD mykey incrby u2 100 1 OVERFLOW SAT incrby u2 102 1\n    1) (integer) 0\n    2) (integer) 3\n\nThe following is an example of `OVERFLOW FAIL` returning NULL.\n\n    > BITFIELD mykey OVERFLOW FAIL incrby u2 102 1\n    1) (nil)\n\n## Motivations\n\nThe motivation for this command is that the ability to store many small integers\nas a single large bitmap (or segmented over a few keys to avoid having huge keys) is extremely memory efficient, and opens new use cases for Redis to be applied, especially in the field of real time analytics. This use cases are supported by the ability to specify the overflow in a controlled way.\n\nFun fact: Reddit's 2017 April fools' project [r/place](https://reddit.com/r/place) was [built using the Redis BITFIELD command](https://redditblog.com/2017/04/13/how-we-built-rplace/) in order to take an in-memory representation of the collaborative canvas.\n\n## Performance considerations\n\nUsually `BITFIELD` is a fast command, however note that addressing far bits of currently short strings will trigger an allocation that may be more costly than executing the command on bits already existing.\n\n## Orders of bits\n\nThe representation used by `BITFIELD` considers the bitmap as having the\nbit number 0 to be the most significant bit of the first byte, and so forth, so\nfor example setting a 5 bits unsigned integer to value 23 at offset 7 into a\nbitmap previously set to all zeroes, will produce the following representation:\n\n    +--------+--------+\n    |00000001|01110000|\n    +--------+--------+\n\nWhen offsets and integer sizes are aligned to bytes boundaries, this is the\nsame as big endian, however when such alignment does not exist, its important\nto also understand how the bits inside a byte are ordered.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays): each entry being the corresponding result of the sub-command given at the same position.\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if OVERFLOW FAIL was given and overflows or underflows are detected.\n\n**RESP3:**\n\nOne of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays): each entry being the corresponding result of the sub-command given at the same position.\n* [Null reply](../../develop/reference/protocol-spec#nulls): if OVERFLOW FAIL was given and overflows or underflows are detected.",
+  "content": "The command treats a Redis string as an array of bits, and is capable of addressing specific integer fields of varying bit widths and arbitrary non (necessary) aligned offset. In practical terms using this command you can set, for example, a signed 5 bits integer at bit offset 1234 to a specific value, retrieve a 31 bit unsigned integer from offset 4567. Similarly the command handles increments and decrements of the specified integers, providing guaranteed and well specified overflow and underflow behavior that the user can configure.\n\n`BITFIELD` is able to operate with multiple bit fields in the same command call. It takes a list of operations to perform, and returns an array of replies, where each array matches the corresponding operation in the list of arguments.\n\nFor example the following command increments a 5 bit signed integer at bit offset 100, and gets the value of the 4 bit unsigned integer at bit offset 0:\n\n    > BITFIELD mykey INCRBY i5 100 1 GET u4 0\n    1) (integer) 1\n    2) (integer) 0\n\nNote that:\n\n1. Addressing with `GET` bits outside the current string length (including the case the key does not exist at all), results in the operation to be performed like the missing part all consists of bits set to 0.\n2. Addressing with `SET` or `INCRBY` bits outside the current string length will enlarge the string, zero-padding it, as needed, for the minimal length needed, according to the most far bit touched.\n\n## Supported subcommands and integer encoding\n\nThe following is the list of supported commands.\n\n* **GET** `<encoding>` `<offset>` -- Returns the specified bit field.\n* **SET** `<encoding>` `<offset>` `<value>` -- Set the specified bit field and returns its old value.\n* **INCRBY** `<encoding>` `<offset>` `<increment>` -- Increments or decrements (if a negative increment is given) the specified bit field and returns the new value.\n\nThere is another subcommand that only changes the behavior of successive\n`INCRBY` and `SET` subcommands calls by setting the overflow behavior:\n\n* **OVERFLOW** `[WRAP|SAT|FAIL]`\n\nWhere an integer encoding is expected, it can be composed by prefixing with `i` for signed integers and `u` for unsigned integers with the number of bits of our integer encoding. So for example `u8` is an unsigned integer of 8 bits and `i16` is a\nsigned integer of 16 bits.\n\nThe supported encodings are up to 64 bits for signed integers, and up to 63 bits for\nunsigned integers. This limitation with unsigned integers is due to the fact\nthat currently the Redis protocol is unable to return 64 bit unsigned integers\nas replies.\n\n## Bits and positional offsets\n\nThere are two ways in order to specify offsets in the bitfield command.\nIf a number without any prefix is specified, it is used just as a zero based\nbit offset inside the string.\n\nHowever if the offset is prefixed with a `#` character, the specified offset\nis multiplied by the integer encoding's width, so for example:\n\n    BITFIELD mystring SET i8 #0 100 SET i8 #1 200\n\nWill set the first i8 integer at offset 0 and the second at offset 8.\nThis way you don't have to do the math yourself inside your client if what\nyou want is a plain array of integers of a given size.\n\n## Overflow control\n\nUsing the `OVERFLOW` command the user is able to fine-tune the behavior of\nthe increment or decrement overflow (or underflow) by specifying one of\nthe following behaviors:\n\n* **WRAP**: wrap around, both with signed and unsigned integers. In the case of unsigned integers, wrapping is like performing the operation modulo the maximum value the integer can contain (the C standard behavior). With signed integers instead wrapping means that overflows restart towards the most negative value and underflows towards the most positive ones, so for example if an `i8` integer is set to the value 127, incrementing it by 1 will yield `-128`.\n* **SAT**: uses saturation arithmetic, that is, on underflows the value is set to the minimum integer value, and on overflows to the maximum integer value. For example incrementing an `i8` integer starting from value 120 with an increment of 10, will result into the value 127, and further increments will always keep the value at 127. The same happens on underflows, but towards the value is blocked at the most negative value.\n* **FAIL**: in this mode no operation is performed on overflows or underflows detected. The corresponding return value is set to NULL to signal the condition to the caller.\n\nNote that each `OVERFLOW` statement only affects the `INCRBY` and `SET`\ncommands that follow it in the list of subcommands, up to the next `OVERFLOW`\nstatement.\n\nBy default, **WRAP** is used if not otherwise specified.\n\n    > BITFIELD mykey incrby u2 100 1 OVERFLOW SAT incrby u2 102 1\n    1) (integer) 1\n    2) (integer) 1\n    > BITFIELD mykey incrby u2 100 1 OVERFLOW SAT incrby u2 102 1\n    1) (integer) 2\n    2) (integer) 2\n    > BITFIELD mykey incrby u2 100 1 OVERFLOW SAT incrby u2 102 1\n    1) (integer) 3\n    2) (integer) 3\n    > BITFIELD mykey incrby u2 100 1 OVERFLOW SAT incrby u2 102 1\n    1) (integer) 0\n    2) (integer) 3\n\nThe following is an example of `OVERFLOW FAIL` returning NULL.\n\n    > BITFIELD mykey OVERFLOW FAIL incrby u2 102 1\n    1) (nil)\n\n## Motivations\n\nThe motivation for this command is that the ability to store many small integers\nas a single large bitmap (or segmented over a few keys to avoid having huge keys) is extremely memory efficient, and opens new use cases for Redis to be applied, especially in the field of real time analytics. This use cases are supported by the ability to specify the overflow in a controlled way.\n\nFun fact: Reddit's 2017 April fools' project [r/place](https://reddit.com/r/place) was [built using the Redis BITFIELD command](https://redditblog.com/2017/04/13/how-we-built-rplace/) in order to take an in-memory representation of the collaborative canvas.\n\n## Performance considerations\n\nUsually `BITFIELD` is a fast command, however note that addressing far bits of currently short strings will trigger an allocation that may be more costly than executing the command on bits already existing.\n\n## Orders of bits\n\nThe representation used by `BITFIELD` considers the bitmap as having the\nbit number 0 to be the most significant bit of the first byte, and so forth, so\nfor example setting a 5 bits unsigned integer to value 23 at offset 7 into a\nbitmap previously set to all zeroes, will produce the following representation:\n\n    +--------+--------+\n    |00000001|01110000|\n    +--------+--------+\n\nWhen offsets and integer sizes are aligned to bytes boundaries, this is the\nsame as big endian, however when such alignment does not exist, its important\nto also understand how the bits inside a byte are ordered.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"bitfield-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays): each entry being the corresponding result of the sub-command given at the same position.\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if OVERFLOW FAIL was given and overflows or underflows are detected.\n\n-tab-sep-\n\nOne of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays): each entry being the corresponding result of the sub-command given at the same position.\n* [Null reply](../../develop/reference/protocol-spec#nulls): if OVERFLOW FAIL was given and overflows or underflows are detected.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "The command treats a Redis string as an array of bits, and is capable of addressing specific integer fields of varying bit widths and arbitrary non (necessary) aligned offset. In practical terms using this command you can set, for example, a signed 5 bits integer at bit offset 1234 to a specific value, retrieve a 31 bit unsigned integer from offset 4567. Similarly the command handles increments and decrements of the specified integers, providing guaranteed and well specified overflow and underflow behavior that the user can configure.\n\n`BITFIELD` is able to operate with multiple bit fields in the same command call. It takes a list of operations to perform, and returns an array of replies, where each array matches the corresponding operation in the list of arguments.\n\nFor example the following command increments a 5 bit signed integer at bit offset 100, and gets the value of the 4 bit unsigned integer at bit offset 0:\n\n    > BITFIELD mykey INCRBY i5 100 1 GET u4 0\n    1) (integer) 1\n    2) (integer) 0\n\nNote that:\n\n1. Addressing with `GET` bits outside the current string length (including the case the key does not exist at all), results in the operation to be performed like the missing part all consists of bits set to 0.\n2. Addressing with `SET` or `INCRBY` bits outside the current string length will enlarge the string, zero-padding it, as needed, for the minimal length needed, according to the most far bit touched.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -249,7 +629,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays): each entry being the corresponding result of the sub-command given at the same position.\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if OVERFLOW FAIL was given and overflows or underflows are detected.\n\n**RESP3:**\n\nOne of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays): each entry being the corresponding result of the sub-command given at the same position.\n* [Null reply](../../develop/reference/protocol-spec#nulls): if OVERFLOW FAIL was given and overflows or underflows are detected."
+      "content": "{{< multitabs id=\"bitfield-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays): each entry being the corresponding result of the sub-command given at the same position.\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if OVERFLOW FAIL was given and overflows or underflows are detected.\n\n-tab-sep-\n\nOne of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays): each entry being the corresponding result of the sub-command given at the same position.\n* [Null reply](../../develop/reference/protocol-spec#nulls): if OVERFLOW FAIL was given and overflows or underflows are detected.\n\n{{< /multitabs >}}"
     }
   ]
 }

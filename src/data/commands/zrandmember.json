@@ -14,6 +14,502 @@
     "@sortedset",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "Optional[int] = None"
+          },
+          {
+            "description": "",
+            "name": "withscores",
+            "type": "bool = False"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "ResponseT"
+        },
+        "signature": "zrandmember(key: KeyT, count: Optional[int] = None, withscores: bool = False)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "String"
+        },
+        "signature": "String zrandmember(final String key)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List<String>"
+        },
+        "signature": "List<String> zrandmember(final String key, final long count)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "List&lt;ScoredValue&lt;V&gt;&gt; array-reply list of scores and elements. @since 6.1",
+          "type": "V"
+        },
+        "signature": "V zrandmember(K key)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "fields.",
+            "name": "count",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "List&lt;ScoredValue&lt;V&gt;&gt; array-reply list of scores and elements. @since 6.1",
+          "type": "List<V>"
+        },
+        "signature": "List<V> zrandmember(K key, long count)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "List&lt;ScoredValue&lt;V&gt;&gt; array-reply list of scores and elements. @since 6.1",
+          "type": "RedisFuture<V>"
+        },
+        "signature": "RedisFuture<V> zrandmember(K key)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "fields.",
+            "name": "count",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "List&lt;ScoredValue&lt;V&gt;&gt; array-reply list of scores and elements. @since 6.1",
+          "type": "RedisFuture<List<V>>"
+        },
+        "signature": "RedisFuture<List<V>> zrandmember(K key, long count)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "ScoredValue&lt;V&gt; array-reply list of scores and elements. @since 6.1",
+          "type": "Mono<V>"
+        },
+        "signature": "Mono<V> zrandmember(K key)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "fields.",
+            "name": "count",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "ScoredValue&lt;V&gt; array-reply list of scores and elements. @since 6.1",
+          "type": "Flux<V>"
+        },
+        "signature": "Flux<V> zrandmember(K key, long count)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StringSliceCmd"
+        },
+        "signature": "ZRandMember(ctx context.Context, key string, count int)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "ZRANDMEMBER(key: RedisArgument)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<string | null>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zrandmember(key: RedisKey, callback?: Callback<string | null>)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "number | string"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<string[]>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zrandmember(key: RedisKey, count: number | string, callback?: Callback<string[]>)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "number | string"
+          },
+          {
+            "description": "",
+            "name": "withscores",
+            "type": "\"WITHSCORES\""
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<string[]>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zrandmember(key: RedisKey, count: number | string, withscores: \"WITHSCORES\", callback?: Callback<string[]>)"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "Option<isize>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Generic"
+        },
+        "signature": "zrandmember(key: K, count: Option<isize>)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "isize"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Generic"
+        },
+        "signature": "zrandmember_withscores(key: K, count: isize)"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "Option<isize>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Generic"
+        },
+        "signature": "zrandmember(key: K, count: Option<isize>)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "isize"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Generic"
+        },
+        "signature": "zrandmember_withscores(key: K, count: isize)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "does not exist.</returns> <remarks></remarks>",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "RedisValue"
+        },
+        "signature": "SortedSetRandomMember(RedisKey key, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "does not exist.</returns> <remarks></remarks>",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "RedisValue"
+        },
+        "signature": "SortedSetRandomMember(RedisKey key, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "does not exist.</returns> <remarks></remarks>",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "RedisValue"
+        },
+        "signature": "SortedSetRandomMember(RedisKey key, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "does not exist.</returns> <remarks></remarks>",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "RedisValue"
+        },
+        "signature": "SortedSetRandomMember(RedisKey key, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "int $count = 1",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "bool $withScores = false",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "mixed"
+        },
+        "signature": "zrandmember(string $key, int $count = 1, bool $withScores = false)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "Integer"
+          },
+          {
+            "description": "include scores in output",
+            "name": "with_scores",
+            "type": "Boolean"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "nil, String, Array<String>, Array<[String, Float]>"
+        },
+        "signature": "zrandmember(key, count = nil, with_scores: false)"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly"
   ],
@@ -75,28 +571,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "specification-of-the-behavior-when-count-is-passed",
-        "title": "Specification of the behavior when count is passed"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "When called with just the `key` argument, return a random element from the sorted set value stored at `key`.\n\nIf the provided `count` argument is positive, return an array of **distinct elements**.\nThe array's length is either `count` or the sorted set's cardinality ([`ZCARD`]()), whichever is lower.\n\nIf called with a negative `count`, the behavior changes and the command is allowed to return the **same element multiple times**.\nIn this case, the number of returned elements is the absolute value of the specified `count`.\n\nThe optional `WITHSCORES` modifier changes the reply so it includes the respective scores of the randomly selected elements from the sorted set.\n\n## Examples\n\n\nZADD dadi 1 uno 2 due 3 tre 4 quattro 5 cinque 6 sei\nZRANDMEMBER dadi\nZRANDMEMBER dadi\nZRANDMEMBER dadi -5 WITHSCORES\n\n\n## Specification of the behavior when count is passed\n\nWhen the `count` argument is a positive value this command behaves as follows:\n\n* No repeated elements are returned.\n* If `count` is bigger than the cardinality of the sorted set, the command will only return the whole sorted set without additional elements.\n* The order of elements in the reply is not truly random, so it is up to the client to shuffle them if needed.\n\nWhen the `count` is a negative value, the behavior changes as follows:\n\n* Repeating elements are possible.\n* Exactly `count` elements, or an empty array if the sorted set is empty (non-existing key), are always returned.\n* The order of elements in the reply is truly random.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): without the additional _count_ argument, the command returns a randomly selected member, or [Nil reply](../../develop/reference/protocol-spec#bulk-strings) when _key_ doesn't exist.\n[Array reply](../../develop/reference/protocol-spec#arrays): when the additional _count_ argument is passed, the command returns an array of members, or an empty array when _key_ doesn't exist. If the _WITHSCORES_ modifier is used, the reply is a list of members and their scores from the sorted set.\n\n**RESP3:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): without the additional _count_ argument, the command returns a randomly selected member, or [Null reply](../../develop/reference/protocol-spec#nulls) when _key_ doesn't exist.\n[Array reply](../../develop/reference/protocol-spec#arrays): when the additional _count_ argument is passed, the command returns an array of members, or an empty array when _key_ doesn't exist. If the _WITHSCORES_ modifier is used, the reply is a list of members and their scores from the sorted set.",
+  "content": "When called with just the `key` argument, return a random element from the sorted set value stored at `key`.\n\nIf the provided `count` argument is positive, return an array of **distinct elements**.\nThe array's length is either `count` or the sorted set's cardinality ([`ZCARD`]()), whichever is lower.\n\nIf called with a negative `count`, the behavior changes and the command is allowed to return the **same element multiple times**.\nIn this case, the number of returned elements is the absolute value of the specified `count`.\n\nThe optional `WITHSCORES` modifier changes the reply so it includes the respective scores of the randomly selected elements from the sorted set.\n\n## Examples\n\n{{% redis-cli %}}\nZADD dadi 1 uno 2 due 3 tre 4 quattro 5 cinque 6 sei\nZRANDMEMBER dadi\nZRANDMEMBER dadi\nZRANDMEMBER dadi -5 WITHSCORES\n{{% /redis-cli %}}\n\n## Specification of the behavior when count is passed\n\nWhen the `count` argument is a positive value this command behaves as follows:\n\n* No repeated elements are returned.\n* If `count` is bigger than the cardinality of the sorted set, the command will only return the whole sorted set without additional elements.\n* The order of elements in the reply is not truly random, so it is up to the client to shuffle them if needed.\n\nWhen the `count` is a negative value, the behavior changes as follows:\n\n* Repeating elements are possible.\n* Exactly `count` elements, or an empty array if the sorted set is empty (non-existing key), are always returned.\n* The order of elements in the reply is truly random.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"zrandmember-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): without the additional _count_ argument, the command returns a randomly selected member, or [Nil reply](../../develop/reference/protocol-spec#bulk-strings) when _key_ doesn't exist.\n[Array reply](../../develop/reference/protocol-spec#arrays): when the additional _count_ argument is passed, the command returns an array of members, or an empty array when _key_ doesn't exist. If the _WITHSCORES_ modifier is used, the reply is a list of members and their scores from the sorted set.\n\n-tab-sep-\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): without the additional _count_ argument, the command returns a randomly selected member, or [Null reply](../../develop/reference/protocol-spec#nulls) when _key_ doesn't exist.\n[Array reply](../../develop/reference/protocol-spec#arrays): when the additional _count_ argument is passed, the command returns an array of members, or an empty array when _key_ doesn't exist. If the _WITHSCORES_ modifier is used, the reply is a list of members and their scores from the sorted set.\n\n{{< /multitabs >}}",
+  "example": "ZADD dadi 1 uno 2 due 3 tre 4 quattro 5 cinque 6 sei\nZRANDMEMBER dadi\nZRANDMEMBER dadi\nZRANDMEMBER dadi -5 WITHSCORES",
   "intro": "When called with just the `key` argument, return a random element from the sorted set value stored at `key`.\n\nIf the provided `count` argument is positive, return an array of **distinct elements**.\nThe array's length is either `count` or the sorted set's cardinality ([`ZCARD`]()), whichever is lower.\n\nIf called with a negative `count`, the behavior changes and the command is allowed to return the **same element multiple times**.\nIn this case, the number of returned elements is the absolute value of the specified `count`.\n\nThe optional `WITHSCORES` modifier changes the reply so it includes the respective scores of the randomly selected elements from the sorted set.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -106,7 +587,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "ZADD dadi 1 uno 2 due 3 tre 4 quattro 5 cinque 6 sei\nZRANDMEMBER dadi\nZRANDMEMBER dadi\nZRANDMEMBER dadi -5 WITHSCORES"
+      "content": "{{% redis-cli %}}\nZADD dadi 1 uno 2 due 3 tre 4 quattro 5 cinque 6 sei\nZRANDMEMBER dadi\nZRANDMEMBER dadi\nZRANDMEMBER dadi -5 WITHSCORES\n{{% /redis-cli %}}"
     },
     {
       "title": "Specification of the behavior when count is passed",
@@ -121,7 +602,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): without the additional _count_ argument, the command returns a randomly selected member, or [Nil reply](../../develop/reference/protocol-spec#bulk-strings) when _key_ doesn't exist.\n[Array reply](../../develop/reference/protocol-spec#arrays): when the additional _count_ argument is passed, the command returns an array of members, or an empty array when _key_ doesn't exist. If the _WITHSCORES_ modifier is used, the reply is a list of members and their scores from the sorted set.\n\n**RESP3:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): without the additional _count_ argument, the command returns a randomly selected member, or [Null reply](../../develop/reference/protocol-spec#nulls) when _key_ doesn't exist.\n[Array reply](../../develop/reference/protocol-spec#arrays): when the additional _count_ argument is passed, the command returns an array of members, or an empty array when _key_ doesn't exist. If the _WITHSCORES_ modifier is used, the reply is a list of members and their scores from the sorted set."
+      "content": "{{< multitabs id=\"zrandmember-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): without the additional _count_ argument, the command returns a randomly selected member, or [Nil reply](../../develop/reference/protocol-spec#bulk-strings) when _key_ doesn't exist.\n[Array reply](../../develop/reference/protocol-spec#arrays): when the additional _count_ argument is passed, the command returns an array of members, or an empty array when _key_ doesn't exist. If the _WITHSCORES_ modifier is used, the reply is a list of members and their scores from the sorted set.\n\n-tab-sep-\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): without the additional _count_ argument, the command returns a randomly selected member, or [Null reply](../../develop/reference/protocol-spec#nulls) when _key_ doesn't exist.\n[Array reply](../../develop/reference/protocol-spec#arrays): when the additional _count_ argument is passed, the command returns an array of members, or an empty array when _key_ doesn't exist. If the _WITHSCORES_ modifier is used, the reply is a list of members and their scores from the sorted set.\n\n{{< /multitabs >}}"
     }
   ]
 }

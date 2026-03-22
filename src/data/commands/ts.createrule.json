@@ -14,6 +14,308 @@
     "@write",
     "@fast"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "source_key",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "dest_key",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "aggregation_type",
+            "type": "str"
+          },
+          {
+            "description": "",
+            "name": "bucket_size_msec",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "align_timestamp",
+            "type": "Optional[int] = None"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "createrule(, source_key: KeyT,, dest_key: KeyT,, aggregation_type: str,, bucket_size_msec: int,, align_timestamp: Optional[int] = None,)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "sourceKey",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "destKey",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "aggregationType",
+            "type": "AggregationType"
+          },
+          {
+            "description": "",
+            "name": "timeBucket",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "String"
+        },
+        "signature": "String tsCreateRule(String sourceKey, String destKey, AggregationType aggregationType, long timeBucket)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "sourceKey",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "destKey",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "aggregationType",
+            "type": "AggregationType"
+          },
+          {
+            "description": "",
+            "name": "bucketDuration",
+            "type": "long"
+          },
+          {
+            "description": "",
+            "name": "alignTimestamp",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "String"
+        },
+        "signature": "String tsCreateRule(String sourceKey, String destKey, AggregationType aggregationType, long bucketDuration, long alignTimestamp)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "sourceKey",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "destKey",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "aggregator",
+            "type": "Aggregator"
+          },
+          {
+            "description": "",
+            "name": "bucketDuration",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StatusCmd"
+        },
+        "signature": "TSCreateRule(ctx context.Context, sourceKey string, destKey string, aggregator Aggregator, bucketDuration int)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "sourceKey",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "destKey",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "aggregator",
+            "type": "Aggregator"
+          },
+          {
+            "description": "",
+            "name": "bucketDuration",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "options",
+            "type": "*TSCreateRuleOptions"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StatusCmd"
+        },
+        "signature": "TSCreateRuleWithArgs(ctx context.Context, sourceKey string, destKey string, aggregator Aggregator, bucketDuration int, options *TSCreateRuleOptions)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "sourceKey",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "destinationKey",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "aggregationType",
+            "type": "TimeSeriesAggregationType"
+          },
+          {
+            "description": "",
+            "name": "bucketDuration",
+            "type": "number"
+          },
+          {
+            "description": "",
+            "name": "alignTimestamp?",
+            "type": "number"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "CREATERULE(sourceKey: RedisArgument, destinationKey: RedisArgument, aggregationType: TimeSeriesAggregationType, bucketDuration: number, alignTimestamp?: number)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "sourceKey",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "rule",
+            "type": "TimeSeriesRule"
+          },
+          {
+            "description": "",
+            "name": "alignTimestamp",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "bool"
+        },
+        "signature": "CreateRule(string sourceKey, TimeSeriesRule rule, long alignTimestamp = 0)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "sourceKey",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "rule",
+            "type": "TimeSeriesRule"
+          },
+          {
+            "description": "",
+            "name": "alignTimestamp",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Task<bool>"
+        },
+        "signature": "CreateRuleAsync(string sourceKey, TimeSeriesRule rule, long alignTimestamp = 0)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$sourceKey",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$destKey",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$aggregator",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$bucketDuration",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "int $alignTimestamp = 0",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Status"
+        },
+        "signature": "tscreaterule(string $sourceKey, string $destKey, string $aggregator, int $bucketDuration, int $alignTimestamp = 0)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -132,50 +434,25 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "optional-arguments",
-        "title": "Optional arguments"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      },
-      {
-        "id": "see-also",
-        "title": "See also"
-      },
-      {
-        "id": "related-topics",
-        "title": "Related topics"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\n\nCreate a compaction rule\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open><summary><code>sourceKey</code></summary>\n\nis key name for the source time series.\n</details>\n\n<details open><summary><code>destKey</code></summary> \n\nis key name for destination (compacted) time series. It must be created before `TS.CREATERULE` is called. \n</details>\n\n<details open><summary><code>AGGREGATION aggregator bucketDuration</code></summary> \n\naggregates results into time buckets.\n\n  - `aggregator` takes one of the following aggregation types:\n\n    | `aggregator` | Description                                                     |\n    | ------------ | --------------------------------------------------------------- |\n    | `avg`        | Arithmetic mean of all non-NaN values                           |\n    | `sum`        | Sum of all non-NaN values                                       |\n    | `min`        | Minimum non-NaN value                                           |\n    | `max`        | Maximum non-NaN value                                           |\n    | `range`      | Difference between the maximum and the minimum non-NaN values   |\n    | `count`      | Number of non-NaN values                                        |\n    | `countNaN`   | Number of NaN values (since Redis 8.6)                          |\n    | `countAll`   | Number of values, including NaN and non-NaN (since Redis 8.6)   |\n    | `first`      | The non-NaN value with the lowest timestamp in the bucket       |\n    | `last`       | The non-NaN value with the highest timestamp in the bucket      |\n    | `std.p`      | Population standard deviation of the non-NaN values             |\n    | `std.s`      | Sample standard deviation of the non-NaN values                 |\n    | `var.p`      | Population variance of the non-NaN values                       |\n    | `var.s`      | Sample variance of the non-NaN values                           |\n    | `twa`        | Time-weighted average over the bucket's timeframe (ignores NaN values) (since RedisTimeSeries 1.8) |\n\n  - `bucketDuration` is duration of each bucket, in milliseconds.\n  \n<note><b>Notes</b>\n\n- Only new samples that are added into the source series after the creation of the rule will be aggregated.\n- Calling `TS.CREATERULE` with a nonempty `destKey` may result in inconsistencies between the raw and the compacted data.\n- Explicitly adding samples to a compacted time series (using [`TS.ADD`](), [`TS.MADD`](), [`TS.INCRBY`](), or [`TS.DECRBY`]()) may result in inconsistencies between the raw and the compacted data. The compaction process may override such samples.\n- If no samples are added to the source time series during a bucket period. no _compacted sample_ is added to the destination time series.\n- The timestamp of a compacted sample added to the destination time series is set to the start timestamp the appropriate compaction bucket. For example, for a 10-minute compaction bucket with no alignment, the compacted samples timestamps are `x:00`, `x:10`, `x:20`, and so on.\n- Deleting `destKey` will cause the compaction rule to be deleted as well.\n\n\nIn a clustered environment, you must use [hash tags](#hash-tags) to force `sourceKey` and `destKey` to be stored in the same hash slot. If you don't, Redis may fail to compact the data without displaying any error messages.\n\n  \n</note>\n\n## Optional arguments\n\n<details open><summary><code>alignTimestamp</code> (since RedisTimeSeries 1.8)</summary>\n\nensures that there is a bucket that starts exactly at `alignTimestamp` and aligns all other buckets accordingly. It is expressed in milliseconds. The default value is 0: aligned with the Unix epoch.\n\nFor example, if `bucketDuration` is 24 hours (`24 * 3600 * 1000`), setting `alignTimestamp` to 6 hours after the Unix epoch (`6 * 3600 * 1000`) ensures that each bucket’s timeframe is `[06:00 .. 06:00)`.\n</details>\n\n## Examples\n\n<details open>\n<summary><b>Create a compaction rule</b></summary>\n\nCreate a time series to store the temperatures measured in Tel Aviv.\n\n\n127.0.0.1:6379> TS.CREATE temp:{TLV} LABELS type temp location TLV\nOK\n\n\nNext, create a compacted time series named _dailyAvgTemp_ containing one compacted sample per 24 hours: the time-weighted average of all measurements taken from midnight to next midnight.\n\n\n127.0.0.1:6379> TS.CREATE dailyAvgTemp:{TLV} LABELS type temp location TLV\n127.0.0.1:6379> TS.CREATERULE temp:{TLV} dailyAvgTemp:{TLV} AGGREGATION twa 86400000 \n\n\nNow, also create a compacted time series named _dailyDiffTemp_. This time series will contain one compacted sample per 24 hours: the difference between the minimum and the maximum temperature measured between 06:00 and 06:00 next day.\n Here, 86400000 is the number of milliseconds in 24 hours, 21600000 is the number of milliseconds in 6 hours.\n\n\n127.0.0.1:6379> TS.CREATE dailyDiffTemp:{TLV} LABELS type temp location TLV\n127.0.0.1:6379> TS.CREATERULE temp:{TLV} dailyDiffTemp:{TLV} AGGREGATION range 86400000 21600000\n\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Simple string reply](): `OK` when the compaction rule is created successfully.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, `sourceKey` does not exist, `destKey` does not exist, `sourceKey` is already a destination of a compaction rule, `destKey` is already a source or a destination of a compaction rule, or `sourceKey` and `destKey` are identical.\n\n**RESP3:**\n\nOne of the following:\n* [Simple string reply](): `OK` when the compaction rule is created successfully.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, `sourceKey` does not exist, `destKey` does not exist, `sourceKey` is already a destination of a compaction rule, `destKey` is already a source or a destination of a compaction rule, or `sourceKey` and `destKey` are identical.\n\n\n\n## See also\n\n[`TS.DELETERULE`]() \n\n## Related topics\n\n[RedisTimeSeries]()",
-  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\n\nCreate a compaction rule\n\n[Examples](#examples)",
+  "content": "Create a compaction rule\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open><summary><code>sourceKey</code></summary>\n\nis key name for the source time series.\n</details>\n\n<details open><summary><code>destKey</code></summary> \n\nis key name for destination (compacted) time series. It must be created before `TS.CREATERULE` is called. \n</details>\n\n<details open><summary><code>AGGREGATION aggregator bucketDuration</code></summary> \n\naggregates results into time buckets.\n\n  - `aggregator` takes one of the following aggregation types:\n\n    | `aggregator` | Description                                                     |\n    | ------------ | --------------------------------------------------------------- |\n    | `avg`        | Arithmetic mean of all non-NaN values                           |\n    | `sum`        | Sum of all non-NaN values                                       |\n    | `min`        | Minimum non-NaN value                                           |\n    | `max`        | Maximum non-NaN value                                           |\n    | `range`      | Difference between the maximum and the minimum non-NaN values   |\n    | `count`      | Number of non-NaN values                                        |\n    | `countNaN`   | Number of NaN values (since Redis 8.6)                          |\n    | `countAll`   | Number of values, including NaN and non-NaN (since Redis 8.6)   |\n    | `first`      | The non-NaN value with the lowest timestamp in the bucket       |\n    | `last`       | The non-NaN value with the highest timestamp in the bucket      |\n    | `std.p`      | Population standard deviation of the non-NaN values             |\n    | `std.s`      | Sample standard deviation of the non-NaN values                 |\n    | `var.p`      | Population variance of the non-NaN values                       |\n    | `var.s`      | Sample variance of the non-NaN values                           |\n    | `twa`        | Time-weighted average over the bucket's timeframe (ignores NaN values) (since RedisTimeSeries 1.8) |\n\n  - `bucketDuration` is duration of each bucket, in milliseconds.\n  \n<note><b>Notes</b>\n\n- Only new samples that are added into the source series after the creation of the rule will be aggregated.\n- Calling `TS.CREATERULE` with a nonempty `destKey` may result in inconsistencies between the raw and the compacted data.\n- Explicitly adding samples to a compacted time series (using [`TS.ADD`]({{< relref \"commands/ts.add/\" >}}), [`TS.MADD`]({{< relref \"commands/ts.madd/\" >}}), [`TS.INCRBY`]({{< relref \"commands/ts.incrby/\" >}}), or [`TS.DECRBY`]({{< relref \"commands/ts.decrby/\" >}})) may result in inconsistencies between the raw and the compacted data. The compaction process may override such samples.\n- If no samples are added to the source time series during a bucket period. no _compacted sample_ is added to the destination time series.\n- The timestamp of a compacted sample added to the destination time series is set to the start timestamp the appropriate compaction bucket. For example, for a 10-minute compaction bucket with no alignment, the compacted samples timestamps are `x:00`, `x:10`, `x:20`, and so on.\n- Deleting `destKey` will cause the compaction rule to be deleted as well.\n\n{{% warning %}}\nIn a clustered environment, you must use [hash tags]({{< relref \"/operate/oss_and_stack/reference/cluster-spec\" >}}#hash-tags) to force `sourceKey` and `destKey` to be stored in the same hash slot. If you don't, Redis may fail to compact the data without displaying any error messages.\n{{% /warning %}}\n  \n</note>\n\n## Optional arguments\n\n<details open><summary><code>alignTimestamp</code> (since RedisTimeSeries 1.8)</summary>\n\nensures that there is a bucket that starts exactly at `alignTimestamp` and aligns all other buckets accordingly. It is expressed in milliseconds. The default value is 0: aligned with the Unix epoch.\n\nFor example, if `bucketDuration` is 24 hours (`24 * 3600 * 1000`), setting `alignTimestamp` to 6 hours after the Unix epoch (`6 * 3600 * 1000`) ensures that each bucket’s timeframe is `[06:00 .. 06:00)`.\n</details>\n\n## Examples\n\n<details open>\n<summary><b>Create a compaction rule</b></summary>\n\nCreate a time series to store the temperatures measured in Tel Aviv.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.CREATE temp:{TLV} LABELS type temp location TLV\nOK\n{{< / highlight >}}\n\nNext, create a compacted time series named _dailyAvgTemp_ containing one compacted sample per 24 hours: the time-weighted average of all measurements taken from midnight to next midnight.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.CREATE dailyAvgTemp:{TLV} LABELS type temp location TLV\n127.0.0.1:6379> TS.CREATERULE temp:{TLV} dailyAvgTemp:{TLV} AGGREGATION twa 86400000 \n{{< / highlight >}}\n\nNow, also create a compacted time series named _dailyDiffTemp_. This time series will contain one compacted sample per 24 hours: the difference between the minimum and the maximum temperature measured between 06:00 and 06:00 next day.\n Here, 86400000 is the number of milliseconds in 24 hours, 21600000 is the number of milliseconds in 6 hours.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.CREATE dailyDiffTemp:{TLV} LABELS type temp location TLV\n127.0.0.1:6379> TS.CREATERULE temp:{TLV} dailyDiffTemp:{TLV} AGGREGATION range 86400000 21600000\n{{< / highlight >}}\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"ts-createrule-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` when the compaction rule is created successfully.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, wrong key type, `sourceKey` does not exist, `destKey` does not exist, `sourceKey` is already a destination of a compaction rule, `destKey` is already a source or a destination of a compaction rule, or `sourceKey` and `destKey` are identical.\n\n-tab-sep-\n\nOne of the following:\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` when the compaction rule is created successfully.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, wrong key type, `sourceKey` does not exist, `destKey` does not exist, `sourceKey` is already a destination of a compaction rule, `destKey` is already a source or a destination of a compaction rule, or `sourceKey` and `destKey` are identical.\n\n{{< /multitabs >}}\n\n## See also\n\n[`TS.DELETERULE`]({{< relref \"commands/ts.deleterule/\" >}}) \n\n## Related topics\n\n[RedisTimeSeries]({{< relref \"/develop/data-types/timeseries/\" >}})",
+  "example": "127.0.0.1:6379> TS.CREATE temp:{TLV} LABELS type temp location TLV\nOK",
+  "intro": "Create a compaction rule\n\n[Examples](#examples)",
+  "notes": [
+    "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information."
+  ],
   "sections": [
     {
       "title": "Overview",
       "level": 1,
-      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\n\nCreate a compaction rule\n\n[Examples](#examples)"
+      "content": "Create a compaction rule\n\n[Examples](#examples)"
     },
     {
       "title": "Required arguments",
       "level": 2,
-      "content": "<details open><summary><code>sourceKey</code></summary>\n\nis key name for the source time series.\n</details>\n\n<details open><summary><code>destKey</code></summary> \n\nis key name for destination (compacted) time series. It must be created before `TS.CREATERULE` is called. \n</details>\n\n<details open><summary><code>AGGREGATION aggregator bucketDuration</code></summary> \n\naggregates results into time buckets.\n\n  - `aggregator` takes one of the following aggregation types:\n\n    | `aggregator` | Description                                                     |\n    | ------------ | --------------------------------------------------------------- |\n    | `avg`        | Arithmetic mean of all non-NaN values                           |\n    | `sum`        | Sum of all non-NaN values                                       |\n    | `min`        | Minimum non-NaN value                                           |\n    | `max`        | Maximum non-NaN value                                           |\n    | `range`      | Difference between the maximum and the minimum non-NaN values   |\n    | `count`      | Number of non-NaN values                                        |\n    | `countNaN`   | Number of NaN values (since Redis 8.6)                          |\n    | `countAll`   | Number of values, including NaN and non-NaN (since Redis 8.6)   |\n    | `first`      | The non-NaN value with the lowest timestamp in the bucket       |\n    | `last`       | The non-NaN value with the highest timestamp in the bucket      |\n    | `std.p`      | Population standard deviation of the non-NaN values             |\n    | `std.s`      | Sample standard deviation of the non-NaN values                 |\n    | `var.p`      | Population variance of the non-NaN values                       |\n    | `var.s`      | Sample variance of the non-NaN values                           |\n    | `twa`        | Time-weighted average over the bucket's timeframe (ignores NaN values) (since RedisTimeSeries 1.8) |\n\n  - `bucketDuration` is duration of each bucket, in milliseconds.\n  \n<note><b>Notes</b>\n\n- Only new samples that are added into the source series after the creation of the rule will be aggregated.\n- Calling `TS.CREATERULE` with a nonempty `destKey` may result in inconsistencies between the raw and the compacted data.\n- Explicitly adding samples to a compacted time series (using [`TS.ADD`](), [`TS.MADD`](), [`TS.INCRBY`](), or [`TS.DECRBY`]()) may result in inconsistencies between the raw and the compacted data. The compaction process may override such samples.\n- If no samples are added to the source time series during a bucket period. no _compacted sample_ is added to the destination time series.\n- The timestamp of a compacted sample added to the destination time series is set to the start timestamp the appropriate compaction bucket. For example, for a 10-minute compaction bucket with no alignment, the compacted samples timestamps are `x:00`, `x:10`, `x:20`, and so on.\n- Deleting `destKey` will cause the compaction rule to be deleted as well.\n\n\nIn a clustered environment, you must use [hash tags](#hash-tags) to force `sourceKey` and `destKey` to be stored in the same hash slot. If you don't, Redis may fail to compact the data without displaying any error messages.\n\n  \n</note>"
+      "content": "<details open><summary><code>sourceKey</code></summary>\n\nis key name for the source time series.\n</details>\n\n<details open><summary><code>destKey</code></summary> \n\nis key name for destination (compacted) time series. It must be created before `TS.CREATERULE` is called. \n</details>\n\n<details open><summary><code>AGGREGATION aggregator bucketDuration</code></summary> \n\naggregates results into time buckets.\n\n  - `aggregator` takes one of the following aggregation types:\n\n    | `aggregator` | Description                                                     |\n    | ------------ | --------------------------------------------------------------- |\n    | `avg`        | Arithmetic mean of all non-NaN values                           |\n    | `sum`        | Sum of all non-NaN values                                       |\n    | `min`        | Minimum non-NaN value                                           |\n    | `max`        | Maximum non-NaN value                                           |\n    | `range`      | Difference between the maximum and the minimum non-NaN values   |\n    | `count`      | Number of non-NaN values                                        |\n    | `countNaN`   | Number of NaN values (since Redis 8.6)                          |\n    | `countAll`   | Number of values, including NaN and non-NaN (since Redis 8.6)   |\n    | `first`      | The non-NaN value with the lowest timestamp in the bucket       |\n    | `last`       | The non-NaN value with the highest timestamp in the bucket      |\n    | `std.p`      | Population standard deviation of the non-NaN values             |\n    | `std.s`      | Sample standard deviation of the non-NaN values                 |\n    | `var.p`      | Population variance of the non-NaN values                       |\n    | `var.s`      | Sample variance of the non-NaN values                           |\n    | `twa`        | Time-weighted average over the bucket's timeframe (ignores NaN values) (since RedisTimeSeries 1.8) |\n\n  - `bucketDuration` is duration of each bucket, in milliseconds.\n  \n<note><b>Notes</b>\n\n- Only new samples that are added into the source series after the creation of the rule will be aggregated.\n- Calling `TS.CREATERULE` with a nonempty `destKey` may result in inconsistencies between the raw and the compacted data.\n- Explicitly adding samples to a compacted time series (using [`TS.ADD`]({{< relref \"commands/ts.add/\" >}}), [`TS.MADD`]({{< relref \"commands/ts.madd/\" >}}), [`TS.INCRBY`]({{< relref \"commands/ts.incrby/\" >}}), or [`TS.DECRBY`]({{< relref \"commands/ts.decrby/\" >}})) may result in inconsistencies between the raw and the compacted data. The compaction process may override such samples.\n- If no samples are added to the source time series during a bucket period. no _compacted sample_ is added to the destination time series.\n- The timestamp of a compacted sample added to the destination time series is set to the start timestamp the appropriate compaction bucket. For example, for a 10-minute compaction bucket with no alignment, the compacted samples timestamps are `x:00`, `x:10`, `x:20`, and so on.\n- Deleting `destKey` will cause the compaction rule to be deleted as well.\n\n{{% warning %}}\nIn a clustered environment, you must use [hash tags]({{< relref \"/operate/oss_and_stack/reference/cluster-spec\" >}}#hash-tags) to force `sourceKey` and `destKey` to be stored in the same hash slot. If you don't, Redis may fail to compact the data without displaying any error messages.\n{{% /warning %}}\n  \n</note>"
     },
     {
       "title": "Optional arguments",
@@ -185,7 +462,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "<details open>\n<summary><b>Create a compaction rule</b></summary>\n\nCreate a time series to store the temperatures measured in Tel Aviv.\n\n\n127.0.0.1:6379> TS.CREATE temp:{TLV} LABELS type temp location TLV\nOK\n\n\nNext, create a compacted time series named _dailyAvgTemp_ containing one compacted sample per 24 hours: the time-weighted average of all measurements taken from midnight to next midnight.\n\n\n127.0.0.1:6379> TS.CREATE dailyAvgTemp:{TLV} LABELS type temp location TLV\n127.0.0.1:6379> TS.CREATERULE temp:{TLV} dailyAvgTemp:{TLV} AGGREGATION twa 86400000 \n\n\nNow, also create a compacted time series named _dailyDiffTemp_. This time series will contain one compacted sample per 24 hours: the difference between the minimum and the maximum temperature measured between 06:00 and 06:00 next day.\n Here, 86400000 is the number of milliseconds in 24 hours, 21600000 is the number of milliseconds in 6 hours.\n\n\n127.0.0.1:6379> TS.CREATE dailyDiffTemp:{TLV} LABELS type temp location TLV\n127.0.0.1:6379> TS.CREATERULE temp:{TLV} dailyDiffTemp:{TLV} AGGREGATION range 86400000 21600000\n\n\n</details>"
+      "content": "<details open>\n<summary><b>Create a compaction rule</b></summary>\n\nCreate a time series to store the temperatures measured in Tel Aviv.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.CREATE temp:{TLV} LABELS type temp location TLV\nOK\n{{< / highlight >}}\n\nNext, create a compacted time series named _dailyAvgTemp_ containing one compacted sample per 24 hours: the time-weighted average of all measurements taken from midnight to next midnight.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.CREATE dailyAvgTemp:{TLV} LABELS type temp location TLV\n127.0.0.1:6379> TS.CREATERULE temp:{TLV} dailyAvgTemp:{TLV} AGGREGATION twa 86400000 \n{{< / highlight >}}\n\nNow, also create a compacted time series named _dailyDiffTemp_. This time series will contain one compacted sample per 24 hours: the difference between the minimum and the maximum temperature measured between 06:00 and 06:00 next day.\n Here, 86400000 is the number of milliseconds in 24 hours, 21600000 is the number of milliseconds in 6 hours.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.CREATE dailyDiffTemp:{TLV} LABELS type temp location TLV\n127.0.0.1:6379> TS.CREATERULE temp:{TLV} dailyDiffTemp:{TLV} AGGREGATION range 86400000 21600000\n{{< / highlight >}}\n\n</details>"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -195,17 +472,17 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Simple string reply](): `OK` when the compaction rule is created successfully.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, `sourceKey` does not exist, `destKey` does not exist, `sourceKey` is already a destination of a compaction rule, `destKey` is already a source or a destination of a compaction rule, or `sourceKey` and `destKey` are identical.\n\n**RESP3:**\n\nOne of the following:\n* [Simple string reply](): `OK` when the compaction rule is created successfully.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, `sourceKey` does not exist, `destKey` does not exist, `sourceKey` is already a destination of a compaction rule, `destKey` is already a source or a destination of a compaction rule, or `sourceKey` and `destKey` are identical."
+      "content": "{{< multitabs id=\"ts-createrule-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` when the compaction rule is created successfully.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, wrong key type, `sourceKey` does not exist, `destKey` does not exist, `sourceKey` is already a destination of a compaction rule, `destKey` is already a source or a destination of a compaction rule, or `sourceKey` and `destKey` are identical.\n\n-tab-sep-\n\nOne of the following:\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` when the compaction rule is created successfully.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, wrong key type, `sourceKey` does not exist, `destKey` does not exist, `sourceKey` is already a destination of a compaction rule, `destKey` is already a source or a destination of a compaction rule, or `sourceKey` and `destKey` are identical.\n\n{{< /multitabs >}}"
     },
     {
       "title": "See also",
       "level": 2,
-      "content": "[`TS.DELETERULE`]()"
+      "content": "[`TS.DELETERULE`]({{< relref \"commands/ts.deleterule/\" >}})"
     },
     {
       "title": "Related topics",
       "level": 2,
-      "content": "[RedisTimeSeries]()"
+      "content": "[RedisTimeSeries]({{< relref \"/develop/data-types/timeseries/\" >}})"
     }
   ]
 }

@@ -14,6 +14,114 @@
     "@slow",
     "@dangerous"
   ],
+  "apiMethods": {
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "slots",
+            "type": "int..."
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "String"
+        },
+        "signature": "String clusterAddSlots(final int... slots)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "slots",
+            "type": "...int"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StatusCmd"
+        },
+        "signature": "ClusterAddSlots(ctx context.Context, slots ...int)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "The Redis command parser",
+            "name": "parser",
+            "type": "CommandParser"
+          },
+          {
+            "description": "One or more hash slots to be assigned",
+            "name": "slots",
+            "type": "number | Array<number>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "SimpleStringReply<'OK'>"
+        },
+        "signature": "parseCommand(parser: CommandParser, slots: number | Array<number>)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "One or more hash slots to be assigned",
+            "name": "slots",
+            "type": "int..."
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "String"
+        },
+        "signature": "String clusterAddSlots(int... slots)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "One or more hash slots to be assigned",
+            "name": "slots",
+            "type": "int..."
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> clusterAddSlots(int... slots)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "One or more hash slots to be assigned",
+            "name": "slots",
+            "type": "int..."
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> clusterAddSlots(int... slots)"
+      }
+    ]
+  },
   "commandFlags": [
     "admin",
     "stale",
@@ -39,32 +147,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "example",
-        "title": "Example"
-      },
-      {
-        "id": "usage-in-redis-cluster",
-        "title": "Usage in Redis Cluster"
-      },
-      {
-        "id": "information-about-slots-propagation-and-warnings",
-        "title": "Information about slots propagation and warnings"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "This command is useful in order to modify a node's view of the cluster\nconfiguration. Specifically it assigns a set of hash slots to the node\nreceiving the command. If the command is successful, the node will map\nthe specified hash slots to itself, and will start broadcasting the new\nconfiguration.\n\nHowever note that:\n\n1. The command only works if all the specified slots are, from the point of view of the node receiving the command, currently not assigned. A node will refuse to take ownership for slots that already belong to some other node (including itself).\n2. The command fails if the same slot is specified multiple times.\n3. As a side effect of the command execution, if a slot among the ones specified as argument is set as `importing`, this state gets cleared once the node assigns the (previously unbound) slot to itself.\n\n## Example\n\nFor example the following command assigns slots 1 2 3 to the node receiving\nthe command:\n\n    > CLUSTER ADDSLOTS 1 2 3\n    OK\n\nHowever trying to execute it again results into an error since the slots\nare already assigned:\n\n    > CLUSTER ADDSLOTS 1 2 3\n    ERR Slot 1 is already busy\n\n## Usage in Redis Cluster\n\nThis command only works in cluster mode and is useful in the following\nRedis Cluster operations:\n\n1. To create a new `cluster ADDSLOTS` is used in order to initially setup master nodes splitting the available hash slots among them.\n2. In order to fix a broken cluster where certain slots are unassigned.\n\n## Information about slots propagation and warnings\n\nNote that once a node assigns a set of slots to itself, it will start\npropagating this information in heartbeat packet headers. However the\nother nodes will accept the information only if they have the slot as\nnot already bound with another node, or if the configuration epoch of the\nnode advertising the new hash slot, is greater than the node currently listed\nin the table.\n\nThis means that this command should be used with care only by applications\norchestrating Redis Cluster, like `redis-cli`, and the command if used\nout of the right context can leave the cluster in a wrong state or cause\ndata loss.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.",
+  "content": "This command is useful in order to modify a node's view of the cluster\nconfiguration. Specifically it assigns a set of hash slots to the node\nreceiving the command. If the command is successful, the node will map\nthe specified hash slots to itself, and will start broadcasting the new\nconfiguration.\n\nHowever note that:\n\n1. The command only works if all the specified slots are, from the point of view of the node receiving the command, currently not assigned. A node will refuse to take ownership for slots that already belong to some other node (including itself).\n2. The command fails if the same slot is specified multiple times.\n3. As a side effect of the command execution, if a slot among the ones specified as argument is set as `importing`, this state gets cleared once the node assigns the (previously unbound) slot to itself.\n\n## Example\n\nFor example the following command assigns slots 1 2 3 to the node receiving\nthe command:\n\n    > CLUSTER ADDSLOTS 1 2 3\n    OK\n\nHowever trying to execute it again results into an error since the slots\nare already assigned:\n\n    > CLUSTER ADDSLOTS 1 2 3\n    ERR Slot 1 is already busy\n\n## Usage in Redis Cluster\n\nThis command only works in cluster mode and is useful in the following\nRedis Cluster operations:\n\n1. To create a new `cluster ADDSLOTS` is used in order to initially setup master nodes splitting the available hash slots among them.\n2. In order to fix a broken cluster where certain slots are unassigned.\n\n## Information about slots propagation and warnings\n\nNote that once a node assigns a set of slots to itself, it will start\npropagating this information in heartbeat packet headers. However the\nother nodes will accept the information only if they have the slot as\nnot already bound with another node, or if the configuration epoch of the\nnode advertising the new hash slot, is greater than the node currently listed\nin the table.\n\nThis means that this command should be used with care only by applications\norchestrating Redis Cluster, like `redis-cli`, and the command if used\nout of the right context can leave the cluster in a wrong state or cause\ndata loss.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"cluster-addslots-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "This command is useful in order to modify a node's view of the cluster\nconfiguration. Specifically it assigns a set of hash slots to the node\nreceiving the command. If the command is successful, the node will map\nthe specified hash slots to itself, and will start broadcasting the new\nconfiguration.\n\nHowever note that:\n\n1. The command only works if all the specified slots are, from the point of view of the node receiving the command, currently not assigned. A node will refuse to take ownership for slots that already belong to some other node (including itself).\n2. The command fails if the same slot is specified multiple times.\n3. As a side effect of the command execution, if a slot among the ones specified as argument is set as `importing`, this state gets cleared once the node assigns the (previously unbound) slot to itself.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -94,7 +183,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned."
+      "content": "{{< multitabs id=\"cluster-addslots-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.\n\n{{< /multitabs >}}"
     }
   ]
 }

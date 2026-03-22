@@ -14,6 +14,251 @@
     "@string",
     "@fast"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "ifeq",
+            "type": "Optional[Union[bytes, str]] = None"
+          },
+          {
+            "description": "",
+            "name": "ifne",
+            "type": "Optional[Union[bytes, str]] = None"
+          },
+          {
+            "description": "",
+            "name": "ifdeq",
+            "type": "Optional[str] = None"
+          },
+          {
+            "description": "",
+            "name": "ifdne",
+            "type": "Optional[str] = None"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "int"
+        },
+        "signature": "delex(, name: KeyT,, ifeq: Optional[Union[bytes, str]] = None,, ifne: Optional[Union[bytes, str]] = None,, ifdeq: Optional[str] = None,, ifdne: Optional[str] = None,)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "condition",
+            "type": "CompareCondition"
+          }
+        ],
+        "returns": {
+          "description": "The value of key",
+          "type": "long"
+        },
+        "signature": "long delex(final byte[] key, final CompareCondition condition)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "condition",
+            "type": "CompareCondition"
+          }
+        ],
+        "returns": {
+          "description": "The value of key",
+          "type": "long"
+        },
+        "signature": "long delex(final String key, final CompareCondition condition)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the compare condition, must not be null.",
+            "name": "compareCondition",
+            "type": "CompareCondition<V>"
+          }
+        ],
+        "returns": {
+          "description": "Long integer-reply the number of keys that were removed. @since 7.1",
+          "type": "Long"
+        },
+        "signature": "Long delex(K key, CompareCondition<V> compareCondition)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the compare condition, must not be null.",
+            "name": "compareCondition",
+            "type": "CompareCondition<V>"
+          }
+        ],
+        "returns": {
+          "description": "Long integer-reply the number of keys that were removed. @since 7.1",
+          "type": "RedisFuture<Long>"
+        },
+        "signature": "RedisFuture<Long> delex(K key, CompareCondition<V> compareCondition)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the compare condition, must not be null.",
+            "name": "compareCondition",
+            "type": "CompareCondition<V>"
+          }
+        ],
+        "returns": {
+          "description": "Long integer-reply the number of keys that were removed. @since 7.1",
+          "type": "Mono<Long>"
+        },
+        "signature": "Mono<Long> delex(K key, CompareCondition<V> compareCondition)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "a",
+            "type": "DelExArgs"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*IntCmd"
+        },
+        "signature": "DelExArgs(ctx context.Context, key string, a DelExArgs)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The key of the string.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The condition to enforce.",
+            "name": "when",
+            "type": "ValueCondition"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "bool"
+        },
+        "signature": "StringDelete(RedisKey key, ValueCondition when, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The key of the string.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The condition to enforce.",
+            "name": "when",
+            "type": "ValueCondition"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "bool"
+        },
+        "signature": "StringDelete(RedisKey key, ValueCondition when, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$flag",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$flagValue",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "int"
+        },
+        "signature": "delex(string $key, string $flag, $flagValue)"
+      }
+    ]
+  },
   "commandFlags": [
     "write",
     "fast"
@@ -88,28 +333,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "hash-digest",
-        "title": "Hash Digest"
-      },
-      {
-        "id": "options",
-        "title": "Options"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Conditionally removes the specified key based on value or hash digest comparison.\n\n## Hash Digest\n\nA hash digest is a fixed-size numerical representation of a string value, computed using the XXH3 hash algorithm. Redis uses this hash digest for efficient comparison operations without needing to compare the full string content. You can retrieve a key's hash digest using the [`DIGEST`]() command, which returns it as a hexadecimal string that you can use with the `IFDEQ` and `IFDNE` options, and also the [`SET`]() command's `IFDEQ` and `IFDNE` options.\n\n## Options\n\nThe DELEX command supports a set of options that modify its behavior.\nOnly one of the options can be specified.\n\n* `IFEQ ifeq-value` -- Remove the key if the value is equal to the specified value.\n* `IFNE ifne-value` -- Remove the key if the value is not equal to the specified value.\n* `IFDEQ ifeq-digest` -- Remove the key if its hash digest is equal to the specified hash digest.\n* `IFDNE ifne-digest` -- Remove the key if its hash digest is not equal to the specified hash digest.\n\nIn 8.4, keys must be of type string when using one of the options above. If no options are specified, the key is removed regardless of its type.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n- [Integer reply](): 0 if not deleted (the key does not exist or a specified `IFEQ/IFNE/IFDEQ/IFDNE` condition is false), or 1 if deleted.\n- [Simple error reply]() if the key exists but holds a value that is not a string and one of `IFEQ, IFNE, IFDEQ,` or `IFDNE` is specified.\n\n**RESP3:**\n\nOne of the following:\n- [Integer reply](): 0 if not deleted (the key does not exist or a specified `IFEQ/IFNE/IFDEQ/IFDNE` condition is false), or 1 if deleted.\n- [Simple error reply]() if the key exists but holds a value that is not a string and one of `IFEQ, IFNE, IFDEQ,` or `IFDNE` is specified.",
+  "content": "Conditionally removes the specified key based on value or hash digest comparison.\n\n## Hash Digest\n\nA hash digest is a fixed-size numerical representation of a string value, computed using the XXH3 hash algorithm. Redis uses this hash digest for efficient comparison operations without needing to compare the full string content. You can retrieve a key's hash digest using the [`DIGEST`]({{< relref \"/commands/digest\" >}}) command, which returns it as a hexadecimal string that you can use with the `IFDEQ` and `IFDNE` options, and also the [`SET`]({{< relref \"/commands/set\" >}}) command's `IFDEQ` and `IFDNE` options.\n\n## Options\n\nThe DELEX command supports a set of options that modify its behavior.\nOnly one of the options can be specified.\n\n* `IFEQ ifeq-value` -- Remove the key if the value is equal to the specified value.\n* `IFNE ifne-value` -- Remove the key if the value is not equal to the specified value.\n* `IFDEQ ifeq-digest` -- Remove the key if its hash digest is equal to the specified hash digest.\n* `IFDNE ifne-digest` -- Remove the key if its hash digest is not equal to the specified hash digest.\n\nIn 8.4, keys must be of type string when using one of the options above. If no options are specified, the key is removed regardless of its type.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\nOne of the following:\n- [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): 0 if not deleted (the key does not exist or a specified `IFEQ/IFNE/IFDEQ/IFDNE` condition is false), or 1 if deleted.\n- [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) if the key exists but holds a value that is not a string and one of `IFEQ, IFNE, IFDEQ,` or `IFDNE` is specified.\n\n-tab-sep-\n\nOne of the following:\n- [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): 0 if not deleted (the key does not exist or a specified `IFEQ/IFNE/IFDEQ/IFDNE` condition is false), or 1 if deleted.\n- [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) if the key exists but holds a value that is not a string and one of `IFEQ, IFNE, IFDEQ,` or `IFDNE` is specified.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "Conditionally removes the specified key based on value or hash digest comparison.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -119,7 +349,7 @@
     {
       "title": "Hash Digest",
       "level": 2,
-      "content": "A hash digest is a fixed-size numerical representation of a string value, computed using the XXH3 hash algorithm. Redis uses this hash digest for efficient comparison operations without needing to compare the full string content. You can retrieve a key's hash digest using the [`DIGEST`]() command, which returns it as a hexadecimal string that you can use with the `IFDEQ` and `IFDNE` options, and also the [`SET`]() command's `IFDEQ` and `IFDNE` options."
+      "content": "A hash digest is a fixed-size numerical representation of a string value, computed using the XXH3 hash algorithm. Redis uses this hash digest for efficient comparison operations without needing to compare the full string content. You can retrieve a key's hash digest using the [`DIGEST`]({{< relref \"/commands/digest\" >}}) command, which returns it as a hexadecimal string that you can use with the `IFDEQ` and `IFDNE` options, and also the [`SET`]({{< relref \"/commands/set\" >}}) command's `IFDEQ` and `IFDNE` options."
     },
     {
       "title": "Options",
@@ -134,7 +364,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n- [Integer reply](): 0 if not deleted (the key does not exist or a specified `IFEQ/IFNE/IFDEQ/IFDNE` condition is false), or 1 if deleted.\n- [Simple error reply]() if the key exists but holds a value that is not a string and one of `IFEQ, IFNE, IFDEQ,` or `IFDNE` is specified.\n\n**RESP3:**\n\nOne of the following:\n- [Integer reply](): 0 if not deleted (the key does not exist or a specified `IFEQ/IFNE/IFDEQ/IFDNE` condition is false), or 1 if deleted.\n- [Simple error reply]() if the key exists but holds a value that is not a string and one of `IFEQ, IFNE, IFDEQ,` or `IFDNE` is specified."
+      "content": "{{< multitabs id=\"return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\nOne of the following:\n- [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): 0 if not deleted (the key does not exist or a specified `IFEQ/IFNE/IFDEQ/IFDNE` condition is false), or 1 if deleted.\n- [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) if the key exists but holds a value that is not a string and one of `IFEQ, IFNE, IFDEQ,` or `IFDNE` is specified.\n\n-tab-sep-\n\nOne of the following:\n- [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): 0 if not deleted (the key does not exist or a specified `IFEQ/IFNE/IFDEQ/IFDNE` condition is false), or 1 if deleted.\n- [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) if the key exists but holds a value that is not a string and one of `IFEQ, IFNE, IFDEQ,` or `IFDNE` is specified.\n\n{{< /multitabs >}}"
     }
   ]
 }

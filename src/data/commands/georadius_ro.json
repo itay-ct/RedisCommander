@@ -14,6 +14,54 @@
     "@geo",
     "@slow"
   ],
+  "apiMethods": {
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "Parameters<typeof parseGeoRadiusArguments>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "GEORADIUS_RO(...args: Parameters<typeof parseGeoRadiusArguments>)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, key"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "georadius_ro(...args: [, key: RedisKey, longitude: number | string, latitude: number | string, radius: number | string, ...args: RedisValue[], callback: Callback<unknown>, ])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, key"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "georadius_ro(...args: [, key: RedisKey, longitude: number | string, latitude: number | string, radius: number | string, ...args: RedisValue[], ])"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly"
   ],
@@ -162,20 +210,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Read-only variant of the [`GEORADIUS`]() command.\n\nThis command is identical to the [`GEORADIUS`]() command, except that it doesn't support the optional `STORE` and `STOREDIST` parameters.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v6.2.0. |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* If no `WITH*` option is specified, an [Array reply](../../develop/reference/protocol-spec#arrays) of matched member names\n* If `WITHCOORD`, `WITHDIST`, or `WITHHASH` options are specified, the command returns an [Array reply](../../develop/reference/protocol-spec#arrays) of arrays, where each sub-array represents a single item:\n    * The distance from the center as a floating point number, in the same unit specified in the radius.\n    * The Geohash integer.\n    * The coordinates as a two items x,y array (longitude,latitude).\n\n**RESP3:**\n\nOne of the following:\n* If no `WITH*` option is specified, an [Array reply](../../develop/reference/protocol-spec#arrays) of matched member names\n* If `WITHCOORD`, `WITHDIST`, or `WITHHASH` options are specified, the command returns an [Array reply](../../develop/reference/protocol-spec#arrays) of arrays, where each sub-array represents a single item:\n    * The distance from the center as a floating point number, in the same unit specified in the radius.\n    * The Geohash integer.\n    * The coordinates as a two items x,y array (longitude,latitude).",
+  "content": "Read-only variant of the [`GEORADIUS`]() command.\n\nThis command is identical to the [`GEORADIUS`]() command, except that it doesn't support the optional `STORE` and `STOREDIST` parameters.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v6.2.0. |\n\n## Return information\n\n{{< multitabs id=\"georadius-ro-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* If no `WITH*` option is specified, an [Array reply](../../develop/reference/protocol-spec#arrays) of matched member names\n* If `WITHCOORD`, `WITHDIST`, or `WITHHASH` options are specified, the command returns an [Array reply](../../develop/reference/protocol-spec#arrays) of arrays, where each sub-array represents a single item:\n    * The distance from the center as a floating point number, in the same unit specified in the radius.\n    * The Geohash integer.\n    * The coordinates as a two items x,y array (longitude,latitude).\n\n-tab-sep-\n\nOne of the following:\n* If no `WITH*` option is specified, an [Array reply](../../develop/reference/protocol-spec#arrays) of matched member names\n* If `WITHCOORD`, `WITHDIST`, or `WITHHASH` options are specified, the command returns an [Array reply](../../develop/reference/protocol-spec#arrays) of arrays, where each sub-array represents a single item:\n    * The distance from the center as a floating point number, in the same unit specified in the radius.\n    * The Geohash integer.\n    * The coordinates as a two items x,y array (longitude,latitude).\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "Read-only variant of the [`GEORADIUS`]() command.\n\nThis command is identical to the [`GEORADIUS`]() command, except that it doesn't support the optional `STORE` and `STOREDIST` parameters.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -190,7 +231,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* If no `WITH*` option is specified, an [Array reply](../../develop/reference/protocol-spec#arrays) of matched member names\n* If `WITHCOORD`, `WITHDIST`, or `WITHHASH` options are specified, the command returns an [Array reply](../../develop/reference/protocol-spec#arrays) of arrays, where each sub-array represents a single item:\n    * The distance from the center as a floating point number, in the same unit specified in the radius.\n    * The Geohash integer.\n    * The coordinates as a two items x,y array (longitude,latitude).\n\n**RESP3:**\n\nOne of the following:\n* If no `WITH*` option is specified, an [Array reply](../../develop/reference/protocol-spec#arrays) of matched member names\n* If `WITHCOORD`, `WITHDIST`, or `WITHHASH` options are specified, the command returns an [Array reply](../../develop/reference/protocol-spec#arrays) of arrays, where each sub-array represents a single item:\n    * The distance from the center as a floating point number, in the same unit specified in the radius.\n    * The Geohash integer.\n    * The coordinates as a two items x,y array (longitude,latitude)."
+      "content": "{{< multitabs id=\"georadius-ro-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* If no `WITH*` option is specified, an [Array reply](../../develop/reference/protocol-spec#arrays) of matched member names\n* If `WITHCOORD`, `WITHDIST`, or `WITHHASH` options are specified, the command returns an [Array reply](../../develop/reference/protocol-spec#arrays) of arrays, where each sub-array represents a single item:\n    * The distance from the center as a floating point number, in the same unit specified in the radius.\n    * The Geohash integer.\n    * The coordinates as a two items x,y array (longitude,latitude).\n\n-tab-sep-\n\nOne of the following:\n* If no `WITH*` option is specified, an [Array reply](../../develop/reference/protocol-spec#arrays) of matched member names\n* If `WITHCOORD`, `WITHDIST`, or `WITHHASH` options are specified, the command returns an [Array reply](../../develop/reference/protocol-spec#arrays) of arrays, where each sub-array represents a single item:\n    * The distance from the center as a floating point number, in the same unit specified in the radius.\n    * The Geohash integer.\n    * The coordinates as a two items x,y array (longitude,latitude).\n\n{{< /multitabs >}}"
     }
   ]
 }

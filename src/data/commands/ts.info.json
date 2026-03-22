@@ -14,6 +14,140 @@
     "@read",
     "@fast"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "KeyT"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "info(key: KeyT)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "list of timeseries keys",
+          "type": "TSInfo"
+        },
+        "signature": "TSInfo tsInfo(String key)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*MapStringInterfaceCmd"
+        },
+        "signature": "TSInfo(ctx context.Context, key string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "INFO(key: string)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "debug",
+            "type": "bool"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "TimeSeriesInformation"
+        },
+        "signature": "Info(string key, bool debug = false)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "debug",
+            "type": "bool"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Task<TimeSeriesInformation>"
+        },
+        "signature": "InfoAsync(string key, bool debug = false)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "?InfoArguments $arguments = null",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array"
+        },
+        "signature": "tsinfo(string $key, ?InfoArguments $arguments = null)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -38,40 +172,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "optional-arguments",
-        "title": "Optional arguments"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "see-also",
-        "title": "See also"
-      },
-      {
-        "id": "related-topics",
-        "title": "Related topics"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Return information and statistics for a time series.\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open>\n<summary><code>key</code></summary> \nis key name of the time series.\n</details>\n\n## Optional arguments\n\n<details open>\n<summary><code>[DEBUG]</code></summary>\n\nis an optional flag to get a more detailed information about the chunks.\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply]() with information about the time series as flattened name-value pairs:\n\n| Name<br>[Simple string reply]() | Description\n| ---------------------------- | -\n| `totalSamples`    | [Integer reply]()<br> Total number of samples in this time series\n| `memoryUsage`     | [Integer reply]()<br> Total number of bytes allocated for this time series, which is the sum of <br> - The memory used for storing the series' configuration parameters (retention period, duplication policy, etc.)<br>- The memory used for storing the series' compaction rules<br>- The memory used for storing the series' labels (key-value pairs)<br>- The memory used for storing the chunks (chunk header + compressed/uncompressed data)\n| `firstTimestamp`  | [Integer reply]()<br> First timestamp present in this time series (Unix timestamp in milliseconds)\n| `lastTimestamp`   | [Integer reply]()<br> Last timestamp present in this time series  (Unix timestamp in milliseconds)\n| `retentionTime`   | [Integer reply]()<br> The retention period, in milliseconds, for this time series\n| `chunkCount`      | [Integer reply]()<br> Number of chunks used for this time series\n| `chunkSize`       | [Integer reply]()<br> The initial allocation size, in bytes, for the data part of each new chunk.<br>Actual chunks may consume more memory. Changing the chunk size (using [`TS.ALTER`]()) does not affect existing chunks.\n| `chunkType`       | [Simple string reply]()<br> The chunks type: `compressed` or `uncompressed`\n| `duplicatePolicy` | [Simple string reply]() or [Nil reply]()<br> The [duplicate policy]() of this time series\n| `labels`          | [Array reply]() or [Nil reply]()<br> Metadata labels of this time series<br> Each element is a 2-elements [Array reply]() of ([Bulk string reply](), [Bulk string reply]()) representing (label, value)\n| `sourceKey`       | [Bulk string reply]() or [Nil reply]()<br>Key name for source time series in case the current series is a target of a [compaction rule]()\n| `rules`           | [Array reply]()<br> [Compaction rules]() defined in this time series<br> Each rule is an [Array reply]() with 4 elements:<br>- [Bulk string reply](): The compaction key<br>- [Integer reply](): The bucket duration<br>- [Simple string reply](): The aggregator<br>- [Integer reply](): The alignment (since RedisTimeSeries v1.8)\n\nWhen [`DEBUG`]() is specified, the response also contains:\n\n| Name<br>[Simple string reply]() | Description\n| ---------------------------- | -\n| `keySelfName`     | [Bulk string reply]()<br> Name of the key\n| `Chunks`          | [Array reply]() with information about the chunks<br>Each element is an [Array reply]() of information about a single chunk in a name([Simple string reply]())-value pairs:<br>- `startTimestamp` - [Integer reply]() - First timestamp present in the chunk<br>- `endTimestamp` - [Integer reply]() - Last timestamp present in the chunk<br>- `samples` - [Integer reply]() - Total number of samples in the chunk<br>- `size` - [Integer reply]() - the chunk's internal data size (without overheads) in bytes<br>- `bytesPerSample` - [Bulk string reply]() (double) - Ratio of `size` and `samples`\n\n**RESP3:**\n\n[Map reply]() with information about the time series. The map contains the same fields as described in the RESP2 response, but organized as key-value pairs in a map structure rather than a flattened array.\n\nWhen [`DEBUG`]() is specified, the response also contains the additional `keySelfName` and `Chunks` fields as described above.\n\n\n\n## Examples\n\n<details open>\n<summary><b>Find information about a temperature/humidity time series by location and sensor type</b></summary>\n\nCreate a set of sensors to measure temperature and humidity in your study and kitchen.\n\n\n127.0.0.1:6379> TS.CREATE telemetry:study:temperature LABELS room study type temperature\nOK\n127.0.0.1:6379> TS.CREATE telemetry:study:humidity LABELS room study type humidity\nOK\n127.0.0.1:6379> TS.CREATE telemetry:kitchen:temperature LABELS room kitchen type temperature\nOK\n127.0.0.1:6379> TS.CREATE telemetry:kitchen:humidity LABELS room kitchen type humidity\nOK\n\n\nFind information about the time series for temperature in the kitchen.\n\n\n127.0.0.1:6379> TS.INFO telemetry:kitchen:temperature\n 1) totalSamples\n 2) (integer) 0\n 3) memoryUsage\n 4) (integer) 4246\n 5) firstTimestamp\n 6) (integer) 0\n 7) lastTimestamp\n 8) (integer) 0\n 9) retentionTime\n10) (integer) 0\n11) chunkCount\n12) (integer) 1\n13) chunkSize\n14) (integer) 4096\n15) chunkType\n16) compressed\n17) duplicatePolicy\n18) (nil)\n19) labels\n20) 1) 1) \"room\"\n       2) \"kitchen\"\n    2) 1) \"type\"\n       2) \"temperature\"\n21) sourceKey\n22) (nil)\n23) rules\n24) (empty array)\n\n\nQuery the time series using DEBUG to get more information about the chunks.\n\n\n127.0.0.1:6379> TS.INFO telemetry:kitchen:temperature DEBUG\n 1) totalSamples\n 2) (integer) 0\n 3) memoryUsage\n 4) (integer) 4246\n 5) firstTimestamp\n 6) (integer) 0\n 7) lastTimestamp\n 8) (integer) 0\n 9) retentionTime\n10) (integer) 0\n11) chunkCount\n12) (integer) 1\n13) chunkSize\n14) (integer) 4096\n15) chunkType\n16) compressed\n17) duplicatePolicy\n18) (nil)\n19) labels\n20) 1) 1) \"room\"\n       2) \"kitchen\"\n    2) 1) \"type\"\n       2) \"temperature\"\n21) sourceKey\n22) (nil)\n23) rules\n24) (empty array)\n25) keySelfName\n26) \"telemetry:kitchen:temperature\"\n27) Chunks\n28) 1)  1) startTimestamp\n        2) (integer) 0\n        3) endTimestamp\n        4) (integer) 0\n        5) samples\n        6) (integer) 0\n        7) size\n        8) (integer) 4096\n        9) bytesPerSample\n       10) \"inf\"\n\n\n</details>\n\n## See also\n\n[`TS.RANGE`]() | [`TS.QUERYINDEX`]() | [`TS.GET`]()\n\n## Related topics\n\n[RedisTimeSeries]()",
+  "content": "Return information and statistics for a time series.\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open>\n<summary><code>key</code></summary> \nis key name of the time series.\n</details>\n\n## Optional arguments\n\n<details open>\n<summary><code>[DEBUG]</code></summary>\n\nis an optional flag to get a more detailed information about the chunks.\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"ts-info-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\n[Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) with information about the time series as flattened name-value pairs:\n\n| Name<br>[Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}) | Description\n| ---------------------------- | -\n| `totalSamples`    | [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}})<br> Total number of samples in this time series\n| `memoryUsage`     | [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}})<br> Total number of bytes allocated for this time series, which is the sum of <br> - The memory used for storing the series' configuration parameters (retention period, duplication policy, etc.)<br>- The memory used for storing the series' compaction rules<br>- The memory used for storing the series' labels (key-value pairs)<br>- The memory used for storing the chunks (chunk header + compressed/uncompressed data)\n| `firstTimestamp`  | [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}})<br> First timestamp present in this time series (Unix timestamp in milliseconds)\n| `lastTimestamp`   | [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}})<br> Last timestamp present in this time series  (Unix timestamp in milliseconds)\n| `retentionTime`   | [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}})<br> The retention period, in milliseconds, for this time series\n| `chunkCount`      | [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}})<br> Number of chunks used for this time series\n| `chunkSize`       | [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}})<br> The initial allocation size, in bytes, for the data part of each new chunk.<br>Actual chunks may consume more memory. Changing the chunk size (using [`TS.ALTER`]({{< relref \"commands/ts.alter/\" >}})) does not affect existing chunks.\n| `chunkType`       | [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}})<br> The chunks type: `compressed` or `uncompressed`\n| `duplicatePolicy` | [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}) or [Nil reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}})<br> The [duplicate policy]({{< relref \"develop/data-types/timeseries/configuration#duplicate_policy\" >}}) of this time series\n| `labels`          | [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) or [Nil reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}})<br> Metadata labels of this time series<br> Each element is a 2-elements [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of ([Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}), [Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}})) representing (label, value)\n| `sourceKey`       | [Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) or [Nil reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}})<br>Key name for source time series in case the current series is a target of a [compaction rule]({{< relref \"commands/ts.createrule\" >}})\n| `rules`           | [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}})<br> [Compaction rules]({{< relref \"commands/ts.createrule\" >}}) defined in this time series<br> Each rule is an [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) with 4 elements:<br>- [Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}): The compaction key<br>- [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): The bucket duration<br>- [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): The aggregator<br>- [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): The alignment (since RedisTimeSeries v1.8)\n\nWhen [`DEBUG`]({{< relref \"/commands/debug\" >}}) is specified, the response also contains:\n\n| Name<br>[Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}) | Description\n| ---------------------------- | -\n| `keySelfName`     | [Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}})<br> Name of the key\n| `Chunks`          | [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) with information about the chunks<br>Each element is an [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of information about a single chunk in a name([Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}))-value pairs:<br>- `startTimestamp` - [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) - First timestamp present in the chunk<br>- `endTimestamp` - [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) - Last timestamp present in the chunk<br>- `samples` - [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) - Total number of samples in the chunk<br>- `size` - [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) - the chunk's internal data size (without overheads) in bytes<br>- `bytesPerSample` - [Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) (double) - Ratio of `size` and `samples`\n\n-tab-sep-\n\n[Map reply]({{< relref \"/develop/reference/protocol-spec#maps\" >}}) with information about the time series. The map contains the same fields as described in the RESP2 response, but organized as key-value pairs in a map structure rather than a flattened array.\n\nWhen [`DEBUG`]({{< relref \"/commands/debug\" >}}) is specified, the response also contains the additional `keySelfName` and `Chunks` fields as described above.\n\n{{< /multitabs >}}\n\n## Examples\n\n<details open>\n<summary><b>Find information about a temperature/humidity time series by location and sensor type</b></summary>\n\nCreate a set of sensors to measure temperature and humidity in your study and kitchen.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.CREATE telemetry:study:temperature LABELS room study type temperature\nOK\n127.0.0.1:6379> TS.CREATE telemetry:study:humidity LABELS room study type humidity\nOK\n127.0.0.1:6379> TS.CREATE telemetry:kitchen:temperature LABELS room kitchen type temperature\nOK\n127.0.0.1:6379> TS.CREATE telemetry:kitchen:humidity LABELS room kitchen type humidity\nOK\n{{< / highlight >}}\n\nFind information about the time series for temperature in the kitchen.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.INFO telemetry:kitchen:temperature\n 1) totalSamples\n 2) (integer) 0\n 3) memoryUsage\n 4) (integer) 4246\n 5) firstTimestamp\n 6) (integer) 0\n 7) lastTimestamp\n 8) (integer) 0\n 9) retentionTime\n10) (integer) 0\n11) chunkCount\n12) (integer) 1\n13) chunkSize\n14) (integer) 4096\n15) chunkType\n16) compressed\n17) duplicatePolicy\n18) (nil)\n19) labels\n20) 1) 1) \"room\"\n       2) \"kitchen\"\n    2) 1) \"type\"\n       2) \"temperature\"\n21) sourceKey\n22) (nil)\n23) rules\n24) (empty array)\n{{< / highlight >}}\n\nQuery the time series using DEBUG to get more information about the chunks.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.INFO telemetry:kitchen:temperature DEBUG\n 1) totalSamples\n 2) (integer) 0\n 3) memoryUsage\n 4) (integer) 4246\n 5) firstTimestamp\n 6) (integer) 0\n 7) lastTimestamp\n 8) (integer) 0\n 9) retentionTime\n10) (integer) 0\n11) chunkCount\n12) (integer) 1\n13) chunkSize\n14) (integer) 4096\n15) chunkType\n16) compressed\n17) duplicatePolicy\n18) (nil)\n19) labels\n20) 1) 1) \"room\"\n       2) \"kitchen\"\n    2) 1) \"type\"\n       2) \"temperature\"\n21) sourceKey\n22) (nil)\n23) rules\n24) (empty array)\n25) keySelfName\n26) \"telemetry:kitchen:temperature\"\n27) Chunks\n28) 1)  1) startTimestamp\n        2) (integer) 0\n        3) endTimestamp\n        4) (integer) 0\n        5) samples\n        6) (integer) 0\n        7) size\n        8) (integer) 4096\n        9) bytesPerSample\n       10) \"inf\"\n{{< / highlight >}}\n\n</details>\n\n## See also\n\n[`TS.RANGE`]({{< relref \"commands/ts.range/\" >}}) | [`TS.QUERYINDEX`]({{< relref \"commands/ts.queryindex/\" >}}) | [`TS.GET`]({{< relref \"commands/ts.get/\" >}})\n\n## Related topics\n\n[RedisTimeSeries]({{< relref \"/develop/data-types/timeseries/\" >}})",
+  "example": "127.0.0.1:6379> TS.CREATE telemetry:study:temperature LABELS room study type temperature\nOK\n127.0.0.1:6379> TS.CREATE telemetry:study:humidity LABELS room study type humidity\nOK\n127.0.0.1:6379> TS.CREATE telemetry:kitchen:temperature LABELS room kitchen type temperature\nOK\n127.0.0.1:6379> TS.CREATE telemetry:kitchen:humidity LABELS room kitchen type humidity\nOK",
   "intro": "Return information and statistics for a time series.\n\n[Examples](#examples)",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -96,22 +203,22 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Array reply]() with information about the time series as flattened name-value pairs:\n\n| Name<br>[Simple string reply]() | Description\n| ---------------------------- | -\n| `totalSamples`    | [Integer reply]()<br> Total number of samples in this time series\n| `memoryUsage`     | [Integer reply]()<br> Total number of bytes allocated for this time series, which is the sum of <br> - The memory used for storing the series' configuration parameters (retention period, duplication policy, etc.)<br>- The memory used for storing the series' compaction rules<br>- The memory used for storing the series' labels (key-value pairs)<br>- The memory used for storing the chunks (chunk header + compressed/uncompressed data)\n| `firstTimestamp`  | [Integer reply]()<br> First timestamp present in this time series (Unix timestamp in milliseconds)\n| `lastTimestamp`   | [Integer reply]()<br> Last timestamp present in this time series  (Unix timestamp in milliseconds)\n| `retentionTime`   | [Integer reply]()<br> The retention period, in milliseconds, for this time series\n| `chunkCount`      | [Integer reply]()<br> Number of chunks used for this time series\n| `chunkSize`       | [Integer reply]()<br> The initial allocation size, in bytes, for the data part of each new chunk.<br>Actual chunks may consume more memory. Changing the chunk size (using [`TS.ALTER`]()) does not affect existing chunks.\n| `chunkType`       | [Simple string reply]()<br> The chunks type: `compressed` or `uncompressed`\n| `duplicatePolicy` | [Simple string reply]() or [Nil reply]()<br> The [duplicate policy]() of this time series\n| `labels`          | [Array reply]() or [Nil reply]()<br> Metadata labels of this time series<br> Each element is a 2-elements [Array reply]() of ([Bulk string reply](), [Bulk string reply]()) representing (label, value)\n| `sourceKey`       | [Bulk string reply]() or [Nil reply]()<br>Key name for source time series in case the current series is a target of a [compaction rule]()\n| `rules`           | [Array reply]()<br> [Compaction rules]() defined in this time series<br> Each rule is an [Array reply]() with 4 elements:<br>- [Bulk string reply](): The compaction key<br>- [Integer reply](): The bucket duration<br>- [Simple string reply](): The aggregator<br>- [Integer reply](): The alignment (since RedisTimeSeries v1.8)\n\nWhen [`DEBUG`]() is specified, the response also contains:\n\n| Name<br>[Simple string reply]() | Description\n| ---------------------------- | -\n| `keySelfName`     | [Bulk string reply]()<br> Name of the key\n| `Chunks`          | [Array reply]() with information about the chunks<br>Each element is an [Array reply]() of information about a single chunk in a name([Simple string reply]())-value pairs:<br>- `startTimestamp` - [Integer reply]() - First timestamp present in the chunk<br>- `endTimestamp` - [Integer reply]() - Last timestamp present in the chunk<br>- `samples` - [Integer reply]() - Total number of samples in the chunk<br>- `size` - [Integer reply]() - the chunk's internal data size (without overheads) in bytes<br>- `bytesPerSample` - [Bulk string reply]() (double) - Ratio of `size` and `samples`\n\n**RESP3:**\n\n[Map reply]() with information about the time series. The map contains the same fields as described in the RESP2 response, but organized as key-value pairs in a map structure rather than a flattened array.\n\nWhen [`DEBUG`]() is specified, the response also contains the additional `keySelfName` and `Chunks` fields as described above."
+      "content": "{{< multitabs id=\"ts-info-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\n[Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) with information about the time series as flattened name-value pairs:\n\n| Name<br>[Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}) | Description\n| ---------------------------- | -\n| `totalSamples`    | [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}})<br> Total number of samples in this time series\n| `memoryUsage`     | [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}})<br> Total number of bytes allocated for this time series, which is the sum of <br> - The memory used for storing the series' configuration parameters (retention period, duplication policy, etc.)<br>- The memory used for storing the series' compaction rules<br>- The memory used for storing the series' labels (key-value pairs)<br>- The memory used for storing the chunks (chunk header + compressed/uncompressed data)\n| `firstTimestamp`  | [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}})<br> First timestamp present in this time series (Unix timestamp in milliseconds)\n| `lastTimestamp`   | [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}})<br> Last timestamp present in this time series  (Unix timestamp in milliseconds)\n| `retentionTime`   | [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}})<br> The retention period, in milliseconds, for this time series\n| `chunkCount`      | [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}})<br> Number of chunks used for this time series\n| `chunkSize`       | [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}})<br> The initial allocation size, in bytes, for the data part of each new chunk.<br>Actual chunks may consume more memory. Changing the chunk size (using [`TS.ALTER`]({{< relref \"commands/ts.alter/\" >}})) does not affect existing chunks.\n| `chunkType`       | [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}})<br> The chunks type: `compressed` or `uncompressed`\n| `duplicatePolicy` | [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}) or [Nil reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}})<br> The [duplicate policy]({{< relref \"develop/data-types/timeseries/configuration#duplicate_policy\" >}}) of this time series\n| `labels`          | [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) or [Nil reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}})<br> Metadata labels of this time series<br> Each element is a 2-elements [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of ([Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}), [Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}})) representing (label, value)\n| `sourceKey`       | [Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) or [Nil reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}})<br>Key name for source time series in case the current series is a target of a [compaction rule]({{< relref \"commands/ts.createrule\" >}})\n| `rules`           | [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}})<br> [Compaction rules]({{< relref \"commands/ts.createrule\" >}}) defined in this time series<br> Each rule is an [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) with 4 elements:<br>- [Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}): The compaction key<br>- [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): The bucket duration<br>- [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): The aggregator<br>- [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): The alignment (since RedisTimeSeries v1.8)\n\nWhen [`DEBUG`]({{< relref \"/commands/debug\" >}}) is specified, the response also contains:\n\n| Name<br>[Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}) | Description\n| ---------------------------- | -\n| `keySelfName`     | [Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}})<br> Name of the key\n| `Chunks`          | [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) with information about the chunks<br>Each element is an [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of information about a single chunk in a name([Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}))-value pairs:<br>- `startTimestamp` - [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) - First timestamp present in the chunk<br>- `endTimestamp` - [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) - Last timestamp present in the chunk<br>- `samples` - [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) - Total number of samples in the chunk<br>- `size` - [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) - the chunk's internal data size (without overheads) in bytes<br>- `bytesPerSample` - [Bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) (double) - Ratio of `size` and `samples`\n\n-tab-sep-\n\n[Map reply]({{< relref \"/develop/reference/protocol-spec#maps\" >}}) with information about the time series. The map contains the same fields as described in the RESP2 response, but organized as key-value pairs in a map structure rather than a flattened array.\n\nWhen [`DEBUG`]({{< relref \"/commands/debug\" >}}) is specified, the response also contains the additional `keySelfName` and `Chunks` fields as described above.\n\n{{< /multitabs >}}"
     },
     {
       "title": "Examples",
       "level": 2,
-      "content": "<details open>\n<summary><b>Find information about a temperature/humidity time series by location and sensor type</b></summary>\n\nCreate a set of sensors to measure temperature and humidity in your study and kitchen.\n\n\n127.0.0.1:6379> TS.CREATE telemetry:study:temperature LABELS room study type temperature\nOK\n127.0.0.1:6379> TS.CREATE telemetry:study:humidity LABELS room study type humidity\nOK\n127.0.0.1:6379> TS.CREATE telemetry:kitchen:temperature LABELS room kitchen type temperature\nOK\n127.0.0.1:6379> TS.CREATE telemetry:kitchen:humidity LABELS room kitchen type humidity\nOK\n\n\nFind information about the time series for temperature in the kitchen.\n\n\n127.0.0.1:6379> TS.INFO telemetry:kitchen:temperature\n 1) totalSamples\n 2) (integer) 0\n 3) memoryUsage\n 4) (integer) 4246\n 5) firstTimestamp\n 6) (integer) 0\n 7) lastTimestamp\n 8) (integer) 0\n 9) retentionTime\n10) (integer) 0\n11) chunkCount\n12) (integer) 1\n13) chunkSize\n14) (integer) 4096\n15) chunkType\n16) compressed\n17) duplicatePolicy\n18) (nil)\n19) labels\n20) 1) 1) \"room\"\n       2) \"kitchen\"\n    2) 1) \"type\"\n       2) \"temperature\"\n21) sourceKey\n22) (nil)\n23) rules\n24) (empty array)\n\n\nQuery the time series using DEBUG to get more information about the chunks.\n\n\n127.0.0.1:6379> TS.INFO telemetry:kitchen:temperature DEBUG\n 1) totalSamples\n 2) (integer) 0\n 3) memoryUsage\n 4) (integer) 4246\n 5) firstTimestamp\n 6) (integer) 0\n 7) lastTimestamp\n 8) (integer) 0\n 9) retentionTime\n10) (integer) 0\n11) chunkCount\n12) (integer) 1\n13) chunkSize\n14) (integer) 4096\n15) chunkType\n16) compressed\n17) duplicatePolicy\n18) (nil)\n19) labels\n20) 1) 1) \"room\"\n       2) \"kitchen\"\n    2) 1) \"type\"\n       2) \"temperature\"\n21) sourceKey\n22) (nil)\n23) rules\n24) (empty array)\n25) keySelfName\n26) \"telemetry:kitchen:temperature\"\n27) Chunks\n28) 1)  1) startTimestamp\n        2) (integer) 0\n        3) endTimestamp\n        4) (integer) 0\n        5) samples\n        6) (integer) 0\n        7) size\n        8) (integer) 4096\n        9) bytesPerSample\n       10) \"inf\"\n\n\n</details>"
+      "content": "<details open>\n<summary><b>Find information about a temperature/humidity time series by location and sensor type</b></summary>\n\nCreate a set of sensors to measure temperature and humidity in your study and kitchen.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.CREATE telemetry:study:temperature LABELS room study type temperature\nOK\n127.0.0.1:6379> TS.CREATE telemetry:study:humidity LABELS room study type humidity\nOK\n127.0.0.1:6379> TS.CREATE telemetry:kitchen:temperature LABELS room kitchen type temperature\nOK\n127.0.0.1:6379> TS.CREATE telemetry:kitchen:humidity LABELS room kitchen type humidity\nOK\n{{< / highlight >}}\n\nFind information about the time series for temperature in the kitchen.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.INFO telemetry:kitchen:temperature\n 1) totalSamples\n 2) (integer) 0\n 3) memoryUsage\n 4) (integer) 4246\n 5) firstTimestamp\n 6) (integer) 0\n 7) lastTimestamp\n 8) (integer) 0\n 9) retentionTime\n10) (integer) 0\n11) chunkCount\n12) (integer) 1\n13) chunkSize\n14) (integer) 4096\n15) chunkType\n16) compressed\n17) duplicatePolicy\n18) (nil)\n19) labels\n20) 1) 1) \"room\"\n       2) \"kitchen\"\n    2) 1) \"type\"\n       2) \"temperature\"\n21) sourceKey\n22) (nil)\n23) rules\n24) (empty array)\n{{< / highlight >}}\n\nQuery the time series using DEBUG to get more information about the chunks.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.INFO telemetry:kitchen:temperature DEBUG\n 1) totalSamples\n 2) (integer) 0\n 3) memoryUsage\n 4) (integer) 4246\n 5) firstTimestamp\n 6) (integer) 0\n 7) lastTimestamp\n 8) (integer) 0\n 9) retentionTime\n10) (integer) 0\n11) chunkCount\n12) (integer) 1\n13) chunkSize\n14) (integer) 4096\n15) chunkType\n16) compressed\n17) duplicatePolicy\n18) (nil)\n19) labels\n20) 1) 1) \"room\"\n       2) \"kitchen\"\n    2) 1) \"type\"\n       2) \"temperature\"\n21) sourceKey\n22) (nil)\n23) rules\n24) (empty array)\n25) keySelfName\n26) \"telemetry:kitchen:temperature\"\n27) Chunks\n28) 1)  1) startTimestamp\n        2) (integer) 0\n        3) endTimestamp\n        4) (integer) 0\n        5) samples\n        6) (integer) 0\n        7) size\n        8) (integer) 4096\n        9) bytesPerSample\n       10) \"inf\"\n{{< / highlight >}}\n\n</details>"
     },
     {
       "title": "See also",
       "level": 2,
-      "content": "[`TS.RANGE`]() | [`TS.QUERYINDEX`]() | [`TS.GET`]()"
+      "content": "[`TS.RANGE`]({{< relref \"commands/ts.range/\" >}}) | [`TS.QUERYINDEX`]({{< relref \"commands/ts.queryindex/\" >}}) | [`TS.GET`]({{< relref \"commands/ts.get/\" >}})"
     },
     {
       "title": "Related topics",
       "level": 2,
-      "content": "[RedisTimeSeries]()"
+      "content": "[RedisTimeSeries]({{< relref \"/develop/data-types/timeseries/\" >}})"
     }
   ]
 }

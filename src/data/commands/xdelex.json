@@ -14,6 +14,483 @@
     "@stream",
     "@fast"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "*ids",
+            "type": "StreamIdT"
+          },
+          {
+            "description": "",
+            "name": "ref_policy",
+            "type": "Literal[\"KEEPREF\", \"DELREF\", \"ACKED\"] = \"KEEPREF\""
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "ResponseT"
+        },
+        "signature": "xdelex(, name: KeyT,, *ids: StreamIdT,, ref_policy: Literal[\"KEEPREF\", \"DELREF\", \"ACKED\"] = \"KEEPREF\",)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "ids",
+            "type": "byte[]..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List<StreamEntryDeletionResult>"
+        },
+        "signature": "List<StreamEntryDeletionResult> xdelex(byte[] key, byte[]... ids)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "trimMode",
+            "type": "StreamDeletionPolicy"
+          },
+          {
+            "description": "",
+            "name": "ids",
+            "type": "byte[]..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List<StreamEntryDeletionResult>"
+        },
+        "signature": "List<StreamEntryDeletionResult> xdelex(byte[] key, StreamDeletionPolicy trimMode, byte[]... ids)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "ids",
+            "type": "StreamEntryID..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List<StreamEntryDeletionResult>"
+        },
+        "signature": "List<StreamEntryDeletionResult> xdelex(final String key, final StreamEntryID... ids)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "trimMode",
+            "type": "StreamDeletionPolicy"
+          },
+          {
+            "description": "",
+            "name": "ids",
+            "type": "StreamEntryID..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List<StreamEntryDeletionResult>"
+        },
+        "signature": "List<StreamEntryDeletionResult> xdelex(final String key, final StreamDeletionPolicy trimMode, final StreamEntryID... ids)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "ids",
+            "type": "StreamEntryID..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List<StreamEntryDeletionResult>"
+        },
+        "signature": "List<StreamEntryDeletionResult> xdelex(String key, StreamEntryID... ids)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "stream message Id's.",
+            "name": "messageIds",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "List of StreamEntryDeletionResult indicating the result for each message ID. @since 6.8",
+          "type": "List<StreamEntryDeletionResult>"
+        },
+        "signature": "List<StreamEntryDeletionResult> xdelex(K key, String... messageIds)"
+      },
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the deletion policy to apply.",
+            "name": "policy",
+            "type": "StreamDeletionPolicy"
+          },
+          {
+            "description": "stream message Id's.",
+            "name": "messageIds",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "List of StreamEntryDeletionResult indicating the result for each message ID. @since 6.8",
+          "type": "List<StreamEntryDeletionResult>"
+        },
+        "signature": "List<StreamEntryDeletionResult> xdelex(K key, StreamDeletionPolicy policy, String... messageIds)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "stream message Id's.",
+            "name": "messageIds",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "List of StreamEntryDeletionResult indicating the result for each message ID. @since 6.8",
+          "type": "RedisFuture<List<StreamEntryDeletionResult>>"
+        },
+        "signature": "RedisFuture<List<StreamEntryDeletionResult>> xdelex(K key, String... messageIds)"
+      },
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the deletion policy to apply.",
+            "name": "policy",
+            "type": "StreamDeletionPolicy"
+          },
+          {
+            "description": "stream message Id's.",
+            "name": "messageIds",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "List of StreamEntryDeletionResult indicating the result for each message ID. @since 6.8",
+          "type": "RedisFuture<List<StreamEntryDeletionResult>>"
+        },
+        "signature": "RedisFuture<List<StreamEntryDeletionResult>> xdelex(K key, StreamDeletionPolicy policy, String... messageIds)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "stream message Id's.",
+            "name": "messageIds",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "List of StreamEntryDeletionResult indicating the result for each message ID. @since 6.8",
+          "type": "Flux<StreamEntryDeletionResult>"
+        },
+        "signature": "Flux<StreamEntryDeletionResult> xdelex(K key, String... messageIds)"
+      },
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the deletion policy to apply.",
+            "name": "policy",
+            "type": "StreamDeletionPolicy"
+          },
+          {
+            "description": "stream message Id's.",
+            "name": "messageIds",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "List of StreamEntryDeletionResult indicating the result for each message ID. @since 6.8",
+          "type": "Flux<StreamEntryDeletionResult>"
+        },
+        "signature": "Flux<StreamEntryDeletionResult> xdelex(K key, StreamDeletionPolicy policy, String... messageIds)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "stream",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "mode",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "ids",
+            "type": "...string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*SliceCmd"
+        },
+        "signature": "XDelEx(ctx context.Context, stream string, mode string, ids ...string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "id",
+            "type": "RedisVariadicArgument"
+          },
+          {
+            "description": "",
+            "name": "policy?",
+            "type": "StreamDeletionPolicy"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "XDELEX(key: RedisArgument, id: RedisVariadicArgument, policy?: StreamDeletionPolicy)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, key"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "xdelex(...args: [, key: RedisKey, idsToken: \"IDS\", numids: number | string, ...ids: (string | Buffer | number)[], callback: Callback<unknown>, ])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, key"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "xdelex(...args: [, key: RedisKey, idsToken: \"IDS\", numids: number | string, ...ids: (string | Buffer | number)[], ])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, key"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "xdelex(...args: [, key: RedisKey, keepref: \"KEEPREF\", idsToken: \"IDS\", numids: number | string, ...ids: (string | Buffer | number)[], callback: Callback<unknown>, ])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, key"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "xdelex(...args: [, key: RedisKey, keepref: \"KEEPREF\", idsToken: \"IDS\", numids: number | string, ...ids: (string | Buffer | number)[], ])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, key"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "xdelex(...args: [, key: RedisKey, delref: \"DELREF\", idsToken: \"IDS\", numids: number | string, ...ids: (string | Buffer | number)[], callback: Callback<unknown>, ])"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "ids",
+            "type": "&'a [ID]"
+          },
+          {
+            "description": "",
+            "name": "options",
+            "type": "streams"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Vec<streams::XDelExStatusCode>)"
+        },
+        "signature": "xdel_ex(key: K, ids: &'a [ID], options: streams::StreamDeletionPolicy)"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "ids",
+            "type": "&'a [ID]"
+          },
+          {
+            "description": "",
+            "name": "options",
+            "type": "streams"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Vec<streams::XDelExStatusCode>)"
+        },
+        "signature": "xdel_ex(key: K, ids: &'a [ID], options: streams::StreamDeletionPolicy)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$mode",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$ids",
+            "type": "array"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array"
+        },
+        "signature": "xdelex(string $key, string $mode, array $ids)"
+      }
+    ]
+  },
   "commandFlags": [
     "write",
     "fast"
@@ -100,32 +577,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "optional-arguments",
-        "title": "Optional arguments"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Deletes one or multiple entries from the stream at the specified `key`.\n\n`XDELEX` is an extension of the Redis Streams [`XDEL`]() command that provides more control over how message entries are deleted concerning consumer groups.\n\n## Required arguments\n\n<details open>\n<summary><code>key</code></summary>\n\nThe name of the stream key.\n</details>\n\n<details open>\n<summary><code>IDS numids id [id ...]</code></summary>\n\nThe IDS block specifying which entries to delete:\n- `numids`: The number of IDs that follow\n- `id [id ...]`: One or more stream entry IDs to delete\n\nNote: The IDS block can be at any position in the command, same as other commands.\n</details>\n\n## Optional arguments\n\n<details open>\n<summary><code>KEEPREF | DELREF | ACKED</code></summary>\n\nSpecifies how to handle consumer group references when deleting entries. Available since Redis 8.2. If no option is specified, `KEEPREF` is used by default:\n\n- `KEEPREF` (default): Deletes the specified entries from the stream, but preserves existing references to these entries in all consumer groups' PEL (Pending Entries List). This behavior is similar to [`XDEL`]().\n- `DELREF`: Deletes the specified entries from the stream and also removes all references to these entries from all consumer groups' pending entry lists, effectively cleaning up all traces of the messages. If an entry ID is not in the stream, but there are dangling references, `XDELEX` with `DELREF` would still remove all those references.\n- `ACKED`: Only deletes entries that were read and acknowledged by all consumer groups.\n</details>\n\nThe command provides fine-grained control over stream entry deletion, particularly useful when working with consumer groups where you need to manage pending entry references carefully.\n\n## Examples\n\n\nXADD mystream * field1 value1\nXADD mystream * field2 value2\nXADD mystream * field3 value3\nXRANGE mystream - +\nXDELEX mystream KEEPREF IDS 2 1526919030474-55 1526919030474-56\nXRANGE mystream - +\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n\n* [Array reply](): -1 for each requested ID when the given key does not exist.\n* [Array reply](../../develop/reference/protocol-spec#arrays): For each ID:\n    * [Integer reply](../../develop/reference/protocol-spec#integers): -1 if no such ID exists in the provided stream key.\n    * [Integer reply](../../develop/reference/protocol-spec#integers): 1 if the entry was deleted from the stream.\n    * [Integer reply](../../develop/reference/protocol-spec#integers): 2 if the entry was not deleted and there are still existing references (`ACKED` option); also, if there are no consumer groups.\n\n**RESP3:**\n\nOne of the following:\n\n* [Array reply](): -1 for each requested ID when the given key does not exist.\n* [Array reply](../../develop/reference/protocol-spec#arrays): For each ID:\n    * [Integer reply](../../develop/reference/protocol-spec#integers): -1 if no such ID exists in the provided stream key.\n    * [Integer reply](../../develop/reference/protocol-spec#integers): 1 if the entry was deleted from the stream.\n    * [Integer reply](../../develop/reference/protocol-spec#integers):  2 if the entry was not deleted and there are still existing references (`ACKED` option); also, if there are no consumer groups.",
+  "content": "Deletes one or multiple entries from the stream at the specified `key`.\n\n`XDELEX` is an extension of the Redis Streams [`XDEL`]() command that provides more control over how message entries are deleted concerning consumer groups.\n\n## Required arguments\n\n<details open>\n<summary><code>key</code></summary>\n\nThe name of the stream key.\n</details>\n\n<details open>\n<summary><code>IDS numids id [id ...]</code></summary>\n\nThe IDS block specifying which entries to delete:\n- `numids`: The number of IDs that follow\n- `id [id ...]`: One or more stream entry IDs to delete\n\nNote: The IDS block can be at any position in the command, same as other commands.\n</details>\n\n## Optional arguments\n\n<details open>\n<summary><code>KEEPREF | DELREF | ACKED</code></summary>\n\nSpecifies how to handle consumer group references when deleting entries. Available since Redis 8.2. If no option is specified, `KEEPREF` is used by default:\n\n- `KEEPREF` (default): Deletes the specified entries from the stream, but preserves existing references to these entries in all consumer groups' PEL (Pending Entries List). This behavior is similar to [`XDEL`]({{< relref \"/commands/xdel\" >}}).\n- `DELREF`: Deletes the specified entries from the stream and also removes all references to these entries from all consumer groups' pending entry lists, effectively cleaning up all traces of the messages. If an entry ID is not in the stream, but there are dangling references, `XDELEX` with `DELREF` would still remove all those references.\n- `ACKED`: Only deletes entries that were read and acknowledged by all consumer groups.\n</details>\n\nThe command provides fine-grained control over stream entry deletion, particularly useful when working with consumer groups where you need to manage pending entry references carefully.\n\n## Examples\n\n{{% redis-cli %}}\nXADD mystream * field1 value1\nXADD mystream * field2 value2\nXADD mystream * field3 value3\nXRANGE mystream - +\nXDELEX mystream KEEPREF IDS 2 1526919030474-55 1526919030474-56\nXRANGE mystream - +\n{{% /redis-cli %}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"xdelex-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\nOne of the following:\n\n* [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): -1 for each requested ID when the given key does not exist.\n* [Array reply](../../develop/reference/protocol-spec#arrays): For each ID:\n    * [Integer reply](../../develop/reference/protocol-spec#integers): -1 if no such ID exists in the provided stream key.\n    * [Integer reply](../../develop/reference/protocol-spec#integers): 1 if the entry was deleted from the stream.\n    * [Integer reply](../../develop/reference/protocol-spec#integers): 2 if the entry was not deleted and there are still existing references (`ACKED` option); also, if there are no consumer groups.\n\n-tab-sep-\n\nOne of the following:\n\n* [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): -1 for each requested ID when the given key does not exist.\n* [Array reply](../../develop/reference/protocol-spec#arrays): For each ID:\n    * [Integer reply](../../develop/reference/protocol-spec#integers): -1 if no such ID exists in the provided stream key.\n    * [Integer reply](../../develop/reference/protocol-spec#integers): 1 if the entry was deleted from the stream.\n    * [Integer reply](../../develop/reference/protocol-spec#integers):  2 if the entry was not deleted and there are still existing references (`ACKED` option); also, if there are no consumer groups.\n\n{{< /multitabs >}}",
+  "example": "XADD mystream * field1 value1\nXADD mystream * field2 value2\nXADD mystream * field3 value3\nXRANGE mystream - +\nXDELEX mystream KEEPREF IDS 2 1526919030474-55 1526919030474-56\nXRANGE mystream - +",
   "intro": "Deletes one or multiple entries from the stream at the specified `key`.\n\n`XDELEX` is an extension of the Redis Streams [`XDEL`]() command that provides more control over how message entries are deleted concerning consumer groups.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -140,12 +598,12 @@
     {
       "title": "Optional arguments",
       "level": 2,
-      "content": "<details open>\n<summary><code>KEEPREF | DELREF | ACKED</code></summary>\n\nSpecifies how to handle consumer group references when deleting entries. Available since Redis 8.2. If no option is specified, `KEEPREF` is used by default:\n\n- `KEEPREF` (default): Deletes the specified entries from the stream, but preserves existing references to these entries in all consumer groups' PEL (Pending Entries List). This behavior is similar to [`XDEL`]().\n- `DELREF`: Deletes the specified entries from the stream and also removes all references to these entries from all consumer groups' pending entry lists, effectively cleaning up all traces of the messages. If an entry ID is not in the stream, but there are dangling references, `XDELEX` with `DELREF` would still remove all those references.\n- `ACKED`: Only deletes entries that were read and acknowledged by all consumer groups.\n</details>\n\nThe command provides fine-grained control over stream entry deletion, particularly useful when working with consumer groups where you need to manage pending entry references carefully."
+      "content": "<details open>\n<summary><code>KEEPREF | DELREF | ACKED</code></summary>\n\nSpecifies how to handle consumer group references when deleting entries. Available since Redis 8.2. If no option is specified, `KEEPREF` is used by default:\n\n- `KEEPREF` (default): Deletes the specified entries from the stream, but preserves existing references to these entries in all consumer groups' PEL (Pending Entries List). This behavior is similar to [`XDEL`]({{< relref \"/commands/xdel\" >}}).\n- `DELREF`: Deletes the specified entries from the stream and also removes all references to these entries from all consumer groups' pending entry lists, effectively cleaning up all traces of the messages. If an entry ID is not in the stream, but there are dangling references, `XDELEX` with `DELREF` would still remove all those references.\n- `ACKED`: Only deletes entries that were read and acknowledged by all consumer groups.\n</details>\n\nThe command provides fine-grained control over stream entry deletion, particularly useful when working with consumer groups where you need to manage pending entry references carefully."
     },
     {
       "title": "Examples",
       "level": 2,
-      "content": "XADD mystream * field1 value1\nXADD mystream * field2 value2\nXADD mystream * field3 value3\nXRANGE mystream - +\nXDELEX mystream KEEPREF IDS 2 1526919030474-55 1526919030474-56\nXRANGE mystream - +"
+      "content": "{{% redis-cli %}}\nXADD mystream * field1 value1\nXADD mystream * field2 value2\nXADD mystream * field3 value3\nXRANGE mystream - +\nXDELEX mystream KEEPREF IDS 2 1526919030474-55 1526919030474-56\nXRANGE mystream - +\n{{% /redis-cli %}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -155,7 +613,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n\n* [Array reply](): -1 for each requested ID when the given key does not exist.\n* [Array reply](../../develop/reference/protocol-spec#arrays): For each ID:\n    * [Integer reply](../../develop/reference/protocol-spec#integers): -1 if no such ID exists in the provided stream key.\n    * [Integer reply](../../develop/reference/protocol-spec#integers): 1 if the entry was deleted from the stream.\n    * [Integer reply](../../develop/reference/protocol-spec#integers): 2 if the entry was not deleted and there are still existing references (`ACKED` option); also, if there are no consumer groups.\n\n**RESP3:**\n\nOne of the following:\n\n* [Array reply](): -1 for each requested ID when the given key does not exist.\n* [Array reply](../../develop/reference/protocol-spec#arrays): For each ID:\n    * [Integer reply](../../develop/reference/protocol-spec#integers): -1 if no such ID exists in the provided stream key.\n    * [Integer reply](../../develop/reference/protocol-spec#integers): 1 if the entry was deleted from the stream.\n    * [Integer reply](../../develop/reference/protocol-spec#integers):  2 if the entry was not deleted and there are still existing references (`ACKED` option); also, if there are no consumer groups."
+      "content": "{{< multitabs id=\"xdelex-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\nOne of the following:\n\n* [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): -1 for each requested ID when the given key does not exist.\n* [Array reply](../../develop/reference/protocol-spec#arrays): For each ID:\n    * [Integer reply](../../develop/reference/protocol-spec#integers): -1 if no such ID exists in the provided stream key.\n    * [Integer reply](../../develop/reference/protocol-spec#integers): 1 if the entry was deleted from the stream.\n    * [Integer reply](../../develop/reference/protocol-spec#integers): 2 if the entry was not deleted and there are still existing references (`ACKED` option); also, if there are no consumer groups.\n\n-tab-sep-\n\nOne of the following:\n\n* [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): -1 for each requested ID when the given key does not exist.\n* [Array reply](../../develop/reference/protocol-spec#arrays): For each ID:\n    * [Integer reply](../../develop/reference/protocol-spec#integers): -1 if no such ID exists in the provided stream key.\n    * [Integer reply](../../develop/reference/protocol-spec#integers): 1 if the entry was deleted from the stream.\n    * [Integer reply](../../develop/reference/protocol-spec#integers):  2 if the entry was not deleted and there are still existing references (`ACKED` option); also, if there are no consumer groups.\n\n{{< /multitabs >}}"
     }
   ]
 }

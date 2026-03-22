@@ -13,6 +13,111 @@
     "@slow",
     "@connection"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "str | None"
+        },
+        "signature": "client_getname(**kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "String"
+        },
+        "signature": "String clientGetname()"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context",
+            "name": "ctx",
+            "type": "context.Context"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StringCmd"
+        },
+        "signature": "ClientGetName(ctx context.Context) *StringCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "BlobStringReply | NullReply"
+        },
+        "signature": "clientGetName()"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "String"
+        },
+        "signature": "String clientGetname()"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> clientGetname()"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> clientGetname()"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$subcommand",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$args",
+            "type": "mixed"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "string|null"
+        },
+        "signature": "client(string $subcommand, ...$args)"
+      }
+    ]
+  },
   "commandFlags": [
     "noscript",
     "loading",
@@ -31,20 +136,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "The `CLIENT GETNAME` returns the name of the current connection as set by [`CLIENT SETNAME`](). Since every new connection starts without an associated name, if no name was assigned a null bulk reply is returned.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the connection name of the current connection.\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): the connection name was not set.\n\n**RESP3:**\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the connection name of the current connection.\n* [Null reply](../../develop/reference/protocol-spec#nulls): the connection name was not set.",
+  "content": "The `CLIENT GETNAME` returns the name of the current connection as set by [`CLIENT SETNAME`](). Since every new connection starts without an associated name, if no name was assigned a null bulk reply is returned.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"client-getname-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the connection name of the current connection.\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): the connection name was not set.\n\n-tab-sep-\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the connection name of the current connection.\n* [Null reply](../../develop/reference/protocol-spec#nulls): the connection name was not set.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "The `CLIENT GETNAME` returns the name of the current connection as set by [`CLIENT SETNAME`](). Since every new connection starts without an associated name, if no name was assigned a null bulk reply is returned.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -59,7 +157,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the connection name of the current connection.\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): the connection name was not set.\n\n**RESP3:**\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the connection name of the current connection.\n* [Null reply](../../develop/reference/protocol-spec#nulls): the connection name was not set."
+      "content": "{{< multitabs id=\"client-getname-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the connection name of the current connection.\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): the connection name was not set.\n\n-tab-sep-\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the connection name of the current connection.\n* [Null reply](../../develop/reference/protocol-spec#nulls): the connection name was not set.\n\n{{< /multitabs >}}"
     }
   ]
 }

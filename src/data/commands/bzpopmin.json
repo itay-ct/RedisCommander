@@ -15,6 +15,423 @@
     "@fast",
     "@blocking"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keys",
+            "type": "KeysT"
+          },
+          {
+            "description": "",
+            "name": "timeout",
+            "type": "TimeoutSecT = 0"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "ResponseT"
+        },
+        "signature": "bzpopmin(keys: KeysT, timeout: TimeoutSecT = 0)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "timeout",
+            "type": "double"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "BLPOP returns a two-elements array via a multi bulk reply in order to return both the unblocking key and the popped value. When a non-zero timeout is specified, and the BLPOP operation timed out, the return value is a nil multi bulk reply. Most connection values will return false or nil accordingly to the programming language used.",
+          "type": "KeyValue<String, Tuple>"
+        },
+        "signature": "KeyValue<String, Tuple> bzpopmin(double timeout, String... keys)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the timeout in seconds.",
+            "name": "timeout",
+            "type": "long"
+          },
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "KeyValue&lt;K, ScoredValue&lt;V&gt;&gt; multi-bulk containing the name of the key, the score and the popped member. @since 6.1.3",
+          "type": "KeyValue<K, ScoredValue<V>>"
+        },
+        "signature": "KeyValue<K, ScoredValue<V>> bzpopmin(long timeout, K... keys)"
+      },
+      {
+        "params": [
+          {
+            "description": "the timeout in seconds.",
+            "name": "timeout",
+            "type": "double"
+          },
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "KeyValue&lt;K, ScoredValue&lt;V&gt;&gt; multi-bulk containing the name of the key, the score and the popped member. @since 6.1.3",
+          "type": "KeyValue<K, ScoredValue<V>>"
+        },
+        "signature": "KeyValue<K, ScoredValue<V>> bzpopmin(double timeout, K... keys)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the timeout in seconds.",
+            "name": "timeout",
+            "type": "long"
+          },
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "KeyValue&lt;K, ScoredValue&lt;V&gt;&gt; multi-bulk containing the name of the key, the score and the popped member. @since 6.1.3",
+          "type": "RedisFuture<KeyValue<K, ScoredValue<V>>>"
+        },
+        "signature": "RedisFuture<KeyValue<K, ScoredValue<V>>> bzpopmin(long timeout, K... keys)"
+      },
+      {
+        "params": [
+          {
+            "description": "the timeout in seconds.",
+            "name": "timeout",
+            "type": "double"
+          },
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "KeyValue&lt;K, ScoredValue&lt;V&gt;&gt; multi-bulk containing the name of the key, the score and the popped member. @since 6.1.3",
+          "type": "RedisFuture<KeyValue<K, ScoredValue<V>>>"
+        },
+        "signature": "RedisFuture<KeyValue<K, ScoredValue<V>>> bzpopmin(double timeout, K... keys)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the timeout in seconds.",
+            "name": "timeout",
+            "type": "long"
+          },
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "KeyValue&lt;K, ScoredValue&lt;V&gt;&gt; multi-bulk containing the name of the key, the score and the popped member. @since 6.1.3",
+          "type": "Mono<KeyValue<K, ScoredValue<V>>>"
+        },
+        "signature": "Mono<KeyValue<K, ScoredValue<V>>> bzpopmin(long timeout, K... keys)"
+      },
+      {
+        "params": [
+          {
+            "description": "the timeout in seconds.",
+            "name": "timeout",
+            "type": "double"
+          },
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "KeyValue&lt;K, ScoredValue&lt;V&gt;&gt; multi-bulk containing the name of the key, the score and the popped member. @since 6.1.3",
+          "type": "Mono<KeyValue<K, ScoredValue<V>>>"
+        },
+        "signature": "Mono<KeyValue<K, ScoredValue<V>>> bzpopmin(double timeout, K... keys)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "timeout",
+            "type": "time.Duration"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "...string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*ZWithKeyCmd"
+        },
+        "signature": "BZPopMin(ctx context.Context, timeout time.Duration, keys ...string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keys",
+            "type": "RedisVariadicArgument"
+          },
+          {
+            "description": "",
+            "name": "timeout",
+            "type": "number"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "BZPOPMIN(keys: RedisVariadicArgument, timeout: number)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, ...keys"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "bzpopmin(...args: [, ...keys: RedisKey[], timeout: number | string, callback: Callback<[key: string, member: string, score: string] | null>, ])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, keys"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "bzpopmin(...args: [, keys: RedisKey[], timeout: number | string, callback: Callback<[key: string, member: string, score: string] | null>, ])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[...keys"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "bzpopmin(...args: [...keys: RedisKey[], timeout: number | string])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[keys"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "bzpopmin(...args: [keys: RedisKey[], timeout: number | string])"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "timeout",
+            "type": "f64"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Option<(String, String, f64)>)"
+        },
+        "signature": "bzpopmin(key: K, timeout: f64)"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "timeout",
+            "type": "f64"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Option<(String, String, f64)>)"
+        },
+        "signature": "bzpopmin(key: K, timeout: f64)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keys",
+            "type": "RedisKey[]"
+          },
+          {
+            "description": "Server-side timeout for the wait. A value of 0 means to wait indefinitely.",
+            "name": "timeout",
+            "type": "double"
+          }
+        ],
+        "returns": {
+          "description": "A sorted set entry paired with its score, together with the key it was popped from, or nullif the server timeout expires.",
+          "type": "Tuple<RedisKey, RedisValueWithScore>?"
+        },
+        "signature": "BZPopMin(RedisKey[] keys, double timeout)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key to check.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "Server-side timeout for the wait. A value of 0 means to wait indefinitely.",
+            "name": "timeout",
+            "type": "double"
+          }
+        ],
+        "returns": {
+          "description": "A sorted set entry paired with its score, together with the key it was popped from, or nullif the server timeout expires.",
+          "type": "Tuple<RedisKey, RedisValueWithScore>?"
+        },
+        "signature": "BZPopMin(RedisKey key, double timeout)"
+      },
+      {
+        "params": [
+          {
+            "description": "The IDatabase class where this extension method is applied.",
+            "name": "db",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "[key]",
+            "type": "Any"
+          },
+          {
+            "description": "Server-side timeout for the wait. A value of 0 means to wait indefinitely.",
+            "name": "timeout",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "A sorted set entry paired with its score, together with the key it was popped from, or nullif the server timeout expires.",
+          "type": "return"
+        },
+        "signature": "BZPopMin(db, [key], timeout)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$keys",
+            "type": "array"
+          },
+          {
+            "description": "",
+            "name": "$timeout",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array"
+        },
+        "signature": "bzpopmin(array $keys, int $timeout)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "one or multiple keys of the sorted sets",
+            "name": "*args",
+            "type": "Array<String>"
+          },
+          {
+            "description": "the maximum number of seconds to block",
+            "name": "timeout",
+            "type": "Integer"
+          }
+        ],
+        "returns": {
+          "description": "a tuple of key, member and score",
+          "type": "Array<String, String, Float>"
+        },
+        "signature": "bzpopmin(*args)"
+      }
+    ]
+  },
   "commandFlags": [
     "write",
     "blocking",
@@ -66,29 +483,20 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\n`BZPOPMIN` is the blocking variant of the sorted set [`ZPOPMIN`]() primitive.\n\nIt is the blocking version because it blocks the connection when there are no\nmembers to pop from any of the given sorted sets.\nA member with the lowest score is popped from first sorted set that is\nnon-empty, with the given keys being checked in the order that they are given.\n\nThe `timeout` argument is interpreted as a double value specifying the maximum\nnumber of seconds to block. A timeout of zero can be used to block indefinitely.\n\nSee the [BLPOP documentation][cl] for the exact semantics, since `BZPOPMIN` is\nidentical to [`BLPOP`]() with the only difference being the data structure being\npopped from.\n\n[cl]: /commands/blpop\n\n## Examples\n\n```\nredis> DEL zset1 zset2\n(integer) 0\nredis> ZADD zset1 0 a 1 b 2 c\n(integer) 3\nredis> BZPOPMIN zset1 zset2 0\n1) \"zset1\"\n2) \"a\"\n3) \"0\"\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): when no element could be popped and the _timeout_ expired.\n* [Array reply](../../develop/reference/protocol-spec#arrays): the keyname, popped member, and its score.\n\n**RESP3:**\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): when no element could be popped and the _timeout_ expired.\n* [Array reply](../../develop/reference/protocol-spec#arrays): the keyname, popped member, and its score.",
-  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\n`BZPOPMIN` is the blocking variant of the sorted set [`ZPOPMIN`]() primitive.\n\nIt is the blocking version because it blocks the connection when there are no\nmembers to pop from any of the given sorted sets.\nA member with the lowest score is popped from first sorted set that is\nnon-empty, with the given keys being checked in the order that they are given.\n\nThe `timeout` argument is interpreted as a double value specifying the maximum\nnumber of seconds to block. A timeout of zero can be used to block indefinitely.\n\nSee the [BLPOP documentation][cl] for the exact semantics, since `BZPOPMIN` is\nidentical to [`BLPOP`]() with the only difference being the data structure being\npopped from.\n\n[cl]: /commands/blpop",
+  "content": "`BZPOPMIN` is the blocking variant of the sorted set [`ZPOPMIN`]() primitive.\n\nIt is the blocking version because it blocks the connection when there are no\nmembers to pop from any of the given sorted sets.\nA member with the lowest score is popped from first sorted set that is\nnon-empty, with the given keys being checked in the order that they are given.\n\nThe `timeout` argument is interpreted as a double value specifying the maximum\nnumber of seconds to block. A timeout of zero can be used to block indefinitely.\n\nSee the [BLPOP documentation][cl] for the exact semantics, since `BZPOPMIN` is\nidentical to [`BLPOP`]() with the only difference being the data structure being\npopped from.\n\n[cl]: /commands/blpop\n\n## Examples\n\n```\nredis> DEL zset1 zset2\n(integer) 0\nredis> ZADD zset1 0 a 1 b 2 c\n(integer) 3\nredis> BZPOPMIN zset1 zset2 0\n1) \"zset1\"\n2) \"a\"\n3) \"0\"\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"bzpopmin-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): when no element could be popped and the _timeout_ expired.\n* [Array reply](../../develop/reference/protocol-spec#arrays): the keyname, popped member, and its score.\n\n-tab-sep-\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): when no element could be popped and the _timeout_ expired.\n* [Array reply](../../develop/reference/protocol-spec#arrays): the keyname, popped member, and its score.\n\n{{< /multitabs >}}",
+  "example": "redis> DEL zset1 zset2\n(integer) 0\nredis> ZADD zset1 0 a 1 b 2 c\n(integer) 3\nredis> BZPOPMIN zset1 zset2 0\n1) \"zset1\"\n2) \"a\"\n3) \"0\"",
+  "intro": "`BZPOPMIN` is the blocking variant of the sorted set [`ZPOPMIN`]() primitive.\n\nIt is the blocking version because it blocks the connection when there are no\nmembers to pop from any of the given sorted sets.\nA member with the lowest score is popped from first sorted set that is\nnon-empty, with the given keys being checked in the order that they are given.\n\nThe `timeout` argument is interpreted as a double value specifying the maximum\nnumber of seconds to block. A timeout of zero can be used to block indefinitely.\n\nSee the [BLPOP documentation][cl] for the exact semantics, since `BZPOPMIN` is\nidentical to [`BLPOP`]() with the only difference being the data structure being\npopped from.\n\n[cl]: /commands/blpop",
+  "notes": [
+    "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information."
+  ],
   "sections": [
     {
       "title": "Overview",
       "level": 1,
-      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\n`BZPOPMIN` is the blocking variant of the sorted set [`ZPOPMIN`]() primitive.\n\nIt is the blocking version because it blocks the connection when there are no\nmembers to pop from any of the given sorted sets.\nA member with the lowest score is popped from first sorted set that is\nnon-empty, with the given keys being checked in the order that they are given.\n\nThe `timeout` argument is interpreted as a double value specifying the maximum\nnumber of seconds to block. A timeout of zero can be used to block indefinitely.\n\nSee the [BLPOP documentation][cl] for the exact semantics, since `BZPOPMIN` is\nidentical to [`BLPOP`]() with the only difference being the data structure being\npopped from.\n\n[cl]: /commands/blpop"
+      "content": "`BZPOPMIN` is the blocking variant of the sorted set [`ZPOPMIN`]() primitive.\n\nIt is the blocking version because it blocks the connection when there are no\nmembers to pop from any of the given sorted sets.\nA member with the lowest score is popped from first sorted set that is\nnon-empty, with the given keys being checked in the order that they are given.\n\nThe `timeout` argument is interpreted as a double value specifying the maximum\nnumber of seconds to block. A timeout of zero can be used to block indefinitely.\n\nSee the [BLPOP documentation][cl] for the exact semantics, since `BZPOPMIN` is\nidentical to [`BLPOP`]() with the only difference being the data structure being\npopped from.\n\n[cl]: /commands/blpop"
     },
     {
       "title": "Examples",
@@ -103,7 +511,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): when no element could be popped and the _timeout_ expired.\n* [Array reply](../../develop/reference/protocol-spec#arrays): the keyname, popped member, and its score.\n\n**RESP3:**\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): when no element could be popped and the _timeout_ expired.\n* [Array reply](../../develop/reference/protocol-spec#arrays): the keyname, popped member, and its score."
+      "content": "{{< multitabs id=\"bzpopmin-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): when no element could be popped and the _timeout_ expired.\n* [Array reply](../../develop/reference/protocol-spec#arrays): the keyname, popped member, and its score.\n\n-tab-sep-\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): when no element could be popped and the _timeout_ expired.\n* [Array reply](../../develop/reference/protocol-spec#arrays): the keyname, popped member, and its score.\n\n{{< /multitabs >}}"
     }
   ]
 }

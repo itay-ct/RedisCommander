@@ -14,6 +14,953 @@
     "@sortedset",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "dest",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "Union[Sequence[KeyT], Mapping[AnyKeyT, float]]"
+          },
+          {
+            "description": "",
+            "name": "aggregate",
+            "type": "Optional[str] = None"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "ResponseT"
+        },
+        "signature": "zinterstore(, dest: KeyT,, keys: Union[Sequence[KeyT], Mapping[AnyKeyT, float]],, aggregate: Optional[str] = None,)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "dstkey",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "sets",
+            "type": "byte[]..."
+          }
+        ],
+        "returns": {
+          "description": "The number of elements in the sorted set at dstkey",
+          "type": "long"
+        },
+        "signature": "long zinterstore(final byte[] dstkey, final byte[]... sets)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "dstkey",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "params",
+            "type": "ZParams"
+          },
+          {
+            "description": "",
+            "name": "sets",
+            "type": "byte[]..."
+          }
+        ],
+        "returns": {
+          "description": "The number of elements in the sorted set at dstkey",
+          "type": "long"
+        },
+        "signature": "long zinterstore(final byte[] dstkey, final ZParams params, final byte[]... sets)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "dstkey",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "sets",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "The number of elements in the sorted set at dstkey",
+          "type": "long"
+        },
+        "signature": "long zinterstore(final String dstkey, final String... sets)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "dstkey",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "params",
+            "type": "ZParams"
+          },
+          {
+            "description": "",
+            "name": "sets",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "The number of elements in the sorted set at dstkey",
+          "type": "long"
+        },
+        "signature": "long zinterstore(final String dstkey, final ZParams params, final String... sets)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the destination.",
+            "name": "destination",
+            "type": "K"
+          },
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "Long integer-reply the number of elements in the resulting sorted set at destination.",
+          "type": "Long"
+        },
+        "signature": "Long zinterstore(K destination, K... keys)"
+      },
+      {
+        "params": [
+          {
+            "description": "the destination.",
+            "name": "destination",
+            "type": "K"
+          },
+          {
+            "description": "arguments to define aggregation and weights.",
+            "name": "storeArgs",
+            "type": "ZStoreArgs"
+          },
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "Long integer-reply the number of elements in the resulting sorted set at destination.",
+          "type": "Long"
+        },
+        "signature": "Long zinterstore(K destination, ZStoreArgs storeArgs, K... keys)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the destination.",
+            "name": "destination",
+            "type": "K"
+          },
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "Long integer-reply the number of elements in the resulting sorted set at destination.",
+          "type": "RedisFuture<Long>"
+        },
+        "signature": "RedisFuture<Long> zinterstore(K destination, K... keys)"
+      },
+      {
+        "params": [
+          {
+            "description": "the destination.",
+            "name": "destination",
+            "type": "K"
+          },
+          {
+            "description": "arguments to define aggregation and weights.",
+            "name": "storeArgs",
+            "type": "ZStoreArgs"
+          },
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "Long integer-reply the number of elements in the resulting sorted set at destination.",
+          "type": "RedisFuture<Long>"
+        },
+        "signature": "RedisFuture<Long> zinterstore(K destination, ZStoreArgs storeArgs, K... keys)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the destination.",
+            "name": "destination",
+            "type": "K"
+          },
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "Long integer-reply the number of elements in the resulting sorted set at destination.",
+          "type": "Mono<Long>"
+        },
+        "signature": "Mono<Long> zinterstore(K destination, K... keys)"
+      },
+      {
+        "params": [
+          {
+            "description": "the destination.",
+            "name": "destination",
+            "type": "K"
+          },
+          {
+            "description": "arguments to define aggregation and weights.",
+            "name": "storeArgs",
+            "type": "ZStoreArgs"
+          },
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "Long integer-reply the number of elements in the resulting sorted set at destination.",
+          "type": "Mono<Long>"
+        },
+        "signature": "Mono<Long> zinterstore(K destination, ZStoreArgs storeArgs, K... keys)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "destination",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "store",
+            "type": "*ZStore"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*IntCmd"
+        },
+        "signature": "ZInterStore(ctx context.Context, destination string, store *ZStore)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "destination",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "ZKeys"
+          },
+          {
+            "description": "",
+            "name": "options?",
+            "type": "ZInterOptions"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "ZINTERSTORE(destination: RedisArgument, keys: ZKeys, options?: ZInterOptions)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, destination"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zinterstore(...args: [, destination: RedisKey, numkeys: number | string, ...keys: RedisKey[], callback: Callback<number>, ])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, destination"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zinterstore(...args: [, destination: RedisKey, numkeys: number | string, keys: RedisKey[], callback: Callback<number>, ])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, destination"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zinterstore(...args: [, destination: RedisKey, numkeys: number | string, ...keys: RedisKey[], ])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[destination"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zinterstore(...args: [destination: RedisKey, numkeys: number | string, keys: RedisKey[]])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, destination"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zinterstore(...args: [, destination: RedisKey, numkeys: number | string, ...keys: RedisKey[], aggregate: \"AGGREGATE\", sum: \"SUM\", callback: Callback<number>, ])"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "dstkey",
+            "type": "D"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(usize)"
+        },
+        "signature": "zinterstore(dstkey: D, keys: K)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "dstkey",
+            "type": "D"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(usize)"
+        },
+        "signature": "zinterstore_min(dstkey: D, keys: K)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "dstkey",
+            "type": "D"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(usize)"
+        },
+        "signature": "zinterstore_max(dstkey: D, keys: K)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "dstkey",
+            "type": "D"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "&'a [(K, W)]"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(usize)"
+        },
+        "signature": "zinterstore_weights(dstkey: D, keys: &'a [(K, W)])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "dstkey",
+            "type": "D"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "&'a [(K, W)]"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(usize)"
+        },
+        "signature": "zinterstore_min_weights(dstkey: D, keys: &'a [(K, W)])"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "dstkey",
+            "type": "D"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(usize)"
+        },
+        "signature": "zinterstore(dstkey: D, keys: K)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "dstkey",
+            "type": "D"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(usize)"
+        },
+        "signature": "zinterstore_min(dstkey: D, keys: K)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "dstkey",
+            "type": "D"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(usize)"
+        },
+        "signature": "zinterstore_max(dstkey: D, keys: K)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "dstkey",
+            "type": "D"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "&'a [(K, W)]"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(usize)"
+        },
+        "signature": "zinterstore_weights(dstkey: D, keys: &'a [(K, W)])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "dstkey",
+            "type": "D"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "&'a [(K, W)]"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(usize)"
+        },
+        "signature": "zinterstore_min_weights(dstkey: D, keys: &'a [(K, W)])"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The operation to perform.",
+            "name": "operation",
+            "type": "SetOperation"
+          },
+          {
+            "description": "The key to store the results in.",
+            "name": "destination",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "first",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "second",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The aggregation method (defaults to sum).",
+            "name": "aggregate",
+            "type": "Aggregate"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The number of elements in the resulting sorted set at destination.",
+          "type": "long"
+        },
+        "signature": "SortedSetCombineAndStore(SetOperation operation, RedisKey destination, RedisKey first, RedisKey second, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The operation to perform.",
+            "name": "operation",
+            "type": "SetOperation"
+          },
+          {
+            "description": "The key to store the results in.",
+            "name": "destination",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The keys of the sorted sets.",
+            "name": "keys",
+            "type": "RedisKey[]"
+          },
+          {
+            "description": "The optional weights per set that correspond to keys.",
+            "name": "weights",
+            "type": "double[]?"
+          },
+          {
+            "description": "The aggregation method (defaults to sum).",
+            "name": "aggregate",
+            "type": "Aggregate"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The number of elements in the resulting sorted set at destination.",
+          "type": "long"
+        },
+        "signature": "SortedSetCombineAndStore(SetOperation operation, RedisKey destination, RedisKey[] keys, double[]? weights = null, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The operation to perform.",
+            "name": "operation",
+            "type": "SetOperation"
+          },
+          {
+            "description": "The key to store the results in.",
+            "name": "destination",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "first",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "second",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The aggregation method (defaults to sum).",
+            "name": "aggregate",
+            "type": "Aggregate"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The number of elements in the resulting sorted set at destination.",
+          "type": "long"
+        },
+        "signature": "SortedSetCombineAndStore(SetOperation operation, RedisKey destination, RedisKey first, RedisKey second, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The operation to perform.",
+            "name": "operation",
+            "type": "SetOperation"
+          },
+          {
+            "description": "The key to store the results in.",
+            "name": "destination",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The keys of the sorted sets.",
+            "name": "keys",
+            "type": "RedisKey[]"
+          },
+          {
+            "description": "The optional weights per set that correspond to keys.",
+            "name": "weights",
+            "type": "double[]?"
+          },
+          {
+            "description": "The aggregation method (defaults to sum).",
+            "name": "aggregate",
+            "type": "Aggregate"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The number of elements in the resulting sorted set at destination.",
+          "type": "long"
+        },
+        "signature": "SortedSetCombineAndStore(SetOperation operation, RedisKey destination, RedisKey[] keys, double[]? weights = null, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The operation to perform.",
+            "name": "operation",
+            "type": "SetOperation"
+          },
+          {
+            "description": "The key to store the results in.",
+            "name": "destination",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "first",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "second",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The aggregation method (defaults to sum).",
+            "name": "aggregate",
+            "type": "Aggregate"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The number of elements in the resulting sorted set at destination.",
+          "type": "long"
+        },
+        "signature": "SortedSetCombineAndStore(SetOperation operation, RedisKey destination, RedisKey first, RedisKey second, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The operation to perform.",
+            "name": "operation",
+            "type": "SetOperation"
+          },
+          {
+            "description": "The key to store the results in.",
+            "name": "destination",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The keys of the sorted sets.",
+            "name": "keys",
+            "type": "RedisKey[]"
+          },
+          {
+            "description": "The optional weights per set that correspond to keys.",
+            "name": "weights",
+            "type": "double[]?"
+          },
+          {
+            "description": "The aggregation method (defaults to sum).",
+            "name": "aggregate",
+            "type": "Aggregate"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The number of elements in the resulting sorted set at destination.",
+          "type": "long"
+        },
+        "signature": "SortedSetCombineAndStore(SetOperation operation, RedisKey destination, RedisKey[] keys, double[]? weights = null, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The operation to perform.",
+            "name": "operation",
+            "type": "SetOperation"
+          },
+          {
+            "description": "The key to store the results in.",
+            "name": "destination",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "first",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "second",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The aggregation method (defaults to sum).",
+            "name": "aggregate",
+            "type": "Aggregate"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The number of elements in the resulting sorted set at destination.",
+          "type": "long"
+        },
+        "signature": "SortedSetCombineAndStore(SetOperation operation, RedisKey destination, RedisKey first, RedisKey second, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The operation to perform.",
+            "name": "operation",
+            "type": "SetOperation"
+          },
+          {
+            "description": "The key to store the results in.",
+            "name": "destination",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The keys of the sorted sets.",
+            "name": "keys",
+            "type": "RedisKey[]"
+          },
+          {
+            "description": "The optional weights per set that correspond to keys.",
+            "name": "weights",
+            "type": "double[]?"
+          },
+          {
+            "description": "The aggregation method (defaults to sum).",
+            "name": "aggregate",
+            "type": "Aggregate"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The number of elements in the resulting sorted set at destination.",
+          "type": "long"
+        },
+        "signature": "SortedSetCombineAndStore(SetOperation operation, RedisKey destination, RedisKey[] keys, double[]? weights = null, Aggregate aggregate = Aggregate.Sum, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$destination",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$keys",
+            "type": "array"
+          },
+          {
+            "description": "",
+            "name": "int[] $weights = []",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "string $aggregate = 'sum'",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "int"
+        },
+        "signature": "zinterstore(string $destination, array $keys, int[] $weights = [], string $aggregate = 'sum')"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "destination key",
+            "name": "destination",
+            "type": "String"
+          },
+          {
+            "description": "source keys",
+            "name": "keys",
+            "type": "Array<String>"
+          },
+          {
+            "description": "weights to associate with source sorted sets",
+            "name": "weights",
+            "type": "Array<Float>"
+          },
+          {
+            "description": "aggregate function to use (sum, min, max)",
+            "name": "aggregate",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "number of elements in the resulting sorted set",
+          "type": "Integer"
+        },
+        "signature": "zinterstore(destination, keys, weights: nil, aggregate: nil)"
+      }
+    ]
+  },
   "commandFlags": [
     "write",
     "denyoom",
@@ -122,34 +1069,25 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nComputes the intersection of `numkeys` sorted sets given by the specified keys,\nand stores the result in `destination`.\nIt is mandatory to provide the number of input keys (`numkeys`) before passing\nthe input keys and the other (optional) arguments.\n\nBy default, the resulting score of an element is the sum of its scores in the\nsorted sets where it exists.\nBecause intersection requires an element to be a member of every given sorted\nset, this results in the score of every element in the resulting sorted set to\nbe equal to the number of input sorted sets.\n\nFor a description of the `WEIGHTS` and `AGGREGATE` options, see [`ZUNIONSTORE`]().\n\nIf `destination` already exists, it is overwritten.\n\n## Examples\n\n\nZADD zset1 1 \"one\"\nZADD zset1 2 \"two\"\nZADD zset2 1 \"one\"\nZADD zset2 2 \"two\"\nZADD zset2 3 \"three\"\nZINTERSTORE out 2 zset1 zset2 WEIGHTS 2 3\nZRANGE out 0 -1 WITHSCORES\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of members in the resulting sorted set at the _destination_.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of members in the resulting sorted set at the _destination_.",
-  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nComputes the intersection of `numkeys` sorted sets given by the specified keys,\nand stores the result in `destination`.\nIt is mandatory to provide the number of input keys (`numkeys`) before passing\nthe input keys and the other (optional) arguments.\n\nBy default, the resulting score of an element is the sum of its scores in the\nsorted sets where it exists.\nBecause intersection requires an element to be a member of every given sorted\nset, this results in the score of every element in the resulting sorted set to\nbe equal to the number of input sorted sets.\n\nFor a description of the `WEIGHTS` and `AGGREGATE` options, see [`ZUNIONSTORE`]().\n\nIf `destination` already exists, it is overwritten.",
+  "content": "Computes the intersection of `numkeys` sorted sets given by the specified keys,\nand stores the result in `destination`.\nIt is mandatory to provide the number of input keys (`numkeys`) before passing\nthe input keys and the other (optional) arguments.\n\nBy default, the resulting score of an element is the sum of its scores in the\nsorted sets where it exists.\nBecause intersection requires an element to be a member of every given sorted\nset, this results in the score of every element in the resulting sorted set to\nbe equal to the number of input sorted sets.\n\nFor a description of the `WEIGHTS` and `AGGREGATE` options, see [`ZUNIONSTORE`]().\n\nIf `destination` already exists, it is overwritten.\n\n## Examples\n\n{{% redis-cli %}}\nZADD zset1 1 \"one\"\nZADD zset1 2 \"two\"\nZADD zset2 1 \"one\"\nZADD zset2 2 \"two\"\nZADD zset2 3 \"three\"\nZINTERSTORE out 2 zset1 zset2 WEIGHTS 2 3\nZRANGE out 0 -1 WITHSCORES\n{{% /redis-cli %}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"zinterstore-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of members in the resulting sorted set at the _destination_.\n\n-tab-sep-\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of members in the resulting sorted set at the _destination_.\n\n{{< /multitabs >}}",
+  "example": "ZADD zset1 1 \"one\"\nZADD zset1 2 \"two\"\nZADD zset2 1 \"one\"\nZADD zset2 2 \"two\"\nZADD zset2 3 \"three\"\nZINTERSTORE out 2 zset1 zset2 WEIGHTS 2 3\nZRANGE out 0 -1 WITHSCORES",
+  "intro": "Computes the intersection of `numkeys` sorted sets given by the specified keys,\nand stores the result in `destination`.\nIt is mandatory to provide the number of input keys (`numkeys`) before passing\nthe input keys and the other (optional) arguments.\n\nBy default, the resulting score of an element is the sum of its scores in the\nsorted sets where it exists.\nBecause intersection requires an element to be a member of every given sorted\nset, this results in the score of every element in the resulting sorted set to\nbe equal to the number of input sorted sets.\n\nFor a description of the `WEIGHTS` and `AGGREGATE` options, see [`ZUNIONSTORE`]().\n\nIf `destination` already exists, it is overwritten.",
+  "notes": [
+    "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information."
+  ],
   "sections": [
     {
       "title": "Overview",
       "level": 1,
-      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nComputes the intersection of `numkeys` sorted sets given by the specified keys,\nand stores the result in `destination`.\nIt is mandatory to provide the number of input keys (`numkeys`) before passing\nthe input keys and the other (optional) arguments.\n\nBy default, the resulting score of an element is the sum of its scores in the\nsorted sets where it exists.\nBecause intersection requires an element to be a member of every given sorted\nset, this results in the score of every element in the resulting sorted set to\nbe equal to the number of input sorted sets.\n\nFor a description of the `WEIGHTS` and `AGGREGATE` options, see [`ZUNIONSTORE`]().\n\nIf `destination` already exists, it is overwritten."
+      "content": "Computes the intersection of `numkeys` sorted sets given by the specified keys,\nand stores the result in `destination`.\nIt is mandatory to provide the number of input keys (`numkeys`) before passing\nthe input keys and the other (optional) arguments.\n\nBy default, the resulting score of an element is the sum of its scores in the\nsorted sets where it exists.\nBecause intersection requires an element to be a member of every given sorted\nset, this results in the score of every element in the resulting sorted set to\nbe equal to the number of input sorted sets.\n\nFor a description of the `WEIGHTS` and `AGGREGATE` options, see [`ZUNIONSTORE`]().\n\nIf `destination` already exists, it is overwritten."
     },
     {
       "title": "Examples",
       "level": 2,
-      "content": "ZADD zset1 1 \"one\"\nZADD zset1 2 \"two\"\nZADD zset2 1 \"one\"\nZADD zset2 2 \"two\"\nZADD zset2 3 \"three\"\nZINTERSTORE out 2 zset1 zset2 WEIGHTS 2 3\nZRANGE out 0 -1 WITHSCORES"
+      "content": "{{% redis-cli %}}\nZADD zset1 1 \"one\"\nZADD zset1 2 \"two\"\nZADD zset2 1 \"one\"\nZADD zset2 2 \"two\"\nZADD zset2 3 \"three\"\nZINTERSTORE out 2 zset1 zset2 WEIGHTS 2 3\nZRANGE out 0 -1 WITHSCORES\n{{% /redis-cli %}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -159,7 +1097,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of members in the resulting sorted set at the _destination_.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of members in the resulting sorted set at the _destination_."
+      "content": "{{< multitabs id=\"zinterstore-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of members in the resulting sorted set at the _destination_.\n\n-tab-sep-\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of members in the resulting sorted set at the _destination_.\n\n{{< /multitabs >}}"
     }
   ]
 }

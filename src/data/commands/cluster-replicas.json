@@ -14,6 +14,56 @@
     "@slow",
     "@dangerous"
   ],
+  "apiMethods": {
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "The node ID",
+            "name": "nodeId",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "Replica nodes information",
+          "type": "String"
+        },
+        "signature": "String clusterReplicas(String nodeId)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "The node ID",
+            "name": "nodeId",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "Replica nodes information",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> clusterReplicas(String nodeId)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "The node ID",
+            "name": "nodeId",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "Replica nodes information",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> clusterReplicas(String nodeId)"
+      }
+    ]
+  },
   "commandFlags": [
     "admin",
     "stale"
@@ -37,20 +87,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "The command provides a list of replica nodes replicating from the specified\nmaster node. The list is provided in the same format used by [`CLUSTER NODES`]() (please refer to its documentation for the specification of the format).\n\nThe command will fail if the specified node is not known or if it is not\na master according to the node table of the node receiving the command.\n\nNote that if a replica is added, moved, or removed from a given master node,\nand we ask `CLUSTER REPLICAS` to a node that has not yet received the\nconfiguration update, it may show stale information. However eventually\n(in a matter of seconds if there are no network partitions) all the nodes\nwill agree about the set of nodes associated with a given master.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of replica nodes replicating from the specified master node provided in the same format used by `CLUSTER NODES`.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of replica nodes replicating from the specified master node provided in the same format used by `CLUSTER NODES`.",
+  "content": "The command provides a list of replica nodes replicating from the specified\nmaster node. The list is provided in the same format used by [`CLUSTER NODES`]() (please refer to its documentation for the specification of the format).\n\nThe command will fail if the specified node is not known or if it is not\na master according to the node table of the node receiving the command.\n\nNote that if a replica is added, moved, or removed from a given master node,\nand we ask `CLUSTER REPLICAS` to a node that has not yet received the\nconfiguration update, it may show stale information. However eventually\n(in a matter of seconds if there are no network partitions) all the nodes\nwill agree about the set of nodes associated with a given master.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"cluster-replicas-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of replica nodes replicating from the specified master node provided in the same format used by `CLUSTER NODES`.\n\n-tab-sep-\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of replica nodes replicating from the specified master node provided in the same format used by `CLUSTER NODES`.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "The command provides a list of replica nodes replicating from the specified\nmaster node. The list is provided in the same format used by [`CLUSTER NODES`]() (please refer to its documentation for the specification of the format).\n\nThe command will fail if the specified node is not known or if it is not\na master according to the node table of the node receiving the command.\n\nNote that if a replica is added, moved, or removed from a given master node,\nand we ask `CLUSTER REPLICAS` to a node that has not yet received the\nconfiguration update, it may show stale information. However eventually\n(in a matter of seconds if there are no network partitions) all the nodes\nwill agree about the set of nodes associated with a given master.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -65,7 +108,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of replica nodes replicating from the specified master node provided in the same format used by `CLUSTER NODES`.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of replica nodes replicating from the specified master node provided in the same format used by `CLUSTER NODES`."
+      "content": "{{< multitabs id=\"cluster-replicas-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of replica nodes replicating from the specified master node provided in the same format used by `CLUSTER NODES`.\n\n-tab-sep-\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of replica nodes replicating from the specified master node provided in the same format used by `CLUSTER NODES`.\n\n{{< /multitabs >}}"
     }
   ]
 }

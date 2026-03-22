@@ -14,6 +14,98 @@
     "@slow",
     "@dangerous"
   ],
+  "apiMethods": {
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ranges",
+            "type": "int..."
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "String"
+        },
+        "signature": "String clusterAddSlotsRange(int... ranges)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "min",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "max",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StatusCmd"
+        },
+        "signature": "ClusterAddSlotsRange(ctx context.Context, min, max int)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "One or more slot ranges",
+            "name": "ranges",
+            "type": "Range<Integer>..."
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "String"
+        },
+        "signature": "String clusterAddSlotsRange(Range<Integer>... ranges)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "One or more slot ranges",
+            "name": "ranges",
+            "type": "Range<Integer>..."
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> clusterAddSlotsRange(Range<Integer>... ranges)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "One or more slot ranges",
+            "name": "ranges",
+            "type": "Range<Integer>..."
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> clusterAddSlotsRange(Range<Integer>... ranges)"
+      }
+    ]
+  },
   "commandFlags": [
     "admin",
     "stale",
@@ -50,28 +142,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "example",
-        "title": "Example"
-      },
-      {
-        "id": "usage-in-redis-cluster",
-        "title": "Usage in Redis Cluster"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "The `CLUSTER ADDSLOTSRANGE` is similar to the [`CLUSTER ADDSLOTS`]() command in that they both assign hash slots to nodes.\n\nThe difference between the two commands is that [`CLUSTER ADDSLOTS`]() takes a list of slots to assign to the node, while `CLUSTER ADDSLOTSRANGE` takes a list of slot ranges (specified by start and end slots) to assign to the node.\n\n## Example\n\nTo assign slots 1 2 3 4 5 to the node, the [`CLUSTER ADDSLOTS`]() command is:\n\n    > CLUSTER ADDSLOTS 1 2 3 4 5\n    OK\n\nThe same operation can be completed with the following `CLUSTER ADDSLOTSRANGE` command:\n\n    > CLUSTER ADDSLOTSRANGE 1 5\n    OK\n\n## Usage in Redis Cluster\n\nThis command only works in cluster mode and is useful in the following Redis Cluster operations:\n\n1. To create a new cluster, `CLUSTER ADDSLOTSRANGE` is used to initially set up master nodes splitting the available hash slots among them.\n2. In order to fix a broken cluster where certain slots are unassigned.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.",
+  "content": "The `CLUSTER ADDSLOTSRANGE` is similar to the [`CLUSTER ADDSLOTS`]() command in that they both assign hash slots to nodes.\n\nThe difference between the two commands is that [`CLUSTER ADDSLOTS`]() takes a list of slots to assign to the node, while `CLUSTER ADDSLOTSRANGE` takes a list of slot ranges (specified by start and end slots) to assign to the node.\n\n## Example\n\nTo assign slots 1 2 3 4 5 to the node, the [`CLUSTER ADDSLOTS`]({{< relref \"/commands/cluster-addslots\" >}}) command is:\n\n    > CLUSTER ADDSLOTS 1 2 3 4 5\n    OK\n\nThe same operation can be completed with the following `CLUSTER ADDSLOTSRANGE` command:\n\n    > CLUSTER ADDSLOTSRANGE 1 5\n    OK\n\n## Usage in Redis Cluster\n\nThis command only works in cluster mode and is useful in the following Redis Cluster operations:\n\n1. To create a new cluster, `CLUSTER ADDSLOTSRANGE` is used to initially set up master nodes splitting the available hash slots among them.\n2. In order to fix a broken cluster where certain slots are unassigned.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"cluster-addslotsrange-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "The `CLUSTER ADDSLOTSRANGE` is similar to the [`CLUSTER ADDSLOTS`]() command in that they both assign hash slots to nodes.\n\nThe difference between the two commands is that [`CLUSTER ADDSLOTS`]() takes a list of slots to assign to the node, while `CLUSTER ADDSLOTSRANGE` takes a list of slot ranges (specified by start and end slots) to assign to the node.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -81,7 +158,7 @@
     {
       "title": "Example",
       "level": 2,
-      "content": "To assign slots 1 2 3 4 5 to the node, the [`CLUSTER ADDSLOTS`]() command is:\n\n    > CLUSTER ADDSLOTS 1 2 3 4 5\n    OK\n\nThe same operation can be completed with the following `CLUSTER ADDSLOTSRANGE` command:\n\n    > CLUSTER ADDSLOTSRANGE 1 5\n    OK"
+      "content": "To assign slots 1 2 3 4 5 to the node, the [`CLUSTER ADDSLOTS`]({{< relref \"/commands/cluster-addslots\" >}}) command is:\n\n    > CLUSTER ADDSLOTS 1 2 3 4 5\n    OK\n\nThe same operation can be completed with the following `CLUSTER ADDSLOTSRANGE` command:\n\n    > CLUSTER ADDSLOTSRANGE 1 5\n    OK"
     },
     {
       "title": "Usage in Redis Cluster",
@@ -96,7 +173,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned."
+      "content": "{{< multitabs id=\"cluster-addslotsrange-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the command was successful. Otherwise an error is returned.\n\n{{< /multitabs >}}"
     }
   ]
 }

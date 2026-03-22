@@ -14,6 +14,298 @@
     "@write",
     "@fast"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "str"
+          },
+          {
+            "description": "",
+            "name": "k",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "width",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "depth",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "decay",
+            "type": "float"
+          }
+        ],
+        "returns": {
+          "description": "True if the filter was created successfully",
+          "type": "bool"
+        },
+        "signature": "reserve(key, k, width, depth, decay)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "topk",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "String"
+        },
+        "signature": "topkReserve(String key, long topk)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "topk",
+            "type": "long"
+          },
+          {
+            "description": "",
+            "name": "width",
+            "type": "long"
+          },
+          {
+            "description": "",
+            "name": "depth",
+            "type": "long"
+          },
+          {
+            "description": "",
+            "name": "decay",
+            "type": "double"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "String"
+        },
+        "signature": "topkReserve(String key, long topk, long width, long depth, double decay)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "k",
+            "type": "int64"
+          }
+        ],
+        "returns": {
+          "description": "Status command result",
+          "type": "*StatusCmd"
+        },
+        "signature": "TopKReserve(ctx context.Context, key string, k int64) *StatusCmd"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "k",
+            "type": "int64"
+          },
+          {
+            "description": "",
+            "name": "width",
+            "type": "int64"
+          },
+          {
+            "description": "",
+            "name": "depth",
+            "type": "int64"
+          },
+          {
+            "description": "",
+            "name": "decay",
+            "type": "float64"
+          }
+        ],
+        "returns": {
+          "description": "Status command result",
+          "type": "*StatusCmd"
+        },
+        "signature": "TopKReserveWithOptions(ctx context.Context, key string, k int64, width, depth int64, decay float64) *StatusCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "topK",
+            "type": "number"
+          },
+          {
+            "description": "Optional: { width, depth, decay }",
+            "name": "options",
+            "type": "TopKReserveOptions"
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "SimpleStringReply<'OK'>"
+        },
+        "signature": "TOPK.RESERVE(key, topK, options?)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "topk",
+            "type": "long"
+          },
+          {
+            "description": "Default: 7",
+            "name": "width",
+            "type": "long"
+          },
+          {
+            "description": "Default: 8",
+            "name": "depth",
+            "type": "long"
+          },
+          {
+            "description": "Default: 0.9",
+            "name": "decay",
+            "type": "double"
+          }
+        ],
+        "returns": {
+          "description": "True if created successfully",
+          "type": "bool"
+        },
+        "signature": "Reserve(RedisKey key, long topk, long width = 7, long depth = 8, double decay = 0.9)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "topk",
+            "type": "long"
+          },
+          {
+            "description": "Default: 7",
+            "name": "width",
+            "type": "long"
+          },
+          {
+            "description": "Default: 8",
+            "name": "depth",
+            "type": "long"
+          },
+          {
+            "description": "Default: 0.9",
+            "name": "decay",
+            "type": "double"
+          }
+        ],
+        "returns": {
+          "description": "True if created successfully",
+          "type": "Task<bool>"
+        },
+        "signature": "ReserveAsync(RedisKey key, long topk, long width = 7, long depth = 8, double decay = 0.9)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "topk",
+            "type": "int"
+          },
+          {
+            "description": "Optional, default: 7",
+            "name": "width",
+            "type": "int"
+          },
+          {
+            "description": "Optional, default: 8",
+            "name": "depth",
+            "type": "int"
+          },
+          {
+            "description": "Optional, default: 0.9",
+            "name": "decay",
+            "type": "float"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "string"
+        },
+        "signature": "topkreserve($key, $topk, $width = null, $depth = null, $decay = null)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -56,28 +348,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "parameters",
-        "title": "Parameters"
-      },
-      {
-        "id": "example",
-        "title": "Example"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Initializes a Top-K sketch with specified parameters.\n\n## Parameters\n\n* **key**: the name of the Top-k sketch.\n* **topk**: the number of top (k) occurring items to keep.\n\nOptional parameters\n* **width**: Number of counters kept in each array. (Default 8)\n* **depth**: Number of arrays. (Default 7)\n* **decay**: The probability of reducing a counter in an occupied bucket (decay ^ bucket[i].counter). As the counter gets higher, the likelihood of a reduction is lower. (Default 0.9)\n\n## Example\n\n```\nredis> TOPK.RESERVE topk 50 2000 7 0.925\nOK\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n\n* [Simple string reply]() `OK` if executed correctly.\n* [Simple error reply]() in these cases: incorrect number of arguments, invalid decay value, or key already exists.\n\n**RESP3:**\n\nOne of the following:\n\n* [Simple string reply]() `OK` if executed correctly.\n* [Simple error reply]() in these cases: incorrect number of arguments, invalid decay value, or key already exists.",
+  "content": "Initializes a Top-K sketch with specified parameters.\n\n## Parameters\n\n* **key**: the name of the Top-k sketch.\n* **topk**: the number of top (k) occurring items to keep.\n\nOptional parameters\n* **width**: Number of counters kept in each array. (Default 8)\n* **depth**: Number of arrays. (Default 7)\n* **decay**: The probability of reducing a counter in an occupied bucket (decay ^ bucket[i].counter). As the counter gets higher, the likelihood of a reduction is lower. (Default 0.9)\n\n## Example\n\n```\nredis> TOPK.RESERVE topk 50 2000 7 0.925\nOK\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"topk-reserve-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}) `OK` if executed correctly.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: incorrect number of arguments, invalid decay value, or key already exists.\n\n-tab-sep-\n\nOne of the following:\n\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}) `OK` if executed correctly.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: incorrect number of arguments, invalid decay value, or key already exists.\n\n{{< /multitabs >}}",
+  "example": "redis> TOPK.RESERVE topk 50 2000 7 0.925\nOK",
   "intro": "Initializes a Top-K sketch with specified parameters.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -102,7 +379,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n\n* [Simple string reply]() `OK` if executed correctly.\n* [Simple error reply]() in these cases: incorrect number of arguments, invalid decay value, or key already exists.\n\n**RESP3:**\n\nOne of the following:\n\n* [Simple string reply]() `OK` if executed correctly.\n* [Simple error reply]() in these cases: incorrect number of arguments, invalid decay value, or key already exists."
+      "content": "{{< multitabs id=\"topk-reserve-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}) `OK` if executed correctly.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: incorrect number of arguments, invalid decay value, or key already exists.\n\n-tab-sep-\n\nOne of the following:\n\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}) `OK` if executed correctly.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: incorrect number of arguments, invalid decay value, or key already exists.\n\n{{< /multitabs >}}"
     }
   ]
 }

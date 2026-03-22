@@ -14,6 +14,246 @@
     "@slow",
     "@dangerous"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "username",
+            "type": "str"
+          },
+          {
+            "description": "",
+            "name": "enabled",
+            "type": "bool"
+          },
+          {
+            "description": "",
+            "name": "nopass",
+            "type": "bool"
+          },
+          {
+            "description": "",
+            "name": "passwords",
+            "type": "list[str] | None"
+          },
+          {
+            "description": "",
+            "name": "hashed_passwords",
+            "type": "list[str] | None"
+          },
+          {
+            "description": "",
+            "name": "categories",
+            "type": "list[str] | None"
+          },
+          {
+            "description": "",
+            "name": "commands",
+            "type": "list[str] | None"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "list[KeyT] | None"
+          },
+          {
+            "description": "",
+            "name": "channels",
+            "type": "list[ChannelT] | None"
+          },
+          {
+            "description": "",
+            "name": "selectors",
+            "type": "list[tuple[str, KeyT]] | None"
+          },
+          {
+            "description": "",
+            "name": "reset",
+            "type": "bool"
+          },
+          {
+            "description": "",
+            "name": "reset_keys",
+            "type": "bool"
+          },
+          {
+            "description": "",
+            "name": "reset_channels",
+            "type": "bool"
+          },
+          {
+            "description": "",
+            "name": "reset_passwords",
+            "type": "bool"
+          },
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "str"
+        },
+        "signature": "acl_setuser(username: str, enabled: bool = False, nopass: bool = False, passwords: list[str] | None = None, hashed_passwords: list[str] | None = None, categories: list[str] | None = None, commands: list[str] | None = None, keys: list[KeyT] | None = None, channels: list[ChannelT] | None = None, selectors: list[tuple[str, KeyT]] | None = None, reset: bool = False, reset_keys: bool = False, reset_channels: bool = False, reset_passwords: bool = False, **kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "rules",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "String"
+        },
+        "signature": "String aclSetUser(String name, String... rules)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "username",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "rules",
+            "type": "...interface{}"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StatusCmd"
+        },
+        "signature": "ACLSetUser(ctx context.Context, username string, rules ...interface{}) *StatusCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "Username to create or modify",
+            "name": "username",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "ACL rule(s) to apply",
+            "name": "rule",
+            "type": "RedisVariadicArgument"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "SimpleStringReply<'OK'>"
+        },
+        "signature": "aclSetUser(username: RedisArgument, rule: RedisVariadicArgument)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "username",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "args",
+            "type": "AclSetuserArgs"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "String"
+        },
+        "signature": "String aclSetuser(String username, AclSetuserArgs args)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "username",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "args",
+            "type": "AclSetuserArgs"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> aclSetuser(String username, AclSetuserArgs args)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "username",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "args",
+            "type": "AclSetuserArgs"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> aclSetuser(String username, AclSetuserArgs args)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$subcommand",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$args",
+            "type": "mixed"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "string"
+        },
+        "signature": "acl(string $subcommand, ...$args)"
+      }
+    ]
+  },
   "commandFlags": [
     "admin",
     "noscript",
@@ -46,38 +286,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "children": [
-          {
-            "id": "command-rules",
-            "title": "Command rules"
-          },
-          {
-            "id": "user-management-rules",
-            "title": "User management rules"
-          }
-        ],
-        "id": "acl-rules",
-        "title": "ACL rules"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Create an ACL user with the specified rules or modify the rules of an\nexisting user. \n\nManipulate Redis ACL users interactively.\nIf the username does not exist, the command creates the username without any privilege.\nIt then reads from left to right all the [rules](#acl-rules) provided as successive arguments, setting the user ACL rules as specified.\nIf the user already exists, the provided ACL rules are simply applied\n*in addition* to the rules already set. For example:\n\n    ACL SETUSER virginia on allkeys +set\n\nThe above command creates a user called `virginia` who is active(the _on_ rule), can access any key (_allkeys_ rule), and can call the set command (_+set_ rule).\nThen, you can use another `ACL SETUSER` call to modify the user rules:\n\n    ACL SETUSER virginia +get\n\nThe above rule applies the new rule to the user `virginia`, so other than [`SET`](), the user `virginia` can now also use the [`GET`]() command.\n\nStarting from Redis 7.0, ACL rules can also be grouped into multiple distinct sets of rules, called _selectors_.\nSelectors are added by wrapping the rules in parentheses and providing them just like any other rule.\nIn order to execute a command, either the root permissions (rules defined outside of parenthesis) or any of the selectors (rules defined inside parenthesis) must match the given command.\nFor example:\n\n    ACL SETUSER virginia on +GET allkeys (+SET ~app1*)\n\nThis sets a user with two sets of permissions, one defined on the user and one defined with a selector.\nThe root user permissions only allow executing the get command, but can be executed on any keys.\nThe selector then grants a secondary set of permissions: access to the [`SET`]() command to be executed on any key that starts with `app1`.\nUsing multiple selectors allows you to grant permissions that are different depending on what keys are being accessed.\n\nWhen we want to be sure to define a user from scratch, without caring if\nit had previously defined rules associated, we can use the special rule\n`reset` as first rule, in order to flush all the other existing rules:\n\n    ACL SETUSER antirez reset [... other rules ...]\n\nAfter resetting a user, its ACL rules revert to the default: inactive, passwordless, can't execute any command nor access any key or channel:\n\n    > ACL SETUSER antirez reset\n    +OK\n    > ACL LIST\n    1) \"user antirez off -@all\"\n\nACL rules are either words like \"on\", \"off\", \"reset\", \"allkeys\", or are\nspecial rules that start with a special character, and are followed by\nanother string (without any space in between), like \"+SET\".\n\nFor information on persisting ACLs, see the [ACL tutorial](#use-an-external-acl-file).\n\nThe following documentation is a reference manual about the capabilities of this command, however our [ACL tutorial]() may be a more gentle introduction to how the ACL system works in general.\n\n## ACL rules\n\nRedis ACL rules are split into two categories: rules that define command permissions or _command rules_, and rules that define the user state or _user management rules_.\nThis is a list of all the supported Redis ACL rules:\n\n### Command rules\n\n* `~<pattern>`: Adds the specified key pattern (glob style pattern, like in the [`KEYS`]() command), to the list of key patterns accessible by the user. This grants both read and write permissions to keys that match the pattern. You can add multiple key patterns to the same user. Example: `~objects:*`\n* `%R~<pattern>`: (Available in Redis 7.0 and later) Adds the specified read key pattern. This behaves similar to the regular key pattern but only grants permission to read from keys that match the given pattern. See [key permissions]() for more information.\n* `%W~<pattern>`: (Available in Redis 7.0 and later) Adds the specified write key pattern. This behaves similar to the regular key pattern but only grants permission to write to keys that match the given pattern. See [key permissions]() for more information.\n* `%RW~<pattern>`: (Available in Redis 7.0 and later) Alias for `~<pattern>`.\n* `allkeys`: Alias for `~*`, it allows the user to access all the keys.\n* `resetkeys`: Removes all the key patterns from the list of key patterns the user can access.\n* `&<pattern>`: (Available in Redis 6.2 and later) Adds the specified glob style pattern to the list of Pub/Sub channel patterns accessible by the user. You can add multiple channel patterns to the same user. Example: `&chatroom:*`\n* `allchannels`: Alias for `&*`, it allows the user to access all Pub/Sub channels.\n* `resetchannels`: Removes all channel patterns from the list of Pub/Sub channel patterns the user can access.\n* `+<command>`: Adds the command to the list of commands the user can call. Can be used with `|` for allowing subcommands (e.g \"+config|get\").\n* `+@<category>`: Adds all the commands in the specified category to the list of commands the user is able to execute. Example: `+@string` (adds all the string commands). For a list of categories, check the [`ACL CAT`]() command.\n* `+<command>|first-arg`: Allows a specific first argument of an otherwise disabled command. It is only supported on commands with no sub-commands, and is not allowed as negative form like -SELECT|1, only additive starting with \"+\". This feature is deprecated and may be removed in the future.\n* `allcommands`: Alias of `+@all`. Adds all the commands there are in the server, including *future commands* loaded via module, to be executed by this user.\n* `-<command>`: Remove the command to the list of commands the user can call. Starting Redis 7.0, it can be used with `|` for blocking subcommands (e.g., \"-config|set\").\n* `-@<category>`: Like `+@<category>` but removes all the commands in the category instead of adding them.\n* `nocommands`: Alias for `-@all`. Removes all the commands, and the user is no longer able to execute anything.\n\n### User management rules\n\n* `on`: Set the user as active, it will be possible to authenticate as this user using `AUTH <username> <password>`.\n* `off`: Set user as not active, it will be impossible to log as this user. Please note that if a user gets disabled (set to off) after there are connections already authenticated with such a user, the connections will continue to work as expected. To also kill the old connections you can use [`CLIENT KILL`]() with the user option. An alternative is to delete the user with [`ACL DELUSER`](), that will result in all the connections authenticated as the deleted user to be disconnected.\n* `nopass`: The user is set as a _no password_ user. It means that it will be possible to authenticate as such user with any password. By default, the `default` special user is set as \"nopass\". The `nopass` rule will also reset all the configured passwords for the user.\n* `>password`: Adds the specified clear text password as a hashed password in the list of the users passwords. Every user can have many active passwords, so that password rotation will be simpler. The specified password is not stored as clear text inside the server. Example: `>mypassword`.\n* `#<hashedpassword>`: Adds the specified hashed password to the list of user passwords. A Redis hashed password is hashed with SHA256 and translated into a hexadecimal string. Example: `#c3ab8ff13720e8ad9047dd39466b3c8974e592c2fa383d4a3960714caef0c4f2`.\n* `<password`: Like `>password` but removes the password instead of adding it.\n* `!<hashedpassword>`: Like `#<hashedpassword>` but removes the password instead of adding it.\n* `(<rule list>)`: (Available in Redis 7.0 and later) Creates a new selector to match rules against. Selectors are evaluated after the user permissions, and are evaluated according to the order they are defined. If a command matches either the user permissions or any selector, it is allowed. See [selectors]() for more information.\n* `clearselectors`: (Available in Redis 7.0 and later) Deletes all of the selectors attached to the user.\n* `reset`: Removes any capability from the user. They are set to off, without passwords, unable to execute any command, unable to access any key.\n\n## Examples\n\n```\n> ACL SETUSER alan allkeys +@string +@set -SADD >alanpassword\n+OK\n\n> ACL SETUSER antirez heeyyyy\n(error) ERR Error in ACL SETUSER modifier 'heeyyyy': Syntax error\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\nIf the rules contain errors, the error is returned.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\nIf the rules contain errors, the error is returned.",
+  "content": "Create an ACL user with the specified rules or modify the rules of an\nexisting user. \n\nManipulate Redis ACL users interactively.\nIf the username does not exist, the command creates the username without any privilege.\nIt then reads from left to right all the [rules](#acl-rules) provided as successive arguments, setting the user ACL rules as specified.\nIf the user already exists, the provided ACL rules are simply applied\n*in addition* to the rules already set. For example:\n\n    ACL SETUSER virginia on allkeys +set\n\nThe above command creates a user called `virginia` who is active(the _on_ rule), can access any key (_allkeys_ rule), and can call the set command (_+set_ rule).\nThen, you can use another `ACL SETUSER` call to modify the user rules:\n\n    ACL SETUSER virginia +get\n\nThe above rule applies the new rule to the user `virginia`, so other than [`SET`](), the user `virginia` can now also use the [`GET`]() command.\n\nStarting from Redis 7.0, ACL rules can also be grouped into multiple distinct sets of rules, called _selectors_.\nSelectors are added by wrapping the rules in parentheses and providing them just like any other rule.\nIn order to execute a command, either the root permissions (rules defined outside of parenthesis) or any of the selectors (rules defined inside parenthesis) must match the given command.\nFor example:\n\n    ACL SETUSER virginia on +GET allkeys (+SET ~app1*)\n\nThis sets a user with two sets of permissions, one defined on the user and one defined with a selector.\nThe root user permissions only allow executing the get command, but can be executed on any keys.\nThe selector then grants a secondary set of permissions: access to the [`SET`]() command to be executed on any key that starts with `app1`.\nUsing multiple selectors allows you to grant permissions that are different depending on what keys are being accessed.\n\nWhen we want to be sure to define a user from scratch, without caring if\nit had previously defined rules associated, we can use the special rule\n`reset` as first rule, in order to flush all the other existing rules:\n\n    ACL SETUSER antirez reset [... other rules ...]\n\nAfter resetting a user, its ACL rules revert to the default: inactive, passwordless, can't execute any command nor access any key or channel:\n\n    > ACL SETUSER antirez reset\n    +OK\n    > ACL LIST\n    1) \"user antirez off -@all\"\n\nACL rules are either words like \"on\", \"off\", \"reset\", \"allkeys\", or are\nspecial rules that start with a special character, and are followed by\nanother string (without any space in between), like \"+SET\".\n\nFor information on persisting ACLs, see the [ACL tutorial](#use-an-external-acl-file).\n\nThe following documentation is a reference manual about the capabilities of this command, however our [ACL tutorial]() may be a more gentle introduction to how the ACL system works in general.\n\n## ACL rules\n\nRedis ACL rules are split into two categories: rules that define command permissions or _command rules_, and rules that define the user state or _user management rules_.\nThis is a list of all the supported Redis ACL rules:\n\n### Command rules\n\n* `~<pattern>`: Adds the specified key pattern (glob style pattern, like in the [`KEYS`]({{< relref \"/commands/keys\" >}}) command), to the list of key patterns accessible by the user. This grants both read and write permissions to keys that match the pattern. You can add multiple key patterns to the same user. Example: `~objects:*`\n* `%R~<pattern>`: (Available in Redis 7.0 and later) Adds the specified read key pattern. This behaves similar to the regular key pattern but only grants permission to read from keys that match the given pattern. See [key permissions]({{< relref \"/operate/oss_and_stack/management/security/acl#key-permissions\" >}}) for more information.\n* `%W~<pattern>`: (Available in Redis 7.0 and later) Adds the specified write key pattern. This behaves similar to the regular key pattern but only grants permission to write to keys that match the given pattern. See [key permissions]({{< relref \"/operate/oss_and_stack/management/security/acl#key-permissions\" >}}) for more information.\n* `%RW~<pattern>`: (Available in Redis 7.0 and later) Alias for `~<pattern>`.\n* `allkeys`: Alias for `~*`, it allows the user to access all the keys.\n* `resetkeys`: Removes all the key patterns from the list of key patterns the user can access.\n* `&<pattern>`: (Available in Redis 6.2 and later) Adds the specified glob style pattern to the list of Pub/Sub channel patterns accessible by the user. You can add multiple channel patterns to the same user. Example: `&chatroom:*`\n* `allchannels`: Alias for `&*`, it allows the user to access all Pub/Sub channels.\n* `resetchannels`: Removes all channel patterns from the list of Pub/Sub channel patterns the user can access.\n* `+<command>`: Adds the command to the list of commands the user can call. Can be used with `|` for allowing subcommands (e.g \"+config|get\").\n* `+@<category>`: Adds all the commands in the specified category to the list of commands the user is able to execute. Example: `+@string` (adds all the string commands). For a list of categories, check the [`ACL CAT`]({{< relref \"/commands/acl-cat\" >}}) command.\n* `+<command>|first-arg`: Allows a specific first argument of an otherwise disabled command. It is only supported on commands with no sub-commands, and is not allowed as negative form like -SELECT|1, only additive starting with \"+\". This feature is deprecated and may be removed in the future.\n* `allcommands`: Alias of `+@all`. Adds all the commands there are in the server, including *future commands* loaded via module, to be executed by this user.\n* `-<command>`: Remove the command to the list of commands the user can call. Starting Redis 7.0, it can be used with `|` for blocking subcommands (e.g., \"-config|set\").\n* `-@<category>`: Like `+@<category>` but removes all the commands in the category instead of adding them.\n* `nocommands`: Alias for `-@all`. Removes all the commands, and the user is no longer able to execute anything.\n\n### User management rules\n\n* `on`: Set the user as active, it will be possible to authenticate as this user using `AUTH <username> <password>`.\n* `off`: Set user as not active, it will be impossible to log as this user. Please note that if a user gets disabled (set to off) after there are connections already authenticated with such a user, the connections will continue to work as expected. To also kill the old connections you can use [`CLIENT KILL`]({{< relref \"/commands/client-kill\" >}}) with the user option. An alternative is to delete the user with [`ACL DELUSER`]({{< relref \"/commands/acl-deluser\" >}}), that will result in all the connections authenticated as the deleted user to be disconnected.\n* `nopass`: The user is set as a _no password_ user. It means that it will be possible to authenticate as such user with any password. By default, the `default` special user is set as \"nopass\". The `nopass` rule will also reset all the configured passwords for the user.\n* `>password`: Adds the specified clear text password as a hashed password in the list of the users passwords. Every user can have many active passwords, so that password rotation will be simpler. The specified password is not stored as clear text inside the server. Example: `>mypassword`.\n* `#<hashedpassword>`: Adds the specified hashed password to the list of user passwords. A Redis hashed password is hashed with SHA256 and translated into a hexadecimal string. Example: `#c3ab8ff13720e8ad9047dd39466b3c8974e592c2fa383d4a3960714caef0c4f2`.\n* `<password`: Like `>password` but removes the password instead of adding it.\n* `!<hashedpassword>`: Like `#<hashedpassword>` but removes the password instead of adding it.\n* `(<rule list>)`: (Available in Redis 7.0 and later) Creates a new selector to match rules against. Selectors are evaluated after the user permissions, and are evaluated according to the order they are defined. If a command matches either the user permissions or any selector, it is allowed. See [selectors]({{< relref \"operate/oss_and_stack/management/security/acl#selectors\" >}}) for more information.\n* `clearselectors`: (Available in Redis 7.0 and later) Deletes all of the selectors attached to the user.\n* `reset`: Removes any capability from the user. They are set to off, without passwords, unable to execute any command, unable to access any key.\n\n## Examples\n\n```\n> ACL SETUSER alan allkeys +@string +@set -SADD >alanpassword\n+OK\n\n> ACL SETUSER antirez heeyyyy\n(error) ERR Error in ACL SETUSER modifier 'heeyyyy': Syntax error\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"acl-setuser-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\nIf the rules contain errors, the error is returned.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\nIf the rules contain errors, the error is returned.\n\n{{< /multitabs >}}",
+  "example": "> ACL SETUSER alan allkeys +@string +@set -SADD >alanpassword\n+OK\n\n> ACL SETUSER antirez heeyyyy\n(error) ERR Error in ACL SETUSER modifier 'heeyyyy': Syntax error",
   "intro": "Create an ACL user with the specified rules or modify the rules of an\nexisting user. \n\nManipulate Redis ACL users interactively.\nIf the username does not exist, the command creates the username without any privilege.\nIt then reads from left to right all the [rules](#acl-rules) provided as successive arguments, setting the user ACL rules as specified.\nIf the user already exists, the provided ACL rules are simply applied\n*in addition* to the rules already set. For example:\n\n    ACL SETUSER virginia on allkeys +set\n\nThe above command creates a user called `virginia` who is active(the _on_ rule), can access any key (_allkeys_ rule), and can call the set command (_+set_ rule).\nThen, you can use another `ACL SETUSER` call to modify the user rules:\n\n    ACL SETUSER virginia +get\n\nThe above rule applies the new rule to the user `virginia`, so other than [`SET`](), the user `virginia` can now also use the [`GET`]() command.\n\nStarting from Redis 7.0, ACL rules can also be grouped into multiple distinct sets of rules, called _selectors_.\nSelectors are added by wrapping the rules in parentheses and providing them just like any other rule.\nIn order to execute a command, either the root permissions (rules defined outside of parenthesis) or any of the selectors (rules defined inside parenthesis) must match the given command.\nFor example:\n\n    ACL SETUSER virginia on +GET allkeys (+SET ~app1*)\n\nThis sets a user with two sets of permissions, one defined on the user and one defined with a selector.\nThe root user permissions only allow executing the get command, but can be executed on any keys.\nThe selector then grants a secondary set of permissions: access to the [`SET`]() command to be executed on any key that starts with `app1`.\nUsing multiple selectors allows you to grant permissions that are different depending on what keys are being accessed.\n\nWhen we want to be sure to define a user from scratch, without caring if\nit had previously defined rules associated, we can use the special rule\n`reset` as first rule, in order to flush all the other existing rules:\n\n    ACL SETUSER antirez reset [... other rules ...]\n\nAfter resetting a user, its ACL rules revert to the default: inactive, passwordless, can't execute any command nor access any key or channel:\n\n    > ACL SETUSER antirez reset\n    +OK\n    > ACL LIST\n    1) \"user antirez off -@all\"\n\nACL rules are either words like \"on\", \"off\", \"reset\", \"allkeys\", or are\nspecial rules that start with a special character, and are followed by\nanother string (without any space in between), like \"+SET\".\n\nFor information on persisting ACLs, see the [ACL tutorial](#use-an-external-acl-file).\n\nThe following documentation is a reference manual about the capabilities of this command, however our [ACL tutorial]() may be a more gentle introduction to how the ACL system works in general.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -92,12 +307,12 @@
     {
       "title": "Command rules",
       "level": 3,
-      "content": "* `~<pattern>`: Adds the specified key pattern (glob style pattern, like in the [`KEYS`]() command), to the list of key patterns accessible by the user. This grants both read and write permissions to keys that match the pattern. You can add multiple key patterns to the same user. Example: `~objects:*`\n* `%R~<pattern>`: (Available in Redis 7.0 and later) Adds the specified read key pattern. This behaves similar to the regular key pattern but only grants permission to read from keys that match the given pattern. See [key permissions]() for more information.\n* `%W~<pattern>`: (Available in Redis 7.0 and later) Adds the specified write key pattern. This behaves similar to the regular key pattern but only grants permission to write to keys that match the given pattern. See [key permissions]() for more information.\n* `%RW~<pattern>`: (Available in Redis 7.0 and later) Alias for `~<pattern>`.\n* `allkeys`: Alias for `~*`, it allows the user to access all the keys.\n* `resetkeys`: Removes all the key patterns from the list of key patterns the user can access.\n* `&<pattern>`: (Available in Redis 6.2 and later) Adds the specified glob style pattern to the list of Pub/Sub channel patterns accessible by the user. You can add multiple channel patterns to the same user. Example: `&chatroom:*`\n* `allchannels`: Alias for `&*`, it allows the user to access all Pub/Sub channels.\n* `resetchannels`: Removes all channel patterns from the list of Pub/Sub channel patterns the user can access.\n* `+<command>`: Adds the command to the list of commands the user can call. Can be used with `|` for allowing subcommands (e.g \"+config|get\").\n* `+@<category>`: Adds all the commands in the specified category to the list of commands the user is able to execute. Example: `+@string` (adds all the string commands). For a list of categories, check the [`ACL CAT`]() command.\n* `+<command>|first-arg`: Allows a specific first argument of an otherwise disabled command. It is only supported on commands with no sub-commands, and is not allowed as negative form like -SELECT|1, only additive starting with \"+\". This feature is deprecated and may be removed in the future.\n* `allcommands`: Alias of `+@all`. Adds all the commands there are in the server, including *future commands* loaded via module, to be executed by this user.\n* `-<command>`: Remove the command to the list of commands the user can call. Starting Redis 7.0, it can be used with `|` for blocking subcommands (e.g., \"-config|set\").\n* `-@<category>`: Like `+@<category>` but removes all the commands in the category instead of adding them.\n* `nocommands`: Alias for `-@all`. Removes all the commands, and the user is no longer able to execute anything."
+      "content": "* `~<pattern>`: Adds the specified key pattern (glob style pattern, like in the [`KEYS`]({{< relref \"/commands/keys\" >}}) command), to the list of key patterns accessible by the user. This grants both read and write permissions to keys that match the pattern. You can add multiple key patterns to the same user. Example: `~objects:*`\n* `%R~<pattern>`: (Available in Redis 7.0 and later) Adds the specified read key pattern. This behaves similar to the regular key pattern but only grants permission to read from keys that match the given pattern. See [key permissions]({{< relref \"/operate/oss_and_stack/management/security/acl#key-permissions\" >}}) for more information.\n* `%W~<pattern>`: (Available in Redis 7.0 and later) Adds the specified write key pattern. This behaves similar to the regular key pattern but only grants permission to write to keys that match the given pattern. See [key permissions]({{< relref \"/operate/oss_and_stack/management/security/acl#key-permissions\" >}}) for more information.\n* `%RW~<pattern>`: (Available in Redis 7.0 and later) Alias for `~<pattern>`.\n* `allkeys`: Alias for `~*`, it allows the user to access all the keys.\n* `resetkeys`: Removes all the key patterns from the list of key patterns the user can access.\n* `&<pattern>`: (Available in Redis 6.2 and later) Adds the specified glob style pattern to the list of Pub/Sub channel patterns accessible by the user. You can add multiple channel patterns to the same user. Example: `&chatroom:*`\n* `allchannels`: Alias for `&*`, it allows the user to access all Pub/Sub channels.\n* `resetchannels`: Removes all channel patterns from the list of Pub/Sub channel patterns the user can access.\n* `+<command>`: Adds the command to the list of commands the user can call. Can be used with `|` for allowing subcommands (e.g \"+config|get\").\n* `+@<category>`: Adds all the commands in the specified category to the list of commands the user is able to execute. Example: `+@string` (adds all the string commands). For a list of categories, check the [`ACL CAT`]({{< relref \"/commands/acl-cat\" >}}) command.\n* `+<command>|first-arg`: Allows a specific first argument of an otherwise disabled command. It is only supported on commands with no sub-commands, and is not allowed as negative form like -SELECT|1, only additive starting with \"+\". This feature is deprecated and may be removed in the future.\n* `allcommands`: Alias of `+@all`. Adds all the commands there are in the server, including *future commands* loaded via module, to be executed by this user.\n* `-<command>`: Remove the command to the list of commands the user can call. Starting Redis 7.0, it can be used with `|` for blocking subcommands (e.g., \"-config|set\").\n* `-@<category>`: Like `+@<category>` but removes all the commands in the category instead of adding them.\n* `nocommands`: Alias for `-@all`. Removes all the commands, and the user is no longer able to execute anything."
     },
     {
       "title": "User management rules",
       "level": 3,
-      "content": "* `on`: Set the user as active, it will be possible to authenticate as this user using `AUTH <username> <password>`.\n* `off`: Set user as not active, it will be impossible to log as this user. Please note that if a user gets disabled (set to off) after there are connections already authenticated with such a user, the connections will continue to work as expected. To also kill the old connections you can use [`CLIENT KILL`]() with the user option. An alternative is to delete the user with [`ACL DELUSER`](), that will result in all the connections authenticated as the deleted user to be disconnected.\n* `nopass`: The user is set as a _no password_ user. It means that it will be possible to authenticate as such user with any password. By default, the `default` special user is set as \"nopass\". The `nopass` rule will also reset all the configured passwords for the user.\n* `>password`: Adds the specified clear text password as a hashed password in the list of the users passwords. Every user can have many active passwords, so that password rotation will be simpler. The specified password is not stored as clear text inside the server. Example: `>mypassword`.\n* `#<hashedpassword>`: Adds the specified hashed password to the list of user passwords. A Redis hashed password is hashed with SHA256 and translated into a hexadecimal string. Example: `#c3ab8ff13720e8ad9047dd39466b3c8974e592c2fa383d4a3960714caef0c4f2`.\n* `<password`: Like `>password` but removes the password instead of adding it.\n* `!<hashedpassword>`: Like `#<hashedpassword>` but removes the password instead of adding it.\n* `(<rule list>)`: (Available in Redis 7.0 and later) Creates a new selector to match rules against. Selectors are evaluated after the user permissions, and are evaluated according to the order they are defined. If a command matches either the user permissions or any selector, it is allowed. See [selectors]() for more information.\n* `clearselectors`: (Available in Redis 7.0 and later) Deletes all of the selectors attached to the user.\n* `reset`: Removes any capability from the user. They are set to off, without passwords, unable to execute any command, unable to access any key."
+      "content": "* `on`: Set the user as active, it will be possible to authenticate as this user using `AUTH <username> <password>`.\n* `off`: Set user as not active, it will be impossible to log as this user. Please note that if a user gets disabled (set to off) after there are connections already authenticated with such a user, the connections will continue to work as expected. To also kill the old connections you can use [`CLIENT KILL`]({{< relref \"/commands/client-kill\" >}}) with the user option. An alternative is to delete the user with [`ACL DELUSER`]({{< relref \"/commands/acl-deluser\" >}}), that will result in all the connections authenticated as the deleted user to be disconnected.\n* `nopass`: The user is set as a _no password_ user. It means that it will be possible to authenticate as such user with any password. By default, the `default` special user is set as \"nopass\". The `nopass` rule will also reset all the configured passwords for the user.\n* `>password`: Adds the specified clear text password as a hashed password in the list of the users passwords. Every user can have many active passwords, so that password rotation will be simpler. The specified password is not stored as clear text inside the server. Example: `>mypassword`.\n* `#<hashedpassword>`: Adds the specified hashed password to the list of user passwords. A Redis hashed password is hashed with SHA256 and translated into a hexadecimal string. Example: `#c3ab8ff13720e8ad9047dd39466b3c8974e592c2fa383d4a3960714caef0c4f2`.\n* `<password`: Like `>password` but removes the password instead of adding it.\n* `!<hashedpassword>`: Like `#<hashedpassword>` but removes the password instead of adding it.\n* `(<rule list>)`: (Available in Redis 7.0 and later) Creates a new selector to match rules against. Selectors are evaluated after the user permissions, and are evaluated according to the order they are defined. If a command matches either the user permissions or any selector, it is allowed. See [selectors]({{< relref \"operate/oss_and_stack/management/security/acl#selectors\" >}}) for more information.\n* `clearselectors`: (Available in Redis 7.0 and later) Deletes all of the selectors attached to the user.\n* `reset`: Removes any capability from the user. They are set to off, without passwords, unable to execute any command, unable to access any key."
     },
     {
       "title": "Examples",
@@ -112,7 +327,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\nIf the rules contain errors, the error is returned.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\nIf the rules contain errors, the error is returned."
+      "content": "{{< multitabs id=\"acl-setuser-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\nIf the rules contain errors, the error is returned.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\nIf the rules contain errors, the error is returned.\n\n{{< /multitabs >}}"
     }
   ]
 }

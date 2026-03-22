@@ -12,6 +12,149 @@
   "aclCategories": [
     "@search"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "The query to explain",
+            "name": "query",
+            "type": "Union[str, Query]"
+          }
+        ],
+        "returns": {
+          "description": "The execution plan in CLI format",
+          "type": "List[str]"
+        },
+        "signature": "explain_cli(query: Union[str, Query])"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "The index name",
+            "name": "indexName",
+            "type": "String"
+          },
+          {
+            "description": "The query to explain",
+            "name": "query",
+            "type": "Query"
+          }
+        ],
+        "returns": {
+          "description": "The execution plan in CLI format",
+          "type": "List<String>"
+        },
+        "signature": "List<String> ftExplainCli(String indexName, Query query)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "The index name",
+            "name": "index",
+            "type": "string"
+          },
+          {
+            "description": "The query to explain",
+            "name": "query",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "The execution plan in CLI format",
+          "type": "*StringSliceCmd"
+        },
+        "signature": "FTExplainCli(ctx context.Context, index string, query string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "The index name",
+            "name": "index",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "The query to explain",
+            "name": "query",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "Optional search options",
+            "name": "options",
+            "type": "FTSearchOptions"
+          }
+        ],
+        "returns": {
+          "description": "The execution plan in CLI format",
+          "type": "Promise<Array<string>>"
+        },
+        "signature": "EXPLAINCLI(index: RedisArgument, query: RedisArgument, options?: FTSearchOptions)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The index name",
+            "name": "indexName",
+            "type": "string"
+          },
+          {
+            "description": "The query to explain",
+            "name": "query",
+            "type": "string"
+          },
+          {
+            "description": "Query dialect version",
+            "name": "dialect",
+            "type": "int?"
+          }
+        ],
+        "returns": {
+          "description": "Query execution plan in CLI format",
+          "type": "RedisResult[]"
+        },
+        "signature": "RedisResult[] ExplainCli(string indexName, string query, int? dialect = null)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The index name",
+            "name": "indexName",
+            "type": "string"
+          },
+          {
+            "description": "The query to explain",
+            "name": "query",
+            "type": "string"
+          },
+          {
+            "description": "Query dialect version",
+            "name": "dialect",
+            "type": "int?"
+          }
+        ],
+        "returns": {
+          "description": "Query execution plan in CLI format",
+          "type": "Task<RedisResult[]>"
+        },
+        "signature": "Task<RedisResult[]> ExplainCliAsync(string indexName, string query, int? dialect = null)"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly"
   ],
@@ -44,40 +187,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "optional-arguments",
-        "title": "Optional arguments"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      },
-      {
-        "id": "see-also",
-        "title": "See also"
-      },
-      {
-        "id": "related-topics",
-        "title": "Related topics"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Return the execution plan for a complex query but formatted for easier reading without using `redis-cli --raw`\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open>\n<summary><code>index</code></summary>\n\nis index name. You must first create the index using [`FT.CREATE`]().\n</details>\n\n<details open>\n<summary><code>query</code></summary>\n\nis query string, as if sent to FT.SEARCH`.\n</details>\n\n## Optional arguments\n\n<details open>\n<summary><code>DIALECT {dialect_version}</code></summary>\n\nis dialect version under which to execute the query. If not specified, the query executes under the default dialect version set during module initial loading or via [`FT.CONFIG SET`]() command.\n\n\n \nIn the returned response, a `+` on a term is an indication of stemming.\n\n\n\n</details>\n\n## Examples\n\n<details open>\n<summary><b>Return the execution plan for a complex query</b></summary>\n\n\n$ redis-cli\n\n127.0.0.1:6379> FT.EXPLAINCLI rd \"(foo bar)|(hello world) @date:[100 200]|@date:[500 +inf]\"\n 1) INTERSECT {\n 2)   UNION {\n 3)     INTERSECT {\n 4)       UNION {\n 5)         foo\n 6)         +foo(expanded)\n 7)       }\n 8)       UNION {\n 9)         bar\n10)         +bar(expanded)\n11)       }\n12)     }\n13)     INTERSECT {\n14)       UNION {\n15)         hello\n16)         +hello(expanded)\n17)       }\n18)       UNION {\n19)         world\n20)         +world(expanded)\n21)       }\n22)     }\n23)   }\n24)   UNION {\n25)     NUMERIC {100.000000 <= @date <= 200.000000}\n26)     NUMERIC {500.000000 <= @date <= inf}\n27)   }\n28) }\n29)\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Array]() of [bulk string replies]() containing the query execution plan in CLI format.\n* [Simple error reply]() in these cases: no such index, syntax error in query.\n\n**RESP3:**\n\nOne of the following:\n* [Array]() of [bulk string replies]() containing the query execution plan in CLI format.\n* [Simple error reply]() in these cases: no such index, syntax error in query.\n\n\n\n## See also\n\n[`FT.CREATE`]() | [`FT.SEARCH`]() | [`FT.CONFIG SET`]()\n\n## Related topics\n\n[RediSearch]()",
+  "content": "Return the execution plan for a complex query but formatted for easier reading without using `redis-cli --raw`\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open>\n<summary><code>index</code></summary>\n\nis index name. You must first create the index using [`FT.CREATE`]({{< relref \"commands/ft.create/\" >}}).\n</details>\n\n<details open>\n<summary><code>query</code></summary>\n\nis query string, as if sent to FT.SEARCH`.\n</details>\n\n## Optional arguments\n\n<details open>\n<summary><code>DIALECT {dialect_version}</code></summary>\n\nis dialect version under which to execute the query. If not specified, the query executes under the default dialect version set during module initial loading or via [`FT.CONFIG SET`]({{< relref \"commands/ft.config-set/\" >}}) command.\n\n{{% alert title=\"Note\" color=\"warning\" %}}\n \nIn the returned response, a `+` on a term is an indication of stemming.\n\n{{% /alert %}}\n\n</details>\n\n## Examples\n\n<details open>\n<summary><b>Return the execution plan for a complex query</b></summary>\n\n{{< highlight bash >}}\n$ redis-cli\n\n127.0.0.1:6379> FT.EXPLAINCLI rd \"(foo bar)|(hello world) @date:[100 200]|@date:[500 +inf]\"\n 1) INTERSECT {\n 2)   UNION {\n 3)     INTERSECT {\n 4)       UNION {\n 5)         foo\n 6)         +foo(expanded)\n 7)       }\n 8)       UNION {\n 9)         bar\n10)         +bar(expanded)\n11)       }\n12)     }\n13)     INTERSECT {\n14)       UNION {\n15)         hello\n16)         +hello(expanded)\n17)       }\n18)       UNION {\n19)         world\n20)         +world(expanded)\n21)       }\n22)     }\n23)   }\n24)   UNION {\n25)     NUMERIC {100.000000 <= @date <= 200.000000}\n26)     NUMERIC {500.000000 <= @date <= inf}\n27)   }\n28) }\n29)\n{{< / highlight >}}\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"ft-explaincli-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [bulk string replies]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) containing the query execution plan in CLI format.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: no such index, syntax error in query.\n\n-tab-sep-\n\nOne of the following:\n* [Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [bulk string replies]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) containing the query execution plan in CLI format.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: no such index, syntax error in query.\n\n{{< /multitabs >}}\n\n## See also\n\n[`FT.CREATE`]({{< relref \"commands/ft.create/\" >}}) | [`FT.SEARCH`]({{< relref \"commands/ft.search/\" >}}) | [`FT.CONFIG SET`]({{< relref \"commands/ft.config-set/\" >}})\n\n## Related topics\n\n[RediSearch]({{< relref \"/develop/ai/search-and-query/\" >}})",
+  "example": "$ redis-cli\n\n127.0.0.1:6379> FT.EXPLAINCLI rd \"(foo bar)|(hello world) @date:[100 200]|@date:[500 +inf]\"\n 1) INTERSECT {\n 2)   UNION {\n 3)     INTERSECT {\n 4)       UNION {\n 5)         foo\n 6)         +foo(expanded)\n 7)       }\n 8)       UNION {\n 9)         bar\n10)         +bar(expanded)\n11)       }\n12)     }\n13)     INTERSECT {\n14)       UNION {\n15)         hello\n16)         +hello(expanded)\n17)       }\n18)       UNION {\n19)         world\n20)         +world(expanded)\n21)       }\n22)     }\n23)   }\n24)   UNION {\n25)     NUMERIC {100.000000 <= @date <= 200.000000}\n26)     NUMERIC {500.000000 <= @date <= inf}\n27)   }\n28) }\n29)",
   "intro": "Return the execution plan for a complex query but formatted for easier reading without using `redis-cli --raw`\n\n[Examples](#examples)",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -87,17 +203,17 @@
     {
       "title": "Required arguments",
       "level": 2,
-      "content": "<details open>\n<summary><code>index</code></summary>\n\nis index name. You must first create the index using [`FT.CREATE`]().\n</details>\n\n<details open>\n<summary><code>query</code></summary>\n\nis query string, as if sent to FT.SEARCH`.\n</details>"
+      "content": "<details open>\n<summary><code>index</code></summary>\n\nis index name. You must first create the index using [`FT.CREATE`]({{< relref \"commands/ft.create/\" >}}).\n</details>\n\n<details open>\n<summary><code>query</code></summary>\n\nis query string, as if sent to FT.SEARCH`.\n</details>"
     },
     {
       "title": "Optional arguments",
       "level": 2,
-      "content": "<details open>\n<summary><code>DIALECT {dialect_version}</code></summary>\n\nis dialect version under which to execute the query. If not specified, the query executes under the default dialect version set during module initial loading or via [`FT.CONFIG SET`]() command.\n\n\n \nIn the returned response, a `+` on a term is an indication of stemming.\n\n\n\n</details>"
+      "content": "<details open>\n<summary><code>DIALECT {dialect_version}</code></summary>\n\nis dialect version under which to execute the query. If not specified, the query executes under the default dialect version set during module initial loading or via [`FT.CONFIG SET`]({{< relref \"commands/ft.config-set/\" >}}) command.\n\n{{% alert title=\"Note\" color=\"warning\" %}}\n \nIn the returned response, a `+` on a term is an indication of stemming.\n\n{{% /alert %}}\n\n</details>"
     },
     {
       "title": "Examples",
       "level": 2,
-      "content": "<details open>\n<summary><b>Return the execution plan for a complex query</b></summary>\n\n\n$ redis-cli\n\n127.0.0.1:6379> FT.EXPLAINCLI rd \"(foo bar)|(hello world) @date:[100 200]|@date:[500 +inf]\"\n 1) INTERSECT {\n 2)   UNION {\n 3)     INTERSECT {\n 4)       UNION {\n 5)         foo\n 6)         +foo(expanded)\n 7)       }\n 8)       UNION {\n 9)         bar\n10)         +bar(expanded)\n11)       }\n12)     }\n13)     INTERSECT {\n14)       UNION {\n15)         hello\n16)         +hello(expanded)\n17)       }\n18)       UNION {\n19)         world\n20)         +world(expanded)\n21)       }\n22)     }\n23)   }\n24)   UNION {\n25)     NUMERIC {100.000000 <= @date <= 200.000000}\n26)     NUMERIC {500.000000 <= @date <= inf}\n27)   }\n28) }\n29)\n\n</details>"
+      "content": "<details open>\n<summary><b>Return the execution plan for a complex query</b></summary>\n\n{{< highlight bash >}}\n$ redis-cli\n\n127.0.0.1:6379> FT.EXPLAINCLI rd \"(foo bar)|(hello world) @date:[100 200]|@date:[500 +inf]\"\n 1) INTERSECT {\n 2)   UNION {\n 3)     INTERSECT {\n 4)       UNION {\n 5)         foo\n 6)         +foo(expanded)\n 7)       }\n 8)       UNION {\n 9)         bar\n10)         +bar(expanded)\n11)       }\n12)     }\n13)     INTERSECT {\n14)       UNION {\n15)         hello\n16)         +hello(expanded)\n17)       }\n18)       UNION {\n19)         world\n20)         +world(expanded)\n21)       }\n22)     }\n23)   }\n24)   UNION {\n25)     NUMERIC {100.000000 <= @date <= 200.000000}\n26)     NUMERIC {500.000000 <= @date <= inf}\n27)   }\n28) }\n29)\n{{< / highlight >}}\n</details>"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -107,17 +223,17 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Array]() of [bulk string replies]() containing the query execution plan in CLI format.\n* [Simple error reply]() in these cases: no such index, syntax error in query.\n\n**RESP3:**\n\nOne of the following:\n* [Array]() of [bulk string replies]() containing the query execution plan in CLI format.\n* [Simple error reply]() in these cases: no such index, syntax error in query."
+      "content": "{{< multitabs id=\"ft-explaincli-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [bulk string replies]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) containing the query execution plan in CLI format.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: no such index, syntax error in query.\n\n-tab-sep-\n\nOne of the following:\n* [Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [bulk string replies]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) containing the query execution plan in CLI format.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: no such index, syntax error in query.\n\n{{< /multitabs >}}"
     },
     {
       "title": "See also",
       "level": 2,
-      "content": "[`FT.CREATE`]() | [`FT.SEARCH`]() | [`FT.CONFIG SET`]()"
+      "content": "[`FT.CREATE`]({{< relref \"commands/ft.create/\" >}}) | [`FT.SEARCH`]({{< relref \"commands/ft.search/\" >}}) | [`FT.CONFIG SET`]({{< relref \"commands/ft.config-set/\" >}})"
     },
     {
       "title": "Related topics",
       "level": 2,
-      "content": "[RediSearch]()"
+      "content": "[RediSearch]({{< relref \"/develop/ai/search-and-query/\" >}})"
     }
   ]
 }

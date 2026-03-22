@@ -14,6 +14,212 @@
     "@slow",
     "@dangerous"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "Config pattern",
+            "name": "pattern",
+            "type": "PatternT"
+          },
+          {
+            "description": "",
+            "name": "*args",
+            "type": "PatternT"
+          },
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "ResponseT"
+        },
+        "signature": "config_get(pattern: PatternT = \"*\", *args: PatternT, **kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "Config pattern",
+            "name": "pattern",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "Bulk reply",
+          "type": "Map<String, String>"
+        },
+        "signature": "Map<String, String> configGet(final String pattern)"
+      },
+      {
+        "params": [
+          {
+            "description": "Config patterns",
+            "name": "patterns",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "Bulk reply",
+          "type": "Map<String, String>"
+        },
+        "signature": "Map<String, String> configGet(String... patterns)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "Config parameter",
+            "name": "parameter",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*MapStringStringCmd"
+        },
+        "signature": "ConfigGet(ctx context.Context, parameter string) *MapStringStringCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "Pattern or specific configuration parameter names",
+            "name": "parameters",
+            "type": "RedisVariadicArgument"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Map<BlobStringReply, BlobStringReply>"
+        },
+        "signature": "configGet(parameters: RedisVariadicArgument)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "parameter",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Map<String, String>"
+        },
+        "signature": "Map<String, String> configGet(String parameter)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "parameters",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Map<String, String>"
+        },
+        "signature": "Map<String, String> configGet(String... parameters)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "parameter",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "RedisFuture<Map<String, String>>"
+        },
+        "signature": "RedisFuture<Map<String, String>> configGet(String parameter)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "parameters",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "RedisFuture<Map<String, String>>"
+        },
+        "signature": "RedisFuture<Map<String, String>> configGet(String... parameters)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "parameter",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Mono<Map<String, String>>"
+        },
+        "signature": "Mono<Map<String, String>> configGet(String parameter)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "parameters",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Mono<Map<String, String>>"
+        },
+        "signature": "Mono<Map<String, String>> configGet(String... parameters)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$subcommand",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$argument",
+            "type": "mixed"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "mixed"
+        },
+        "signature": "config($subcommand, $argument = null)"
+      }
+    ]
+  },
   "commandFlags": [
     "admin",
     "noscript",
@@ -40,20 +246,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "The `CONFIG GET` command is used to read the configuration parameters of a\nrunning Redis server.\nNot all the configuration parameters are supported in Redis 2.4, while Redis 2.6\ncan read the whole configuration of a server using this command.\n\nThe symmetric command used to alter the configuration at run time is `CONFIG\nSET`.\n\n`CONFIG GET` takes multiple arguments, which are glob-style patterns.\nAny configuration parameter matching any of the patterns are reported as a list\nof key-value pairs.\nExample:\n\n```\nredis> config get *max-*-entries* maxmemory\n 1) \"maxmemory\"\n 2) \"0\"\n 3) \"hash-max-listpack-entries\"\n 4) \"512\"\n 5) \"hash-max-ziplist-entries\"\n 6) \"512\"\n 7) \"set-max-intset-entries\"\n 8) \"512\"\n 9) \"zset-max-listpack-entries\"\n10) \"128\"\n11) \"zset-max-ziplist-entries\"\n12) \"128\"\n```\n\nYou can obtain a list of all the supported configuration parameters by typing\n`CONFIG GET *` in an open `redis-cli` prompt.\n\nAll the supported parameters have the same meaning of the equivalent\nconfiguration parameter used in the [redis.conf][hgcarr22rc] file:\n\n[hgcarr22rc]: http://github.com/redis/redis/raw/unstable/redis.conf\n\nNote that you should look at the redis.conf file relevant to the version you're\nworking with as configuration options might change between versions. The link\nabove is to the latest development version.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | [Only supports a subset of configuration settings.]() |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of configuration parameters matching the provided arguments.\n\n**RESP3:**\n\n[Map reply](../../develop/reference/protocol-spec#maps): a list of configuration parameters matching the provided arguments.",
+  "content": "The `CONFIG GET` command is used to read the configuration parameters of a\nrunning Redis server.\nNot all the configuration parameters are supported in Redis 2.4, while Redis 2.6\ncan read the whole configuration of a server using this command.\n\nThe symmetric command used to alter the configuration at run time is `CONFIG\nSET`.\n\n`CONFIG GET` takes multiple arguments, which are glob-style patterns.\nAny configuration parameter matching any of the patterns are reported as a list\nof key-value pairs.\nExample:\n\n```\nredis> config get *max-*-entries* maxmemory\n 1) \"maxmemory\"\n 2) \"0\"\n 3) \"hash-max-listpack-entries\"\n 4) \"512\"\n 5) \"hash-max-ziplist-entries\"\n 6) \"512\"\n 7) \"set-max-intset-entries\"\n 8) \"512\"\n 9) \"zset-max-listpack-entries\"\n10) \"128\"\n11) \"zset-max-ziplist-entries\"\n12) \"128\"\n```\n\nYou can obtain a list of all the supported configuration parameters by typing\n`CONFIG GET *` in an open `redis-cli` prompt.\n\nAll the supported parameters have the same meaning of the equivalent\nconfiguration parameter used in the [redis.conf][hgcarr22rc] file:\n\n[hgcarr22rc]: http://github.com/redis/redis/raw/unstable/redis.conf\n\nNote that you should look at the redis.conf file relevant to the version you're\nworking with as configuration options might change between versions. The link\nabove is to the latest development version.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | [Only supports a subset of configuration settings.]({{< relref \"/operate/rs/references/compatibility/config-settings\" >}}) |\n\n## Return information\n\n{{< multitabs id=\"config-get-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of configuration parameters matching the provided arguments.\n\n-tab-sep-\n\n[Map reply](../../develop/reference/protocol-spec#maps): a list of configuration parameters matching the provided arguments.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "The `CONFIG GET` command is used to read the configuration parameters of a\nrunning Redis server.\nNot all the configuration parameters are supported in Redis 2.4, while Redis 2.6\ncan read the whole configuration of a server using this command.\n\nThe symmetric command used to alter the configuration at run time is `CONFIG\nSET`.\n\n`CONFIG GET` takes multiple arguments, which are glob-style patterns.\nAny configuration parameter matching any of the patterns are reported as a list\nof key-value pairs.\nExample:\n\n```\nredis> config get *max-*-entries* maxmemory\n 1) \"maxmemory\"\n 2) \"0\"\n 3) \"hash-max-listpack-entries\"\n 4) \"512\"\n 5) \"hash-max-ziplist-entries\"\n 6) \"512\"\n 7) \"set-max-intset-entries\"\n 8) \"512\"\n 9) \"zset-max-listpack-entries\"\n10) \"128\"\n11) \"zset-max-ziplist-entries\"\n12) \"128\"\n```\n\nYou can obtain a list of all the supported configuration parameters by typing\n`CONFIG GET *` in an open `redis-cli` prompt.\n\nAll the supported parameters have the same meaning of the equivalent\nconfiguration parameter used in the [redis.conf][hgcarr22rc] file:\n\n[hgcarr22rc]: http://github.com/redis/redis/raw/unstable/redis.conf\n\nNote that you should look at the redis.conf file relevant to the version you're\nworking with as configuration options might change between versions. The link\nabove is to the latest development version.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -63,12 +262,12 @@
     {
       "title": "Redis Software and Redis Cloud compatibility",
       "level": 2,
-      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | [Only supports a subset of configuration settings.]() |"
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | [Only supports a subset of configuration settings.]({{< relref \"/operate/rs/references/compatibility/config-settings\" >}}) |"
     },
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of configuration parameters matching the provided arguments.\n\n**RESP3:**\n\n[Map reply](../../develop/reference/protocol-spec#maps): a list of configuration parameters matching the provided arguments."
+      "content": "{{< multitabs id=\"config-get-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of configuration parameters matching the provided arguments.\n\n-tab-sep-\n\n[Map reply](../../develop/reference/protocol-spec#maps): a list of configuration parameters matching the provided arguments.\n\n{{< /multitabs >}}"
     }
   ]
 }

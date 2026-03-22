@@ -15,6 +15,155 @@
     "@search",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "The tag field name",
+            "name": "tagfield",
+            "type": "str"
+          }
+        ],
+        "returns": {
+          "description": "The distinct tags indexed in the field",
+          "type": "List[str]"
+        },
+        "signature": "tagvals(tagfield: str)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "The index name",
+            "name": "indexName",
+            "type": "String"
+          },
+          {
+            "description": "The tag field name",
+            "name": "fieldName",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "The distinct tags indexed in the field",
+          "type": "Set<String>"
+        },
+        "signature": "Set<String> ftTagVals(String indexName, String fieldName)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "The index name",
+            "name": "index",
+            "type": "string"
+          },
+          {
+            "description": "The tag field name",
+            "name": "field",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "The distinct tags indexed in the field",
+          "type": "*StringSliceCmd"
+        },
+        "signature": "FTTagVals(ctx context.Context, index string, field string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "The index name",
+            "name": "index",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "The tag field name",
+            "name": "fieldName",
+            "type": "RedisArgument"
+          }
+        ],
+        "returns": {
+          "description": "The distinct tags indexed in the field",
+          "type": "Promise<Array<string>>"
+        },
+        "signature": "TAGVALS(index: RedisArgument, fieldName: RedisArgument)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The index name",
+            "name": "indexName",
+            "type": "string"
+          },
+          {
+            "description": "The tag field name",
+            "name": "fieldName",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "Distinct tag values",
+          "type": "RedisResult[]"
+        },
+        "signature": "RedisResult[] TagVals(string indexName, string fieldName)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The index name",
+            "name": "indexName",
+            "type": "string"
+          },
+          {
+            "description": "The tag field name",
+            "name": "fieldName",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "Distinct tag values",
+          "type": "Task<RedisResult[]>"
+        },
+        "signature": "Task<RedisResult[]> TagValsAsync(string indexName, string fieldName)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "The index name",
+            "name": "$index",
+            "type": "string"
+          },
+          {
+            "description": "The tag field name",
+            "name": "$fieldName",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "Distinct tag values",
+          "type": "array"
+        },
+        "signature": "fttagvals(string $index, string $fieldName)"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly"
   ],
@@ -40,40 +189,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "limitations",
-        "title": "Limitations"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      },
-      {
-        "id": "see-also",
-        "title": "See also"
-      },
-      {
-        "id": "related-topics",
-        "title": "Related topics"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Return a distinct set of values indexed in a Tag field\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open>\n<summary><code>index</code></summary>\n\nis full-text index name. You must first create the index using [`FT.CREATE`]().\n</details>\n\n<details open>\n<summary><code>field_name</code></summary>\n\nis name of a Tag file defined in the schema.\n</details>\n\nUse FT.TAGVALS if your tag indexes things like cities, categories, and so on.\n\n## Limitations\n\nFT.TAGVALS provides no paging or sorting, and the tags are not alphabetically sorted. FT.TAGVALS only operates on [tag fields]().\nThe returned strings are lowercase with whitespaces removed, but otherwise unchanged.\n\n## Examples\n\n<details open>\n<summary><b>Return a set of values indexed in a Tag field</b></summary>\n\n\n127.0.0.1:6379> FT.TAGVALS idx myTag\n1) \"Hello\"\n2) \"World\"\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Array]() of distinct tag values as [bulk strings]().\n* [Simple error reply]() in these cases: no such index, not a tag field.\n\n**RESP3:**\n\nOne of the following:\n* [Set]() of distinct tag values as [bulk strings]().\n* [Simple error reply]() in these cases: no such index, not a tag field.\n\n\n\n## See also\n\n[`FT.CREATE`]()\n\n## Related topics\n\n- [Tag fields]()\n- [RediSearch]()",
+  "content": "Return a distinct set of values indexed in a Tag field\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open>\n<summary><code>index</code></summary>\n\nis full-text index name. You must first create the index using [`FT.CREATE`]({{< relref \"commands/ft.create/\" >}}).\n</details>\n\n<details open>\n<summary><code>field_name</code></summary>\n\nis name of a Tag file defined in the schema.\n</details>\n\nUse FT.TAGVALS if your tag indexes things like cities, categories, and so on.\n\n## Limitations\n\nFT.TAGVALS provides no paging or sorting, and the tags are not alphabetically sorted. FT.TAGVALS only operates on [tag fields]({{< relref \"/develop/ai/search-and-query/advanced-concepts/tags\" >}}).\nThe returned strings are lowercase with whitespaces removed, but otherwise unchanged.\n\n## Examples\n\n<details open>\n<summary><b>Return a set of values indexed in a Tag field</b></summary>\n\n{{< highlight bash >}}\n127.0.0.1:6379> FT.TAGVALS idx myTag\n1) \"Hello\"\n2) \"World\"\n{{< / highlight >}}\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"ft-tagvals-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of distinct tag values as [bulk strings]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}).\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: no such index, not a tag field.\n\n-tab-sep-\n\nOne of the following:\n* [Set]({{< relref \"/develop/reference/protocol-spec#sets\" >}}) of distinct tag values as [bulk strings]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}).\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: no such index, not a tag field.\n\n{{< /multitabs >}}\n\n## See also\n\n[`FT.CREATE`]({{< relref \"commands/ft.create/\" >}})\n\n## Related topics\n\n- [Tag fields]({{< relref \"/develop/ai/search-and-query/advanced-concepts/tags\" >}})\n- [RediSearch]({{< relref \"/develop/ai/search-and-query/\" >}})",
+  "example": "127.0.0.1:6379> FT.TAGVALS idx myTag\n1) \"Hello\"\n2) \"World\"",
   "intro": "Return a distinct set of values indexed in a Tag field\n\n[Examples](#examples)",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -83,17 +205,17 @@
     {
       "title": "Required arguments",
       "level": 2,
-      "content": "<details open>\n<summary><code>index</code></summary>\n\nis full-text index name. You must first create the index using [`FT.CREATE`]().\n</details>\n\n<details open>\n<summary><code>field_name</code></summary>\n\nis name of a Tag file defined in the schema.\n</details>\n\nUse FT.TAGVALS if your tag indexes things like cities, categories, and so on."
+      "content": "<details open>\n<summary><code>index</code></summary>\n\nis full-text index name. You must first create the index using [`FT.CREATE`]({{< relref \"commands/ft.create/\" >}}).\n</details>\n\n<details open>\n<summary><code>field_name</code></summary>\n\nis name of a Tag file defined in the schema.\n</details>\n\nUse FT.TAGVALS if your tag indexes things like cities, categories, and so on."
     },
     {
       "title": "Limitations",
       "level": 2,
-      "content": "FT.TAGVALS provides no paging or sorting, and the tags are not alphabetically sorted. FT.TAGVALS only operates on [tag fields]().\nThe returned strings are lowercase with whitespaces removed, but otherwise unchanged."
+      "content": "FT.TAGVALS provides no paging or sorting, and the tags are not alphabetically sorted. FT.TAGVALS only operates on [tag fields]({{< relref \"/develop/ai/search-and-query/advanced-concepts/tags\" >}}).\nThe returned strings are lowercase with whitespaces removed, but otherwise unchanged."
     },
     {
       "title": "Examples",
       "level": 2,
-      "content": "<details open>\n<summary><b>Return a set of values indexed in a Tag field</b></summary>\n\n\n127.0.0.1:6379> FT.TAGVALS idx myTag\n1) \"Hello\"\n2) \"World\"\n\n</details>"
+      "content": "<details open>\n<summary><b>Return a set of values indexed in a Tag field</b></summary>\n\n{{< highlight bash >}}\n127.0.0.1:6379> FT.TAGVALS idx myTag\n1) \"Hello\"\n2) \"World\"\n{{< / highlight >}}\n</details>"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -103,17 +225,17 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Array]() of distinct tag values as [bulk strings]().\n* [Simple error reply]() in these cases: no such index, not a tag field.\n\n**RESP3:**\n\nOne of the following:\n* [Set]() of distinct tag values as [bulk strings]().\n* [Simple error reply]() in these cases: no such index, not a tag field."
+      "content": "{{< multitabs id=\"ft-tagvals-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of distinct tag values as [bulk strings]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}).\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: no such index, not a tag field.\n\n-tab-sep-\n\nOne of the following:\n* [Set]({{< relref \"/develop/reference/protocol-spec#sets\" >}}) of distinct tag values as [bulk strings]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}).\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: no such index, not a tag field.\n\n{{< /multitabs >}}"
     },
     {
       "title": "See also",
       "level": 2,
-      "content": "[`FT.CREATE`]()"
+      "content": "[`FT.CREATE`]({{< relref \"commands/ft.create/\" >}})"
     },
     {
       "title": "Related topics",
       "level": 2,
-      "content": "- [Tag fields]()\n- [RediSearch]()"
+      "content": "- [Tag fields]({{< relref \"/develop/ai/search-and-query/advanced-concepts/tags\" >}})\n- [RediSearch]({{< relref \"/develop/ai/search-and-query/\" >}})"
     }
   ]
 }

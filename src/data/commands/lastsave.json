@@ -14,6 +14,100 @@
     "@fast",
     "@dangerous"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "ResponseT"
+        },
+        "signature": "lastsave(**kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "An UNIX time stamp",
+          "type": "long"
+        },
+        "signature": "long lastsave()"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context",
+            "name": "ctx",
+            "type": "context.Context"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*IntCmd"
+        },
+        "signature": "LastSave(ctx context.Context) *IntCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "NumberReply"
+        },
+        "signature": "LASTSAVE()"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "Date"
+        },
+        "signature": "Date lastsave()"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "RedisFuture<Date>"
+        },
+        "signature": "RedisFuture<Date> lastsave()"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "Mono<Date>"
+        },
+        "signature": "Mono<Date> lastsave()"
+      }
+    ],
+    "php": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "int"
+        },
+        "signature": "lastsave()"
+      }
+    ]
+  },
   "commandFlags": [
     "loading",
     "stale",
@@ -32,20 +126,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Return the UNIX TIME of the last DB save executed with success.\nA client may check if a [`BGSAVE`]() command succeeded reading the `LASTSAVE` value,\nthen issuing a [`BGSAVE`]() command and checking at regular intervals every N\nseconds if `LASTSAVE` changed. Redis considers the database saved successfully at startup.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): UNIX TIME of the last DB save executed with success.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): UNIX TIME of the last DB save executed with success.",
+  "content": "Return the UNIX TIME of the last DB save executed with success.\nA client may check if a [`BGSAVE`]() command succeeded reading the `LASTSAVE` value,\nthen issuing a [`BGSAVE`]() command and checking at regular intervals every N\nseconds if `LASTSAVE` changed. Redis considers the database saved successfully at startup.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"lastsave-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Integer reply](../../develop/reference/protocol-spec#integers): UNIX TIME of the last DB save executed with success.\n\n-tab-sep-\n\n[Integer reply](../../develop/reference/protocol-spec#integers): UNIX TIME of the last DB save executed with success.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "Return the UNIX TIME of the last DB save executed with success.\nA client may check if a [`BGSAVE`]() command succeeded reading the `LASTSAVE` value,\nthen issuing a [`BGSAVE`]() command and checking at regular intervals every N\nseconds if `LASTSAVE` changed. Redis considers the database saved successfully at startup.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -60,7 +147,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): UNIX TIME of the last DB save executed with success.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): UNIX TIME of the last DB save executed with success."
+      "content": "{{< multitabs id=\"lastsave-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Integer reply](../../develop/reference/protocol-spec#integers): UNIX TIME of the last DB save executed with success.\n\n-tab-sep-\n\n[Integer reply](../../develop/reference/protocol-spec#integers): UNIX TIME of the last DB save executed with success.\n\n{{< /multitabs >}}"
     }
   ]
 }

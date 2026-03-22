@@ -14,6 +14,262 @@
     "@string",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "mapping",
+            "type": "Mapping[AnyKeyT, EncodableT]"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "ResponseT"
+        },
+        "signature": "mset(mapping: Mapping[AnyKeyT, EncodableT])"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keysvalues",
+            "type": "byte[]..."
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "String"
+        },
+        "signature": "String mset(final byte[]... keysvalues)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keysvalues",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "String"
+        },
+        "signature": "String mset(final String... keysvalues)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the map.",
+            "name": "map",
+            "type": "Map<K, V>"
+          }
+        ],
+        "returns": {
+          "description": "String simple-string-reply always OK since MSET can't fail.",
+          "type": "String"
+        },
+        "signature": "String mset(Map<K, V> map)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the map.",
+            "name": "map",
+            "type": "Map<K, V>"
+          }
+        ],
+        "returns": {
+          "description": "String simple-string-reply always OK since MSET can't fail.",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> mset(Map<K, V> map)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the map.",
+            "name": "map",
+            "type": "Map<K, V>"
+          }
+        ],
+        "returns": {
+          "description": "String simple-string-reply always OK since MSET can't fail.",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> mset(Map<K, V> map)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "values",
+            "type": "...interface{}"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StatusCmd"
+        },
+        "signature": "MSet(ctx context.Context, values ...interface{})"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "toSet",
+            "type": "MSetArguments"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "MSET(toSet: MSetArguments)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "object",
+            "type": "object"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<\"OK\">)"
+          },
+          {
+            "description": "",
+            "name": "map",
+            "type": "Map<string | Buffer | number, string | Buffer | number>"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<\"OK\">"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "mset(object: object, callback?: Callback<\"OK\">): Result<\"OK\", Context>;, mset(, map: Map<string | Buffer | number, string | Buffer | number>, callback?: Callback<\"OK\">)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, ...keyValues"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "mset(...args: [, ...keyValues: (RedisKey | string | Buffer | number)[], callback: Callback<\"OK\">, ])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[...keyValues"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "mset(...args: [...keyValues: (RedisKey | string | Buffer | number)[]])"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "items",
+            "type": "&'a [(K, V)]"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(())"
+        },
+        "signature": "mset(items: &'a [(K, V)])"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "items",
+            "type": "&'a [(K, V)]"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(())"
+        },
+        "signature": "mset(items: &'a [(K, V)])"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$dictionary",
+            "type": "array"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "mixed"
+        },
+        "signature": "mset(array $dictionary)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "array of keys and values",
+            "name": "*args",
+            "type": "Array<String>"
+          }
+        ],
+        "returns": {
+          "description": "\"OK\"",
+          "type": "String"
+        },
+        "signature": "mset(*args)"
+      }
+    ]
+  },
   "commandFlags": [
     "write",
     "denyoom"
@@ -69,34 +325,25 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nSets the given keys to their respective values.\n`MSET` replaces existing values with new values, just as regular [`SET`]().\nSee [`MSETNX`]() if you don't want to overwrite existing values.\n\n`MSET` is atomic, so all given keys are set at once.\nIt is not possible for clients to see that some of the keys were updated while\nothers are unchanged.\n\n## Examples\n\n\nMSET key1 \"Hello\" key2 \"World\"\nGET key1\nGET key2\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): always `OK` because `MSET` can't fail.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): always `OK` because `MSET` can't fail.",
-  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nSets the given keys to their respective values.\n`MSET` replaces existing values with new values, just as regular [`SET`]().\nSee [`MSETNX`]() if you don't want to overwrite existing values.\n\n`MSET` is atomic, so all given keys are set at once.\nIt is not possible for clients to see that some of the keys were updated while\nothers are unchanged.",
+  "content": "Sets the given keys to their respective values.\n`MSET` replaces existing values with new values, just as regular [`SET`]().\nSee [`MSETNX`]() if you don't want to overwrite existing values.\n\n`MSET` is atomic, so all given keys are set at once.\nIt is not possible for clients to see that some of the keys were updated while\nothers are unchanged.\n\n## Examples\n\n{{% redis-cli %}}\nMSET key1 \"Hello\" key2 \"World\"\nGET key1\nGET key2\n{{% /redis-cli %}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"mset-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): always `OK` because `MSET` can't fail.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): always `OK` because `MSET` can't fail.\n\n{{< /multitabs >}}",
+  "example": "MSET key1 \"Hello\" key2 \"World\"\nGET key1\nGET key2",
+  "intro": "Sets the given keys to their respective values.\n`MSET` replaces existing values with new values, just as regular [`SET`]().\nSee [`MSETNX`]() if you don't want to overwrite existing values.\n\n`MSET` is atomic, so all given keys are set at once.\nIt is not possible for clients to see that some of the keys were updated while\nothers are unchanged.",
+  "notes": [
+    "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information."
+  ],
   "sections": [
     {
       "title": "Overview",
       "level": 1,
-      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nSets the given keys to their respective values.\n`MSET` replaces existing values with new values, just as regular [`SET`]().\nSee [`MSETNX`]() if you don't want to overwrite existing values.\n\n`MSET` is atomic, so all given keys are set at once.\nIt is not possible for clients to see that some of the keys were updated while\nothers are unchanged."
+      "content": "Sets the given keys to their respective values.\n`MSET` replaces existing values with new values, just as regular [`SET`]().\nSee [`MSETNX`]() if you don't want to overwrite existing values.\n\n`MSET` is atomic, so all given keys are set at once.\nIt is not possible for clients to see that some of the keys were updated while\nothers are unchanged."
     },
     {
       "title": "Examples",
       "level": 2,
-      "content": "MSET key1 \"Hello\" key2 \"World\"\nGET key1\nGET key2"
+      "content": "{{% redis-cli %}}\nMSET key1 \"Hello\" key2 \"World\"\nGET key1\nGET key2\n{{% /redis-cli %}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -106,7 +353,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): always `OK` because `MSET` can't fail.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): always `OK` because `MSET` can't fail."
+      "content": "{{< multitabs id=\"mset-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): always `OK` because `MSET` can't fail.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): always `OK` because `MSET` can't fail.\n\n{{< /multitabs >}}"
     }
   ]
 }

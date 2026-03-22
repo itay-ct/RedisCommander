@@ -12,6 +12,144 @@
   "aclCategories": [
     "@slow"
   ],
+  "apiMethods": {
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "slot",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "List<String>"
+        },
+        "signature": "List<String> clusterGetKeysInSlot(final int slot, final int count)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "slot",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StringSliceCmd"
+        },
+        "signature": "ClusterGetKeysInSlot(ctx context.Context, slot int, count int)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "The Redis command parser",
+            "name": "parser",
+            "type": "CommandParser"
+          },
+          {
+            "description": "The hash slot to get keys from",
+            "name": "slot",
+            "type": "number"
+          },
+          {
+            "description": "Maximum number of keys to return",
+            "name": "count",
+            "type": "number"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "ArrayReply<BlobStringReply>"
+        },
+        "signature": "parseCommand(parser: CommandParser, slot: number, count: number)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "The hash slot to get keys from",
+            "name": "slot",
+            "type": "int"
+          },
+          {
+            "description": "Maximum number of keys to return",
+            "name": "count",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "List of keys in the slot",
+          "type": "List<K>"
+        },
+        "signature": "List<K> clusterGetKeysInSlot(int slot, int count)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "The hash slot to get keys from",
+            "name": "slot",
+            "type": "int"
+          },
+          {
+            "description": "Maximum number of keys to return",
+            "name": "count",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "List of keys in the slot",
+          "type": "RedisFuture<List<K>>"
+        },
+        "signature": "RedisFuture<List<K>> clusterGetKeysInSlot(int slot, int count)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "The hash slot to get keys from",
+            "name": "slot",
+            "type": "int"
+          },
+          {
+            "description": "Maximum number of keys to return",
+            "name": "count",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "List of keys in the slot",
+          "type": "Flux<K>"
+        },
+        "signature": "Flux<K> clusterGetKeysInSlot(int slot, int count)"
+      }
+    ]
+  },
   "commandFlags": [
     "stale"
   ],
@@ -39,25 +177,18 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "The command returns an array of keys names stored in the contacted node and\nhashing to the specified hash slot. The maximum number of keys to return\nis specified via the `count` argument, so that it is possible for the user\nof this API to batch-processing keys.\n\nThe main usage of this command is during rehashing of cluster slots from one\nnode to another. The way the rehashing is performed is exposed in the Redis\nCluster specification, or in a more simple to digest form, as an appendix\nof the [`CLUSTER SETSLOT`]() command documentation.\n\nDuring atomic slot migration operations (available since Redis 8.4.0), keys being imported or trimmed will be filtered out from the results.\n\n\n```\n> CLUSTER GETKEYSINSLOT 7000 3\n1) \"key_39015\"\n2) \"key_89793\"\n3) \"key_92937\"\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): an array with up to count elements.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): an array with up to count elements.",
-  "intro": "The command returns an array of keys names stored in the contacted node and\nhashing to the specified hash slot. The maximum number of keys to return\nis specified via the `count` argument, so that it is possible for the user\nof this API to batch-processing keys.\n\nThe main usage of this command is during rehashing of cluster slots from one\nnode to another. The way the rehashing is performed is exposed in the Redis\nCluster specification, or in a more simple to digest form, as an appendix\nof the [`CLUSTER SETSLOT`]() command documentation.\n\nDuring atomic slot migration operations (available since Redis 8.4.0), keys being imported or trimmed will be filtered out from the results.\n\n\n```\n> CLUSTER GETKEYSINSLOT 7000 3\n1) \"key_39015\"\n2) \"key_89793\"\n3) \"key_92937\"\n```",
+  "content": "The command returns an array of keys names stored in the contacted node and\nhashing to the specified hash slot. The maximum number of keys to return\nis specified via the `count` argument, so that it is possible for the user\nof this API to batch-processing keys.\n\nThe main usage of this command is during rehashing of cluster slots from one\nnode to another. The way the rehashing is performed is exposed in the Redis\nCluster specification, or in a more simple to digest form, as an appendix\nof the [`CLUSTER SETSLOT`]() command documentation.\n\nDuring atomic slot migration operations (available since Redis 8.4.0), keys being imported or trimmed will be filtered out from the results.\n\n```\n> CLUSTER GETKEYSINSLOT 7000 3\n1) \"key_39015\"\n2) \"key_89793\"\n3) \"key_92937\"\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"cluster-getkeysinslot-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): an array with up to count elements.\n\n-tab-sep-\n\n[Array reply](../../develop/reference/protocol-spec#arrays): an array with up to count elements.\n\n{{< /multitabs >}}",
+  "example": null,
+  "intro": "The command returns an array of keys names stored in the contacted node and\nhashing to the specified hash slot. The maximum number of keys to return\nis specified via the `count` argument, so that it is possible for the user\nof this API to batch-processing keys.\n\nThe main usage of this command is during rehashing of cluster slots from one\nnode to another. The way the rehashing is performed is exposed in the Redis\nCluster specification, or in a more simple to digest form, as an appendix\nof the [`CLUSTER SETSLOT`]() command documentation.\n\nDuring atomic slot migration operations (available since Redis 8.4.0), keys being imported or trimmed will be filtered out from the results.\n\n```\n> CLUSTER GETKEYSINSLOT 7000 3\n1) \"key_39015\"\n2) \"key_89793\"\n3) \"key_92937\"\n```",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
       "level": 1,
-      "content": "The command returns an array of keys names stored in the contacted node and\nhashing to the specified hash slot. The maximum number of keys to return\nis specified via the `count` argument, so that it is possible for the user\nof this API to batch-processing keys.\n\nThe main usage of this command is during rehashing of cluster slots from one\nnode to another. The way the rehashing is performed is exposed in the Redis\nCluster specification, or in a more simple to digest form, as an appendix\nof the [`CLUSTER SETSLOT`]() command documentation.\n\nDuring atomic slot migration operations (available since Redis 8.4.0), keys being imported or trimmed will be filtered out from the results.\n\n\n```\n> CLUSTER GETKEYSINSLOT 7000 3\n1) \"key_39015\"\n2) \"key_89793\"\n3) \"key_92937\"\n```"
+      "content": "The command returns an array of keys names stored in the contacted node and\nhashing to the specified hash slot. The maximum number of keys to return\nis specified via the `count` argument, so that it is possible for the user\nof this API to batch-processing keys.\n\nThe main usage of this command is during rehashing of cluster slots from one\nnode to another. The way the rehashing is performed is exposed in the Redis\nCluster specification, or in a more simple to digest form, as an appendix\nof the [`CLUSTER SETSLOT`]() command documentation.\n\nDuring atomic slot migration operations (available since Redis 8.4.0), keys being imported or trimmed will be filtered out from the results.\n\n```\n> CLUSTER GETKEYSINSLOT 7000 3\n1) \"key_39015\"\n2) \"key_89793\"\n3) \"key_92937\"\n```"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -67,7 +198,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): an array with up to count elements.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): an array with up to count elements."
+      "content": "{{< multitabs id=\"cluster-getkeysinslot-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): an array with up to count elements.\n\n-tab-sep-\n\n[Array reply](../../develop/reference/protocol-spec#arrays): an array with up to count elements.\n\n{{< /multitabs >}}"
     }
   ]
 }

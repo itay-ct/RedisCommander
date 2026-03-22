@@ -14,6 +14,323 @@
     "@string",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "time_ms",
+            "type": "ExpiryT"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "EncodableT"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "psetex(name: KeyT, time_ms: ExpiryT, value: EncodableT)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "milliseconds",
+            "type": "long"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "byte[]"
+          }
+        ],
+        "returns": {
+          "description": "OK @deprecated Use Jedis#set(String, String, redis.clients.jedis.params.SetParams) with redis.clients.jedis.params.SetParams#px(long). Deprecated in Jedis 8.0.0. Mirrors Redis deprecation since 2.6.12.",
+          "type": "String"
+        },
+        "signature": "String psetex(final byte[] key, final long milliseconds, final byte[] value)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "milliseconds",
+            "type": "long"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "OK @deprecated Use Jedis#set(String, String, redis.clients.jedis.params.SetParams) with redis.clients.jedis.params.SetParams#px(long). Deprecated in Jedis 8.0.0. Mirrors Redis deprecation since 2.6.12.",
+          "type": "String"
+        },
+        "signature": "String psetex(final String key, final long milliseconds, final String value)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the milliseconds type: long.",
+            "name": "milliseconds",
+            "type": "long"
+          },
+          {
+            "description": "the value.",
+            "name": "value",
+            "type": "V"
+          }
+        ],
+        "returns": {
+          "description": "String simple-string-reply.",
+          "type": "String"
+        },
+        "signature": "String psetex(K key, long milliseconds, V value)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the milliseconds type: long.",
+            "name": "milliseconds",
+            "type": "long"
+          },
+          {
+            "description": "the value.",
+            "name": "value",
+            "type": "V"
+          }
+        ],
+        "returns": {
+          "description": "String simple-string-reply.",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> psetex(K key, long milliseconds, V value)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the milliseconds type: long.",
+            "name": "milliseconds",
+            "type": "long"
+          },
+          {
+            "description": "the value.",
+            "name": "value",
+            "type": "V"
+          }
+        ],
+        "returns": {
+          "description": "String simple-string-reply.",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> psetex(K key, long milliseconds, V value)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "ms",
+            "type": "number"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "RedisArgument"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "PSETEX(key: RedisArgument, ms: number, value: RedisArgument)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "milliseconds",
+            "type": "number | string"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "string | Buffer | number"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<unknown>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "psetex(key: RedisKey, milliseconds: number | string, value: string | Buffer | number, callback?: Callback<unknown>)"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "V"
+          },
+          {
+            "description": "",
+            "name": "milliseconds",
+            "type": "u64"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(())"
+        },
+        "signature": "pset_ex(key: K, value: V, milliseconds: u64)"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "V"
+          },
+          {
+            "description": "",
+            "name": "milliseconds",
+            "type": "u64"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(())"
+        },
+        "signature": "pset_ex(key: K, value: V, milliseconds: u64)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$milliseconds",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "$value",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Status"
+        },
+        "signature": "psetex(string $key, $milliseconds, $value)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "ttl",
+            "type": "Integer"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "\"OK\"",
+          "type": "String"
+        },
+        "signature": "psetex(key, ttl, value)"
+      }
+    ]
+  },
   "commandFlags": [
     "write",
     "denyoom"
@@ -67,24 +384,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "`PSETEX` works exactly like [`SETEX`]() with the sole difference that the expire\ntime is specified in milliseconds instead of seconds.\n\n## Examples\n\n\nPSETEX mykey 1000 \"Hello\"\nPTTL mykey\nGET mykey\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.",
+  "content": "`PSETEX` works exactly like [`SETEX`]() with the sole difference that the expire\ntime is specified in milliseconds instead of seconds.\n\n## Examples\n\n{{% redis-cli %}}\nPSETEX mykey 1000 \"Hello\"\nPTTL mykey\nGET mykey\n{{% /redis-cli %}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"psetex-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n{{< /multitabs >}}",
+  "example": "PSETEX mykey 1000 \"Hello\"\nPTTL mykey\nGET mykey",
   "intro": "`PSETEX` works exactly like [`SETEX`]() with the sole difference that the expire\ntime is specified in milliseconds instead of seconds.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -94,7 +400,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "PSETEX mykey 1000 \"Hello\"\nPTTL mykey\nGET mykey"
+      "content": "{{% redis-cli %}}\nPSETEX mykey 1000 \"Hello\"\nPTTL mykey\nGET mykey\n{{% /redis-cli %}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -104,7 +410,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`."
+      "content": "{{< multitabs id=\"psetex-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n{{< /multitabs >}}"
     }
   ]
 }

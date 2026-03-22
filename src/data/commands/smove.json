@@ -14,6 +14,474 @@
     "@set",
     "@fast"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "src",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "dst",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "str"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Union[Awaitable[bool], bool]"
+        },
+        "signature": "smove(src: KeyT, dst: KeyT, value: str)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "srckey",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "dstkey",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "member",
+            "type": "byte[]"
+          }
+        ],
+        "returns": {
+          "description": "1 if the element was moved, 0 if the element was not found on the first set and no operation was performed",
+          "type": "long"
+        },
+        "signature": "long smove(final byte[] srckey, final byte[] dstkey, final byte[] member)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "srckey",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "dstkey",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "member",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "1 if the element was moved, 0 if the element was not found on the first set and no operation was performed",
+          "type": "long"
+        },
+        "signature": "long smove(final String srckey, final String dstkey, final String member)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the source key.",
+            "name": "source",
+            "type": "K"
+          },
+          {
+            "description": "the destination type: key.",
+            "name": "destination",
+            "type": "K"
+          },
+          {
+            "description": "the member type: value.",
+            "name": "member",
+            "type": "V"
+          }
+        ],
+        "returns": {
+          "description": "Boolean integer-reply specifically: true if the element is moved. false if the element is not a member of source and no operation was performed.",
+          "type": "Boolean"
+        },
+        "signature": "Boolean smove(K source, K destination, V member)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the source key.",
+            "name": "source",
+            "type": "K"
+          },
+          {
+            "description": "the destination type: key.",
+            "name": "destination",
+            "type": "K"
+          },
+          {
+            "description": "the member type: value.",
+            "name": "member",
+            "type": "V"
+          }
+        ],
+        "returns": {
+          "description": "Boolean integer-reply specifically: true if the element is moved. false if the element is not a member of source and no operation was performed.",
+          "type": "RedisFuture<Boolean>"
+        },
+        "signature": "RedisFuture<Boolean> smove(K source, K destination, V member)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the source key.",
+            "name": "source",
+            "type": "K"
+          },
+          {
+            "description": "the destination type: key.",
+            "name": "destination",
+            "type": "K"
+          },
+          {
+            "description": "the member type: value.",
+            "name": "member",
+            "type": "V"
+          }
+        ],
+        "returns": {
+          "description": "Boolean integer-reply specifically: true if the element is moved. false if the element is not a member of source and no operation was performed.",
+          "type": "Mono<Boolean>"
+        },
+        "signature": "Mono<Boolean> smove(K source, K destination, V member)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "source",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "destination",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "member",
+            "type": "interface{}"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*BoolCmd"
+        },
+        "signature": "SMove(ctx context.Context, source, destination string, member interface{})"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "source",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "destination",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "member",
+            "type": "RedisArgument"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "SMOVE(source: RedisArgument, destination: RedisArgument, member: RedisArgument)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "source",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "destination",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "member",
+            "type": "string | Buffer | number"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<number>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "smove(source: RedisKey, destination: RedisKey, member: string | Buffer | number, callback?: Callback<number>)"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "srckey",
+            "type": "S"
+          },
+          {
+            "description": "",
+            "name": "dstkey",
+            "type": "D"
+          },
+          {
+            "description": "",
+            "name": "member",
+            "type": "M"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(bool)"
+        },
+        "signature": "smove(srckey: S, dstkey: D, member: M)"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "srckey",
+            "type": "S"
+          },
+          {
+            "description": "",
+            "name": "dstkey",
+            "type": "D"
+          },
+          {
+            "description": "",
+            "name": "member",
+            "type": "M"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(bool)"
+        },
+        "signature": "smove(srckey: S, dstkey: D, member: M)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The key of the source set.",
+            "name": "source",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The key of the destination set.",
+            "name": "destination",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The value to move.",
+            "name": "value",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "true if the element is moved. false if the element is not a member of source and no operation was performed.",
+          "type": "bool"
+        },
+        "signature": "SetMove(RedisKey source, RedisKey destination, RedisValue value, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the source set.",
+            "name": "source",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The key of the destination set.",
+            "name": "destination",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The value to move.",
+            "name": "value",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "true if the element is moved. false if the element is not a member of source and no operation was performed.",
+          "type": "bool"
+        },
+        "signature": "SetMove(RedisKey source, RedisKey destination, RedisValue value, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The key of the source set.",
+            "name": "source",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The key of the destination set.",
+            "name": "destination",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The value to move.",
+            "name": "value",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "true if the element is moved. false if the element is not a member of source and no operation was performed.",
+          "type": "bool"
+        },
+        "signature": "SetMove(RedisKey source, RedisKey destination, RedisValue value, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the source set.",
+            "name": "source",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The key of the destination set.",
+            "name": "destination",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The value to move.",
+            "name": "value",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "true if the element is moved. false if the element is not a member of source and no operation was performed.",
+          "type": "bool"
+        },
+        "signature": "SetMove(RedisKey source, RedisKey destination, RedisValue value, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$source",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$destination",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$member",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "int"
+        },
+        "signature": "smove(string $source, string $destination, string $member)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "source key",
+            "name": "source",
+            "type": "String"
+          },
+          {
+            "description": "destination key",
+            "name": "destination",
+            "type": "String"
+          },
+          {
+            "description": "member to move from source to destination",
+            "name": "member",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Boolean"
+        },
+        "signature": "smove(source, destination, member)"
+      }
+    ]
+  },
   "commandFlags": [
     "write",
     "fast"
@@ -87,34 +555,25 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nMove `member` from the set at `source` to the set at `destination`.\nThis operation is atomic.\nIn every given moment the element will appear to be a member of `source` **or**\n`destination` for other clients.\n\nIf the source set does not exist or does not contain the specified element, no\noperation is performed and `0` is returned.\nOtherwise, the element is removed from the source set and added to the\ndestination set.\nWhen the specified element already exists in the destination set, it is only\nremoved from the source set.\n\n## Examples\n\n\nSADD myset \"one\"\nSADD myset \"two\"\nSADD myotherset \"three\"\nSMOVE myset myotherset \"two\"\nSMEMBERS myset\nSMEMBERS myotherset\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the element is moved.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the element is not a member of _source_ and no operation was performed.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the element is moved.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the element is not a member of _source_ and no operation was performed.",
-  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nMove `member` from the set at `source` to the set at `destination`.\nThis operation is atomic.\nIn every given moment the element will appear to be a member of `source` **or**\n`destination` for other clients.\n\nIf the source set does not exist or does not contain the specified element, no\noperation is performed and `0` is returned.\nOtherwise, the element is removed from the source set and added to the\ndestination set.\nWhen the specified element already exists in the destination set, it is only\nremoved from the source set.",
+  "content": "Move `member` from the set at `source` to the set at `destination`.\nThis operation is atomic.\nIn every given moment the element will appear to be a member of `source` **or**\n`destination` for other clients.\n\nIf the source set does not exist or does not contain the specified element, no\noperation is performed and `0` is returned.\nOtherwise, the element is removed from the source set and added to the\ndestination set.\nWhen the specified element already exists in the destination set, it is only\nremoved from the source set.\n\n## Examples\n\n{{% redis-cli %}}\nSADD myset \"one\"\nSADD myset \"two\"\nSADD myotherset \"three\"\nSMOVE myset myotherset \"two\"\nSMEMBERS myset\nSMEMBERS myotherset\n{{% /redis-cli %}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"smove-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the element is moved.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the element is not a member of _source_ and no operation was performed.\n\n-tab-sep-\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the element is moved.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the element is not a member of _source_ and no operation was performed.\n\n{{< /multitabs >}}",
+  "example": "SADD myset \"one\"\nSADD myset \"two\"\nSADD myotherset \"three\"\nSMOVE myset myotherset \"two\"\nSMEMBERS myset\nSMEMBERS myotherset",
+  "intro": "Move `member` from the set at `source` to the set at `destination`.\nThis operation is atomic.\nIn every given moment the element will appear to be a member of `source` **or**\n`destination` for other clients.\n\nIf the source set does not exist or does not contain the specified element, no\noperation is performed and `0` is returned.\nOtherwise, the element is removed from the source set and added to the\ndestination set.\nWhen the specified element already exists in the destination set, it is only\nremoved from the source set.",
+  "notes": [
+    "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information."
+  ],
   "sections": [
     {
       "title": "Overview",
       "level": 1,
-      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nMove `member` from the set at `source` to the set at `destination`.\nThis operation is atomic.\nIn every given moment the element will appear to be a member of `source` **or**\n`destination` for other clients.\n\nIf the source set does not exist or does not contain the specified element, no\noperation is performed and `0` is returned.\nOtherwise, the element is removed from the source set and added to the\ndestination set.\nWhen the specified element already exists in the destination set, it is only\nremoved from the source set."
+      "content": "Move `member` from the set at `source` to the set at `destination`.\nThis operation is atomic.\nIn every given moment the element will appear to be a member of `source` **or**\n`destination` for other clients.\n\nIf the source set does not exist or does not contain the specified element, no\noperation is performed and `0` is returned.\nOtherwise, the element is removed from the source set and added to the\ndestination set.\nWhen the specified element already exists in the destination set, it is only\nremoved from the source set."
     },
     {
       "title": "Examples",
       "level": 2,
-      "content": "SADD myset \"one\"\nSADD myset \"two\"\nSADD myotherset \"three\"\nSMOVE myset myotherset \"two\"\nSMEMBERS myset\nSMEMBERS myotherset"
+      "content": "{{% redis-cli %}}\nSADD myset \"one\"\nSADD myset \"two\"\nSADD myotherset \"three\"\nSMOVE myset myotherset \"two\"\nSMEMBERS myset\nSMEMBERS myotherset\n{{% /redis-cli %}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -124,7 +583,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the element is moved.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the element is not a member of _source_ and no operation was performed.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the element is moved.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the element is not a member of _source_ and no operation was performed."
+      "content": "{{< multitabs id=\"smove-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the element is moved.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the element is not a member of _source_ and no operation was performed.\n\n-tab-sep-\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if the element is moved.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if the element is not a member of _source_ and no operation was performed.\n\n{{< /multitabs >}}"
     }
   ]
 }

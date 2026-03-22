@@ -14,6 +14,111 @@
     "@slow",
     "@dangerous"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "ResponseT"
+        },
+        "signature": "config_rewrite(**kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "OK when the configuration was rewritten properly",
+          "type": "String"
+        },
+        "signature": "String configRewrite()"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context",
+            "name": "ctx",
+            "type": "context.Context"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StatusCmd"
+        },
+        "signature": "ConfigRewrite(ctx context.Context) *StatusCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "SimpleStringReply"
+        },
+        "signature": "configRewrite()"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "String"
+        },
+        "signature": "String configRewrite()"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> configRewrite()"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> configRewrite()"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$subcommand",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$argument",
+            "type": "mixed"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "mixed"
+        },
+        "signature": "config($subcommand, $argument = null)"
+      }
+    ]
+  },
   "commandFlags": [
     "admin",
     "noscript",
@@ -33,24 +138,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "atomic-rewrite-process",
-        "title": "Atomic rewrite process"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "The `CONFIG REWRITE` command rewrites the `redis.conf` file the server was started with, applying the minimal changes needed to make it reflect the configuration currently used by the server, which may be different compared to the original one because of the use of the [`CONFIG SET`]() command.\n\nThe rewrite is performed in a very conservative way:\n\n* Comments and the overall structure of the original redis.conf are preserved as much as possible.\n* If an option already exists in the old redis.conf file, it will be rewritten at the same position (line number).\n* If an option was not already present, but it is set to its default value, it is not added by the rewrite process.\n* If an option was not already present, but it is set to a non-default value, it is appended at the end of the file.\n* Non used lines are blanked. For instance if you used to have multiple `save` directives, but the current configuration has fewer or none as you disabled RDB persistence, all the lines will be blanked.\n\nCONFIG REWRITE is also able to rewrite the configuration file from scratch if the original one no longer exists for some reason. However if the server was started without a configuration file at all, the CONFIG REWRITE will just return an error.\n\n## Atomic rewrite process\n\nIn order to make sure the redis.conf file is always consistent, that is, on errors or crashes you always end with the old file, or the new one, the rewrite is performed with a single `write(2)` call that has enough content to be at least as big as the old file. Sometimes additional padding in the form of comments is added in order to make sure the resulting file is big enough, and later the file gets truncated to remove the padding at the end.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` when the configuration was rewritten properly. Otherwise an error is returned.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` when the configuration was rewritten properly. Otherwise an error is returned.",
+  "content": "The `CONFIG REWRITE` command rewrites the `redis.conf` file the server was started with, applying the minimal changes needed to make it reflect the configuration currently used by the server, which may be different compared to the original one because of the use of the [`CONFIG SET`]() command.\n\nThe rewrite is performed in a very conservative way:\n\n* Comments and the overall structure of the original redis.conf are preserved as much as possible.\n* If an option already exists in the old redis.conf file, it will be rewritten at the same position (line number).\n* If an option was not already present, but it is set to its default value, it is not added by the rewrite process.\n* If an option was not already present, but it is set to a non-default value, it is appended at the end of the file.\n* Non used lines are blanked. For instance if you used to have multiple `save` directives, but the current configuration has fewer or none as you disabled RDB persistence, all the lines will be blanked.\n\nCONFIG REWRITE is also able to rewrite the configuration file from scratch if the original one no longer exists for some reason. However if the server was started without a configuration file at all, the CONFIG REWRITE will just return an error.\n\n## Atomic rewrite process\n\nIn order to make sure the redis.conf file is always consistent, that is, on errors or crashes you always end with the old file, or the new one, the rewrite is performed with a single `write(2)` call that has enough content to be at least as big as the old file. Sometimes additional padding in the form of comments is added in order to make sure the resulting file is big enough, and later the file gets truncated to remove the padding at the end.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"config-rewrite-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` when the configuration was rewritten properly. Otherwise an error is returned.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` when the configuration was rewritten properly. Otherwise an error is returned.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "The `CONFIG REWRITE` command rewrites the `redis.conf` file the server was started with, applying the minimal changes needed to make it reflect the configuration currently used by the server, which may be different compared to the original one because of the use of the [`CONFIG SET`]() command.\n\nThe rewrite is performed in a very conservative way:\n\n* Comments and the overall structure of the original redis.conf are preserved as much as possible.\n* If an option already exists in the old redis.conf file, it will be rewritten at the same position (line number).\n* If an option was not already present, but it is set to its default value, it is not added by the rewrite process.\n* If an option was not already present, but it is set to a non-default value, it is appended at the end of the file.\n* Non used lines are blanked. For instance if you used to have multiple `save` directives, but the current configuration has fewer or none as you disabled RDB persistence, all the lines will be blanked.\n\nCONFIG REWRITE is also able to rewrite the configuration file from scratch if the original one no longer exists for some reason. However if the server was started without a configuration file at all, the CONFIG REWRITE will just return an error.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -70,7 +164,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` when the configuration was rewritten properly. Otherwise an error is returned.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` when the configuration was rewritten properly. Otherwise an error is returned."
+      "content": "{{< multitabs id=\"config-rewrite-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` when the configuration was rewritten properly. Otherwise an error is returned.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` when the configuration was rewritten properly. Otherwise an error is returned.\n\n{{< /multitabs >}}"
     }
   ]
 }

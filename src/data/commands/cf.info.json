@@ -14,6 +14,125 @@
     "@read",
     "@fast"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "The name of the Cuckoo filter",
+            "name": "key",
+            "type": "str"
+          }
+        ],
+        "returns": {
+          "description": "Filter information (size, buckets, items, etc.)",
+          "type": "dict"
+        },
+        "signature": "info(key)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "The name of the Cuckoo filter",
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "Filter information",
+          "type": "Map<String, Object>"
+        },
+        "signature": "Map<String, Object> cfInfo(String key)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "The name of the Cuckoo filter",
+            "name": "key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "CFInfo command result",
+          "type": "*CFInfoCmd"
+        },
+        "signature": "CFInfo(ctx context.Context, key string) *CFInfoCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "The name of the Cuckoo filter",
+            "name": "key",
+            "type": "RedisArgument"
+          }
+        ],
+        "returns": {
+          "description": "Filter information object",
+          "type": "CfInfoReply"
+        },
+        "signature": "CF.INFO(key: RedisArgument)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The name of the Cuckoo filter",
+            "name": "key",
+            "type": "RedisKey"
+          }
+        ],
+        "returns": {
+          "description": "Filter information",
+          "type": "CuckooInformation"
+        },
+        "signature": "CuckooInformation Info(RedisKey key)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The name of the Cuckoo filter",
+            "name": "key",
+            "type": "RedisKey"
+          }
+        ],
+        "returns": {
+          "description": "Filter information",
+          "type": "Task<CuckooInformation>"
+        },
+        "signature": "async Task<CuckooInformation> InfoAsync(RedisKey key)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "The name of the Cuckoo filter",
+            "name": "$key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "Filter information",
+          "type": "array"
+        },
+        "signature": "cfinfo(string $key)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -33,28 +152,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Returns information about a cuckoo filter.\n\n## Required arguments\n\n<details open><summary><code>key</code></summary>\n\nis key name for a cuckoo filter.\n</details>\n\n## Examples\n\n\nredis> CF.INFO cf\n 1) Size\n 2) (integer) 1080\n 3) Number of buckets\n 4) (integer) 512\n 5) Number of filter\n 6) (integer) 1\n 7) Number of items inserted\n 8) (integer) 0\n 9) Number of items deleted\n10) (integer) 0\n11) Bucket size\n12) (integer) 2\n13) Expansion rate\n14) (integer) 1\n15) Max iteration\n16) (integer) 20\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\nOne of the following:\n\n**RESP2:**\n\n* [Array reply]() with argument name ([Simple string reply]()) and value ([Integer reply]()) pairs.\n* [Simple error reply]() if invalid arguments are passed, `key` does not exist, or `key` is not of the correct type.\n\n**RESP3:**\n\n* [Map reply]() with argument name ([Simple string reply]()) and value ([Integer reply]()) pairs.\n* [Simple error reply]() if invalid arguments are passed, `key` does not exist, or `key` is not of the correct type.",
+  "content": "Returns information about a cuckoo filter.\n\n## Required arguments\n\n<details open><summary><code>key</code></summary>\n\nis key name for a cuckoo filter.\n</details>\n\n## Examples\n\n{{< highlight bash >}}\nredis> CF.INFO cf\n 1) Size\n 2) (integer) 1080\n 3) Number of buckets\n 4) (integer) 512\n 5) Number of filter\n 6) (integer) 1\n 7) Number of items inserted\n 8) (integer) 0\n 9) Number of items deleted\n10) (integer) 0\n11) Bucket size\n12) (integer) 2\n13) Expansion rate\n14) (integer) 1\n15) Max iteration\n16) (integer) 20\n{{< / highlight >}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\nOne of the following:\n\n{{< multitabs id=\"cf-info-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n* [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) with argument name ([Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}})) and value ([Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}})) pairs.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) if invalid arguments are passed, `key` does not exist, or `key` is not of the correct type.\n\n-tab-sep-\n\n* [Map reply]({{< relref \"/develop/reference/protocol-spec#maps\" >}}) with argument name ([Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}})) and value ([Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}})) pairs.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) if invalid arguments are passed, `key` does not exist, or `key` is not of the correct type.\n\n{{< /multitabs >}}",
+  "example": "redis> CF.INFO cf\n 1) Size\n 2) (integer) 1080\n 3) Number of buckets\n 4) (integer) 512\n 5) Number of filter\n 6) (integer) 1\n 7) Number of items inserted\n 8) (integer) 0\n 9) Number of items deleted\n10) (integer) 0\n11) Bucket size\n12) (integer) 2\n13) Expansion rate\n14) (integer) 1\n15) Max iteration\n16) (integer) 20",
   "intro": "Returns information about a cuckoo filter.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -69,7 +173,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "redis> CF.INFO cf\n 1) Size\n 2) (integer) 1080\n 3) Number of buckets\n 4) (integer) 512\n 5) Number of filter\n 6) (integer) 1\n 7) Number of items inserted\n 8) (integer) 0\n 9) Number of items deleted\n10) (integer) 0\n11) Bucket size\n12) (integer) 2\n13) Expansion rate\n14) (integer) 1\n15) Max iteration\n16) (integer) 20"
+      "content": "{{< highlight bash >}}\nredis> CF.INFO cf\n 1) Size\n 2) (integer) 1080\n 3) Number of buckets\n 4) (integer) 512\n 5) Number of filter\n 6) (integer) 1\n 7) Number of items inserted\n 8) (integer) 0\n 9) Number of items deleted\n10) (integer) 0\n11) Bucket size\n12) (integer) 2\n13) Expansion rate\n14) (integer) 1\n15) Max iteration\n16) (integer) 20\n{{< / highlight >}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -79,7 +183,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "One of the following:\n\n**RESP2:**\n\n* [Array reply]() with argument name ([Simple string reply]()) and value ([Integer reply]()) pairs.\n* [Simple error reply]() if invalid arguments are passed, `key` does not exist, or `key` is not of the correct type.\n\n**RESP3:**\n\n* [Map reply]() with argument name ([Simple string reply]()) and value ([Integer reply]()) pairs.\n* [Simple error reply]() if invalid arguments are passed, `key` does not exist, or `key` is not of the correct type."
+      "content": "One of the following:\n\n{{< multitabs id=\"cf-info-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n* [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) with argument name ([Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}})) and value ([Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}})) pairs.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) if invalid arguments are passed, `key` does not exist, or `key` is not of the correct type.\n\n-tab-sep-\n\n* [Map reply]({{< relref \"/develop/reference/protocol-spec#maps\" >}}) with argument name ([Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}})) and value ([Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}})) pairs.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) if invalid arguments are passed, `key` does not exist, or `key` is not of the correct type.\n\n{{< /multitabs >}}"
     }
   ]
 }

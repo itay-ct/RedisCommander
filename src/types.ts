@@ -29,6 +29,23 @@ export type CodeExample = {
   languages: CodeExampleLanguage[]
 }
 
+export type ApiMethodParam = {
+  description: string
+  name: string
+  type: string
+}
+
+export type ApiMethodReturn = {
+  description: string
+  type: string
+}
+
+export type ApiMethod = {
+  params: ApiMethodParam[]
+  returns?: ApiMethodReturn
+  signature: string
+}
+
 export type CommandSection = {
   content: string
   level: number
@@ -48,6 +65,7 @@ export type CommandSummary = {
 
 export type CommandDetail = {
   aclCategories: string[]
+  apiMethods: Record<string, ApiMethod[]>
   arguments: CommandArgument[]
   arity: number | null
   codeExamples: CodeExample[]
@@ -56,10 +74,12 @@ export type CommandDetail = {
   content: string
   description: string
   docsUrl: string
+  example: string | null
   group: string
   groupLabel: string
   intro: string
   keySpecs: unknown[]
+  notes: string[]
   redisCategories: string[]
   sections: CommandSection[]
   since: string | null

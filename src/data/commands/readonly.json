@@ -13,6 +13,96 @@
     "@fast",
     "@connection"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "ResponseT"
+        },
+        "signature": "readonly(**kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "OK",
+          "type": "String"
+        },
+        "signature": "String readonly()"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StatusCmd"
+        },
+        "signature": "ReadOnly(ctx context.Context)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "The command parser",
+            "name": "parser",
+            "type": "CommandParser"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "SimpleStringReply"
+        },
+        "signature": "parseCommand(parser: CommandParser)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [],
+        "returns": {
+          "description": "OK",
+          "type": "String"
+        },
+        "signature": "String readOnly()"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [],
+        "returns": {
+          "description": "OK",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> readOnly()"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [],
+        "returns": {
+          "description": "OK",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> readOnly()"
+      }
+    ]
+  },
   "commandFlags": [
     "loading",
     "stale",
@@ -31,20 +121,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Enables read queries for a connection to a Redis Cluster replica node. \n\nNormally replica nodes will redirect clients to the authoritative master for\nthe hash slot involved in a given command, however clients can use replicas\nin order to scale reads using the `READONLY` command.\n\n`READONLY` tells a Redis Cluster replica node that the client is willing to\nread possibly stale data and is not interested in running write queries.\n\nWhen the connection is in readonly mode, the cluster will send a redirection\nto the client only if the operation involves keys not served by the replica's\nmaster node. This may happen because:\n\n1. The client sent a command about hash slots never served by the master of this replica.\n2. The cluster was reconfigured (for example resharded) and the replica is no longer able to serve commands for a given hash slot.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.",
+  "content": "Enables read queries for a connection to a Redis Cluster replica node. \n\nNormally replica nodes will redirect clients to the authoritative master for\nthe hash slot involved in a given command, however clients can use replicas\nin order to scale reads using the `READONLY` command.\n\n`READONLY` tells a Redis Cluster replica node that the client is willing to\nread possibly stale data and is not interested in running write queries.\n\nWhen the connection is in readonly mode, the cluster will send a redirection\nto the client only if the operation involves keys not served by the replica's\nmaster node. This may happen because:\n\n1. The client sent a command about hash slots never served by the master of this replica.\n2. The cluster was reconfigured (for example resharded) and the replica is no longer able to serve commands for a given hash slot.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"readonly-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "Enables read queries for a connection to a Redis Cluster replica node. \n\nNormally replica nodes will redirect clients to the authoritative master for\nthe hash slot involved in a given command, however clients can use replicas\nin order to scale reads using the `READONLY` command.\n\n`READONLY` tells a Redis Cluster replica node that the client is willing to\nread possibly stale data and is not interested in running write queries.\n\nWhen the connection is in readonly mode, the cluster will send a redirection\nto the client only if the operation involves keys not served by the replica's\nmaster node. This may happen because:\n\n1. The client sent a command about hash slots never served by the master of this replica.\n2. The cluster was reconfigured (for example resharded) and the replica is no longer able to serve commands for a given hash slot.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -59,7 +142,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`."
+      "content": "{{< multitabs id=\"readonly-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n{{< /multitabs >}}"
     }
   ]
 }

@@ -13,6 +13,97 @@
     "@pubsub",
     "@fast"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "Shard channel to publish the message to",
+            "name": "shard_channel",
+            "type": "ChannelT"
+          },
+          {
+            "description": "Message to publish",
+            "name": "message",
+            "type": "EncodableT"
+          }
+        ],
+        "returns": {
+          "description": "Number of clients that received the message",
+          "type": "ResponseT"
+        },
+        "signature": "spublish(shard_channel: ChannelT, message: EncodableT)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context for the operation",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "Shard channel to publish the message to",
+            "name": "channel",
+            "type": "string"
+          },
+          {
+            "description": "Message to publish",
+            "name": "message",
+            "type": "interface{}"
+          }
+        ],
+        "returns": {
+          "description": "Number of clients that received the message",
+          "type": "*IntCmd"
+        },
+        "signature": "SPublish(ctx context.Context, channel string, message interface{})"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "Shard channel to publish the message to",
+            "name": "$shardChannel",
+            "type": "string"
+          },
+          {
+            "description": "Message to publish",
+            "name": "$message",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "Number of clients that received the message",
+          "type": "int"
+        },
+        "signature": "spublish(string $shardChannel, string $message)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "channel",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "message",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "number of clients that received the message",
+          "type": "Integer"
+        },
+        "signature": "spublish(channel, message)"
+      }
+    ]
+  },
   "commandFlags": [
     "pubsub",
     "loading",
@@ -61,24 +152,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Posts a message to the given shard channel.\n\nIn Redis Cluster, shard channels are assigned to slots by the same algorithm used to assign keys to slots.\nA shard message must be sent to a node that owns the slot the shard channel is hashed to. \nThe cluster makes sure that published shard messages are forwarded to all the nodes in the shard, so clients can subscribe to a shard channel by connecting to any one of the nodes in the shard.\n\nFor more information about sharded pubsub, see [Sharded Pubsub]().\n\n## Examples\n\nFor example the following command publishes to the `orders` channel with a subscriber already waiting for message(s).\n    \n```\n> spublish orders hello\n(integer) 1\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of clients that the message was sent to. Note that in a Redis Cluster, only clients that are connected to the same node as the publishing client are included in the count\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of clients that the message was sent to. Note that in a Redis Cluster, only clients that are connected to the same node as the publishing client are included in the count",
+  "content": "Posts a message to the given shard channel.\n\nIn Redis Cluster, shard channels are assigned to slots by the same algorithm used to assign keys to slots.\nA shard message must be sent to a node that owns the slot the shard channel is hashed to. \nThe cluster makes sure that published shard messages are forwarded to all the nodes in the shard, so clients can subscribe to a shard channel by connecting to any one of the nodes in the shard.\n\nFor more information about sharded pubsub, see [Sharded Pubsub]().\n\n## Examples\n\nFor example the following command publishes to the `orders` channel with a subscriber already waiting for message(s).\n    \n```\n> spublish orders hello\n(integer) 1\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"spublish-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of clients that the message was sent to. Note that in a Redis Cluster, only clients that are connected to the same node as the publishing client are included in the count\n\n-tab-sep-\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of clients that the message was sent to. Note that in a Redis Cluster, only clients that are connected to the same node as the publishing client are included in the count\n\n{{< /multitabs >}}",
+  "example": "> spublish orders hello\n(integer) 1",
   "intro": "Posts a message to the given shard channel.\n\nIn Redis Cluster, shard channels are assigned to slots by the same algorithm used to assign keys to slots.\nA shard message must be sent to a node that owns the slot the shard channel is hashed to. \nThe cluster makes sure that published shard messages are forwarded to all the nodes in the shard, so clients can subscribe to a shard channel by connecting to any one of the nodes in the shard.\n\nFor more information about sharded pubsub, see [Sharded Pubsub]().",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -98,7 +178,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of clients that the message was sent to. Note that in a Redis Cluster, only clients that are connected to the same node as the publishing client are included in the count\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of clients that the message was sent to. Note that in a Redis Cluster, only clients that are connected to the same node as the publishing client are included in the count"
+      "content": "{{< multitabs id=\"spublish-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of clients that the message was sent to. Note that in a Redis Cluster, only clients that are connected to the same node as the publishing client are included in the count\n\n-tab-sep-\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of clients that the message was sent to. Note that in a Redis Cluster, only clients that are connected to the same node as the publishing client are included in the count\n\n{{< /multitabs >}}"
     }
   ]
 }

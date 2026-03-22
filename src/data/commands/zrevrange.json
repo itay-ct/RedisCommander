@@ -14,6 +14,633 @@
     "@sortedset",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "start",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "end",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "withscores",
+            "type": "bool = False"
+          },
+          {
+            "description": "",
+            "name": "score_cast_func",
+            "type": "Union[type, Callable] = float"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "ResponseT"
+        },
+        "signature": "zrevrange(, name: KeyT,, start: int,, end: int,, withscores: bool = False,, score_cast_func: Union[type, Callable] = float,)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "start",
+            "type": "long"
+          },
+          {
+            "description": "",
+            "name": "stop",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List<String>"
+        },
+        "signature": "List<String> zrevrange(final String key, final long start, final long stop)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the start.",
+            "name": "start",
+            "type": "long"
+          },
+          {
+            "description": "the stop.",
+            "name": "stop",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "Long count of elements in the specified range.",
+          "type": "List<V>"
+        },
+        "signature": "List<V> zrevrange(K key, long start, long stop)"
+      },
+      {
+        "params": [
+          {
+            "description": "streaming channel that receives a call for every scored value.",
+            "name": "channel",
+            "type": "ValueStreamingChannel<V>"
+          },
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the start.",
+            "name": "start",
+            "type": "long"
+          },
+          {
+            "description": "the stop.",
+            "name": "stop",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "Long count of elements in the specified range.",
+          "type": "Long"
+        },
+        "signature": "Long zrevrange(ValueStreamingChannel<V> channel, K key, long start, long stop)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the start.",
+            "name": "start",
+            "type": "long"
+          },
+          {
+            "description": "the stop.",
+            "name": "stop",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "Long count of elements in the specified range.",
+          "type": "RedisFuture<List<V>>"
+        },
+        "signature": "RedisFuture<List<V>> zrevrange(K key, long start, long stop)"
+      },
+      {
+        "params": [
+          {
+            "description": "streaming channel that receives a call for every scored value.",
+            "name": "channel",
+            "type": "ValueStreamingChannel<V>"
+          },
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the start.",
+            "name": "start",
+            "type": "long"
+          },
+          {
+            "description": "the stop.",
+            "name": "stop",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "Long count of elements in the specified range.",
+          "type": "RedisFuture<Long>"
+        },
+        "signature": "RedisFuture<Long> zrevrange(ValueStreamingChannel<V> channel, K key, long start, long stop)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the start.",
+            "name": "start",
+            "type": "long"
+          },
+          {
+            "description": "the stop.",
+            "name": "stop",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "Long count of elements in the specified range. @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #zrevrange.",
+          "type": "Flux<V>"
+        },
+        "signature": "Flux<V> zrevrange(K key, long start, long stop)"
+      },
+      {
+        "params": [
+          {
+            "description": "streaming channel that receives a call for every scored value.",
+            "name": "channel",
+            "type": "ValueStreamingChannel<V>"
+          },
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the start.",
+            "name": "start",
+            "type": "long"
+          },
+          {
+            "description": "the stop.",
+            "name": "stop",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "Long count of elements in the specified range. @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #zrevrange.",
+          "type": "Mono<Long>"
+        },
+        "signature": "Mono<Long> zrevrange(ValueStreamingChannel<V> channel, K key, long start, long stop)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "start",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "stop",
+            "type": "int64"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StringSliceCmd"
+        },
+        "signature": "ZRevRange(ctx context.Context, key string, start, stop int64)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "start",
+            "type": "number | string"
+          },
+          {
+            "description": "",
+            "name": "stop",
+            "type": "number | string"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<string[]>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zrevrange(key: RedisKey, start: number | string, stop: number | string, callback?: Callback<string[]>)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "start",
+            "type": "number | string"
+          },
+          {
+            "description": "",
+            "name": "stop",
+            "type": "number | string"
+          },
+          {
+            "description": "",
+            "name": "withscores",
+            "type": "\"WITHSCORES\""
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<string[]>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zrevrange(key: RedisKey, start: number | string, stop: number | string, withscores: \"WITHSCORES\", callback?: Callback<string[]>)"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "start",
+            "type": "isize"
+          },
+          {
+            "description": "",
+            "name": "stop",
+            "type": "isize"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Vec<String>)"
+        },
+        "signature": "zrevrange(key: K, start: isize, stop: isize)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "start",
+            "type": "isize"
+          },
+          {
+            "description": "",
+            "name": "stop",
+            "type": "isize"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Vec<String>)"
+        },
+        "signature": "zrevrange_withscores(key: K, start: isize, stop: isize)"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "start",
+            "type": "isize"
+          },
+          {
+            "description": "",
+            "name": "stop",
+            "type": "isize"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Vec<String>)"
+        },
+        "signature": "zrevrange(key: K, start: isize, stop: isize)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "start",
+            "type": "isize"
+          },
+          {
+            "description": "",
+            "name": "stop",
+            "type": "isize"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Vec<String>)"
+        },
+        "signature": "zrevrange_withscores(key: K, start: isize, stop: isize)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The key of the sorted set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The start index to get.",
+            "name": "start",
+            "type": "long"
+          },
+          {
+            "description": "The stop index to get.",
+            "name": "stop",
+            "type": "long"
+          },
+          {
+            "description": "The order to sort by (defaults to ascending).",
+            "name": "order",
+            "type": "Order"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "List of elements in the specified range.",
+          "type": "RedisValue[]"
+        },
+        "signature": "SortedSetRangeByRank(RedisKey key, long start = 0, long stop = -1, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the sorted set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The start index to get.",
+            "name": "start",
+            "type": "long"
+          },
+          {
+            "description": "The stop index to get.",
+            "name": "stop",
+            "type": "long"
+          },
+          {
+            "description": "The order to sort by (defaults to ascending).",
+            "name": "order",
+            "type": "Order"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "List of elements in the specified range.",
+          "type": "RedisValue[]"
+        },
+        "signature": "SortedSetRangeByRank(RedisKey key, long start = 0, long stop = -1, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The key of the sorted set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The start index to get.",
+            "name": "start",
+            "type": "long"
+          },
+          {
+            "description": "The stop index to get.",
+            "name": "stop",
+            "type": "long"
+          },
+          {
+            "description": "The order to sort by (defaults to ascending).",
+            "name": "order",
+            "type": "Order"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "List of elements in the specified range.",
+          "type": "RedisValue[]"
+        },
+        "signature": "SortedSetRangeByRank(RedisKey key, long start = 0, long stop = -1, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the sorted set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The start index to get.",
+            "name": "start",
+            "type": "long"
+          },
+          {
+            "description": "The stop index to get.",
+            "name": "stop",
+            "type": "long"
+          },
+          {
+            "description": "The order to sort by (defaults to ascending).",
+            "name": "order",
+            "type": "Order"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "List of elements in the specified range.",
+          "type": "RedisValue[]"
+        },
+        "signature": "SortedSetRangeByRank(RedisKey key, long start = 0, long stop = -1, Order order = Order.Ascending, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$start",
+            "type": "int|string"
+          },
+          {
+            "description": "",
+            "name": "$stop",
+            "type": "int|string"
+          },
+          {
+            "description": "",
+            "name": "?array $options = null",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array"
+        },
+        "signature": "zrevrange(string $key, int|string $start, int|string $stop, ?array $options = null)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "start",
+            "type": "Integer"
+          },
+          {
+            "description": "",
+            "name": "stop",
+            "type": "Integer"
+          },
+          {
+            "description": "include scores in output",
+            "name": "with_scores",
+            "type": "Boolean"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Array<String>, Array<[String, Float]>"
+        },
+        "signature": "zrevrange(key, start, stop, with_scores: false)"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly"
   ],
@@ -73,24 +700,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Returns the specified range of elements in the sorted set stored at `key`.\nThe elements are considered to be ordered from the highest to the lowest score.\nDescending lexicographical order is used for elements with equal score.\n\nApart from the reversed ordering, `ZREVRANGE` is similar to [`ZRANGE`]().\n\n## Examples\n\n\nZADD myzset 1 \"one\"\nZADD myzset 2 \"two\"\nZADD myzset 3 \"three\"\nZREVRANGE myzset 0 -1\nZREVRANGE myzset 2 3\nZREVRANGE myzset -2 -1\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v6.2.0. |\n\n## Return information\n\n**RESP2:**\n\n* [Array reply](../../develop/reference/protocol-spec#arrays): a list of members in the specified range, optionally with their scores if _WITHSCORE_ was used.\n\n**RESP3:**\n\n* [Array reply](../../develop/reference/protocol-spec#arrays): a list of members in the specified range, optionally with their scores if _WITHSCORE_ was used.",
+  "content": "Returns the specified range of elements in the sorted set stored at `key`.\nThe elements are considered to be ordered from the highest to the lowest score.\nDescending lexicographical order is used for elements with equal score.\n\nApart from the reversed ordering, `ZREVRANGE` is similar to [`ZRANGE`]().\n\n## Examples\n\n{{% redis-cli %}}\nZADD myzset 1 \"one\"\nZADD myzset 2 \"two\"\nZADD myzset 3 \"three\"\nZREVRANGE myzset 0 -1\nZREVRANGE myzset 2 3\nZREVRANGE myzset -2 -1\n{{% /redis-cli %}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v6.2.0. |\n\n## Return information\n\n{{< multitabs id=\"zrevrange-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n* [Array reply](../../develop/reference/protocol-spec#arrays): a list of members in the specified range, optionally with their scores if _WITHSCORE_ was used.\n\n-tab-sep-\n\n* [Array reply](../../develop/reference/protocol-spec#arrays): a list of members in the specified range, optionally with their scores if _WITHSCORE_ was used.\n\n{{< /multitabs >}}",
+  "example": "ZADD myzset 1 \"one\"\nZADD myzset 2 \"two\"\nZADD myzset 3 \"three\"\nZREVRANGE myzset 0 -1\nZREVRANGE myzset 2 3\nZREVRANGE myzset -2 -1",
   "intro": "Returns the specified range of elements in the sorted set stored at `key`.\nThe elements are considered to be ordered from the highest to the lowest score.\nDescending lexicographical order is used for elements with equal score.\n\nApart from the reversed ordering, `ZREVRANGE` is similar to [`ZRANGE`]().",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -100,7 +716,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "ZADD myzset 1 \"one\"\nZADD myzset 2 \"two\"\nZADD myzset 3 \"three\"\nZREVRANGE myzset 0 -1\nZREVRANGE myzset 2 3\nZREVRANGE myzset -2 -1"
+      "content": "{{% redis-cli %}}\nZADD myzset 1 \"one\"\nZADD myzset 2 \"two\"\nZADD myzset 3 \"three\"\nZREVRANGE myzset 0 -1\nZREVRANGE myzset 2 3\nZREVRANGE myzset -2 -1\n{{% /redis-cli %}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -110,7 +726,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n* [Array reply](../../develop/reference/protocol-spec#arrays): a list of members in the specified range, optionally with their scores if _WITHSCORE_ was used.\n\n**RESP3:**\n\n* [Array reply](../../develop/reference/protocol-spec#arrays): a list of members in the specified range, optionally with their scores if _WITHSCORE_ was used."
+      "content": "{{< multitabs id=\"zrevrange-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n* [Array reply](../../develop/reference/protocol-spec#arrays): a list of members in the specified range, optionally with their scores if _WITHSCORE_ was used.\n\n-tab-sep-\n\n* [Array reply](../../develop/reference/protocol-spec#arrays): a list of members in the specified range, optionally with their scores if _WITHSCORE_ was used.\n\n{{< /multitabs >}}"
     }
   ]
 }

@@ -14,6 +14,383 @@
     "@read",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "from_time",
+            "type": "Union[int, str]"
+          },
+          {
+            "description": "",
+            "name": "to_time",
+            "type": "Union[int, str]"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "Optional[int] = None"
+          },
+          {
+            "description": "",
+            "name": "aggregation_type",
+            "type": "Optional[str] = None"
+          },
+          {
+            "description": "",
+            "name": "bucket_size_msec",
+            "type": "Optional[int] = 0"
+          },
+          {
+            "description": "",
+            "name": "filter_by_ts",
+            "type": "Optional[List[int]] = None"
+          },
+          {
+            "description": "",
+            "name": "filter_by_min_value",
+            "type": "Optional[int] = None"
+          },
+          {
+            "description": "",
+            "name": "filter_by_max_value",
+            "type": "Optional[int] = None"
+          },
+          {
+            "description": "",
+            "name": "align",
+            "type": "Optional[Union[int, str]] = None"
+          },
+          {
+            "description": "",
+            "name": "latest",
+            "type": "Optional[bool] = False"
+          },
+          {
+            "description": "",
+            "name": "bucket_timestamp",
+            "type": "Optional[str] = None"
+          },
+          {
+            "description": "",
+            "name": "empty",
+            "type": "Optional[bool] = False"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "revrange(, key: KeyT,, from_time: Union[int, str],, to_time: Union[int, str],, count: Optional[int] = None,, aggregation_type: Optional[str] = None,, bucket_size_msec: Optional[int] = 0,, filter_by_ts: Optional[List[int]] = None,, filter_by_min_value: Optional[int] = None,, filter_by_max_value: Optional[int] = None,, align: Optional[Union[int, str]] = None,, latest: Optional[bool] = False,, bucket_timestamp: Optional[str] = None,, empty: Optional[bool] = False,)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "fromTimestamp",
+            "type": "long"
+          },
+          {
+            "description": "",
+            "name": "toTimestamp",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "range elements",
+          "type": "List<TSElement>"
+        },
+        "signature": "List<TSElement> tsRevRange(String key, long fromTimestamp, long toTimestamp)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "rangeParams",
+            "type": "TSRangeParams"
+          }
+        ],
+        "returns": {
+          "description": "range elements",
+          "type": "List<TSElement>"
+        },
+        "signature": "List<TSElement> tsRevRange(String key, TSRangeParams rangeParams)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "fromTimestamp",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "toTimestamp",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*TSTimestampValueSliceCmd"
+        },
+        "signature": "TSRevRange(ctx context.Context, key string, fromTimestamp int, toTimestamp int)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "fromTimestamp",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "toTimestamp",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "options",
+            "type": "*TSRevRangeOptions"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*TSTimestampValueSliceCmd"
+        },
+        "signature": "TSRevRangeWithArgs(ctx context.Context, key string, fromTimestamp int, toTimestamp int, options *TSRevRangeOptions)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "Parameters<typeof transformRangeArguments>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "REVRANGE(...args: Parameters<typeof transformRangeArguments>)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "fromTimeStamp",
+            "type": "TimeStamp"
+          },
+          {
+            "description": "",
+            "name": "toTimeStamp",
+            "type": "TimeStamp"
+          },
+          {
+            "description": "",
+            "name": "latest",
+            "type": "bool"
+          },
+          {
+            "description": "",
+            "name": "filterByTs",
+            "type": "IReadOnlyCollection<TimeStamp>?"
+          },
+          {
+            "description": "",
+            "name": "filterByValue",
+            "type": "(long, long)?"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "long?"
+          },
+          {
+            "description": "",
+            "name": "align",
+            "type": "TimeStamp?"
+          },
+          {
+            "description": "",
+            "name": "aggregation",
+            "type": "TsAggregation?"
+          },
+          {
+            "description": "",
+            "name": "timeBucket",
+            "type": "long?"
+          },
+          {
+            "description": "",
+            "name": "bt",
+            "type": "TsBucketTimestamps?"
+          },
+          {
+            "description": "",
+            "name": "empty",
+            "type": "bool"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "IReadOnlyList<TimeSeriesTuple>"
+        },
+        "signature": "RevRange(string key, TimeStamp fromTimeStamp, TimeStamp toTimeStamp, bool latest = false, IReadOnlyCollection<TimeStamp>? filterByTs = null, (long, long)? filterByValue = null, long? count = null, TimeStamp? align = null, TsAggregation? aggregation = null, long? timeBucket = null, TsBucketTimestamps? bt = null, bool empty = false)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "fromTimeStamp",
+            "type": "TimeStamp"
+          },
+          {
+            "description": "",
+            "name": "toTimeStamp",
+            "type": "TimeStamp"
+          },
+          {
+            "description": "",
+            "name": "latest",
+            "type": "bool"
+          },
+          {
+            "description": "",
+            "name": "filterByTs",
+            "type": "IReadOnlyCollection<TimeStamp>?"
+          },
+          {
+            "description": "",
+            "name": "filterByValue",
+            "type": "(long, long)?"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "long?"
+          },
+          {
+            "description": "",
+            "name": "align",
+            "type": "TimeStamp?"
+          },
+          {
+            "description": "",
+            "name": "aggregation",
+            "type": "TsAggregation?"
+          },
+          {
+            "description": "",
+            "name": "timeBucket",
+            "type": "long?"
+          },
+          {
+            "description": "",
+            "name": "bt",
+            "type": "TsBucketTimestamps?"
+          },
+          {
+            "description": "",
+            "name": "empty",
+            "type": "bool"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Task<IReadOnlyList<TimeSeriesTuple>>"
+        },
+        "signature": "RevRangeAsync(string key, TimeStamp fromTimeStamp, TimeStamp toTimeStamp, bool latest = false, IReadOnlyCollection<TimeStamp>? filterByTs = null, (long, long)? filterByValue = null, long? count = null, TimeStamp? align = null, TsAggregation? aggregation = null, long? timeBucket = null, TsBucketTimestamps? bt = null, bool empty = false)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$fromTimestamp",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "$toTimestamp",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "?RangeArguments $arguments = null",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array"
+        },
+        "signature": "tsrevrange(string $key, $fromTimestamp, $toTimestamp, ?RangeArguments $arguments = null)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -184,44 +561,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "optional-arguments",
-        "title": "Optional arguments"
-      },
-      {
-        "id": "complexity",
-        "title": "Complexity"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      },
-      {
-        "id": "see-also",
-        "title": "See also"
-      },
-      {
-        "id": "related-topics",
-        "title": "Related topics"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Query a range in reverse direction. Starting from Redis 8.6, NaN values are included in raw measurement reports (queries without aggregation).\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open>\n<summary><code>key</code></summary>\n\nis the key name for the time series.\n</details>\n\n<details open>\n<summary><code>fromTimestamp</code></summary>\n\nis start timestamp for the range query (integer Unix timestamp in milliseconds) or `-` to denote the timestamp of the earliest sample in the time series.\n</details>\n\n<details open>\n<summary><code>toTimestamp</code></summary>\n\nis end timestamp for the range query (integer Unix timestamp in milliseconds) or `+` to denote the timestamp of the latest sample in the time series.\n\n<note><b>Note:</b>  When the time series is a compaction, the last compacted value may aggregate raw values with timestamp beyond `toTimestamp`. That is because `toTimestamp` limits only the timestamp of the compacted value, which is the start time of the raw bucket that was compacted.</note>\n\n</details>\n\n## Optional arguments\n\n<details open>\n<summary><code>LATEST</code> (since RedisTimeSeries 1.8)</summary>\n\nis used when a time series is a compaction. With `LATEST`, TS.REVRANGE also reports the compacted value of the latest, possibly partial, bucket, given that this bucket's start time falls within `[fromTimestamp, toTimestamp]`. Without `LATEST`, TS.REVRANGE does not report the latest, possibly partial, bucket. When a time series is not a compaction, `LATEST` is ignored.\n  \nThe data in the latest bucket of a compaction is possibly partial. A bucket is _closed_ and compacted only upon arrival of a new sample that _opens_ a new _latest_ bucket. There are cases, however, when the compacted value of the latest, possibly partial, bucket is also required. In such a case, use `LATEST`.\n</details>\n\n<details open>\n<summary><code>FILTER_BY_TS ts...</code> (since RedisTimeSeries 1.6)</summary>\n\nfilters samples by a list of specific timestamps. A sample passes the filter if its exact timestamp is specified and falls within `[fromTimestamp, toTimestamp]`.\n\nWhen used together with `AGGREGATION`: samples are filtered before being aggregated.\n</details>\n\n<details open>\n<summary><code>FILTER_BY_VALUE min max</code> (since RedisTimeSeries 1.6)</summary>\n\nfilters samples by minimum and maximum values. `min` and `max` cannot be NaN values.\n\nWhen used together with `AGGREGATION`: samples are filtered before being aggregated.\n</details>\n\n<details open>\n<summary><code>COUNT count</code></summary>\n\nWhen used without `AGGREGATION`: limits the number of reported samples.\n\nWhen used together with `AGGREGATION`: limits the number of reported buckets.\n</details>\n\n<details open>\n<summary><code>ALIGN align</code> (since RedisTimeSeries 1.6)</summary>\n\nis a time bucket alignment control for `AGGREGATION`. It controls the time bucket timestamps by changing the reference timestamp on which a bucket is defined. \nValues include:\n   \n - `start` or `-`: The reference timestamp will be the query start interval time (`fromTimestamp`) which can't be `-`\n - `end` or `+`: The reference timestamp will be the query end interval time (`toTimestamp`) which can't be `+`\n - A specific timestamp: align the reference timestamp to a specific time\n   \n<note><b>NOTE:</b> When not provided, alignment is set to `0`.</note>\n\n</details>\n\n<details open>\n<summary><code>AGGREGATION aggregator bucketDuration</code></summary>\naggregates samples into time buckets, where:\n\n  - `aggregator` takes one of the following aggregation types:\n\n    | `aggregator` | Description                                                     |\n    | ------------ | --------------------------------------------------------------- |\n    | `avg`        | Arithmetic mean of all non-NaN values                           |\n    | `sum`        | Sum of all non-NaN values                                       |\n    | `min`        | Minimum non-NaN value                                           |\n    | `max`        | Maximum non-NaN value                                           |\n    | `range`      | Difference between the maximum and the minimum non-NaN values   |\n    | `count`      | Number of non-NaN values                                        |\n    | `countNaN`   | Number of NaN values (since Redis 8.6)                          |\n    | `countAll`   | Number of values, including NaN and non-NaN (since Redis 8.6)   |\n    | `first`      | The non-NaN value with the lowest timestamp in the bucket       |\n    | `last`       | The non-NaN value with the highest timestamp in the bucket      |\n    | `std.p`      | Population standard deviation of the non-NaN values             |\n    | `std.s`      | Sample standard deviation of the non-NaN values                 |\n    | `var.p`      | Population variance of the non-NaN values                       |\n    | `var.s`      | Sample variance of the non-NaN values                           |\n    | `twa`        | Time-weighted average over the bucket's timeframe (ignores NaN values) (since RedisTimeSeries 1.8) |\n\n  - `bucketDuration` is duration of each bucket, in milliseconds.\n  \n  Without `ALIGN`, bucket start times are multiples of `bucketDuration`.\n  \n  With `ALIGN align`, bucket start times are multiples of `bucketDuration` with remainder `align % bucketDuration`.\n  \n  The first bucket start time is less than or equal to `fromTimestamp`.  \n</details>\n\n<details open>\n<summary><code>[BUCKETTIMESTAMP bt]</code> (since RedisTimeSeries 1.8)</summary>\n\ncontrols how bucket timestamps are reported.\n\n| `bt`             | Timestamp reported for each bucket                            |\n| ---------------- | ------------------------------------------------------------- |\n| `-` or `start`   | the bucket's start time (default)                             |\n| `+` or `end`     | the bucket's end time                                         |\n| `~` or `mid`     | the bucket's mid time (rounded down if not an integer)        |\n</details>\n\n<details open>\n<summary><code>[EMPTY]</code> (since RedisTimeSeries 1.8)</summary>\nis a flag, which, when specified, reports aggregations also for empty buckets.\n\n| `aggregator`         | Value reported for each empty bucket |\n| -------------------- | ------------------------------------ |\n| `sum`, `count`       | `0`                                  |\n| `last`               | The value of the last sample before the bucket's start. `NaN` when no such sample. |\n| `twa`                | Average value over the bucket's timeframe based on linear interpolation of the last sample before the bucket's start and the first sample after the bucket's end. `NaN` when no such samples. |\n| `min`, `max`, `range`, `avg`, `first`, `std.p`, `std.s` | `NaN` |\n\nRegardless of the values of `fromTimestamp` and `toTimestamp`, no data is reported for buckets that end before the earliest sample or begin after the latest sample in the time series.\n</details>\n\n## Complexity\n\nTS.REVRANGE complexity can be improved in the future by using binary search to find the start of the range, which makes this `O(Log(n/m)+k*m)`.\nBut, because `m` is small, you can disregard it and look at the operation as `O(Log(n)+k)`.\n\n## Examples\n\n<details open>\n<summary><b>Filter results by timestamp or sample value</b></summary>\n\nConsider a metric where acceptable values are between -100 and 100, and the value 9999 is used as an indication of bad measurement.\n\n\n127.0.0.1:6379> TS.CREATE temp:TLV LABELS type temp location TLV\nOK\n127.0.0.1:6379> TS.MADD temp:TLV 1000 30 temp:TLV 1010 35 temp:TLV 1020 9999 temp:TLV 1030 40\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n4) (integer) 1030\n\n\nNow, retrieve all values except out-of-range values.\n\n\nTS.REVRANGE temp:TLV - + FILTER_BY_VALUE -100 100\n1) 1) (integer) 1030\n   2) 40\n2) 1) (integer) 1010\n   2) 35\n3) 1) (integer) 1000\n   2) 30\n\n\nNow, retrieve the average value, while ignoring out-of-range values.\n\n\nTS.REVRANGE temp:TLV - + FILTER_BY_VALUE -100 100 AGGREGATION avg 1000\n1) 1) (integer) 1000\n   2) 35\n\n</details>\n\n<details open>\n<summary><b>Align aggregation buckets</b></summary>\n\nTo demonstrate alignment, let’s create a stock and add prices at three different timestamps.\n\n\n127.0.0.1:6379> TS.CREATE stock:A LABELS type stock name A\nOK\n127.0.0.1:6379> TS.MADD stock:A 1000 100 stock:A 1010 110 stock:A 1020 120\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n127.0.0.1:6379> TS.MADD stock:A 2000 200 stock:A 2010 210 stock:A 2020 220\n1) (integer) 2000\n2) (integer) 2010\n3) (integer) 2020\n127.0.0.1:6379> TS.MADD stock:A 3000 300 stock:A 3010 310 stock:A 3020 320\n1) (integer) 3000\n2) (integer) 3010\n3) (integer) 3020\n\n\nNext, aggregate without using `ALIGN`, defaulting to alignment 0.\n\n\n127.0.0.1:6379> TS.REVRANGE stock:A - + AGGREGATION min 20\n1) 1) (integer) 3020\n   2) 320\n2) 1) (integer) 3000\n   2) 300\n3) 1) (integer) 2020\n   2) 220\n4) 1) (integer) 2000\n   2) 200\n5) 1) (integer) 1020\n   2) 120\n6) 1) (integer) 1000\n   2) 100\n\n\nAnd now set `ALIGN` to 10 to have a bucket start at time 10, and align all the buckets with a 20 milliseconds duration.\n\n\n127.0.0.1:6379> TS.REVRANGE stock:A - + ALIGN 10 AGGREGATION min 20\n1) 1) (integer) 3010\n   2) 310\n2) 1) (integer) 2990\n   2) 300\n3) 1) (integer) 2010\n   2) 210\n4) 1) (integer) 1990\n   2) 200\n5) 1) (integer) 1010\n   2) 110\n6) 1) (integer) 990\n   2) 100\n\n\nWhen the start timestamp for the range query is explicitly stated (not `-`), you can set ALIGN to that time by setting align to `-` or to `start`.\n\n\n127.0.0.1:6379> TS.REVRANGE stock:A 5 + ALIGN - AGGREGATION min 20\n1) 1) (integer) 3005\n   2) 310\n2) 1) (integer) 2985\n   2) 300\n3) 1) (integer) 2005\n   2) 210\n4) 1) (integer) 1985\n   2) 200\n5) 1) (integer) 1005\n   2) 110\n6) 1) (integer) 985\n   2) 100\n\n\nSimilarly, when the end timestamp for the range query is explicitly stated, you can set ALIGN to that time by setting align to `+` or to `end`.\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Array reply]() of ([Integer reply](), [Simple string reply]()) pairs representing (timestamp, value) in reverse chronological order.\n* [Simple error reply]() in these cases: invalid filter value, wrong key type, key does not exist, etc.\n\n**RESP3:**\n\nOne of the following:\n* [Array reply]() of ([Integer reply](), [Double reply]()) pairs representing (timestamp, value) in reverse chronological order.\n* [Simple error reply]() in these cases: invalid filter value, wrong key type, key does not exist, etc.\n\n\n\n## See also\n\n[`TS.RANGE`]() | [`TS.MRANGE`]() | [`TS.MREVRANGE`]()\n\n## Related topics\n\n[RedisTimeSeries]()",
+  "content": "Query a range in reverse direction. Starting from Redis 8.6, NaN values are included in raw measurement reports (queries without aggregation).\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open>\n<summary><code>key</code></summary>\n\nis the key name for the time series.\n</details>\n\n<details open>\n<summary><code>fromTimestamp</code></summary>\n\nis start timestamp for the range query (integer Unix timestamp in milliseconds) or `-` to denote the timestamp of the earliest sample in the time series.\n</details>\n\n<details open>\n<summary><code>toTimestamp</code></summary>\n\nis end timestamp for the range query (integer Unix timestamp in milliseconds) or `+` to denote the timestamp of the latest sample in the time series.\n\n<note><b>Note:</b>  When the time series is a compaction, the last compacted value may aggregate raw values with timestamp beyond `toTimestamp`. That is because `toTimestamp` limits only the timestamp of the compacted value, which is the start time of the raw bucket that was compacted.</note>\n\n</details>\n\n## Optional arguments\n\n<details open>\n<summary><code>LATEST</code> (since RedisTimeSeries 1.8)</summary>\n\nis used when a time series is a compaction. With `LATEST`, TS.REVRANGE also reports the compacted value of the latest, possibly partial, bucket, given that this bucket's start time falls within `[fromTimestamp, toTimestamp]`. Without `LATEST`, TS.REVRANGE does not report the latest, possibly partial, bucket. When a time series is not a compaction, `LATEST` is ignored.\n  \nThe data in the latest bucket of a compaction is possibly partial. A bucket is _closed_ and compacted only upon arrival of a new sample that _opens_ a new _latest_ bucket. There are cases, however, when the compacted value of the latest, possibly partial, bucket is also required. In such a case, use `LATEST`.\n</details>\n\n<details open>\n<summary><code>FILTER_BY_TS ts...</code> (since RedisTimeSeries 1.6)</summary>\n\nfilters samples by a list of specific timestamps. A sample passes the filter if its exact timestamp is specified and falls within `[fromTimestamp, toTimestamp]`.\n\nWhen used together with `AGGREGATION`: samples are filtered before being aggregated.\n</details>\n\n<details open>\n<summary><code>FILTER_BY_VALUE min max</code> (since RedisTimeSeries 1.6)</summary>\n\nfilters samples by minimum and maximum values. `min` and `max` cannot be NaN values.\n\nWhen used together with `AGGREGATION`: samples are filtered before being aggregated.\n</details>\n\n<details open>\n<summary><code>COUNT count</code></summary>\n\nWhen used without `AGGREGATION`: limits the number of reported samples.\n\nWhen used together with `AGGREGATION`: limits the number of reported buckets.\n</details>\n\n<details open>\n<summary><code>ALIGN align</code> (since RedisTimeSeries 1.6)</summary>\n\nis a time bucket alignment control for `AGGREGATION`. It controls the time bucket timestamps by changing the reference timestamp on which a bucket is defined. \nValues include:\n   \n - `start` or `-`: The reference timestamp will be the query start interval time (`fromTimestamp`) which can't be `-`\n - `end` or `+`: The reference timestamp will be the query end interval time (`toTimestamp`) which can't be `+`\n - A specific timestamp: align the reference timestamp to a specific time\n   \n<note><b>NOTE:</b> When not provided, alignment is set to `0`.</note>\n\n</details>\n\n<details open>\n<summary><code>AGGREGATION aggregator bucketDuration</code></summary>\naggregates samples into time buckets, where:\n\n  - `aggregator` takes one of the following aggregation types:\n\n    | `aggregator` | Description                                                     |\n    | ------------ | --------------------------------------------------------------- |\n    | `avg`        | Arithmetic mean of all non-NaN values                           |\n    | `sum`        | Sum of all non-NaN values                                       |\n    | `min`        | Minimum non-NaN value                                           |\n    | `max`        | Maximum non-NaN value                                           |\n    | `range`      | Difference between the maximum and the minimum non-NaN values   |\n    | `count`      | Number of non-NaN values                                        |\n    | `countNaN`   | Number of NaN values (since Redis 8.6)                          |\n    | `countAll`   | Number of values, including NaN and non-NaN (since Redis 8.6)   |\n    | `first`      | The non-NaN value with the lowest timestamp in the bucket       |\n    | `last`       | The non-NaN value with the highest timestamp in the bucket      |\n    | `std.p`      | Population standard deviation of the non-NaN values             |\n    | `std.s`      | Sample standard deviation of the non-NaN values                 |\n    | `var.p`      | Population variance of the non-NaN values                       |\n    | `var.s`      | Sample variance of the non-NaN values                           |\n    | `twa`        | Time-weighted average over the bucket's timeframe (ignores NaN values) (since RedisTimeSeries 1.8) |\n\n  - `bucketDuration` is duration of each bucket, in milliseconds.\n  \n  Without `ALIGN`, bucket start times are multiples of `bucketDuration`.\n  \n  With `ALIGN align`, bucket start times are multiples of `bucketDuration` with remainder `align % bucketDuration`.\n  \n  The first bucket start time is less than or equal to `fromTimestamp`.  \n</details>\n\n<details open>\n<summary><code>[BUCKETTIMESTAMP bt]</code> (since RedisTimeSeries 1.8)</summary>\n\ncontrols how bucket timestamps are reported.\n\n| `bt`             | Timestamp reported for each bucket                            |\n| ---------------- | ------------------------------------------------------------- |\n| `-` or `start`   | the bucket's start time (default)                             |\n| `+` or `end`     | the bucket's end time                                         |\n| `~` or `mid`     | the bucket's mid time (rounded down if not an integer)        |\n</details>\n\n<details open>\n<summary><code>[EMPTY]</code> (since RedisTimeSeries 1.8)</summary>\nis a flag, which, when specified, reports aggregations also for empty buckets.\n\n| `aggregator`         | Value reported for each empty bucket |\n| -------------------- | ------------------------------------ |\n| `sum`, `count`       | `0`                                  |\n| `last`               | The value of the last sample before the bucket's start. `NaN` when no such sample. |\n| `twa`                | Average value over the bucket's timeframe based on linear interpolation of the last sample before the bucket's start and the first sample after the bucket's end. `NaN` when no such samples. |\n| `min`, `max`, `range`, `avg`, `first`, `std.p`, `std.s` | `NaN` |\n\nRegardless of the values of `fromTimestamp` and `toTimestamp`, no data is reported for buckets that end before the earliest sample or begin after the latest sample in the time series.\n</details>\n\n## Complexity\n\nTS.REVRANGE complexity can be improved in the future by using binary search to find the start of the range, which makes this `O(Log(n/m)+k*m)`.\nBut, because `m` is small, you can disregard it and look at the operation as `O(Log(n)+k)`.\n\n## Examples\n\n<details open>\n<summary><b>Filter results by timestamp or sample value</b></summary>\n\nConsider a metric where acceptable values are between -100 and 100, and the value 9999 is used as an indication of bad measurement.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.CREATE temp:TLV LABELS type temp location TLV\nOK\n127.0.0.1:6379> TS.MADD temp:TLV 1000 30 temp:TLV 1010 35 temp:TLV 1020 9999 temp:TLV 1030 40\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n4) (integer) 1030\n{{< / highlight >}}\n\nNow, retrieve all values except out-of-range values.\n\n{{< highlight bash >}}\nTS.REVRANGE temp:TLV - + FILTER_BY_VALUE -100 100\n1) 1) (integer) 1030\n   2) 40\n2) 1) (integer) 1010\n   2) 35\n3) 1) (integer) 1000\n   2) 30\n{{< / highlight >}}\n\nNow, retrieve the average value, while ignoring out-of-range values.\n\n{{< highlight bash >}}\nTS.REVRANGE temp:TLV - + FILTER_BY_VALUE -100 100 AGGREGATION avg 1000\n1) 1) (integer) 1000\n   2) 35\n{{< / highlight >}}\n</details>\n\n<details open>\n<summary><b>Align aggregation buckets</b></summary>\n\nTo demonstrate alignment, let’s create a stock and add prices at three different timestamps.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.CREATE stock:A LABELS type stock name A\nOK\n127.0.0.1:6379> TS.MADD stock:A 1000 100 stock:A 1010 110 stock:A 1020 120\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n127.0.0.1:6379> TS.MADD stock:A 2000 200 stock:A 2010 210 stock:A 2020 220\n1) (integer) 2000\n2) (integer) 2010\n3) (integer) 2020\n127.0.0.1:6379> TS.MADD stock:A 3000 300 stock:A 3010 310 stock:A 3020 320\n1) (integer) 3000\n2) (integer) 3010\n3) (integer) 3020\n{{< / highlight >}}\n\nNext, aggregate without using `ALIGN`, defaulting to alignment 0.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.REVRANGE stock:A - + AGGREGATION min 20\n1) 1) (integer) 3020\n   2) 320\n2) 1) (integer) 3000\n   2) 300\n3) 1) (integer) 2020\n   2) 220\n4) 1) (integer) 2000\n   2) 200\n5) 1) (integer) 1020\n   2) 120\n6) 1) (integer) 1000\n   2) 100\n{{< / highlight >}}\n\nAnd now set `ALIGN` to 10 to have a bucket start at time 10, and align all the buckets with a 20 milliseconds duration.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.REVRANGE stock:A - + ALIGN 10 AGGREGATION min 20\n1) 1) (integer) 3010\n   2) 310\n2) 1) (integer) 2990\n   2) 300\n3) 1) (integer) 2010\n   2) 210\n4) 1) (integer) 1990\n   2) 200\n5) 1) (integer) 1010\n   2) 110\n6) 1) (integer) 990\n   2) 100\n{{< / highlight >}}\n\nWhen the start timestamp for the range query is explicitly stated (not `-`), you can set ALIGN to that time by setting align to `-` or to `start`.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.REVRANGE stock:A 5 + ALIGN - AGGREGATION min 20\n1) 1) (integer) 3005\n   2) 310\n2) 1) (integer) 2985\n   2) 300\n3) 1) (integer) 2005\n   2) 210\n4) 1) (integer) 1985\n   2) 200\n5) 1) (integer) 1005\n   2) 110\n6) 1) (integer) 985\n   2) 100\n{{< / highlight >}}\n\nSimilarly, when the end timestamp for the range query is explicitly stated, you can set ALIGN to that time by setting align to `+` or to `end`.\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"ts-revrange-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of ([Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}), [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}})) pairs representing (timestamp, value) in reverse chronological order.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid filter value, wrong key type, key does not exist, etc.\n\n-tab-sep-\n\nOne of the following:\n* [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of ([Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}), [Double reply]({{< relref \"/develop/reference/protocol-spec#doubles\" >}})) pairs representing (timestamp, value) in reverse chronological order.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid filter value, wrong key type, key does not exist, etc.\n\n{{< /multitabs >}}\n\n## See also\n\n[`TS.RANGE`]({{< relref \"commands/ts.range/\" >}}) | [`TS.MRANGE`]({{< relref \"commands/ts.mrange/\" >}}) | [`TS.MREVRANGE`]({{< relref \"commands/ts.mrevrange/\" >}})\n\n## Related topics\n\n[RedisTimeSeries]({{< relref \"/develop/data-types/timeseries/\" >}})",
+  "example": "127.0.0.1:6379> TS.CREATE temp:TLV LABELS type temp location TLV\nOK\n127.0.0.1:6379> TS.MADD temp:TLV 1000 30 temp:TLV 1010 35 temp:TLV 1020 9999 temp:TLV 1030 40\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n4) (integer) 1030",
   "intro": "Query a range in reverse direction. Starting from Redis 8.6, NaN values are included in raw measurement reports (queries without aggregation).\n\n[Examples](#examples)",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -246,7 +592,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "<details open>\n<summary><b>Filter results by timestamp or sample value</b></summary>\n\nConsider a metric where acceptable values are between -100 and 100, and the value 9999 is used as an indication of bad measurement.\n\n\n127.0.0.1:6379> TS.CREATE temp:TLV LABELS type temp location TLV\nOK\n127.0.0.1:6379> TS.MADD temp:TLV 1000 30 temp:TLV 1010 35 temp:TLV 1020 9999 temp:TLV 1030 40\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n4) (integer) 1030\n\n\nNow, retrieve all values except out-of-range values.\n\n\nTS.REVRANGE temp:TLV - + FILTER_BY_VALUE -100 100\n1) 1) (integer) 1030\n   2) 40\n2) 1) (integer) 1010\n   2) 35\n3) 1) (integer) 1000\n   2) 30\n\n\nNow, retrieve the average value, while ignoring out-of-range values.\n\n\nTS.REVRANGE temp:TLV - + FILTER_BY_VALUE -100 100 AGGREGATION avg 1000\n1) 1) (integer) 1000\n   2) 35\n\n</details>\n\n<details open>\n<summary><b>Align aggregation buckets</b></summary>\n\nTo demonstrate alignment, let’s create a stock and add prices at three different timestamps.\n\n\n127.0.0.1:6379> TS.CREATE stock:A LABELS type stock name A\nOK\n127.0.0.1:6379> TS.MADD stock:A 1000 100 stock:A 1010 110 stock:A 1020 120\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n127.0.0.1:6379> TS.MADD stock:A 2000 200 stock:A 2010 210 stock:A 2020 220\n1) (integer) 2000\n2) (integer) 2010\n3) (integer) 2020\n127.0.0.1:6379> TS.MADD stock:A 3000 300 stock:A 3010 310 stock:A 3020 320\n1) (integer) 3000\n2) (integer) 3010\n3) (integer) 3020\n\n\nNext, aggregate without using `ALIGN`, defaulting to alignment 0.\n\n\n127.0.0.1:6379> TS.REVRANGE stock:A - + AGGREGATION min 20\n1) 1) (integer) 3020\n   2) 320\n2) 1) (integer) 3000\n   2) 300\n3) 1) (integer) 2020\n   2) 220\n4) 1) (integer) 2000\n   2) 200\n5) 1) (integer) 1020\n   2) 120\n6) 1) (integer) 1000\n   2) 100\n\n\nAnd now set `ALIGN` to 10 to have a bucket start at time 10, and align all the buckets with a 20 milliseconds duration.\n\n\n127.0.0.1:6379> TS.REVRANGE stock:A - + ALIGN 10 AGGREGATION min 20\n1) 1) (integer) 3010\n   2) 310\n2) 1) (integer) 2990\n   2) 300\n3) 1) (integer) 2010\n   2) 210\n4) 1) (integer) 1990\n   2) 200\n5) 1) (integer) 1010\n   2) 110\n6) 1) (integer) 990\n   2) 100\n\n\nWhen the start timestamp for the range query is explicitly stated (not `-`), you can set ALIGN to that time by setting align to `-` or to `start`.\n\n\n127.0.0.1:6379> TS.REVRANGE stock:A 5 + ALIGN - AGGREGATION min 20\n1) 1) (integer) 3005\n   2) 310\n2) 1) (integer) 2985\n   2) 300\n3) 1) (integer) 2005\n   2) 210\n4) 1) (integer) 1985\n   2) 200\n5) 1) (integer) 1005\n   2) 110\n6) 1) (integer) 985\n   2) 100\n\n\nSimilarly, when the end timestamp for the range query is explicitly stated, you can set ALIGN to that time by setting align to `+` or to `end`.\n</details>"
+      "content": "<details open>\n<summary><b>Filter results by timestamp or sample value</b></summary>\n\nConsider a metric where acceptable values are between -100 and 100, and the value 9999 is used as an indication of bad measurement.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.CREATE temp:TLV LABELS type temp location TLV\nOK\n127.0.0.1:6379> TS.MADD temp:TLV 1000 30 temp:TLV 1010 35 temp:TLV 1020 9999 temp:TLV 1030 40\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n4) (integer) 1030\n{{< / highlight >}}\n\nNow, retrieve all values except out-of-range values.\n\n{{< highlight bash >}}\nTS.REVRANGE temp:TLV - + FILTER_BY_VALUE -100 100\n1) 1) (integer) 1030\n   2) 40\n2) 1) (integer) 1010\n   2) 35\n3) 1) (integer) 1000\n   2) 30\n{{< / highlight >}}\n\nNow, retrieve the average value, while ignoring out-of-range values.\n\n{{< highlight bash >}}\nTS.REVRANGE temp:TLV - + FILTER_BY_VALUE -100 100 AGGREGATION avg 1000\n1) 1) (integer) 1000\n   2) 35\n{{< / highlight >}}\n</details>\n\n<details open>\n<summary><b>Align aggregation buckets</b></summary>\n\nTo demonstrate alignment, let’s create a stock and add prices at three different timestamps.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.CREATE stock:A LABELS type stock name A\nOK\n127.0.0.1:6379> TS.MADD stock:A 1000 100 stock:A 1010 110 stock:A 1020 120\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n127.0.0.1:6379> TS.MADD stock:A 2000 200 stock:A 2010 210 stock:A 2020 220\n1) (integer) 2000\n2) (integer) 2010\n3) (integer) 2020\n127.0.0.1:6379> TS.MADD stock:A 3000 300 stock:A 3010 310 stock:A 3020 320\n1) (integer) 3000\n2) (integer) 3010\n3) (integer) 3020\n{{< / highlight >}}\n\nNext, aggregate without using `ALIGN`, defaulting to alignment 0.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.REVRANGE stock:A - + AGGREGATION min 20\n1) 1) (integer) 3020\n   2) 320\n2) 1) (integer) 3000\n   2) 300\n3) 1) (integer) 2020\n   2) 220\n4) 1) (integer) 2000\n   2) 200\n5) 1) (integer) 1020\n   2) 120\n6) 1) (integer) 1000\n   2) 100\n{{< / highlight >}}\n\nAnd now set `ALIGN` to 10 to have a bucket start at time 10, and align all the buckets with a 20 milliseconds duration.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.REVRANGE stock:A - + ALIGN 10 AGGREGATION min 20\n1) 1) (integer) 3010\n   2) 310\n2) 1) (integer) 2990\n   2) 300\n3) 1) (integer) 2010\n   2) 210\n4) 1) (integer) 1990\n   2) 200\n5) 1) (integer) 1010\n   2) 110\n6) 1) (integer) 990\n   2) 100\n{{< / highlight >}}\n\nWhen the start timestamp for the range query is explicitly stated (not `-`), you can set ALIGN to that time by setting align to `-` or to `start`.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.REVRANGE stock:A 5 + ALIGN - AGGREGATION min 20\n1) 1) (integer) 3005\n   2) 310\n2) 1) (integer) 2985\n   2) 300\n3) 1) (integer) 2005\n   2) 210\n4) 1) (integer) 1985\n   2) 200\n5) 1) (integer) 1005\n   2) 110\n6) 1) (integer) 985\n   2) 100\n{{< / highlight >}}\n\nSimilarly, when the end timestamp for the range query is explicitly stated, you can set ALIGN to that time by setting align to `+` or to `end`.\n</details>"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -256,17 +602,17 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Array reply]() of ([Integer reply](), [Simple string reply]()) pairs representing (timestamp, value) in reverse chronological order.\n* [Simple error reply]() in these cases: invalid filter value, wrong key type, key does not exist, etc.\n\n**RESP3:**\n\nOne of the following:\n* [Array reply]() of ([Integer reply](), [Double reply]()) pairs representing (timestamp, value) in reverse chronological order.\n* [Simple error reply]() in these cases: invalid filter value, wrong key type, key does not exist, etc."
+      "content": "{{< multitabs id=\"ts-revrange-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of ([Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}), [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}})) pairs representing (timestamp, value) in reverse chronological order.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid filter value, wrong key type, key does not exist, etc.\n\n-tab-sep-\n\nOne of the following:\n* [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of ([Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}), [Double reply]({{< relref \"/develop/reference/protocol-spec#doubles\" >}})) pairs representing (timestamp, value) in reverse chronological order.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid filter value, wrong key type, key does not exist, etc.\n\n{{< /multitabs >}}"
     },
     {
       "title": "See also",
       "level": 2,
-      "content": "[`TS.RANGE`]() | [`TS.MRANGE`]() | [`TS.MREVRANGE`]()"
+      "content": "[`TS.RANGE`]({{< relref \"commands/ts.range/\" >}}) | [`TS.MRANGE`]({{< relref \"commands/ts.mrange/\" >}}) | [`TS.MREVRANGE`]({{< relref \"commands/ts.mrevrange/\" >}})"
     },
     {
       "title": "Related topics",
       "level": 2,
-      "content": "[RedisTimeSeries]()"
+      "content": "[RedisTimeSeries]({{< relref \"/develop/data-types/timeseries/\" >}})"
     }
   ]
 }

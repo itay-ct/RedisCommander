@@ -14,6 +14,347 @@
     "@hash",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "str"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Union[Awaitable[List], List]"
+        },
+        "signature": "hkeys(name: str)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "All the fields names contained into a hash.",
+          "type": "Set<String>"
+        },
+        "signature": "Set<String> hkeys(final String key)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "Long count of the keys.",
+          "type": "List<K>"
+        },
+        "signature": "List<K> hkeys(K key)"
+      },
+      {
+        "params": [
+          {
+            "description": "the channel.",
+            "name": "channel",
+            "type": "KeyStreamingChannel<K>"
+          },
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "Long count of the keys.",
+          "type": "Long"
+        },
+        "signature": "Long hkeys(KeyStreamingChannel<K> channel, K key)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "Long count of the keys.",
+          "type": "RedisFuture<List<K>>"
+        },
+        "signature": "RedisFuture<List<K>> hkeys(K key)"
+      },
+      {
+        "params": [
+          {
+            "description": "the channel.",
+            "name": "channel",
+            "type": "KeyStreamingChannel<K>"
+          },
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "Long count of the keys.",
+          "type": "RedisFuture<Long>"
+        },
+        "signature": "RedisFuture<Long> hkeys(KeyStreamingChannel<K> channel, K key)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "Long count of the keys. @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #hkeys.",
+          "type": "Flux<K>"
+        },
+        "signature": "Flux<K> hkeys(K key)"
+      },
+      {
+        "params": [
+          {
+            "description": "the channel.",
+            "name": "channel",
+            "type": "KeyStreamingChannel<K>"
+          },
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "Long count of the keys. @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #hkeys.",
+          "type": "Mono<Long>"
+        },
+        "signature": "Mono<Long> hkeys(KeyStreamingChannel<K> channel, K key)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StringSliceCmd"
+        },
+        "signature": "HKeys(ctx context.Context, key string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "HKEYS(key: RedisArgument)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<string[]>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "hkeys(key: RedisKey, callback?: Callback<string[]>)"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Vec<String>)"
+        },
+        "signature": "hkeys(key: K)"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Vec<String>)"
+        },
+        "signature": "hkeys(key: K)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The key of the hash.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "List of fields in the hash, or an empty list when key does not exist.",
+          "type": "RedisValue[]"
+        },
+        "signature": "HashKeys(RedisKey key, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the hash.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "List of fields in the hash, or an empty list when key does not exist.",
+          "type": "RedisValue[]"
+        },
+        "signature": "HashKeys(RedisKey key, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The key of the hash.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "List of fields in the hash, or an empty list when key does not exist.",
+          "type": "RedisValue[]"
+        },
+        "signature": "HashKeys(RedisKey key, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the hash.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "List of fields in the hash, or an empty list when key does not exist.",
+          "type": "RedisValue[]"
+        },
+        "signature": "HashKeys(RedisKey key, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array"
+        },
+        "signature": "hkeys(string $key)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Array<String>"
+        },
+        "signature": "hkeys(key)"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly"
   ],
@@ -56,24 +397,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Returns all field names in the hash stored at `key`.\n\n## Examples\n\n\nHSET myhash field1 \"Hello\"\nHSET myhash field2 \"World\"\nHKEYS myhash\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of fields in the hash, or an empty list when the key does not exist\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of fields in the hash, or an empty list when the key does not exist.",
+  "content": "Returns all field names in the hash stored at `key`.\n\n## Examples\n\n{{% redis-cli %}}\nHSET myhash field1 \"Hello\"\nHSET myhash field2 \"World\"\nHKEYS myhash\n{{% /redis-cli %}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"hkeys-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of fields in the hash, or an empty list when the key does not exist\n\n-tab-sep-\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of fields in the hash, or an empty list when the key does not exist.\n\n{{< /multitabs >}}",
+  "example": "HSET myhash field1 \"Hello\"\nHSET myhash field2 \"World\"\nHKEYS myhash",
   "intro": "Returns all field names in the hash stored at `key`.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -83,7 +413,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "HSET myhash field1 \"Hello\"\nHSET myhash field2 \"World\"\nHKEYS myhash"
+      "content": "{{% redis-cli %}}\nHSET myhash field1 \"Hello\"\nHSET myhash field2 \"World\"\nHKEYS myhash\n{{% /redis-cli %}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -93,7 +423,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of fields in the hash, or an empty list when the key does not exist\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of fields in the hash, or an empty list when the key does not exist."
+      "content": "{{< multitabs id=\"hkeys-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of fields in the hash, or an empty list when the key does not exist\n\n-tab-sep-\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of fields in the hash, or an empty list when the key does not exist.\n\n{{< /multitabs >}}"
     }
   ]
 }

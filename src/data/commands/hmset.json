@@ -14,6 +14,556 @@
     "@hash",
     "@fast"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "str"
+          },
+          {
+            "description": "",
+            "name": "mapping",
+            "type": "dict"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Union[Awaitable[str], str]"
+        },
+        "signature": "hmset(name: str, mapping: dict)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "hash",
+            "type": "Map<byte[], byte[]>"
+          }
+        ],
+        "returns": {
+          "description": "Return OK or Exception if hash is empty @deprecated Use Jedis#hset(String, Map) instead. Deprecated in Jedis 8.0.0. Mirrors Redis deprecation since 4.0.0.",
+          "type": "String"
+        },
+        "signature": "String hmset(final byte[] key, final Map<byte[], byte[]> hash)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "hash",
+            "type": "Map<String, String>"
+          }
+        ],
+        "returns": {
+          "description": "Return OK or Exception if hash is empty @deprecated Use Jedis#hset(String, Map) instead. Deprecated in Jedis 8.0.0. Mirrors Redis deprecation since 4.0.0.",
+          "type": "String"
+        },
+        "signature": "String hmset(final String key, final Map<String, String> hash)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the hash to apply.",
+            "name": "map",
+            "type": "Map<K, V>"
+          }
+        ],
+        "returns": {
+          "description": "String simple-string-reply.",
+          "type": "String"
+        },
+        "signature": "String hmset(K key, Map<K, V> map)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the hash to apply.",
+            "name": "map",
+            "type": "Map<K, V>"
+          }
+        ],
+        "returns": {
+          "description": "String simple-string-reply.",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> hmset(K key, Map<K, V> map)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the hash to apply.",
+            "name": "map",
+            "type": "Map<K, V>"
+          }
+        ],
+        "returns": {
+          "description": "String simple-string-reply.",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> hmset(K key, Map<K, V> map)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "values",
+            "type": "...interface{}"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*BoolCmd"
+        },
+        "signature": "HMSet(ctx context.Context, key string, values ...interface{})"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "object",
+            "type": "object"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<\"OK\">"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "hmset(key: RedisKey, object: object, callback?: Callback<\"OK\">)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "map",
+            "type": "Map<string | Buffer | number, string | Buffer | number>"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<\"OK\">"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "hmset(key: RedisKey, map: Map<string | Buffer | number, string | Buffer | number>, callback?: Callback<\"OK\">)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, key"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "hmset(...args: [, key: RedisKey, ...fieldValues: (string | Buffer | number)[], callback: Callback<\"OK\">, ])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[key"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "hmset(...args: [key: RedisKey, ...fieldValues: (string | Buffer | number)[]])"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "items",
+            "type": "&'a [(F, V)]"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(())"
+        },
+        "signature": "hset_multiple(key: K, items: &'a [(F, V)])"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "items",
+            "type": "&'a [(F, V)]"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(())"
+        },
+        "signature": "hset_multiple(key: K, items: &'a [(F, V)])"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The key of the hash.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "hashFields",
+            "type": "HashEntry[]"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "true if field is a new field in the hash and value was set, false if field already exists in the hash and the value was updated.",
+          "type": "void"
+        },
+        "signature": "HashSet(RedisKey key, HashEntry[] hashFields, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the hash.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The field to set in the hash.",
+            "name": "hashField",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The value to set.",
+            "name": "value",
+            "type": "RedisValue"
+          },
+          {
+            "description": "Which conditions under which to set the field value (defaults to always).",
+            "name": "when",
+            "type": "When"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "true if field is a new field in the hash and value was set, false if field already exists in the hash and the value was updated.",
+          "type": "bool"
+        },
+        "signature": "HashSet(RedisKey key, RedisValue hashField, RedisValue value, When when = When.Always, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the hash.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The field to set in the hash.",
+            "name": "hashField",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The value to set.",
+            "name": "value",
+            "type": "RedisValue"
+          },
+          {
+            "description": "Which conditions under which to set the field value (defaults to always).",
+            "name": "when",
+            "type": "When"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "true if field is a new field in the hash and value was set, false if field already exists in the hash and the value was updated.",
+          "type": "bool"
+        },
+        "signature": "HashSet(RedisKey key, RedisValue hashField, RedisValue value, When when = When.Always, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the hash.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "hashFields",
+            "type": "HashEntry[]"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "true if field is a new field in the hash and value was set, false if field already exists in the hash and the value was updated.",
+          "type": "void"
+        },
+        "signature": "HashSet(RedisKey key, HashEntry[] hashFields, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The key of the hash.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "hashFields",
+            "type": "HashEntry[]"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "true if field is a new field in the hash and value was set, false if field already exists in the hash and the value was updated.",
+          "type": "void"
+        },
+        "signature": "HashSet(RedisKey key, HashEntry[] hashFields, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the hash.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The field to set in the hash.",
+            "name": "hashField",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The value to set.",
+            "name": "value",
+            "type": "RedisValue"
+          },
+          {
+            "description": "Which conditions under which to set the field value (defaults to always).",
+            "name": "when",
+            "type": "When"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "true if field is a new field in the hash and value was set, false if field already exists in the hash and the value was updated.",
+          "type": "bool"
+        },
+        "signature": "HashSet(RedisKey key, RedisValue hashField, RedisValue value, When when = When.Always, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the hash.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The field to set in the hash.",
+            "name": "hashField",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The value to set.",
+            "name": "value",
+            "type": "RedisValue"
+          },
+          {
+            "description": "Which conditions under which to set the field value (defaults to always).",
+            "name": "when",
+            "type": "When"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "true if field is a new field in the hash and value was set, false if field already exists in the hash and the value was updated.",
+          "type": "bool"
+        },
+        "signature": "HashSet(RedisKey key, RedisValue hashField, RedisValue value, When when = When.Always, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the hash.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "hashFields",
+            "type": "HashEntry[]"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "true if field is a new field in the hash and value was set, false if field already exists in the hash and the value was updated.",
+          "type": "void"
+        },
+        "signature": "HashSet(RedisKey key, HashEntry[] hashFields, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$dictionary",
+            "type": "array"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "mixed"
+        },
+        "signature": "hmset(string $key, array $dictionary)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "array of fields and values",
+            "name": "*attrs",
+            "type": "Array<String>"
+          }
+        ],
+        "returns": {
+          "description": "\"OK\"",
+          "type": "String"
+        },
+        "signature": "hmset(key, *attrs)"
+      }
+    ]
+  },
   "commandFlags": [
     "write",
     "denyoom",
@@ -75,24 +625,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Sets the specified fields to their respective values in the hash stored at\n`key`.\nThis command overwrites any specified fields already existing in the hash.\nIf `key` does not exist, a new key holding a hash is created.\n\n## Examples\n\n\nHMSET myhash field1 \"Hello\" field2 \"World\"\nHGET myhash field1\nHGET myhash field2\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v4.0.0. |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.",
+  "content": "Sets the specified fields to their respective values in the hash stored at\n`key`.\nThis command overwrites any specified fields already existing in the hash.\nIf `key` does not exist, a new key holding a hash is created.\n\n## Examples\n\n{{% redis-cli %}}\nHMSET myhash field1 \"Hello\" field2 \"World\"\nHGET myhash field1\nHGET myhash field2\n{{% /redis-cli %}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v4.0.0. |\n\n## Return information\n\n{{< multitabs id=\"hmset-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n{{< /multitabs >}}",
+  "example": "HMSET myhash field1 \"Hello\" field2 \"World\"\nHGET myhash field1\nHGET myhash field2",
   "intro": "Sets the specified fields to their respective values in the hash stored at\n`key`.\nThis command overwrites any specified fields already existing in the hash.\nIf `key` does not exist, a new key holding a hash is created.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -102,7 +641,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "HMSET myhash field1 \"Hello\" field2 \"World\"\nHGET myhash field1\nHGET myhash field2"
+      "content": "{{% redis-cli %}}\nHMSET myhash field1 \"Hello\" field2 \"World\"\nHGET myhash field1\nHGET myhash field2\n{{% /redis-cli %}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -112,7 +651,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`."
+      "content": "{{< multitabs id=\"hmset-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n{{< /multitabs >}}"
     }
   ]
 }

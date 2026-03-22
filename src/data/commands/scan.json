@@ -14,6 +14,464 @@
     "@read",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "cursor",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "match",
+            "type": "Optional[PatternT]"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "Optional[int]"
+          },
+          {
+            "description": "",
+            "name": "_type",
+            "type": "Optional[str]"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "tuple"
+        },
+        "signature": "scan(cursor: int = 0, match: Optional[PatternT] = None, count: Optional[int] = None, _type: Optional[str] = None, **kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "cursor",
+            "type": "byte[]"
+          }
+        ],
+        "returns": {
+          "description": "ScanResult",
+          "type": "ScanResult<byte[]>"
+        },
+        "signature": "ScanResult<byte[]> scan(final byte[] cursor)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "cursor",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "params",
+            "type": "ScanParams"
+          }
+        ],
+        "returns": {
+          "description": "ScanResult",
+          "type": "ScanResult<byte[]>"
+        },
+        "signature": "ScanResult<byte[]> scan(final byte[] cursor, final ScanParams params)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "cursor",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "ScanResult",
+          "type": "ScanResult<String>"
+        },
+        "signature": "ScanResult<String> scan(final String cursor)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "cursor",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "params",
+            "type": "ScanParams"
+          }
+        ],
+        "returns": {
+          "description": "ScanResult",
+          "type": "ScanResult<String>"
+        },
+        "signature": "ScanResult<String> scan(final String cursor, final ScanParams params)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "cursor",
+            "type": "uint64"
+          },
+          {
+            "description": "",
+            "name": "match",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "int64"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*ScanCmd"
+        },
+        "signature": "Scan(ctx context.Context, cursor uint64, match string, count int64)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "cursor",
+            "type": "number"
+          },
+          {
+            "description": "",
+            "name": "options?",
+            "type": "ScanOptions"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "SCAN(cursor: number, options?: ScanOptions)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [],
+        "returns": {
+          "description": "KeyScanCursor<K> scan cursor.",
+          "type": "KeyScanCursor<K>"
+        },
+        "signature": "KeyScanCursor<K> scan()"
+      },
+      {
+        "params": [
+          {
+            "description": "scan arguments.",
+            "name": "scanArgs",
+            "type": "ScanArgs"
+          }
+        ],
+        "returns": {
+          "description": "KeyScanCursor<K> scan cursor.",
+          "type": "KeyScanCursor<K>"
+        },
+        "signature": "KeyScanCursor<K> scan(ScanArgs scanArgs)"
+      },
+      {
+        "params": [
+          {
+            "description": "cursor to resume from a previous scan.",
+            "name": "scanCursor",
+            "type": "ScanCursor"
+          }
+        ],
+        "returns": {
+          "description": "KeyScanCursor<K> scan cursor.",
+          "type": "KeyScanCursor<K>"
+        },
+        "signature": "KeyScanCursor<K> scan(ScanCursor scanCursor)"
+      },
+      {
+        "params": [
+          {
+            "description": "cursor to resume from a previous scan.",
+            "name": "scanCursor",
+            "type": "ScanCursor"
+          },
+          {
+            "description": "scan arguments.",
+            "name": "scanArgs",
+            "type": "ScanArgs"
+          }
+        ],
+        "returns": {
+          "description": "KeyScanCursor<K> scan cursor.",
+          "type": "KeyScanCursor<K>"
+        },
+        "signature": "KeyScanCursor<K> scan(ScanCursor scanCursor, ScanArgs scanArgs)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [],
+        "returns": {
+          "description": "KeyScanCursor<K> scan cursor.",
+          "type": "RedisFuture<KeyScanCursor<K>>"
+        },
+        "signature": "RedisFuture<KeyScanCursor<K>> scan()"
+      },
+      {
+        "params": [
+          {
+            "description": "scan arguments.",
+            "name": "scanArgs",
+            "type": "ScanArgs"
+          }
+        ],
+        "returns": {
+          "description": "KeyScanCursor<K> scan cursor.",
+          "type": "RedisFuture<KeyScanCursor<K>>"
+        },
+        "signature": "RedisFuture<KeyScanCursor<K>> scan(ScanArgs scanArgs)"
+      },
+      {
+        "params": [
+          {
+            "description": "cursor to resume from a previous scan.",
+            "name": "scanCursor",
+            "type": "ScanCursor"
+          }
+        ],
+        "returns": {
+          "description": "KeyScanCursor<K> scan cursor.",
+          "type": "RedisFuture<KeyScanCursor<K>>"
+        },
+        "signature": "RedisFuture<KeyScanCursor<K>> scan(ScanCursor scanCursor)"
+      },
+      {
+        "params": [
+          {
+            "description": "cursor to resume from a previous scan.",
+            "name": "scanCursor",
+            "type": "ScanCursor"
+          },
+          {
+            "description": "scan arguments.",
+            "name": "scanArgs",
+            "type": "ScanArgs"
+          }
+        ],
+        "returns": {
+          "description": "KeyScanCursor<K> scan cursor.",
+          "type": "RedisFuture<KeyScanCursor<K>>"
+        },
+        "signature": "RedisFuture<KeyScanCursor<K>> scan(ScanCursor scanCursor, ScanArgs scanArgs)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [],
+        "returns": {
+          "description": "KeyScanCursor<K> scan cursor.",
+          "type": "Mono<KeyScanCursor<K>>"
+        },
+        "signature": "Mono<KeyScanCursor<K>> scan()"
+      },
+      {
+        "params": [
+          {
+            "description": "scan arguments.",
+            "name": "scanArgs",
+            "type": "ScanArgs"
+          }
+        ],
+        "returns": {
+          "description": "KeyScanCursor<K> scan cursor.",
+          "type": "Mono<KeyScanCursor<K>>"
+        },
+        "signature": "Mono<KeyScanCursor<K>> scan(ScanArgs scanArgs)"
+      },
+      {
+        "params": [
+          {
+            "description": "cursor to resume from a previous scan.",
+            "name": "scanCursor",
+            "type": "ScanCursor"
+          }
+        ],
+        "returns": {
+          "description": "KeyScanCursor<K> scan cursor.",
+          "type": "Mono<KeyScanCursor<K>>"
+        },
+        "signature": "Mono<KeyScanCursor<K>> scan(ScanCursor scanCursor)"
+      },
+      {
+        "params": [
+          {
+            "description": "cursor to resume from a previous scan.",
+            "name": "scanCursor",
+            "type": "ScanCursor"
+          },
+          {
+            "description": "scan arguments.",
+            "name": "scanArgs",
+            "type": "ScanArgs"
+          }
+        ],
+        "returns": {
+          "description": "KeyScanCursor<K> scan cursor.",
+          "type": "Mono<KeyScanCursor<K>>"
+        },
+        "signature": "Mono<KeyScanCursor<K>> scan(ScanCursor scanCursor, ScanArgs scanArgs)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The pattern to match.",
+            "name": "pattern",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The page size.",
+            "name": "pageSize",
+            "type": "int"
+          },
+          {
+            "description": "The cursor.",
+            "name": "cursor",
+            "type": "long"
+          },
+          {
+            "description": "The page offset.",
+            "name": "pageOffset",
+            "type": "int"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The keys matching the pattern.",
+          "type": "IEnumerable<RedisKey>"
+        },
+        "signature": "Scan(RedisValue pattern = default, int pageSize = 250, long cursor = 0, int pageOffset = 0, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The pattern to match.",
+            "name": "pattern",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The page size.",
+            "name": "pageSize",
+            "type": "int"
+          },
+          {
+            "description": "The cursor.",
+            "name": "cursor",
+            "type": "long"
+          },
+          {
+            "description": "The page offset.",
+            "name": "pageOffset",
+            "type": "int"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The keys matching the pattern.",
+          "type": "IAsyncEnumerable<RedisKey>"
+        },
+        "signature": "Scan(RedisValue pattern = default, int pageSize = 250, long cursor = 0, int pageOffset = 0, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "&$iterator",
+            "type": "?int"
+          },
+          {
+            "description": "",
+            "name": "$pattern",
+            "type": "string|array|null"
+          },
+          {
+            "description": "",
+            "name": "$count",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "$type",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array|bool"
+        },
+        "signature": "scan(?int &$iterator, string|array|null $pattern = null, int $count = 0, string $type = null)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "the cursor of the iteration",
+            "name": "cursor",
+            "type": "String, Integer"
+          },
+          {
+            "description": "only return keys matching the pattern",
+            "name": "match",
+            "type": "String"
+          },
+          {
+            "description": "return count keys at most per iteration",
+            "name": "count",
+            "type": "Integer"
+          },
+          {
+            "description": "return keys only of the given type",
+            "name": "type",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "the next cursor and all found keys",
+          "type": "Array"
+        },
+        "signature": "scan(cursor, **options)"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly"
   ],
@@ -58,479 +516,20 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "scan-basic-usage",
-        "title": "SCAN basic usage"
-      },
-      {
-        "id": "return-value",
-        "title": "Return value"
-      },
-      {
-        "id": "scan-guarantees",
-        "title": "Scan guarantees"
-      },
-      {
-        "id": "number-of-elements-returned-at-every-scan-call",
-        "title": "Number of elements returned at every SCAN call"
-      },
-      {
-        "id": "the-count-option",
-        "title": "The COUNT option"
-      },
-      {
-        "id": "the-match-option",
-        "title": "The MATCH option"
-      },
-      {
-        "id": "the-type-option",
-        "title": "The TYPE option"
-      },
-      {
-        "id": "the-novalues-option",
-        "title": "The NOVALUES option"
-      },
-      {
-        "id": "multiple-parallel-iterations",
-        "title": "Multiple parallel iterations"
-      },
-      {
-        "id": "terminating-iterations-in-the-middle",
-        "title": "Terminating iterations in the middle"
-      },
-      {
-        "id": "calling-scan-with-a-corrupted-cursor",
-        "title": "Calling SCAN with a corrupted cursor"
-      },
-      {
-        "id": "guarantee-of-termination",
-        "title": "Guarantee of termination"
-      },
-      {
-        "id": "why-scan-may-return-all-the-items-of-an-aggregate-data-type-in-a-single-call",
-        "title": "Why SCAN may return all the items of an aggregate data type in a single call?"
-      },
-      {
-        "id": "further-reading",
-        "title": "Further reading"
-      },
-      {
-        "id": "additional-examples",
-        "title": "Additional examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
-  "codeExamples": [
-    {
-      "codetabsId": "cmds_generic-stepscan1",
-      "commands": [
-        {
-          "acl_categories": [
-            "@write",
-            "@set",
-            "@fast"
-          ],
-          "complexity": "O(1)",
-          "name": "SADD"
-        },
-        {
-          "acl_categories": [
-            "@read",
-            "@set",
-            "@slow"
-          ],
-          "complexity": "O(1)",
-          "name": "SSCAN"
-        }
-      ],
-      "description": "Set iteration: Iterate set members with pattern matching using SSCAN MATCH (cursor-based iteration, non-blocking)",
-      "difficulty": "intermediate",
-      "id": "scan1",
-      "languages": [
-        {
-          "id": "redis-cli",
-          "panelId": "panel_redis-cli_cmds_generic-stepscan1"
-        },
-        {
-          "clientId": "redis-py",
-          "clientName": "redis-py",
-          "id": "Python",
-          "langId": "python",
-          "panelId": "panel_Python_cmds_generic-stepscan1"
-        },
-        {
-          "id": "Node-js",
-          "panelId": "panel_Nodejs_cmds_generic-stepscan1"
-        },
-        {
-          "clientId": "jedis",
-          "clientName": "Jedis",
-          "id": "Java-Sync",
-          "langId": "java",
-          "panelId": "panel_Java-Sync_cmds_generic-stepscan1"
-        },
-        {
-          "clientId": "lettuce",
-          "clientName": "Lettuce",
-          "id": "Java-Async",
-          "langId": "java",
-          "panelId": "panel_Java-Async_cmds_generic-stepscan1"
-        },
-        {
-          "clientId": "lettuce",
-          "clientName": "Lettuce",
-          "id": "Java-Reactive",
-          "langId": "java",
-          "panelId": "panel_Java-Reactive_cmds_generic-stepscan1"
-        },
-        {
-          "clientId": "go-redis",
-          "clientName": "go-redis",
-          "id": "Go",
-          "langId": "go",
-          "panelId": "panel_Go_cmds_generic-stepscan1"
-        },
-        {
-          "id": "dotnet-Sync",
-          "panelId": "panel_Csharp-Sync_cmds_generic-stepscan1"
-        },
-        {
-          "clientId": "predis",
-          "clientName": "Predis",
-          "id": "PHP",
-          "langId": "php",
-          "panelId": "panel_PHP_cmds_generic-stepscan1"
-        },
-        {
-          "clientId": "redis-rs",
-          "clientName": "redis-rs",
-          "id": "Rust-Sync",
-          "langId": "rust",
-          "panelId": "panel_Rust-Sync_cmds_generic-stepscan1"
-        },
-        {
-          "clientId": "redis-rs",
-          "clientName": "redis-rs",
-          "id": "Rust-Async",
-          "langId": "rust",
-          "panelId": "panel_Rust-Async_cmds_generic-stepscan1"
-        }
-      ]
-    },
-    {
-      "codetabsId": "cmds_generic-stepscan2",
-      "commands": [
-        {
-          "acl_categories": [
-            "@keyspace",
-            "@read",
-            "@slow"
-          ],
-          "complexity": "O(1)",
-          "name": "SCAN"
-        }
-      ],
-      "description": "Keyspace iteration: Iterate database keys with pattern matching using SCAN MATCH and COUNT (demonstrates cursor iteration with sparse results)",
-      "difficulty": "intermediate",
-      "id": "scan2",
-      "languages": [
-        {
-          "id": "redis-cli",
-          "panelId": "panel_redis-cli_cmds_generic-stepscan2"
-        },
-        {
-          "clientId": "redis-py",
-          "clientName": "redis-py",
-          "id": "Python",
-          "langId": "python",
-          "panelId": "panel_Python_cmds_generic-stepscan2"
-        },
-        {
-          "id": "Node-js",
-          "panelId": "panel_Nodejs_cmds_generic-stepscan2"
-        },
-        {
-          "clientId": "jedis",
-          "clientName": "Jedis",
-          "id": "Java-Sync",
-          "langId": "java",
-          "panelId": "panel_Java-Sync_cmds_generic-stepscan2"
-        },
-        {
-          "clientId": "lettuce",
-          "clientName": "Lettuce",
-          "id": "Java-Async",
-          "langId": "java",
-          "panelId": "panel_Java-Async_cmds_generic-stepscan2"
-        },
-        {
-          "clientId": "lettuce",
-          "clientName": "Lettuce",
-          "id": "Java-Reactive",
-          "langId": "java",
-          "panelId": "panel_Java-Reactive_cmds_generic-stepscan2"
-        },
-        {
-          "clientId": "go-redis",
-          "clientName": "go-redis",
-          "id": "Go",
-          "langId": "go",
-          "panelId": "panel_Go_cmds_generic-stepscan2"
-        },
-        {
-          "id": "dotnet-Sync",
-          "panelId": "panel_Csharp-Sync_cmds_generic-stepscan2"
-        },
-        {
-          "clientId": "predis",
-          "clientName": "Predis",
-          "id": "PHP",
-          "langId": "php",
-          "panelId": "panel_PHP_cmds_generic-stepscan2"
-        },
-        {
-          "clientId": "redis-rs",
-          "clientName": "redis-rs",
-          "id": "Rust-Sync",
-          "langId": "rust",
-          "panelId": "panel_Rust-Sync_cmds_generic-stepscan2"
-        },
-        {
-          "clientId": "redis-rs",
-          "clientName": "redis-rs",
-          "id": "Rust-Async",
-          "langId": "rust",
-          "panelId": "panel_Rust-Async_cmds_generic-stepscan2"
-        }
-      ]
-    },
-    {
-      "codetabsId": "cmds_generic-stepscan3",
-      "commands": [
-        {
-          "acl_categories": [
-            "@write",
-            "@geo",
-            "@slow"
-          ],
-          "complexity": "O(log(N)",
-          "name": "GEOADD"
-        },
-        {
-          "acl_categories": [
-            "@write",
-            "@sortedset",
-            "@fast"
-          ],
-          "complexity": "O(log(N)",
-          "name": "ZADD"
-        },
-        {
-          "acl_categories": [
-            "@keyspace",
-            "@read",
-            "@fast"
-          ],
-          "complexity": "O(1)",
-          "name": "TYPE"
-        },
-        {
-          "acl_categories": [
-            "@keyspace",
-            "@read",
-            "@slow"
-          ],
-          "complexity": "O(1)",
-          "name": "SCAN"
-        }
-      ],
-      "description": "Iterate keyspace by type: Iterate database keys filtered by type using SCAN TYPE (filters keys by data type, useful for type-specific operations)",
-      "difficulty": "intermediate",
-      "id": "scan3",
-      "languages": [
-        {
-          "id": "redis-cli",
-          "panelId": "panel_redis-cli_cmds_generic-stepscan3"
-        },
-        {
-          "clientId": "redis-py",
-          "clientName": "redis-py",
-          "id": "Python",
-          "langId": "python",
-          "panelId": "panel_Python_cmds_generic-stepscan3"
-        },
-        {
-          "id": "Node-js",
-          "panelId": "panel_Nodejs_cmds_generic-stepscan3"
-        },
-        {
-          "clientId": "jedis",
-          "clientName": "Jedis",
-          "id": "Java-Sync",
-          "langId": "java",
-          "panelId": "panel_Java-Sync_cmds_generic-stepscan3"
-        },
-        {
-          "clientId": "lettuce",
-          "clientName": "Lettuce",
-          "id": "Java-Async",
-          "langId": "java",
-          "panelId": "panel_Java-Async_cmds_generic-stepscan3"
-        },
-        {
-          "clientId": "lettuce",
-          "clientName": "Lettuce",
-          "id": "Java-Reactive",
-          "langId": "java",
-          "panelId": "panel_Java-Reactive_cmds_generic-stepscan3"
-        },
-        {
-          "clientId": "go-redis",
-          "clientName": "go-redis",
-          "id": "Go",
-          "langId": "go",
-          "panelId": "panel_Go_cmds_generic-stepscan3"
-        },
-        {
-          "id": "dotnet-Sync",
-          "panelId": "panel_Csharp-Sync_cmds_generic-stepscan3"
-        },
-        {
-          "clientId": "predis",
-          "clientName": "Predis",
-          "id": "PHP",
-          "langId": "php",
-          "panelId": "panel_PHP_cmds_generic-stepscan3"
-        },
-        {
-          "clientId": "redis-rs",
-          "clientName": "redis-rs",
-          "id": "Rust-Sync",
-          "langId": "rust",
-          "panelId": "panel_Rust-Sync_cmds_generic-stepscan3"
-        },
-        {
-          "clientId": "redis-rs",
-          "clientName": "redis-rs",
-          "id": "Rust-Async",
-          "langId": "rust",
-          "panelId": "panel_Rust-Async_cmds_generic-stepscan3"
-        }
-      ]
-    },
-    {
-      "codetabsId": "cmds_generic-stepscan4",
-      "commands": [
-        {
-          "acl_categories": [
-            "@write",
-            "@hash",
-            "@fast"
-          ],
-          "complexity": "O(1)",
-          "name": "HSET"
-        },
-        {
-          "acl_categories": [
-            "@read",
-            "@hash",
-            "@slow"
-          ],
-          "complexity": "O(1)",
-          "name": "HSCAN"
-        }
-      ],
-      "description": "Hash iteration: Iterate hash fields with optional NOVALUES using HSCAN (returns field-value pairs or fields only)",
-      "difficulty": "intermediate",
-      "id": "scan4",
-      "languages": [
-        {
-          "id": "redis-cli",
-          "panelId": "panel_redis-cli_cmds_generic-stepscan4"
-        },
-        {
-          "clientId": "redis-py",
-          "clientName": "redis-py",
-          "id": "Python",
-          "langId": "python",
-          "panelId": "panel_Python_cmds_generic-stepscan4"
-        },
-        {
-          "id": "Node-js",
-          "panelId": "panel_Nodejs_cmds_generic-stepscan4"
-        },
-        {
-          "clientId": "jedis",
-          "clientName": "Jedis",
-          "id": "Java-Sync",
-          "langId": "java",
-          "panelId": "panel_Java-Sync_cmds_generic-stepscan4"
-        },
-        {
-          "clientId": "lettuce",
-          "clientName": "Lettuce",
-          "id": "Java-Async",
-          "langId": "java",
-          "panelId": "panel_Java-Async_cmds_generic-stepscan4"
-        },
-        {
-          "clientId": "lettuce",
-          "clientName": "Lettuce",
-          "id": "Java-Reactive",
-          "langId": "java",
-          "panelId": "panel_Java-Reactive_cmds_generic-stepscan4"
-        },
-        {
-          "clientId": "go-redis",
-          "clientName": "go-redis",
-          "id": "Go",
-          "langId": "go",
-          "panelId": "panel_Go_cmds_generic-stepscan4"
-        },
-        {
-          "id": "dotnet-Sync",
-          "panelId": "panel_Csharp-Sync_cmds_generic-stepscan4"
-        },
-        {
-          "clientId": "predis",
-          "clientName": "Predis",
-          "id": "PHP",
-          "langId": "php",
-          "panelId": "panel_PHP_cmds_generic-stepscan4"
-        },
-        {
-          "clientId": "redis-rs",
-          "clientName": "redis-rs",
-          "id": "Rust-Sync",
-          "langId": "rust",
-          "panelId": "panel_Rust-Sync_cmds_generic-stepscan4"
-        },
-        {
-          "clientId": "redis-rs",
-          "clientName": "redis-rs",
-          "id": "Rust-Async",
-          "langId": "rust",
-          "panelId": "panel_Rust-Async_cmds_generic-stepscan4"
-        }
-      ]
-    }
+  "codeExamples": [],
+  "content": "The `SCAN` command and the closely related commands [`SSCAN`](), [`HSCAN`]() and [`ZSCAN`]() are used in order to incrementally iterate over a collection of elements.\n\n* `SCAN` iterates the set of keys in the currently selected Redis database.\n* [`SSCAN`]() iterates elements of Sets types.\n* [`HSCAN`]() iterates fields of Hash types and their associated values.\n* [`ZSCAN`]() iterates elements of Sorted Set types and their associated scores.\n\nSince these commands allow for incremental iteration, returning only a small number of elements per call, they can be used in production without the downside of commands like [`KEYS`]() or [`SMEMBERS`]() that may block the server for a long time (even several seconds) when called against big collections of keys or elements.\n\nHowever while blocking commands like [`SMEMBERS`]() are able to provide all the elements that are part of a Set in a given moment, The SCAN family of commands only offer limited guarantees about the returned elements since the collection that we incrementally iterate can change during the iteration process.\n\nNote that `SCAN`, [`SSCAN`](), [`HSCAN`]() and [`ZSCAN`]() all work very similarly, so this documentation covers all four commands. However an obvious difference is that in the case of [`SSCAN`](), [`HSCAN`]() and [`ZSCAN`]() the first argument is the name of the key holding the Set, Hash or Sorted Set value. The `SCAN` command does not need any key name argument as it iterates keys in the current database, so the iterated object is the database itself.\n\n## SCAN basic usage\n\nSCAN is a cursor based iterator. This means that at every call of the command, the server returns an updated cursor that the user needs to use as the cursor argument in the next call.\n\nAn iteration starts when the cursor is set to 0, and terminates when the cursor returned by the server is 0. The following is an example of SCAN iteration:\n\n```\n> scan 0\n1) \"17\"\n2)  1) \"key:12\"\n    2) \"key:8\"\n    3) \"key:4\"\n    4) \"key:14\"\n    5) \"key:16\"\n    6) \"key:17\"\n    7) \"key:15\"\n    8) \"key:10\"\n    9) \"key:3\"\n   10) \"key:7\"\n   11) \"key:1\"\n> scan 17\n1) \"0\"\n2) 1) \"key:5\"\n   2) \"key:18\"\n   3) \"key:0\"\n   4) \"key:2\"\n   5) \"key:19\"\n   6) \"key:13\"\n   7) \"key:6\"\n   8) \"key:9\"\n   9) \"key:11\"\n```\n\nIn the example above, the first call uses zero as a cursor, to start the iteration. The second call uses the cursor returned by the previous call as the first element of the reply, that is, 17.\n\nAs you can see the **SCAN return value** is an array of two values: the first value is the new cursor to use in the next call, the second value is an array of elements.\n\nSince in the second call the returned cursor is 0, the server signaled to the caller that the iteration finished, and the collection was completely explored. Starting an iteration with a cursor value of 0, and calling `SCAN` until the returned cursor is 0 again is called a **full iteration**.\n\n## Return value\n\n`SCAN`, [`SSCAN`]({{< relref \"/commands/sscan\" >}}), [`HSCAN`]({{< relref \"/commands/hscan\" >}}) and [`ZSCAN`]({{< relref \"/commands/zscan\" >}}) return a two element multi-bulk reply, where the first element is a string representing an unsigned 64 bit number (the cursor), and the second element is a multi-bulk with an array of elements.\n\n* `SCAN` array of elements is a list of keys.\n* [`SSCAN`]({{< relref \"/commands/sscan\" >}}) array of elements is a list of Set members.\n* [`HSCAN`]({{< relref \"/commands/hscan\" >}}) array of elements contain two elements, a field and a value, for every returned element of the Hash.\n* [`ZSCAN`]({{< relref \"/commands/zscan\" >}}) array of elements contain two elements, a member and its associated score, for every returned element of the Sorted Set.\n\n## Scan guarantees\n\nThe `SCAN` command, and the other commands in the `SCAN` family, are able to provide to the user a set of guarantees associated to full iterations.\n\n* A full iteration always retrieves all the elements that were present in the collection from the start to the end of a full iteration. This means that if a given element is inside the collection when an iteration is started, and is still there when an iteration terminates, then at some point `SCAN` returned it to the user.\n* A full iteration never returns any element that was NOT present in the collection from the start to the end of a full iteration. So if an element was removed before the start of an iteration, and is never added back to the collection for all the time an iteration lasts, `SCAN` ensures that this element will never be returned.\n\nHowever because `SCAN` has very little state associated (just the cursor) it has the following drawbacks:\n\n* A given element may be returned multiple times. It is up to the application to handle the case of duplicated elements, for example only using the returned elements in order to perform operations that are safe when re-applied multiple times.\n* Elements that were not constantly present in the collection during a full iteration, may be returned or not: it is undefined.\n\n## Number of elements returned at every SCAN call\n\n`SCAN` family functions do not guarantee that the number of elements returned per call are in a given range. The commands are also allowed to return zero elements, and the client should not consider the iteration complete as long as the returned cursor is not zero.\n\nHowever the number of returned elements is reasonable, that is, in practical terms `SCAN` may return a maximum number of elements in the order of a few tens of elements when iterating a large collection, or may return all the elements of the collection in a single call when the iterated collection is small enough to be internally represented as an encoded data structure (this happens for small Sets, Hashes and Sorted Sets).\n\nHowever there is a way for the user to tune the order of magnitude of the number of returned elements per call using the **COUNT** option.\n\n## The COUNT option\n\nWhile `SCAN` does not provide guarantees about the number of elements returned at every iteration, it is possible to empirically adjust the behavior of `SCAN` using the **COUNT** option. Basically with COUNT the user specifies the *amount of work that should be done at every call in order to retrieve elements from the collection*. This is **just a hint** for the implementation, however generally speaking this is what you could expect most of the times from the implementation.\n\n* The default `COUNT` value is 10.\n* When iterating the key space, or a Set, Hash or Sorted Set that is big enough to be represented by a hash table, assuming no **MATCH** option is used, the server will usually return *count* or a few more than *count* elements per call. Please check the *why SCAN may return all the elements at once* section later in this document.\n* When iterating Sets encoded as intsets (small sets composed of just integers), or Hashes and Sorted Sets encoded as ziplists (small hashes and sets composed of small individual values), usually all the elements are returned in the first `SCAN` call regardless of the `COUNT` value.\n\nImportant: **there is no need to use the same COUNT value** for every iteration. The caller is free to change the count from one iteration to the other as required, as long as the cursor passed in the next call is the one obtained in the previous call to the command.\n\n## The MATCH option\n\nIt is possible to only iterate elements matching a given glob-style pattern, similarly to the behavior of the [`KEYS`]({{< relref \"/commands/keys\" >}}) command that takes a pattern as its only argument.\n\nTo do so, just append the `MATCH <pattern>` arguments at the end of the `SCAN` command (it works with all the `SCAN` family commands).\n\nThis is an example of iteration using **MATCH**:\n\n{{< clients-example set=\"cmds_generic\" step=\"scan1\" description=\"Set iteration: Iterate set members with pattern matching using SSCAN MATCH (cursor-based iteration, non-blocking)\" difficulty=\"intermediate\" >}}\n> sadd myset 1 2 3 foo foobar feelsgood\n(integer) 6\n> sscan myset 0 match f*\n1) \"0\"\n2) 1) \"foo\"\n   2) \"feelsgood\"\n   3) \"foobar\"\n{{< /clients-example >}}\n\nIt is important to note that the **MATCH** filter is applied after elements are retrieved from the collection, just before returning data to the client. This means that if the pattern matches very little elements inside the collection, `SCAN` will likely return no elements in most iterations. An example is shown below:\n\n{{< clients-example set=\"cmds_generic\" step=\"scan2\" description=\"Keyspace iteration: Iterate database keys with pattern matching using SCAN MATCH and COUNT (demonstrates cursor iteration with sparse results)\" difficulty=\"intermediate\" >}}\n> scan 0 MATCH *11*\n1) \"288\"\n2) 1) \"key:911\"\n> scan 288 MATCH *11*\n1) \"224\"\n2) (empty list or set)\n> scan 224 MATCH *11*\n1) \"80\"\n2) (empty list or set)\n> scan 80 MATCH *11*\n1) \"176\"\n2) (empty list or set)\n> scan 176 MATCH *11* COUNT 1000\n1) \"0\"\n2)  1) \"key:611\"\n    2) \"key:711\"\n    3) \"key:118\"\n    4) \"key:117\"\n    5) \"key:311\"\n    6) \"key:112\"\n    7) \"key:111\"\n    8) \"key:110\"\n    9) \"key:113\"\n   10) \"key:211\"\n   11) \"key:411\"\n   12) \"key:115\"\n   13) \"key:116\"\n   14) \"key:114\"\n   15) \"key:119\"\n   16) \"key:811\"\n   17) \"key:511\"\n   18) \"key:11\"\n{{< /clients-example >}}\n\nAs you can see most of the calls returned zero elements, but the last call where a `COUNT` of 1000 was used in order to force the command to do more scanning for that iteration.\n\nWhen using [Redis Cluster]({{< relref \"/operate/oss_and_stack/management/scaling\" >}}), the search is optimized for patterns that imply a single slot.\nIf a pattern can only match keys of one slot,\nRedis only iterates over keys in that slot, rather than the whole database,\nwhen searching for keys matching the pattern.\nFor example, with the pattern `{a}h*llo`, Redis would only try to match it with the keys in slot 15495, which hash tag `{a}` implies.\nTo use pattern with hash tag, see [Hash tags]({{< relref \"operate/oss_and_stack/reference/cluster-spec#hash-tags\" >}}) in the Cluster specification for more information.\n\n## The TYPE option\n\nYou can use the `TYPE` option to ask `SCAN` to only return objects that match a given `type`, allowing you to iterate through the database looking for keys of a specific type. The **TYPE** option is only available on the whole-database `SCAN`, not [`HSCAN`]({{< relref \"/commands/hscan\" >}}) or [`ZSCAN`]({{< relref \"/commands/zscan\" >}}) etc.\n\nThe `type` argument is the same string name that the [`TYPE`]({{< relref \"/commands/type\" >}}) command returns. Note a quirk where some Redis types, such as GeoHashes, HyperLogLogs, Bitmaps, and Bitfields, may internally be implemented using other Redis types, such as a string or zset, so can't be distinguished from other keys of that same type by `SCAN`. For example, a ZSET and GEOHASH:\n\n{{< clients-example set=\"cmds_generic\" step=\"scan3\" description=\"Iterate keyspace by type: Iterate database keys filtered by type using SCAN TYPE (filters keys by data type, useful for type-specific operations)\" difficulty=\"intermediate\" >}}\n> GEOADD geokey 0 0 value\n(integer) 1\n> ZADD zkey 1000 value\n(integer) 1\n> TYPE geokey\nzset\n> TYPE zkey\nzset\n> SCAN 0 TYPE zset\n1) \"0\"\n2) 1) \"geokey\"\n   2) \"zkey\"\n{{< /clients-example >}}\n\nIt is important to note that the **TYPE** filter is also applied after elements are retrieved from the database, so the option does not reduce the amount of work the server has to do to complete a full iteration, and for rare types you may receive no elements in many iterations.\n\n## The NOVALUES option\n\nWhen using [`HSCAN`]({{< relref \"/commands/hscan\" >}}), you can use the `NOVALUES` option to make Redis return only the keys in the hash table without their corresponding values.\n\n{{< clients-example set=\"cmds_generic\" step=\"scan4\" description=\"Hash iteration: Iterate hash fields with optional NOVALUES using HSCAN (returns field-value pairs or fields only)\" difficulty=\"intermediate\" >}}\n> HSET myhash a 1 b 2\nOK\n> HSCAN myhash 0\n1) \"0\"\n2) 1) \"a\"\n   2) \"1\"\n   3) \"b\"\n   4) \"2\"\n> HSCAN myhash 0 NOVALUES\n1) \"0\"\n2) 1) \"a\"\n   2) \"b\"\n{{< /clients-example >}}\n\n## Multiple parallel iterations\n\nIt is possible for an infinite number of clients to iterate the same collection at the same time, as the full state of the iterator is in the cursor, that is obtained and returned to the client at every call. No server side state is taken at all.\n\n## Terminating iterations in the middle\n\nSince there is no state server side, but the full state is captured by the cursor, the caller is free to terminate an iteration half-way without signaling this to the server in any way. An infinite number of iterations can be started and never terminated without any issue.\n\n## Calling SCAN with a corrupted cursor\n\nCalling `SCAN` with a broken, negative, out of range, or otherwise invalid cursor, will result in undefined behavior but never in a crash. What will be undefined is that the guarantees about the returned elements can no longer be ensured by the `SCAN` implementation.\n\nThe only valid cursors to use are:\n\n* The cursor value of 0 when starting an iteration.\n* The cursor returned by the previous call to SCAN in order to continue the iteration.\n\n## Guarantee of termination\n\nThe `SCAN` algorithm is guaranteed to terminate only if the size of the iterated collection remains bounded to a given maximum size, otherwise iterating a collection that always grows may result into `SCAN` to never terminate a full iteration.\n\nThis is easy to see intuitively: if the collection grows there is more and more work to do in order to visit all the possible elements, and the ability to terminate the iteration depends on the number of calls to `SCAN` and its COUNT option value compared with the rate at which the collection grows.\n\n## Why SCAN may return all the items of an aggregate data type in a single call?\n\nIn the `COUNT` option documentation, we state that sometimes this family of commands may return all the elements of a Set, Hash or Sorted Set at once in a single call, regardless of the `COUNT` option value. The reason why this happens is that the cursor-based iterator can be implemented, and is useful, only when the aggregate data type that we are scanning is represented as a hash table. However Redis uses a [memory optimization]({{< relref \"/operate/oss_and_stack/management/optimization/memory-optimization\" >}}) where small aggregate data types, until they reach a given amount of items or a given max size of single elements, are represented using a compact single-allocation packed encoding. When this is the case, `SCAN` has no meaningful cursor to return, and must iterate the whole data structure at once, so the only sane behavior it has is to return everything in a call.\n\nHowever once the data structures are bigger and are promoted to use real hash tables, the `SCAN` family of commands will resort to the normal behavior. Note that since this special behavior of returning all the elements is true only for small aggregates, it has no effects on the command complexity or latency. However the exact limits to get converted into real hash tables are [user configurable]({{< relref \"/operate/oss_and_stack/management/optimization/memory-optimization\" >}}), so the maximum number of elements you can see returned in a single call depends on how big an aggregate data type could be and still use the packed representation.\n\nAlso note that this behavior is specific of [`SSCAN`]({{< relref \"/commands/sscan\" >}}), [`HSCAN`]({{< relref \"/commands/hscan\" >}}) and [`ZSCAN`]({{< relref \"/commands/zscan\" >}}). `SCAN` itself never shows this behavior because the key space is always represented by hash tables.\n\n## Further reading\n\nFor more information about managing keys, please refer to the [The Redis Keyspace]({{< relref \"/develop/using-commands/keyspace\" >}}) tutorial.\n\n## Additional examples\n\nGive the following commands, showing iteration of a hash key, a try in the interactive console:\n\n{{% redis-cli %}}\nHMSET hash name Jack age 33\nHSCAN hash 0\n{{% /redis-cli %}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"scan-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): specifically, an array with two elements.\n* The first element is a [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) that represents an unsigned 64-bit number, the cursor.\n* The second element is an [Array reply](../../develop/reference/protocol-spec#arrays) with the names of scanned keys.\n\n-tab-sep-\n\n[Array reply](../../develop/reference/protocol-spec#arrays): specifically, an array with two elements.\n* The first element is a [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) that represents an unsigned 64-bit number, the cursor.\n* The second element is an [Array reply](../../develop/reference/protocol-spec#arrays) with the names of scanned keys.\n\n{{< /multitabs >}}",
+  "example": "HMSET hash name Jack age 33\nHSCAN hash 0",
+  "intro": "The `SCAN` command and the closely related commands [`SSCAN`](), [`HSCAN`]() and [`ZSCAN`]() are used in order to incrementally iterate over a collection of elements.\n\n* `SCAN` iterates the set of keys in the currently selected Redis database.\n* [`SSCAN`]() iterates elements of Sets types.\n* [`HSCAN`]() iterates fields of Hash types and their associated values.\n* [`ZSCAN`]() iterates elements of Sorted Set types and their associated scores.\n\nSince these commands allow for incremental iteration, returning only a small number of elements per call, they can be used in production without the downside of commands like [`KEYS`]() or [`SMEMBERS`]() that may block the server for a long time (even several seconds) when called against big collections of keys or elements.\n\nHowever while blocking commands like [`SMEMBERS`]() are able to provide all the elements that are part of a Set in a given moment, The SCAN family of commands only offer limited guarantees about the returned elements since the collection that we incrementally iterate can change during the iteration process.\n\nNote that `SCAN`, [`SSCAN`](), [`HSCAN`]() and [`ZSCAN`]() all work very similarly, so this documentation covers all four commands. However an obvious difference is that in the case of [`SSCAN`](), [`HSCAN`]() and [`ZSCAN`]() the first argument is the name of the key holding the Set, Hash or Sorted Set value. The `SCAN` command does not need any key name argument as it iterates keys in the current database, so the iterated object is the database itself.",
+  "notes": [
+    "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information."
   ],
-  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nThe `SCAN` command and the closely related commands [`SSCAN`](), [`HSCAN`]() and [`ZSCAN`]() are used in order to incrementally iterate over a collection of elements.\n\n* `SCAN` iterates the set of keys in the currently selected Redis database.\n* [`SSCAN`]() iterates elements of Sets types.\n* [`HSCAN`]() iterates fields of Hash types and their associated values.\n* [`ZSCAN`]() iterates elements of Sorted Set types and their associated scores.\n\nSince these commands allow for incremental iteration, returning only a small number of elements per call, they can be used in production without the downside of commands like [`KEYS`]() or [`SMEMBERS`]() that may block the server for a long time (even several seconds) when called against big collections of keys or elements.\n\nHowever while blocking commands like [`SMEMBERS`]() are able to provide all the elements that are part of a Set in a given moment, The SCAN family of commands only offer limited guarantees about the returned elements since the collection that we incrementally iterate can change during the iteration process.\n\nNote that `SCAN`, [`SSCAN`](), [`HSCAN`]() and [`ZSCAN`]() all work very similarly, so this documentation covers all four commands. However an obvious difference is that in the case of [`SSCAN`](), [`HSCAN`]() and [`ZSCAN`]() the first argument is the name of the key holding the Set, Hash or Sorted Set value. The `SCAN` command does not need any key name argument as it iterates keys in the current database, so the iterated object is the database itself.\n\n## SCAN basic usage\n\nSCAN is a cursor based iterator. This means that at every call of the command, the server returns an updated cursor that the user needs to use as the cursor argument in the next call.\n\nAn iteration starts when the cursor is set to 0, and terminates when the cursor returned by the server is 0. The following is an example of SCAN iteration:\n\n```\n> scan 0\n1) \"17\"\n2)  1) \"key:12\"\n    2) \"key:8\"\n    3) \"key:4\"\n    4) \"key:14\"\n    5) \"key:16\"\n    6) \"key:17\"\n    7) \"key:15\"\n    8) \"key:10\"\n    9) \"key:3\"\n   10) \"key:7\"\n   11) \"key:1\"\n> scan 17\n1) \"0\"\n2) 1) \"key:5\"\n   2) \"key:18\"\n   3) \"key:0\"\n   4) \"key:2\"\n   5) \"key:19\"\n   6) \"key:13\"\n   7) \"key:6\"\n   8) \"key:9\"\n   9) \"key:11\"\n```\n\nIn the example above, the first call uses zero as a cursor, to start the iteration. The second call uses the cursor returned by the previous call as the first element of the reply, that is, 17.\n\nAs you can see the **SCAN return value** is an array of two values: the first value is the new cursor to use in the next call, the second value is an array of elements.\n\nSince in the second call the returned cursor is 0, the server signaled to the caller that the iteration finished, and the collection was completely explored. Starting an iteration with a cursor value of 0, and calling `SCAN` until the returned cursor is 0 again is called a **full iteration**.\n\n## Return value\n\n`SCAN`, [`SSCAN`](), [`HSCAN`]() and [`ZSCAN`]() return a two element multi-bulk reply, where the first element is a string representing an unsigned 64 bit number (the cursor), and the second element is a multi-bulk with an array of elements.\n\n* `SCAN` array of elements is a list of keys.\n* [`SSCAN`]() array of elements is a list of Set members.\n* [`HSCAN`]() array of elements contain two elements, a field and a value, for every returned element of the Hash.\n* [`ZSCAN`]() array of elements contain two elements, a member and its associated score, for every returned element of the Sorted Set.\n\n## Scan guarantees\n\nThe `SCAN` command, and the other commands in the `SCAN` family, are able to provide to the user a set of guarantees associated to full iterations.\n\n* A full iteration always retrieves all the elements that were present in the collection from the start to the end of a full iteration. This means that if a given element is inside the collection when an iteration is started, and is still there when an iteration terminates, then at some point `SCAN` returned it to the user.\n* A full iteration never returns any element that was NOT present in the collection from the start to the end of a full iteration. So if an element was removed before the start of an iteration, and is never added back to the collection for all the time an iteration lasts, `SCAN` ensures that this element will never be returned.\n\nHowever because `SCAN` has very little state associated (just the cursor) it has the following drawbacks:\n\n* A given element may be returned multiple times. It is up to the application to handle the case of duplicated elements, for example only using the returned elements in order to perform operations that are safe when re-applied multiple times.\n* Elements that were not constantly present in the collection during a full iteration, may be returned or not: it is undefined.\n\n## Number of elements returned at every SCAN call\n\n`SCAN` family functions do not guarantee that the number of elements returned per call are in a given range. The commands are also allowed to return zero elements, and the client should not consider the iteration complete as long as the returned cursor is not zero.\n\nHowever the number of returned elements is reasonable, that is, in practical terms `SCAN` may return a maximum number of elements in the order of a few tens of elements when iterating a large collection, or may return all the elements of the collection in a single call when the iterated collection is small enough to be internally represented as an encoded data structure (this happens for small Sets, Hashes and Sorted Sets).\n\nHowever there is a way for the user to tune the order of magnitude of the number of returned elements per call using the **COUNT** option.\n\n## The COUNT option\n\nWhile `SCAN` does not provide guarantees about the number of elements returned at every iteration, it is possible to empirically adjust the behavior of `SCAN` using the **COUNT** option. Basically with COUNT the user specifies the *amount of work that should be done at every call in order to retrieve elements from the collection*. This is **just a hint** for the implementation, however generally speaking this is what you could expect most of the times from the implementation.\n\n* The default `COUNT` value is 10.\n* When iterating the key space, or a Set, Hash or Sorted Set that is big enough to be represented by a hash table, assuming no **MATCH** option is used, the server will usually return *count* or a few more than *count* elements per call. Please check the *why SCAN may return all the elements at once* section later in this document.\n* When iterating Sets encoded as intsets (small sets composed of just integers), or Hashes and Sorted Sets encoded as ziplists (small hashes and sets composed of small individual values), usually all the elements are returned in the first `SCAN` call regardless of the `COUNT` value.\n\nImportant: **there is no need to use the same COUNT value** for every iteration. The caller is free to change the count from one iteration to the other as required, as long as the cursor passed in the next call is the one obtained in the previous call to the command.\n\n## The MATCH option\n\nIt is possible to only iterate elements matching a given glob-style pattern, similarly to the behavior of the [`KEYS`]() command that takes a pattern as its only argument.\n\nTo do so, just append the `MATCH <pattern>` arguments at the end of the `SCAN` command (it works with all the `SCAN` family commands).\n\nThis is an example of iteration using **MATCH**:\n\n#### Code Examples\n\nSet iteration: Iterate set members with pattern matching using SSCAN MATCH (cursor-based iteration, non-blocking)\n\n**Difficulty:** Intermediate\n\n**Commands:** SADD, SSCAN\n\n**Complexity:**\n- SADD: O(1)\n- SSCAN: O(1)\n\n**Redis CLI:**\n\n```\n> sadd myset 1 2 3 foo foobar feelsgood\n(integer) 6\n> sscan myset 0 match f*\n1) \"0\"\n2) 1) \"foo\"\n   2) \"feelsgood\"\n   3) \"foobar\"\n```\n\n**Available in:** Redis CLI, C# (Synchronous), Go, Java (Asynchronous - Lettuce), Java (Reactive - Lettuce), Java (Synchronous - Jedis), JavaScript (Node.js), PHP, Python, Rust (Asynchronous), Rust (Synchronous)\n\n**C# (Synchronous):**\n\n```csharp\n\n```\n\n**Go:**\n\n```go\npackage example_commands_test\n\nimport (\n\t\"context\"\n\t\"fmt\"\n\t\"math\"\n\t\"time\"\n\n\t\"github.com/redis/go-redis/v9\"\n)\n\n\nfunc ExampleClient_del_cmd() {\n\tctx := context.Background()\n\n\trdb := redis.NewClient(&redis.Options{\n\t\tAddr:     \"localhost:6379\",\n\t\tPassword: \"\", // no password docs\n\t\tDB:       0,  // use default DB\n\t})\n\n\n\tdelResult1, err := rdb.Set(ctx, \"key1\", \"Hello\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(delResult1) // >>> OK\n\n\tdelResult2, err := rdb.Set(ctx, \"key2\", \"World\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(delResult2) // >>> OK\n\n\tdelResult3, err := rdb.Del(ctx, \"key1\", \"key2\", \"key3\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(delResult3) // >>> 2\n\n}\n\nfunc ExampleClient_exists_cmd() {\n\tctx := context.Background()\n\n\trdb := redis.NewClient(&redis.Options{\n\t\tAddr:     \"localhost:6379\",\n\t\tPassword: \"\", // no password docs\n\t\tDB:       0,  // use default DB\n\t})\n\n\n\texistsResult1, err := rdb.Set(ctx, \"key1\", \"Hello\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult1) // >>> OK\n\n\texistsResult2, err := rdb.Exists(ctx, \"key1\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult2) // >>> 1\n\n\texistsResult3, err := rdb.Exists(ctx, \"nosuchkey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult3) // >>> 0\n\n\texistsResult4, err := rdb.Set(ctx, \"key2\", \"World\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult4) // >>> OK\n\n\texistsResult5, err := rdb.Exists(ctx, \"key1\", \"key2\", \"nosuchkey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult5) // >>> 2\n\n}\n\nfunc ExampleClient_expire_cmd() {\n\tctx := context.Background()\n\n\trdb := redis.NewClient(&redis.Options{\n\t\tAddr:     \"localhost:6379\",\n\t\tPassword: \"\", // no password docs\n\t\tDB:       0,  // use default DB\n\t})\n\n\n\texpireResult1, err := rdb.Set(ctx, \"mykey\", \"Hello\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult1) // >>> OK\n\n\texpireResult2, err := rdb.Expire(ctx, \"mykey\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult2) // >>> true\n\n\texpireResult3, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(math.Round(expireResult3.Seconds())) // >>> 10\n\n\texpireResult4, err := rdb.Set(ctx, \"mykey\", \"Hello World\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult4) // >>> OK\n\n\texpireResult5, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult5) // >>> -1ns\n\n\texpireResult6, err := rdb.ExpireXX(ctx, \"mykey\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult6) // >>> false\n\n\texpireResult7, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult7) // >>> -1ns\n\n\texpireResult8, err := rdb.ExpireNX(ctx, \"mykey\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult8) // >>> true\n\n\texpireResult9, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(math.Round(expireResult9.Seconds())) // >>> 10\n\n}\n\nfunc ExampleClient_ttl_cmd() {\n\tctx := context.Background()\n\n\trdb := redis.NewClient(&redis.Options{\n\t\tAddr:     \"localhost:6379\",\n\t\tPassword: \"\", // no password docs\n\t\tDB:       0,  // use default DB\n\t})\n\n\n\tttlResult1, err := rdb.Set(ctx, \"mykey\", \"Hello\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(ttlResult1) // >>> OK\n\n\tttlResult2, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(math.Round(ttlResult2.Seconds())) // >>> 10\n\n}\n\n```\n\n**Java (Asynchronous - Lettuce):**\n\n```java\npackage io.redis.examples.async;\n\nimport io.lettuce.core.*;\n\nimport io.lettuce.core.api.async.RedisAsyncCommands;\n\nimport io.lettuce.core.api.StatefulRedisConnection;\n\nimport java.util.concurrent.CompletableFuture;\n\npublic class CmdsGenericExample {\n\n    public void run() {\n\n            CompletableFuture<Void> existsExample = asyncCommands.set(\"key1\", \"Hello\").thenCompose(res1 -> {\n                System.out.println(res1); // >>> OK\n\n                return asyncCommands.exists(\"key1\");\n            }).thenCompose(res2 -> {\n                System.out.println(res2); // >>> 1\n\n                return asyncCommands.exists(\"nosuchkey\");\n            }).thenCompose(res3 -> {\n                System.out.println(res3); // >>> 0\n\n                return asyncCommands.set(\"key2\", \"World\");\n            }).thenCompose(res4 -> {\n                System.out.println(res4); // >>> OK\n\n                return asyncCommands.exists(\"key1\", \"key2\", \"nosuchkey\");\n            }).thenAccept(res5 -> {\n                System.out.println(res5); // >>> 2\n            }).toCompletableFuture();\n            existsExample.join();\n        } finally {\n            redisClient.shutdown();\n        }\n    }\n}\n\n```\n\n**Java (Reactive - Lettuce):**\n\n```java\npackage io.redis.examples.reactive;\n\nimport io.lettuce.core.*;\nimport io.lettuce.core.api.reactive.RedisReactiveCommands;\nimport io.lettuce.core.api.StatefulRedisConnection;\nimport reactor.core.publisher.Mono;\n\n\npublic class CmdsGenericExample {\n\n    public void run() {\n        RedisClient redisClient = RedisClient.create(\"redis://localhost:6379\");\n\n        try (StatefulRedisConnection<String, String> connection = redisClient.connect()) {\n            RedisReactiveCommands<String, String> reactiveCommands = connection.reactive();\n\n            Mono<Void> existsExample = reactiveCommands.set(\"key1\", \"Hello\").doOnNext(res1 -> {\n                System.out.println(res1); // >>> OK\n            }).then(reactiveCommands.exists(\"key1\")).doOnNext(res2 -> {\n                System.out.println(res2); // >>> 1\n            }).then(reactiveCommands.exists(\"nosuchkey\")).doOnNext(res3 -> {\n                System.out.println(res3); // >>> 0\n            }).then(reactiveCommands.set(\"key2\", \"World\")).doOnNext(res4 -> {\n                System.out.println(res4); // >>> OK\n            }).then(reactiveCommands.exists(\"key1\", \"key2\", \"nosuchkey\")).doOnNext(res5 -> {\n                System.out.println(res5); // >>> 2\n            }).then();\n\n            Mono.when(existsExample).block();\n\n        } finally {\n            redisClient.shutdown();\n        }\n    }\n\n}\n\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n\nimport redis.clients.jedis.RedisClient;\nimport redis.clients.jedis.args.ExpiryOption;\n\nimport static org.junit.jupiter.api.Assertions.assertEquals;\n\npublic class CmdsGenericExample {\n\n    public void run() {\n        RedisClient jedis = RedisClient.create(\"redis://localhost:6379\");\n\n\n        String delResult1 = jedis.set(\"key1\", \"Hello\");\n        System.out.println(delResult1); // >>> OK\n\n        String delResult2 = jedis.set(\"key2\", \"World\");\n        System.out.println(delResult2); // >>> OK\n\n        long delResult3 = jedis.del(\"key1\", \"key2\", \"key3\");\n        System.out.println(delResult3); // >>> 2\n\n        // Tests for 'del' step.\n\n\n        String existsResult1 = jedis.set(\"key1\", \"Hello\");\n        System.out.println(existsResult1); // >>> OK\n\n        boolean existsResult2 = jedis.exists(\"key1\");\n        System.out.println(existsResult2); // >>> true\n\n        boolean existsResult3 = jedis.exists(\"nosuchkey\");\n        System.out.println(existsResult3); // >>> false\n\n        String existsResult4 = jedis.set(\"key2\", \"World\");\n        System.out.println(existsResult4); // >>> OK\n\n        long existsResult5 = jedis.exists(\"key1\", \"key2\", \"nosuchkey\");\n        System.out.println(existsResult5); // >>> 2\n\n        // Tests for 'exists' step.\n\n\n        String expireResult1 = jedis.set(\"mykey\", \"Hello\");\n        System.out.println(expireResult1);  // >>> OK\n\n        long expireResult2 = jedis.expire(\"mykey\", 10);\n        System.out.println(expireResult2);  // >>> 1\n\n        long expireResult3 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult3);  // >>> 10\n\n        String expireResult4 = jedis.set(\"mykey\", \"Hello World\");\n        System.out.println(expireResult4);  // >>> OK\n\n        long expireResult5 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult5);  // >>> -1\n\n        long expireResult6 = jedis.expire(\"mykey\", 10, ExpiryOption.XX);\n        System.out.println(expireResult6);  // >>> 0\n\n        long expireResult7 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult7);  // >>> -1\n\n        long expireResult8 = jedis.expire(\"mykey\", 10, ExpiryOption.NX);\n        System.out.println(expireResult8);  // >>> 1\n\n        long expireResult9 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult9);  // >>> 10\n\n        // Tests for 'expire' step.\n\n\n        String ttlResult1 = jedis.set(\"mykey\", \"Hello\");\n        System.out.println(ttlResult1); // >>> OK\n\n        long ttlResult2 = jedis.expire(\"mykey\", 10);\n        System.out.println(ttlResult2); // >>> 1\n\n        long ttlResult3 = jedis.ttl(\"mykey\");\n        System.out.println(ttlResult3); // >>> 10\n\n        // Tests for 'ttl' step.\n\n        jedis.close();\n    }\n}\n\n```\n\n**JavaScript (Node.js):**\n\n```javascript\nconst scan1Res1 = await client.sAdd('myset', ['1', '2', '3', 'foo', 'foobar', 'feelsgood']);\nconsole.log(scan1Res1); // 6\n\nlet scan1Res2 = [];\nfor await (const values of client.sScanIterator('myset', { MATCH: 'f*' })) {\n    scan1Res2 = scan1Res2.concat(values);\n}\nconsole.log(scan1Res2); // ['foo', 'foobar', 'feelsgood']\n```\n\n**PHP:**\n\n```php\n<?php\nrequire_once 'vendor/autoload.php';\n\nuse Predis\\Client as PredisClient;\n\nclass CmdsGenericTest\n{\n    public function testCmdsGeneric() {\n        $r = new PredisClient([\n            'scheme'   => 'tcp',\n            'host'     => '127.0.0.1',\n            'port'     => 6379,\n            'password' => '',\n            'database' => 0,\n        ]);\n\n        $existsResult1 = $r->set('key1', 'Hello');\n        echo $existsResult1 . PHP_EOL; // >>> OK\n\n        $existsResult2 = $r->exists('key1');\n        echo $existsResult2 . PHP_EOL; // >>> 1\n\n        $existsResult3 = $r->exists('nosuchkey');\n        echo $existsResult3 . PHP_EOL; // >>> 0\n\n        $existsResult4 = $r->set('key2', 'World');\n        echo $existsResult4 . PHP_EOL; // >>> OK\n\n        $existsResult5 = $r->exists('key1', 'key2', 'nosuchkey');\n        echo $existsResult5 . PHP_EOL; // >>> 2\n\n    }\n}\n\n```\n\n**Python:**\n\n```python\nres = r.sadd(\"myset\", *set([1, 2, 3, \"foo\", \"foobar\", \"feelsgood\"]))\nprint(res)\n# >>> 6\n\nres = list(r.sscan_iter(\"myset\", match=\"f*\"))\nprint(res)\n# >>> ['foobar', 'foo', 'feelsgood']\n```\n\n**Rust (Asynchronous):**\n\n```rust\n        match r.sadd(\"myset\", &[\"1\", \"2\", \"3\", \"foo\", \"foobar\", \"feelsgood\"]).await {\n            Ok(res) => {\n                let res: i32 = res;\n                println!(\"{res}\");    // >>> 6\n            },\n            Err(e) => {\n                println!(\"Error adding to set: {e}\");\n                return;\n            }\n        }\n\n        let res = match r.sscan_match(\"myset\", \"f*\").await {\n            Ok(iter) => {\n                let res: Vec<String> = iter.collect().await;\n                res\n            },\n            Err(e) => {\n                println!(\"Error scanning set: {e}\");\n                return;\n            }\n        };\n\n        println!(\"{res:?}\");    // >>> [\"foo\", \"foobar\", \"feelsgood\"]\n```\n\n**Rust (Synchronous):**\n\n```rust\n        match r.sadd(\"myset\", &[\"1\", \"2\", \"3\", \"foo\", \"foobar\", \"feelsgood\"]) {\n            Ok(res) => {\n                let res: i32 = res;\n                println!(\"{res}\");    // >>> 6\n            },\n            Err(e) => {\n                println!(\"Error adding to set: {e}\");\n                return;\n            }\n        }\n\n        match r.sscan_match(\"myset\", \"f*\") {\n            Ok(iter) => {\n                let res: Vec<String> = iter.collect();\n                println!(\"{res:?}\");    // >>> [\"foo\", \"foobar\", \"feelsgood\"]\n            },\n            Err(e) => {\n                println!(\"Error scanning set: {e}\");\n                return;\n            }\n        }\n```\n\n\n\nIt is important to note that the **MATCH** filter is applied after elements are retrieved from the collection, just before returning data to the client. This means that if the pattern matches very little elements inside the collection, `SCAN` will likely return no elements in most iterations. An example is shown below:\n\n#### Code Examples\n\nKeyspace iteration: Iterate database keys with pattern matching using SCAN MATCH and COUNT (demonstrates cursor iteration with sparse results)\n\n**Difficulty:** Intermediate\n\n**Commands:** SCAN\n\n**Complexity:**\n- SCAN: O(1)\n\n**Redis CLI:**\n\n```\n> scan 0 MATCH *11*\n1) \"288\"\n2) 1) \"key:911\"\n> scan 288 MATCH *11*\n1) \"224\"\n2) (empty list or set)\n> scan 224 MATCH *11*\n1) \"80\"\n2) (empty list or set)\n> scan 80 MATCH *11*\n1) \"176\"\n2) (empty list or set)\n> scan 176 MATCH *11* COUNT 1000\n1) \"0\"\n2)  1) \"key:611\"\n    2) \"key:711\"\n    3) \"key:118\"\n    4) \"key:117\"\n    5) \"key:311\"\n    6) \"key:112\"\n    7) \"key:111\"\n    8) \"key:110\"\n    9) \"key:113\"\n   10) \"key:211\"\n   11) \"key:411\"\n   12) \"key:115\"\n   13) \"key:116\"\n   14) \"key:114\"\n   15) \"key:119\"\n   16) \"key:811\"\n   17) \"key:511\"\n   18) \"key:11\"\n```\n\n**Available in:** Redis CLI, C# (Synchronous), Go, Java (Asynchronous - Lettuce), Java (Reactive - Lettuce), Java (Synchronous - Jedis), JavaScript (Node.js), PHP, Python, Rust (Asynchronous), Rust (Synchronous)\n\n**C# (Synchronous):**\n\n```csharp\n\n```\n\n**Go:**\n\n```go\npackage example_commands_test\n\nimport (\n\t\"context\"\n\t\"fmt\"\n\t\"math\"\n\t\"time\"\n\n\t\"github.com/redis/go-redis/v9\"\n)\n\n\nfunc ExampleClient_del_cmd() {\n\tctx := context.Background()\n\n\trdb := redis.NewClient(&redis.Options{\n\t\tAddr:     \"localhost:6379\",\n\t\tPassword: \"\", // no password docs\n\t\tDB:       0,  // use default DB\n\t})\n\n\n\tdelResult1, err := rdb.Set(ctx, \"key1\", \"Hello\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(delResult1) // >>> OK\n\n\tdelResult2, err := rdb.Set(ctx, \"key2\", \"World\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(delResult2) // >>> OK\n\n\tdelResult3, err := rdb.Del(ctx, \"key1\", \"key2\", \"key3\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(delResult3) // >>> 2\n\n}\n\nfunc ExampleClient_exists_cmd() {\n\tctx := context.Background()\n\n\trdb := redis.NewClient(&redis.Options{\n\t\tAddr:     \"localhost:6379\",\n\t\tPassword: \"\", // no password docs\n\t\tDB:       0,  // use default DB\n\t})\n\n\n\texistsResult1, err := rdb.Set(ctx, \"key1\", \"Hello\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult1) // >>> OK\n\n\texistsResult2, err := rdb.Exists(ctx, \"key1\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult2) // >>> 1\n\n\texistsResult3, err := rdb.Exists(ctx, \"nosuchkey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult3) // >>> 0\n\n\texistsResult4, err := rdb.Set(ctx, \"key2\", \"World\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult4) // >>> OK\n\n\texistsResult5, err := rdb.Exists(ctx, \"key1\", \"key2\", \"nosuchkey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult5) // >>> 2\n\n}\n\nfunc ExampleClient_expire_cmd() {\n\tctx := context.Background()\n\n\trdb := redis.NewClient(&redis.Options{\n\t\tAddr:     \"localhost:6379\",\n\t\tPassword: \"\", // no password docs\n\t\tDB:       0,  // use default DB\n\t})\n\n\n\texpireResult1, err := rdb.Set(ctx, \"mykey\", \"Hello\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult1) // >>> OK\n\n\texpireResult2, err := rdb.Expire(ctx, \"mykey\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult2) // >>> true\n\n\texpireResult3, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(math.Round(expireResult3.Seconds())) // >>> 10\n\n\texpireResult4, err := rdb.Set(ctx, \"mykey\", \"Hello World\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult4) // >>> OK\n\n\texpireResult5, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult5) // >>> -1ns\n\n\texpireResult6, err := rdb.ExpireXX(ctx, \"mykey\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult6) // >>> false\n\n\texpireResult7, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult7) // >>> -1ns\n\n\texpireResult8, err := rdb.ExpireNX(ctx, \"mykey\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult8) // >>> true\n\n\texpireResult9, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(math.Round(expireResult9.Seconds())) // >>> 10\n\n}\n\nfunc ExampleClient_ttl_cmd() {\n\tctx := context.Background()\n\n\trdb := redis.NewClient(&redis.Options{\n\t\tAddr:     \"localhost:6379\",\n\t\tPassword: \"\", // no password docs\n\t\tDB:       0,  // use default DB\n\t})\n\n\n\tttlResult1, err := rdb.Set(ctx, \"mykey\", \"Hello\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(ttlResult1) // >>> OK\n\n\tttlResult2, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(math.Round(ttlResult2.Seconds())) // >>> 10\n\n}\n\n```\n\n**Java (Asynchronous - Lettuce):**\n\n```java\npackage io.redis.examples.async;\n\nimport io.lettuce.core.*;\n\nimport io.lettuce.core.api.async.RedisAsyncCommands;\n\nimport io.lettuce.core.api.StatefulRedisConnection;\n\nimport java.util.concurrent.CompletableFuture;\n\npublic class CmdsGenericExample {\n\n    public void run() {\n\n            CompletableFuture<Void> existsExample = asyncCommands.set(\"key1\", \"Hello\").thenCompose(res1 -> {\n                System.out.println(res1); // >>> OK\n\n                return asyncCommands.exists(\"key1\");\n            }).thenCompose(res2 -> {\n                System.out.println(res2); // >>> 1\n\n                return asyncCommands.exists(\"nosuchkey\");\n            }).thenCompose(res3 -> {\n                System.out.println(res3); // >>> 0\n\n                return asyncCommands.set(\"key2\", \"World\");\n            }).thenCompose(res4 -> {\n                System.out.println(res4); // >>> OK\n\n                return asyncCommands.exists(\"key1\", \"key2\", \"nosuchkey\");\n            }).thenAccept(res5 -> {\n                System.out.println(res5); // >>> 2\n            }).toCompletableFuture();\n            existsExample.join();\n        } finally {\n            redisClient.shutdown();\n        }\n    }\n}\n\n```\n\n**Java (Reactive - Lettuce):**\n\n```java\npackage io.redis.examples.reactive;\n\nimport io.lettuce.core.*;\nimport io.lettuce.core.api.reactive.RedisReactiveCommands;\nimport io.lettuce.core.api.StatefulRedisConnection;\nimport reactor.core.publisher.Mono;\n\n\npublic class CmdsGenericExample {\n\n    public void run() {\n        RedisClient redisClient = RedisClient.create(\"redis://localhost:6379\");\n\n        try (StatefulRedisConnection<String, String> connection = redisClient.connect()) {\n            RedisReactiveCommands<String, String> reactiveCommands = connection.reactive();\n\n            Mono<Void> existsExample = reactiveCommands.set(\"key1\", \"Hello\").doOnNext(res1 -> {\n                System.out.println(res1); // >>> OK\n            }).then(reactiveCommands.exists(\"key1\")).doOnNext(res2 -> {\n                System.out.println(res2); // >>> 1\n            }).then(reactiveCommands.exists(\"nosuchkey\")).doOnNext(res3 -> {\n                System.out.println(res3); // >>> 0\n            }).then(reactiveCommands.set(\"key2\", \"World\")).doOnNext(res4 -> {\n                System.out.println(res4); // >>> OK\n            }).then(reactiveCommands.exists(\"key1\", \"key2\", \"nosuchkey\")).doOnNext(res5 -> {\n                System.out.println(res5); // >>> 2\n            }).then();\n\n            Mono.when(existsExample).block();\n\n        } finally {\n            redisClient.shutdown();\n        }\n    }\n\n}\n\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n\nimport redis.clients.jedis.RedisClient;\nimport redis.clients.jedis.args.ExpiryOption;\n\nimport static org.junit.jupiter.api.Assertions.assertEquals;\n\npublic class CmdsGenericExample {\n\n    public void run() {\n        RedisClient jedis = RedisClient.create(\"redis://localhost:6379\");\n\n\n        String delResult1 = jedis.set(\"key1\", \"Hello\");\n        System.out.println(delResult1); // >>> OK\n\n        String delResult2 = jedis.set(\"key2\", \"World\");\n        System.out.println(delResult2); // >>> OK\n\n        long delResult3 = jedis.del(\"key1\", \"key2\", \"key3\");\n        System.out.println(delResult3); // >>> 2\n\n        // Tests for 'del' step.\n\n\n        String existsResult1 = jedis.set(\"key1\", \"Hello\");\n        System.out.println(existsResult1); // >>> OK\n\n        boolean existsResult2 = jedis.exists(\"key1\");\n        System.out.println(existsResult2); // >>> true\n\n        boolean existsResult3 = jedis.exists(\"nosuchkey\");\n        System.out.println(existsResult3); // >>> false\n\n        String existsResult4 = jedis.set(\"key2\", \"World\");\n        System.out.println(existsResult4); // >>> OK\n\n        long existsResult5 = jedis.exists(\"key1\", \"key2\", \"nosuchkey\");\n        System.out.println(existsResult5); // >>> 2\n\n        // Tests for 'exists' step.\n\n\n        String expireResult1 = jedis.set(\"mykey\", \"Hello\");\n        System.out.println(expireResult1);  // >>> OK\n\n        long expireResult2 = jedis.expire(\"mykey\", 10);\n        System.out.println(expireResult2);  // >>> 1\n\n        long expireResult3 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult3);  // >>> 10\n\n        String expireResult4 = jedis.set(\"mykey\", \"Hello World\");\n        System.out.println(expireResult4);  // >>> OK\n\n        long expireResult5 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult5);  // >>> -1\n\n        long expireResult6 = jedis.expire(\"mykey\", 10, ExpiryOption.XX);\n        System.out.println(expireResult6);  // >>> 0\n\n        long expireResult7 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult7);  // >>> -1\n\n        long expireResult8 = jedis.expire(\"mykey\", 10, ExpiryOption.NX);\n        System.out.println(expireResult8);  // >>> 1\n\n        long expireResult9 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult9);  // >>> 10\n\n        // Tests for 'expire' step.\n\n\n        String ttlResult1 = jedis.set(\"mykey\", \"Hello\");\n        System.out.println(ttlResult1); // >>> OK\n\n        long ttlResult2 = jedis.expire(\"mykey\", 10);\n        System.out.println(ttlResult2); // >>> 1\n\n        long ttlResult3 = jedis.ttl(\"mykey\");\n        System.out.println(ttlResult3); // >>> 10\n\n        // Tests for 'ttl' step.\n\n        jedis.close();\n    }\n}\n\n```\n\n**JavaScript (Node.js):**\n\n```javascript\n\nlet cursor = '0';\nlet scanResult;\n\nscanResult = await client.scan(cursor, { MATCH: '*11*' });\nconsole.log(scanResult.cursor, scanResult.keys);\n\nscanResult = await client.scan(scanResult.cursor, { MATCH: '*11*' });\nconsole.log(scanResult.cursor, scanResult.keys);\n\nscanResult = await client.scan(scanResult.cursor, { MATCH: '*11*' });\nconsole.log(scanResult.cursor, scanResult.keys);\n\nscanResult = await client.scan(scanResult.cursor, { MATCH: '*11*' });\nconsole.log(scanResult.cursor, scanResult.keys);\n\nscanResult = await client.scan(scanResult.cursor, { MATCH: '*11*', COUNT: 1000 });\nconsole.log(scanResult.cursor, scanResult.keys);\n```\n\n**PHP:**\n\n```php\n<?php\nrequire_once 'vendor/autoload.php';\n\nuse Predis\\Client as PredisClient;\n\nclass CmdsGenericTest\n{\n    public function testCmdsGeneric() {\n        $r = new PredisClient([\n            'scheme'   => 'tcp',\n            'host'     => '127.0.0.1',\n            'port'     => 6379,\n            'password' => '',\n            'database' => 0,\n        ]);\n\n        $existsResult1 = $r->set('key1', 'Hello');\n        echo $existsResult1 . PHP_EOL; // >>> OK\n\n        $existsResult2 = $r->exists('key1');\n        echo $existsResult2 . PHP_EOL; // >>> 1\n\n        $existsResult3 = $r->exists('nosuchkey');\n        echo $existsResult3 . PHP_EOL; // >>> 0\n\n        $existsResult4 = $r->set('key2', 'World');\n        echo $existsResult4 . PHP_EOL; // >>> OK\n\n        $existsResult5 = $r->exists('key1', 'key2', 'nosuchkey');\n        echo $existsResult5 . PHP_EOL; // >>> 2\n\n    }\n}\n\n```\n\n**Python:**\n\n```python\n\ncursor, key = r.scan(cursor=0, match='*11*')\nprint(cursor, key)\n\ncursor, key = r.scan(cursor, match='*11*')\nprint(cursor, key)\n\ncursor, key = r.scan(cursor, match='*11*')\nprint(cursor, key)\n\ncursor, key = r.scan(cursor, match='*11*')\nprint(cursor, key)\n\ncursor, keys = r.scan(cursor, match='*11*', count=1000)\nprint(cursor, keys)\n\n```\n\n**Rust (Asynchronous):**\n\n```rust\n\n        // Note: Rust redis client scan_match returns an iterator, not cursor-based\n        // This simulates the Python cursor-based output but uses the available API\n        let keys = match r.scan_match(\"*11*\").await {\n            Ok(iter) => {\n                let keys: Vec<String> = iter.collect().await;\n                keys\n            },\n            Err(e) => {\n                println!(\"Error scanning keys: {e}\");\n                return;\n            }\n        };\n\n```\n\n**Rust (Synchronous):**\n\n```rust\n\n        // Note: Rust redis client scan_match returns an iterator, not cursor-based\n        // This simulates the Python cursor-based output but uses the available API\n        match r.scan_match(\"*11*\") {\n            Ok(iter) => {\n                let keys: Vec<String> = iter.collect();\n            },\n            Err(e) => {\n                println!(\"Error scanning keys: {e}\");\n                return;\n            }\n        }\n```\n\n\n\nAs you can see most of the calls returned zero elements, but the last call where a `COUNT` of 1000 was used in order to force the command to do more scanning for that iteration.\n\nWhen using [Redis Cluster](), the search is optimized for patterns that imply a single slot.\nIf a pattern can only match keys of one slot,\nRedis only iterates over keys in that slot, rather than the whole database,\nwhen searching for keys matching the pattern.\nFor example, with the pattern `{a}h*llo`, Redis would only try to match it with the keys in slot 15495, which hash tag `{a}` implies.\nTo use pattern with hash tag, see [Hash tags]() in the Cluster specification for more information.\n\n## The TYPE option\n\nYou can use the `TYPE` option to ask `SCAN` to only return objects that match a given `type`, allowing you to iterate through the database looking for keys of a specific type. The **TYPE** option is only available on the whole-database `SCAN`, not [`HSCAN`]() or [`ZSCAN`]() etc.\n\nThe `type` argument is the same string name that the [`TYPE`]() command returns. Note a quirk where some Redis types, such as GeoHashes, HyperLogLogs, Bitmaps, and Bitfields, may internally be implemented using other Redis types, such as a string or zset, so can't be distinguished from other keys of that same type by `SCAN`. For example, a ZSET and GEOHASH:\n\n#### Code Examples\n\nIterate keyspace by type: Iterate database keys filtered by type using SCAN TYPE (filters keys by data type, useful for type-specific operations)\n\n**Difficulty:** Intermediate\n\n**Commands:** GEOADD, ZADD, TYPE, SCAN\n\n**Complexity:**\n- GEOADD: O(log(N)\n- ZADD: O(log(N)\n- TYPE: O(1)\n- SCAN: O(1)\n\n**Redis CLI:**\n\n```\n> GEOADD geokey 0 0 value\n(integer) 1\n> ZADD zkey 1000 value\n(integer) 1\n> TYPE geokey\nzset\n> TYPE zkey\nzset\n> SCAN 0 TYPE zset\n1) \"0\"\n2) 1) \"geokey\"\n   2) \"zkey\"\n```\n\n**Available in:** Redis CLI, C# (Synchronous), Go, Java (Asynchronous - Lettuce), Java (Reactive - Lettuce), Java (Synchronous - Jedis), JavaScript (Node.js), PHP, Python, Rust (Asynchronous), Rust (Synchronous)\n\n**C# (Synchronous):**\n\n```csharp\n\n```\n\n**Go:**\n\n```go\npackage example_commands_test\n\nimport (\n\t\"context\"\n\t\"fmt\"\n\t\"math\"\n\t\"time\"\n\n\t\"github.com/redis/go-redis/v9\"\n)\n\n\nfunc ExampleClient_del_cmd() {\n\tctx := context.Background()\n\n\trdb := redis.NewClient(&redis.Options{\n\t\tAddr:     \"localhost:6379\",\n\t\tPassword: \"\", // no password docs\n\t\tDB:       0,  // use default DB\n\t})\n\n\n\tdelResult1, err := rdb.Set(ctx, \"key1\", \"Hello\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(delResult1) // >>> OK\n\n\tdelResult2, err := rdb.Set(ctx, \"key2\", \"World\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(delResult2) // >>> OK\n\n\tdelResult3, err := rdb.Del(ctx, \"key1\", \"key2\", \"key3\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(delResult3) // >>> 2\n\n}\n\nfunc ExampleClient_exists_cmd() {\n\tctx := context.Background()\n\n\trdb := redis.NewClient(&redis.Options{\n\t\tAddr:     \"localhost:6379\",\n\t\tPassword: \"\", // no password docs\n\t\tDB:       0,  // use default DB\n\t})\n\n\n\texistsResult1, err := rdb.Set(ctx, \"key1\", \"Hello\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult1) // >>> OK\n\n\texistsResult2, err := rdb.Exists(ctx, \"key1\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult2) // >>> 1\n\n\texistsResult3, err := rdb.Exists(ctx, \"nosuchkey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult3) // >>> 0\n\n\texistsResult4, err := rdb.Set(ctx, \"key2\", \"World\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult4) // >>> OK\n\n\texistsResult5, err := rdb.Exists(ctx, \"key1\", \"key2\", \"nosuchkey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult5) // >>> 2\n\n}\n\nfunc ExampleClient_expire_cmd() {\n\tctx := context.Background()\n\n\trdb := redis.NewClient(&redis.Options{\n\t\tAddr:     \"localhost:6379\",\n\t\tPassword: \"\", // no password docs\n\t\tDB:       0,  // use default DB\n\t})\n\n\n\texpireResult1, err := rdb.Set(ctx, \"mykey\", \"Hello\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult1) // >>> OK\n\n\texpireResult2, err := rdb.Expire(ctx, \"mykey\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult2) // >>> true\n\n\texpireResult3, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(math.Round(expireResult3.Seconds())) // >>> 10\n\n\texpireResult4, err := rdb.Set(ctx, \"mykey\", \"Hello World\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult4) // >>> OK\n\n\texpireResult5, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult5) // >>> -1ns\n\n\texpireResult6, err := rdb.ExpireXX(ctx, \"mykey\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult6) // >>> false\n\n\texpireResult7, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult7) // >>> -1ns\n\n\texpireResult8, err := rdb.ExpireNX(ctx, \"mykey\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult8) // >>> true\n\n\texpireResult9, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(math.Round(expireResult9.Seconds())) // >>> 10\n\n}\n\nfunc ExampleClient_ttl_cmd() {\n\tctx := context.Background()\n\n\trdb := redis.NewClient(&redis.Options{\n\t\tAddr:     \"localhost:6379\",\n\t\tPassword: \"\", // no password docs\n\t\tDB:       0,  // use default DB\n\t})\n\n\n\tttlResult1, err := rdb.Set(ctx, \"mykey\", \"Hello\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(ttlResult1) // >>> OK\n\n\tttlResult2, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(math.Round(ttlResult2.Seconds())) // >>> 10\n\n}\n\n```\n\n**Java (Asynchronous - Lettuce):**\n\n```java\npackage io.redis.examples.async;\n\nimport io.lettuce.core.*;\n\nimport io.lettuce.core.api.async.RedisAsyncCommands;\n\nimport io.lettuce.core.api.StatefulRedisConnection;\n\nimport java.util.concurrent.CompletableFuture;\n\npublic class CmdsGenericExample {\n\n    public void run() {\n\n            CompletableFuture<Void> existsExample = asyncCommands.set(\"key1\", \"Hello\").thenCompose(res1 -> {\n                System.out.println(res1); // >>> OK\n\n                return asyncCommands.exists(\"key1\");\n            }).thenCompose(res2 -> {\n                System.out.println(res2); // >>> 1\n\n                return asyncCommands.exists(\"nosuchkey\");\n            }).thenCompose(res3 -> {\n                System.out.println(res3); // >>> 0\n\n                return asyncCommands.set(\"key2\", \"World\");\n            }).thenCompose(res4 -> {\n                System.out.println(res4); // >>> OK\n\n                return asyncCommands.exists(\"key1\", \"key2\", \"nosuchkey\");\n            }).thenAccept(res5 -> {\n                System.out.println(res5); // >>> 2\n            }).toCompletableFuture();\n            existsExample.join();\n        } finally {\n            redisClient.shutdown();\n        }\n    }\n}\n\n```\n\n**Java (Reactive - Lettuce):**\n\n```java\npackage io.redis.examples.reactive;\n\nimport io.lettuce.core.*;\nimport io.lettuce.core.api.reactive.RedisReactiveCommands;\nimport io.lettuce.core.api.StatefulRedisConnection;\nimport reactor.core.publisher.Mono;\n\n\npublic class CmdsGenericExample {\n\n    public void run() {\n        RedisClient redisClient = RedisClient.create(\"redis://localhost:6379\");\n\n        try (StatefulRedisConnection<String, String> connection = redisClient.connect()) {\n            RedisReactiveCommands<String, String> reactiveCommands = connection.reactive();\n\n            Mono<Void> existsExample = reactiveCommands.set(\"key1\", \"Hello\").doOnNext(res1 -> {\n                System.out.println(res1); // >>> OK\n            }).then(reactiveCommands.exists(\"key1\")).doOnNext(res2 -> {\n                System.out.println(res2); // >>> 1\n            }).then(reactiveCommands.exists(\"nosuchkey\")).doOnNext(res3 -> {\n                System.out.println(res3); // >>> 0\n            }).then(reactiveCommands.set(\"key2\", \"World\")).doOnNext(res4 -> {\n                System.out.println(res4); // >>> OK\n            }).then(reactiveCommands.exists(\"key1\", \"key2\", \"nosuchkey\")).doOnNext(res5 -> {\n                System.out.println(res5); // >>> 2\n            }).then();\n\n            Mono.when(existsExample).block();\n\n        } finally {\n            redisClient.shutdown();\n        }\n    }\n\n}\n\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n\nimport redis.clients.jedis.RedisClient;\nimport redis.clients.jedis.args.ExpiryOption;\n\nimport static org.junit.jupiter.api.Assertions.assertEquals;\n\npublic class CmdsGenericExample {\n\n    public void run() {\n        RedisClient jedis = RedisClient.create(\"redis://localhost:6379\");\n\n\n        String delResult1 = jedis.set(\"key1\", \"Hello\");\n        System.out.println(delResult1); // >>> OK\n\n        String delResult2 = jedis.set(\"key2\", \"World\");\n        System.out.println(delResult2); // >>> OK\n\n        long delResult3 = jedis.del(\"key1\", \"key2\", \"key3\");\n        System.out.println(delResult3); // >>> 2\n\n        // Tests for 'del' step.\n\n\n        String existsResult1 = jedis.set(\"key1\", \"Hello\");\n        System.out.println(existsResult1); // >>> OK\n\n        boolean existsResult2 = jedis.exists(\"key1\");\n        System.out.println(existsResult2); // >>> true\n\n        boolean existsResult3 = jedis.exists(\"nosuchkey\");\n        System.out.println(existsResult3); // >>> false\n\n        String existsResult4 = jedis.set(\"key2\", \"World\");\n        System.out.println(existsResult4); // >>> OK\n\n        long existsResult5 = jedis.exists(\"key1\", \"key2\", \"nosuchkey\");\n        System.out.println(existsResult5); // >>> 2\n\n        // Tests for 'exists' step.\n\n\n        String expireResult1 = jedis.set(\"mykey\", \"Hello\");\n        System.out.println(expireResult1);  // >>> OK\n\n        long expireResult2 = jedis.expire(\"mykey\", 10);\n        System.out.println(expireResult2);  // >>> 1\n\n        long expireResult3 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult3);  // >>> 10\n\n        String expireResult4 = jedis.set(\"mykey\", \"Hello World\");\n        System.out.println(expireResult4);  // >>> OK\n\n        long expireResult5 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult5);  // >>> -1\n\n        long expireResult6 = jedis.expire(\"mykey\", 10, ExpiryOption.XX);\n        System.out.println(expireResult6);  // >>> 0\n\n        long expireResult7 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult7);  // >>> -1\n\n        long expireResult8 = jedis.expire(\"mykey\", 10, ExpiryOption.NX);\n        System.out.println(expireResult8);  // >>> 1\n\n        long expireResult9 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult9);  // >>> 10\n\n        // Tests for 'expire' step.\n\n\n        String ttlResult1 = jedis.set(\"mykey\", \"Hello\");\n        System.out.println(ttlResult1); // >>> OK\n\n        long ttlResult2 = jedis.expire(\"mykey\", 10);\n        System.out.println(ttlResult2); // >>> 1\n\n        long ttlResult3 = jedis.ttl(\"mykey\");\n        System.out.println(ttlResult3); // >>> 10\n\n        // Tests for 'ttl' step.\n\n        jedis.close();\n    }\n}\n\n```\n\n**JavaScript (Node.js):**\n\n```javascript\nconst scan3Res1 = await client.geoAdd('geokey', { longitude: 0, latitude: 0, member: 'value' });\nconsole.log(scan3Res1); // 1\n\nconst scan3Res2 = await client.zAdd('zkey', [{ score: 1000, value: 'value' }]);\nconsole.log(scan3Res2); // 1\n\nconst scan3Res3 = await client.type('geokey');\nconsole.log(scan3Res3); // zset\n\nconst scan3Res4 = await client.type('zkey');\nconsole.log(scan3Res4); // zset\n\nconst scan3Res5 = await client.scan('0', { TYPE: 'zset' });\nconsole.log(scan3Res5.keys); // ['zkey', 'geokey']\n```\n\n**PHP:**\n\n```php\n<?php\nrequire_once 'vendor/autoload.php';\n\nuse Predis\\Client as PredisClient;\n\nclass CmdsGenericTest\n{\n    public function testCmdsGeneric() {\n        $r = new PredisClient([\n            'scheme'   => 'tcp',\n            'host'     => '127.0.0.1',\n            'port'     => 6379,\n            'password' => '',\n            'database' => 0,\n        ]);\n\n        $existsResult1 = $r->set('key1', 'Hello');\n        echo $existsResult1 . PHP_EOL; // >>> OK\n\n        $existsResult2 = $r->exists('key1');\n        echo $existsResult2 . PHP_EOL; // >>> 1\n\n        $existsResult3 = $r->exists('nosuchkey');\n        echo $existsResult3 . PHP_EOL; // >>> 0\n\n        $existsResult4 = $r->set('key2', 'World');\n        echo $existsResult4 . PHP_EOL; // >>> OK\n\n        $existsResult5 = $r->exists('key1', 'key2', 'nosuchkey');\n        echo $existsResult5 . PHP_EOL; // >>> 2\n\n    }\n}\n\n```\n\n**Python:**\n\n```python\nres = r.geoadd(\"geokey\", (0, 0, \"value\"))\nprint(res)\n# >>> 1\n\nres = r.zadd(\"zkey\", {\"value\": 1000})\nprint(res)\n# >>> 1\n\nres = r.type(\"geokey\")\nprint(res)\n# >>> zset\n\nres = r.type(\"zkey\")\nprint(res)\n# >>> zset\n\ncursor, keys = r.scan(cursor=0, _type=\"zset\")\nprint(keys)\n# >>> ['zkey', 'geokey']\n```\n\n**Rust (Asynchronous):**\n\n```rust\n        match r.geo_add(\"geokey\", &[(0.0, 0.0, \"value\")]).await {\n            Ok(res) => {\n                let res: i32 = res;\n                println!(\"{res}\");    // >>> 1\n            },\n            Err(e) => {\n                println!(\"Error adding geo location: {e}\");\n                return;\n            }\n        }\n\n        match r.zadd(\"zkey\", \"value\", 1000).await {\n            Ok(res) => {\n                let res: i32 = res;\n                println!(\"{res}\");    // >>> 1\n            },\n            Err(e) => {\n                println!(\"Error adding to sorted set: {e}\");\n                return;\n            }\n        }\n\n        match r.key_type::<&str, redis::ValueType>(\"geokey\").await {\n            Ok(res) => {\n                println!(\"{res:?}\");    // >>> zset\n            },\n            Err(e) => {\n                println!(\"Error getting key type: {e}\");\n                return;\n            }\n        }\n\n        match r.key_type::<&str, redis::ValueType>(\"zkey\").await {\n            Ok(res) => {\n                println!(\"{res:?}\");    // >>> zset\n            },\n            Err(e) => {\n                println!(\"Error getting key type: {e}\");\n                return;\n            }\n        }\n\n        // Note: Rust redis client doesn't support scan by type directly\n        // We'll manually check the types of our known keys\n        let mut zset_keys = Vec::new();\n        for key in &[\"geokey\", \"zkey\"] {\n            match r.key_type::<&str, redis::ValueType>(key).await {\n                Ok(key_type) => {\n                    if format!(\"{key_type:?}\") == \"ZSet\" {\n                        zset_keys.push(key.to_string());\n                    }\n                },\n                Err(_) => {},\n            }\n        }\n        println!(\"{:?}\", zset_keys);    // >>> [\"zkey\", \"geokey\"]\n```\n\n**Rust (Synchronous):**\n\n```rust\n        match r.geo_add(\"geokey\", &[(0.0, 0.0, \"value\")]) {\n            Ok(res) => {\n                let res: i32 = res;\n                println!(\"{res}\");    // >>> 1\n            },\n            Err(e) => {\n                println!(\"Error adding geo location: {e}\");\n                return;\n            }\n        }\n\n        match r.zadd(\"zkey\", \"value\", 1000) {\n            Ok(res) => {\n                let res: i32 = res;\n                println!(\"{res}\");    // >>> 1\n            },\n            Err(e) => {\n                println!(\"Error adding to sorted set: {e}\");\n                return;\n            }\n        }\n\n        match r.key_type::<&str, redis::ValueType>(\"geokey\") {\n            Ok(res) => {\n                println!(\"{res:?}\");    // >>> zset\n            },\n            Err(e) => {\n                println!(\"Error getting key type: {e}\");\n                return;\n            }\n        }\n\n        match r.key_type::<&str, redis::ValueType>(\"zkey\") {\n            Ok(res) => {\n                println!(\"{res:?}\");    // >>> zset\n            },\n            Err(e) => {\n                println!(\"Error getting key type: {e}\");\n                return;\n            }\n        }\n\n        // Note: Rust redis client doesn't support scan by type directly\n        // We'll manually check the types of our known keys\n        let mut zset_keys = Vec::new();\n        for key in &[\"geokey\", \"zkey\"] {\n            match r.key_type::<&str, redis::ValueType>(key) {\n                Ok(key_type) => {\n                    if format!(\"{key_type:?}\") == \"ZSet\" {\n                        zset_keys.push(key.to_string());\n                    }\n                },\n                Err(_) => {},\n            }\n        }\n        println!(\"{:?}\", zset_keys);    // >>> [\"zkey\", \"geokey\"]\n```\n\n\n\nIt is important to note that the **TYPE** filter is also applied after elements are retrieved from the database, so the option does not reduce the amount of work the server has to do to complete a full iteration, and for rare types you may receive no elements in many iterations.\n\n## The NOVALUES option\n\nWhen using [`HSCAN`](), you can use the `NOVALUES` option to make Redis return only the keys in the hash table without their corresponding values.\n\n#### Code Examples\n\nHash iteration: Iterate hash fields with optional NOVALUES using HSCAN (returns field-value pairs or fields only)\n\n**Difficulty:** Intermediate\n\n**Commands:** HSET, HSCAN\n\n**Complexity:**\n- HSET: O(1)\n- HSCAN: O(1)\n\n**Redis CLI:**\n\n```\n> HSET myhash a 1 b 2\nOK\n> HSCAN myhash 0\n1) \"0\"\n2) 1) \"a\"\n   2) \"1\"\n   3) \"b\"\n   4) \"2\"\n> HSCAN myhash 0 NOVALUES\n1) \"0\"\n2) 1) \"a\"\n   2) \"b\"\n```\n\n**Available in:** Redis CLI, C# (Synchronous), Go, Java (Asynchronous - Lettuce), Java (Reactive - Lettuce), Java (Synchronous - Jedis), JavaScript (Node.js), PHP, Python, Rust (Asynchronous), Rust (Synchronous)\n\n**C# (Synchronous):**\n\n```csharp\n\n```\n\n**Go:**\n\n```go\npackage example_commands_test\n\nimport (\n\t\"context\"\n\t\"fmt\"\n\t\"math\"\n\t\"time\"\n\n\t\"github.com/redis/go-redis/v9\"\n)\n\n\nfunc ExampleClient_del_cmd() {\n\tctx := context.Background()\n\n\trdb := redis.NewClient(&redis.Options{\n\t\tAddr:     \"localhost:6379\",\n\t\tPassword: \"\", // no password docs\n\t\tDB:       0,  // use default DB\n\t})\n\n\n\tdelResult1, err := rdb.Set(ctx, \"key1\", \"Hello\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(delResult1) // >>> OK\n\n\tdelResult2, err := rdb.Set(ctx, \"key2\", \"World\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(delResult2) // >>> OK\n\n\tdelResult3, err := rdb.Del(ctx, \"key1\", \"key2\", \"key3\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(delResult3) // >>> 2\n\n}\n\nfunc ExampleClient_exists_cmd() {\n\tctx := context.Background()\n\n\trdb := redis.NewClient(&redis.Options{\n\t\tAddr:     \"localhost:6379\",\n\t\tPassword: \"\", // no password docs\n\t\tDB:       0,  // use default DB\n\t})\n\n\n\texistsResult1, err := rdb.Set(ctx, \"key1\", \"Hello\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult1) // >>> OK\n\n\texistsResult2, err := rdb.Exists(ctx, \"key1\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult2) // >>> 1\n\n\texistsResult3, err := rdb.Exists(ctx, \"nosuchkey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult3) // >>> 0\n\n\texistsResult4, err := rdb.Set(ctx, \"key2\", \"World\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult4) // >>> OK\n\n\texistsResult5, err := rdb.Exists(ctx, \"key1\", \"key2\", \"nosuchkey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult5) // >>> 2\n\n}\n\nfunc ExampleClient_expire_cmd() {\n\tctx := context.Background()\n\n\trdb := redis.NewClient(&redis.Options{\n\t\tAddr:     \"localhost:6379\",\n\t\tPassword: \"\", // no password docs\n\t\tDB:       0,  // use default DB\n\t})\n\n\n\texpireResult1, err := rdb.Set(ctx, \"mykey\", \"Hello\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult1) // >>> OK\n\n\texpireResult2, err := rdb.Expire(ctx, \"mykey\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult2) // >>> true\n\n\texpireResult3, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(math.Round(expireResult3.Seconds())) // >>> 10\n\n\texpireResult4, err := rdb.Set(ctx, \"mykey\", \"Hello World\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult4) // >>> OK\n\n\texpireResult5, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult5) // >>> -1ns\n\n\texpireResult6, err := rdb.ExpireXX(ctx, \"mykey\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult6) // >>> false\n\n\texpireResult7, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult7) // >>> -1ns\n\n\texpireResult8, err := rdb.ExpireNX(ctx, \"mykey\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult8) // >>> true\n\n\texpireResult9, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(math.Round(expireResult9.Seconds())) // >>> 10\n\n}\n\nfunc ExampleClient_ttl_cmd() {\n\tctx := context.Background()\n\n\trdb := redis.NewClient(&redis.Options{\n\t\tAddr:     \"localhost:6379\",\n\t\tPassword: \"\", // no password docs\n\t\tDB:       0,  // use default DB\n\t})\n\n\n\tttlResult1, err := rdb.Set(ctx, \"mykey\", \"Hello\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(ttlResult1) // >>> OK\n\n\tttlResult2, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(math.Round(ttlResult2.Seconds())) // >>> 10\n\n}\n\n```\n\n**Java (Asynchronous - Lettuce):**\n\n```java\npackage io.redis.examples.async;\n\nimport io.lettuce.core.*;\n\nimport io.lettuce.core.api.async.RedisAsyncCommands;\n\nimport io.lettuce.core.api.StatefulRedisConnection;\n\nimport java.util.concurrent.CompletableFuture;\n\npublic class CmdsGenericExample {\n\n    public void run() {\n\n            CompletableFuture<Void> existsExample = asyncCommands.set(\"key1\", \"Hello\").thenCompose(res1 -> {\n                System.out.println(res1); // >>> OK\n\n                return asyncCommands.exists(\"key1\");\n            }).thenCompose(res2 -> {\n                System.out.println(res2); // >>> 1\n\n                return asyncCommands.exists(\"nosuchkey\");\n            }).thenCompose(res3 -> {\n                System.out.println(res3); // >>> 0\n\n                return asyncCommands.set(\"key2\", \"World\");\n            }).thenCompose(res4 -> {\n                System.out.println(res4); // >>> OK\n\n                return asyncCommands.exists(\"key1\", \"key2\", \"nosuchkey\");\n            }).thenAccept(res5 -> {\n                System.out.println(res5); // >>> 2\n            }).toCompletableFuture();\n            existsExample.join();\n        } finally {\n            redisClient.shutdown();\n        }\n    }\n}\n\n```\n\n**Java (Reactive - Lettuce):**\n\n```java\npackage io.redis.examples.reactive;\n\nimport io.lettuce.core.*;\nimport io.lettuce.core.api.reactive.RedisReactiveCommands;\nimport io.lettuce.core.api.StatefulRedisConnection;\nimport reactor.core.publisher.Mono;\n\n\npublic class CmdsGenericExample {\n\n    public void run() {\n        RedisClient redisClient = RedisClient.create(\"redis://localhost:6379\");\n\n        try (StatefulRedisConnection<String, String> connection = redisClient.connect()) {\n            RedisReactiveCommands<String, String> reactiveCommands = connection.reactive();\n\n            Mono<Void> existsExample = reactiveCommands.set(\"key1\", \"Hello\").doOnNext(res1 -> {\n                System.out.println(res1); // >>> OK\n            }).then(reactiveCommands.exists(\"key1\")).doOnNext(res2 -> {\n                System.out.println(res2); // >>> 1\n            }).then(reactiveCommands.exists(\"nosuchkey\")).doOnNext(res3 -> {\n                System.out.println(res3); // >>> 0\n            }).then(reactiveCommands.set(\"key2\", \"World\")).doOnNext(res4 -> {\n                System.out.println(res4); // >>> OK\n            }).then(reactiveCommands.exists(\"key1\", \"key2\", \"nosuchkey\")).doOnNext(res5 -> {\n                System.out.println(res5); // >>> 2\n            }).then();\n\n            Mono.when(existsExample).block();\n\n        } finally {\n            redisClient.shutdown();\n        }\n    }\n\n}\n\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n\nimport redis.clients.jedis.RedisClient;\nimport redis.clients.jedis.args.ExpiryOption;\n\nimport static org.junit.jupiter.api.Assertions.assertEquals;\n\npublic class CmdsGenericExample {\n\n    public void run() {\n        RedisClient jedis = RedisClient.create(\"redis://localhost:6379\");\n\n\n        String delResult1 = jedis.set(\"key1\", \"Hello\");\n        System.out.println(delResult1); // >>> OK\n\n        String delResult2 = jedis.set(\"key2\", \"World\");\n        System.out.println(delResult2); // >>> OK\n\n        long delResult3 = jedis.del(\"key1\", \"key2\", \"key3\");\n        System.out.println(delResult3); // >>> 2\n\n        // Tests for 'del' step.\n\n\n        String existsResult1 = jedis.set(\"key1\", \"Hello\");\n        System.out.println(existsResult1); // >>> OK\n\n        boolean existsResult2 = jedis.exists(\"key1\");\n        System.out.println(existsResult2); // >>> true\n\n        boolean existsResult3 = jedis.exists(\"nosuchkey\");\n        System.out.println(existsResult3); // >>> false\n\n        String existsResult4 = jedis.set(\"key2\", \"World\");\n        System.out.println(existsResult4); // >>> OK\n\n        long existsResult5 = jedis.exists(\"key1\", \"key2\", \"nosuchkey\");\n        System.out.println(existsResult5); // >>> 2\n\n        // Tests for 'exists' step.\n\n\n        String expireResult1 = jedis.set(\"mykey\", \"Hello\");\n        System.out.println(expireResult1);  // >>> OK\n\n        long expireResult2 = jedis.expire(\"mykey\", 10);\n        System.out.println(expireResult2);  // >>> 1\n\n        long expireResult3 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult3);  // >>> 10\n\n        String expireResult4 = jedis.set(\"mykey\", \"Hello World\");\n        System.out.println(expireResult4);  // >>> OK\n\n        long expireResult5 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult5);  // >>> -1\n\n        long expireResult6 = jedis.expire(\"mykey\", 10, ExpiryOption.XX);\n        System.out.println(expireResult6);  // >>> 0\n\n        long expireResult7 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult7);  // >>> -1\n\n        long expireResult8 = jedis.expire(\"mykey\", 10, ExpiryOption.NX);\n        System.out.println(expireResult8);  // >>> 1\n\n        long expireResult9 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult9);  // >>> 10\n\n        // Tests for 'expire' step.\n\n\n        String ttlResult1 = jedis.set(\"mykey\", \"Hello\");\n        System.out.println(ttlResult1); // >>> OK\n\n        long ttlResult2 = jedis.expire(\"mykey\", 10);\n        System.out.println(ttlResult2); // >>> 1\n\n        long ttlResult3 = jedis.ttl(\"mykey\");\n        System.out.println(ttlResult3); // >>> 10\n\n        // Tests for 'ttl' step.\n\n        jedis.close();\n    }\n}\n\n```\n\n**JavaScript (Node.js):**\n\n```javascript\nconst scan4Res1 = await client.hSet('myhash', { a: 1, b: 2 });\nconsole.log(scan4Res1); // 2\n\nconst scan4Res2 = await client.hScan('myhash', '0');\nconsole.log(scan4Res2.entries); // [{field: 'a', value: '1'}, {field: 'b', value: '2'}]\n\nconst scan4Res3 = await client.hScan('myhash', '0', { COUNT: 10 });\nconst items = scan4Res3.entries.map((item) => item.field)\nconsole.log(items); // ['a', 'b']\n```\n\n**PHP:**\n\n```php\n<?php\nrequire_once 'vendor/autoload.php';\n\nuse Predis\\Client as PredisClient;\n\nclass CmdsGenericTest\n{\n    public function testCmdsGeneric() {\n        $r = new PredisClient([\n            'scheme'   => 'tcp',\n            'host'     => '127.0.0.1',\n            'port'     => 6379,\n            'password' => '',\n            'database' => 0,\n        ]);\n\n        $existsResult1 = $r->set('key1', 'Hello');\n        echo $existsResult1 . PHP_EOL; // >>> OK\n\n        $existsResult2 = $r->exists('key1');\n        echo $existsResult2 . PHP_EOL; // >>> 1\n\n        $existsResult3 = $r->exists('nosuchkey');\n        echo $existsResult3 . PHP_EOL; // >>> 0\n\n        $existsResult4 = $r->set('key2', 'World');\n        echo $existsResult4 . PHP_EOL; // >>> OK\n\n        $existsResult5 = $r->exists('key1', 'key2', 'nosuchkey');\n        echo $existsResult5 . PHP_EOL; // >>> 2\n\n    }\n}\n\n```\n\n**Python:**\n\n```python\nres = r.hset(\"myhash\", mapping={\"a\": 1, \"b\": 2})\nprint(res)\n# >>> 2\n\ncursor, keys = r.hscan(\"myhash\", 0)\nprint(keys)\n# >>> {'a': '1', 'b': '2'}\n\ncursor, keys = r.hscan(\"myhash\", 0, no_values=True)\nprint(keys)\n# >>> ['a', 'b']\n\n```\n\n**Rust (Asynchronous):**\n\n```rust\n        match r.hset(\"myhash\", \"a\", \"1\").await {\n            Ok(res) => {\n                let res: i32 = res;\n                println!(\"{res}\");    // >>> 1\n            },\n            Err(e) => {\n                println!(\"Error setting hash field: {e}\");\n                return;\n            }\n        }\n\n        match r.hset(\"myhash\", \"b\", \"2\").await {\n            Ok(res) => {\n                let res: i32 = res;\n                println!(\"{res}\");    // >>> 1\n            },\n            Err(e) => {\n                println!(\"Error setting hash fields: {e}\");\n                return;\n            }\n        }\n\n        let fields = match r.hscan(\"myhash\").await {\n            Ok(iter) => {\n                let fields: std::collections::HashMap<String, String> = iter.collect().await;\n                fields\n            },\n            Err(e) => {\n                println!(\"Error scanning hash: {e}\");\n                return;\n            }\n        };\n\n        println!(\"{fields:?}\");    // >>> {\"a\": \"1\", \"b\": \"2\"}\n\n        // Scan hash keys only (no values)\n        match r.hkeys(\"myhash\").await {\n            Ok(keys) => {\n                let keys: Vec<String> = keys;\n                println!(\"{keys:?}\");    // >>> [\"a\", \"b\"]\n            },\n            Err(e) => {\n                println!(\"Error getting hash keys: {e}\");\n                return;\n            }\n        }\n```\n\n**Rust (Synchronous):**\n\n```rust\n        match r.hset(\"myhash\", \"a\", \"1\") {\n            Ok(res) => {\n                let res: i32 = res;\n                println!(\"{res}\");    // >>> 1\n            },\n            Err(e) => {\n                println!(\"Error setting hash field: {e}\");\n                return;\n            }\n        }\n\n        match r.hset(\"myhash\", \"b\", \"2\") {\n            Ok(res) => {\n                let res: i32 = res;\n                println!(\"{res}\");    // >>> 1\n            },\n            Err(e) => {\n                println!(\"Error setting hash fields: {e}\");\n                return;\n            }\n        }\n\n        match r.hscan(\"myhash\") {\n            Ok(iter) => {\n                let fields: std::collections::HashMap<String, String> = iter.collect();\n                println!(\"{fields:?}\");    // >>> {\"a\": \"1\", \"b\": \"2\"}\n            },\n            Err(e) => {\n                println!(\"Error scanning hash: {e}\");\n                return;\n            }\n        }\n\n        // Scan hash keys only (no values)\n        match r.hkeys(\"myhash\") {\n            Ok(keys) => {\n                let keys: Vec<String> = keys;\n                println!(\"{keys:?}\");    // >>> [\"a\", \"b\"]\n            },\n            Err(e) => {\n                println!(\"Error getting hash keys: {e}\");\n                return;\n            }\n        }\n```\n\n\n\n## Multiple parallel iterations\n\nIt is possible for an infinite number of clients to iterate the same collection at the same time, as the full state of the iterator is in the cursor, that is obtained and returned to the client at every call. No server side state is taken at all.\n\n## Terminating iterations in the middle\n\nSince there is no state server side, but the full state is captured by the cursor, the caller is free to terminate an iteration half-way without signaling this to the server in any way. An infinite number of iterations can be started and never terminated without any issue.\n\n## Calling SCAN with a corrupted cursor\n\nCalling `SCAN` with a broken, negative, out of range, or otherwise invalid cursor, will result in undefined behavior but never in a crash. What will be undefined is that the guarantees about the returned elements can no longer be ensured by the `SCAN` implementation.\n\nThe only valid cursors to use are:\n\n* The cursor value of 0 when starting an iteration.\n* The cursor returned by the previous call to SCAN in order to continue the iteration.\n\n## Guarantee of termination\n\nThe `SCAN` algorithm is guaranteed to terminate only if the size of the iterated collection remains bounded to a given maximum size, otherwise iterating a collection that always grows may result into `SCAN` to never terminate a full iteration.\n\nThis is easy to see intuitively: if the collection grows there is more and more work to do in order to visit all the possible elements, and the ability to terminate the iteration depends on the number of calls to `SCAN` and its COUNT option value compared with the rate at which the collection grows.\n\n## Why SCAN may return all the items of an aggregate data type in a single call?\n\nIn the `COUNT` option documentation, we state that sometimes this family of commands may return all the elements of a Set, Hash or Sorted Set at once in a single call, regardless of the `COUNT` option value. The reason why this happens is that the cursor-based iterator can be implemented, and is useful, only when the aggregate data type that we are scanning is represented as a hash table. However Redis uses a [memory optimization]() where small aggregate data types, until they reach a given amount of items or a given max size of single elements, are represented using a compact single-allocation packed encoding. When this is the case, `SCAN` has no meaningful cursor to return, and must iterate the whole data structure at once, so the only sane behavior it has is to return everything in a call.\n\nHowever once the data structures are bigger and are promoted to use real hash tables, the `SCAN` family of commands will resort to the normal behavior. Note that since this special behavior of returning all the elements is true only for small aggregates, it has no effects on the command complexity or latency. However the exact limits to get converted into real hash tables are [user configurable](), so the maximum number of elements you can see returned in a single call depends on how big an aggregate data type could be and still use the packed representation.\n\nAlso note that this behavior is specific of [`SSCAN`](), [`HSCAN`]() and [`ZSCAN`](). `SCAN` itself never shows this behavior because the key space is always represented by hash tables.\n\n## Further reading\n\nFor more information about managing keys, please refer to the [The Redis Keyspace]() tutorial.\n\n## Additional examples\n\nGive the following commands, showing iteration of a hash key, a try in the interactive console:\n\n\nHMSET hash name Jack age 33\nHSCAN hash 0\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): specifically, an array with two elements.\n* The first element is a [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) that represents an unsigned 64-bit number, the cursor.\n* The second element is an [Array reply](../../develop/reference/protocol-spec#arrays) with the names of scanned keys.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): specifically, an array with two elements.\n* The first element is a [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) that represents an unsigned 64-bit number, the cursor.\n* The second element is an [Array reply](../../develop/reference/protocol-spec#arrays) with the names of scanned keys.",
-  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nThe `SCAN` command and the closely related commands [`SSCAN`](), [`HSCAN`]() and [`ZSCAN`]() are used in order to incrementally iterate over a collection of elements.\n\n* `SCAN` iterates the set of keys in the currently selected Redis database.\n* [`SSCAN`]() iterates elements of Sets types.\n* [`HSCAN`]() iterates fields of Hash types and their associated values.\n* [`ZSCAN`]() iterates elements of Sorted Set types and their associated scores.\n\nSince these commands allow for incremental iteration, returning only a small number of elements per call, they can be used in production without the downside of commands like [`KEYS`]() or [`SMEMBERS`]() that may block the server for a long time (even several seconds) when called against big collections of keys or elements.\n\nHowever while blocking commands like [`SMEMBERS`]() are able to provide all the elements that are part of a Set in a given moment, The SCAN family of commands only offer limited guarantees about the returned elements since the collection that we incrementally iterate can change during the iteration process.\n\nNote that `SCAN`, [`SSCAN`](), [`HSCAN`]() and [`ZSCAN`]() all work very similarly, so this documentation covers all four commands. However an obvious difference is that in the case of [`SSCAN`](), [`HSCAN`]() and [`ZSCAN`]() the first argument is the name of the key holding the Set, Hash or Sorted Set value. The `SCAN` command does not need any key name argument as it iterates keys in the current database, so the iterated object is the database itself.",
   "sections": [
     {
       "title": "Overview",
       "level": 1,
-      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nThe `SCAN` command and the closely related commands [`SSCAN`](), [`HSCAN`]() and [`ZSCAN`]() are used in order to incrementally iterate over a collection of elements.\n\n* `SCAN` iterates the set of keys in the currently selected Redis database.\n* [`SSCAN`]() iterates elements of Sets types.\n* [`HSCAN`]() iterates fields of Hash types and their associated values.\n* [`ZSCAN`]() iterates elements of Sorted Set types and their associated scores.\n\nSince these commands allow for incremental iteration, returning only a small number of elements per call, they can be used in production without the downside of commands like [`KEYS`]() or [`SMEMBERS`]() that may block the server for a long time (even several seconds) when called against big collections of keys or elements.\n\nHowever while blocking commands like [`SMEMBERS`]() are able to provide all the elements that are part of a Set in a given moment, The SCAN family of commands only offer limited guarantees about the returned elements since the collection that we incrementally iterate can change during the iteration process.\n\nNote that `SCAN`, [`SSCAN`](), [`HSCAN`]() and [`ZSCAN`]() all work very similarly, so this documentation covers all four commands. However an obvious difference is that in the case of [`SSCAN`](), [`HSCAN`]() and [`ZSCAN`]() the first argument is the name of the key holding the Set, Hash or Sorted Set value. The `SCAN` command does not need any key name argument as it iterates keys in the current database, so the iterated object is the database itself."
+      "content": "The `SCAN` command and the closely related commands [`SSCAN`](), [`HSCAN`]() and [`ZSCAN`]() are used in order to incrementally iterate over a collection of elements.\n\n* `SCAN` iterates the set of keys in the currently selected Redis database.\n* [`SSCAN`]() iterates elements of Sets types.\n* [`HSCAN`]() iterates fields of Hash types and their associated values.\n* [`ZSCAN`]() iterates elements of Sorted Set types and their associated scores.\n\nSince these commands allow for incremental iteration, returning only a small number of elements per call, they can be used in production without the downside of commands like [`KEYS`]() or [`SMEMBERS`]() that may block the server for a long time (even several seconds) when called against big collections of keys or elements.\n\nHowever while blocking commands like [`SMEMBERS`]() are able to provide all the elements that are part of a Set in a given moment, The SCAN family of commands only offer limited guarantees about the returned elements since the collection that we incrementally iterate can change during the iteration process.\n\nNote that `SCAN`, [`SSCAN`](), [`HSCAN`]() and [`ZSCAN`]() all work very similarly, so this documentation covers all four commands. However an obvious difference is that in the case of [`SSCAN`](), [`HSCAN`]() and [`ZSCAN`]() the first argument is the name of the key holding the Set, Hash or Sorted Set value. The `SCAN` command does not need any key name argument as it iterates keys in the current database, so the iterated object is the database itself."
     },
     {
       "title": "SCAN basic usage",
@@ -540,7 +539,7 @@
     {
       "title": "Return value",
       "level": 2,
-      "content": "`SCAN`, [`SSCAN`](), [`HSCAN`]() and [`ZSCAN`]() return a two element multi-bulk reply, where the first element is a string representing an unsigned 64 bit number (the cursor), and the second element is a multi-bulk with an array of elements.\n\n* `SCAN` array of elements is a list of keys.\n* [`SSCAN`]() array of elements is a list of Set members.\n* [`HSCAN`]() array of elements contain two elements, a field and a value, for every returned element of the Hash.\n* [`ZSCAN`]() array of elements contain two elements, a member and its associated score, for every returned element of the Sorted Set."
+      "content": "`SCAN`, [`SSCAN`]({{< relref \"/commands/sscan\" >}}), [`HSCAN`]({{< relref \"/commands/hscan\" >}}) and [`ZSCAN`]({{< relref \"/commands/zscan\" >}}) return a two element multi-bulk reply, where the first element is a string representing an unsigned 64 bit number (the cursor), and the second element is a multi-bulk with an array of elements.\n\n* `SCAN` array of elements is a list of keys.\n* [`SSCAN`]({{< relref \"/commands/sscan\" >}}) array of elements is a list of Set members.\n* [`HSCAN`]({{< relref \"/commands/hscan\" >}}) array of elements contain two elements, a field and a value, for every returned element of the Hash.\n* [`ZSCAN`]({{< relref \"/commands/zscan\" >}}) array of elements contain two elements, a member and its associated score, for every returned element of the Sorted Set."
     },
     {
       "title": "Scan guarantees",
@@ -560,17 +559,17 @@
     {
       "title": "The MATCH option",
       "level": 2,
-      "content": "It is possible to only iterate elements matching a given glob-style pattern, similarly to the behavior of the [`KEYS`]() command that takes a pattern as its only argument.\n\nTo do so, just append the `MATCH <pattern>` arguments at the end of the `SCAN` command (it works with all the `SCAN` family commands).\n\nThis is an example of iteration using **MATCH**:\n\n#### Code Examples\n\nSet iteration: Iterate set members with pattern matching using SSCAN MATCH (cursor-based iteration, non-blocking)\n\n**Difficulty:** Intermediate\n\n**Commands:** SADD, SSCAN\n\n**Complexity:**\n- SADD: O(1)\n- SSCAN: O(1)\n\n**Redis CLI:**\n\n```\n> sadd myset 1 2 3 foo foobar feelsgood\n(integer) 6\n> sscan myset 0 match f*\n1) \"0\"\n2) 1) \"foo\"\n   2) \"feelsgood\"\n   3) \"foobar\"\n```\n\n**Available in:** Redis CLI, C# (Synchronous), Go, Java (Asynchronous - Lettuce), Java (Reactive - Lettuce), Java (Synchronous - Jedis), JavaScript (Node.js), PHP, Python, Rust (Asynchronous), Rust (Synchronous)\n\n**C# (Synchronous):**\n\n```csharp\n\n```\n\n**Go:**\n\n```go\npackage example_commands_test\n\nimport (\n\t\"context\"\n\t\"fmt\"\n\t\"math\"\n\t\"time\"\n\n\t\"github.com/redis/go-redis/v9\"\n)\n\n\nfunc ExampleClient_del_cmd() {\n\tctx := context.Background()\n\n\trdb := redis.NewClient(&redis.Options{\n\t\tAddr:     \"localhost:6379\",\n\t\tPassword: \"\", // no password docs\n\t\tDB:       0,  // use default DB\n\t})\n\n\n\tdelResult1, err := rdb.Set(ctx, \"key1\", \"Hello\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(delResult1) // >>> OK\n\n\tdelResult2, err := rdb.Set(ctx, \"key2\", \"World\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(delResult2) // >>> OK\n\n\tdelResult3, err := rdb.Del(ctx, \"key1\", \"key2\", \"key3\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(delResult3) // >>> 2\n\n}\n\nfunc ExampleClient_exists_cmd() {\n\tctx := context.Background()\n\n\trdb := redis.NewClient(&redis.Options{\n\t\tAddr:     \"localhost:6379\",\n\t\tPassword: \"\", // no password docs\n\t\tDB:       0,  // use default DB\n\t})\n\n\n\texistsResult1, err := rdb.Set(ctx, \"key1\", \"Hello\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult1) // >>> OK\n\n\texistsResult2, err := rdb.Exists(ctx, \"key1\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult2) // >>> 1\n\n\texistsResult3, err := rdb.Exists(ctx, \"nosuchkey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult3) // >>> 0\n\n\texistsResult4, err := rdb.Set(ctx, \"key2\", \"World\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult4) // >>> OK\n\n\texistsResult5, err := rdb.Exists(ctx, \"key1\", \"key2\", \"nosuchkey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult5) // >>> 2\n\n}\n\nfunc ExampleClient_expire_cmd() {\n\tctx := context.Background()\n\n\trdb := redis.NewClient(&redis.Options{\n\t\tAddr:     \"localhost:6379\",\n\t\tPassword: \"\", // no password docs\n\t\tDB:       0,  // use default DB\n\t})\n\n\n\texpireResult1, err := rdb.Set(ctx, \"mykey\", \"Hello\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult1) // >>> OK\n\n\texpireResult2, err := rdb.Expire(ctx, \"mykey\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult2) // >>> true\n\n\texpireResult3, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(math.Round(expireResult3.Seconds())) // >>> 10\n\n\texpireResult4, err := rdb.Set(ctx, \"mykey\", \"Hello World\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult4) // >>> OK\n\n\texpireResult5, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult5) // >>> -1ns\n\n\texpireResult6, err := rdb.ExpireXX(ctx, \"mykey\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult6) // >>> false\n\n\texpireResult7, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult7) // >>> -1ns\n\n\texpireResult8, err := rdb.ExpireNX(ctx, \"mykey\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult8) // >>> true\n\n\texpireResult9, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(math.Round(expireResult9.Seconds())) // >>> 10\n\n}\n\nfunc ExampleClient_ttl_cmd() {\n\tctx := context.Background()\n\n\trdb := redis.NewClient(&redis.Options{\n\t\tAddr:     \"localhost:6379\",\n\t\tPassword: \"\", // no password docs\n\t\tDB:       0,  // use default DB\n\t})\n\n\n\tttlResult1, err := rdb.Set(ctx, \"mykey\", \"Hello\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(ttlResult1) // >>> OK\n\n\tttlResult2, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(math.Round(ttlResult2.Seconds())) // >>> 10\n\n}\n\n```\n\n**Java (Asynchronous - Lettuce):**\n\n```java\npackage io.redis.examples.async;\n\nimport io.lettuce.core.*;\n\nimport io.lettuce.core.api.async.RedisAsyncCommands;\n\nimport io.lettuce.core.api.StatefulRedisConnection;\n\nimport java.util.concurrent.CompletableFuture;\n\npublic class CmdsGenericExample {\n\n    public void run() {\n\n            CompletableFuture<Void> existsExample = asyncCommands.set(\"key1\", \"Hello\").thenCompose(res1 -> {\n                System.out.println(res1); // >>> OK\n\n                return asyncCommands.exists(\"key1\");\n            }).thenCompose(res2 -> {\n                System.out.println(res2); // >>> 1\n\n                return asyncCommands.exists(\"nosuchkey\");\n            }).thenCompose(res3 -> {\n                System.out.println(res3); // >>> 0\n\n                return asyncCommands.set(\"key2\", \"World\");\n            }).thenCompose(res4 -> {\n                System.out.println(res4); // >>> OK\n\n                return asyncCommands.exists(\"key1\", \"key2\", \"nosuchkey\");\n            }).thenAccept(res5 -> {\n                System.out.println(res5); // >>> 2\n            }).toCompletableFuture();\n            existsExample.join();\n        } finally {\n            redisClient.shutdown();\n        }\n    }\n}\n\n```\n\n**Java (Reactive - Lettuce):**\n\n```java\npackage io.redis.examples.reactive;\n\nimport io.lettuce.core.*;\nimport io.lettuce.core.api.reactive.RedisReactiveCommands;\nimport io.lettuce.core.api.StatefulRedisConnection;\nimport reactor.core.publisher.Mono;\n\n\npublic class CmdsGenericExample {\n\n    public void run() {\n        RedisClient redisClient = RedisClient.create(\"redis://localhost:6379\");\n\n        try (StatefulRedisConnection<String, String> connection = redisClient.connect()) {\n            RedisReactiveCommands<String, String> reactiveCommands = connection.reactive();\n\n            Mono<Void> existsExample = reactiveCommands.set(\"key1\", \"Hello\").doOnNext(res1 -> {\n                System.out.println(res1); // >>> OK\n            }).then(reactiveCommands.exists(\"key1\")).doOnNext(res2 -> {\n                System.out.println(res2); // >>> 1\n            }).then(reactiveCommands.exists(\"nosuchkey\")).doOnNext(res3 -> {\n                System.out.println(res3); // >>> 0\n            }).then(reactiveCommands.set(\"key2\", \"World\")).doOnNext(res4 -> {\n                System.out.println(res4); // >>> OK\n            }).then(reactiveCommands.exists(\"key1\", \"key2\", \"nosuchkey\")).doOnNext(res5 -> {\n                System.out.println(res5); // >>> 2\n            }).then();\n\n            Mono.when(existsExample).block();\n\n        } finally {\n            redisClient.shutdown();\n        }\n    }\n\n}\n\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n\nimport redis.clients.jedis.RedisClient;\nimport redis.clients.jedis.args.ExpiryOption;\n\nimport static org.junit.jupiter.api.Assertions.assertEquals;\n\npublic class CmdsGenericExample {\n\n    public void run() {\n        RedisClient jedis = RedisClient.create(\"redis://localhost:6379\");\n\n\n        String delResult1 = jedis.set(\"key1\", \"Hello\");\n        System.out.println(delResult1); // >>> OK\n\n        String delResult2 = jedis.set(\"key2\", \"World\");\n        System.out.println(delResult2); // >>> OK\n\n        long delResult3 = jedis.del(\"key1\", \"key2\", \"key3\");\n        System.out.println(delResult3); // >>> 2\n\n        // Tests for 'del' step.\n\n\n        String existsResult1 = jedis.set(\"key1\", \"Hello\");\n        System.out.println(existsResult1); // >>> OK\n\n        boolean existsResult2 = jedis.exists(\"key1\");\n        System.out.println(existsResult2); // >>> true\n\n        boolean existsResult3 = jedis.exists(\"nosuchkey\");\n        System.out.println(existsResult3); // >>> false\n\n        String existsResult4 = jedis.set(\"key2\", \"World\");\n        System.out.println(existsResult4); // >>> OK\n\n        long existsResult5 = jedis.exists(\"key1\", \"key2\", \"nosuchkey\");\n        System.out.println(existsResult5); // >>> 2\n\n        // Tests for 'exists' step.\n\n\n        String expireResult1 = jedis.set(\"mykey\", \"Hello\");\n        System.out.println(expireResult1);  // >>> OK\n\n        long expireResult2 = jedis.expire(\"mykey\", 10);\n        System.out.println(expireResult2);  // >>> 1\n\n        long expireResult3 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult3);  // >>> 10\n\n        String expireResult4 = jedis.set(\"mykey\", \"Hello World\");\n        System.out.println(expireResult4);  // >>> OK\n\n        long expireResult5 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult5);  // >>> -1\n\n        long expireResult6 = jedis.expire(\"mykey\", 10, ExpiryOption.XX);\n        System.out.println(expireResult6);  // >>> 0\n\n        long expireResult7 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult7);  // >>> -1\n\n        long expireResult8 = jedis.expire(\"mykey\", 10, ExpiryOption.NX);\n        System.out.println(expireResult8);  // >>> 1\n\n        long expireResult9 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult9);  // >>> 10\n\n        // Tests for 'expire' step.\n\n\n        String ttlResult1 = jedis.set(\"mykey\", \"Hello\");\n        System.out.println(ttlResult1); // >>> OK\n\n        long ttlResult2 = jedis.expire(\"mykey\", 10);\n        System.out.println(ttlResult2); // >>> 1\n\n        long ttlResult3 = jedis.ttl(\"mykey\");\n        System.out.println(ttlResult3); // >>> 10\n\n        // Tests for 'ttl' step.\n\n        jedis.close();\n    }\n}\n\n```\n\n**JavaScript (Node.js):**\n\n```javascript\nconst scan1Res1 = await client.sAdd('myset', ['1', '2', '3', 'foo', 'foobar', 'feelsgood']);\nconsole.log(scan1Res1); // 6\n\nlet scan1Res2 = [];\nfor await (const values of client.sScanIterator('myset', { MATCH: 'f*' })) {\n    scan1Res2 = scan1Res2.concat(values);\n}\nconsole.log(scan1Res2); // ['foo', 'foobar', 'feelsgood']\n```\n\n**PHP:**\n\n```php\n<?php\nrequire_once 'vendor/autoload.php';\n\nuse Predis\\Client as PredisClient;\n\nclass CmdsGenericTest\n{\n    public function testCmdsGeneric() {\n        $r = new PredisClient([\n            'scheme'   => 'tcp',\n            'host'     => '127.0.0.1',\n            'port'     => 6379,\n            'password' => '',\n            'database' => 0,\n        ]);\n\n        $existsResult1 = $r->set('key1', 'Hello');\n        echo $existsResult1 . PHP_EOL; // >>> OK\n\n        $existsResult2 = $r->exists('key1');\n        echo $existsResult2 . PHP_EOL; // >>> 1\n\n        $existsResult3 = $r->exists('nosuchkey');\n        echo $existsResult3 . PHP_EOL; // >>> 0\n\n        $existsResult4 = $r->set('key2', 'World');\n        echo $existsResult4 . PHP_EOL; // >>> OK\n\n        $existsResult5 = $r->exists('key1', 'key2', 'nosuchkey');\n        echo $existsResult5 . PHP_EOL; // >>> 2\n\n    }\n}\n\n```\n\n**Python:**\n\n```python\nres = r.sadd(\"myset\", *set([1, 2, 3, \"foo\", \"foobar\", \"feelsgood\"]))\nprint(res)\n# >>> 6\n\nres = list(r.sscan_iter(\"myset\", match=\"f*\"))\nprint(res)\n# >>> ['foobar', 'foo', 'feelsgood']\n```\n\n**Rust (Asynchronous):**\n\n```rust\n        match r.sadd(\"myset\", &[\"1\", \"2\", \"3\", \"foo\", \"foobar\", \"feelsgood\"]).await {\n            Ok(res) => {\n                let res: i32 = res;\n                println!(\"{res}\");    // >>> 6\n            },\n            Err(e) => {\n                println!(\"Error adding to set: {e}\");\n                return;\n            }\n        }\n\n        let res = match r.sscan_match(\"myset\", \"f*\").await {\n            Ok(iter) => {\n                let res: Vec<String> = iter.collect().await;\n                res\n            },\n            Err(e) => {\n                println!(\"Error scanning set: {e}\");\n                return;\n            }\n        };\n\n        println!(\"{res:?}\");    // >>> [\"foo\", \"foobar\", \"feelsgood\"]\n```\n\n**Rust (Synchronous):**\n\n```rust\n        match r.sadd(\"myset\", &[\"1\", \"2\", \"3\", \"foo\", \"foobar\", \"feelsgood\"]) {\n            Ok(res) => {\n                let res: i32 = res;\n                println!(\"{res}\");    // >>> 6\n            },\n            Err(e) => {\n                println!(\"Error adding to set: {e}\");\n                return;\n            }\n        }\n\n        match r.sscan_match(\"myset\", \"f*\") {\n            Ok(iter) => {\n                let res: Vec<String> = iter.collect();\n                println!(\"{res:?}\");    // >>> [\"foo\", \"foobar\", \"feelsgood\"]\n            },\n            Err(e) => {\n                println!(\"Error scanning set: {e}\");\n                return;\n            }\n        }\n```\n\n\n\nIt is important to note that the **MATCH** filter is applied after elements are retrieved from the collection, just before returning data to the client. This means that if the pattern matches very little elements inside the collection, `SCAN` will likely return no elements in most iterations. An example is shown below:\n\n#### Code Examples\n\nKeyspace iteration: Iterate database keys with pattern matching using SCAN MATCH and COUNT (demonstrates cursor iteration with sparse results)\n\n**Difficulty:** Intermediate\n\n**Commands:** SCAN\n\n**Complexity:**\n- SCAN: O(1)\n\n**Redis CLI:**\n\n```\n> scan 0 MATCH *11*\n1) \"288\"\n2) 1) \"key:911\"\n> scan 288 MATCH *11*\n1) \"224\"\n2) (empty list or set)\n> scan 224 MATCH *11*\n1) \"80\"\n2) (empty list or set)\n> scan 80 MATCH *11*\n1) \"176\"\n2) (empty list or set)\n> scan 176 MATCH *11* COUNT 1000\n1) \"0\"\n2)  1) \"key:611\"\n    2) \"key:711\"\n    3) \"key:118\"\n    4) \"key:117\"\n    5) \"key:311\"\n    6) \"key:112\"\n    7) \"key:111\"\n    8) \"key:110\"\n    9) \"key:113\"\n   10) \"key:211\"\n   11) \"key:411\"\n   12) \"key:115\"\n   13) \"key:116\"\n   14) \"key:114\"\n   15) \"key:119\"\n   16) \"key:811\"\n   17) \"key:511\"\n   18) \"key:11\"\n```\n\n**Available in:** Redis CLI, C# (Synchronous), Go, Java (Asynchronous - Lettuce), Java (Reactive - Lettuce), Java (Synchronous - Jedis), JavaScript (Node.js), PHP, Python, Rust (Asynchronous), Rust (Synchronous)\n\n**C# (Synchronous):**\n\n```csharp\n\n```\n\n**Go:**\n\n```go\npackage example_commands_test\n\nimport (\n\t\"context\"\n\t\"fmt\"\n\t\"math\"\n\t\"time\"\n\n\t\"github.com/redis/go-redis/v9\"\n)\n\n\nfunc ExampleClient_del_cmd() {\n\tctx := context.Background()\n\n\trdb := redis.NewClient(&redis.Options{\n\t\tAddr:     \"localhost:6379\",\n\t\tPassword: \"\", // no password docs\n\t\tDB:       0,  // use default DB\n\t})\n\n\n\tdelResult1, err := rdb.Set(ctx, \"key1\", \"Hello\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(delResult1) // >>> OK\n\n\tdelResult2, err := rdb.Set(ctx, \"key2\", \"World\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(delResult2) // >>> OK\n\n\tdelResult3, err := rdb.Del(ctx, \"key1\", \"key2\", \"key3\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(delResult3) // >>> 2\n\n}\n\nfunc ExampleClient_exists_cmd() {\n\tctx := context.Background()\n\n\trdb := redis.NewClient(&redis.Options{\n\t\tAddr:     \"localhost:6379\",\n\t\tPassword: \"\", // no password docs\n\t\tDB:       0,  // use default DB\n\t})\n\n\n\texistsResult1, err := rdb.Set(ctx, \"key1\", \"Hello\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult1) // >>> OK\n\n\texistsResult2, err := rdb.Exists(ctx, \"key1\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult2) // >>> 1\n\n\texistsResult3, err := rdb.Exists(ctx, \"nosuchkey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult3) // >>> 0\n\n\texistsResult4, err := rdb.Set(ctx, \"key2\", \"World\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult4) // >>> OK\n\n\texistsResult5, err := rdb.Exists(ctx, \"key1\", \"key2\", \"nosuchkey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult5) // >>> 2\n\n}\n\nfunc ExampleClient_expire_cmd() {\n\tctx := context.Background()\n\n\trdb := redis.NewClient(&redis.Options{\n\t\tAddr:     \"localhost:6379\",\n\t\tPassword: \"\", // no password docs\n\t\tDB:       0,  // use default DB\n\t})\n\n\n\texpireResult1, err := rdb.Set(ctx, \"mykey\", \"Hello\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult1) // >>> OK\n\n\texpireResult2, err := rdb.Expire(ctx, \"mykey\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult2) // >>> true\n\n\texpireResult3, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(math.Round(expireResult3.Seconds())) // >>> 10\n\n\texpireResult4, err := rdb.Set(ctx, \"mykey\", \"Hello World\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult4) // >>> OK\n\n\texpireResult5, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult5) // >>> -1ns\n\n\texpireResult6, err := rdb.ExpireXX(ctx, \"mykey\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult6) // >>> false\n\n\texpireResult7, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult7) // >>> -1ns\n\n\texpireResult8, err := rdb.ExpireNX(ctx, \"mykey\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult8) // >>> true\n\n\texpireResult9, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(math.Round(expireResult9.Seconds())) // >>> 10\n\n}\n\nfunc ExampleClient_ttl_cmd() {\n\tctx := context.Background()\n\n\trdb := redis.NewClient(&redis.Options{\n\t\tAddr:     \"localhost:6379\",\n\t\tPassword: \"\", // no password docs\n\t\tDB:       0,  // use default DB\n\t})\n\n\n\tttlResult1, err := rdb.Set(ctx, \"mykey\", \"Hello\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(ttlResult1) // >>> OK\n\n\tttlResult2, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(math.Round(ttlResult2.Seconds())) // >>> 10\n\n}\n\n```\n\n**Java (Asynchronous - Lettuce):**\n\n```java\npackage io.redis.examples.async;\n\nimport io.lettuce.core.*;\n\nimport io.lettuce.core.api.async.RedisAsyncCommands;\n\nimport io.lettuce.core.api.StatefulRedisConnection;\n\nimport java.util.concurrent.CompletableFuture;\n\npublic class CmdsGenericExample {\n\n    public void run() {\n\n            CompletableFuture<Void> existsExample = asyncCommands.set(\"key1\", \"Hello\").thenCompose(res1 -> {\n                System.out.println(res1); // >>> OK\n\n                return asyncCommands.exists(\"key1\");\n            }).thenCompose(res2 -> {\n                System.out.println(res2); // >>> 1\n\n                return asyncCommands.exists(\"nosuchkey\");\n            }).thenCompose(res3 -> {\n                System.out.println(res3); // >>> 0\n\n                return asyncCommands.set(\"key2\", \"World\");\n            }).thenCompose(res4 -> {\n                System.out.println(res4); // >>> OK\n\n                return asyncCommands.exists(\"key1\", \"key2\", \"nosuchkey\");\n            }).thenAccept(res5 -> {\n                System.out.println(res5); // >>> 2\n            }).toCompletableFuture();\n            existsExample.join();\n        } finally {\n            redisClient.shutdown();\n        }\n    }\n}\n\n```\n\n**Java (Reactive - Lettuce):**\n\n```java\npackage io.redis.examples.reactive;\n\nimport io.lettuce.core.*;\nimport io.lettuce.core.api.reactive.RedisReactiveCommands;\nimport io.lettuce.core.api.StatefulRedisConnection;\nimport reactor.core.publisher.Mono;\n\n\npublic class CmdsGenericExample {\n\n    public void run() {\n        RedisClient redisClient = RedisClient.create(\"redis://localhost:6379\");\n\n        try (StatefulRedisConnection<String, String> connection = redisClient.connect()) {\n            RedisReactiveCommands<String, String> reactiveCommands = connection.reactive();\n\n            Mono<Void> existsExample = reactiveCommands.set(\"key1\", \"Hello\").doOnNext(res1 -> {\n                System.out.println(res1); // >>> OK\n            }).then(reactiveCommands.exists(\"key1\")).doOnNext(res2 -> {\n                System.out.println(res2); // >>> 1\n            }).then(reactiveCommands.exists(\"nosuchkey\")).doOnNext(res3 -> {\n                System.out.println(res3); // >>> 0\n            }).then(reactiveCommands.set(\"key2\", \"World\")).doOnNext(res4 -> {\n                System.out.println(res4); // >>> OK\n            }).then(reactiveCommands.exists(\"key1\", \"key2\", \"nosuchkey\")).doOnNext(res5 -> {\n                System.out.println(res5); // >>> 2\n            }).then();\n\n            Mono.when(existsExample).block();\n\n        } finally {\n            redisClient.shutdown();\n        }\n    }\n\n}\n\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n\nimport redis.clients.jedis.RedisClient;\nimport redis.clients.jedis.args.ExpiryOption;\n\nimport static org.junit.jupiter.api.Assertions.assertEquals;\n\npublic class CmdsGenericExample {\n\n    public void run() {\n        RedisClient jedis = RedisClient.create(\"redis://localhost:6379\");\n\n\n        String delResult1 = jedis.set(\"key1\", \"Hello\");\n        System.out.println(delResult1); // >>> OK\n\n        String delResult2 = jedis.set(\"key2\", \"World\");\n        System.out.println(delResult2); // >>> OK\n\n        long delResult3 = jedis.del(\"key1\", \"key2\", \"key3\");\n        System.out.println(delResult3); // >>> 2\n\n        // Tests for 'del' step.\n\n\n        String existsResult1 = jedis.set(\"key1\", \"Hello\");\n        System.out.println(existsResult1); // >>> OK\n\n        boolean existsResult2 = jedis.exists(\"key1\");\n        System.out.println(existsResult2); // >>> true\n\n        boolean existsResult3 = jedis.exists(\"nosuchkey\");\n        System.out.println(existsResult3); // >>> false\n\n        String existsResult4 = jedis.set(\"key2\", \"World\");\n        System.out.println(existsResult4); // >>> OK\n\n        long existsResult5 = jedis.exists(\"key1\", \"key2\", \"nosuchkey\");\n        System.out.println(existsResult5); // >>> 2\n\n        // Tests for 'exists' step.\n\n\n        String expireResult1 = jedis.set(\"mykey\", \"Hello\");\n        System.out.println(expireResult1);  // >>> OK\n\n        long expireResult2 = jedis.expire(\"mykey\", 10);\n        System.out.println(expireResult2);  // >>> 1\n\n        long expireResult3 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult3);  // >>> 10\n\n        String expireResult4 = jedis.set(\"mykey\", \"Hello World\");\n        System.out.println(expireResult4);  // >>> OK\n\n        long expireResult5 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult5);  // >>> -1\n\n        long expireResult6 = jedis.expire(\"mykey\", 10, ExpiryOption.XX);\n        System.out.println(expireResult6);  // >>> 0\n\n        long expireResult7 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult7);  // >>> -1\n\n        long expireResult8 = jedis.expire(\"mykey\", 10, ExpiryOption.NX);\n        System.out.println(expireResult8);  // >>> 1\n\n        long expireResult9 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult9);  // >>> 10\n\n        // Tests for 'expire' step.\n\n\n        String ttlResult1 = jedis.set(\"mykey\", \"Hello\");\n        System.out.println(ttlResult1); // >>> OK\n\n        long ttlResult2 = jedis.expire(\"mykey\", 10);\n        System.out.println(ttlResult2); // >>> 1\n\n        long ttlResult3 = jedis.ttl(\"mykey\");\n        System.out.println(ttlResult3); // >>> 10\n\n        // Tests for 'ttl' step.\n\n        jedis.close();\n    }\n}\n\n```\n\n**JavaScript (Node.js):**\n\n```javascript\n\nlet cursor = '0';\nlet scanResult;\n\nscanResult = await client.scan(cursor, { MATCH: '*11*' });\nconsole.log(scanResult.cursor, scanResult.keys);\n\nscanResult = await client.scan(scanResult.cursor, { MATCH: '*11*' });\nconsole.log(scanResult.cursor, scanResult.keys);\n\nscanResult = await client.scan(scanResult.cursor, { MATCH: '*11*' });\nconsole.log(scanResult.cursor, scanResult.keys);\n\nscanResult = await client.scan(scanResult.cursor, { MATCH: '*11*' });\nconsole.log(scanResult.cursor, scanResult.keys);\n\nscanResult = await client.scan(scanResult.cursor, { MATCH: '*11*', COUNT: 1000 });\nconsole.log(scanResult.cursor, scanResult.keys);\n```\n\n**PHP:**\n\n```php\n<?php\nrequire_once 'vendor/autoload.php';\n\nuse Predis\\Client as PredisClient;\n\nclass CmdsGenericTest\n{\n    public function testCmdsGeneric() {\n        $r = new PredisClient([\n            'scheme'   => 'tcp',\n            'host'     => '127.0.0.1',\n            'port'     => 6379,\n            'password' => '',\n            'database' => 0,\n        ]);\n\n        $existsResult1 = $r->set('key1', 'Hello');\n        echo $existsResult1 . PHP_EOL; // >>> OK\n\n        $existsResult2 = $r->exists('key1');\n        echo $existsResult2 . PHP_EOL; // >>> 1\n\n        $existsResult3 = $r->exists('nosuchkey');\n        echo $existsResult3 . PHP_EOL; // >>> 0\n\n        $existsResult4 = $r->set('key2', 'World');\n        echo $existsResult4 . PHP_EOL; // >>> OK\n\n        $existsResult5 = $r->exists('key1', 'key2', 'nosuchkey');\n        echo $existsResult5 . PHP_EOL; // >>> 2\n\n    }\n}\n\n```\n\n**Python:**\n\n```python\n\ncursor, key = r.scan(cursor=0, match='*11*')\nprint(cursor, key)\n\ncursor, key = r.scan(cursor, match='*11*')\nprint(cursor, key)\n\ncursor, key = r.scan(cursor, match='*11*')\nprint(cursor, key)\n\ncursor, key = r.scan(cursor, match='*11*')\nprint(cursor, key)\n\ncursor, keys = r.scan(cursor, match='*11*', count=1000)\nprint(cursor, keys)\n\n```\n\n**Rust (Asynchronous):**\n\n```rust\n\n        // Note: Rust redis client scan_match returns an iterator, not cursor-based\n        // This simulates the Python cursor-based output but uses the available API\n        let keys = match r.scan_match(\"*11*\").await {\n            Ok(iter) => {\n                let keys: Vec<String> = iter.collect().await;\n                keys\n            },\n            Err(e) => {\n                println!(\"Error scanning keys: {e}\");\n                return;\n            }\n        };\n\n```\n\n**Rust (Synchronous):**\n\n```rust\n\n        // Note: Rust redis client scan_match returns an iterator, not cursor-based\n        // This simulates the Python cursor-based output but uses the available API\n        match r.scan_match(\"*11*\") {\n            Ok(iter) => {\n                let keys: Vec<String> = iter.collect();\n            },\n            Err(e) => {\n                println!(\"Error scanning keys: {e}\");\n                return;\n            }\n        }\n```\n\n\n\nAs you can see most of the calls returned zero elements, but the last call where a `COUNT` of 1000 was used in order to force the command to do more scanning for that iteration.\n\nWhen using [Redis Cluster](), the search is optimized for patterns that imply a single slot.\nIf a pattern can only match keys of one slot,\nRedis only iterates over keys in that slot, rather than the whole database,\nwhen searching for keys matching the pattern.\nFor example, with the pattern `{a}h*llo`, Redis would only try to match it with the keys in slot 15495, which hash tag `{a}` implies.\nTo use pattern with hash tag, see [Hash tags]() in the Cluster specification for more information."
+      "content": "It is possible to only iterate elements matching a given glob-style pattern, similarly to the behavior of the [`KEYS`]({{< relref \"/commands/keys\" >}}) command that takes a pattern as its only argument.\n\nTo do so, just append the `MATCH <pattern>` arguments at the end of the `SCAN` command (it works with all the `SCAN` family commands).\n\nThis is an example of iteration using **MATCH**:\n\n{{< clients-example set=\"cmds_generic\" step=\"scan1\" description=\"Set iteration: Iterate set members with pattern matching using SSCAN MATCH (cursor-based iteration, non-blocking)\" difficulty=\"intermediate\" >}}\n> sadd myset 1 2 3 foo foobar feelsgood\n(integer) 6\n> sscan myset 0 match f*\n1) \"0\"\n2) 1) \"foo\"\n   2) \"feelsgood\"\n   3) \"foobar\"\n{{< /clients-example >}}\n\nIt is important to note that the **MATCH** filter is applied after elements are retrieved from the collection, just before returning data to the client. This means that if the pattern matches very little elements inside the collection, `SCAN` will likely return no elements in most iterations. An example is shown below:\n\n{{< clients-example set=\"cmds_generic\" step=\"scan2\" description=\"Keyspace iteration: Iterate database keys with pattern matching using SCAN MATCH and COUNT (demonstrates cursor iteration with sparse results)\" difficulty=\"intermediate\" >}}\n> scan 0 MATCH *11*\n1) \"288\"\n2) 1) \"key:911\"\n> scan 288 MATCH *11*\n1) \"224\"\n2) (empty list or set)\n> scan 224 MATCH *11*\n1) \"80\"\n2) (empty list or set)\n> scan 80 MATCH *11*\n1) \"176\"\n2) (empty list or set)\n> scan 176 MATCH *11* COUNT 1000\n1) \"0\"\n2)  1) \"key:611\"\n    2) \"key:711\"\n    3) \"key:118\"\n    4) \"key:117\"\n    5) \"key:311\"\n    6) \"key:112\"\n    7) \"key:111\"\n    8) \"key:110\"\n    9) \"key:113\"\n   10) \"key:211\"\n   11) \"key:411\"\n   12) \"key:115\"\n   13) \"key:116\"\n   14) \"key:114\"\n   15) \"key:119\"\n   16) \"key:811\"\n   17) \"key:511\"\n   18) \"key:11\"\n{{< /clients-example >}}\n\nAs you can see most of the calls returned zero elements, but the last call where a `COUNT` of 1000 was used in order to force the command to do more scanning for that iteration.\n\nWhen using [Redis Cluster]({{< relref \"/operate/oss_and_stack/management/scaling\" >}}), the search is optimized for patterns that imply a single slot.\nIf a pattern can only match keys of one slot,\nRedis only iterates over keys in that slot, rather than the whole database,\nwhen searching for keys matching the pattern.\nFor example, with the pattern `{a}h*llo`, Redis would only try to match it with the keys in slot 15495, which hash tag `{a}` implies.\nTo use pattern with hash tag, see [Hash tags]({{< relref \"operate/oss_and_stack/reference/cluster-spec#hash-tags\" >}}) in the Cluster specification for more information."
     },
     {
       "title": "The TYPE option",
       "level": 2,
-      "content": "You can use the `TYPE` option to ask `SCAN` to only return objects that match a given `type`, allowing you to iterate through the database looking for keys of a specific type. The **TYPE** option is only available on the whole-database `SCAN`, not [`HSCAN`]() or [`ZSCAN`]() etc.\n\nThe `type` argument is the same string name that the [`TYPE`]() command returns. Note a quirk where some Redis types, such as GeoHashes, HyperLogLogs, Bitmaps, and Bitfields, may internally be implemented using other Redis types, such as a string or zset, so can't be distinguished from other keys of that same type by `SCAN`. For example, a ZSET and GEOHASH:\n\n#### Code Examples\n\nIterate keyspace by type: Iterate database keys filtered by type using SCAN TYPE (filters keys by data type, useful for type-specific operations)\n\n**Difficulty:** Intermediate\n\n**Commands:** GEOADD, ZADD, TYPE, SCAN\n\n**Complexity:**\n- GEOADD: O(log(N)\n- ZADD: O(log(N)\n- TYPE: O(1)\n- SCAN: O(1)\n\n**Redis CLI:**\n\n```\n> GEOADD geokey 0 0 value\n(integer) 1\n> ZADD zkey 1000 value\n(integer) 1\n> TYPE geokey\nzset\n> TYPE zkey\nzset\n> SCAN 0 TYPE zset\n1) \"0\"\n2) 1) \"geokey\"\n   2) \"zkey\"\n```\n\n**Available in:** Redis CLI, C# (Synchronous), Go, Java (Asynchronous - Lettuce), Java (Reactive - Lettuce), Java (Synchronous - Jedis), JavaScript (Node.js), PHP, Python, Rust (Asynchronous), Rust (Synchronous)\n\n**C# (Synchronous):**\n\n```csharp\n\n```\n\n**Go:**\n\n```go\npackage example_commands_test\n\nimport (\n\t\"context\"\n\t\"fmt\"\n\t\"math\"\n\t\"time\"\n\n\t\"github.com/redis/go-redis/v9\"\n)\n\n\nfunc ExampleClient_del_cmd() {\n\tctx := context.Background()\n\n\trdb := redis.NewClient(&redis.Options{\n\t\tAddr:     \"localhost:6379\",\n\t\tPassword: \"\", // no password docs\n\t\tDB:       0,  // use default DB\n\t})\n\n\n\tdelResult1, err := rdb.Set(ctx, \"key1\", \"Hello\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(delResult1) // >>> OK\n\n\tdelResult2, err := rdb.Set(ctx, \"key2\", \"World\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(delResult2) // >>> OK\n\n\tdelResult3, err := rdb.Del(ctx, \"key1\", \"key2\", \"key3\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(delResult3) // >>> 2\n\n}\n\nfunc ExampleClient_exists_cmd() {\n\tctx := context.Background()\n\n\trdb := redis.NewClient(&redis.Options{\n\t\tAddr:     \"localhost:6379\",\n\t\tPassword: \"\", // no password docs\n\t\tDB:       0,  // use default DB\n\t})\n\n\n\texistsResult1, err := rdb.Set(ctx, \"key1\", \"Hello\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult1) // >>> OK\n\n\texistsResult2, err := rdb.Exists(ctx, \"key1\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult2) // >>> 1\n\n\texistsResult3, err := rdb.Exists(ctx, \"nosuchkey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult3) // >>> 0\n\n\texistsResult4, err := rdb.Set(ctx, \"key2\", \"World\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult4) // >>> OK\n\n\texistsResult5, err := rdb.Exists(ctx, \"key1\", \"key2\", \"nosuchkey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult5) // >>> 2\n\n}\n\nfunc ExampleClient_expire_cmd() {\n\tctx := context.Background()\n\n\trdb := redis.NewClient(&redis.Options{\n\t\tAddr:     \"localhost:6379\",\n\t\tPassword: \"\", // no password docs\n\t\tDB:       0,  // use default DB\n\t})\n\n\n\texpireResult1, err := rdb.Set(ctx, \"mykey\", \"Hello\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult1) // >>> OK\n\n\texpireResult2, err := rdb.Expire(ctx, \"mykey\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult2) // >>> true\n\n\texpireResult3, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(math.Round(expireResult3.Seconds())) // >>> 10\n\n\texpireResult4, err := rdb.Set(ctx, \"mykey\", \"Hello World\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult4) // >>> OK\n\n\texpireResult5, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult5) // >>> -1ns\n\n\texpireResult6, err := rdb.ExpireXX(ctx, \"mykey\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult6) // >>> false\n\n\texpireResult7, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult7) // >>> -1ns\n\n\texpireResult8, err := rdb.ExpireNX(ctx, \"mykey\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult8) // >>> true\n\n\texpireResult9, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(math.Round(expireResult9.Seconds())) // >>> 10\n\n}\n\nfunc ExampleClient_ttl_cmd() {\n\tctx := context.Background()\n\n\trdb := redis.NewClient(&redis.Options{\n\t\tAddr:     \"localhost:6379\",\n\t\tPassword: \"\", // no password docs\n\t\tDB:       0,  // use default DB\n\t})\n\n\n\tttlResult1, err := rdb.Set(ctx, \"mykey\", \"Hello\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(ttlResult1) // >>> OK\n\n\tttlResult2, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(math.Round(ttlResult2.Seconds())) // >>> 10\n\n}\n\n```\n\n**Java (Asynchronous - Lettuce):**\n\n```java\npackage io.redis.examples.async;\n\nimport io.lettuce.core.*;\n\nimport io.lettuce.core.api.async.RedisAsyncCommands;\n\nimport io.lettuce.core.api.StatefulRedisConnection;\n\nimport java.util.concurrent.CompletableFuture;\n\npublic class CmdsGenericExample {\n\n    public void run() {\n\n            CompletableFuture<Void> existsExample = asyncCommands.set(\"key1\", \"Hello\").thenCompose(res1 -> {\n                System.out.println(res1); // >>> OK\n\n                return asyncCommands.exists(\"key1\");\n            }).thenCompose(res2 -> {\n                System.out.println(res2); // >>> 1\n\n                return asyncCommands.exists(\"nosuchkey\");\n            }).thenCompose(res3 -> {\n                System.out.println(res3); // >>> 0\n\n                return asyncCommands.set(\"key2\", \"World\");\n            }).thenCompose(res4 -> {\n                System.out.println(res4); // >>> OK\n\n                return asyncCommands.exists(\"key1\", \"key2\", \"nosuchkey\");\n            }).thenAccept(res5 -> {\n                System.out.println(res5); // >>> 2\n            }).toCompletableFuture();\n            existsExample.join();\n        } finally {\n            redisClient.shutdown();\n        }\n    }\n}\n\n```\n\n**Java (Reactive - Lettuce):**\n\n```java\npackage io.redis.examples.reactive;\n\nimport io.lettuce.core.*;\nimport io.lettuce.core.api.reactive.RedisReactiveCommands;\nimport io.lettuce.core.api.StatefulRedisConnection;\nimport reactor.core.publisher.Mono;\n\n\npublic class CmdsGenericExample {\n\n    public void run() {\n        RedisClient redisClient = RedisClient.create(\"redis://localhost:6379\");\n\n        try (StatefulRedisConnection<String, String> connection = redisClient.connect()) {\n            RedisReactiveCommands<String, String> reactiveCommands = connection.reactive();\n\n            Mono<Void> existsExample = reactiveCommands.set(\"key1\", \"Hello\").doOnNext(res1 -> {\n                System.out.println(res1); // >>> OK\n            }).then(reactiveCommands.exists(\"key1\")).doOnNext(res2 -> {\n                System.out.println(res2); // >>> 1\n            }).then(reactiveCommands.exists(\"nosuchkey\")).doOnNext(res3 -> {\n                System.out.println(res3); // >>> 0\n            }).then(reactiveCommands.set(\"key2\", \"World\")).doOnNext(res4 -> {\n                System.out.println(res4); // >>> OK\n            }).then(reactiveCommands.exists(\"key1\", \"key2\", \"nosuchkey\")).doOnNext(res5 -> {\n                System.out.println(res5); // >>> 2\n            }).then();\n\n            Mono.when(existsExample).block();\n\n        } finally {\n            redisClient.shutdown();\n        }\n    }\n\n}\n\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n\nimport redis.clients.jedis.RedisClient;\nimport redis.clients.jedis.args.ExpiryOption;\n\nimport static org.junit.jupiter.api.Assertions.assertEquals;\n\npublic class CmdsGenericExample {\n\n    public void run() {\n        RedisClient jedis = RedisClient.create(\"redis://localhost:6379\");\n\n\n        String delResult1 = jedis.set(\"key1\", \"Hello\");\n        System.out.println(delResult1); // >>> OK\n\n        String delResult2 = jedis.set(\"key2\", \"World\");\n        System.out.println(delResult2); // >>> OK\n\n        long delResult3 = jedis.del(\"key1\", \"key2\", \"key3\");\n        System.out.println(delResult3); // >>> 2\n\n        // Tests for 'del' step.\n\n\n        String existsResult1 = jedis.set(\"key1\", \"Hello\");\n        System.out.println(existsResult1); // >>> OK\n\n        boolean existsResult2 = jedis.exists(\"key1\");\n        System.out.println(existsResult2); // >>> true\n\n        boolean existsResult3 = jedis.exists(\"nosuchkey\");\n        System.out.println(existsResult3); // >>> false\n\n        String existsResult4 = jedis.set(\"key2\", \"World\");\n        System.out.println(existsResult4); // >>> OK\n\n        long existsResult5 = jedis.exists(\"key1\", \"key2\", \"nosuchkey\");\n        System.out.println(existsResult5); // >>> 2\n\n        // Tests for 'exists' step.\n\n\n        String expireResult1 = jedis.set(\"mykey\", \"Hello\");\n        System.out.println(expireResult1);  // >>> OK\n\n        long expireResult2 = jedis.expire(\"mykey\", 10);\n        System.out.println(expireResult2);  // >>> 1\n\n        long expireResult3 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult3);  // >>> 10\n\n        String expireResult4 = jedis.set(\"mykey\", \"Hello World\");\n        System.out.println(expireResult4);  // >>> OK\n\n        long expireResult5 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult5);  // >>> -1\n\n        long expireResult6 = jedis.expire(\"mykey\", 10, ExpiryOption.XX);\n        System.out.println(expireResult6);  // >>> 0\n\n        long expireResult7 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult7);  // >>> -1\n\n        long expireResult8 = jedis.expire(\"mykey\", 10, ExpiryOption.NX);\n        System.out.println(expireResult8);  // >>> 1\n\n        long expireResult9 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult9);  // >>> 10\n\n        // Tests for 'expire' step.\n\n\n        String ttlResult1 = jedis.set(\"mykey\", \"Hello\");\n        System.out.println(ttlResult1); // >>> OK\n\n        long ttlResult2 = jedis.expire(\"mykey\", 10);\n        System.out.println(ttlResult2); // >>> 1\n\n        long ttlResult3 = jedis.ttl(\"mykey\");\n        System.out.println(ttlResult3); // >>> 10\n\n        // Tests for 'ttl' step.\n\n        jedis.close();\n    }\n}\n\n```\n\n**JavaScript (Node.js):**\n\n```javascript\nconst scan3Res1 = await client.geoAdd('geokey', { longitude: 0, latitude: 0, member: 'value' });\nconsole.log(scan3Res1); // 1\n\nconst scan3Res2 = await client.zAdd('zkey', [{ score: 1000, value: 'value' }]);\nconsole.log(scan3Res2); // 1\n\nconst scan3Res3 = await client.type('geokey');\nconsole.log(scan3Res3); // zset\n\nconst scan3Res4 = await client.type('zkey');\nconsole.log(scan3Res4); // zset\n\nconst scan3Res5 = await client.scan('0', { TYPE: 'zset' });\nconsole.log(scan3Res5.keys); // ['zkey', 'geokey']\n```\n\n**PHP:**\n\n```php\n<?php\nrequire_once 'vendor/autoload.php';\n\nuse Predis\\Client as PredisClient;\n\nclass CmdsGenericTest\n{\n    public function testCmdsGeneric() {\n        $r = new PredisClient([\n            'scheme'   => 'tcp',\n            'host'     => '127.0.0.1',\n            'port'     => 6379,\n            'password' => '',\n            'database' => 0,\n        ]);\n\n        $existsResult1 = $r->set('key1', 'Hello');\n        echo $existsResult1 . PHP_EOL; // >>> OK\n\n        $existsResult2 = $r->exists('key1');\n        echo $existsResult2 . PHP_EOL; // >>> 1\n\n        $existsResult3 = $r->exists('nosuchkey');\n        echo $existsResult3 . PHP_EOL; // >>> 0\n\n        $existsResult4 = $r->set('key2', 'World');\n        echo $existsResult4 . PHP_EOL; // >>> OK\n\n        $existsResult5 = $r->exists('key1', 'key2', 'nosuchkey');\n        echo $existsResult5 . PHP_EOL; // >>> 2\n\n    }\n}\n\n```\n\n**Python:**\n\n```python\nres = r.geoadd(\"geokey\", (0, 0, \"value\"))\nprint(res)\n# >>> 1\n\nres = r.zadd(\"zkey\", {\"value\": 1000})\nprint(res)\n# >>> 1\n\nres = r.type(\"geokey\")\nprint(res)\n# >>> zset\n\nres = r.type(\"zkey\")\nprint(res)\n# >>> zset\n\ncursor, keys = r.scan(cursor=0, _type=\"zset\")\nprint(keys)\n# >>> ['zkey', 'geokey']\n```\n\n**Rust (Asynchronous):**\n\n```rust\n        match r.geo_add(\"geokey\", &[(0.0, 0.0, \"value\")]).await {\n            Ok(res) => {\n                let res: i32 = res;\n                println!(\"{res}\");    // >>> 1\n            },\n            Err(e) => {\n                println!(\"Error adding geo location: {e}\");\n                return;\n            }\n        }\n\n        match r.zadd(\"zkey\", \"value\", 1000).await {\n            Ok(res) => {\n                let res: i32 = res;\n                println!(\"{res}\");    // >>> 1\n            },\n            Err(e) => {\n                println!(\"Error adding to sorted set: {e}\");\n                return;\n            }\n        }\n\n        match r.key_type::<&str, redis::ValueType>(\"geokey\").await {\n            Ok(res) => {\n                println!(\"{res:?}\");    // >>> zset\n            },\n            Err(e) => {\n                println!(\"Error getting key type: {e}\");\n                return;\n            }\n        }\n\n        match r.key_type::<&str, redis::ValueType>(\"zkey\").await {\n            Ok(res) => {\n                println!(\"{res:?}\");    // >>> zset\n            },\n            Err(e) => {\n                println!(\"Error getting key type: {e}\");\n                return;\n            }\n        }\n\n        // Note: Rust redis client doesn't support scan by type directly\n        // We'll manually check the types of our known keys\n        let mut zset_keys = Vec::new();\n        for key in &[\"geokey\", \"zkey\"] {\n            match r.key_type::<&str, redis::ValueType>(key).await {\n                Ok(key_type) => {\n                    if format!(\"{key_type:?}\") == \"ZSet\" {\n                        zset_keys.push(key.to_string());\n                    }\n                },\n                Err(_) => {},\n            }\n        }\n        println!(\"{:?}\", zset_keys);    // >>> [\"zkey\", \"geokey\"]\n```\n\n**Rust (Synchronous):**\n\n```rust\n        match r.geo_add(\"geokey\", &[(0.0, 0.0, \"value\")]) {\n            Ok(res) => {\n                let res: i32 = res;\n                println!(\"{res}\");    // >>> 1\n            },\n            Err(e) => {\n                println!(\"Error adding geo location: {e}\");\n                return;\n            }\n        }\n\n        match r.zadd(\"zkey\", \"value\", 1000) {\n            Ok(res) => {\n                let res: i32 = res;\n                println!(\"{res}\");    // >>> 1\n            },\n            Err(e) => {\n                println!(\"Error adding to sorted set: {e}\");\n                return;\n            }\n        }\n\n        match r.key_type::<&str, redis::ValueType>(\"geokey\") {\n            Ok(res) => {\n                println!(\"{res:?}\");    // >>> zset\n            },\n            Err(e) => {\n                println!(\"Error getting key type: {e}\");\n                return;\n            }\n        }\n\n        match r.key_type::<&str, redis::ValueType>(\"zkey\") {\n            Ok(res) => {\n                println!(\"{res:?}\");    // >>> zset\n            },\n            Err(e) => {\n                println!(\"Error getting key type: {e}\");\n                return;\n            }\n        }\n\n        // Note: Rust redis client doesn't support scan by type directly\n        // We'll manually check the types of our known keys\n        let mut zset_keys = Vec::new();\n        for key in &[\"geokey\", \"zkey\"] {\n            match r.key_type::<&str, redis::ValueType>(key) {\n                Ok(key_type) => {\n                    if format!(\"{key_type:?}\") == \"ZSet\" {\n                        zset_keys.push(key.to_string());\n                    }\n                },\n                Err(_) => {},\n            }\n        }\n        println!(\"{:?}\", zset_keys);    // >>> [\"zkey\", \"geokey\"]\n```\n\n\n\nIt is important to note that the **TYPE** filter is also applied after elements are retrieved from the database, so the option does not reduce the amount of work the server has to do to complete a full iteration, and for rare types you may receive no elements in many iterations."
+      "content": "You can use the `TYPE` option to ask `SCAN` to only return objects that match a given `type`, allowing you to iterate through the database looking for keys of a specific type. The **TYPE** option is only available on the whole-database `SCAN`, not [`HSCAN`]({{< relref \"/commands/hscan\" >}}) or [`ZSCAN`]({{< relref \"/commands/zscan\" >}}) etc.\n\nThe `type` argument is the same string name that the [`TYPE`]({{< relref \"/commands/type\" >}}) command returns. Note a quirk where some Redis types, such as GeoHashes, HyperLogLogs, Bitmaps, and Bitfields, may internally be implemented using other Redis types, such as a string or zset, so can't be distinguished from other keys of that same type by `SCAN`. For example, a ZSET and GEOHASH:\n\n{{< clients-example set=\"cmds_generic\" step=\"scan3\" description=\"Iterate keyspace by type: Iterate database keys filtered by type using SCAN TYPE (filters keys by data type, useful for type-specific operations)\" difficulty=\"intermediate\" >}}\n> GEOADD geokey 0 0 value\n(integer) 1\n> ZADD zkey 1000 value\n(integer) 1\n> TYPE geokey\nzset\n> TYPE zkey\nzset\n> SCAN 0 TYPE zset\n1) \"0\"\n2) 1) \"geokey\"\n   2) \"zkey\"\n{{< /clients-example >}}\n\nIt is important to note that the **TYPE** filter is also applied after elements are retrieved from the database, so the option does not reduce the amount of work the server has to do to complete a full iteration, and for rare types you may receive no elements in many iterations."
     },
     {
       "title": "The NOVALUES option",
       "level": 2,
-      "content": "When using [`HSCAN`](), you can use the `NOVALUES` option to make Redis return only the keys in the hash table without their corresponding values.\n\n#### Code Examples\n\nHash iteration: Iterate hash fields with optional NOVALUES using HSCAN (returns field-value pairs or fields only)\n\n**Difficulty:** Intermediate\n\n**Commands:** HSET, HSCAN\n\n**Complexity:**\n- HSET: O(1)\n- HSCAN: O(1)\n\n**Redis CLI:**\n\n```\n> HSET myhash a 1 b 2\nOK\n> HSCAN myhash 0\n1) \"0\"\n2) 1) \"a\"\n   2) \"1\"\n   3) \"b\"\n   4) \"2\"\n> HSCAN myhash 0 NOVALUES\n1) \"0\"\n2) 1) \"a\"\n   2) \"b\"\n```\n\n**Available in:** Redis CLI, C# (Synchronous), Go, Java (Asynchronous - Lettuce), Java (Reactive - Lettuce), Java (Synchronous - Jedis), JavaScript (Node.js), PHP, Python, Rust (Asynchronous), Rust (Synchronous)\n\n**C# (Synchronous):**\n\n```csharp\n\n```\n\n**Go:**\n\n```go\npackage example_commands_test\n\nimport (\n\t\"context\"\n\t\"fmt\"\n\t\"math\"\n\t\"time\"\n\n\t\"github.com/redis/go-redis/v9\"\n)\n\n\nfunc ExampleClient_del_cmd() {\n\tctx := context.Background()\n\n\trdb := redis.NewClient(&redis.Options{\n\t\tAddr:     \"localhost:6379\",\n\t\tPassword: \"\", // no password docs\n\t\tDB:       0,  // use default DB\n\t})\n\n\n\tdelResult1, err := rdb.Set(ctx, \"key1\", \"Hello\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(delResult1) // >>> OK\n\n\tdelResult2, err := rdb.Set(ctx, \"key2\", \"World\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(delResult2) // >>> OK\n\n\tdelResult3, err := rdb.Del(ctx, \"key1\", \"key2\", \"key3\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(delResult3) // >>> 2\n\n}\n\nfunc ExampleClient_exists_cmd() {\n\tctx := context.Background()\n\n\trdb := redis.NewClient(&redis.Options{\n\t\tAddr:     \"localhost:6379\",\n\t\tPassword: \"\", // no password docs\n\t\tDB:       0,  // use default DB\n\t})\n\n\n\texistsResult1, err := rdb.Set(ctx, \"key1\", \"Hello\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult1) // >>> OK\n\n\texistsResult2, err := rdb.Exists(ctx, \"key1\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult2) // >>> 1\n\n\texistsResult3, err := rdb.Exists(ctx, \"nosuchkey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult3) // >>> 0\n\n\texistsResult4, err := rdb.Set(ctx, \"key2\", \"World\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult4) // >>> OK\n\n\texistsResult5, err := rdb.Exists(ctx, \"key1\", \"key2\", \"nosuchkey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(existsResult5) // >>> 2\n\n}\n\nfunc ExampleClient_expire_cmd() {\n\tctx := context.Background()\n\n\trdb := redis.NewClient(&redis.Options{\n\t\tAddr:     \"localhost:6379\",\n\t\tPassword: \"\", // no password docs\n\t\tDB:       0,  // use default DB\n\t})\n\n\n\texpireResult1, err := rdb.Set(ctx, \"mykey\", \"Hello\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult1) // >>> OK\n\n\texpireResult2, err := rdb.Expire(ctx, \"mykey\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult2) // >>> true\n\n\texpireResult3, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(math.Round(expireResult3.Seconds())) // >>> 10\n\n\texpireResult4, err := rdb.Set(ctx, \"mykey\", \"Hello World\", 0).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult4) // >>> OK\n\n\texpireResult5, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult5) // >>> -1ns\n\n\texpireResult6, err := rdb.ExpireXX(ctx, \"mykey\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult6) // >>> false\n\n\texpireResult7, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult7) // >>> -1ns\n\n\texpireResult8, err := rdb.ExpireNX(ctx, \"mykey\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(expireResult8) // >>> true\n\n\texpireResult9, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(math.Round(expireResult9.Seconds())) // >>> 10\n\n}\n\nfunc ExampleClient_ttl_cmd() {\n\tctx := context.Background()\n\n\trdb := redis.NewClient(&redis.Options{\n\t\tAddr:     \"localhost:6379\",\n\t\tPassword: \"\", // no password docs\n\t\tDB:       0,  // use default DB\n\t})\n\n\n\tttlResult1, err := rdb.Set(ctx, \"mykey\", \"Hello\", 10*time.Second).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(ttlResult1) // >>> OK\n\n\tttlResult2, err := rdb.TTL(ctx, \"mykey\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(math.Round(ttlResult2.Seconds())) // >>> 10\n\n}\n\n```\n\n**Java (Asynchronous - Lettuce):**\n\n```java\npackage io.redis.examples.async;\n\nimport io.lettuce.core.*;\n\nimport io.lettuce.core.api.async.RedisAsyncCommands;\n\nimport io.lettuce.core.api.StatefulRedisConnection;\n\nimport java.util.concurrent.CompletableFuture;\n\npublic class CmdsGenericExample {\n\n    public void run() {\n\n            CompletableFuture<Void> existsExample = asyncCommands.set(\"key1\", \"Hello\").thenCompose(res1 -> {\n                System.out.println(res1); // >>> OK\n\n                return asyncCommands.exists(\"key1\");\n            }).thenCompose(res2 -> {\n                System.out.println(res2); // >>> 1\n\n                return asyncCommands.exists(\"nosuchkey\");\n            }).thenCompose(res3 -> {\n                System.out.println(res3); // >>> 0\n\n                return asyncCommands.set(\"key2\", \"World\");\n            }).thenCompose(res4 -> {\n                System.out.println(res4); // >>> OK\n\n                return asyncCommands.exists(\"key1\", \"key2\", \"nosuchkey\");\n            }).thenAccept(res5 -> {\n                System.out.println(res5); // >>> 2\n            }).toCompletableFuture();\n            existsExample.join();\n        } finally {\n            redisClient.shutdown();\n        }\n    }\n}\n\n```\n\n**Java (Reactive - Lettuce):**\n\n```java\npackage io.redis.examples.reactive;\n\nimport io.lettuce.core.*;\nimport io.lettuce.core.api.reactive.RedisReactiveCommands;\nimport io.lettuce.core.api.StatefulRedisConnection;\nimport reactor.core.publisher.Mono;\n\n\npublic class CmdsGenericExample {\n\n    public void run() {\n        RedisClient redisClient = RedisClient.create(\"redis://localhost:6379\");\n\n        try (StatefulRedisConnection<String, String> connection = redisClient.connect()) {\n            RedisReactiveCommands<String, String> reactiveCommands = connection.reactive();\n\n            Mono<Void> existsExample = reactiveCommands.set(\"key1\", \"Hello\").doOnNext(res1 -> {\n                System.out.println(res1); // >>> OK\n            }).then(reactiveCommands.exists(\"key1\")).doOnNext(res2 -> {\n                System.out.println(res2); // >>> 1\n            }).then(reactiveCommands.exists(\"nosuchkey\")).doOnNext(res3 -> {\n                System.out.println(res3); // >>> 0\n            }).then(reactiveCommands.set(\"key2\", \"World\")).doOnNext(res4 -> {\n                System.out.println(res4); // >>> OK\n            }).then(reactiveCommands.exists(\"key1\", \"key2\", \"nosuchkey\")).doOnNext(res5 -> {\n                System.out.println(res5); // >>> 2\n            }).then();\n\n            Mono.when(existsExample).block();\n\n        } finally {\n            redisClient.shutdown();\n        }\n    }\n\n}\n\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n\nimport redis.clients.jedis.RedisClient;\nimport redis.clients.jedis.args.ExpiryOption;\n\nimport static org.junit.jupiter.api.Assertions.assertEquals;\n\npublic class CmdsGenericExample {\n\n    public void run() {\n        RedisClient jedis = RedisClient.create(\"redis://localhost:6379\");\n\n\n        String delResult1 = jedis.set(\"key1\", \"Hello\");\n        System.out.println(delResult1); // >>> OK\n\n        String delResult2 = jedis.set(\"key2\", \"World\");\n        System.out.println(delResult2); // >>> OK\n\n        long delResult3 = jedis.del(\"key1\", \"key2\", \"key3\");\n        System.out.println(delResult3); // >>> 2\n\n        // Tests for 'del' step.\n\n\n        String existsResult1 = jedis.set(\"key1\", \"Hello\");\n        System.out.println(existsResult1); // >>> OK\n\n        boolean existsResult2 = jedis.exists(\"key1\");\n        System.out.println(existsResult2); // >>> true\n\n        boolean existsResult3 = jedis.exists(\"nosuchkey\");\n        System.out.println(existsResult3); // >>> false\n\n        String existsResult4 = jedis.set(\"key2\", \"World\");\n        System.out.println(existsResult4); // >>> OK\n\n        long existsResult5 = jedis.exists(\"key1\", \"key2\", \"nosuchkey\");\n        System.out.println(existsResult5); // >>> 2\n\n        // Tests for 'exists' step.\n\n\n        String expireResult1 = jedis.set(\"mykey\", \"Hello\");\n        System.out.println(expireResult1);  // >>> OK\n\n        long expireResult2 = jedis.expire(\"mykey\", 10);\n        System.out.println(expireResult2);  // >>> 1\n\n        long expireResult3 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult3);  // >>> 10\n\n        String expireResult4 = jedis.set(\"mykey\", \"Hello World\");\n        System.out.println(expireResult4);  // >>> OK\n\n        long expireResult5 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult5);  // >>> -1\n\n        long expireResult6 = jedis.expire(\"mykey\", 10, ExpiryOption.XX);\n        System.out.println(expireResult6);  // >>> 0\n\n        long expireResult7 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult7);  // >>> -1\n\n        long expireResult8 = jedis.expire(\"mykey\", 10, ExpiryOption.NX);\n        System.out.println(expireResult8);  // >>> 1\n\n        long expireResult9 = jedis.ttl(\"mykey\");\n        System.out.println(expireResult9);  // >>> 10\n\n        // Tests for 'expire' step.\n\n\n        String ttlResult1 = jedis.set(\"mykey\", \"Hello\");\n        System.out.println(ttlResult1); // >>> OK\n\n        long ttlResult2 = jedis.expire(\"mykey\", 10);\n        System.out.println(ttlResult2); // >>> 1\n\n        long ttlResult3 = jedis.ttl(\"mykey\");\n        System.out.println(ttlResult3); // >>> 10\n\n        // Tests for 'ttl' step.\n\n        jedis.close();\n    }\n}\n\n```\n\n**JavaScript (Node.js):**\n\n```javascript\nconst scan4Res1 = await client.hSet('myhash', { a: 1, b: 2 });\nconsole.log(scan4Res1); // 2\n\nconst scan4Res2 = await client.hScan('myhash', '0');\nconsole.log(scan4Res2.entries); // [{field: 'a', value: '1'}, {field: 'b', value: '2'}]\n\nconst scan4Res3 = await client.hScan('myhash', '0', { COUNT: 10 });\nconst items = scan4Res3.entries.map((item) => item.field)\nconsole.log(items); // ['a', 'b']\n```\n\n**PHP:**\n\n```php\n<?php\nrequire_once 'vendor/autoload.php';\n\nuse Predis\\Client as PredisClient;\n\nclass CmdsGenericTest\n{\n    public function testCmdsGeneric() {\n        $r = new PredisClient([\n            'scheme'   => 'tcp',\n            'host'     => '127.0.0.1',\n            'port'     => 6379,\n            'password' => '',\n            'database' => 0,\n        ]);\n\n        $existsResult1 = $r->set('key1', 'Hello');\n        echo $existsResult1 . PHP_EOL; // >>> OK\n\n        $existsResult2 = $r->exists('key1');\n        echo $existsResult2 . PHP_EOL; // >>> 1\n\n        $existsResult3 = $r->exists('nosuchkey');\n        echo $existsResult3 . PHP_EOL; // >>> 0\n\n        $existsResult4 = $r->set('key2', 'World');\n        echo $existsResult4 . PHP_EOL; // >>> OK\n\n        $existsResult5 = $r->exists('key1', 'key2', 'nosuchkey');\n        echo $existsResult5 . PHP_EOL; // >>> 2\n\n    }\n}\n\n```\n\n**Python:**\n\n```python\nres = r.hset(\"myhash\", mapping={\"a\": 1, \"b\": 2})\nprint(res)\n# >>> 2\n\ncursor, keys = r.hscan(\"myhash\", 0)\nprint(keys)\n# >>> {'a': '1', 'b': '2'}\n\ncursor, keys = r.hscan(\"myhash\", 0, no_values=True)\nprint(keys)\n# >>> ['a', 'b']\n\n```\n\n**Rust (Asynchronous):**\n\n```rust\n        match r.hset(\"myhash\", \"a\", \"1\").await {\n            Ok(res) => {\n                let res: i32 = res;\n                println!(\"{res}\");    // >>> 1\n            },\n            Err(e) => {\n                println!(\"Error setting hash field: {e}\");\n                return;\n            }\n        }\n\n        match r.hset(\"myhash\", \"b\", \"2\").await {\n            Ok(res) => {\n                let res: i32 = res;\n                println!(\"{res}\");    // >>> 1\n            },\n            Err(e) => {\n                println!(\"Error setting hash fields: {e}\");\n                return;\n            }\n        }\n\n        let fields = match r.hscan(\"myhash\").await {\n            Ok(iter) => {\n                let fields: std::collections::HashMap<String, String> = iter.collect().await;\n                fields\n            },\n            Err(e) => {\n                println!(\"Error scanning hash: {e}\");\n                return;\n            }\n        };\n\n        println!(\"{fields:?}\");    // >>> {\"a\": \"1\", \"b\": \"2\"}\n\n        // Scan hash keys only (no values)\n        match r.hkeys(\"myhash\").await {\n            Ok(keys) => {\n                let keys: Vec<String> = keys;\n                println!(\"{keys:?}\");    // >>> [\"a\", \"b\"]\n            },\n            Err(e) => {\n                println!(\"Error getting hash keys: {e}\");\n                return;\n            }\n        }\n```\n\n**Rust (Synchronous):**\n\n```rust\n        match r.hset(\"myhash\", \"a\", \"1\") {\n            Ok(res) => {\n                let res: i32 = res;\n                println!(\"{res}\");    // >>> 1\n            },\n            Err(e) => {\n                println!(\"Error setting hash field: {e}\");\n                return;\n            }\n        }\n\n        match r.hset(\"myhash\", \"b\", \"2\") {\n            Ok(res) => {\n                let res: i32 = res;\n                println!(\"{res}\");    // >>> 1\n            },\n            Err(e) => {\n                println!(\"Error setting hash fields: {e}\");\n                return;\n            }\n        }\n\n        match r.hscan(\"myhash\") {\n            Ok(iter) => {\n                let fields: std::collections::HashMap<String, String> = iter.collect();\n                println!(\"{fields:?}\");    // >>> {\"a\": \"1\", \"b\": \"2\"}\n            },\n            Err(e) => {\n                println!(\"Error scanning hash: {e}\");\n                return;\n            }\n        }\n\n        // Scan hash keys only (no values)\n        match r.hkeys(\"myhash\") {\n            Ok(keys) => {\n                let keys: Vec<String> = keys;\n                println!(\"{keys:?}\");    // >>> [\"a\", \"b\"]\n            },\n            Err(e) => {\n                println!(\"Error getting hash keys: {e}\");\n                return;\n            }\n        }\n```"
+      "content": "When using [`HSCAN`]({{< relref \"/commands/hscan\" >}}), you can use the `NOVALUES` option to make Redis return only the keys in the hash table without their corresponding values.\n\n{{< clients-example set=\"cmds_generic\" step=\"scan4\" description=\"Hash iteration: Iterate hash fields with optional NOVALUES using HSCAN (returns field-value pairs or fields only)\" difficulty=\"intermediate\" >}}\n> HSET myhash a 1 b 2\nOK\n> HSCAN myhash 0\n1) \"0\"\n2) 1) \"a\"\n   2) \"1\"\n   3) \"b\"\n   4) \"2\"\n> HSCAN myhash 0 NOVALUES\n1) \"0\"\n2) 1) \"a\"\n   2) \"b\"\n{{< /clients-example >}}"
     },
     {
       "title": "Multiple parallel iterations",
@@ -595,17 +594,17 @@
     {
       "title": "Why SCAN may return all the items of an aggregate data type in a single call?",
       "level": 2,
-      "content": "In the `COUNT` option documentation, we state that sometimes this family of commands may return all the elements of a Set, Hash or Sorted Set at once in a single call, regardless of the `COUNT` option value. The reason why this happens is that the cursor-based iterator can be implemented, and is useful, only when the aggregate data type that we are scanning is represented as a hash table. However Redis uses a [memory optimization]() where small aggregate data types, until they reach a given amount of items or a given max size of single elements, are represented using a compact single-allocation packed encoding. When this is the case, `SCAN` has no meaningful cursor to return, and must iterate the whole data structure at once, so the only sane behavior it has is to return everything in a call.\n\nHowever once the data structures are bigger and are promoted to use real hash tables, the `SCAN` family of commands will resort to the normal behavior. Note that since this special behavior of returning all the elements is true only for small aggregates, it has no effects on the command complexity or latency. However the exact limits to get converted into real hash tables are [user configurable](), so the maximum number of elements you can see returned in a single call depends on how big an aggregate data type could be and still use the packed representation.\n\nAlso note that this behavior is specific of [`SSCAN`](), [`HSCAN`]() and [`ZSCAN`](). `SCAN` itself never shows this behavior because the key space is always represented by hash tables."
+      "content": "In the `COUNT` option documentation, we state that sometimes this family of commands may return all the elements of a Set, Hash or Sorted Set at once in a single call, regardless of the `COUNT` option value. The reason why this happens is that the cursor-based iterator can be implemented, and is useful, only when the aggregate data type that we are scanning is represented as a hash table. However Redis uses a [memory optimization]({{< relref \"/operate/oss_and_stack/management/optimization/memory-optimization\" >}}) where small aggregate data types, until they reach a given amount of items or a given max size of single elements, are represented using a compact single-allocation packed encoding. When this is the case, `SCAN` has no meaningful cursor to return, and must iterate the whole data structure at once, so the only sane behavior it has is to return everything in a call.\n\nHowever once the data structures are bigger and are promoted to use real hash tables, the `SCAN` family of commands will resort to the normal behavior. Note that since this special behavior of returning all the elements is true only for small aggregates, it has no effects on the command complexity or latency. However the exact limits to get converted into real hash tables are [user configurable]({{< relref \"/operate/oss_and_stack/management/optimization/memory-optimization\" >}}), so the maximum number of elements you can see returned in a single call depends on how big an aggregate data type could be and still use the packed representation.\n\nAlso note that this behavior is specific of [`SSCAN`]({{< relref \"/commands/sscan\" >}}), [`HSCAN`]({{< relref \"/commands/hscan\" >}}) and [`ZSCAN`]({{< relref \"/commands/zscan\" >}}). `SCAN` itself never shows this behavior because the key space is always represented by hash tables."
     },
     {
       "title": "Further reading",
       "level": 2,
-      "content": "For more information about managing keys, please refer to the [The Redis Keyspace]() tutorial."
+      "content": "For more information about managing keys, please refer to the [The Redis Keyspace]({{< relref \"/develop/using-commands/keyspace\" >}}) tutorial."
     },
     {
       "title": "Additional examples",
       "level": 2,
-      "content": "Give the following commands, showing iteration of a hash key, a try in the interactive console:\n\n\nHMSET hash name Jack age 33\nHSCAN hash 0"
+      "content": "Give the following commands, showing iteration of a hash key, a try in the interactive console:\n\n{{% redis-cli %}}\nHMSET hash name Jack age 33\nHSCAN hash 0\n{{% /redis-cli %}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -615,7 +614,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): specifically, an array with two elements.\n* The first element is a [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) that represents an unsigned 64-bit number, the cursor.\n* The second element is an [Array reply](../../develop/reference/protocol-spec#arrays) with the names of scanned keys.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): specifically, an array with two elements.\n* The first element is a [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) that represents an unsigned 64-bit number, the cursor.\n* The second element is an [Array reply](../../develop/reference/protocol-spec#arrays) with the names of scanned keys."
+      "content": "{{< multitabs id=\"scan-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): specifically, an array with two elements.\n* The first element is a [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) that represents an unsigned 64-bit number, the cursor.\n* The second element is an [Array reply](../../develop/reference/protocol-spec#arrays) with the names of scanned keys.\n\n-tab-sep-\n\n[Array reply](../../develop/reference/protocol-spec#arrays): specifically, an array with two elements.\n* The first element is a [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) that represents an unsigned 64-bit number, the cursor.\n* The second element is an [Array reply](../../develop/reference/protocol-spec#arrays) with the names of scanned keys.\n\n{{< /multitabs >}}"
     }
   ]
 }

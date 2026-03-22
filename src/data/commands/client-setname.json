@@ -13,6 +13,151 @@
     "@slow",
     "@connection"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "str"
+          },
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "str"
+        },
+        "signature": "client_setname(name: str, **kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "String"
+        },
+        "signature": "String clientSetname(String name)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "name",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*BoolCmd"
+        },
+        "signature": "ClientSetName(ctx context.Context, name string) *BoolCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "The name to assign to the connection",
+            "name": "name",
+            "type": "RedisArgument"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "SimpleStringReply<'OK'>"
+        },
+        "signature": "clientSetName(name: RedisArgument)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "String"
+        },
+        "signature": "String clientSetname(String name)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> clientSetname(String name)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> clientSetname(String name)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$subcommand",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$args",
+            "type": "mixed"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "string"
+        },
+        "signature": "client(string $subcommand, ...$args)"
+      }
+    ]
+  },
   "commandFlags": [
     "noscript",
     "loading",
@@ -37,20 +182,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "The `CLIENT SETNAME` command assigns a name to the current connection.\n\nThe assigned name is displayed in the output of [`CLIENT LIST`]() so that it is possible to identify the client that performed a given connection.\n\nFor instance when Redis is used in order to implement a queue, producers and consumers of messages may want to set the name of the connection according to their role.\n\nThere is no limit to the length of the name that can be assigned if not the usual limits of the Redis string type (512 MB). However it is not possible to use spaces in the connection name as this would violate the format of the [`CLIENT LIST`]() reply.\n\nIt is possible to entirely remove the connection name setting it to the empty string, that is not a valid connection name since it serves to this specific purpose.\n\nThe connection name can be inspected using [`CLIENT GETNAME`]().\n\nEvery new connection starts without an assigned name.\n\nTip: setting names to connections is a good way to debug connection leaks due to bugs in the application using Redis.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the connection name was successfully set.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the connection name was successfully set.",
+  "content": "The `CLIENT SETNAME` command assigns a name to the current connection.\n\nThe assigned name is displayed in the output of [`CLIENT LIST`]() so that it is possible to identify the client that performed a given connection.\n\nFor instance when Redis is used in order to implement a queue, producers and consumers of messages may want to set the name of the connection according to their role.\n\nThere is no limit to the length of the name that can be assigned if not the usual limits of the Redis string type (512 MB). However it is not possible to use spaces in the connection name as this would violate the format of the [`CLIENT LIST`]() reply.\n\nIt is possible to entirely remove the connection name setting it to the empty string, that is not a valid connection name since it serves to this specific purpose.\n\nThe connection name can be inspected using [`CLIENT GETNAME`]().\n\nEvery new connection starts without an assigned name.\n\nTip: setting names to connections is a good way to debug connection leaks due to bugs in the application using Redis.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"client-setname-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the connection name was successfully set.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the connection name was successfully set.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "The `CLIENT SETNAME` command assigns a name to the current connection.\n\nThe assigned name is displayed in the output of [`CLIENT LIST`]() so that it is possible to identify the client that performed a given connection.\n\nFor instance when Redis is used in order to implement a queue, producers and consumers of messages may want to set the name of the connection according to their role.\n\nThere is no limit to the length of the name that can be assigned if not the usual limits of the Redis string type (512 MB). However it is not possible to use spaces in the connection name as this would violate the format of the [`CLIENT LIST`]() reply.\n\nIt is possible to entirely remove the connection name setting it to the empty string, that is not a valid connection name since it serves to this specific purpose.\n\nThe connection name can be inspected using [`CLIENT GETNAME`]().\n\nEvery new connection starts without an assigned name.\n\nTip: setting names to connections is a good way to debug connection leaks due to bugs in the application using Redis.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -65,7 +203,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the connection name was successfully set.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the connection name was successfully set."
+      "content": "{{< multitabs id=\"client-setname-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the connection name was successfully set.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the connection name was successfully set.\n\n{{< /multitabs >}}"
     }
   ]
 }

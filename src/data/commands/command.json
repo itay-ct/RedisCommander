@@ -13,6 +13,111 @@
     "@slow",
     "@connection"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "command(**kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "List<Object>"
+        },
+        "signature": "List<Object> command()"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context",
+            "name": "ctx",
+            "type": "context.Context"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*CommandsInfoCmd"
+        },
+        "signature": "Command(ctx context.Context) *CommandsInfoCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "Array<CommandReply>"
+        },
+        "signature": "command()"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "List<Object>"
+        },
+        "signature": "List<Object> command()"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "RedisFuture<List<Object>>"
+        },
+        "signature": "RedisFuture<List<Object>> command()"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "Flux<Object>"
+        },
+        "signature": "Flux<Object> command()"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$subcommand",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$args",
+            "type": "mixed"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "mixed"
+        },
+        "signature": "command(string $subcommand, ...$args)"
+      }
+    ]
+  },
   "commandFlags": [
     "loading",
     "stale"
@@ -30,70 +135,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "name",
-        "title": "Name"
-      },
-      {
-        "id": "arity",
-        "title": "Arity"
-      },
-      {
-        "children": [
-          {
-            "id": "movablekeys",
-            "title": "Movablekeys"
-          }
-        ],
-        "id": "flags",
-        "title": "Flags"
-      },
-      {
-        "id": "first-key",
-        "title": "First key"
-      },
-      {
-        "id": "last-key",
-        "title": "Last key"
-      },
-      {
-        "id": "step",
-        "title": "Step"
-      },
-      {
-        "id": "acl-categories",
-        "title": "ACL categories"
-      },
-      {
-        "id": "command-tips",
-        "title": "Command tips"
-      },
-      {
-        "id": "key-specifications",
-        "title": "Key specifications"
-      },
-      {
-        "id": "subcommands",
-        "title": "Subcommands"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Return an array with details about every Redis command.\n\nThe `COMMAND` command is introspective.\nIts reply describes all commands that the server can process.\nRedis clients can call it to obtain the server's runtime capabilities during the handshake.\n\n`COMMAND` also has several subcommands.\nPlease refer to its subcommands for further details.\n\n**Cluster note:**\nthis command is especially beneficial for cluster-aware clients.\nSuch clients must identify the names of keys in commands to route requests to the correct shard.\nAlthough most commands accept a single key as their first argument, there are many exceptions to this rule. \nYou can call `COMMAND` and then keep the mapping between commands and their respective key specification rules cached in the client.\n\nThe reply it returns is an array with an element per command.\nEach element that describes a Redis command is represented as an array by itself.\n\nThe command's array consists of a fixed number of elements.\nThe exact number of elements in the array depends on the server's version.\n\n1. Name\n1. Arity\n1. Flags\n1. First key\n1. Last key\n1. Step\n1. [ACL categories][ta] (as of Redis 6.0)\n1. [Tips][tb] (as of Redis 7.0)\n1. [Key specifications][td] (as of Redis 7.0)\n1. Subcommands (as of Redis 7.0)\n\n## Name\n\nThis is the command's name in lowercase.\n\n**Note:**\nRedis command names are case-insensitive.\n\n## Arity\n\nArity is the number of arguments a command expects.\nIt follows a simple pattern:\n\n* A positive integer means a fixed number of arguments.\n* A negative integer means a minimal number of arguments.\n\nCommand arity _always includes_ the command's name itself (and the subcommand when applicable).\n\nExamples:\n\n* [`GET`]()'s arity is _2_ since the command only accepts one argument and always has the format `GET _key_`.\n* [`MGET`]()'s arity is _-2_ since the command accepts at least one argument, but possibly multiple ones: `MGET _key1_ [key2] [key3] ...`.\n\n## Flags\n\nCommand flags are an array. It can contain the following simple strings (status reply):\n\n* **admin:** the command is an administrative command.\n* **asking:** the command is allowed even during hash slot migration.\n  This flag is relevant in Redis Cluster deployments.\n* **blocking:** the command may block the requesting client.\n* **denyoom**: the command is rejected if the server's memory usage is too high (see the _maxmemory_ configuration directive).\n* **fast:** the command operates in constant or log(N) time.\n  This flag is used for monitoring latency with the [`LATENCY`]() command.\n* **loading:** the command is allowed while the database is loading.\n* **movablekeys:** the _first key_, _last key_, and _step_ values don't determine all key positions.\n  Clients need to use [`COMMAND GETKEYS`]() or [key specifications][td] in this case.\n  See below for more details.\n* **no_auth:** executing the command doesn't require authentication.\n* **no_async_loading:** the command is denied during asynchronous loading (that is when a replica uses disk-less `SWAPDB SYNC`, and allows access to the old dataset).\n* **no_mandatory_keys:** the command may accept key name arguments, but these aren't mandatory.\n* **no_multi:** the command isn't allowed inside the context of a [transaction]().\n* **noscript:** the command can't be called from [scripts]() or [functions]().\n* **pubsub:** the command is related to [Redis Pub/Sub]().\n* **random**: the command returns random results, which is a concern with verbatim script replication.\n  As of Redis 7.0, this flag is a [command tip][tb].\n* **readonly:** the command doesn't modify data.\n* **sort_for_script:** the command's output is sorted when called from a script.\n* **skip_monitor:** the command is not shown in [`MONITOR`]()'s output.\n* **skip_slowlog:** the command is not shown in [`SLOWLOG`]()'s output.\n  As of Redis 7.0, this flag is a [command tip][tb].\n* **stale:** the command is allowed while a replica has stale data.\n* **write:** the command may modify data.\n\n### Movablekeys\n\nConsider [`SORT`]():\n\n```\n1) 1) \"sort\"\n   2) (integer) -2\n   3) 1) write\n      2) denyoom\n      3) movablekeys\n   4) (integer) 1\n   5) (integer) 1\n   6) (integer) 1\n   ...\n```\n\nSome Redis commands have no predetermined key locations or are not easy to find.\nFor those commands, the _movablekeys_ flag indicates that the _first key_, _last key_, and _step_ values are insufficient to find all the keys.\n\nHere are several examples of commands that have the _movablekeys_ flag:\n\n* [`SORT`](): the optional _STORE_, _BY_, and _GET_ modifiers are followed by names of keys.\n* [`ZUNION`](): the _numkeys_ argument specifies the number key name arguments.\n* [`MIGRATE`](): the keys appear _KEYS_ keyword and only when the second argument is the empty string.\n\nRedis Cluster clients need to use other measures, as follows, to locate the keys for such commands.\n\nYou can use the [`COMMAND GETKEYS`]() command and have your Redis server report all keys of a given command's invocation.\n\nAs of Redis 7.0, clients can use the [key specifications](#key-specifications) to identify the positions of key names.\nThe only commands that require using [`COMMAND GETKEYS`]() are [`SORT`]() and [`MIGRATE`]() for clients that parse keys' specifications.\n\nFor more information, please refer to the [key specifications page][tr].\n\n## First key\n\nThe position of the command's first key name argument.\nFor most commands, the first key's position is 1.\nPosition 0 is always the command name itself.\n\n## Last key\n\nThe position of the command's last key name argument.\nRedis commands usually accept one, two or multiple number of keys.\n\nCommands that accept a single key have both _first key_ and _last key_ set to 1.\n\nCommands that accept two key name arguments, e.g. [`BRPOPLPUSH`](), [`SMOVE`]() and [`RENAME`](), have this value set to the position of their second key.\n\nMulti-key commands that accept an arbitrary number of keys, such as [`MSET`](), use the value -1.\n\n## Step\n\nThe step, or increment, between the _first key_ and the position of the next key.\n\nConsider the following two examples:\n\n```\n1) 1) \"mset\"\n   2) (integer) -3\n   3) 1) write\n      2) denyoom\n   4) (integer) 1\n   5) (integer) -1\n   6) (integer) 2\n   ...\n```\n\n```\n1) 1) \"mget\"\n   2) (integer) -2\n   3) 1) readonly\n      2) fast\n   4) (integer) 1\n   5) (integer) -1\n   6) (integer) 1\n   ...\n```\n\nThe step count allows us to find keys' positions. \nFor example [`MSET`](): Its syntax is `MSET _key1_ _val1_ [key2] [val2] [key3] [val3]...`, so the keys are at every other position (step value of _2_).\nUnlike [`MGET`](), which uses a step value of _1_.\n\n## ACL categories\n\nThis is an array of simple strings that are the ACL categories to which the command belongs.\nPlease refer to the [Access Control List][ta] page for more information.\n\n## Command tips\n\nHelpful information about the command.\nTo be used by clients/proxies.\n\nPlease check the [Command tips][tb] page for more information.\n\n## Key specifications\n\nThis is an array consisting of the command's key specifications.\nEach element in the array is a map describing a method for locating keys in the command's arguments.\n\nFor more information please check the [key specifications page][td].\n\n## Subcommands\n\nThis is an array containing all of the command's subcommands, if any.\nSome Redis commands have subcommands (e.g., the `REWRITE` subcommand of [`CONFIG`]()).\nEach element in the array represents one subcommand and follows the same specifications as those of `COMMAND`'s reply.\n\n[ta]: /operate/oss_and_stack/management/security/acl\n[tb]: /develop/reference/command-tips.md\n[td]: /develop/reference/key-specs.md\n[tr]: /develop/reference/key-specs.md\n\n## Examples\n\nThe following is `COMMAND`'s output for the [`GET`]() command:\n\n```\n1)  1) \"get\"\n    2) (integer) 2\n    3) 1) readonly\n       2) fast\n    4) (integer) 1\n    5) (integer) 1\n    6) (integer) 1\n    7) 1) @read\n       2) @string\n       3) @fast\n    8) (empty array)\n    9) 1) 1) \"flags\"\n          2) 1) read\n          3) \"begin_search\"\n          4) 1) \"type\"\n             2) \"index\"\n             3) \"spec\"\n             4) 1) \"index\"\n                2) (integer) 1\n          5) \"find_keys\"\n          6) 1) \"type\"\n             2) \"range\"\n             3) \"spec\"\n             4) 1) \"lastkey\"\n                2) (integer) 0\n                3) \"keystep\"\n                4) (integer) 1\n                5) \"limit\"\n                6) (integer) 0\n   10) (empty array)\n...\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a nested list of command details. The order of the commands in the array is random.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a nested list of command details. The order of the commands in the array is random.",
+  "content": "Return an array with details about every Redis command.\n\nThe `COMMAND` command is introspective.\nIts reply describes all commands that the server can process.\nRedis clients can call it to obtain the server's runtime capabilities during the handshake.\n\n`COMMAND` also has several subcommands.\nPlease refer to its subcommands for further details.\n\n**Cluster note:**\nthis command is especially beneficial for cluster-aware clients.\nSuch clients must identify the names of keys in commands to route requests to the correct shard.\nAlthough most commands accept a single key as their first argument, there are many exceptions to this rule. \nYou can call `COMMAND` and then keep the mapping between commands and their respective key specification rules cached in the client.\n\nThe reply it returns is an array with an element per command.\nEach element that describes a Redis command is represented as an array by itself.\n\nThe command's array consists of a fixed number of elements.\nThe exact number of elements in the array depends on the server's version.\n\n1. Name\n1. Arity\n1. Flags\n1. First key\n1. Last key\n1. Step\n1. [ACL categories][ta] (as of Redis 6.0)\n1. [Tips][tb] (as of Redis 7.0)\n1. [Key specifications][td] (as of Redis 7.0)\n1. Subcommands (as of Redis 7.0)\n\n## Name\n\nThis is the command's name in lowercase.\n\n**Note:**\nRedis command names are case-insensitive.\n\n## Arity\n\nArity is the number of arguments a command expects.\nIt follows a simple pattern:\n\n* A positive integer means a fixed number of arguments.\n* A negative integer means a minimal number of arguments.\n\nCommand arity _always includes_ the command's name itself (and the subcommand when applicable).\n\nExamples:\n\n* [`GET`]({{< relref \"/commands/get\" >}})'s arity is _2_ since the command only accepts one argument and always has the format `GET _key_`.\n* [`MGET`]({{< relref \"/commands/mget\" >}})'s arity is _-2_ since the command accepts at least one argument, but possibly multiple ones: `MGET _key1_ [key2] [key3] ...`.\n\n## Flags\n\nCommand flags are an array. It can contain the following simple strings (status reply):\n\n* **admin:** the command is an administrative command.\n* **asking:** the command is allowed even during hash slot migration.\n  This flag is relevant in Redis Cluster deployments.\n* **blocking:** the command may block the requesting client.\n* **denyoom**: the command is rejected if the server's memory usage is too high (see the _maxmemory_ configuration directive).\n* **fast:** the command operates in constant or log(N) time.\n  This flag is used for monitoring latency with the [`LATENCY`]({{< relref \"/commands/latency\" >}}) command.\n* **loading:** the command is allowed while the database is loading.\n* **movablekeys:** the _first key_, _last key_, and _step_ values don't determine all key positions.\n  Clients need to use [`COMMAND GETKEYS`]({{< relref \"/commands/command-getkeys\" >}}) or [key specifications][td] in this case.\n  See below for more details.\n* **no_auth:** executing the command doesn't require authentication.\n* **no_async_loading:** the command is denied during asynchronous loading (that is when a replica uses disk-less `SWAPDB SYNC`, and allows access to the old dataset).\n* **no_mandatory_keys:** the command may accept key name arguments, but these aren't mandatory.\n* **no_multi:** the command isn't allowed inside the context of a [transaction]({{< relref \"develop/using-commands/transactions\" >}}).\n* **noscript:** the command can't be called from [scripts]({{< relref \"/develop/programmability/eval-intro\" >}}) or [functions]({{< relref \"/develop/programmability/functions-intro\" >}}).\n* **pubsub:** the command is related to [Redis Pub/Sub]({{< relref \"/develop/pubsub\" >}}).\n* **random**: the command returns random results, which is a concern with verbatim script replication.\n  As of Redis 7.0, this flag is a [command tip][tb].\n* **readonly:** the command doesn't modify data.\n* **sort_for_script:** the command's output is sorted when called from a script.\n* **skip_monitor:** the command is not shown in [`MONITOR`]({{< relref \"/commands/monitor\" >}})'s output.\n* **skip_slowlog:** the command is not shown in [`SLOWLOG`]({{< relref \"/commands/slowlog\" >}})'s output.\n  As of Redis 7.0, this flag is a [command tip][tb].\n* **stale:** the command is allowed while a replica has stale data.\n* **write:** the command may modify data.\n\n### Movablekeys\n\nConsider [`SORT`]({{< relref \"/commands/sort\" >}}):\n\n```\n1) 1) \"sort\"\n   2) (integer) -2\n   3) 1) write\n      2) denyoom\n      3) movablekeys\n   4) (integer) 1\n   5) (integer) 1\n   6) (integer) 1\n   ...\n```\n\nSome Redis commands have no predetermined key locations or are not easy to find.\nFor those commands, the _movablekeys_ flag indicates that the _first key_, _last key_, and _step_ values are insufficient to find all the keys.\n\nHere are several examples of commands that have the _movablekeys_ flag:\n\n* [`SORT`]({{< relref \"/commands/sort\" >}}): the optional _STORE_, _BY_, and _GET_ modifiers are followed by names of keys.\n* [`ZUNION`]({{< relref \"/commands/zunion\" >}}): the _numkeys_ argument specifies the number key name arguments.\n* [`MIGRATE`]({{< relref \"/commands/migrate\" >}}): the keys appear _KEYS_ keyword and only when the second argument is the empty string.\n\nRedis Cluster clients need to use other measures, as follows, to locate the keys for such commands.\n\nYou can use the [`COMMAND GETKEYS`]({{< relref \"/commands/command-getkeys\" >}}) command and have your Redis server report all keys of a given command's invocation.\n\nAs of Redis 7.0, clients can use the [key specifications](#key-specifications) to identify the positions of key names.\nThe only commands that require using [`COMMAND GETKEYS`]({{< relref \"/commands/command-getkeys\" >}}) are [`SORT`]({{< relref \"/commands/sort\" >}}) and [`MIGRATE`]({{< relref \"/commands/migrate\" >}}) for clients that parse keys' specifications.\n\nFor more information, please refer to the [key specifications page][tr].\n\n## First key\n\nThe position of the command's first key name argument.\nFor most commands, the first key's position is 1.\nPosition 0 is always the command name itself.\n\n## Last key\n\nThe position of the command's last key name argument.\nRedis commands usually accept one, two or multiple number of keys.\n\nCommands that accept a single key have both _first key_ and _last key_ set to 1.\n\nCommands that accept two key name arguments, e.g. [`BRPOPLPUSH`]({{< relref \"/commands/brpoplpush\" >}}), [`SMOVE`]({{< relref \"/commands/smove\" >}}) and [`RENAME`]({{< relref \"/commands/rename\" >}}), have this value set to the position of their second key.\n\nMulti-key commands that accept an arbitrary number of keys, such as [`MSET`]({{< relref \"/commands/mset\" >}}), use the value -1.\n\n## Step\n\nThe step, or increment, between the _first key_ and the position of the next key.\n\nConsider the following two examples:\n\n```\n1) 1) \"mset\"\n   2) (integer) -3\n   3) 1) write\n      2) denyoom\n   4) (integer) 1\n   5) (integer) -1\n   6) (integer) 2\n   ...\n```\n\n```\n1) 1) \"mget\"\n   2) (integer) -2\n   3) 1) readonly\n      2) fast\n   4) (integer) 1\n   5) (integer) -1\n   6) (integer) 1\n   ...\n```\n\nThe step count allows us to find keys' positions. \nFor example [`MSET`]({{< relref \"/commands/mset\" >}}): Its syntax is `MSET _key1_ _val1_ [key2] [val2] [key3] [val3]...`, so the keys are at every other position (step value of _2_).\nUnlike [`MGET`]({{< relref \"/commands/mget\" >}}), which uses a step value of _1_.\n\n## ACL categories\n\nThis is an array of simple strings that are the ACL categories to which the command belongs.\nPlease refer to the [Access Control List][ta] page for more information.\n\n## Command tips\n\nHelpful information about the command.\nTo be used by clients/proxies.\n\nPlease check the [Command tips][tb] page for more information.\n\n## Key specifications\n\nThis is an array consisting of the command's key specifications.\nEach element in the array is a map describing a method for locating keys in the command's arguments.\n\nFor more information please check the [key specifications page][td].\n\n## Subcommands\n\nThis is an array containing all of the command's subcommands, if any.\nSome Redis commands have subcommands (e.g., the `REWRITE` subcommand of [`CONFIG`]({{< relref \"/commands/config\" >}})).\nEach element in the array represents one subcommand and follows the same specifications as those of `COMMAND`'s reply.\n\n[ta]: /operate/oss_and_stack/management/security/acl\n[tb]: /develop/reference/command-tips.md\n[td]: /develop/reference/key-specs.md\n[tr]: /develop/reference/key-specs.md\n\n## Examples\n\nThe following is `COMMAND`'s output for the [`GET`]({{< relref \"/commands/get\" >}}) command:\n\n```\n1)  1) \"get\"\n    2) (integer) 2\n    3) 1) readonly\n       2) fast\n    4) (integer) 1\n    5) (integer) 1\n    6) (integer) 1\n    7) 1) @read\n       2) @string\n       3) @fast\n    8) (empty array)\n    9) 1) 1) \"flags\"\n          2) 1) read\n          3) \"begin_search\"\n          4) 1) \"type\"\n             2) \"index\"\n             3) \"spec\"\n             4) 1) \"index\"\n                2) (integer) 1\n          5) \"find_keys\"\n          6) 1) \"type\"\n             2) \"range\"\n             3) \"spec\"\n             4) 1) \"lastkey\"\n                2) (integer) 0\n                3) \"keystep\"\n                4) (integer) 1\n                5) \"limit\"\n                6) (integer) 0\n   10) (empty array)\n...\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"command-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a nested list of command details. The order of the commands in the array is random.\n\n-tab-sep-\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a nested list of command details. The order of the commands in the array is random.\n\n{{< /multitabs >}}",
+  "example": "1)  1) \"get\"\n    2) (integer) 2\n    3) 1) readonly\n       2) fast\n    4) (integer) 1\n    5) (integer) 1\n    6) (integer) 1\n    7) 1) @read\n       2) @string\n       3) @fast\n    8) (empty array)\n    9) 1) 1) \"flags\"\n          2) 1) read\n          3) \"begin_search\"\n          4) 1) \"type\"\n             2) \"index\"\n             3) \"spec\"\n             4) 1) \"index\"\n                2) (integer) 1\n          5) \"find_keys\"\n          6) 1) \"type\"\n             2) \"range\"\n             3) \"spec\"\n             4) 1) \"lastkey\"\n                2) (integer) 0\n                3) \"keystep\"\n                4) (integer) 1\n                5) \"limit\"\n                6) (integer) 0\n   10) (empty array)\n...",
   "intro": "Return an array with details about every Redis command.\n\nThe `COMMAND` command is introspective.\nIts reply describes all commands that the server can process.\nRedis clients can call it to obtain the server's runtime capabilities during the handshake.\n\n`COMMAND` also has several subcommands.\nPlease refer to its subcommands for further details.\n\n**Cluster note:**\nthis command is especially beneficial for cluster-aware clients.\nSuch clients must identify the names of keys in commands to route requests to the correct shard.\nAlthough most commands accept a single key as their first argument, there are many exceptions to this rule. \nYou can call `COMMAND` and then keep the mapping between commands and their respective key specification rules cached in the client.\n\nThe reply it returns is an array with an element per command.\nEach element that describes a Redis command is represented as an array by itself.\n\nThe command's array consists of a fixed number of elements.\nThe exact number of elements in the array depends on the server's version.\n\n1. Name\n1. Arity\n1. Flags\n1. First key\n1. Last key\n1. Step\n1. [ACL categories][ta] (as of Redis 6.0)\n1. [Tips][tb] (as of Redis 7.0)\n1. [Key specifications][td] (as of Redis 7.0)\n1. Subcommands (as of Redis 7.0)",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -108,17 +156,17 @@
     {
       "title": "Arity",
       "level": 2,
-      "content": "Arity is the number of arguments a command expects.\nIt follows a simple pattern:\n\n* A positive integer means a fixed number of arguments.\n* A negative integer means a minimal number of arguments.\n\nCommand arity _always includes_ the command's name itself (and the subcommand when applicable).\n\nExamples:\n\n* [`GET`]()'s arity is _2_ since the command only accepts one argument and always has the format `GET _key_`.\n* [`MGET`]()'s arity is _-2_ since the command accepts at least one argument, but possibly multiple ones: `MGET _key1_ [key2] [key3] ...`."
+      "content": "Arity is the number of arguments a command expects.\nIt follows a simple pattern:\n\n* A positive integer means a fixed number of arguments.\n* A negative integer means a minimal number of arguments.\n\nCommand arity _always includes_ the command's name itself (and the subcommand when applicable).\n\nExamples:\n\n* [`GET`]({{< relref \"/commands/get\" >}})'s arity is _2_ since the command only accepts one argument and always has the format `GET _key_`.\n* [`MGET`]({{< relref \"/commands/mget\" >}})'s arity is _-2_ since the command accepts at least one argument, but possibly multiple ones: `MGET _key1_ [key2] [key3] ...`."
     },
     {
       "title": "Flags",
       "level": 2,
-      "content": "Command flags are an array. It can contain the following simple strings (status reply):\n\n* **admin:** the command is an administrative command.\n* **asking:** the command is allowed even during hash slot migration.\n  This flag is relevant in Redis Cluster deployments.\n* **blocking:** the command may block the requesting client.\n* **denyoom**: the command is rejected if the server's memory usage is too high (see the _maxmemory_ configuration directive).\n* **fast:** the command operates in constant or log(N) time.\n  This flag is used for monitoring latency with the [`LATENCY`]() command.\n* **loading:** the command is allowed while the database is loading.\n* **movablekeys:** the _first key_, _last key_, and _step_ values don't determine all key positions.\n  Clients need to use [`COMMAND GETKEYS`]() or [key specifications][td] in this case.\n  See below for more details.\n* **no_auth:** executing the command doesn't require authentication.\n* **no_async_loading:** the command is denied during asynchronous loading (that is when a replica uses disk-less `SWAPDB SYNC`, and allows access to the old dataset).\n* **no_mandatory_keys:** the command may accept key name arguments, but these aren't mandatory.\n* **no_multi:** the command isn't allowed inside the context of a [transaction]().\n* **noscript:** the command can't be called from [scripts]() or [functions]().\n* **pubsub:** the command is related to [Redis Pub/Sub]().\n* **random**: the command returns random results, which is a concern with verbatim script replication.\n  As of Redis 7.0, this flag is a [command tip][tb].\n* **readonly:** the command doesn't modify data.\n* **sort_for_script:** the command's output is sorted when called from a script.\n* **skip_monitor:** the command is not shown in [`MONITOR`]()'s output.\n* **skip_slowlog:** the command is not shown in [`SLOWLOG`]()'s output.\n  As of Redis 7.0, this flag is a [command tip][tb].\n* **stale:** the command is allowed while a replica has stale data.\n* **write:** the command may modify data."
+      "content": "Command flags are an array. It can contain the following simple strings (status reply):\n\n* **admin:** the command is an administrative command.\n* **asking:** the command is allowed even during hash slot migration.\n  This flag is relevant in Redis Cluster deployments.\n* **blocking:** the command may block the requesting client.\n* **denyoom**: the command is rejected if the server's memory usage is too high (see the _maxmemory_ configuration directive).\n* **fast:** the command operates in constant or log(N) time.\n  This flag is used for monitoring latency with the [`LATENCY`]({{< relref \"/commands/latency\" >}}) command.\n* **loading:** the command is allowed while the database is loading.\n* **movablekeys:** the _first key_, _last key_, and _step_ values don't determine all key positions.\n  Clients need to use [`COMMAND GETKEYS`]({{< relref \"/commands/command-getkeys\" >}}) or [key specifications][td] in this case.\n  See below for more details.\n* **no_auth:** executing the command doesn't require authentication.\n* **no_async_loading:** the command is denied during asynchronous loading (that is when a replica uses disk-less `SWAPDB SYNC`, and allows access to the old dataset).\n* **no_mandatory_keys:** the command may accept key name arguments, but these aren't mandatory.\n* **no_multi:** the command isn't allowed inside the context of a [transaction]({{< relref \"develop/using-commands/transactions\" >}}).\n* **noscript:** the command can't be called from [scripts]({{< relref \"/develop/programmability/eval-intro\" >}}) or [functions]({{< relref \"/develop/programmability/functions-intro\" >}}).\n* **pubsub:** the command is related to [Redis Pub/Sub]({{< relref \"/develop/pubsub\" >}}).\n* **random**: the command returns random results, which is a concern with verbatim script replication.\n  As of Redis 7.0, this flag is a [command tip][tb].\n* **readonly:** the command doesn't modify data.\n* **sort_for_script:** the command's output is sorted when called from a script.\n* **skip_monitor:** the command is not shown in [`MONITOR`]({{< relref \"/commands/monitor\" >}})'s output.\n* **skip_slowlog:** the command is not shown in [`SLOWLOG`]({{< relref \"/commands/slowlog\" >}})'s output.\n  As of Redis 7.0, this flag is a [command tip][tb].\n* **stale:** the command is allowed while a replica has stale data.\n* **write:** the command may modify data."
     },
     {
       "title": "Movablekeys",
       "level": 3,
-      "content": "Consider [`SORT`]():\n\n```\n1) 1) \"sort\"\n   2) (integer) -2\n   3) 1) write\n      2) denyoom\n      3) movablekeys\n   4) (integer) 1\n   5) (integer) 1\n   6) (integer) 1\n   ...\n```\n\nSome Redis commands have no predetermined key locations or are not easy to find.\nFor those commands, the _movablekeys_ flag indicates that the _first key_, _last key_, and _step_ values are insufficient to find all the keys.\n\nHere are several examples of commands that have the _movablekeys_ flag:\n\n* [`SORT`](): the optional _STORE_, _BY_, and _GET_ modifiers are followed by names of keys.\n* [`ZUNION`](): the _numkeys_ argument specifies the number key name arguments.\n* [`MIGRATE`](): the keys appear _KEYS_ keyword and only when the second argument is the empty string.\n\nRedis Cluster clients need to use other measures, as follows, to locate the keys for such commands.\n\nYou can use the [`COMMAND GETKEYS`]() command and have your Redis server report all keys of a given command's invocation.\n\nAs of Redis 7.0, clients can use the [key specifications](#key-specifications) to identify the positions of key names.\nThe only commands that require using [`COMMAND GETKEYS`]() are [`SORT`]() and [`MIGRATE`]() for clients that parse keys' specifications.\n\nFor more information, please refer to the [key specifications page][tr]."
+      "content": "Consider [`SORT`]({{< relref \"/commands/sort\" >}}):\n\n```\n1) 1) \"sort\"\n   2) (integer) -2\n   3) 1) write\n      2) denyoom\n      3) movablekeys\n   4) (integer) 1\n   5) (integer) 1\n   6) (integer) 1\n   ...\n```\n\nSome Redis commands have no predetermined key locations or are not easy to find.\nFor those commands, the _movablekeys_ flag indicates that the _first key_, _last key_, and _step_ values are insufficient to find all the keys.\n\nHere are several examples of commands that have the _movablekeys_ flag:\n\n* [`SORT`]({{< relref \"/commands/sort\" >}}): the optional _STORE_, _BY_, and _GET_ modifiers are followed by names of keys.\n* [`ZUNION`]({{< relref \"/commands/zunion\" >}}): the _numkeys_ argument specifies the number key name arguments.\n* [`MIGRATE`]({{< relref \"/commands/migrate\" >}}): the keys appear _KEYS_ keyword and only when the second argument is the empty string.\n\nRedis Cluster clients need to use other measures, as follows, to locate the keys for such commands.\n\nYou can use the [`COMMAND GETKEYS`]({{< relref \"/commands/command-getkeys\" >}}) command and have your Redis server report all keys of a given command's invocation.\n\nAs of Redis 7.0, clients can use the [key specifications](#key-specifications) to identify the positions of key names.\nThe only commands that require using [`COMMAND GETKEYS`]({{< relref \"/commands/command-getkeys\" >}}) are [`SORT`]({{< relref \"/commands/sort\" >}}) and [`MIGRATE`]({{< relref \"/commands/migrate\" >}}) for clients that parse keys' specifications.\n\nFor more information, please refer to the [key specifications page][tr]."
     },
     {
       "title": "First key",
@@ -128,12 +176,12 @@
     {
       "title": "Last key",
       "level": 2,
-      "content": "The position of the command's last key name argument.\nRedis commands usually accept one, two or multiple number of keys.\n\nCommands that accept a single key have both _first key_ and _last key_ set to 1.\n\nCommands that accept two key name arguments, e.g. [`BRPOPLPUSH`](), [`SMOVE`]() and [`RENAME`](), have this value set to the position of their second key.\n\nMulti-key commands that accept an arbitrary number of keys, such as [`MSET`](), use the value -1."
+      "content": "The position of the command's last key name argument.\nRedis commands usually accept one, two or multiple number of keys.\n\nCommands that accept a single key have both _first key_ and _last key_ set to 1.\n\nCommands that accept two key name arguments, e.g. [`BRPOPLPUSH`]({{< relref \"/commands/brpoplpush\" >}}), [`SMOVE`]({{< relref \"/commands/smove\" >}}) and [`RENAME`]({{< relref \"/commands/rename\" >}}), have this value set to the position of their second key.\n\nMulti-key commands that accept an arbitrary number of keys, such as [`MSET`]({{< relref \"/commands/mset\" >}}), use the value -1."
     },
     {
       "title": "Step",
       "level": 2,
-      "content": "The step, or increment, between the _first key_ and the position of the next key.\n\nConsider the following two examples:\n\n```\n1) 1) \"mset\"\n   2) (integer) -3\n   3) 1) write\n      2) denyoom\n   4) (integer) 1\n   5) (integer) -1\n   6) (integer) 2\n   ...\n```\n\n```\n1) 1) \"mget\"\n   2) (integer) -2\n   3) 1) readonly\n      2) fast\n   4) (integer) 1\n   5) (integer) -1\n   6) (integer) 1\n   ...\n```\n\nThe step count allows us to find keys' positions. \nFor example [`MSET`](): Its syntax is `MSET _key1_ _val1_ [key2] [val2] [key3] [val3]...`, so the keys are at every other position (step value of _2_).\nUnlike [`MGET`](), which uses a step value of _1_."
+      "content": "The step, or increment, between the _first key_ and the position of the next key.\n\nConsider the following two examples:\n\n```\n1) 1) \"mset\"\n   2) (integer) -3\n   3) 1) write\n      2) denyoom\n   4) (integer) 1\n   5) (integer) -1\n   6) (integer) 2\n   ...\n```\n\n```\n1) 1) \"mget\"\n   2) (integer) -2\n   3) 1) readonly\n      2) fast\n   4) (integer) 1\n   5) (integer) -1\n   6) (integer) 1\n   ...\n```\n\nThe step count allows us to find keys' positions. \nFor example [`MSET`]({{< relref \"/commands/mset\" >}}): Its syntax is `MSET _key1_ _val1_ [key2] [val2] [key3] [val3]...`, so the keys are at every other position (step value of _2_).\nUnlike [`MGET`]({{< relref \"/commands/mget\" >}}), which uses a step value of _1_."
     },
     {
       "title": "ACL categories",
@@ -153,12 +201,12 @@
     {
       "title": "Subcommands",
       "level": 2,
-      "content": "This is an array containing all of the command's subcommands, if any.\nSome Redis commands have subcommands (e.g., the `REWRITE` subcommand of [`CONFIG`]()).\nEach element in the array represents one subcommand and follows the same specifications as those of `COMMAND`'s reply.\n\n[ta]: /operate/oss_and_stack/management/security/acl\n[tb]: /develop/reference/command-tips.md\n[td]: /develop/reference/key-specs.md\n[tr]: /develop/reference/key-specs.md"
+      "content": "This is an array containing all of the command's subcommands, if any.\nSome Redis commands have subcommands (e.g., the `REWRITE` subcommand of [`CONFIG`]({{< relref \"/commands/config\" >}})).\nEach element in the array represents one subcommand and follows the same specifications as those of `COMMAND`'s reply.\n\n[ta]: /operate/oss_and_stack/management/security/acl\n[tb]: /develop/reference/command-tips.md\n[td]: /develop/reference/key-specs.md\n[tr]: /develop/reference/key-specs.md"
     },
     {
       "title": "Examples",
       "level": 2,
-      "content": "The following is `COMMAND`'s output for the [`GET`]() command:\n\n```\n1)  1) \"get\"\n    2) (integer) 2\n    3) 1) readonly\n       2) fast\n    4) (integer) 1\n    5) (integer) 1\n    6) (integer) 1\n    7) 1) @read\n       2) @string\n       3) @fast\n    8) (empty array)\n    9) 1) 1) \"flags\"\n          2) 1) read\n          3) \"begin_search\"\n          4) 1) \"type\"\n             2) \"index\"\n             3) \"spec\"\n             4) 1) \"index\"\n                2) (integer) 1\n          5) \"find_keys\"\n          6) 1) \"type\"\n             2) \"range\"\n             3) \"spec\"\n             4) 1) \"lastkey\"\n                2) (integer) 0\n                3) \"keystep\"\n                4) (integer) 1\n                5) \"limit\"\n                6) (integer) 0\n   10) (empty array)\n...\n```"
+      "content": "The following is `COMMAND`'s output for the [`GET`]({{< relref \"/commands/get\" >}}) command:\n\n```\n1)  1) \"get\"\n    2) (integer) 2\n    3) 1) readonly\n       2) fast\n    4) (integer) 1\n    5) (integer) 1\n    6) (integer) 1\n    7) 1) @read\n       2) @string\n       3) @fast\n    8) (empty array)\n    9) 1) 1) \"flags\"\n          2) 1) read\n          3) \"begin_search\"\n          4) 1) \"type\"\n             2) \"index\"\n             3) \"spec\"\n             4) 1) \"index\"\n                2) (integer) 1\n          5) \"find_keys\"\n          6) 1) \"type\"\n             2) \"range\"\n             3) \"spec\"\n             4) 1) \"lastkey\"\n                2) (integer) 0\n                3) \"keystep\"\n                4) (integer) 1\n                5) \"limit\"\n                6) (integer) 0\n   10) (empty array)\n...\n```"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -168,7 +216,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a nested list of command details. The order of the commands in the array is random.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a nested list of command details. The order of the commands in the array is random."
+      "content": "{{< multitabs id=\"command-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a nested list of command details. The order of the commands in the array is random.\n\n-tab-sep-\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a nested list of command details. The order of the commands in the array is random.\n\n{{< /multitabs >}}"
     }
   ]
 }

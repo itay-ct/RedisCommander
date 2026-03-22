@@ -14,6 +14,38 @@
     "@slow",
     "@dangerous"
   ],
+  "apiMethods": {
+    "lettuce_sync": [
+      {
+        "params": [],
+        "returns": {
+          "description": "BUMPED or STILL",
+          "type": "String"
+        },
+        "signature": "String clusterBumpepoch()"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [],
+        "returns": {
+          "description": "BUMPED or STILL",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> clusterBumpepoch()"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [],
+        "returns": {
+          "description": "BUMPED or STILL",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> clusterBumpepoch()"
+      }
+    ]
+  },
   "commandFlags": [
     "admin",
     "stale",
@@ -32,20 +64,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Advances the cluster config epoch.\n\nThe `CLUSTER BUMPEPOCH` command triggers an increment to the cluster's config epoch from the connected node. The epoch will be incremented if the node's config epoch is zero, or if it is less than the cluster's greatest epoch.\n\n**Note:** config epoch management is performed internally by the cluster, and relies on obtaining a consensus of nodes. The `CLUSTER BUMPEPOCH` attempts to increment the config epoch **WITHOUT** getting the consensus, so using it may violate the \"last failover wins\" rule. Use it with caution.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): `BUMPED` if the epoch was incremented.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): `STILL` if the node already has the greatest configured epoch in the cluster.\n\n**RESP3:**\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): `BUMPED` if the epoch was incremented.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): `STILL` if the node already has the greatest configured epoch in the cluster.",
+  "content": "Advances the cluster config epoch.\n\nThe `CLUSTER BUMPEPOCH` command triggers an increment to the cluster's config epoch from the connected node. The epoch will be incremented if the node's config epoch is zero, or if it is less than the cluster's greatest epoch.\n\n**Note:** config epoch management is performed internally by the cluster, and relies on obtaining a consensus of nodes. The `CLUSTER BUMPEPOCH` attempts to increment the config epoch **WITHOUT** getting the consensus, so using it may violate the \"last failover wins\" rule. Use it with caution.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"cluster-bumpepoch-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): `BUMPED` if the epoch was incremented.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): `STILL` if the node already has the greatest configured epoch in the cluster.\n\n-tab-sep-\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): `BUMPED` if the epoch was incremented.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): `STILL` if the node already has the greatest configured epoch in the cluster.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "Advances the cluster config epoch.\n\nThe `CLUSTER BUMPEPOCH` command triggers an increment to the cluster's config epoch from the connected node. The epoch will be incremented if the node's config epoch is zero, or if it is less than the cluster's greatest epoch.\n\n**Note:** config epoch management is performed internally by the cluster, and relies on obtaining a consensus of nodes. The `CLUSTER BUMPEPOCH` attempts to increment the config epoch **WITHOUT** getting the consensus, so using it may violate the \"last failover wins\" rule. Use it with caution.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -60,7 +85,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): `BUMPED` if the epoch was incremented.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): `STILL` if the node already has the greatest configured epoch in the cluster.\n\n**RESP3:**\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): `BUMPED` if the epoch was incremented.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): `STILL` if the node already has the greatest configured epoch in the cluster."
+      "content": "{{< multitabs id=\"cluster-bumpepoch-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): `BUMPED` if the epoch was incremented.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): `STILL` if the node already has the greatest configured epoch in the cluster.\n\n-tab-sep-\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): `BUMPED` if the epoch was incremented.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): `STILL` if the node already has the greatest configured epoch in the cluster.\n\n{{< /multitabs >}}"
     }
   ]
 }

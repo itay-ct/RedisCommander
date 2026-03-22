@@ -15,6 +15,426 @@
     "@slow",
     "@blocking"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "src",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "dst",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "timeout",
+            "type": "Optional[Number] = 0"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Union[Awaitable[Optional[str]], Optional[str]]"
+        },
+        "signature": "brpoplpush(src: KeyT, dst: KeyT, timeout: Optional[Number] = 0)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "source",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "destination",
+            "type": "String"
+          },
+          {
+            "description": "seconds to block. A timeout of zero can be used to block indefinitely.",
+            "name": "timeout",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "The element being popped from source and pushed to destination @deprecated Use ListCommands#blmove(String, String, ListDirection, ListDirection, double) with ListDirection#RIGHT and ListDirection#LEFT. Deprecated in Jedis 8.0.0. Mirrors Redis deprecation since 6.2.0.",
+          "type": "String"
+        },
+        "signature": "String brpoplpush(final String source, final String destination, final int timeout)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "source",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "destination",
+            "type": "String"
+          },
+          {
+            "description": "seconds to block. A timeout of zero can be used to block indefinitely.",
+            "name": "timeout",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "The element being popped from source and pushed to destination @deprecated Use ListCommands#blmove(String, String, ListDirection, ListDirection, double) with ListDirection#RIGHT and ListDirection#LEFT. Deprecated in Jedis 8.0.0. Mirrors Redis deprecation since 6.2.0.",
+          "type": "String"
+        },
+        "signature": "String brpoplpush(String source, String destination, int timeout)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the timeout in seconds.",
+            "name": "timeout",
+            "type": "long"
+          },
+          {
+            "description": "the source key.",
+            "name": "source",
+            "type": "K"
+          },
+          {
+            "description": "the destination type: key.",
+            "name": "destination",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "V bulk-string-reply the element being popped from source and pushed to destination. If timeout is reached, a. @since 6.1.3",
+          "type": "V"
+        },
+        "signature": "V brpoplpush(long timeout, K source, K destination)"
+      },
+      {
+        "params": [
+          {
+            "description": "the timeout in seconds.",
+            "name": "timeout",
+            "type": "double"
+          },
+          {
+            "description": "the source key.",
+            "name": "source",
+            "type": "K"
+          },
+          {
+            "description": "the destination type: key.",
+            "name": "destination",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "V bulk-string-reply the element being popped from source and pushed to destination. If timeout is reached, a. @since 6.1.3",
+          "type": "V"
+        },
+        "signature": "V brpoplpush(double timeout, K source, K destination)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the timeout in seconds.",
+            "name": "timeout",
+            "type": "long"
+          },
+          {
+            "description": "the source key.",
+            "name": "source",
+            "type": "K"
+          },
+          {
+            "description": "the destination type: key.",
+            "name": "destination",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "V bulk-string-reply the element being popped from source and pushed to destination. If timeout is reached, a. @since 6.1.3",
+          "type": "RedisFuture<V>"
+        },
+        "signature": "RedisFuture<V> brpoplpush(long timeout, K source, K destination)"
+      },
+      {
+        "params": [
+          {
+            "description": "the timeout in seconds.",
+            "name": "timeout",
+            "type": "double"
+          },
+          {
+            "description": "the source key.",
+            "name": "source",
+            "type": "K"
+          },
+          {
+            "description": "the destination type: key.",
+            "name": "destination",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "V bulk-string-reply the element being popped from source and pushed to destination. If timeout is reached, a. @since 6.1.3",
+          "type": "RedisFuture<V>"
+        },
+        "signature": "RedisFuture<V> brpoplpush(double timeout, K source, K destination)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the timeout in seconds.",
+            "name": "timeout",
+            "type": "long"
+          },
+          {
+            "description": "the source key.",
+            "name": "source",
+            "type": "K"
+          },
+          {
+            "description": "the destination type: key.",
+            "name": "destination",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "V bulk-string-reply the element being popped from source and pushed to destination. If timeout is reached, a. @since 6.1.3",
+          "type": "Mono<V>"
+        },
+        "signature": "Mono<V> brpoplpush(long timeout, K source, K destination)"
+      },
+      {
+        "params": [
+          {
+            "description": "the timeout in seconds.",
+            "name": "timeout",
+            "type": "double"
+          },
+          {
+            "description": "the source key.",
+            "name": "source",
+            "type": "K"
+          },
+          {
+            "description": "the destination type: key.",
+            "name": "destination",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "V bulk-string-reply the element being popped from source and pushed to destination. If timeout is reached, a. @since 6.1.3",
+          "type": "Mono<V>"
+        },
+        "signature": "Mono<V> brpoplpush(double timeout, K source, K destination)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "source",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "destination",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "timeout",
+            "type": "time.Duration"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StringCmd"
+        },
+        "signature": "BRPopLPush(ctx context.Context, source, destination string, timeout time.Duration)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "source",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "destination",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "timeout",
+            "type": "number | string"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<string | null>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "brpoplpush(source: RedisKey, destination: RedisKey, timeout: number | string, callback?: Callback<string | null>)"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "srckey",
+            "type": "S"
+          },
+          {
+            "description": "",
+            "name": "dstkey",
+            "type": "D"
+          },
+          {
+            "description": "",
+            "name": "timeout",
+            "type": "f64"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Option<String>)"
+        },
+        "signature": "brpoplpush(srckey: S, dstkey: D, timeout: f64)"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "srckey",
+            "type": "S"
+          },
+          {
+            "description": "",
+            "name": "dstkey",
+            "type": "D"
+          },
+          {
+            "description": "",
+            "name": "timeout",
+            "type": "f64"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Option<String>)"
+        },
+        "signature": "brpoplpush(srckey: S, dstkey: D, timeout: f64)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The key of the source list.",
+            "name": "source",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The key of the destination list.",
+            "name": "destination",
+            "type": "RedisKey"
+          },
+          {
+            "description": "Server-side timeout for the wait. A value of 0 means to wait indefinitely.",
+            "name": "timeout",
+            "type": "double"
+          }
+        ],
+        "returns": {
+          "description": "The element being popped and pushed, or null if the server timeout expires.",
+          "type": "RedisValue?"
+        },
+        "signature": "BRPopLPush(RedisKey source, RedisKey destination, double timeout)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$source",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$destination",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$timeout",
+            "type": "int|float"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "string|null"
+        },
+        "signature": "brpoplpush(string $source, string $destination, int|float $timeout)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "source key",
+            "name": "source",
+            "type": "String"
+          },
+          {
+            "description": "destination key",
+            "name": "destination",
+            "type": "String"
+          },
+          {
+            "description": "timeout in seconds",
+            "name": "timeout",
+            "type": "Float, Integer"
+          }
+        ],
+        "returns": {
+          "description": "the element was popped and pushed",
+          "type": "nil, String"
+        },
+        "signature": "brpoplpush(source, destination, timeout: 0)"
+      }
+    ]
+  },
   "commandFlags": [
     "write",
     "denyoom",
@@ -89,43 +509,30 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "pattern-reliable-queue",
-        "title": "Pattern: Reliable queue"
-      },
-      {
-        "id": "pattern-circular-list",
-        "title": "Pattern: Circular list"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\n`BRPOPLPUSH` is the blocking variant of [`RPOPLPUSH`]().\nWhen `source` contains elements, this command behaves exactly like [`RPOPLPUSH`]().\nWhen used inside a [`MULTI`]()/[`EXEC`]() block or a Lua script, this command behaves exactly like [`RPOPLPUSH`]().\nWhen `source` is empty, Redis will block the connection until another client\npushes to it or until `timeout` is reached.\nA `timeout` of zero can be used to block indefinitely.\n\nSee [`RPOPLPUSH`]() for more information.\n\n## Pattern: Reliable queue\n\nPlease see the pattern description in the [`RPOPLPUSH`]() documentation.\n\n## Pattern: Circular list\n\nPlease see the pattern description in the [`RPOPLPUSH`]() documentation.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v6.2.0. |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the element being popped from _source_ and pushed to _destination_.\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): the timeout is reached.\n\n**RESP3:**\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the element being popped from _source_ and pushed to _destination_.\n* [Null reply](../../develop/reference/protocol-spec#nulls): the timeout is reached.",
-  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\n`BRPOPLPUSH` is the blocking variant of [`RPOPLPUSH`]().\nWhen `source` contains elements, this command behaves exactly like [`RPOPLPUSH`]().\nWhen used inside a [`MULTI`]()/[`EXEC`]() block or a Lua script, this command behaves exactly like [`RPOPLPUSH`]().\nWhen `source` is empty, Redis will block the connection until another client\npushes to it or until `timeout` is reached.\nA `timeout` of zero can be used to block indefinitely.\n\nSee [`RPOPLPUSH`]() for more information.",
+  "content": "`BRPOPLPUSH` is the blocking variant of [`RPOPLPUSH`]().\nWhen `source` contains elements, this command behaves exactly like [`RPOPLPUSH`]().\nWhen used inside a [`MULTI`]()/[`EXEC`]() block or a Lua script, this command behaves exactly like [`RPOPLPUSH`]().\nWhen `source` is empty, Redis will block the connection until another client\npushes to it or until `timeout` is reached.\nA `timeout` of zero can be used to block indefinitely.\n\nSee [`RPOPLPUSH`]() for more information.\n\n## Pattern: Reliable queue\n\nPlease see the pattern description in the [`RPOPLPUSH`]({{< relref \"/commands/rpoplpush\" >}}) documentation.\n\n## Pattern: Circular list\n\nPlease see the pattern description in the [`RPOPLPUSH`]({{< relref \"/commands/rpoplpush\" >}}) documentation.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Deprecated as of Redis v6.2.0. |\n\n## Return information\n\n{{< multitabs id=\"brpoplpush-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the element being popped from _source_ and pushed to _destination_.\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): the timeout is reached.\n\n-tab-sep-\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the element being popped from _source_ and pushed to _destination_.\n* [Null reply](../../develop/reference/protocol-spec#nulls): the timeout is reached.\n\n{{< /multitabs >}}",
+  "example": null,
+  "intro": "`BRPOPLPUSH` is the blocking variant of [`RPOPLPUSH`]().\nWhen `source` contains elements, this command behaves exactly like [`RPOPLPUSH`]().\nWhen used inside a [`MULTI`]()/[`EXEC`]() block or a Lua script, this command behaves exactly like [`RPOPLPUSH`]().\nWhen `source` is empty, Redis will block the connection until another client\npushes to it or until `timeout` is reached.\nA `timeout` of zero can be used to block indefinitely.\n\nSee [`RPOPLPUSH`]() for more information.",
+  "notes": [
+    "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information."
+  ],
   "sections": [
     {
       "title": "Overview",
       "level": 1,
-      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\n`BRPOPLPUSH` is the blocking variant of [`RPOPLPUSH`]().\nWhen `source` contains elements, this command behaves exactly like [`RPOPLPUSH`]().\nWhen used inside a [`MULTI`]()/[`EXEC`]() block or a Lua script, this command behaves exactly like [`RPOPLPUSH`]().\nWhen `source` is empty, Redis will block the connection until another client\npushes to it or until `timeout` is reached.\nA `timeout` of zero can be used to block indefinitely.\n\nSee [`RPOPLPUSH`]() for more information."
+      "content": "`BRPOPLPUSH` is the blocking variant of [`RPOPLPUSH`]().\nWhen `source` contains elements, this command behaves exactly like [`RPOPLPUSH`]().\nWhen used inside a [`MULTI`]()/[`EXEC`]() block or a Lua script, this command behaves exactly like [`RPOPLPUSH`]().\nWhen `source` is empty, Redis will block the connection until another client\npushes to it or until `timeout` is reached.\nA `timeout` of zero can be used to block indefinitely.\n\nSee [`RPOPLPUSH`]() for more information."
     },
     {
       "title": "Pattern: Reliable queue",
       "level": 2,
-      "content": "Please see the pattern description in the [`RPOPLPUSH`]() documentation."
+      "content": "Please see the pattern description in the [`RPOPLPUSH`]({{< relref \"/commands/rpoplpush\" >}}) documentation."
     },
     {
       "title": "Pattern: Circular list",
       "level": 2,
-      "content": "Please see the pattern description in the [`RPOPLPUSH`]() documentation."
+      "content": "Please see the pattern description in the [`RPOPLPUSH`]({{< relref \"/commands/rpoplpush\" >}}) documentation."
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -135,7 +542,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the element being popped from _source_ and pushed to _destination_.\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): the timeout is reached.\n\n**RESP3:**\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the element being popped from _source_ and pushed to _destination_.\n* [Null reply](../../develop/reference/protocol-spec#nulls): the timeout is reached."
+      "content": "{{< multitabs id=\"brpoplpush-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the element being popped from _source_ and pushed to _destination_.\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): the timeout is reached.\n\n-tab-sep-\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the element being popped from _source_ and pushed to _destination_.\n* [Null reply](../../develop/reference/protocol-spec#nulls): the timeout is reached.\n\n{{< /multitabs >}}"
     }
   ]
 }

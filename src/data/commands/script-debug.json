@@ -13,6 +13,61 @@
     "@slow",
     "@scripting"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "Debug mode arguments",
+            "name": "*args",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "No return value",
+          "type": "None"
+        },
+        "signature": "script_debug(*args)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "Debug mode",
+            "name": "mode",
+            "type": "'YES' | 'SYNC' | 'NO'"
+          }
+        ],
+        "returns": {
+          "description": "Status response",
+          "type": "Promise<SimpleStringReply<'OK'>>"
+        },
+        "signature": "scriptDebug(mode: 'YES' | 'SYNC' | 'NO')"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "SCRIPT subcommand (e.g., 'DEBUG')",
+            "name": "$subcommand",
+            "type": "string"
+          },
+          {
+            "description": "Optional argument for the subcommand",
+            "name": "$argument",
+            "type": "mixed"
+          }
+        ],
+        "returns": {
+          "description": "Command result",
+          "type": "mixed"
+        },
+        "signature": "script($subcommand, $argument = null)"
+      }
+    ]
+  },
   "commandFlags": [
     "noscript"
   ],
@@ -54,20 +109,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Set the debug mode for subsequent scripts executed with [`EVAL`](). Redis includes a\ncomplete Lua debugger, codename LDB, that can be used to make the task of\nwriting complex scripts much simpler. In debug mode Redis acts as a remote\ndebugging server and a client, such as `redis-cli`, can execute scripts step by\nstep, set breakpoints, inspect variables and more - for additional information\nabout LDB refer to the [Redis Lua debugger]() page.\n\n**Important note:** avoid debugging Lua scripts using your Redis production\nserver. Use a development server instead.\n\nLDB can be enabled in one of two modes: asynchronous or synchronous. In\nasynchronous mode the server creates a forked debugging session that does not\nblock and all changes to the data are **rolled back** after the session\nfinishes, so debugging can be restarted using the same initial state. The\nalternative synchronous debug mode blocks the server while the debugging session\nis active and retains all changes to the data set once it ends.\n\n* `YES`. Enable non-blocking asynchronous debugging of Lua scripts (changes are discarded).\n* `SYNC`. Enable blocking synchronous debugging of Lua scripts (saves changes to data).\n* `NO`. Disables scripts debug mode.\n\nFor more information about [`EVAL`]() scripts please refer to [Introduction to Eval Scripts]().\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.",
+  "content": "Set the debug mode for subsequent scripts executed with [`EVAL`](). Redis includes a\ncomplete Lua debugger, codename LDB, that can be used to make the task of\nwriting complex scripts much simpler. In debug mode Redis acts as a remote\ndebugging server and a client, such as `redis-cli`, can execute scripts step by\nstep, set breakpoints, inspect variables and more - for additional information\nabout LDB refer to the [Redis Lua debugger]() page.\n\n**Important note:** avoid debugging Lua scripts using your Redis production\nserver. Use a development server instead.\n\nLDB can be enabled in one of two modes: asynchronous or synchronous. In\nasynchronous mode the server creates a forked debugging session that does not\nblock and all changes to the data are **rolled back** after the session\nfinishes, so debugging can be restarted using the same initial state. The\nalternative synchronous debug mode blocks the server while the debugging session\nis active and retains all changes to the data set once it ends.\n\n* `YES`. Enable non-blocking asynchronous debugging of Lua scripts (changes are discarded).\n* `SYNC`. Enable blocking synchronous debugging of Lua scripts (saves changes to data).\n* `NO`. Disables scripts debug mode.\n\nFor more information about [`EVAL`]() scripts please refer to [Introduction to Eval Scripts]().\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"script-debug-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "Set the debug mode for subsequent scripts executed with [`EVAL`](). Redis includes a\ncomplete Lua debugger, codename LDB, that can be used to make the task of\nwriting complex scripts much simpler. In debug mode Redis acts as a remote\ndebugging server and a client, such as `redis-cli`, can execute scripts step by\nstep, set breakpoints, inspect variables and more - for additional information\nabout LDB refer to the [Redis Lua debugger]() page.\n\n**Important note:** avoid debugging Lua scripts using your Redis production\nserver. Use a development server instead.\n\nLDB can be enabled in one of two modes: asynchronous or synchronous. In\nasynchronous mode the server creates a forked debugging session that does not\nblock and all changes to the data are **rolled back** after the session\nfinishes, so debugging can be restarted using the same initial state. The\nalternative synchronous debug mode blocks the server while the debugging session\nis active and retains all changes to the data set once it ends.\n\n* `YES`. Enable non-blocking asynchronous debugging of Lua scripts (changes are discarded).\n* `SYNC`. Enable blocking synchronous debugging of Lua scripts (saves changes to data).\n* `NO`. Disables scripts debug mode.\n\nFor more information about [`EVAL`]() scripts please refer to [Introduction to Eval Scripts]().",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -82,7 +130,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`."
+      "content": "{{< multitabs id=\"script-debug-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n{{< /multitabs >}}"
     }
   ]
 }

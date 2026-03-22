@@ -13,6 +13,184 @@
     "@slow",
     "@scripting"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "Library name pattern (default: '*')",
+            "name": "library",
+            "type": "Optional[str]"
+          },
+          {
+            "description": "Include library code in response",
+            "name": "withcode",
+            "type": "Optional[bool]"
+          }
+        ],
+        "returns": {
+          "description": "List of library information",
+          "type": "Union[Awaitable[List], List]"
+        },
+        "signature": "function_list(library: Optional[str] = \"*\", withcode: Optional[bool] = False)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "List of library information",
+          "type": "List<LibraryInfo>"
+        },
+        "signature": "List<LibraryInfo> functionList()"
+      },
+      {
+        "params": [
+          {
+            "description": "Library name pattern",
+            "name": "libraryNamePattern",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "List of library information",
+          "type": "List<LibraryInfo>"
+        },
+        "signature": "List<LibraryInfo> functionList(final String libraryNamePattern)"
+      },
+      {
+        "params": [],
+        "returns": {
+          "description": "List of library information with code",
+          "type": "List<LibraryInfo>"
+        },
+        "signature": "List<LibraryInfo> functionListWithCode()"
+      },
+      {
+        "params": [
+          {
+            "description": "Library name pattern",
+            "name": "libraryNamePattern",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "List of library information with code",
+          "type": "List<LibraryInfo>"
+        },
+        "signature": "List<LibraryInfo> functionListWithCode(String libraryNamePattern)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context for the operation",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "Query parameters for listing functions",
+            "name": "q",
+            "type": "FunctionListQuery"
+          }
+        ],
+        "returns": {
+          "description": "List of library information",
+          "type": "*FunctionListCmd"
+        },
+        "signature": "FunctionList(ctx context.Context, q FunctionListQuery)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "Options for listing functions",
+            "name": "options",
+            "type": "FunctionListOptions"
+          }
+        ],
+        "returns": {
+          "description": "Array of libraries and their functions",
+          "type": "Promise<FunctionListReply>"
+        },
+        "signature": "functionList(options?: FunctionListOptions)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [],
+        "returns": {
+          "description": "List of library information",
+          "type": "List<Map<String, Object>>"
+        },
+        "signature": "List<Map<String, Object>> functionList()"
+      },
+      {
+        "params": [
+          {
+            "description": "Library name to filter by",
+            "name": "libraryName",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "List of library information",
+          "type": "List<Map<String, Object>>"
+        },
+        "signature": "List<Map<String, Object>> functionList(String libraryName)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [],
+        "returns": {
+          "description": "List of library information",
+          "type": "RedisFuture<List<Map<String, Object>>>"
+        },
+        "signature": "RedisFuture<List<Map<String, Object>>> functionList()"
+      },
+      {
+        "params": [
+          {
+            "description": "Library name to filter by",
+            "name": "libraryName",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "List of library information",
+          "type": "RedisFuture<List<Map<String, Object>>>"
+        },
+        "signature": "RedisFuture<List<Map<String, Object>>> functionList(String libraryName)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [],
+        "returns": {
+          "description": "List of library information",
+          "type": "Flux<Map<String, Object>>"
+        },
+        "signature": "Flux<Map<String, Object>> functionList()"
+      },
+      {
+        "params": [
+          {
+            "description": "Library name to filter by",
+            "name": "libraryName",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "List of library information",
+          "type": "Flux<Map<String, Object>>"
+        },
+        "signature": "Flux<Map<String, Object>> functionList(String libraryName)"
+      }
+    ]
+  },
   "commandFlags": [
     "noscript"
   ],
@@ -44,20 +222,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Return information about the functions and libraries.\n\nYou can use the optional `LIBRARYNAME` argument to specify a pattern for matching library names.\nThe optional `WITHCODE` modifier will cause the server to include the libraries source implementation in the reply.\n\nThe following information is provided for each of the libraries in the response:\n\n* **library_name:** the name of the library.\n* **engine:** the engine of the library.\n* **functions:** the list of functions in the library.\n  Each function has the following fields:\n  * **name:** the name of the function.\n  * **description:** the function's description.\n  * **flags:** an array of [function flags]().\n* **library_code:** the library's source code (when given the `WITHCODE` modifier).\n\nFor more information please refer to [Introduction to Redis Functions]().\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): information about functions and libraries.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): information about functions and libraries.",
+  "content": "Return information about the functions and libraries.\n\nYou can use the optional `LIBRARYNAME` argument to specify a pattern for matching library names.\nThe optional `WITHCODE` modifier will cause the server to include the libraries source implementation in the reply.\n\nThe following information is provided for each of the libraries in the response:\n\n* **library_name:** the name of the library.\n* **engine:** the engine of the library.\n* **functions:** the list of functions in the library.\n  Each function has the following fields:\n  * **name:** the name of the function.\n  * **description:** the function's description.\n  * **flags:** an array of [function flags]().\n* **library_code:** the library's source code (when given the `WITHCODE` modifier).\n\nFor more information please refer to [Introduction to Redis Functions]().\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"function-list-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): information about functions and libraries.\n\n-tab-sep-\n\n[Array reply](../../develop/reference/protocol-spec#arrays): information about functions and libraries.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "Return information about the functions and libraries.\n\nYou can use the optional `LIBRARYNAME` argument to specify a pattern for matching library names.\nThe optional `WITHCODE` modifier will cause the server to include the libraries source implementation in the reply.\n\nThe following information is provided for each of the libraries in the response:\n\n* **library_name:** the name of the library.\n* **engine:** the engine of the library.\n* **functions:** the list of functions in the library.\n  Each function has the following fields:\n  * **name:** the name of the function.\n  * **description:** the function's description.\n  * **flags:** an array of [function flags]().\n* **library_code:** the library's source code (when given the `WITHCODE` modifier).\n\nFor more information please refer to [Introduction to Redis Functions]().",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -72,7 +243,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): information about functions and libraries.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): information about functions and libraries."
+      "content": "{{< multitabs id=\"function-list-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): information about functions and libraries.\n\n-tab-sep-\n\n[Array reply](../../develop/reference/protocol-spec#arrays): information about functions and libraries.\n\n{{< /multitabs >}}"
     }
   ]
 }

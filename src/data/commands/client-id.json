@@ -13,6 +13,101 @@
     "@slow",
     "@connection"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "int"
+        },
+        "signature": "client_id(**kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "long"
+        },
+        "signature": "long clientId()"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context",
+            "name": "ctx",
+            "type": "context.Context"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*IntCmd"
+        },
+        "signature": "ClientID(ctx context.Context) *IntCmd"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "Long"
+        },
+        "signature": "Long clientId()"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "RedisFuture<Long>"
+        },
+        "signature": "RedisFuture<Long> clientId()"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "Mono<Long>"
+        },
+        "signature": "Mono<Long> clientId()"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$subcommand",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$args",
+            "type": "mixed"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "int"
+        },
+        "signature": "client(string $subcommand, ...$args)"
+      }
+    ]
+  },
   "commandFlags": [
     "noscript",
     "loading",
@@ -31,24 +126,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "The command just returns the ID of the current connection. Every connection\nID has certain guarantees:\n\n1. It is never repeated, so if `CLIENT ID` returns the same number, the caller can be sure that the underlying client did not disconnect and reconnect the connection, but it is still the same connection.\n2. The ID is monotonically incremental. If the ID of a connection is greater than the ID of another connection, it is guaranteed that the second connection was established with the server at a later time.\n\nThis command is especially useful together with [`CLIENT UNBLOCK`]() which was\nintroduced also in Redis 5 together with `CLIENT ID`. Check the [`CLIENT UNBLOCK`]() command page for a pattern involving the two commands.\n\n## Examples\n\n\nCLIENT ID\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Because Redis Software clustering allows [multiple active proxies](), `CLIENT ID` cannot guarantee incremental IDs between clients that connect to different nodes under multi proxy policies. |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the ID of the client.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the ID of the client.",
+  "content": "The command just returns the ID of the current connection. Every connection\nID has certain guarantees:\n\n1. It is never repeated, so if `CLIENT ID` returns the same number, the caller can be sure that the underlying client did not disconnect and reconnect the connection, but it is still the same connection.\n2. The ID is monotonically incremental. If the ID of a connection is greater than the ID of another connection, it is guaranteed that the second connection was established with the server at a later time.\n\nThis command is especially useful together with [`CLIENT UNBLOCK`]() which was\nintroduced also in Redis 5 together with `CLIENT ID`. Check the [`CLIENT UNBLOCK`]() command page for a pattern involving the two commands.\n\n## Examples\n\n{{% redis-cli %}}\nCLIENT ID\n{{% /redis-cli %}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Because Redis Software clustering allows [multiple active proxies]({{< relref \"/operate/rs/databases/configure/proxy-policy\" >}}), `CLIENT ID` cannot guarantee incremental IDs between clients that connect to different nodes under multi proxy policies. |\n\n## Return information\n\n{{< multitabs id=\"client-id-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the ID of the client.\n\n-tab-sep-\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the ID of the client.\n\n{{< /multitabs >}}",
+  "example": "CLIENT ID",
   "intro": "The command just returns the ID of the current connection. Every connection\nID has certain guarantees:\n\n1. It is never repeated, so if `CLIENT ID` returns the same number, the caller can be sure that the underlying client did not disconnect and reconnect the connection, but it is still the same connection.\n2. The ID is monotonically incremental. If the ID of a connection is greater than the ID of another connection, it is guaranteed that the second connection was established with the server at a later time.\n\nThis command is especially useful together with [`CLIENT UNBLOCK`]() which was\nintroduced also in Redis 5 together with `CLIENT ID`. Check the [`CLIENT UNBLOCK`]() command page for a pattern involving the two commands.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -58,17 +142,17 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "CLIENT ID"
+      "content": "{{% redis-cli %}}\nCLIENT ID\n{{% /redis-cli %}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
       "level": 2,
-      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Because Redis Software clustering allows [multiple active proxies](), `CLIENT ID` cannot guarantee incremental IDs between clients that connect to different nodes under multi proxy policies. |"
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Because Redis Software clustering allows [multiple active proxies]({{< relref \"/operate/rs/databases/configure/proxy-policy\" >}}), `CLIENT ID` cannot guarantee incremental IDs between clients that connect to different nodes under multi proxy policies. |"
     },
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the ID of the client.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the ID of the client."
+      "content": "{{< multitabs id=\"client-id-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the ID of the client.\n\n-tab-sep-\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the ID of the client.\n\n{{< /multitabs >}}"
     }
   ]
 }

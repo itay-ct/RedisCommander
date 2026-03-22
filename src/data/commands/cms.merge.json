@@ -13,6 +13,233 @@
     "@cms",
     "@write"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "destKey",
+            "type": "str"
+          },
+          {
+            "description": "",
+            "name": "numKeys",
+            "type": "int"
+          },
+          {
+            "description": "Source sketch keys",
+            "name": "srcKeys",
+            "type": "List"
+          },
+          {
+            "description": "Optional weights for each source",
+            "name": "weights",
+            "type": "List"
+          }
+        ],
+        "returns": {
+          "description": "True if merged successfully",
+          "type": "bool"
+        },
+        "signature": "merge(destKey, numKeys, srcKeys, weights=[])"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "destKey",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "String"
+        },
+        "signature": "cmsMerge(String destKey, String... keys)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "destKey",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "keysAndWeights",
+            "type": "Map<String, Long>"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "String"
+        },
+        "signature": "cmsMerge(String destKey, Map<String, Long> keysAndWeights)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "destKey",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "sourceKeys",
+            "type": "...string"
+          }
+        ],
+        "returns": {
+          "description": "Status command result",
+          "type": "*StatusCmd"
+        },
+        "signature": "CMSMerge(ctx context.Context, destKey string, sourceKeys ...string) *StatusCmd"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "destKey",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "sourceKeys",
+            "type": "map[string]int64"
+          }
+        ],
+        "returns": {
+          "description": "Status command result",
+          "type": "*StatusCmd"
+        },
+        "signature": "CMSMergeWithWeight(ctx context.Context, destKey string, sourceKeys map[string]int64) *StatusCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "destination",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "Array of sketch names or sketches with weights",
+            "name": "source",
+            "type": "BfMergeSketches"
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "SimpleStringReply<'OK'>"
+        },
+        "signature": "CMS.MERGE(destination, source)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "destination",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "numKeys",
+            "type": "long"
+          },
+          {
+            "description": "",
+            "name": "source",
+            "type": "RedisValue[]"
+          },
+          {
+            "description": "Optional weights",
+            "name": "weight",
+            "type": "long[]?"
+          }
+        ],
+        "returns": {
+          "description": "True if merged successfully",
+          "type": "bool"
+        },
+        "signature": "Merge(RedisValue destination, long numKeys, RedisValue[] source, long[]? weight = null)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "destination",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "numKeys",
+            "type": "long"
+          },
+          {
+            "description": "",
+            "name": "source",
+            "type": "RedisValue[]"
+          },
+          {
+            "description": "Optional weights",
+            "name": "weight",
+            "type": "long[]?"
+          }
+        ],
+        "returns": {
+          "description": "True if merged successfully",
+          "type": "Task<bool>"
+        },
+        "signature": "MergeAsync(RedisValue destination, long numKeys, RedisValue[] source, long[]? weight = null)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "destKey",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "sourceKeys",
+            "type": "string..."
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "string"
+        },
+        "signature": "cmsmerge($destKey, ...$sourceKeys)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -58,29 +285,20 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nMerges several sketches into one sketch. All sketches must have identical width and depth. Weights can be used to multiply certain sketches. Default weight is 1. \n\n### Parameters:\n\n* **dest**: The name of destination sketch. Must be initialized. \n* **numKeys**: Number of sketches to be merged.\n* **src**: Names of source sketches to be merged.\n* **weight**: Multiple of each sketch. Default =1.\n\n## Examples\n\n```\nredis> CMS.MERGE dest 2 test1 test2 WEIGHTS 1 3\nOK\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n\n* [Simple string reply]() `OK` if executed correctly.\n* [Simple error reply]() in these cases: non-existent key or destination key is not of the same width and/or depth.\n\n**RESP3:**\n\nOne of the following:\n\n* [Simple string reply]() `OK` if executed correctly.\n* [Simple error reply]() in these cases: non-existent key or destination key is not of the same width and/or depth.",
-  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nMerges several sketches into one sketch. All sketches must have identical width and depth. Weights can be used to multiply certain sketches. Default weight is 1.",
+  "content": "Merges several sketches into one sketch. All sketches must have identical width and depth. Weights can be used to multiply certain sketches. Default weight is 1. \n\n### Parameters:\n\n* **dest**: The name of destination sketch. Must be initialized. \n* **numKeys**: Number of sketches to be merged.\n* **src**: Names of source sketches to be merged.\n* **weight**: Multiple of each sketch. Default =1.\n\n## Examples\n\n```\nredis> CMS.MERGE dest 2 test1 test2 WEIGHTS 1 3\nOK\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"cms-merge-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}) `OK` if executed correctly.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: non-existent key or destination key is not of the same width and/or depth.\n\n-tab-sep-\n\nOne of the following:\n\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}) `OK` if executed correctly.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: non-existent key or destination key is not of the same width and/or depth.\n\n{{< /multitabs >}}",
+  "example": "redis> CMS.MERGE dest 2 test1 test2 WEIGHTS 1 3\nOK",
+  "intro": "Merges several sketches into one sketch. All sketches must have identical width and depth. Weights can be used to multiply certain sketches. Default weight is 1. \n\n### Parameters:\n\n* **dest**: The name of destination sketch. Must be initialized. \n* **numKeys**: Number of sketches to be merged.\n* **src**: Names of source sketches to be merged.\n* **weight**: Multiple of each sketch. Default =1.",
+  "notes": [
+    "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information."
+  ],
   "sections": [
     {
       "title": "Overview",
       "level": 1,
-      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nMerges several sketches into one sketch. All sketches must have identical width and depth. Weights can be used to multiply certain sketches. Default weight is 1."
+      "content": "Merges several sketches into one sketch. All sketches must have identical width and depth. Weights can be used to multiply certain sketches. Default weight is 1."
     },
     {
       "title": "Parameters:",
@@ -100,7 +318,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n\n* [Simple string reply]() `OK` if executed correctly.\n* [Simple error reply]() in these cases: non-existent key or destination key is not of the same width and/or depth.\n\n**RESP3:**\n\nOne of the following:\n\n* [Simple string reply]() `OK` if executed correctly.\n* [Simple error reply]() in these cases: non-existent key or destination key is not of the same width and/or depth."
+      "content": "{{< multitabs id=\"cms-merge-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}) `OK` if executed correctly.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: non-existent key or destination key is not of the same width and/or depth.\n\n-tab-sep-\n\nOne of the following:\n\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}) `OK` if executed correctly.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: non-existent key or destination key is not of the same width and/or depth.\n\n{{< /multitabs >}}"
     }
   ]
 }

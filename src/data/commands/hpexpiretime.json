@@ -14,6 +14,242 @@
     "@hash",
     "@fast"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "The hash key.",
+            "name": "key",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "*fields",
+            "type": "str"
+          }
+        ],
+        "returns": {
+          "description": "Returns a list which contains for each field in the request: - `-2` if the field does not exist, or if the key does not exist. - `-1` if the field exists but has no associated expire time. - A positive integer representing the expiration Unix timestamp in milliseconds, if the field has an associated expiration time.",
+          "type": "ResponseT"
+        },
+        "signature": "hpexpiretime(key: KeyT, *fields: str)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "fields",
+            "type": "byte[]..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List<Long>"
+        },
+        "signature": "List<Long> hpexpireTime(byte[] key, byte[]... fields)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "fields",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List<Long>"
+        },
+        "signature": "List<Long> hpexpireTime(String key, String... fields)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "one or more fields to get the TTL for.",
+            "name": "fields",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "a list of Long values for each of the fields provided: expiration time as a UNIX timestamp in milliseconds; -1 indicating the field has no expiry time set; -2 indicating there is no such field @since 6.4",
+          "type": "List<Long>"
+        },
+        "signature": "List<Long> hpexpiretime(K key, K... fields)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "one or more fields to get the TTL for.",
+            "name": "fields",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "a list of Long values for each of the fields provided: expiration time as a UNIX timestamp in milliseconds; -1 indicating the field has no expiry time set; -2 indicating there is no such field @since 6.4",
+          "type": "RedisFuture<List<Long>>"
+        },
+        "signature": "RedisFuture<List<Long>> hpexpiretime(K key, K... fields)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "one or more fields to get the TTL for.",
+            "name": "fields",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "a list of Long values for each of the fields provided: expiration time as a UNIX timestamp in milliseconds; -1 indicating the field has no expiry time set; -2 indicating there is no such field @since 6.4",
+          "type": "Flux<Long>"
+        },
+        "signature": "Flux<Long> hpexpiretime(K key, K... fields)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "fields",
+            "type": "...string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*IntSliceCmd"
+        },
+        "signature": "HPExpireTime(ctx context.Context, key string, fields ...string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "fields",
+            "type": "RedisVariadicArgument"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "HPEXPIRETIME(key: RedisArgument, fields: RedisVariadicArgument)"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "fields",
+            "type": "F"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Vec<IntegerReplyOrNoOp>)"
+        },
+        "signature": "hpexpire_time(key: K, fields: F)"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "fields",
+            "type": "F"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Vec<IntegerReplyOrNoOp>)"
+        },
+        "signature": "hpexpire_time(key: K, fields: F)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$fields",
+            "type": "array"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array|null"
+        },
+        "signature": "hpexpiretime(string $key, array $fields)"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly",
     "fast"
@@ -75,24 +311,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "`HPEXPIRETIME` has the same semantics as [`HEXPIRETIME`](), but returns the absolute Unix expiration timestamp in milliseconds since Unix epoch instead of seconds.\n\n## Examples\n\n```\nredis> HSET mykey field1 \"hello\" field2 \"world\"\n(integer) 2\nredis> HEXPIRE mykey 300 FIELDS 2 field1 field2\n1) (integer) 1\n2) (integer) 1\nredis> HPEXPIRETIME mykey FIELDS 2 field1 field2\n1) (integer) 1715705913659\n2) (integer) 1715705913659\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n* [Array reply](../../develop/reference/protocol-spec#arrays). For each field:\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key, or the provided key does not exist.\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the field exists but has no associated expiration set.\n    - [Integer reply](../../develop/reference/protocol-spec#integers): the expiration (Unix timestamp) in milliseconds.\n\n**RESP3:**\n\n* [Array reply](../../develop/reference/protocol-spec#arrays). For each field:\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key, or the provided key does not exist.\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the field exists but has no associated expiration set.\n    - [Integer reply](../../develop/reference/protocol-spec#integers): the expiration (Unix timestamp) in milliseconds.",
+  "content": "`HPEXPIRETIME` has the same semantics as [`HEXPIRETIME`](), but returns the absolute Unix expiration timestamp in milliseconds since Unix epoch instead of seconds.\n\n## Examples\n\n```\nredis> HSET mykey field1 \"hello\" field2 \"world\"\n(integer) 2\nredis> HEXPIRE mykey 300 FIELDS 2 field1 field2\n1) (integer) 1\n2) (integer) 1\nredis> HPEXPIRETIME mykey FIELDS 2 field1 field2\n1) (integer) 1715705913659\n2) (integer) 1715705913659\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"hpexpiretime-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n* [Array reply](../../develop/reference/protocol-spec#arrays). For each field:\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key, or the provided key does not exist.\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the field exists but has no associated expiration set.\n    - [Integer reply](../../develop/reference/protocol-spec#integers): the expiration (Unix timestamp) in milliseconds.\n\n-tab-sep-\n\n* [Array reply](../../develop/reference/protocol-spec#arrays). For each field:\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key, or the provided key does not exist.\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the field exists but has no associated expiration set.\n    - [Integer reply](../../develop/reference/protocol-spec#integers): the expiration (Unix timestamp) in milliseconds.\n\n{{< /multitabs >}}",
+  "example": "redis> HSET mykey field1 \"hello\" field2 \"world\"\n(integer) 2\nredis> HEXPIRE mykey 300 FIELDS 2 field1 field2\n1) (integer) 1\n2) (integer) 1\nredis> HPEXPIRETIME mykey FIELDS 2 field1 field2\n1) (integer) 1715705913659\n2) (integer) 1715705913659",
   "intro": "`HPEXPIRETIME` has the same semantics as [`HEXPIRETIME`](), but returns the absolute Unix expiration timestamp in milliseconds since Unix epoch instead of seconds.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -112,7 +337,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n* [Array reply](../../develop/reference/protocol-spec#arrays). For each field:\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key, or the provided key does not exist.\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the field exists but has no associated expiration set.\n    - [Integer reply](../../develop/reference/protocol-spec#integers): the expiration (Unix timestamp) in milliseconds.\n\n**RESP3:**\n\n* [Array reply](../../develop/reference/protocol-spec#arrays). For each field:\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key, or the provided key does not exist.\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the field exists but has no associated expiration set.\n    - [Integer reply](../../develop/reference/protocol-spec#integers): the expiration (Unix timestamp) in milliseconds."
+      "content": "{{< multitabs id=\"hpexpiretime-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n* [Array reply](../../develop/reference/protocol-spec#arrays). For each field:\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key, or the provided key does not exist.\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the field exists but has no associated expiration set.\n    - [Integer reply](../../develop/reference/protocol-spec#integers): the expiration (Unix timestamp) in milliseconds.\n\n-tab-sep-\n\n* [Array reply](../../develop/reference/protocol-spec#arrays). For each field:\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `-2` if no such field exists in the provided hash key, or the provided key does not exist.\n    - [Integer reply](../../develop/reference/protocol-spec#integers): `-1` if the field exists but has no associated expiration set.\n    - [Integer reply](../../develop/reference/protocol-spec#integers): the expiration (Unix timestamp) in milliseconds.\n\n{{< /multitabs >}}"
     }
   ]
 }

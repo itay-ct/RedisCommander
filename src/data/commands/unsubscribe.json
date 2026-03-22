@@ -13,6 +13,24 @@
     "@pubsub",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "*channels",
+            "type": "Array<String>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "nil"
+        },
+        "signature": "unsubscribe(*channels)"
+      }
+    ]
+  },
   "commandFlags": [
     "pubsub",
     "noscript",
@@ -40,20 +58,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Unsubscribes the client from the given channels, or from all of them if none is\ngiven.\n\nWhen no channels are specified, the client is unsubscribed from all the\npreviously subscribed channels.\nIn this case, a message for every unsubscribed channel will be sent to the\nclient.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nWhen successful, this command doesn't return anything. Instead, for each channel, one message with the first element being the string `unsubscribe` is pushed as a confirmation that the command succeeded.\n\n**RESP3:**\n\nWhen successful, this command doesn't return anything. Instead, for each channel, one message with the first element being the string `unsubscribe` is pushed as a confirmation that the command succeeded.",
+  "content": "Unsubscribes the client from the given channels, or from all of them if none is\ngiven.\n\nWhen no channels are specified, the client is unsubscribed from all the\npreviously subscribed channels.\nIn this case, a message for every unsubscribed channel will be sent to the\nclient.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"unsubscribe-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nWhen successful, this command doesn't return anything. Instead, for each channel, one message with the first element being the string `unsubscribe` is pushed as a confirmation that the command succeeded.\n\n-tab-sep-\n\nWhen successful, this command doesn't return anything. Instead, for each channel, one message with the first element being the string `unsubscribe` is pushed as a confirmation that the command succeeded.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "Unsubscribes the client from the given channels, or from all of them if none is\ngiven.\n\nWhen no channels are specified, the client is unsubscribed from all the\npreviously subscribed channels.\nIn this case, a message for every unsubscribed channel will be sent to the\nclient.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -68,7 +79,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nWhen successful, this command doesn't return anything. Instead, for each channel, one message with the first element being the string `unsubscribe` is pushed as a confirmation that the command succeeded.\n\n**RESP3:**\n\nWhen successful, this command doesn't return anything. Instead, for each channel, one message with the first element being the string `unsubscribe` is pushed as a confirmation that the command succeeded."
+      "content": "{{< multitabs id=\"unsubscribe-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nWhen successful, this command doesn't return anything. Instead, for each channel, one message with the first element being the string `unsubscribe` is pushed as a confirmation that the command succeeded.\n\n-tab-sep-\n\nWhen successful, this command doesn't return anything. Instead, for each channel, one message with the first element being the string `unsubscribe` is pushed as a confirmation that the command succeeded.\n\n{{< /multitabs >}}"
     }
   ]
 }

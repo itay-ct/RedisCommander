@@ -14,6 +14,347 @@
     "@hash",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "str"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Union[Awaitable[dict], dict]"
+        },
+        "signature": "hgetall(name: str)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "All the fields and values contained into a hash.",
+          "type": "Map<String, String>"
+        },
+        "signature": "Map<String, String> hgetAll(final String key)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "Long count of the keys.",
+          "type": "Map<K, V>"
+        },
+        "signature": "Map<K, V> hgetall(K key)"
+      },
+      {
+        "params": [
+          {
+            "description": "the channel.",
+            "name": "channel",
+            "type": "KeyValueStreamingChannel<K, V>"
+          },
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "Long count of the keys.",
+          "type": "Long"
+        },
+        "signature": "Long hgetall(KeyValueStreamingChannel<K, V> channel, K key)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "Long count of the keys.",
+          "type": "RedisFuture<Map<K, V>>"
+        },
+        "signature": "RedisFuture<Map<K, V>> hgetall(K key)"
+      },
+      {
+        "params": [
+          {
+            "description": "the channel.",
+            "name": "channel",
+            "type": "KeyValueStreamingChannel<K, V>"
+          },
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "Long count of the keys.",
+          "type": "RedisFuture<Long>"
+        },
+        "signature": "RedisFuture<Long> hgetall(KeyValueStreamingChannel<K, V> channel, K key)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "Long count of the keys. @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #hgetall.",
+          "type": "Flux<KeyValue<K, V>>"
+        },
+        "signature": "Flux<KeyValue<K, V>> hgetall(K key)"
+      },
+      {
+        "params": [
+          {
+            "description": "the channel.",
+            "name": "channel",
+            "type": "KeyValueStreamingChannel<K, V>"
+          },
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "Long count of the keys. @deprecated since 6.0 in favor of consuming large results through the org.reactivestreams.Publisher returned by #hgetall.",
+          "type": "Mono<Long>"
+        },
+        "signature": "Mono<Long> hgetall(KeyValueStreamingChannel<K, V> channel, K key)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*MapStringStringCmd"
+        },
+        "signature": "HGetAll(ctx context.Context, key string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "HGETALL(key: RedisArgument)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<Record<string, string>>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "hgetall(key: RedisKey, callback?: Callback<Record<string, string>>)"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(std::collections::HashMap<String, String>)"
+        },
+        "signature": "hgetall(key: K)"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(std::collections::HashMap<String, String>)"
+        },
+        "signature": "hgetall(key: K)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The key of the hash to get all entries from.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "List of fields and their values stored in the hash, or an empty list when key does not exist.",
+          "type": "HashEntry[]"
+        },
+        "signature": "HashGetAll(RedisKey key, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the hash to get all entries from.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "List of fields and their values stored in the hash, or an empty list when key does not exist.",
+          "type": "HashEntry[]"
+        },
+        "signature": "HashGetAll(RedisKey key, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The key of the hash to get all entries from.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "List of fields and their values stored in the hash, or an empty list when key does not exist.",
+          "type": "HashEntry[]"
+        },
+        "signature": "HashGetAll(RedisKey key, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the hash to get all entries from.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "List of fields and their values stored in the hash, or an empty list when key does not exist.",
+          "type": "HashEntry[]"
+        },
+        "signature": "HashGetAll(RedisKey key, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array"
+        },
+        "signature": "hgetall(string $key)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Hash<String, String>"
+        },
+        "signature": "hgetall(key)"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly"
   ],
@@ -56,121 +397,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
-  "codeExamples": [
-    {
-      "codetabsId": "cmds_hash-stephgetall",
-      "commands": [
-        {
-          "acl_categories": [
-            "@write",
-            "@hash",
-            "@fast"
-          ],
-          "complexity": "O(1)",
-          "name": "HSET"
-        },
-        {
-          "acl_categories": [
-            "@read",
-            "@hash",
-            "@slow"
-          ],
-          "complexity": "O(N)",
-          "name": "HGETALL"
-        }
-      ],
-      "description": "Foundational: Retrieve all fields and values from a hash using HGETALL (returns alternating field-value pairs, useful for loading entire hash data)",
-      "difficulty": "beginner",
-      "id": "hgetall",
-      "languages": [
-        {
-          "id": "redis-cli",
-          "panelId": "panel_redis-cli_cmds_hash-stephgetall"
-        },
-        {
-          "clientId": "redis-py",
-          "clientName": "redis-py",
-          "id": "Python",
-          "langId": "python",
-          "panelId": "panel_Python_cmds_hash-stephgetall"
-        },
-        {
-          "id": "Node-js",
-          "panelId": "panel_Nodejs_cmds_hash-stephgetall"
-        },
-        {
-          "clientId": "jedis",
-          "clientName": "Jedis",
-          "id": "Java-Sync",
-          "langId": "java",
-          "panelId": "panel_Java-Sync_cmds_hash-stephgetall"
-        },
-        {
-          "clientId": "lettuce",
-          "clientName": "Lettuce",
-          "id": "Java-Async",
-          "langId": "java",
-          "panelId": "panel_Java-Async_cmds_hash-stephgetall"
-        },
-        {
-          "clientId": "lettuce",
-          "clientName": "Lettuce",
-          "id": "Java-Reactive",
-          "langId": "java",
-          "panelId": "panel_Java-Reactive_cmds_hash-stephgetall"
-        },
-        {
-          "clientId": "go-redis",
-          "clientName": "go-redis",
-          "id": "Go",
-          "langId": "go",
-          "panelId": "panel_Go_cmds_hash-stephgetall"
-        },
-        {
-          "id": "dotnet-Sync",
-          "panelId": "panel_Csharp-Sync_cmds_hash-stephgetall"
-        },
-        {
-          "clientId": "predis",
-          "clientName": "Predis",
-          "id": "PHP",
-          "langId": "php",
-          "panelId": "panel_PHP_cmds_hash-stephgetall"
-        },
-        {
-          "clientId": "redis-rs",
-          "clientName": "redis-rs",
-          "id": "Rust-Sync",
-          "langId": "rust",
-          "panelId": "panel_Rust-Sync_cmds_hash-stephgetall"
-        },
-        {
-          "clientId": "redis-rs",
-          "clientName": "redis-rs",
-          "id": "Rust-Async",
-          "langId": "rust",
-          "panelId": "panel_Rust-Async_cmds_hash-stephgetall"
-        }
-      ]
-    }
-  ],
-  "content": "Returns all fields and values of the hash stored at `key`.\nIn the returned value, every field name is followed by its value, so the length\nof the reply is twice the size of the hash.\n\n## Examples\n\n#### Code Examples\n\nFoundational: Retrieve all fields and values from a hash using HGETALL (returns alternating field-value pairs, useful for loading entire hash data)\n\n**Difficulty:** Beginner\n\n**Commands:** HSET, HGETALL\n\n**Complexity:**\n- HSET: O(1)\n- HGETALL: O(N)\n\n**Redis CLI:**\n\n```\nredis> HSET myhash field1 \"Hello\"\n(integer) 1\nredis> HSET myhash field2 \"World\"\n(integer) 1\nredis> HGETALL myhash\n1) \"field1\"\n2) \"Hello\"\n3) \"field2\"\n4) \"World\"\n```\n\n**Available in:** Redis CLI, C# (Synchronous), Go, Java (Asynchronous - Lettuce), Java (Reactive - Lettuce), Java (Synchronous - Jedis), JavaScript (Node.js), PHP, Python, Rust (Asynchronous), Rust (Synchronous)\n\n**C# (Synchronous):**\n\n```csharp\n        // STEP_START hget\n        bool hgetRes1 = db.HashSet(\"myhash\", \"field1\", \"foo\");\n\n        RedisValue hgetRes2 = db.HashGet(\"myhash\", \"field1\");\n        Console.WriteLine(hgetRes2);    // >>> foo\n\n        RedisValue hgetRes3 = db.HashGet(\"myhash\", \"field2\");\n        Console.WriteLine(hgetRes3);    // >>> Null\n        // STEP_END\n\n        // REMOVE_START\n        Assert.True(hgetRes1);\n        Assert.Equal(\"foo\", hgetRes2);\n```\n\n**Go:**\n\n```go\n\thGetAllResult1, err := rdb.HSet(ctx, \"myhash\",\n\t\t\"field1\", \"Hello\",\n\t\t\"field2\", \"World\",\n\t).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(hGetAllResult1) // >>> 2\n\n\thGetAllResult2, err := rdb.HGetAll(ctx, \"myhash\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tkeys := make([]string, 0, len(hGetAllResult2))\n\n\tfor key, _ := range hGetAllResult2 {\n\t\tkeys = append(keys, key)\n\t}\n\n\tsort.Strings(keys)\n\n\tfor _, key := range keys {\n\t\tfmt.Printf(\"Key: %v, value: %v\\n\", key, hGetAllResult2[key])\n\t}\n\t// >>> Key: field1, value: Hello\n\t// >>> Key: field2, value: World\n```\n\n**Java (Asynchronous - Lettuce):**\n\n```java\n            Map<String, String> hGetAllExampleParams = new HashMap<>();\n            hGetAllExampleParams.put(\"field1\", \"Hello\");\n            hGetAllExampleParams.put(\"field2\", \"World\");\n\n            CompletableFuture<Void> hGetAllExample = asyncCommands.hset(\"myhash\", hGetAllExampleParams).thenCompose(res1 -> {\n                return asyncCommands.hgetall(\"myhash\");\n            }).thenAccept(res2 -> {\n                System.out.println(res2);\n                // >>> {field1=Hello, field2=World}\n            }).toCompletableFuture();\n```\n\n**Java (Reactive - Lettuce):**\n\n```java\n            Map<String, String> hGetAllExampleParams = new HashMap<>();\n            hGetAllExampleParams.put(\"field1\", \"Hello\");\n            hGetAllExampleParams.put(\"field2\", \"World\");\n\n            Mono<Long> hGetAllExample1 = reactiveCommands.hset(\"myhash\", hGetAllExampleParams).doOnNext(result -> {\n            });\n\n            hGetAllExample1.block();\n\n            Mono<Map<String, String>> hGetAllExample2 = reactiveCommands.hgetall(\"myhash\").collectMap(\n                    KeyValue::getKey, KeyValue::getValue\n            ).doOnNext(result -> {\n                System.out.println(result);\n                // >>> {field1=Hello, field2=World}\n            });\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n        Map<String, String> hGetAllExampleParams = new HashMap<>();\n        hGetAllExampleParams.put(\"field1\", \"Hello\");\n        hGetAllExampleParams.put(\"field2\", \"World\");\n\n        long hGetAllResult1 = jedis.hset(\"myhash\", hGetAllExampleParams);\n        System.out.println(hGetAllResult1); // >>> 2\n\n        Map<String, String> hGetAllResult2 = jedis.hgetAll(\"myhash\");\n        System.out.println(\n            hGetAllResult2.entrySet().stream()\n                    .sorted((s1, s2)-> s1.getKey().compareTo(s2.getKey()))\n                    .collect(toList())\n                    .toString()\n        );\n        // >>> [field1=Hello, field2=World]\n```\n\n**JavaScript (Node.js):**\n\n```javascript\nconst res10 = await client.hSet(\n  'myhash',\n  {\n    'field1': 'Hello',\n    'field2': 'World'\n  }\n)\n\nconst res11 = await client.hGetAll('myhash')\nconsole.log(res11) // [Object: null prototype] { field1: 'Hello', field2: 'World' }\n\n```\n\n**PHP:**\n\n```php\n        $hGetAllResult1 = $this->redis->hmset('myhash', ['field1' => 'Hello', 'field2' => 'World']);\n        echo \"HMSET myhash field1 Hello field2 World: \" . ($hGetAllResult1 ? 'OK' : 'FAIL') . \"\\n\"; // >>> OK\n\n        $hGetAllResult2 = $this->redis->hgetall('myhash');\n        echo \"HGETALL myhash: \" . json_encode($hGetAllResult2) . \"\\n\"; // >>> {\"field1\":\"Hello\",\"field2\":\"World\"}\n```\n\n**Python:**\n\n```python\nres10 = r.hset(\"myhash\", mapping={\"field1\": \"Hello\", \"field2\": \"World\"})\n\nres11 = r.hgetall(\"myhash\")\nprint(res11) # >>> { \"field1\": \"Hello\", \"field2\": \"World\" }\n\n```\n\n**Rust (Asynchronous):**\n\n```rust\n        let hash_fields = [\n            (\"field1\", \"Hello\"),\n            (\"field2\", \"World\"),\n        ];\n\n        if let Ok(_) = r.hset_multiple::<&str, &str, &str, String>(\"myhash\", &hash_fields).await {\n            // Fields set successfully\n        }\n\n        match r.hgetall(\"myhash\").await {\n            Ok(res11) => {\n                let res11: HashMap<String, String> = res11;\n                println!(\"{res11:?}\");    // >>> {\"field1\": \"Hello\", \"field2\": \"World\"}\n            },\n            Err(e) => {\n                println!(\"Error getting all hash fields: {e}\");\n                return;\n            }\n        }\n\n```\n\n**Rust (Synchronous):**\n\n```rust\n        let hash_fields = [\n            (\"field1\", \"Hello\"),\n            (\"field2\", \"World\"),\n        ];\n\n        if let Ok(_) = r.hset_multiple::<&str, &str, &str, String>(\"myhash\", &hash_fields) {\n            // Fields set successfully\n        }\n\n        match r.hgetall(\"myhash\") {\n            Ok(res11) => {\n                let res11: HashMap<String, String> = res11;\n                println!(\"{res11:?}\");    // >>> {\"field1\": \"Hello\", \"field2\": \"World\"}\n            },\n            Err(e) => {\n                println!(\"Error getting all hash fields: {e}\");\n                return;\n            }\n        }\n\n```\n\n\n\nGive these commands a try in the interactive console:\n\n\nHSET myhash field1 \"Hello\"\nHSET myhash field2 \"World\"\nHGETALL myhash\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of fields and their values, or an empty list when key does not exist.\n\n**RESP3:**\n\n[Map reply](../../develop/reference/protocol-spec#maps): a map of fields and their values, or an empty list when key does not exist.",
+  "codeExamples": [],
+  "content": "Returns all fields and values of the hash stored at `key`.\nIn the returned value, every field name is followed by its value, so the length\nof the reply is twice the size of the hash.\n\n## Examples\n\n{{< clients-example set=\"cmds_hash\" step=\"hgetall\" description=\"Foundational: Retrieve all fields and values from a hash using HGETALL (returns alternating field-value pairs, useful for loading entire hash data)\" difficulty=\"beginner\" >}}\nredis> HSET myhash field1 \"Hello\"\n(integer) 1\nredis> HSET myhash field2 \"World\"\n(integer) 1\nredis> HGETALL myhash\n1) \"field1\"\n2) \"Hello\"\n3) \"field2\"\n4) \"World\"\n{{< /clients-example >}}\n\nGive these commands a try in the interactive console:\n\n{{% redis-cli %}}\nHSET myhash field1 \"Hello\"\nHSET myhash field2 \"World\"\nHGETALL myhash\n{{% /redis-cli %}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"hgetall-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of fields and their values, or an empty list when key does not exist.\n\n-tab-sep-\n\n[Map reply](../../develop/reference/protocol-spec#maps): a map of fields and their values, or an empty list when key does not exist.\n\n{{< /multitabs >}}",
+  "example": "redis> HSET myhash field1 \"Hello\"\n(integer) 1\nredis> HSET myhash field2 \"World\"\n(integer) 1\nredis> HGETALL myhash\n1) \"field1\"\n2) \"Hello\"\n3) \"field2\"\n4) \"World\"",
   "intro": "Returns all fields and values of the hash stored at `key`.\nIn the returned value, every field name is followed by its value, so the length\nof the reply is twice the size of the hash.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -180,7 +413,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "#### Code Examples\n\nFoundational: Retrieve all fields and values from a hash using HGETALL (returns alternating field-value pairs, useful for loading entire hash data)\n\n**Difficulty:** Beginner\n\n**Commands:** HSET, HGETALL\n\n**Complexity:**\n- HSET: O(1)\n- HGETALL: O(N)\n\n**Redis CLI:**\n\n```\nredis> HSET myhash field1 \"Hello\"\n(integer) 1\nredis> HSET myhash field2 \"World\"\n(integer) 1\nredis> HGETALL myhash\n1) \"field1\"\n2) \"Hello\"\n3) \"field2\"\n4) \"World\"\n```\n\n**Available in:** Redis CLI, C# (Synchronous), Go, Java (Asynchronous - Lettuce), Java (Reactive - Lettuce), Java (Synchronous - Jedis), JavaScript (Node.js), PHP, Python, Rust (Asynchronous), Rust (Synchronous)\n\n**C# (Synchronous):**\n\n```csharp\n        // STEP_START hget\n        bool hgetRes1 = db.HashSet(\"myhash\", \"field1\", \"foo\");\n\n        RedisValue hgetRes2 = db.HashGet(\"myhash\", \"field1\");\n        Console.WriteLine(hgetRes2);    // >>> foo\n\n        RedisValue hgetRes3 = db.HashGet(\"myhash\", \"field2\");\n        Console.WriteLine(hgetRes3);    // >>> Null\n        // STEP_END\n\n        // REMOVE_START\n        Assert.True(hgetRes1);\n        Assert.Equal(\"foo\", hgetRes2);\n```\n\n**Go:**\n\n```go\n\thGetAllResult1, err := rdb.HSet(ctx, \"myhash\",\n\t\t\"field1\", \"Hello\",\n\t\t\"field2\", \"World\",\n\t).Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(hGetAllResult1) // >>> 2\n\n\thGetAllResult2, err := rdb.HGetAll(ctx, \"myhash\").Result()\n\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tkeys := make([]string, 0, len(hGetAllResult2))\n\n\tfor key, _ := range hGetAllResult2 {\n\t\tkeys = append(keys, key)\n\t}\n\n\tsort.Strings(keys)\n\n\tfor _, key := range keys {\n\t\tfmt.Printf(\"Key: %v, value: %v\\n\", key, hGetAllResult2[key])\n\t}\n\t// >>> Key: field1, value: Hello\n\t// >>> Key: field2, value: World\n```\n\n**Java (Asynchronous - Lettuce):**\n\n```java\n            Map<String, String> hGetAllExampleParams = new HashMap<>();\n            hGetAllExampleParams.put(\"field1\", \"Hello\");\n            hGetAllExampleParams.put(\"field2\", \"World\");\n\n            CompletableFuture<Void> hGetAllExample = asyncCommands.hset(\"myhash\", hGetAllExampleParams).thenCompose(res1 -> {\n                return asyncCommands.hgetall(\"myhash\");\n            }).thenAccept(res2 -> {\n                System.out.println(res2);\n                // >>> {field1=Hello, field2=World}\n            }).toCompletableFuture();\n```\n\n**Java (Reactive - Lettuce):**\n\n```java\n            Map<String, String> hGetAllExampleParams = new HashMap<>();\n            hGetAllExampleParams.put(\"field1\", \"Hello\");\n            hGetAllExampleParams.put(\"field2\", \"World\");\n\n            Mono<Long> hGetAllExample1 = reactiveCommands.hset(\"myhash\", hGetAllExampleParams).doOnNext(result -> {\n            });\n\n            hGetAllExample1.block();\n\n            Mono<Map<String, String>> hGetAllExample2 = reactiveCommands.hgetall(\"myhash\").collectMap(\n                    KeyValue::getKey, KeyValue::getValue\n            ).doOnNext(result -> {\n                System.out.println(result);\n                // >>> {field1=Hello, field2=World}\n            });\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\n        Map<String, String> hGetAllExampleParams = new HashMap<>();\n        hGetAllExampleParams.put(\"field1\", \"Hello\");\n        hGetAllExampleParams.put(\"field2\", \"World\");\n\n        long hGetAllResult1 = jedis.hset(\"myhash\", hGetAllExampleParams);\n        System.out.println(hGetAllResult1); // >>> 2\n\n        Map<String, String> hGetAllResult2 = jedis.hgetAll(\"myhash\");\n        System.out.println(\n            hGetAllResult2.entrySet().stream()\n                    .sorted((s1, s2)-> s1.getKey().compareTo(s2.getKey()))\n                    .collect(toList())\n                    .toString()\n        );\n        // >>> [field1=Hello, field2=World]\n```\n\n**JavaScript (Node.js):**\n\n```javascript\nconst res10 = await client.hSet(\n  'myhash',\n  {\n    'field1': 'Hello',\n    'field2': 'World'\n  }\n)\n\nconst res11 = await client.hGetAll('myhash')\nconsole.log(res11) // [Object: null prototype] { field1: 'Hello', field2: 'World' }\n\n```\n\n**PHP:**\n\n```php\n        $hGetAllResult1 = $this->redis->hmset('myhash', ['field1' => 'Hello', 'field2' => 'World']);\n        echo \"HMSET myhash field1 Hello field2 World: \" . ($hGetAllResult1 ? 'OK' : 'FAIL') . \"\\n\"; // >>> OK\n\n        $hGetAllResult2 = $this->redis->hgetall('myhash');\n        echo \"HGETALL myhash: \" . json_encode($hGetAllResult2) . \"\\n\"; // >>> {\"field1\":\"Hello\",\"field2\":\"World\"}\n```\n\n**Python:**\n\n```python\nres10 = r.hset(\"myhash\", mapping={\"field1\": \"Hello\", \"field2\": \"World\"})\n\nres11 = r.hgetall(\"myhash\")\nprint(res11) # >>> { \"field1\": \"Hello\", \"field2\": \"World\" }\n\n```\n\n**Rust (Asynchronous):**\n\n```rust\n        let hash_fields = [\n            (\"field1\", \"Hello\"),\n            (\"field2\", \"World\"),\n        ];\n\n        if let Ok(_) = r.hset_multiple::<&str, &str, &str, String>(\"myhash\", &hash_fields).await {\n            // Fields set successfully\n        }\n\n        match r.hgetall(\"myhash\").await {\n            Ok(res11) => {\n                let res11: HashMap<String, String> = res11;\n                println!(\"{res11:?}\");    // >>> {\"field1\": \"Hello\", \"field2\": \"World\"}\n            },\n            Err(e) => {\n                println!(\"Error getting all hash fields: {e}\");\n                return;\n            }\n        }\n\n```\n\n**Rust (Synchronous):**\n\n```rust\n        let hash_fields = [\n            (\"field1\", \"Hello\"),\n            (\"field2\", \"World\"),\n        ];\n\n        if let Ok(_) = r.hset_multiple::<&str, &str, &str, String>(\"myhash\", &hash_fields) {\n            // Fields set successfully\n        }\n\n        match r.hgetall(\"myhash\") {\n            Ok(res11) => {\n                let res11: HashMap<String, String> = res11;\n                println!(\"{res11:?}\");    // >>> {\"field1\": \"Hello\", \"field2\": \"World\"}\n            },\n            Err(e) => {\n                println!(\"Error getting all hash fields: {e}\");\n                return;\n            }\n        }\n\n```\n\n\n\nGive these commands a try in the interactive console:\n\n\nHSET myhash field1 \"Hello\"\nHSET myhash field2 \"World\"\nHGETALL myhash"
+      "content": "{{< clients-example set=\"cmds_hash\" step=\"hgetall\" description=\"Foundational: Retrieve all fields and values from a hash using HGETALL (returns alternating field-value pairs, useful for loading entire hash data)\" difficulty=\"beginner\" >}}\nredis> HSET myhash field1 \"Hello\"\n(integer) 1\nredis> HSET myhash field2 \"World\"\n(integer) 1\nredis> HGETALL myhash\n1) \"field1\"\n2) \"Hello\"\n3) \"field2\"\n4) \"World\"\n{{< /clients-example >}}\n\nGive these commands a try in the interactive console:\n\n{{% redis-cli %}}\nHSET myhash field1 \"Hello\"\nHSET myhash field2 \"World\"\nHGETALL myhash\n{{% /redis-cli %}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -190,7 +423,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of fields and their values, or an empty list when key does not exist.\n\n**RESP3:**\n\n[Map reply](../../develop/reference/protocol-spec#maps): a map of fields and their values, or an empty list when key does not exist."
+      "content": "{{< multitabs id=\"hgetall-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of fields and their values, or an empty list when key does not exist.\n\n-tab-sep-\n\n[Map reply](../../develop/reference/protocol-spec#maps): a map of fields and their values, or an empty list when key does not exist.\n\n{{< /multitabs >}}"
     }
   ]
 }

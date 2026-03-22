@@ -14,6 +14,125 @@
     "@write",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ktv_tuples",
+            "type": "List[Tuple[KeyT, Union[int, str], Union[Number, str]]]"
+          }
+        ],
+        "returns": {
+          "description": "A list that contains, for each sample, either the timestamp that was used, or an error, if the sample could not be added.",
+          "type": "Any"
+        },
+        "signature": "madd(ktv_tuples: List[Tuple[KeyT, Union[int, str], Union[Number, str]]])"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "key, timestamp, value",
+            "name": "entries",
+            "type": "Map.Entry<String, TSElement>..."
+          }
+        ],
+        "returns": {
+          "description": "timestamps",
+          "type": "List<Long>"
+        },
+        "signature": "List<Long> tsMAdd(Map.Entry<String, TSElement>... entries)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "ktvSlices",
+            "type": "[][]interface{}"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*IntSliceCmd"
+        },
+        "signature": "TSMAdd(ctx context.Context, ktvSlices [][]interface{})"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "toAdd",
+            "type": "Array<TsMAddSample>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "MADD(toAdd: Array<TsMAddSample>)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "IReadOnlyCollection<(string key, TimeStamp timestamp, double value",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "IReadOnlyList<TimeStamp>"
+        },
+        "signature": "MAdd(IReadOnlyCollection<(string key, TimeStamp timestamp, double value)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "IReadOnlyCollection<(string key, TimeStamp timestamp, double value",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Task<IReadOnlyList<TimeStamp>>"
+        },
+        "signature": "MAddAsync(IReadOnlyCollection<(string key, TimeStamp timestamp, double value)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$keyTimestampValue",
+            "type": "mixed ..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array"
+        },
+        "signature": "tsmadd(mixed ...$keyTimestampValue)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -48,50 +167,25 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "complexity",
-        "title": "Complexity"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      },
-      {
-        "id": "see-also",
-        "title": "See also"
-      },
-      {
-        "id": "related-topics",
-        "title": "Related topics"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\n\nAppend new samples to one or more time series\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open>\n<summary><code>key</code></summary> \n\nis the key name for the time series.\n</details>\n\n<details open>\n<summary><code>timestamp</code></summary>\n\nis Unix time (integer, in milliseconds) specifying the sample timestamp or `*` to set the sample timestamp to the Unix time of the server's clock.\n\nUnix time is the number of milliseconds that have elapsed since 00:00:00 UTC on 1 January 1970, the Unix epoch, without adjustments made due to leap seconds.\n</details>\n\n<details open>\n<summary><code>value</code></summary>\n\nis numeric data value of the sample (double). The double number should follow <a href=\"https://tools.ietf.org/html/rfc7159\">RFC 7159</a> (JSON standard). The parser rejects overly large values that would not fit in binary64. It does not accept infinite values. NaN (Not a Number) values are supported starting from Redis 8.6.\n</details>\n\n<note><b>Notes:</b>\n- If `timestamp` is older than the retention period compared to the maximum existing timestamp, the sample is discarded and an error is returned.\n- Explicitly adding samples to a compacted time series (using [`TS.ADD`](), `TS.MADD`, [`TS.INCRBY`](), or [`TS.DECRBY`]()) may result in inconsistencies between the raw and the compacted data. The compaction process may override such samples.\n- `ignoreMaxTimeDiff` and `ignoreMaxValDiff` cannot be specified as is the case with `TS.ADD`. However, the same logic still applies based on the values of the per-key configuration parameters. See the [`TS.ADD`]() command page for more information.\n</note>\n\n## Complexity\n\nIf a compaction rule exits on a time series, TS.MADD performance might be reduced.\nThe complexity of TS.MADD is always `O(N*M)`, where `N` is the amount of series updated and `M` is the number of compaction rules or `O(N)` with no compaction.\n\n## Examples\n\n<details open>\n<summary><b>Add stock prices at different timestamps</b></summary>\n\nCreate two stocks and add their prices at three different timestamps.\n\n\n127.0.0.1:6379> TS.CREATE stock:A LABELS type stock name A\nOK\n127.0.0.1:6379> TS.CREATE stock:B LABELS type stock name B\nOK\n127.0.0.1:6379> TS.MADD stock:A 1000 100 stock:A 1010 110 stock:A 1020 120 stock:B 1000 120 stock:B 1010 110 stock:B 1020 100\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n4) (integer) 1000\n5) (integer) 1010\n6) (integer) 1020\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Array reply](), where each element is an [Integer reply]() representing the timestamp of a upserted sample. For each element that is ignored (see `IGNORE` in [`TS.CREATE`]()), the reply element value will be the largest timestamp in the time series.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, duplication policy is `BLOCK`, or when `timestamp` is older than the retention period compared to the maximum existing timestamp.\n\n**RESP3:**\n\nOne of the following:\n* [Array reply](), where each element is an [Integer reply]() representing the timestamp of a upserted sample. For each element that is ignored (see `IGNORE` in [`TS.CREATE`]()), the reply element value will be the largest timestamp in the time series.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, duplication policy is `BLOCK`, or when `timestamp` is older than the retention period compared to the maximum existing timestamp.\n\n\n\n## See also\n\n[`TS.MRANGE`]() | [`TS.RANGE`]() | [`TS.MREVRANGE`]() | [`TS.REVRANGE`]()\n\n## Related topics\n\n[RedisTimeSeries]()",
-  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\n\nAppend new samples to one or more time series\n\n[Examples](#examples)",
+  "content": "Append new samples to one or more time series\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open>\n<summary><code>key</code></summary> \n\nis the key name for the time series.\n</details>\n\n<details open>\n<summary><code>timestamp</code></summary>\n\nis Unix time (integer, in milliseconds) specifying the sample timestamp or `*` to set the sample timestamp to the Unix time of the server's clock.\n\nUnix time is the number of milliseconds that have elapsed since 00:00:00 UTC on 1 January 1970, the Unix epoch, without adjustments made due to leap seconds.\n</details>\n\n<details open>\n<summary><code>value</code></summary>\n\nis numeric data value of the sample (double). The double number should follow <a href=\"https://tools.ietf.org/html/rfc7159\">RFC 7159</a> (JSON standard). The parser rejects overly large values that would not fit in binary64. It does not accept infinite values. NaN (Not a Number) values are supported starting from Redis 8.6.\n</details>\n\n<note><b>Notes:</b>\n- If `timestamp` is older than the retention period compared to the maximum existing timestamp, the sample is discarded and an error is returned.\n- Explicitly adding samples to a compacted time series (using [`TS.ADD`]({{< relref \"commands/ts.add/\" >}}), `TS.MADD`, [`TS.INCRBY`]({{< relref \"commands/ts.incrby/\" >}}), or [`TS.DECRBY`]({{< relref \"commands/ts.decrby/\" >}})) may result in inconsistencies between the raw and the compacted data. The compaction process may override such samples.\n- `ignoreMaxTimeDiff` and `ignoreMaxValDiff` cannot be specified as is the case with `TS.ADD`. However, the same logic still applies based on the values of the per-key configuration parameters. See the [`TS.ADD`]({{< relref \"commands/ts.add/\" >}}) command page for more information.\n</note>\n\n## Complexity\n\nIf a compaction rule exits on a time series, TS.MADD performance might be reduced.\nThe complexity of TS.MADD is always `O(N*M)`, where `N` is the amount of series updated and `M` is the number of compaction rules or `O(N)` with no compaction.\n\n## Examples\n\n<details open>\n<summary><b>Add stock prices at different timestamps</b></summary>\n\nCreate two stocks and add their prices at three different timestamps.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.CREATE stock:A LABELS type stock name A\nOK\n127.0.0.1:6379> TS.CREATE stock:B LABELS type stock name B\nOK\n127.0.0.1:6379> TS.MADD stock:A 1000 100 stock:A 1010 110 stock:A 1020 120 stock:B 1000 120 stock:B 1010 110 stock:B 1020 100\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n4) (integer) 1000\n5) (integer) 1010\n6) (integer) 1020\n{{< / highlight >}}\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"ts-madd-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}), where each element is an [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) representing the timestamp of a upserted sample. For each element that is ignored (see `IGNORE` in [`TS.CREATE`]({{< relref \"commands/ts.create/\" >}})), the reply element value will be the largest timestamp in the time series.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, wrong key type, duplication policy is `BLOCK`, or when `timestamp` is older than the retention period compared to the maximum existing timestamp.\n\n-tab-sep-\n\nOne of the following:\n* [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}), where each element is an [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) representing the timestamp of a upserted sample. For each element that is ignored (see `IGNORE` in [`TS.CREATE`]({{< relref \"commands/ts.create/\" >}})), the reply element value will be the largest timestamp in the time series.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, wrong key type, duplication policy is `BLOCK`, or when `timestamp` is older than the retention period compared to the maximum existing timestamp.\n\n{{< /multitabs >}}\n\n## See also\n\n[`TS.MRANGE`]({{< relref \"commands/ts.mrange/\" >}}) | [`TS.RANGE`]({{< relref \"commands/ts.range/\" >}}) | [`TS.MREVRANGE`]({{< relref \"commands/ts.mrevrange/\" >}}) | [`TS.REVRANGE`]({{< relref \"commands/ts.revrange/\" >}})\n\n## Related topics\n\n[RedisTimeSeries]({{< relref \"/develop/data-types/timeseries/\" >}})",
+  "example": "127.0.0.1:6379> TS.CREATE stock:A LABELS type stock name A\nOK\n127.0.0.1:6379> TS.CREATE stock:B LABELS type stock name B\nOK\n127.0.0.1:6379> TS.MADD stock:A 1000 100 stock:A 1010 110 stock:A 1020 120 stock:B 1000 120 stock:B 1010 110 stock:B 1020 100\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n4) (integer) 1000\n5) (integer) 1010\n6) (integer) 1020",
+  "intro": "Append new samples to one or more time series\n\n[Examples](#examples)",
+  "notes": [
+    "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information."
+  ],
   "sections": [
     {
       "title": "Overview",
       "level": 1,
-      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\n\nAppend new samples to one or more time series\n\n[Examples](#examples)"
+      "content": "Append new samples to one or more time series\n\n[Examples](#examples)"
     },
     {
       "title": "Required arguments",
       "level": 2,
-      "content": "<details open>\n<summary><code>key</code></summary> \n\nis the key name for the time series.\n</details>\n\n<details open>\n<summary><code>timestamp</code></summary>\n\nis Unix time (integer, in milliseconds) specifying the sample timestamp or `*` to set the sample timestamp to the Unix time of the server's clock.\n\nUnix time is the number of milliseconds that have elapsed since 00:00:00 UTC on 1 January 1970, the Unix epoch, without adjustments made due to leap seconds.\n</details>\n\n<details open>\n<summary><code>value</code></summary>\n\nis numeric data value of the sample (double). The double number should follow <a href=\"https://tools.ietf.org/html/rfc7159\">RFC 7159</a> (JSON standard). The parser rejects overly large values that would not fit in binary64. It does not accept infinite values. NaN (Not a Number) values are supported starting from Redis 8.6.\n</details>\n\n<note><b>Notes:</b>\n- If `timestamp` is older than the retention period compared to the maximum existing timestamp, the sample is discarded and an error is returned.\n- Explicitly adding samples to a compacted time series (using [`TS.ADD`](), `TS.MADD`, [`TS.INCRBY`](), or [`TS.DECRBY`]()) may result in inconsistencies between the raw and the compacted data. The compaction process may override such samples.\n- `ignoreMaxTimeDiff` and `ignoreMaxValDiff` cannot be specified as is the case with `TS.ADD`. However, the same logic still applies based on the values of the per-key configuration parameters. See the [`TS.ADD`]() command page for more information.\n</note>"
+      "content": "<details open>\n<summary><code>key</code></summary> \n\nis the key name for the time series.\n</details>\n\n<details open>\n<summary><code>timestamp</code></summary>\n\nis Unix time (integer, in milliseconds) specifying the sample timestamp or `*` to set the sample timestamp to the Unix time of the server's clock.\n\nUnix time is the number of milliseconds that have elapsed since 00:00:00 UTC on 1 January 1970, the Unix epoch, without adjustments made due to leap seconds.\n</details>\n\n<details open>\n<summary><code>value</code></summary>\n\nis numeric data value of the sample (double). The double number should follow <a href=\"https://tools.ietf.org/html/rfc7159\">RFC 7159</a> (JSON standard). The parser rejects overly large values that would not fit in binary64. It does not accept infinite values. NaN (Not a Number) values are supported starting from Redis 8.6.\n</details>\n\n<note><b>Notes:</b>\n- If `timestamp` is older than the retention period compared to the maximum existing timestamp, the sample is discarded and an error is returned.\n- Explicitly adding samples to a compacted time series (using [`TS.ADD`]({{< relref \"commands/ts.add/\" >}}), `TS.MADD`, [`TS.INCRBY`]({{< relref \"commands/ts.incrby/\" >}}), or [`TS.DECRBY`]({{< relref \"commands/ts.decrby/\" >}})) may result in inconsistencies between the raw and the compacted data. The compaction process may override such samples.\n- `ignoreMaxTimeDiff` and `ignoreMaxValDiff` cannot be specified as is the case with `TS.ADD`. However, the same logic still applies based on the values of the per-key configuration parameters. See the [`TS.ADD`]({{< relref \"commands/ts.add/\" >}}) command page for more information.\n</note>"
     },
     {
       "title": "Complexity",
@@ -101,7 +195,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "<details open>\n<summary><b>Add stock prices at different timestamps</b></summary>\n\nCreate two stocks and add their prices at three different timestamps.\n\n\n127.0.0.1:6379> TS.CREATE stock:A LABELS type stock name A\nOK\n127.0.0.1:6379> TS.CREATE stock:B LABELS type stock name B\nOK\n127.0.0.1:6379> TS.MADD stock:A 1000 100 stock:A 1010 110 stock:A 1020 120 stock:B 1000 120 stock:B 1010 110 stock:B 1020 100\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n4) (integer) 1000\n5) (integer) 1010\n6) (integer) 1020\n\n</details>"
+      "content": "<details open>\n<summary><b>Add stock prices at different timestamps</b></summary>\n\nCreate two stocks and add their prices at three different timestamps.\n\n{{< highlight bash >}}\n127.0.0.1:6379> TS.CREATE stock:A LABELS type stock name A\nOK\n127.0.0.1:6379> TS.CREATE stock:B LABELS type stock name B\nOK\n127.0.0.1:6379> TS.MADD stock:A 1000 100 stock:A 1010 110 stock:A 1020 120 stock:B 1000 120 stock:B 1010 110 stock:B 1020 100\n1) (integer) 1000\n2) (integer) 1010\n3) (integer) 1020\n4) (integer) 1000\n5) (integer) 1010\n6) (integer) 1020\n{{< / highlight >}}\n</details>"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -111,17 +205,17 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Array reply](), where each element is an [Integer reply]() representing the timestamp of a upserted sample. For each element that is ignored (see `IGNORE` in [`TS.CREATE`]()), the reply element value will be the largest timestamp in the time series.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, duplication policy is `BLOCK`, or when `timestamp` is older than the retention period compared to the maximum existing timestamp.\n\n**RESP3:**\n\nOne of the following:\n* [Array reply](), where each element is an [Integer reply]() representing the timestamp of a upserted sample. For each element that is ignored (see `IGNORE` in [`TS.CREATE`]()), the reply element value will be the largest timestamp in the time series.\n* [Simple error reply]() in these cases: invalid arguments, wrong key type, duplication policy is `BLOCK`, or when `timestamp` is older than the retention period compared to the maximum existing timestamp."
+      "content": "{{< multitabs id=\"ts-madd-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}), where each element is an [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) representing the timestamp of a upserted sample. For each element that is ignored (see `IGNORE` in [`TS.CREATE`]({{< relref \"commands/ts.create/\" >}})), the reply element value will be the largest timestamp in the time series.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, wrong key type, duplication policy is `BLOCK`, or when `timestamp` is older than the retention period compared to the maximum existing timestamp.\n\n-tab-sep-\n\nOne of the following:\n* [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}), where each element is an [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) representing the timestamp of a upserted sample. For each element that is ignored (see `IGNORE` in [`TS.CREATE`]({{< relref \"commands/ts.create/\" >}})), the reply element value will be the largest timestamp in the time series.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, wrong key type, duplication policy is `BLOCK`, or when `timestamp` is older than the retention period compared to the maximum existing timestamp.\n\n{{< /multitabs >}}"
     },
     {
       "title": "See also",
       "level": 2,
-      "content": "[`TS.MRANGE`]() | [`TS.RANGE`]() | [`TS.MREVRANGE`]() | [`TS.REVRANGE`]()"
+      "content": "[`TS.MRANGE`]({{< relref \"commands/ts.mrange/\" >}}) | [`TS.RANGE`]({{< relref \"commands/ts.range/\" >}}) | [`TS.MREVRANGE`]({{< relref \"commands/ts.mrevrange/\" >}}) | [`TS.REVRANGE`]({{< relref \"commands/ts.revrange/\" >}})"
     },
     {
       "title": "Related topics",
       "level": 2,
-      "content": "[RedisTimeSeries]()"
+      "content": "[RedisTimeSeries]({{< relref \"/develop/data-types/timeseries/\" >}})"
     }
   ]
 }

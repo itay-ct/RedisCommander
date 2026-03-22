@@ -14,6 +14,413 @@
     "@write",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "str"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "str"
+          },
+          {
+            "description": "",
+            "name": "index",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "*args",
+            "type": "JsonType"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List[Optional[int]]"
+        },
+        "signature": "arrinsert(name: str, path: str, index: int, *args: JsonType)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "Path"
+          },
+          {
+            "description": "",
+            "name": "index",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "pojos",
+            "type": "Object..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "long"
+        },
+        "signature": "long jsonArrInsert(String key, Path path, int index, Object... pojos)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "Path2"
+          },
+          {
+            "description": "",
+            "name": "index",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "objects",
+            "type": "Object..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List<Long>"
+        },
+        "signature": "List<Long> jsonArrInsert(String key, Path2 path, int index, Object... objects)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the JsonPath pointing to the array inside the document.",
+            "name": "jsonPath",
+            "type": "JsonPath"
+          },
+          {
+            "description": "the index before which the new elements will be inserted.",
+            "name": "index",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "values",
+            "type": "JsonValue..."
+          }
+        ],
+        "returns": {
+          "description": "Long the resulting size of the arrays after the new data was inserted, or null if the path does not exist. @since 6.8",
+          "type": "List<Long>"
+        },
+        "signature": "List<Long> jsonArrinsert(K key, JsonPath jsonPath, int index, JsonValue... values)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the JsonPath pointing to the array inside the document.",
+            "name": "jsonPath",
+            "type": "JsonPath"
+          },
+          {
+            "description": "the index before which the new elements will be inserted.",
+            "name": "index",
+            "type": "int"
+          },
+          {
+            "description": "one or more JSON strings to be inserted.",
+            "name": "jsonStrings",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "Long the resulting size of the arrays after the new data was inserted, or null if the path does not exist. @since 6.8",
+          "type": "List<Long>"
+        },
+        "signature": "List<Long> jsonArrinsert(K key, JsonPath jsonPath, int index, String... jsonStrings)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the JsonPath pointing to the array inside the document.",
+            "name": "jsonPath",
+            "type": "JsonPath"
+          },
+          {
+            "description": "the index before which the new elements will be inserted.",
+            "name": "index",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "values",
+            "type": "JsonValue..."
+          }
+        ],
+        "returns": {
+          "description": "Long the resulting size of the arrays after the new data was inserted, or null if the path does not exist. @since 6.8",
+          "type": "RedisFuture<List<Long>>"
+        },
+        "signature": "RedisFuture<List<Long>> jsonArrinsert(K key, JsonPath jsonPath, int index, JsonValue... values)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the JsonPath pointing to the array inside the document.",
+            "name": "jsonPath",
+            "type": "JsonPath"
+          },
+          {
+            "description": "the index before which the new elements will be inserted.",
+            "name": "index",
+            "type": "int"
+          },
+          {
+            "description": "one or more JSON strings to be inserted.",
+            "name": "jsonStrings",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "Long the resulting size of the arrays after the new data was inserted, or null if the path does not exist. @since 6.8",
+          "type": "RedisFuture<List<Long>>"
+        },
+        "signature": "RedisFuture<List<Long>> jsonArrinsert(K key, JsonPath jsonPath, int index, String... jsonStrings)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the JsonPath pointing to the array inside the document.",
+            "name": "jsonPath",
+            "type": "JsonPath"
+          },
+          {
+            "description": "the index before which the new elements will be inserted.",
+            "name": "index",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "values",
+            "type": "JsonValue..."
+          }
+        ],
+        "returns": {
+          "description": "Long the resulting size of the arrays after the new data was inserted, or null if the path does not exist. @since 6.8",
+          "type": "Flux<Long>"
+        },
+        "signature": "Flux<Long> jsonArrinsert(K key, JsonPath jsonPath, int index, JsonValue... values)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the JsonPath pointing to the array inside the document.",
+            "name": "jsonPath",
+            "type": "JsonPath"
+          },
+          {
+            "description": "the index before which the new elements will be inserted.",
+            "name": "index",
+            "type": "int"
+          },
+          {
+            "description": "one or more JSON strings to be inserted.",
+            "name": "jsonStrings",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "Long the resulting size of the arrays after the new data was inserted, or null if the path does not exist. @since 6.8",
+          "type": "Flux<Long>"
+        },
+        "signature": "Flux<Long> jsonArrinsert(K key, JsonPath jsonPath, int index, String... jsonStrings)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "index",
+            "type": "int64"
+          },
+          {
+            "description": "",
+            "name": "values",
+            "type": "...interface{}"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*IntSliceCmd"
+        },
+        "signature": "JSONArrInsert(ctx context.Context, key, path string, index int64, values ...interface{})"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "index",
+            "type": "number"
+          },
+          {
+            "description": "",
+            "name": "json",
+            "type": "RedisJSON"
+          },
+          {
+            "description": "",
+            "name": "...jsons",
+            "type": "Array<RedisJSON>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "ARRINSERT(key: RedisArgument, path: RedisArgument, index: number, json: RedisJSON, ...jsons: Array<RedisJSON>)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "index",
+            "type": "long"
+          },
+          {
+            "description": "",
+            "name": "values",
+            "type": "object[]"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "long?[]"
+        },
+        "signature": "ArrInsert(RedisKey key, string path, long index, params object[] values)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$path",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$index",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "$value",
+            "type": "string ..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array"
+        },
+        "signature": "jsonarrinsert(string $key, string $path, int $index, string ...$value)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -46,40 +453,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "optional-arguments",
-        "title": "Optional arguments"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      },
-      {
-        "id": "see-also",
-        "title": "See also"
-      },
-      {
-        "id": "related-topics",
-        "title": "Related topics"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Insert the `json` values into the array at `path` before the `index` (shifts to the right)\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open><summary><code>key</code></summary> \n\nis key to modify.\n</details>\n\n<details open><summary><code>value</code></summary> \n\nis one or more values to insert in one or more arrays. \n\n\nTo specify a string as an array value to insert, wrap the quoted string with an additional set of single quotes. Example: `'\"silver\"'`. For more detailed use, see [Examples](#examples).\n\n</details>\n\n<details open><summary><code>index</code></summary> \n\nis position in the array where you want to insert a value. The index must be in the array's range. Inserting at `index` 0 prepends to the array. Negative index values start from the end of the array.\n</details>\n\n## Optional arguments\n\n<details open><summary><code>path</code></summary> \n\nis JSONPath to specify. Default is root `$`.\n</details>\n\n## Examples\n\n<details open>\n<summary><b>Add new colors to a specific place in a list of product colors</b></summary>\n\nCreate a document for noise-cancelling headphones in black and silver colors.\n\n\nredis> JSON.SET item:1 $ '{\"name\":\"Noise-cancelling Bluetooth headphones\",\"description\":\"Wireless Bluetooth headphones with noise-cancelling technology\",\"connection\":{\"wireless\":true,\"type\":\"Bluetooth\"},\"price\":99.98,\"stock\":25,\"colors\":[\"black\",\"silver\"]}'\nOK\n\n\nAdd color `blue` to the end of the `colors` array. `JSON.ARRAPEND` returns the array's new size.\n\n\nredis> JSON.ARRAPPEND item:1 $.colors '\"blue\"'\n1) (integer) 3\n\n\nReturn the new length of the `colors` array.\n\n\nredis> JSON.GET item:1\n\"{\\\"name\\\":\\\"Noise-cancelling Bluetooth headphones\\\",\\\"description\\\":\\\"Wireless Bluetooth headphones with noise-cancelling technology\\\",\\\"connection\\\":{\\\"wireless\\\":true,\\\"type\\\":\\\"Bluetooth\\\"},\\\"price\\\":99.98,\\\"stock\\\":25,\\\"colors\\\":[\\\"black\\\",\\\"silver\\\",\\\"blue\\\"]}\"\n\n\nGet the list of colors for the product.\n\n\nredis> JSON.GET item:1 '$.colors[*]'\n\"[\\\"black\\\",\\\"silver\\\",\\\"blue\\\"]\"\n\n\nInsert two more colors after the second color. You now have five colors.\n\n\nredis> JSON.ARRINSERT item:1 $.colors 2 '\"yellow\"' '\"gold\"'\n1) (integer) 5\n\n\nGet the updated list of colors.\n\n\nredis> JSON.GET item:1 $.colors\n\"[[\\\"black\\\",\\\"silver\\\",\\\"yellow\\\",\\\"gold\\\",\\\"blue\\\"]]\"\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nWith `$`-based path argument: [Array reply]() of [integer replies]() or [null replies](), where each element is the array's new size, or `null` if the matching value is not an array.\n\nWith `.`-based path argument: [Integer reply]() representing the array's new size, or [null reply]() if the matching value is not an array.\n\n**RESP3:**\n\nWith `$`-based path argument (default): [Array reply]() of [integer replies]() or [null replies](), where each element is the array's new size, or `null` if the matching value is not an array.\n\nWith `.`-based path argument: [Integer reply]() representing the array's new size, or [null reply]() if the matching value is not an array.\n\n\n\n## See also\n\n[`JSON.ARRAPPEND`]() | [`JSON.ARRINDEX`]() \n\n## Related topics\n\n* [RedisJSON]()\n* [Index and search JSON documents]()",
+  "content": "Insert the `json` values into the array at `path` before the `index` (shifts to the right)\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open><summary><code>key</code></summary> \n\nis key to modify.\n</details>\n\n<details open><summary><code>value</code></summary> \n\nis one or more values to insert in one or more arrays. \n\n{{% alert title=\"About using strings with JSON commands\" color=\"warning\" %}}\nTo specify a string as an array value to insert, wrap the quoted string with an additional set of single quotes. Example: `'\"silver\"'`. For more detailed use, see [Examples](#examples).\n{{% /alert %}}\n</details>\n\n<details open><summary><code>index</code></summary> \n\nis position in the array where you want to insert a value. The index must be in the array's range. Inserting at `index` 0 prepends to the array. Negative index values start from the end of the array.\n</details>\n\n## Optional arguments\n\n<details open><summary><code>path</code></summary> \n\nis JSONPath to specify. Default is root `$`.\n</details>\n\n## Examples\n\n<details open>\n<summary><b>Add new colors to a specific place in a list of product colors</b></summary>\n\nCreate a document for noise-cancelling headphones in black and silver colors.\n\n{{< highlight bash >}}\nredis> JSON.SET item:1 $ '{\"name\":\"Noise-cancelling Bluetooth headphones\",\"description\":\"Wireless Bluetooth headphones with noise-cancelling technology\",\"connection\":{\"wireless\":true,\"type\":\"Bluetooth\"},\"price\":99.98,\"stock\":25,\"colors\":[\"black\",\"silver\"]}'\nOK\n{{< / highlight >}}\n\nAdd color `blue` to the end of the `colors` array. `JSON.ARRAPEND` returns the array's new size.\n\n{{< highlight bash >}}\nredis> JSON.ARRAPPEND item:1 $.colors '\"blue\"'\n1) (integer) 3\n{{< / highlight >}}\n\nReturn the new length of the `colors` array.\n\n{{< highlight bash >}}\nredis> JSON.GET item:1\n\"{\\\"name\\\":\\\"Noise-cancelling Bluetooth headphones\\\",\\\"description\\\":\\\"Wireless Bluetooth headphones with noise-cancelling technology\\\",\\\"connection\\\":{\\\"wireless\\\":true,\\\"type\\\":\\\"Bluetooth\\\"},\\\"price\\\":99.98,\\\"stock\\\":25,\\\"colors\\\":[\\\"black\\\",\\\"silver\\\",\\\"blue\\\"]}\"\n{{< / highlight >}}\n\nGet the list of colors for the product.\n\n{{< highlight bash >}}\nredis> JSON.GET item:1 '$.colors[*]'\n\"[\\\"black\\\",\\\"silver\\\",\\\"blue\\\"]\"\n{{< / highlight >}}\n\nInsert two more colors after the second color. You now have five colors.\n\n{{< highlight bash >}}\nredis> JSON.ARRINSERT item:1 $.colors 2 '\"yellow\"' '\"gold\"'\n1) (integer) 5\n{{< / highlight >}}\n\nGet the updated list of colors.\n\n{{< highlight bash >}}\nredis> JSON.GET item:1 $.colors\n\"[[\\\"black\\\",\\\"silver\\\",\\\"yellow\\\",\\\"gold\\\",\\\"blue\\\"]]\"\n{{< / highlight >}}\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"json-arrinsert-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\nWith `$`-based path argument: [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [integer replies]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) or [null replies]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}), where each element is the array's new size, or `null` if the matching value is not an array.\n\nWith `.`-based path argument: [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) representing the array's new size, or [null reply]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}) if the matching value is not an array.\n\n-tab-sep-\n\nWith `$`-based path argument (default): [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [integer replies]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) or [null replies]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}), where each element is the array's new size, or `null` if the matching value is not an array.\n\nWith `.`-based path argument: [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) representing the array's new size, or [null reply]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}) if the matching value is not an array.\n\n{{< /multitabs >}}\n\n## See also\n\n[`JSON.ARRAPPEND`]({{< relref \"commands/json.arrappend/\" >}}) | [`JSON.ARRINDEX`]({{< relref \"commands/json.arrindex/\" >}}) \n\n## Related topics\n\n* [RedisJSON]({{< relref \"/develop/data-types/json/\" >}})\n* [Index and search JSON documents]({{< relref \"/develop/ai/search-and-query/indexing/\" >}})",
+  "example": "redis> JSON.SET item:1 $ '{\"name\":\"Noise-cancelling Bluetooth headphones\",\"description\":\"Wireless Bluetooth headphones with noise-cancelling technology\",\"connection\":{\"wireless\":true,\"type\":\"Bluetooth\"},\"price\":99.98,\"stock\":25,\"colors\":[\"black\",\"silver\"]}'\nOK",
   "intro": "Insert the `json` values into the array at `path` before the `index` (shifts to the right)\n\n[Examples](#examples)",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -89,7 +469,7 @@
     {
       "title": "Required arguments",
       "level": 2,
-      "content": "<details open><summary><code>key</code></summary> \n\nis key to modify.\n</details>\n\n<details open><summary><code>value</code></summary> \n\nis one or more values to insert in one or more arrays. \n\n\nTo specify a string as an array value to insert, wrap the quoted string with an additional set of single quotes. Example: `'\"silver\"'`. For more detailed use, see [Examples](#examples).\n\n</details>\n\n<details open><summary><code>index</code></summary> \n\nis position in the array where you want to insert a value. The index must be in the array's range. Inserting at `index` 0 prepends to the array. Negative index values start from the end of the array.\n</details>"
+      "content": "<details open><summary><code>key</code></summary> \n\nis key to modify.\n</details>\n\n<details open><summary><code>value</code></summary> \n\nis one or more values to insert in one or more arrays. \n\n{{% alert title=\"About using strings with JSON commands\" color=\"warning\" %}}\nTo specify a string as an array value to insert, wrap the quoted string with an additional set of single quotes. Example: `'\"silver\"'`. For more detailed use, see [Examples](#examples).\n{{% /alert %}}\n</details>\n\n<details open><summary><code>index</code></summary> \n\nis position in the array where you want to insert a value. The index must be in the array's range. Inserting at `index` 0 prepends to the array. Negative index values start from the end of the array.\n</details>"
     },
     {
       "title": "Optional arguments",
@@ -99,7 +479,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "<details open>\n<summary><b>Add new colors to a specific place in a list of product colors</b></summary>\n\nCreate a document for noise-cancelling headphones in black and silver colors.\n\n\nredis> JSON.SET item:1 $ '{\"name\":\"Noise-cancelling Bluetooth headphones\",\"description\":\"Wireless Bluetooth headphones with noise-cancelling technology\",\"connection\":{\"wireless\":true,\"type\":\"Bluetooth\"},\"price\":99.98,\"stock\":25,\"colors\":[\"black\",\"silver\"]}'\nOK\n\n\nAdd color `blue` to the end of the `colors` array. `JSON.ARRAPEND` returns the array's new size.\n\n\nredis> JSON.ARRAPPEND item:1 $.colors '\"blue\"'\n1) (integer) 3\n\n\nReturn the new length of the `colors` array.\n\n\nredis> JSON.GET item:1\n\"{\\\"name\\\":\\\"Noise-cancelling Bluetooth headphones\\\",\\\"description\\\":\\\"Wireless Bluetooth headphones with noise-cancelling technology\\\",\\\"connection\\\":{\\\"wireless\\\":true,\\\"type\\\":\\\"Bluetooth\\\"},\\\"price\\\":99.98,\\\"stock\\\":25,\\\"colors\\\":[\\\"black\\\",\\\"silver\\\",\\\"blue\\\"]}\"\n\n\nGet the list of colors for the product.\n\n\nredis> JSON.GET item:1 '$.colors[*]'\n\"[\\\"black\\\",\\\"silver\\\",\\\"blue\\\"]\"\n\n\nInsert two more colors after the second color. You now have five colors.\n\n\nredis> JSON.ARRINSERT item:1 $.colors 2 '\"yellow\"' '\"gold\"'\n1) (integer) 5\n\n\nGet the updated list of colors.\n\n\nredis> JSON.GET item:1 $.colors\n\"[[\\\"black\\\",\\\"silver\\\",\\\"yellow\\\",\\\"gold\\\",\\\"blue\\\"]]\"\n\n</details>"
+      "content": "<details open>\n<summary><b>Add new colors to a specific place in a list of product colors</b></summary>\n\nCreate a document for noise-cancelling headphones in black and silver colors.\n\n{{< highlight bash >}}\nredis> JSON.SET item:1 $ '{\"name\":\"Noise-cancelling Bluetooth headphones\",\"description\":\"Wireless Bluetooth headphones with noise-cancelling technology\",\"connection\":{\"wireless\":true,\"type\":\"Bluetooth\"},\"price\":99.98,\"stock\":25,\"colors\":[\"black\",\"silver\"]}'\nOK\n{{< / highlight >}}\n\nAdd color `blue` to the end of the `colors` array. `JSON.ARRAPEND` returns the array's new size.\n\n{{< highlight bash >}}\nredis> JSON.ARRAPPEND item:1 $.colors '\"blue\"'\n1) (integer) 3\n{{< / highlight >}}\n\nReturn the new length of the `colors` array.\n\n{{< highlight bash >}}\nredis> JSON.GET item:1\n\"{\\\"name\\\":\\\"Noise-cancelling Bluetooth headphones\\\",\\\"description\\\":\\\"Wireless Bluetooth headphones with noise-cancelling technology\\\",\\\"connection\\\":{\\\"wireless\\\":true,\\\"type\\\":\\\"Bluetooth\\\"},\\\"price\\\":99.98,\\\"stock\\\":25,\\\"colors\\\":[\\\"black\\\",\\\"silver\\\",\\\"blue\\\"]}\"\n{{< / highlight >}}\n\nGet the list of colors for the product.\n\n{{< highlight bash >}}\nredis> JSON.GET item:1 '$.colors[*]'\n\"[\\\"black\\\",\\\"silver\\\",\\\"blue\\\"]\"\n{{< / highlight >}}\n\nInsert two more colors after the second color. You now have five colors.\n\n{{< highlight bash >}}\nredis> JSON.ARRINSERT item:1 $.colors 2 '\"yellow\"' '\"gold\"'\n1) (integer) 5\n{{< / highlight >}}\n\nGet the updated list of colors.\n\n{{< highlight bash >}}\nredis> JSON.GET item:1 $.colors\n\"[[\\\"black\\\",\\\"silver\\\",\\\"yellow\\\",\\\"gold\\\",\\\"blue\\\"]]\"\n{{< / highlight >}}\n</details>"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -109,17 +489,17 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nWith `$`-based path argument: [Array reply]() of [integer replies]() or [null replies](), where each element is the array's new size, or `null` if the matching value is not an array.\n\nWith `.`-based path argument: [Integer reply]() representing the array's new size, or [null reply]() if the matching value is not an array.\n\n**RESP3:**\n\nWith `$`-based path argument (default): [Array reply]() of [integer replies]() or [null replies](), where each element is the array's new size, or `null` if the matching value is not an array.\n\nWith `.`-based path argument: [Integer reply]() representing the array's new size, or [null reply]() if the matching value is not an array."
+      "content": "{{< multitabs id=\"json-arrinsert-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\nWith `$`-based path argument: [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [integer replies]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) or [null replies]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}), where each element is the array's new size, or `null` if the matching value is not an array.\n\nWith `.`-based path argument: [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) representing the array's new size, or [null reply]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}) if the matching value is not an array.\n\n-tab-sep-\n\nWith `$`-based path argument (default): [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [integer replies]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) or [null replies]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}), where each element is the array's new size, or `null` if the matching value is not an array.\n\nWith `.`-based path argument: [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) representing the array's new size, or [null reply]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}) if the matching value is not an array.\n\n{{< /multitabs >}}"
     },
     {
       "title": "See also",
       "level": 2,
-      "content": "[`JSON.ARRAPPEND`]() | [`JSON.ARRINDEX`]()"
+      "content": "[`JSON.ARRAPPEND`]({{< relref \"commands/json.arrappend/\" >}}) | [`JSON.ARRINDEX`]({{< relref \"commands/json.arrindex/\" >}})"
     },
     {
       "title": "Related topics",
       "level": 2,
-      "content": "* [RedisJSON]()\n* [Index and search JSON documents]()"
+      "content": "* [RedisJSON]({{< relref \"/develop/data-types/json/\" >}})\n* [Index and search JSON documents]({{< relref \"/develop/ai/search-and-query/indexing/\" >}})"
     }
   ]
 }

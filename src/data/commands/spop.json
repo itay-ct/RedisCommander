@@ -14,6 +14,501 @@
     "@set",
     "@fast"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "Optional[int] = None"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Union[Awaitable[Union[str, List, None]], str, List, None]"
+        },
+        "signature": "spop(name: KeyT, count: Optional[int] = None)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "Bulk reply",
+          "type": "String"
+        },
+        "signature": "String spop(final String key)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "Bulk reply",
+          "type": "Set<String>"
+        },
+        "signature": "Set<String> spop(final String key, final long count)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "V bulk-string-reply the removed element, or null when key does not exist.",
+          "type": "V"
+        },
+        "signature": "V spop(K key)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "number of members to pop.",
+            "name": "count",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "V bulk-string-reply the removed element, or null when key does not exist.",
+          "type": "Set<V>"
+        },
+        "signature": "Set<V> spop(K key, long count)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "V bulk-string-reply the removed element, or null when key does not exist.",
+          "type": "RedisFuture<V>"
+        },
+        "signature": "RedisFuture<V> spop(K key)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "number of members to pop.",
+            "name": "count",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "V bulk-string-reply the removed element, or null when key does not exist.",
+          "type": "RedisFuture<Set<V>>"
+        },
+        "signature": "RedisFuture<Set<V>> spop(K key, long count)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "V bulk-string-reply the removed element, or null when key does not exist.",
+          "type": "Mono<V>"
+        },
+        "signature": "Mono<V> spop(K key)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "number of members to pop.",
+            "name": "count",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "V bulk-string-reply the removed element, or null when key does not exist.",
+          "type": "Flux<V>"
+        },
+        "signature": "Flux<V> spop(K key, long count)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StringCmd"
+        },
+        "signature": "SPop(ctx context.Context, key string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "SPOP(key: RedisArgument)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<string | null>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "spop(key: RedisKey, callback?: Callback<string | null>)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "number | string"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<string[]>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "spop(key: RedisKey, count: number | string, callback?: Callback<string[]>)"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Generic"
+        },
+        "signature": "spop(key: K)"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Generic"
+        },
+        "signature": "spop(key: K)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The key of the set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "An array of elements, or an empty array when key does not exist.",
+          "type": "RedisValue"
+        },
+        "signature": "SetPop(RedisKey key, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The number of elements to return.",
+            "name": "count",
+            "type": "long"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "An array of elements, or an empty array when key does not exist.",
+          "type": "RedisValue[]"
+        },
+        "signature": "SetPop(RedisKey key, long count, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "An array of elements, or an empty array when key does not exist.",
+          "type": "RedisValue"
+        },
+        "signature": "SetPop(RedisKey key, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The number of elements to return.",
+            "name": "count",
+            "type": "long"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "An array of elements, or an empty array when key does not exist.",
+          "type": "RedisValue[]"
+        },
+        "signature": "SetPop(RedisKey key, long count, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The key of the set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "An array of elements, or an empty array when key does not exist.",
+          "type": "RedisValue"
+        },
+        "signature": "SetPop(RedisKey key, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The number of elements to return.",
+            "name": "count",
+            "type": "long"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "An array of elements, or an empty array when key does not exist.",
+          "type": "RedisValue[]"
+        },
+        "signature": "SetPop(RedisKey key, long count, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "An array of elements, or an empty array when key does not exist.",
+          "type": "RedisValue"
+        },
+        "signature": "SetPop(RedisKey key, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The number of elements to return.",
+            "name": "count",
+            "type": "long"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "An array of elements, or an empty array when key does not exist.",
+          "type": "RedisValue[]"
+        },
+        "signature": "SetPop(RedisKey key, long count, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "?int $count = null",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "string|array|null"
+        },
+        "signature": "spop(string $key, ?int $count = null)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "Integer"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "String"
+        },
+        "signature": "spop(key, count = nil)"
+      }
+    ]
+  },
   "commandFlags": [
     "write",
     "fast"
@@ -65,28 +560,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "distribution-of-returned-elements",
-        "title": "Distribution of returned elements"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Removes and returns one or more random members from the set value store at `key`.\n\nThis operation is similar to [`SRANDMEMBER`](), that returns one or more random elements from a set but does not remove it.\n\nBy default, the command pops a single member from the set. When provided with\nthe optional `count` argument, the reply will consist of up to `count` members,\ndepending on the set's cardinality.\n\n## Examples\n\n\nSADD myset \"one\"\nSADD myset \"two\"\nSADD myset \"three\"\nSPOP myset\nSMEMBERS myset\nSADD myset \"four\"\nSADD myset \"five\"\nSPOP myset 3\nSMEMBERS myset\n\n\n## Distribution of returned elements\n\nNote that this command is not suitable when you need a guaranteed uniform distribution of the returned elements. For more information about the algorithms used for `SPOP`, look up both the Knuth sampling and Floyd sampling algorithms.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the key does not exist.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): when called without the _count_ argument, the removed member.\n* [Array reply](../../develop/reference/protocol-spec#arrays): when called with the _count_ argument, a list of the removed members.\n\n**RESP3:**\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): if the key does not exist.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): when called without the _count_ argument, the removed member.\n* [Array reply](../../develop/reference/protocol-spec#arrays): when called with the _count_ argument, a list of the removed members.",
+  "content": "Removes and returns one or more random members from the set value store at `key`.\n\nThis operation is similar to [`SRANDMEMBER`](), that returns one or more random elements from a set but does not remove it.\n\nBy default, the command pops a single member from the set. When provided with\nthe optional `count` argument, the reply will consist of up to `count` members,\ndepending on the set's cardinality.\n\n## Examples\n\n{{% redis-cli %}}\nSADD myset \"one\"\nSADD myset \"two\"\nSADD myset \"three\"\nSPOP myset\nSMEMBERS myset\nSADD myset \"four\"\nSADD myset \"five\"\nSPOP myset 3\nSMEMBERS myset\n{{% /redis-cli %}}\n\n## Distribution of returned elements\n\nNote that this command is not suitable when you need a guaranteed uniform distribution of the returned elements. For more information about the algorithms used for `SPOP`, look up both the Knuth sampling and Floyd sampling algorithms.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"spop-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the key does not exist.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): when called without the _count_ argument, the removed member.\n* [Array reply](../../develop/reference/protocol-spec#arrays): when called with the _count_ argument, a list of the removed members.\n\n-tab-sep-\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): if the key does not exist.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): when called without the _count_ argument, the removed member.\n* [Array reply](../../develop/reference/protocol-spec#arrays): when called with the _count_ argument, a list of the removed members.\n\n{{< /multitabs >}}",
+  "example": "SADD myset \"one\"\nSADD myset \"two\"\nSADD myset \"three\"\nSPOP myset\nSMEMBERS myset\nSADD myset \"four\"\nSADD myset \"five\"\nSPOP myset 3\nSMEMBERS myset",
   "intro": "Removes and returns one or more random members from the set value store at `key`.\n\nThis operation is similar to [`SRANDMEMBER`](), that returns one or more random elements from a set but does not remove it.\n\nBy default, the command pops a single member from the set. When provided with\nthe optional `count` argument, the reply will consist of up to `count` members,\ndepending on the set's cardinality.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -96,7 +576,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "SADD myset \"one\"\nSADD myset \"two\"\nSADD myset \"three\"\nSPOP myset\nSMEMBERS myset\nSADD myset \"four\"\nSADD myset \"five\"\nSPOP myset 3\nSMEMBERS myset"
+      "content": "{{% redis-cli %}}\nSADD myset \"one\"\nSADD myset \"two\"\nSADD myset \"three\"\nSPOP myset\nSMEMBERS myset\nSADD myset \"four\"\nSADD myset \"five\"\nSPOP myset 3\nSMEMBERS myset\n{{% /redis-cli %}}"
     },
     {
       "title": "Distribution of returned elements",
@@ -111,7 +591,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the key does not exist.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): when called without the _count_ argument, the removed member.\n* [Array reply](../../develop/reference/protocol-spec#arrays): when called with the _count_ argument, a list of the removed members.\n\n**RESP3:**\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): if the key does not exist.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): when called without the _count_ argument, the removed member.\n* [Array reply](../../develop/reference/protocol-spec#arrays): when called with the _count_ argument, a list of the removed members."
+      "content": "{{< multitabs id=\"spop-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if the key does not exist.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): when called without the _count_ argument, the removed member.\n* [Array reply](../../develop/reference/protocol-spec#arrays): when called with the _count_ argument, a list of the removed members.\n\n-tab-sep-\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): if the key does not exist.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): when called without the _count_ argument, the removed member.\n* [Array reply](../../develop/reference/protocol-spec#arrays): when called with the _count_ argument, a list of the removed members.\n\n{{< /multitabs >}}"
     }
   ]
 }

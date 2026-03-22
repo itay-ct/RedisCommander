@@ -14,6 +14,101 @@
     "@slow",
     "@dangerous"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "int"
+        },
+        "signature": "slowlog_len(**kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "long"
+        },
+        "signature": "long slowlogLen()"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context",
+            "name": "ctx",
+            "type": "context.Context"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*IntCmd"
+        },
+        "signature": "SlowLogLen(ctx context.Context) *IntCmd"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "Long"
+        },
+        "signature": "Long slowlogLen()"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "RedisFuture<Long>"
+        },
+        "signature": "RedisFuture<Long> slowlogLen()"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "Mono<Long>"
+        },
+        "signature": "Mono<Long> slowlogLen()"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$operation",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$length",
+            "type": "int|null"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array|int|bool"
+        },
+        "signature": "slowlog(string $operation, ?int $length = null)"
+      }
+    ]
+  },
   "commandFlags": [
     "admin",
     "loading",
@@ -32,20 +127,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "This command returns the current number of entries in the slow log.\n\nA new entry is added to the slow log whenever a command exceeds the execution time threshold defined by the `slowlog-log-slower-than` configuration directive.\nThe maximum number of entries in the slow log is governed by the `slowlog-max-len` configuration directive.\nOnce the slog log reaches its maximal size, the oldest entry is removed whenever a new entry is created.\nThe slow log can be cleared with the [`SLOWLOG RESET`]() command.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Not supported for [scripts](). |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of entries in the slow log.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of entries in the slow log.",
+  "content": "This command returns the current number of entries in the slow log.\n\nA new entry is added to the slow log whenever a command exceeds the execution time threshold defined by the `slowlog-log-slower-than` configuration directive.\nThe maximum number of entries in the slow log is governed by the `slowlog-max-len` configuration directive.\nOnce the slog log reaches its maximal size, the oldest entry is removed whenever a new entry is created.\nThe slow log can be cleared with the [`SLOWLOG RESET`]() command.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Not supported for [scripts]({{<relref \"/develop/programmability\">}}). |\n\n## Return information\n\n{{< multitabs id=\"slowlog-len-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of entries in the slow log.\n\n-tab-sep-\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of entries in the slow log.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "This command returns the current number of entries in the slow log.\n\nA new entry is added to the slow log whenever a command exceeds the execution time threshold defined by the `slowlog-log-slower-than` configuration directive.\nThe maximum number of entries in the slow log is governed by the `slowlog-max-len` configuration directive.\nOnce the slog log reaches its maximal size, the oldest entry is removed whenever a new entry is created.\nThe slow log can be cleared with the [`SLOWLOG RESET`]() command.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -55,12 +143,12 @@
     {
       "title": "Redis Software and Redis Cloud compatibility",
       "level": 2,
-      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Not supported for [scripts](). |"
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Not supported for [scripts]({{<relref \"/develop/programmability\">}}). |"
     },
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of entries in the slow log.\n\n**RESP3:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of entries in the slow log."
+      "content": "{{< multitabs id=\"slowlog-len-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of entries in the slow log.\n\n-tab-sep-\n\n[Integer reply](../../develop/reference/protocol-spec#integers): the number of entries in the slow log.\n\n{{< /multitabs >}}"
     }
   ]
 }

@@ -14,6 +14,187 @@
     "@read",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "str"
+          },
+          {
+            "description": "Include counts, default: False",
+            "name": "withcount",
+            "type": "bool"
+          }
+        ],
+        "returns": {
+          "description": "Top-K items, with counts if withcount=True",
+          "type": "List"
+        },
+        "signature": "list(key, withcount=False)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "k (or less) items in Top K list",
+          "type": "List<String>"
+        },
+        "signature": "topkList(String key)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "k (or less) items with counts",
+          "type": "Map<String, Long>"
+        },
+        "signature": "topkListWithCount(String key)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "Top-K items",
+          "type": "*StringSliceCmd"
+        },
+        "signature": "TopKList(ctx context.Context, key string) *StringSliceCmd"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "Top-K items with counts",
+          "type": "*MapStringIntCmd"
+        },
+        "signature": "TopKListWithCount(ctx context.Context, key string) *MapStringIntCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          }
+        ],
+        "returns": {
+          "description": "Top-K items",
+          "type": "ArrayReply<BlobStringReply>"
+        },
+        "signature": "TOPK.LIST(key)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          }
+        ],
+        "returns": {
+          "description": "Top-K items with counts",
+          "type": "Map<string, number>"
+        },
+        "signature": "TOPK.LIST_WITHCOUNT(key)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "Include counts, default: false",
+            "name": "withcount",
+            "type": "bool"
+          }
+        ],
+        "returns": {
+          "description": "Top-K items",
+          "type": "RedisResult[]"
+        },
+        "signature": "List(RedisKey key, bool withcount = false)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "Include counts, default: false",
+            "name": "withcount",
+            "type": "bool"
+          }
+        ],
+        "returns": {
+          "description": "Top-K items",
+          "type": "Task<RedisResult[]>"
+        },
+        "signature": "ListAsync(RedisKey key, bool withcount = false)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "Top-K items",
+          "type": "array"
+        },
+        "signature": "topklist($key)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -39,28 +220,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "parameters",
-        "title": "Parameters"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Return the full list of items in Top-K sketch.\n\n## Parameters\n\n* **key**: the name of the sketch.\n* **WITHCOUNT**: the count of each element is also returned.\n\n## Examples\n\n```\nTOPK.LIST topk\n1) foo\n2) 42\n3) bar\n```\n\n```\nTOPK.LIST topk WITHCOUNT\n1) foo\n2) (integer) 12\n3) 42\n4) (integer) 7\n5) bar\n6) (integer) 2\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\nk (or less) items in the given Top-k sketch. The list is sorted by decreased count estimation.\n\n**RESP2:**\n\nOne of the following:\n\n* [Array]() of [bulk string replies]() representing the names of items in the given sketch. If `WITHCOUNT` is requested, an [array]() of [bulk string reply]() and \n[integer reply]() pairs, representing the names of the items in the sketch together with their counts.\n* [Simple error reply]() in these cases: invalid arguments, non-existant key, or key of the incorrect type.\n\n**RESP3:**\n\nOne of the following:\n\n* [Array]() of [bulk string replies]() representing the names of items in the given sketch. If `WITHCOUNT` is requested, an [array]() of [bulk string reply]() and \n[integer reply]() pairs, representing the names of the items in the sketch together with their counts.\n* [Simple error reply]() in these cases: invalid arguments, non-existant key, or key of the incorrect type.",
+  "content": "Return the full list of items in Top-K sketch.\n\n## Parameters\n\n* **key**: the name of the sketch.\n* **WITHCOUNT**: the count of each element is also returned.\n\n## Examples\n\n```\nTOPK.LIST topk\n1) foo\n2) 42\n3) bar\n```\n\n```\nTOPK.LIST topk WITHCOUNT\n1) foo\n2) (integer) 12\n3) 42\n4) (integer) 7\n5) bar\n6) (integer) 2\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\nk (or less) items in the given Top-k sketch. The list is sorted by decreased count estimation.\n\n{{< multitabs id=\"topk-info-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n\n* [Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [bulk string replies]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) representing the names of items in the given sketch. If `WITHCOUNT` is requested, an [array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) and \n[integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) pairs, representing the names of the items in the sketch together with their counts.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, non-existant key, or key of the incorrect type.\n\n-tab-sep-\n\nOne of the following:\n\n* [Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [bulk string replies]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) representing the names of items in the given sketch. If `WITHCOUNT` is requested, an [array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) and \n[integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) pairs, representing the names of the items in the sketch together with their counts.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, non-existant key, or key of the incorrect type.\n\n{{< /multitabs >}}",
+  "example": "TOPK.LIST topk\n1) foo\n2) 42\n3) bar",
   "intro": "Return the full list of items in Top-K sketch.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -85,7 +251,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "k (or less) items in the given Top-k sketch. The list is sorted by decreased count estimation.\n\n**RESP2:**\n\nOne of the following:\n\n* [Array]() of [bulk string replies]() representing the names of items in the given sketch. If `WITHCOUNT` is requested, an [array]() of [bulk string reply]() and \n[integer reply]() pairs, representing the names of the items in the sketch together with their counts.\n* [Simple error reply]() in these cases: invalid arguments, non-existant key, or key of the incorrect type.\n\n**RESP3:**\n\nOne of the following:\n\n* [Array]() of [bulk string replies]() representing the names of items in the given sketch. If `WITHCOUNT` is requested, an [array]() of [bulk string reply]() and \n[integer reply]() pairs, representing the names of the items in the sketch together with their counts.\n* [Simple error reply]() in these cases: invalid arguments, non-existant key, or key of the incorrect type."
+      "content": "k (or less) items in the given Top-k sketch. The list is sorted by decreased count estimation.\n\n{{< multitabs id=\"topk-info-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n\n* [Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [bulk string replies]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) representing the names of items in the given sketch. If `WITHCOUNT` is requested, an [array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) and \n[integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) pairs, representing the names of the items in the sketch together with their counts.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, non-existant key, or key of the incorrect type.\n\n-tab-sep-\n\nOne of the following:\n\n* [Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [bulk string replies]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) representing the names of items in the given sketch. If `WITHCOUNT` is requested, an [array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [bulk string reply]({{< relref \"/develop/reference/protocol-spec#bulk-strings\" >}}) and \n[integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) pairs, representing the names of the items in the sketch together with their counts.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, non-existant key, or key of the incorrect type.\n\n{{< /multitabs >}}"
     }
   ]
 }

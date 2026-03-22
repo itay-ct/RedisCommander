@@ -13,6 +13,79 @@
     "@read",
     "@fast"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "version",
+            "type": "int | None"
+          },
+          {
+            "description": "",
+            "name": "*args",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "str"
+        },
+        "signature": "lolwut(version: int | None = None, *args, **kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "String"
+        },
+        "signature": "String lolwut()"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "version",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "params",
+            "type": "LolwutParams"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "String"
+        },
+        "signature": "String lolwut(int version, LolwutParams params)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$args",
+            "type": "mixed"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "string"
+        },
+        "signature": "lolwut(...$args)"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly",
     "fast"
@@ -38,20 +111,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "The LOLWUT command displays the Redis version: however as a side effect of\ndoing so, it also creates a piece of generative computer art that is different\nwith each version of Redis. The command was introduced in Redis 5 and announced\nwith this [blog post](http://antirez.com/news/123).\n\nBy default the `LOLWUT` command will display the piece corresponding to the\ncurrent Redis version, however it is possible to display a specific version\nusing the following form:\n\n    LOLWUT VERSION 5 ... other optional arguments ...\n\nOf course the \"5\" above is an example. Each LOLWUT version takes a different\nset of arguments in order to change the output. The user is encouraged to\nplay with it to discover how the output changes adding more numerical\narguments.\n\nLOLWUT wants to be a reminder that there is more in programming than just\nputting some code together in order to create something useful. Every\nLOLWUT version should have the following properties:\n\n1. It should display some computer art. There are no limits as long as the output works well in a normal terminal display. However the output should not be limited to graphics (like LOLWUT 5 and 6 actually do), but can be generative poetry and other non graphical things.\n2. LOLWUT output should be completely useless. Displaying some useful Redis internal metrics does not count as a valid LOLWUT.\n3. LOLWUT output should be fast to generate so that the command can be called in production instances without issues. It should remain fast even when the user experiments with odd parameters.\n4. LOLWUT implementations should be safe and carefully checked for security, and resist to untrusted inputs if they take arguments.\n5. LOLWUT must always display the Redis version at the end.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): a string containing generative computer art and the Redis version.\n\n**RESP3:**\n\n[Verbatim string reply](../../develop/reference/protocol-spec#verbatim-strings): a string containing generative computer art and the Redis version.",
+  "content": "The LOLWUT command displays the Redis version: however as a side effect of\ndoing so, it also creates a piece of generative computer art that is different\nwith each version of Redis. The command was introduced in Redis 5 and announced\nwith this [blog post](http://antirez.com/news/123).\n\nBy default the `LOLWUT` command will display the piece corresponding to the\ncurrent Redis version, however it is possible to display a specific version\nusing the following form:\n\n    LOLWUT VERSION 5 ... other optional arguments ...\n\nOf course the \"5\" above is an example. Each LOLWUT version takes a different\nset of arguments in order to change the output. The user is encouraged to\nplay with it to discover how the output changes adding more numerical\narguments.\n\nLOLWUT wants to be a reminder that there is more in programming than just\nputting some code together in order to create something useful. Every\nLOLWUT version should have the following properties:\n\n1. It should display some computer art. There are no limits as long as the output works well in a normal terminal display. However the output should not be limited to graphics (like LOLWUT 5 and 6 actually do), but can be generative poetry and other non graphical things.\n2. LOLWUT output should be completely useless. Displaying some useful Redis internal metrics does not count as a valid LOLWUT.\n3. LOLWUT output should be fast to generate so that the command can be called in production instances without issues. It should remain fast even when the user experiments with odd parameters.\n4. LOLWUT implementations should be safe and carefully checked for security, and resist to untrusted inputs if they take arguments.\n5. LOLWUT must always display the Redis version at the end.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"lolwut-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): a string containing generative computer art and the Redis version.\n\n-tab-sep-\n\n[Verbatim string reply](../../develop/reference/protocol-spec#verbatim-strings): a string containing generative computer art and the Redis version.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "The LOLWUT command displays the Redis version: however as a side effect of\ndoing so, it also creates a piece of generative computer art that is different\nwith each version of Redis. The command was introduced in Redis 5 and announced\nwith this [blog post](http://antirez.com/news/123).\n\nBy default the `LOLWUT` command will display the piece corresponding to the\ncurrent Redis version, however it is possible to display a specific version\nusing the following form:\n\n    LOLWUT VERSION 5 ... other optional arguments ...\n\nOf course the \"5\" above is an example. Each LOLWUT version takes a different\nset of arguments in order to change the output. The user is encouraged to\nplay with it to discover how the output changes adding more numerical\narguments.\n\nLOLWUT wants to be a reminder that there is more in programming than just\nputting some code together in order to create something useful. Every\nLOLWUT version should have the following properties:\n\n1. It should display some computer art. There are no limits as long as the output works well in a normal terminal display. However the output should not be limited to graphics (like LOLWUT 5 and 6 actually do), but can be generative poetry and other non graphical things.\n2. LOLWUT output should be completely useless. Displaying some useful Redis internal metrics does not count as a valid LOLWUT.\n3. LOLWUT output should be fast to generate so that the command can be called in production instances without issues. It should remain fast even when the user experiments with odd parameters.\n4. LOLWUT implementations should be safe and carefully checked for security, and resist to untrusted inputs if they take arguments.\n5. LOLWUT must always display the Redis version at the end.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -66,7 +132,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): a string containing generative computer art and the Redis version.\n\n**RESP3:**\n\n[Verbatim string reply](../../develop/reference/protocol-spec#verbatim-strings): a string containing generative computer art and the Redis version."
+      "content": "{{< multitabs id=\"lolwut-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): a string containing generative computer art and the Redis version.\n\n-tab-sep-\n\n[Verbatim string reply](../../develop/reference/protocol-spec#verbatim-strings): a string containing generative computer art and the Redis version.\n\n{{< /multitabs >}}"
     }
   ]
 }

@@ -10,6 +10,60 @@
   "since": "8.0.0",
   "arity": 3,
   "aclCategories": [],
+  "apiMethods": {
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "member",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "bool"
+        },
+        "signature": "VectorSetContains(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "member",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Task<bool>"
+        },
+        "signature": "VectorSetContainsAsync(RedisKey key, RedisValue member, CommandFlags flags = CommandFlags.None)"
+      }
+    ]
+  },
   "commandFlags": [
     "READONLY"
   ],
@@ -35,28 +89,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "related-topics",
-        "title": "Related topics"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Check if an element exists in a vector set.\n\n## Required arguments\n\n<details open>\n<summary><code>key</code></summary>\n\nis the name of the key that holds the vector set.\n</details>\n\n<details open>\n<summary><code>element</code></summary>\n\nis the name of the element you want to check for membership.\n</details>\n\n## Related topics\n\n- [Vector sets]()\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): `0` if the element does not exist in the vector set, or the key does not exist. `1` if the element exists in the vector set.\n\n**RESP3:**\n\n[Boolean reply](../../develop/reference/protocol-spec#booleans): `false` if the element does not exist in the vector set, or the key does not exist. `true` if the element exists in the vector set.",
+  "content": "Check if an element exists in a vector set.\n\n## Required arguments\n\n<details open>\n<summary><code>key</code></summary>\n\nis the name of the key that holds the vector set.\n</details>\n\n<details open>\n<summary><code>element</code></summary>\n\nis the name of the element you want to check for membership.\n</details>\n\n## Related topics\n\n- [Vector sets]({{< relref \"/develop/data-types/vector-sets\" >}})\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"vismember-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Integer reply](../../develop/reference/protocol-spec#integers): `0` if the element does not exist in the vector set, or the key does not exist. `1` if the element exists in the vector set.\n\n-tab-sep-\n\n[Boolean reply](../../develop/reference/protocol-spec#booleans): `false` if the element does not exist in the vector set, or the key does not exist. `true` if the element exists in the vector set.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "Check if an element exists in a vector set.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -71,7 +110,7 @@
     {
       "title": "Related topics",
       "level": 2,
-      "content": "- [Vector sets]()"
+      "content": "- [Vector sets]({{< relref \"/develop/data-types/vector-sets\" >}})"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -81,7 +120,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Integer reply](../../develop/reference/protocol-spec#integers): `0` if the element does not exist in the vector set, or the key does not exist. `1` if the element exists in the vector set.\n\n**RESP3:**\n\n[Boolean reply](../../develop/reference/protocol-spec#booleans): `false` if the element does not exist in the vector set, or the key does not exist. `true` if the element exists in the vector set."
+      "content": "{{< multitabs id=\"vismember-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Integer reply](../../develop/reference/protocol-spec#integers): `0` if the element does not exist in the vector set, or the key does not exist. `1` if the element exists in the vector set.\n\n-tab-sep-\n\n[Boolean reply](../../develop/reference/protocol-spec#booleans): `false` if the element does not exist in the vector set, or the key does not exist. `true` if the element exists in the vector set.\n\n{{< /multitabs >}}"
     }
   ]
 }

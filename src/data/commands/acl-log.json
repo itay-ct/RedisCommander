@@ -14,6 +14,111 @@
     "@slow",
     "@dangerous"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "count",
+            "type": "int | None"
+          },
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "list"
+        },
+        "signature": "acl_log(count: int | None = None, **kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "List<AccessControlLogEntry>"
+        },
+        "signature": "List<AccessControlLogEntry> aclLog()"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "limit",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List<AccessControlLogEntry>"
+        },
+        "signature": "List<AccessControlLogEntry> aclLog(int limit)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "int64"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*ACLLogCmd"
+        },
+        "signature": "ACLLog(ctx context.Context, count int64) *ACLLogCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "Optional maximum number of entries to return",
+            "name": "count",
+            "type": "number"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "AclLogReply"
+        },
+        "signature": "aclLog(count?: number)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$subcommand",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$args",
+            "type": "mixed"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array"
+        },
+        "signature": "acl(string $subcommand, ...$args)"
+      }
+    ]
+  },
   "commandFlags": [
     "admin",
     "noscript",
@@ -52,24 +157,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "The command shows a list of recent ACL security events:\n\n1. Failed authentications with [`AUTH`]() or [`HELLO`]() (reason = auth)\n2. Commands violating the current ACL rules\n   - Disallowed commands (reason = command).\n   - Disallowed keys (reason = key).\n   - Disallowed pub/sub channel (reason = channel).\n\nThe optional argument specifies how many entries to show. By default\nup to ten failures are returned. The special [`RESET`]() argument clears the log.\nEntries are displayed starting from the most recent.\n\n## Examples\n\n```\n> AUTH someuser wrongpassword\n(error) WRONGPASS invalid username-password pair\n> ACL LOG 1\n1)  1) \"count\"\n    2) (integer) 1\n    3) \"reason\"\n    4) \"auth\"\n    5) \"context\"\n    6) \"toplevel\"\n    7) \"object\"\n    8) \"AUTH\"\n    9) \"username\"\n   10) \"someuser\"\n   11) \"age-seconds\"\n   12) \"8.038\"\n   13) \"client-info\"\n   14) \"id=3 addr=127.0.0.1:57275 laddr=127.0.0.1:6379 fd=8 name= age=16 idle=0 flags=N db=0 sub=0 psub=0 ssub=0 multi=-1 qbuf=48 qbuf-free=16842 argv-mem=25 multi-mem=0 rbs=1024 rbp=0 obl=0 oll=0 omem=0 tot-mem=18737 events=r cmd=auth user=default redir=-1 resp=2\"\n   15) \"entry-id\"\n   16) (integer) 0\n   17) \"timestamp-created\"\n   18) (integer) 1675361492408\n   19) \"timestamp-last-updated\"\n   20) (integer) 1675361492408\n```\n\nEach log entry is composed of the following fields:\n\n1. `count`: The number of security events detected within a 60 second period that are represented by this entry.\n2. `reason`: The reason that the security events were logged. Either `command`, `key`, `channel`, or `auth`.\n3. `context`: The context that the security events were detected in. Either `toplevel`, `multi`, `lua`, or `module`.\n4. `object`: The resource that the user had insufficient permissions to access. `auth` when the reason is `auth`.\n5. `username`: The username that executed the command that caused the security events or the username that had a failed authentication attempt.\n6. `age-seconds`: Age of the log entry in seconds.\n7. `client-info`: Displays the client info of a client which caused one of the security events.\n8. `entry-id`: The sequence number of the entry (starting at 0) since the server process started. Can also be used to check if items were \"lost\", if they fell between periods.\n9. `timestamp-created`: A UNIX timestamp in `milliseconds` at the time the entry was first created.\n10. `timestamp-last-updated`: A UNIX timestamp in `milliseconds` at the time the entry was last updated.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nWhen called to show security events:\n* [Array reply](../../develop/reference/protocol-spec#arrays): an array of [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) elements representing ACL security events.\nWhen called with `RESET`:\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the security log was cleared.\n\n**RESP3:**\n\nWhen called to show security events:\n* [Array reply](../../develop/reference/protocol-spec#arrays): an array of [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) elements representing ACL security events.\nWhen called with `RESET`:\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the security log was cleared.",
+  "content": "The command shows a list of recent ACL security events:\n\n1. Failed authentications with [`AUTH`]() or [`HELLO`]() (reason = auth)\n2. Commands violating the current ACL rules\n   - Disallowed commands (reason = command).\n   - Disallowed keys (reason = key).\n   - Disallowed pub/sub channel (reason = channel).\n\nThe optional argument specifies how many entries to show. By default\nup to ten failures are returned. The special [`RESET`]() argument clears the log.\nEntries are displayed starting from the most recent.\n\n## Examples\n\n```\n> AUTH someuser wrongpassword\n(error) WRONGPASS invalid username-password pair\n> ACL LOG 1\n1)  1) \"count\"\n    2) (integer) 1\n    3) \"reason\"\n    4) \"auth\"\n    5) \"context\"\n    6) \"toplevel\"\n    7) \"object\"\n    8) \"AUTH\"\n    9) \"username\"\n   10) \"someuser\"\n   11) \"age-seconds\"\n   12) \"8.038\"\n   13) \"client-info\"\n   14) \"id=3 addr=127.0.0.1:57275 laddr=127.0.0.1:6379 fd=8 name= age=16 idle=0 flags=N db=0 sub=0 psub=0 ssub=0 multi=-1 qbuf=48 qbuf-free=16842 argv-mem=25 multi-mem=0 rbs=1024 rbp=0 obl=0 oll=0 omem=0 tot-mem=18737 events=r cmd=auth user=default redir=-1 resp=2\"\n   15) \"entry-id\"\n   16) (integer) 0\n   17) \"timestamp-created\"\n   18) (integer) 1675361492408\n   19) \"timestamp-last-updated\"\n   20) (integer) 1675361492408\n```\n\nEach log entry is composed of the following fields:\n\n1. `count`: The number of security events detected within a 60 second period that are represented by this entry.\n2. `reason`: The reason that the security events were logged. Either `command`, `key`, `channel`, or `auth`.\n3. `context`: The context that the security events were detected in. Either `toplevel`, `multi`, `lua`, or `module`.\n4. `object`: The resource that the user had insufficient permissions to access. `auth` when the reason is `auth`.\n5. `username`: The username that executed the command that caused the security events or the username that had a failed authentication attempt.\n6. `age-seconds`: Age of the log entry in seconds.\n7. `client-info`: Displays the client info of a client which caused one of the security events.\n8. `entry-id`: The sequence number of the entry (starting at 0) since the server process started. Can also be used to check if items were \"lost\", if they fell between periods.\n9. `timestamp-created`: A UNIX timestamp in `milliseconds` at the time the entry was first created.\n10. `timestamp-last-updated`: A UNIX timestamp in `milliseconds` at the time the entry was last updated.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"acl-log-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nWhen called to show security events:\n* [Array reply](../../develop/reference/protocol-spec#arrays): an array of [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) elements representing ACL security events.\nWhen called with `RESET`:\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the security log was cleared.\n\n-tab-sep-\n\nWhen called to show security events:\n* [Array reply](../../develop/reference/protocol-spec#arrays): an array of [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) elements representing ACL security events.\nWhen called with `RESET`:\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the security log was cleared.\n\n{{< /multitabs >}}",
+  "example": "> AUTH someuser wrongpassword\n(error) WRONGPASS invalid username-password pair\n> ACL LOG 1\n1)  1) \"count\"\n    2) (integer) 1\n    3) \"reason\"\n    4) \"auth\"\n    5) \"context\"\n    6) \"toplevel\"\n    7) \"object\"\n    8) \"AUTH\"\n    9) \"username\"\n   10) \"someuser\"\n   11) \"age-seconds\"\n   12) \"8.038\"\n   13) \"client-info\"\n   14) \"id=3 addr=127.0.0.1:57275 laddr=127.0.0.1:6379 fd=8 name= age=16 idle=0 flags=N db=0 sub=0 psub=0 ssub=0 multi=-1 qbuf=48 qbuf-free=16842 argv-mem=25 multi-mem=0 rbs=1024 rbp=0 obl=0 oll=0 omem=0 tot-mem=18737 events=r cmd=auth user=default redir=-1 resp=2\"\n   15) \"entry-id\"\n   16) (integer) 0\n   17) \"timestamp-created\"\n   18) (integer) 1675361492408\n   19) \"timestamp-last-updated\"\n   20) (integer) 1675361492408",
   "intro": "The command shows a list of recent ACL security events:\n\n1. Failed authentications with [`AUTH`]() or [`HELLO`]() (reason = auth)\n2. Commands violating the current ACL rules\n   - Disallowed commands (reason = command).\n   - Disallowed keys (reason = key).\n   - Disallowed pub/sub channel (reason = channel).\n\nThe optional argument specifies how many entries to show. By default\nup to ten failures are returned. The special [`RESET`]() argument clears the log.\nEntries are displayed starting from the most recent.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -89,7 +183,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nWhen called to show security events:\n* [Array reply](../../develop/reference/protocol-spec#arrays): an array of [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) elements representing ACL security events.\nWhen called with `RESET`:\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the security log was cleared.\n\n**RESP3:**\n\nWhen called to show security events:\n* [Array reply](../../develop/reference/protocol-spec#arrays): an array of [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) elements representing ACL security events.\nWhen called with `RESET`:\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the security log was cleared."
+      "content": "{{< multitabs id=\"acl-log-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nWhen called to show security events:\n* [Array reply](../../develop/reference/protocol-spec#arrays): an array of [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) elements representing ACL security events.\nWhen called with `RESET`:\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the security log was cleared.\n\n-tab-sep-\n\nWhen called to show security events:\n* [Array reply](../../develop/reference/protocol-spec#arrays): an array of [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings) elements representing ACL security events.\nWhen called with `RESET`:\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the security log was cleared.\n\n{{< /multitabs >}}"
     }
   ]
 }

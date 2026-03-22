@@ -12,6 +12,160 @@
   "aclCategories": [
     "@search"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "The dictionary name",
+            "name": "dict_name",
+            "type": "str"
+          },
+          {
+            "description": "Terms to add to the dictionary",
+            "name": "terms",
+            "type": "*str"
+          }
+        ],
+        "returns": {
+          "description": "Number of terms added",
+          "type": "int"
+        },
+        "signature": "dictadd(dict_name: str, *terms: str)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "The dictionary name",
+            "name": "dict",
+            "type": "String"
+          },
+          {
+            "description": "Terms to add",
+            "name": "terms",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "Number of terms added",
+          "type": "long"
+        },
+        "signature": "long ftDictAdd(String dict, String... terms)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "The dictionary name",
+            "name": "dict",
+            "type": "string"
+          },
+          {
+            "description": "Terms to add",
+            "name": "terms",
+            "type": "...interface{}"
+          }
+        ],
+        "returns": {
+          "description": "Number of terms added",
+          "type": "*IntCmd"
+        },
+        "signature": "FTDictAdd(ctx context.Context, dict string, terms ...interface{})"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "The dictionary name",
+            "name": "dictionary",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "Terms to add",
+            "name": "terms",
+            "type": "Array<RedisArgument> | RedisArgument"
+          }
+        ],
+        "returns": {
+          "description": "Number of terms added",
+          "type": "Promise<number>"
+        },
+        "signature": "DICTADD(dictionary: RedisArgument, terms: Array<RedisArgument> | RedisArgument)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The dictionary name",
+            "name": "dict",
+            "type": "string"
+          },
+          {
+            "description": "Terms to add to the dictionary",
+            "name": "terms",
+            "type": "string[]"
+          }
+        ],
+        "returns": {
+          "description": "Number of terms added",
+          "type": "long"
+        },
+        "signature": "long DictAdd(string dict, params string[] terms)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The dictionary name",
+            "name": "dict",
+            "type": "string"
+          },
+          {
+            "description": "Terms to add to the dictionary",
+            "name": "terms",
+            "type": "string[]"
+          }
+        ],
+        "returns": {
+          "description": "Number of terms added",
+          "type": "Task<long>"
+        },
+        "signature": "Task<long> DictAddAsync(string dict, params string[] terms)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "The dictionary name",
+            "name": "$dict",
+            "type": "string"
+          },
+          {
+            "description": "Terms to add (variadic)",
+            "name": "$term",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "Number of terms added",
+          "type": "int"
+        },
+        "signature": "ftdictadd(string $dict, ...$term)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -36,36 +190,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      },
-      {
-        "id": "see-also",
-        "title": "See also"
-      },
-      {
-        "id": "related-topics",
-        "title": "Related topics"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Add terms to a dictionary\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open>\n<summary><code>dict</code></summary>\n\nis dictionary name.\n</details>\n\n<details open>\n<summary><code>term</code></summary>\n\nterm to add to the dictionary.\n</details>\n\n## Examples\n\n<details open>\n<summary><b>Add terms to a dictionary</b></summary>\n\n\n127.0.0.1:6379> FT.DICTADD dict foo bar \"hello world\"\n(integer) 3\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Integer reply](): the number of new terms added to the dictionary.\n\n**RESP3:**\n\n[Integer reply](): the number of new terms added to the dictionary.\n\n\n\n## See also\n\n[`FT.DICTDEL`]() | [`FT.DICTDUMP`]()\n\n## Related topics\n\n[RediSearch]()",
+  "content": "Add terms to a dictionary\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open>\n<summary><code>dict</code></summary>\n\nis dictionary name.\n</details>\n\n<details open>\n<summary><code>term</code></summary>\n\nterm to add to the dictionary.\n</details>\n\n## Examples\n\n<details open>\n<summary><b>Add terms to a dictionary</b></summary>\n\n{{< highlight bash >}}\n127.0.0.1:6379> FT.DICTADD dict foo bar \"hello world\"\n(integer) 3\n{{< / highlight >}}\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</span> | <span title=\"Supported\">&#x2705; Supported</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"ft-dictadd-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): the number of new terms added to the dictionary.\n\n-tab-sep-\n\n[Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): the number of new terms added to the dictionary.\n\n{{< /multitabs >}}\n\n## See also\n\n[`FT.DICTDEL`]({{< relref \"commands/ft.dictdel/\" >}}) | [`FT.DICTDUMP`]({{< relref \"commands/ft.dictdump/\" >}})\n\n## Related topics\n\n[RediSearch]({{< relref \"/develop/ai/search-and-query/\" >}})",
+  "example": "127.0.0.1:6379> FT.DICTADD dict foo bar \"hello world\"\n(integer) 3",
   "intro": "Add terms to a dictionary\n\n[Examples](#examples)",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -80,7 +211,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "<details open>\n<summary><b>Add terms to a dictionary</b></summary>\n\n\n127.0.0.1:6379> FT.DICTADD dict foo bar \"hello world\"\n(integer) 3\n\n</details>"
+      "content": "<details open>\n<summary><b>Add terms to a dictionary</b></summary>\n\n{{< highlight bash >}}\n127.0.0.1:6379> FT.DICTADD dict foo bar \"hello world\"\n(integer) 3\n{{< / highlight >}}\n</details>"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -90,17 +221,17 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Integer reply](): the number of new terms added to the dictionary.\n\n**RESP3:**\n\n[Integer reply](): the number of new terms added to the dictionary."
+      "content": "{{< multitabs id=\"ft-dictadd-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): the number of new terms added to the dictionary.\n\n-tab-sep-\n\n[Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}): the number of new terms added to the dictionary.\n\n{{< /multitabs >}}"
     },
     {
       "title": "See also",
       "level": 2,
-      "content": "[`FT.DICTDEL`]() | [`FT.DICTDUMP`]()"
+      "content": "[`FT.DICTDEL`]({{< relref \"commands/ft.dictdel/\" >}}) | [`FT.DICTDUMP`]({{< relref \"commands/ft.dictdump/\" >}})"
     },
     {
       "title": "Related topics",
       "level": 2,
-      "content": "[RediSearch]()"
+      "content": "[RediSearch]({{< relref \"/develop/ai/search-and-query/\" >}})"
     }
   ]
 }

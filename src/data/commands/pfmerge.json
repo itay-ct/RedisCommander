@@ -14,6 +14,399 @@
     "@hyperloglog",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "The destination key",
+            "name": "dest",
+            "type": "KeyT"
+          },
+          {
+            "description": "One or more source HyperLogLog keys",
+            "name": "*sources",
+            "type": "KeyT"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "ResponseT"
+        },
+        "signature": "pfmerge(dest: KeyT, *sources: KeyT)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "The destination key",
+            "name": "destkey",
+            "type": "byte[]"
+          },
+          {
+            "description": "One or more source keys",
+            "name": "sourcekeys",
+            "type": "byte[]..."
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "String"
+        },
+        "signature": "String pfmerge(final byte[] destkey, final byte[]... sourcekeys)"
+      },
+      {
+        "params": [
+          {
+            "description": "The destination key",
+            "name": "destkey",
+            "type": "String"
+          },
+          {
+            "description": "One or more source keys",
+            "name": "sourcekeys",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "String"
+        },
+        "signature": "String pfmerge(final String destkey, final String... sourcekeys)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "The destination key",
+            "name": "destkey",
+            "type": "K"
+          },
+          {
+            "description": "The source keys",
+            "name": "sourcekeys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "String"
+        },
+        "signature": "String pfmerge(K destkey, K... sourcekeys)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "The destination key",
+            "name": "destkey",
+            "type": "K"
+          },
+          {
+            "description": "The source keys",
+            "name": "sourcekeys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> pfmerge(K destkey, K... sourcekeys)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "The destination key",
+            "name": "destkey",
+            "type": "K"
+          },
+          {
+            "description": "The source keys",
+            "name": "sourcekeys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> pfmerge(K destkey, K... sourcekeys)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "The destination key",
+            "name": "destkey",
+            "type": "RedisKey"
+          },
+          {
+            "description": "One or more source keys",
+            "name": "...sourcekeys",
+            "type": "RedisKey[]"
+          },
+          {
+            "description": "Optional callback",
+            "name": "callback",
+            "type": "Callback<'OK'>"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "Result<'OK', Context>"
+        },
+        "signature": "pfmerge(destkey: RedisKey, ...sourcekeys: RedisKey[], callback?: Callback<'OK'>)"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "The destination key",
+            "name": "dstkey",
+            "type": "D"
+          },
+          {
+            "description": "The source keys",
+            "name": "srckeys",
+            "type": "S"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "()"
+        },
+        "signature": "pfmerge(dstkey: D, srckeys: S)"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "The destination key",
+            "name": "dstkey",
+            "type": "D"
+          },
+          {
+            "description": "The source keys",
+            "name": "srckeys",
+            "type": "S"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "()"
+        },
+        "signature": "pfmerge(dstkey: D, srckeys: S)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The key of the merged HyperLogLog",
+            "name": "destination",
+            "type": "RedisKey"
+          },
+          {
+            "description": "First source key",
+            "name": "first",
+            "type": "RedisKey"
+          },
+          {
+            "description": "Second source key",
+            "name": "second",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The flags to use for this operation",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "void"
+        },
+        "signature": "HyperLogLogMerge(RedisKey destination, RedisKey first, RedisKey second, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the merged HyperLogLog",
+            "name": "destination",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The keys of the HyperLogLogs to merge",
+            "name": "sourceKeys",
+            "type": "RedisKey[]"
+          },
+          {
+            "description": "The flags to use for this operation",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "void"
+        },
+        "signature": "HyperLogLogMerge(RedisKey destination, RedisKey[] sourceKeys, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The key of the merged HyperLogLog",
+            "name": "destination",
+            "type": "RedisKey"
+          },
+          {
+            "description": "First source key",
+            "name": "first",
+            "type": "RedisKey"
+          },
+          {
+            "description": "Second source key",
+            "name": "second",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The flags to use for this operation",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Task"
+        },
+        "signature": "HyperLogLogMergeAsync(RedisKey destination, RedisKey first, RedisKey second, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the merged HyperLogLog",
+            "name": "destination",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The keys of the HyperLogLogs to merge",
+            "name": "sourceKeys",
+            "type": "RedisKey[]"
+          },
+          {
+            "description": "The flags to use for this operation",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Task"
+        },
+        "signature": "HyperLogLogMergeAsync(RedisKey destination, RedisKey[] sourceKeys, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "The destination key",
+            "name": "$destinationKey",
+            "type": "string"
+          },
+          {
+            "description": "One or more source keys",
+            "name": "$sourceKeys",
+            "type": "array|string"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "mixed"
+        },
+        "signature": "pfmerge(string $destinationKey, array|string $sourceKeys)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context for the command",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "The destination key",
+            "name": "dest",
+            "type": "string"
+          },
+          {
+            "description": "One or more source keys",
+            "name": "keys",
+            "type": "...string"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "*StatusCmd"
+        },
+        "signature": "PFMerge(ctx context.Context, dest string, keys ...string) *StatusCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "The destination key to merge to",
+            "name": "destination",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "One or more source keys to merge from",
+            "name": "sources",
+            "type": "RedisVariadicArgument"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "SimpleStringReply"
+        },
+        "signature": "PFMERGE(destination: RedisArgument, sources?: RedisVariadicArgument)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "destination key",
+            "name": "dest_key",
+            "type": "String"
+          },
+          {
+            "description": "source key, or array of keys",
+            "name": "*source_key",
+            "type": "String, Array<String>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Boolean"
+        },
+        "signature": "pfmerge(dest_key, *source_key)"
+      }
+    ]
+  },
   "commandFlags": [
     "write",
     "denyoom"
@@ -84,34 +477,25 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nMerge multiple HyperLogLog values into a unique value that will approximate\nthe cardinality of the union of the observed Sets of the source HyperLogLog\nstructures.\n\nThe computed merged HyperLogLog is set to the destination variable, which is\ncreated if does not exist (defaulting to an empty HyperLogLog).\n\nIf the destination variable exists, it is treated as one of the source sets \nand its cardinality will be included in the cardinality of the computed\nHyperLogLog.\n\n## Examples\n\n\nPFADD hll1 foo bar zap a\nPFADD hll2 a b c foo\nPFMERGE hll3 hll1 hll2\nPFCOUNT hll3\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.",
-  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nMerge multiple HyperLogLog values into a unique value that will approximate\nthe cardinality of the union of the observed Sets of the source HyperLogLog\nstructures.\n\nThe computed merged HyperLogLog is set to the destination variable, which is\ncreated if does not exist (defaulting to an empty HyperLogLog).\n\nIf the destination variable exists, it is treated as one of the source sets \nand its cardinality will be included in the cardinality of the computed\nHyperLogLog.",
+  "content": "Merge multiple HyperLogLog values into a unique value that will approximate\nthe cardinality of the union of the observed Sets of the source HyperLogLog\nstructures.\n\nThe computed merged HyperLogLog is set to the destination variable, which is\ncreated if does not exist (defaulting to an empty HyperLogLog).\n\nIf the destination variable exists, it is treated as one of the source sets \nand its cardinality will be included in the cardinality of the computed\nHyperLogLog.\n\n## Examples\n\n{{% redis-cli %}}\nPFADD hll1 foo bar zap a\nPFADD hll2 a b c foo\nPFMERGE hll3 hll1 hll2\nPFCOUNT hll3\n{{% /redis-cli %}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"pfmerge-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n{{< /multitabs >}}",
+  "example": "PFADD hll1 foo bar zap a\nPFADD hll2 a b c foo\nPFMERGE hll3 hll1 hll2\nPFCOUNT hll3",
+  "intro": "Merge multiple HyperLogLog values into a unique value that will approximate\nthe cardinality of the union of the observed Sets of the source HyperLogLog\nstructures.\n\nThe computed merged HyperLogLog is set to the destination variable, which is\ncreated if does not exist (defaulting to an empty HyperLogLog).\n\nIf the destination variable exists, it is treated as one of the source sets \nand its cardinality will be included in the cardinality of the computed\nHyperLogLog.",
+  "notes": [
+    "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information."
+  ],
   "sections": [
     {
       "title": "Overview",
       "level": 1,
-      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nMerge multiple HyperLogLog values into a unique value that will approximate\nthe cardinality of the union of the observed Sets of the source HyperLogLog\nstructures.\n\nThe computed merged HyperLogLog is set to the destination variable, which is\ncreated if does not exist (defaulting to an empty HyperLogLog).\n\nIf the destination variable exists, it is treated as one of the source sets \nand its cardinality will be included in the cardinality of the computed\nHyperLogLog."
+      "content": "Merge multiple HyperLogLog values into a unique value that will approximate\nthe cardinality of the union of the observed Sets of the source HyperLogLog\nstructures.\n\nThe computed merged HyperLogLog is set to the destination variable, which is\ncreated if does not exist (defaulting to an empty HyperLogLog).\n\nIf the destination variable exists, it is treated as one of the source sets \nand its cardinality will be included in the cardinality of the computed\nHyperLogLog."
     },
     {
       "title": "Examples",
       "level": 2,
-      "content": "PFADD hll1 foo bar zap a\nPFADD hll2 a b c foo\nPFMERGE hll3 hll1 hll2\nPFCOUNT hll3"
+      "content": "{{% redis-cli %}}\nPFADD hll1 foo bar zap a\nPFADD hll2 a b c foo\nPFMERGE hll3 hll1 hll2\nPFCOUNT hll3\n{{% /redis-cli %}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -121,7 +505,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`."
+      "content": "{{< multitabs id=\"pfmerge-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`.\n\n{{< /multitabs >}}"
     }
   ]
 }

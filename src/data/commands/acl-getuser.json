@@ -14,6 +14,151 @@
     "@slow",
     "@dangerous"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "username",
+            "type": "str"
+          },
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "dict"
+        },
+        "signature": "acl_getuser(username: str, **kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "AccessControlUser"
+        },
+        "signature": "AccessControlUser aclGetUser(String name)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "username",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*ACLGetUserCmd"
+        },
+        "signature": "ACLGetUser(ctx context.Context, username string) *ACLGetUserCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "Username to get information for",
+            "name": "username",
+            "type": "RedisArgument"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "AclUser"
+        },
+        "signature": "aclGetUser(username: RedisArgument)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "username",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List<Object>"
+        },
+        "signature": "List<Object> aclGetuser(String username)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "username",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "RedisFuture<List<Object>>"
+        },
+        "signature": "RedisFuture<List<Object>> aclGetuser(String username)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "username",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Flux<Object>"
+        },
+        "signature": "Flux<Object> aclGetuser(String username)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$subcommand",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$args",
+            "type": "mixed"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array"
+        },
+        "signature": "acl(string $subcommand, ...$args)"
+      }
+    ]
+  },
   "commandFlags": [
     "admin",
     "noscript",
@@ -39,24 +184,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "The command returns all the rules defined for an existing ACL user.\n\nSpecifically, it lists the user's ACL flags, password hashes, commands, key patterns, channel patterns (Added in version 6.2) and selectors (Added in version 7.0).\nAdditional information may be returned in the future if more metadata is added to the user.\n\nCommand rules are always returned in the same format as the one used in the [`ACL SETUSER`]() command.\nBefore version 7.0, keys and channels were returned as an array of patterns, however in version 7.0 later they are now also returned in same format as the one used in the [`ACL SETUSER`]() command.\nNote: This description of command rules reflects the user's effective permissions, so while it may not be identical to the set of rules used to configure the user, it is still functionally identical.\n\nSelectors are listed in the order they were applied to the user, and include information about commands, key patterns, and channel patterns.\n\n## Examples\n\nHere's an example configuration for a user\n\n```\n> ACL SETUSER sample on nopass +GET allkeys &* (+SET ~key2)\n\"OK\"\n> ACL GETUSER sample\n1) \"flags\"\n2) 1) \"on\"\n   2) \"allkeys\"\n   3) \"nopass\"\n3) \"passwords\"\n4) (empty array)\n5) \"commands\"\n6) \"+@all\"\n7) \"keys\"\n8) \"~*\"\n9) \"channels\"\n10) \"&*\"\n11) \"selectors\"\n12) 1) 1) \"commands\"\n       6) \"+SET\"\n       7) \"keys\"\n       8) \"~key2\"\n       9) \"channels\"\n       10) \"&*\"\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Not supported for [scripts](). |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays): a list of ACL rule definitions for the user.\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if user does not exist.\n\n**RESP3:**\n\nOne of the following:\n* [Map reply](../../develop/reference/protocol-spec#maps): a set of ACL rule definitions for the user\n* [Null reply](../../develop/reference/protocol-spec#nulls): if user does not exist.",
+  "content": "The command returns all the rules defined for an existing ACL user.\n\nSpecifically, it lists the user's ACL flags, password hashes, commands, key patterns, channel patterns (Added in version 6.2) and selectors (Added in version 7.0).\nAdditional information may be returned in the future if more metadata is added to the user.\n\nCommand rules are always returned in the same format as the one used in the [`ACL SETUSER`]() command.\nBefore version 7.0, keys and channels were returned as an array of patterns, however in version 7.0 later they are now also returned in same format as the one used in the [`ACL SETUSER`]() command.\nNote: This description of command rules reflects the user's effective permissions, so while it may not be identical to the set of rules used to configure the user, it is still functionally identical.\n\nSelectors are listed in the order they were applied to the user, and include information about commands, key patterns, and channel patterns.\n\n## Examples\n\nHere's an example configuration for a user\n\n```\n> ACL SETUSER sample on nopass +GET allkeys &* (+SET ~key2)\n\"OK\"\n> ACL GETUSER sample\n1) \"flags\"\n2) 1) \"on\"\n   2) \"allkeys\"\n   3) \"nopass\"\n3) \"passwords\"\n4) (empty array)\n5) \"commands\"\n6) \"+@all\"\n7) \"keys\"\n8) \"~*\"\n9) \"channels\"\n10) \"&*\"\n11) \"selectors\"\n12) 1) 1) \"commands\"\n       6) \"+SET\"\n       7) \"keys\"\n       8) \"~key2\"\n       9) \"channels\"\n       10) \"&*\"\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Not supported for [scripts]({{<relref \"/develop/programmability\">}}). |\n\n## Return information\n\n{{< multitabs id=\"acl-getuser-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays): a list of ACL rule definitions for the user.\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if user does not exist.\n\n-tab-sep-\n\nOne of the following:\n* [Map reply](../../develop/reference/protocol-spec#maps): a set of ACL rule definitions for the user\n* [Null reply](../../develop/reference/protocol-spec#nulls): if user does not exist.\n\n{{< /multitabs >}}",
+  "example": "> ACL SETUSER sample on nopass +GET allkeys &* (+SET ~key2)\n\"OK\"\n> ACL GETUSER sample\n1) \"flags\"\n2) 1) \"on\"\n   2) \"allkeys\"\n   3) \"nopass\"\n3) \"passwords\"\n4) (empty array)\n5) \"commands\"\n6) \"+@all\"\n7) \"keys\"\n8) \"~*\"\n9) \"channels\"\n10) \"&*\"\n11) \"selectors\"\n12) 1) 1) \"commands\"\n       6) \"+SET\"\n       7) \"keys\"\n       8) \"~key2\"\n       9) \"channels\"\n       10) \"&*\"",
   "intro": "The command returns all the rules defined for an existing ACL user.\n\nSpecifically, it lists the user's ACL flags, password hashes, commands, key patterns, channel patterns (Added in version 6.2) and selectors (Added in version 7.0).\nAdditional information may be returned in the future if more metadata is added to the user.\n\nCommand rules are always returned in the same format as the one used in the [`ACL SETUSER`]() command.\nBefore version 7.0, keys and channels were returned as an array of patterns, however in version 7.0 later they are now also returned in same format as the one used in the [`ACL SETUSER`]() command.\nNote: This description of command rules reflects the user's effective permissions, so while it may not be identical to the set of rules used to configure the user, it is still functionally identical.\n\nSelectors are listed in the order they were applied to the user, and include information about commands, key patterns, and channel patterns.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -71,12 +205,12 @@
     {
       "title": "Redis Software and Redis Cloud compatibility",
       "level": 2,
-      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Not supported for [scripts](). |"
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Not supported for [scripts]({{<relref \"/develop/programmability\">}}). |"
     },
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays): a list of ACL rule definitions for the user.\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if user does not exist.\n\n**RESP3:**\n\nOne of the following:\n* [Map reply](../../develop/reference/protocol-spec#maps): a set of ACL rule definitions for the user\n* [Null reply](../../develop/reference/protocol-spec#nulls): if user does not exist."
+      "content": "{{< multitabs id=\"acl-getuser-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Array reply](../../develop/reference/protocol-spec#arrays): a list of ACL rule definitions for the user.\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): if user does not exist.\n\n-tab-sep-\n\nOne of the following:\n* [Map reply](../../develop/reference/protocol-spec#maps): a set of ACL rule definitions for the user\n* [Null reply](../../develop/reference/protocol-spec#nulls): if user does not exist.\n\n{{< /multitabs >}}"
     }
   ]
 }

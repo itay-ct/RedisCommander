@@ -14,6 +14,244 @@
     "@write",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "destination_key",
+            "type": "str"
+          },
+          {
+            "description": "",
+            "name": "num_keys",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "*keys",
+            "type": "str"
+          },
+          {
+            "description": "",
+            "name": "compression",
+            "type": "int|None"
+          },
+          {
+            "description": "",
+            "name": "override",
+            "type": "bool"
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "str"
+        },
+        "signature": "merge(destination_key, num_keys, *keys, compression=None, override=False)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "destinationKey",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "sourceKeys",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "String"
+        },
+        "signature": "tdigestMerge(String destinationKey, String... sourceKeys)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "mergeParams",
+            "type": "TDigestMergeParams"
+          },
+          {
+            "description": "",
+            "name": "destinationKey",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "sourceKeys",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "String"
+        },
+        "signature": "tdigestMerge(TDigestMergeParams mergeParams, String destinationKey, String... sourceKeys)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "destKey",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "options",
+            "type": "*TDigestMergeOptions"
+          },
+          {
+            "description": "",
+            "name": "sourceKeys",
+            "type": "...string"
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "*StatusCmd"
+        },
+        "signature": "TDigestMerge(ctx context.Context, destKey string, options *TDigestMergeOptions, sourceKeys ...string) *StatusCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "destination",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "numKeys",
+            "type": "number"
+          },
+          {
+            "description": "",
+            "name": "sourceKeys",
+            "type": "string[]"
+          },
+          {
+            "description": "",
+            "name": "options",
+            "type": "{ COMPRESSION?: number, OVERRIDE?: boolean }"
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "string"
+        },
+        "signature": "TDIGEST.MERGE(destination, numKeys, sourceKeys, options?)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "destinationKey",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "sourceKeys",
+            "type": "params RedisKey[]"
+          },
+          {
+            "description": "",
+            "name": "compression",
+            "type": "long?"
+          },
+          {
+            "description": "",
+            "name": "override",
+            "type": "bool"
+          }
+        ],
+        "returns": {
+          "description": "true on success",
+          "type": "bool"
+        },
+        "signature": "Merge(destinationKey, sourceKeys, compression?, override?)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "destinationKey",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "sourceKeys",
+            "type": "params RedisKey[]"
+          },
+          {
+            "description": "",
+            "name": "compression",
+            "type": "long?"
+          },
+          {
+            "description": "",
+            "name": "override",
+            "type": "bool"
+          }
+        ],
+        "returns": {
+          "description": "true on success",
+          "type": "Task<bool>"
+        },
+        "signature": "MergeAsync(destinationKey, sourceKeys, compression?, override?)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "destKey",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "sourceKeys",
+            "type": "array"
+          },
+          {
+            "description": "",
+            "name": "compression",
+            "type": "int|null"
+          },
+          {
+            "description": "",
+            "name": "override",
+            "type": "bool"
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "mixed"
+        },
+        "signature": "tdigestmerge($destKey, $sourceKeys, $compression = null, $override = false)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -64,37 +302,20 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "optional-arguments",
-        "title": "Optional arguments"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nMerges multiple t-digest sketches into a single sketch.\n\n## Required arguments\n<details open><summary><code>destination-key</code></summary>\n\nis the key name for a t-digest sketch to merge observation values to.\n\nIf `destination-key` does not exist, a new sketch is created.\n\nIf `destination-key` is an existing sketch, its values are merged with the values of the source keys. To override the destination key contents use `OVERRIDE`.\n</details>\n\n<details open><summary><code>numkeys</code></summary>\n\nthe number of sketches from which to merge observation values (one or more).\n</details>\n\n<details open><summary><code>source-key</code></summary>\n\nEach `source-key` is a key name for a t-digest sketch from which to merge observation values.\n</details>\n\n## Optional arguments\n\n<details open><summary><code>COMPRESSION compression</code></summary>\n  \nis a controllable tradeoff between accuracy and memory consumption. 100 is a common value for normal uses and also the default if not specified. 1000 is more accurate. For more information on scaling of accuracy versus the compression value see [_The t-digest: Efficient estimates of distributions_](https://www.sciencedirect.com/science/article/pii/S2665963820300403).\n  \nWhen `COMPRESSION` is not specified:\n- If `destination-key` does not exist or if `OVERRIDE` is specified, the compression is set to the maximum value among all source sketches.\n- If `destination-key` already exists and `OVERRIDE` is not specified, its compression is not changed.\n\n</details>\n\n<details open><summary><code>OVERRIDE</code></summary>\n\nIf `destination-key` already exists and `OVERRIDE` is specified, the key is overwritten.\n</details>\n\n## Examples\n\nredis> TDIGEST.CREATE {metrics}:m1\nOK\nredis> TDIGEST.CREATE {metrics}:m2\nOK\nredis> TDIGEST.ADD {metrics}:m1 10.0 20.0\nOK\nredis> TDIGEST.ADD {metrics}:m2 30.0 40.0\nOK\nredis> TDIGEST.MERGE {metrics}:m 2 {metrics}:m1 {metrics}:m2\nOK\nredis> TDIGEST.BYRANK {metrics}:m 0 1 2 3 4\n1) \"10\"\n2) \"20\"\n3) \"30\"\n4) \"40\"\n5) \"inf\"\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n\n* [Simple string reply]() `OK` if successful.\n* [Simple error reply]() in the following cases: incorrect key type, incorrect keyword, or incorrect number of arguments.\n\n**RESP3:**\n\nOne of the following:\n\n* [Simple string reply]() `OK` if successful.\n* [Simple error reply]() in the following cases: incorrect key type, incorrect keyword, or incorrect number of arguments.",
-  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nMerges multiple t-digest sketches into a single sketch.",
+  "content": "Merges multiple t-digest sketches into a single sketch.\n\n## Required arguments\n<details open><summary><code>destination-key</code></summary>\n\nis the key name for a t-digest sketch to merge observation values to.\n\nIf `destination-key` does not exist, a new sketch is created.\n\nIf `destination-key` is an existing sketch, its values are merged with the values of the source keys. To override the destination key contents use `OVERRIDE`.\n</details>\n\n<details open><summary><code>numkeys</code></summary>\n\nthe number of sketches from which to merge observation values (one or more).\n</details>\n\n<details open><summary><code>source-key</code></summary>\n\nEach `source-key` is a key name for a t-digest sketch from which to merge observation values.\n</details>\n\n## Optional arguments\n\n<details open><summary><code>COMPRESSION compression</code></summary>\n  \nis a controllable tradeoff between accuracy and memory consumption. 100 is a common value for normal uses and also the default if not specified. 1000 is more accurate. For more information on scaling of accuracy versus the compression value see [_The t-digest: Efficient estimates of distributions_](https://www.sciencedirect.com/science/article/pii/S2665963820300403).\n  \nWhen `COMPRESSION` is not specified:\n- If `destination-key` does not exist or if `OVERRIDE` is specified, the compression is set to the maximum value among all source sketches.\n- If `destination-key` already exists and `OVERRIDE` is not specified, its compression is not changed.\n\n</details>\n\n<details open><summary><code>OVERRIDE</code></summary>\n\nIf `destination-key` already exists and `OVERRIDE` is specified, the key is overwritten.\n</details>\n\n## Examples\n{{< highlight bash >}}\nredis> TDIGEST.CREATE {metrics}:m1\nOK\nredis> TDIGEST.CREATE {metrics}:m2\nOK\nredis> TDIGEST.ADD {metrics}:m1 10.0 20.0\nOK\nredis> TDIGEST.ADD {metrics}:m2 30.0 40.0\nOK\nredis> TDIGEST.MERGE {metrics}:m 2 {metrics}:m1 {metrics}:m2\nOK\nredis> TDIGEST.BYRANK {metrics}:m 0 1 2 3 4\n1) \"10\"\n2) \"20\"\n3) \"30\"\n4) \"40\"\n5) \"inf\"\n{{< / highlight >}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"tdigest-merge-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}) `OK` if successful.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in the following cases: incorrect key type, incorrect keyword, or incorrect number of arguments.\n\n-tab-sep-\n\nOne of the following:\n\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}) `OK` if successful.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in the following cases: incorrect key type, incorrect keyword, or incorrect number of arguments.\n\n{{< /multitabs >}}",
+  "example": "redis> TDIGEST.CREATE {metrics}:m1\nOK\nredis> TDIGEST.CREATE {metrics}:m2\nOK\nredis> TDIGEST.ADD {metrics}:m1 10.0 20.0\nOK\nredis> TDIGEST.ADD {metrics}:m2 30.0 40.0\nOK\nredis> TDIGEST.MERGE {metrics}:m 2 {metrics}:m1 {metrics}:m2\nOK\nredis> TDIGEST.BYRANK {metrics}:m 0 1 2 3 4\n1) \"10\"\n2) \"20\"\n3) \"30\"\n4) \"40\"\n5) \"inf\"",
+  "intro": "Merges multiple t-digest sketches into a single sketch.",
+  "notes": [
+    "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information."
+  ],
   "sections": [
     {
       "title": "Overview",
       "level": 1,
-      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nMerges multiple t-digest sketches into a single sketch."
+      "content": "Merges multiple t-digest sketches into a single sketch."
     },
     {
       "title": "Required arguments",
@@ -109,7 +330,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "redis> TDIGEST.CREATE {metrics}:m1\nOK\nredis> TDIGEST.CREATE {metrics}:m2\nOK\nredis> TDIGEST.ADD {metrics}:m1 10.0 20.0\nOK\nredis> TDIGEST.ADD {metrics}:m2 30.0 40.0\nOK\nredis> TDIGEST.MERGE {metrics}:m 2 {metrics}:m1 {metrics}:m2\nOK\nredis> TDIGEST.BYRANK {metrics}:m 0 1 2 3 4\n1) \"10\"\n2) \"20\"\n3) \"30\"\n4) \"40\"\n5) \"inf\""
+      "content": "{{< highlight bash >}}\nredis> TDIGEST.CREATE {metrics}:m1\nOK\nredis> TDIGEST.CREATE {metrics}:m2\nOK\nredis> TDIGEST.ADD {metrics}:m1 10.0 20.0\nOK\nredis> TDIGEST.ADD {metrics}:m2 30.0 40.0\nOK\nredis> TDIGEST.MERGE {metrics}:m 2 {metrics}:m1 {metrics}:m2\nOK\nredis> TDIGEST.BYRANK {metrics}:m 0 1 2 3 4\n1) \"10\"\n2) \"20\"\n3) \"30\"\n4) \"40\"\n5) \"inf\"\n{{< / highlight >}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -119,7 +340,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n\n* [Simple string reply]() `OK` if successful.\n* [Simple error reply]() in the following cases: incorrect key type, incorrect keyword, or incorrect number of arguments.\n\n**RESP3:**\n\nOne of the following:\n\n* [Simple string reply]() `OK` if successful.\n* [Simple error reply]() in the following cases: incorrect key type, incorrect keyword, or incorrect number of arguments."
+      "content": "{{< multitabs id=\"tdigest-merge-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}) `OK` if successful.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in the following cases: incorrect key type, incorrect keyword, or incorrect number of arguments.\n\n-tab-sep-\n\nOne of the following:\n\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}) `OK` if successful.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in the following cases: incorrect key type, incorrect keyword, or incorrect number of arguments.\n\n{{< /multitabs >}}"
     }
   ]
 }

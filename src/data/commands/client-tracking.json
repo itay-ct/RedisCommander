@@ -13,6 +13,144 @@
     "@slow",
     "@connection"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "on",
+            "type": "bool"
+          },
+          {
+            "description": "",
+            "name": "client_id",
+            "type": "int | None"
+          },
+          {
+            "description": "",
+            "name": "prefix",
+            "type": "list | None"
+          },
+          {
+            "description": "",
+            "name": "bcast",
+            "type": "bool"
+          },
+          {
+            "description": "",
+            "name": "optin",
+            "type": "bool"
+          },
+          {
+            "description": "",
+            "name": "optout",
+            "type": "bool"
+          },
+          {
+            "description": "",
+            "name": "noloop",
+            "type": "bool"
+          },
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "str"
+        },
+        "signature": "client_tracking(on: bool = True, client_id: int | None = None, prefix: list | None = None, bcast: bool = False, optin: bool = False, optout: bool = False, noloop: bool = False, **kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "params",
+            "type": "TrackingParams"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "String"
+        },
+        "signature": "String clientTracking(TrackingParams params)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "args",
+            "type": "TrackingArgs"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "String"
+        },
+        "signature": "String clientTracking(TrackingArgs args)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "args",
+            "type": "TrackingArgs"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> clientTracking(TrackingArgs args)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "args",
+            "type": "TrackingArgs"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> clientTracking(TrackingArgs args)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$subcommand",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$args",
+            "type": "mixed"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "string"
+        },
+        "signature": "client(string $subcommand, ...$args)"
+      }
+    ]
+  },
   "commandFlags": [
     "noscript",
     "loading",
@@ -94,20 +232,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "This command enables the tracking feature of the Redis server, that is used\nfor [server assisted client side caching]().\n\nWhen tracking is enabled Redis remembers the keys that the connection\nrequested, in order to send later invalidation messages when such keys are\nmodified. Invalidation messages are sent in the same connection (only available\nwhen the RESP3 protocol is used) or redirected in a different connection\n(available also with RESP2 and Pub/Sub). A special *broadcasting* mode is\navailable where clients participating in this protocol receive every\nnotification just subscribing to given key prefixes, regardless of the\nkeys that they requested. Given the complexity of the argument please\nrefer to [the main client side caching documentation]() for the details. This manual page is only a reference for the options of this subcommand.\n\nIn order to enable tracking, use:\n\n    CLIENT TRACKING on ... options ...\n\nThe feature will remain active in the current connection for all its life,\nunless tracking is turned off with `CLIENT TRACKING off` at some point.\n\nThe following are the list of options that modify the behavior of the\ncommand when enabling tracking:\n\n* `REDIRECT <id>`: send invalidation messages to the connection with the specified ID. The connection must exist. You can get the ID of a connection using [`CLIENT ID`](). If the connection we are redirecting to is terminated, when in RESP3 mode the connection with tracking enabled will receive `tracking-redir-broken` push messages in order to signal the condition.\n* `BCAST`: enable tracking in broadcasting mode. In this mode invalidation messages are reported for all the prefixes specified, regardless of the keys requested by the connection. Instead when the broadcasting mode is not enabled, Redis will track which keys are fetched using read-only commands, and will report invalidation messages only for such keys.\n* `PREFIX <prefix>`: for broadcasting, register a given key prefix, so that notifications will be provided only for keys starting with this string. This option can be given multiple times to register multiple prefixes. If broadcasting is enabled without this option, Redis will send notifications for every key. You can't delete a single prefix, but you can delete all prefixes by disabling and re-enabling tracking. Using this option adds the additional time complexity of O(N^2), where N is the total number of prefixes tracked. \n* `OPTIN`: when broadcasting is NOT active, normally don't track keys in read only commands, unless they are called immediately after a `CLIENT CACHING yes` command.\n* `OPTOUT`: when broadcasting is NOT active, normally track keys in read only commands, unless they are called immediately after a `CLIENT CACHING no` command.\n* `NOLOOP`: don't send notifications about keys modified by this connection itself.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the connection was successfully put in tracking mode or if the tracking mode was successfully disabled. Otherwise, an error is returned.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the connection was successfully put in tracking mode or if the tracking mode was successfully disabled. Otherwise, an error is returned.",
+  "content": "This command enables the tracking feature of the Redis server, that is used\nfor [server assisted client side caching]().\n\nWhen tracking is enabled Redis remembers the keys that the connection\nrequested, in order to send later invalidation messages when such keys are\nmodified. Invalidation messages are sent in the same connection (only available\nwhen the RESP3 protocol is used) or redirected in a different connection\n(available also with RESP2 and Pub/Sub). A special *broadcasting* mode is\navailable where clients participating in this protocol receive every\nnotification just subscribing to given key prefixes, regardless of the\nkeys that they requested. Given the complexity of the argument please\nrefer to [the main client side caching documentation]() for the details. This manual page is only a reference for the options of this subcommand.\n\nIn order to enable tracking, use:\n\n    CLIENT TRACKING on ... options ...\n\nThe feature will remain active in the current connection for all its life,\nunless tracking is turned off with `CLIENT TRACKING off` at some point.\n\nThe following are the list of options that modify the behavior of the\ncommand when enabling tracking:\n\n* `REDIRECT <id>`: send invalidation messages to the connection with the specified ID. The connection must exist. You can get the ID of a connection using [`CLIENT ID`](). If the connection we are redirecting to is terminated, when in RESP3 mode the connection with tracking enabled will receive `tracking-redir-broken` push messages in order to signal the condition.\n* `BCAST`: enable tracking in broadcasting mode. In this mode invalidation messages are reported for all the prefixes specified, regardless of the keys requested by the connection. Instead when the broadcasting mode is not enabled, Redis will track which keys are fetched using read-only commands, and will report invalidation messages only for such keys.\n* `PREFIX <prefix>`: for broadcasting, register a given key prefix, so that notifications will be provided only for keys starting with this string. This option can be given multiple times to register multiple prefixes. If broadcasting is enabled without this option, Redis will send notifications for every key. You can't delete a single prefix, but you can delete all prefixes by disabling and re-enabling tracking. Using this option adds the additional time complexity of O(N^2), where N is the total number of prefixes tracked. \n* `OPTIN`: when broadcasting is NOT active, normally don't track keys in read only commands, unless they are called immediately after a `CLIENT CACHING yes` command.\n* `OPTOUT`: when broadcasting is NOT active, normally track keys in read only commands, unless they are called immediately after a `CLIENT CACHING no` command.\n* `NOLOOP`: don't send notifications about keys modified by this connection itself.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"client-tracking-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the connection was successfully put in tracking mode or if the tracking mode was successfully disabled. Otherwise, an error is returned.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the connection was successfully put in tracking mode or if the tracking mode was successfully disabled. Otherwise, an error is returned.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "This command enables the tracking feature of the Redis server, that is used\nfor [server assisted client side caching]().\n\nWhen tracking is enabled Redis remembers the keys that the connection\nrequested, in order to send later invalidation messages when such keys are\nmodified. Invalidation messages are sent in the same connection (only available\nwhen the RESP3 protocol is used) or redirected in a different connection\n(available also with RESP2 and Pub/Sub). A special *broadcasting* mode is\navailable where clients participating in this protocol receive every\nnotification just subscribing to given key prefixes, regardless of the\nkeys that they requested. Given the complexity of the argument please\nrefer to [the main client side caching documentation]() for the details. This manual page is only a reference for the options of this subcommand.\n\nIn order to enable tracking, use:\n\n    CLIENT TRACKING on ... options ...\n\nThe feature will remain active in the current connection for all its life,\nunless tracking is turned off with `CLIENT TRACKING off` at some point.\n\nThe following are the list of options that modify the behavior of the\ncommand when enabling tracking:\n\n* `REDIRECT <id>`: send invalidation messages to the connection with the specified ID. The connection must exist. You can get the ID of a connection using [`CLIENT ID`](). If the connection we are redirecting to is terminated, when in RESP3 mode the connection with tracking enabled will receive `tracking-redir-broken` push messages in order to signal the condition.\n* `BCAST`: enable tracking in broadcasting mode. In this mode invalidation messages are reported for all the prefixes specified, regardless of the keys requested by the connection. Instead when the broadcasting mode is not enabled, Redis will track which keys are fetched using read-only commands, and will report invalidation messages only for such keys.\n* `PREFIX <prefix>`: for broadcasting, register a given key prefix, so that notifications will be provided only for keys starting with this string. This option can be given multiple times to register multiple prefixes. If broadcasting is enabled without this option, Redis will send notifications for every key. You can't delete a single prefix, but you can delete all prefixes by disabling and re-enabling tracking. Using this option adds the additional time complexity of O(N^2), where N is the total number of prefixes tracked. \n* `OPTIN`: when broadcasting is NOT active, normally don't track keys in read only commands, unless they are called immediately after a `CLIENT CACHING yes` command.\n* `OPTOUT`: when broadcasting is NOT active, normally track keys in read only commands, unless they are called immediately after a `CLIENT CACHING no` command.\n* `NOLOOP`: don't send notifications about keys modified by this connection itself.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -122,7 +253,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the connection was successfully put in tracking mode or if the tracking mode was successfully disabled. Otherwise, an error is returned.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the connection was successfully put in tracking mode or if the tracking mode was successfully disabled. Otherwise, an error is returned."
+      "content": "{{< multitabs id=\"client-tracking-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the connection was successfully put in tracking mode or if the tracking mode was successfully disabled. Otherwise, an error is returned.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` if the connection was successfully put in tracking mode or if the tracking mode was successfully disabled. Otherwise, an error is returned.\n\n{{< /multitabs >}}"
     }
   ]
 }

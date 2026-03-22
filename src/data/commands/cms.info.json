@@ -14,6 +14,125 @@
     "@read",
     "@fast"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "str"
+          }
+        ],
+        "returns": {
+          "description": "Width, depth, and total count",
+          "type": "dict"
+        },
+        "signature": "info(key)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "Width, depth, and total count",
+          "type": "Map<String, Object>"
+        },
+        "signature": "cmsInfo(String key)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "CMSInfo with width, depth, count",
+          "type": "*CMSInfoCmd"
+        },
+        "signature": "CMSInfo(ctx context.Context, key string) *CMSInfoCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          }
+        ],
+        "returns": {
+          "description": "{ width, depth, count }",
+          "type": "CmsInfoReply"
+        },
+        "signature": "CMS.INFO(key)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          }
+        ],
+        "returns": {
+          "description": "Sketch information",
+          "type": "CmsInformation"
+        },
+        "signature": "Info(RedisKey key)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          }
+        ],
+        "returns": {
+          "description": "Sketch information",
+          "type": "Task<CmsInformation>"
+        },
+        "signature": "InfoAsync(RedisKey key)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "Sketch information",
+          "type": "array"
+        },
+        "signature": "cmsinfo($key)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -33,24 +152,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Returns width, depth and total count of the sketch.\n\n### Parameters:\n\n* **key**: The name of the sketch.\n\n## Examples\n\n```\nredis> CMS.INFO test\n 1) width\n 2) (integer) 2000\n 3) depth\n 4) (integer) 7\n 5) count\n 6) (integer) 0\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n\n* [Array reply]() of [simple string reply]() and [integer reply]() pairs containing sketch information.\n* [Simple error reply]() in these cases: invalid arguments, missing key, or wrong key type.\n\n**RESP3:**\n\nOne of the following:\n\n* [Map reply]() of [simple string reply]() and [integer reply]() pairs containing sketch information.\n* [Simple error reply]() in these cases: invalid arguments, missing key, or wrong key type.",
-  "intro": "Returns width, depth and total count of the sketch.",
+  "content": "Returns width, depth and total count of the sketch.\n\n### Parameters:\n\n* **key**: The name of the sketch.\n\n## Examples\n\n```\nredis> CMS.INFO test\n 1) width\n 2) (integer) 2000\n 3) depth\n 4) (integer) 7\n 5) count\n 6) (integer) 0\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"cms-info-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n\n* [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}) and [integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) pairs containing sketch information.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, missing key, or wrong key type.\n\n-tab-sep-\n\nOne of the following:\n\n* [Map reply]({{< relref \"/develop/reference/protocol-spec#maps\" >}}) of [simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}) and [integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) pairs containing sketch information.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, missing key, or wrong key type.\n\n{{< /multitabs >}}",
+  "example": "redis> CMS.INFO test\n 1) width\n 2) (integer) 2000\n 3) depth\n 4) (integer) 7\n 5) count\n 6) (integer) 0",
+  "intro": "Returns width, depth and total count of the sketch.\n\n### Parameters:\n\n* **key**: The name of the sketch.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -75,7 +183,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n\n* [Array reply]() of [simple string reply]() and [integer reply]() pairs containing sketch information.\n* [Simple error reply]() in these cases: invalid arguments, missing key, or wrong key type.\n\n**RESP3:**\n\nOne of the following:\n\n* [Map reply]() of [simple string reply]() and [integer reply]() pairs containing sketch information.\n* [Simple error reply]() in these cases: invalid arguments, missing key, or wrong key type."
+      "content": "{{< multitabs id=\"cms-info-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n\n* [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}) and [integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) pairs containing sketch information.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, missing key, or wrong key type.\n\n-tab-sep-\n\nOne of the following:\n\n* [Map reply]({{< relref \"/develop/reference/protocol-spec#maps\" >}}) of [simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}) and [integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) pairs containing sketch information.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments, missing key, or wrong key type.\n\n{{< /multitabs >}}"
     }
   ]
 }

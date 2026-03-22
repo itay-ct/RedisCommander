@@ -14,6 +14,441 @@
     "@string",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "algo",
+            "type": "Literal[\"LCS\"]"
+          },
+          {
+            "description": "",
+            "name": "value1",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "value2",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "specific_argument",
+            "type": "Union[Literal[\"strings\"], Literal[\"keys\"]] = \"strings\""
+          },
+          {
+            "description": "",
+            "name": "len",
+            "type": "bool = False"
+          },
+          {
+            "description": "",
+            "name": "idx",
+            "type": "bool = False"
+          },
+          {
+            "description": "",
+            "name": "minmatchlen",
+            "type": "Optional[int] = None"
+          },
+          {
+            "description": "",
+            "name": "withmatchlen",
+            "type": "bool = False"
+          },
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "ResponseT"
+        },
+        "signature": "stralgo(, algo: Literal[\"LCS\"],, value1: KeyT,, value2: KeyT,, specific_argument: Union[Literal[\"strings\"], Literal[\"keys\"]] = \"strings\",, len: bool = False,, idx: bool = False,, minmatchlen: Optional[int] = None,, withmatchlen: bool = False,, **kwargs,)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key1",
+            "type": "str"
+          },
+          {
+            "description": "",
+            "name": "key2",
+            "type": "str"
+          },
+          {
+            "description": "",
+            "name": "len",
+            "type": "Optional[bool] = False"
+          },
+          {
+            "description": "",
+            "name": "idx",
+            "type": "Optional[bool] = False"
+          },
+          {
+            "description": "",
+            "name": "minmatchlen",
+            "type": "Optional[int] = 0"
+          },
+          {
+            "description": "",
+            "name": "withmatchlen",
+            "type": "Optional[bool] = False"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Union[str, int, list]"
+        },
+        "signature": "lcs(, key1: str,, key2: str,, len: Optional[bool] = False,, idx: Optional[bool] = False,, minmatchlen: Optional[int] = 0,, withmatchlen: Optional[bool] = False,)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keyA",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "keyB",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "params",
+            "type": "LCSParams"
+          }
+        ],
+        "returns": {
+          "description": "According to LCSParams to decide to return content to fill LCSMatchResult.",
+          "type": "LCSMatchResult"
+        },
+        "signature": "LCSMatchResult lcs(final byte[] keyA, final byte[] keyB, final LCSParams params)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keyA",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "keyB",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "params",
+            "type": "LCSParams"
+          }
+        ],
+        "returns": {
+          "description": "According to LCSParams to decide to return content to fill LCSMatchResult.",
+          "type": "LCSMatchResult"
+        },
+        "signature": "LCSMatchResult lcs(final String keyA, final String keyB, final LCSParams params)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "command arguments supplied by the LcsArgs.",
+            "name": "lcsArgs",
+            "type": "LcsArgs"
+          }
+        ],
+        "returns": {
+          "description": "StringMatchResult @see <a href=\"https://redis.io/commands/lcs\">LCS command refference</a> @since 6.6",
+          "type": "StringMatchResult"
+        },
+        "signature": "StringMatchResult lcs(LcsArgs lcsArgs)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "command arguments supplied by the LcsArgs.",
+            "name": "lcsArgs",
+            "type": "LcsArgs"
+          }
+        ],
+        "returns": {
+          "description": "StringMatchResult @see <a href=\"https://redis.io/commands/lcs\">LCS command refference</a> @since 6.6",
+          "type": "RedisFuture<StringMatchResult>"
+        },
+        "signature": "RedisFuture<StringMatchResult> lcs(LcsArgs lcsArgs)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "command arguments supplied by the LcsArgs.",
+            "name": "lcsArgs",
+            "type": "LcsArgs"
+          }
+        ],
+        "returns": {
+          "description": "StringMatchResult @see <a href=\"https://redis.io/commands/lcs\">LCS command refference</a> @since 6.6",
+          "type": "Mono<StringMatchResult>"
+        },
+        "signature": "Mono<StringMatchResult> lcs(LcsArgs lcsArgs)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "q",
+            "type": "*LCSQuery"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*LCSCmd"
+        },
+        "signature": "LCS(ctx context.Context, q *LCSQuery)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key1",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "key2",
+            "type": "RedisArgument"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "LCS(key1: RedisArgument, key2: RedisArgument)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key1",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "key2",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<unknown>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "lcs(key1: RedisKey, key2: RedisKey, callback?: Callback<unknown>)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key1",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "key2",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "withmatchlen",
+            "type": "\"WITHMATCHLEN\""
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<unknown>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "lcs(key1: RedisKey, key2: RedisKey, withmatchlen: \"WITHMATCHLEN\", callback?: Callback<unknown>)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key1",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "key2",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "lenToken",
+            "type": "\"MINMATCHLEN\""
+          },
+          {
+            "description": "",
+            "name": "len",
+            "type": "number | string"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<unknown>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "lcs(key1: RedisKey, key2: RedisKey, lenToken: \"MINMATCHLEN\", len: number | string, callback?: Callback<unknown>)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key1",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "key2",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "lenToken",
+            "type": "\"MINMATCHLEN\""
+          },
+          {
+            "description": "",
+            "name": "len",
+            "type": "number | string"
+          },
+          {
+            "description": "",
+            "name": "withmatchlen",
+            "type": "\"WITHMATCHLEN\""
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<unknown>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "lcs(key1: RedisKey, key2: RedisKey, lenToken: \"MINMATCHLEN\", len: number | string, withmatchlen: \"WITHMATCHLEN\", callback?: Callback<unknown>)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key1",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "key2",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "idx",
+            "type": "\"IDX\""
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<unknown>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "lcs(key1: RedisKey, key2: RedisKey, idx: \"IDX\", callback?: Callback<unknown>)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key1",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$key2",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "bool $len = false",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "bool $idx = false",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "int $minMatchLen = 0",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "bool $withMatchLen = false",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "mixed"
+        },
+        "signature": "lcs(string $key1, string $key2, bool $len = false, bool $idx = false, int $minMatchLen = 0, bool $withMatchLen = false)"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly"
   ],
@@ -90,20 +525,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "The LCS command implements the longest common subsequence algorithm. Note that this is different than the longest common string algorithm, since matching characters in the string does not need to be contiguous.\n\nFor instance the LCS between \"foo\" and \"fao\" is \"fo\", since scanning the two strings from left to right, the longest common set of characters is composed of the first \"f\" and then the \"o\".\n\nLCS is very useful in order to evaluate how similar two strings are. Strings can represent many things. For instance if two strings are DNA sequences, the LCS will provide a measure of similarity between the two DNA sequences. If the strings represent some text edited by some user, the LCS could represent how different the new text is compared to the old one, and so forth.\n\nNote that this algorithm runs in `O(N*M)` time, where N is the length of the first string and M is the length of the second string. So either spin a different Redis instance in order to run this algorithm, or make sure to run it against very small strings.\n\n```\n> MSET key1 ohmytext key2 mynewtext\nOK\n> LCS key1 key2\n\"mytext\"\n```\n\nSometimes we need just the length of the match:\n\n```\n> LCS key1 key2 LEN\n(integer) 6\n```\n\nHowever what is often very useful, is to know the match position in each strings:\n\n```\n> LCS key1 key2 IDX\n1) \"matches\"\n2) 1) 1) 1) (integer) 4\n         2) (integer) 7\n      2) 1) (integer) 5\n         2) (integer) 8\n   2) 1) 1) (integer) 2\n         2) (integer) 3\n      2) 1) (integer) 0\n         2) (integer) 1\n3) \"len\"\n4) (integer) 6\n```\n\nMatches are produced from the last one to the first one, since this is how\nthe algorithm works, and it more efficient to emit things in the same order.\nThe above array means that the first match (second element of the array)\nis between positions 2-3 of the first string and 0-1 of the second.\nThen there is another match between 4-7 and 5-8.\n\nTo restrict the list of matches to the ones of a given minimal length:\n\n```\n> LCS key1 key2 IDX MINMATCHLEN 4\n1) \"matches\"\n2) 1) 1) 1) (integer) 4\n         2) (integer) 7\n      2) 1) (integer) 5\n         2) (integer) 8\n3) \"len\"\n4) (integer) 6\n```\n\nFinally to also have the match len:\n\n```\n> LCS key1 key2 IDX MINMATCHLEN 4 WITHMATCHLEN\n1) \"matches\"\n2) 1) 1) 1) (integer) 4\n         2) (integer) 7\n      2) 1) (integer) 5\n         2) (integer) 8\n      3) (integer) 4\n3) \"len\"\n4) (integer) 6\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the longest common subsequence.\n* [Integer reply](../../develop/reference/protocol-spec#integers): the length of the longest common subsequence when _LEN_ is given.\n* [Array reply](../../develop/reference/protocol-spec#arrays): an array with the LCS length and all the ranges in both the strings when _IDX_ is given.\n\n**RESP3:**\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the longest common subsequence.\n* [Integer reply](../../develop/reference/protocol-spec#integers): the length of the longest common subsequence when _LEN_ is given.\n* [Map reply](../../develop/reference/protocol-spec#maps): a map with the LCS length and all the ranges in both the strings when _IDX_ is given.",
+  "content": "The LCS command implements the longest common subsequence algorithm. Note that this is different than the longest common string algorithm, since matching characters in the string does not need to be contiguous.\n\nFor instance the LCS between \"foo\" and \"fao\" is \"fo\", since scanning the two strings from left to right, the longest common set of characters is composed of the first \"f\" and then the \"o\".\n\nLCS is very useful in order to evaluate how similar two strings are. Strings can represent many things. For instance if two strings are DNA sequences, the LCS will provide a measure of similarity between the two DNA sequences. If the strings represent some text edited by some user, the LCS could represent how different the new text is compared to the old one, and so forth.\n\nNote that this algorithm runs in `O(N*M)` time, where N is the length of the first string and M is the length of the second string. So either spin a different Redis instance in order to run this algorithm, or make sure to run it against very small strings.\n\n```\n> MSET key1 ohmytext key2 mynewtext\nOK\n> LCS key1 key2\n\"mytext\"\n```\n\nSometimes we need just the length of the match:\n\n```\n> LCS key1 key2 LEN\n(integer) 6\n```\n\nHowever what is often very useful, is to know the match position in each strings:\n\n```\n> LCS key1 key2 IDX\n1) \"matches\"\n2) 1) 1) 1) (integer) 4\n         2) (integer) 7\n      2) 1) (integer) 5\n         2) (integer) 8\n   2) 1) 1) (integer) 2\n         2) (integer) 3\n      2) 1) (integer) 0\n         2) (integer) 1\n3) \"len\"\n4) (integer) 6\n```\n\nMatches are produced from the last one to the first one, since this is how\nthe algorithm works, and it more efficient to emit things in the same order.\nThe above array means that the first match (second element of the array)\nis between positions 2-3 of the first string and 0-1 of the second.\nThen there is another match between 4-7 and 5-8.\n\nTo restrict the list of matches to the ones of a given minimal length:\n\n```\n> LCS key1 key2 IDX MINMATCHLEN 4\n1) \"matches\"\n2) 1) 1) 1) (integer) 4\n         2) (integer) 7\n      2) 1) (integer) 5\n         2) (integer) 8\n3) \"len\"\n4) (integer) 6\n```\n\nFinally to also have the match len:\n\n```\n> LCS key1 key2 IDX MINMATCHLEN 4 WITHMATCHLEN\n1) \"matches\"\n2) 1) 1) 1) (integer) 4\n         2) (integer) 7\n      2) 1) (integer) 5\n         2) (integer) 8\n      3) (integer) 4\n3) \"len\"\n4) (integer) 6\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"lcs-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the longest common subsequence.\n* [Integer reply](../../develop/reference/protocol-spec#integers): the length of the longest common subsequence when _LEN_ is given.\n* [Array reply](../../develop/reference/protocol-spec#arrays): an array with the LCS length and all the ranges in both the strings when _IDX_ is given.\n\n-tab-sep-\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the longest common subsequence.\n* [Integer reply](../../develop/reference/protocol-spec#integers): the length of the longest common subsequence when _LEN_ is given.\n* [Map reply](../../develop/reference/protocol-spec#maps): a map with the LCS length and all the ranges in both the strings when _IDX_ is given.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "The LCS command implements the longest common subsequence algorithm. Note that this is different than the longest common string algorithm, since matching characters in the string does not need to be contiguous.\n\nFor instance the LCS between \"foo\" and \"fao\" is \"fo\", since scanning the two strings from left to right, the longest common set of characters is composed of the first \"f\" and then the \"o\".\n\nLCS is very useful in order to evaluate how similar two strings are. Strings can represent many things. For instance if two strings are DNA sequences, the LCS will provide a measure of similarity between the two DNA sequences. If the strings represent some text edited by some user, the LCS could represent how different the new text is compared to the old one, and so forth.\n\nNote that this algorithm runs in `O(N*M)` time, where N is the length of the first string and M is the length of the second string. So either spin a different Redis instance in order to run this algorithm, or make sure to run it against very small strings.\n\n```\n> MSET key1 ohmytext key2 mynewtext\nOK\n> LCS key1 key2\n\"mytext\"\n```\n\nSometimes we need just the length of the match:\n\n```\n> LCS key1 key2 LEN\n(integer) 6\n```\n\nHowever what is often very useful, is to know the match position in each strings:\n\n```\n> LCS key1 key2 IDX\n1) \"matches\"\n2) 1) 1) 1) (integer) 4\n         2) (integer) 7\n      2) 1) (integer) 5\n         2) (integer) 8\n   2) 1) 1) (integer) 2\n         2) (integer) 3\n      2) 1) (integer) 0\n         2) (integer) 1\n3) \"len\"\n4) (integer) 6\n```\n\nMatches are produced from the last one to the first one, since this is how\nthe algorithm works, and it more efficient to emit things in the same order.\nThe above array means that the first match (second element of the array)\nis between positions 2-3 of the first string and 0-1 of the second.\nThen there is another match between 4-7 and 5-8.\n\nTo restrict the list of matches to the ones of a given minimal length:\n\n```\n> LCS key1 key2 IDX MINMATCHLEN 4\n1) \"matches\"\n2) 1) 1) 1) (integer) 4\n         2) (integer) 7\n      2) 1) (integer) 5\n         2) (integer) 8\n3) \"len\"\n4) (integer) 6\n```\n\nFinally to also have the match len:\n\n```\n> LCS key1 key2 IDX MINMATCHLEN 4 WITHMATCHLEN\n1) \"matches\"\n2) 1) 1) 1) (integer) 4\n         2) (integer) 7\n      2) 1) (integer) 5\n         2) (integer) 8\n      3) (integer) 4\n3) \"len\"\n4) (integer) 6\n```",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -118,7 +546,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the longest common subsequence.\n* [Integer reply](../../develop/reference/protocol-spec#integers): the length of the longest common subsequence when _LEN_ is given.\n* [Array reply](../../develop/reference/protocol-spec#arrays): an array with the LCS length and all the ranges in both the strings when _IDX_ is given.\n\n**RESP3:**\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the longest common subsequence.\n* [Integer reply](../../develop/reference/protocol-spec#integers): the length of the longest common subsequence when _LEN_ is given.\n* [Map reply](../../develop/reference/protocol-spec#maps): a map with the LCS length and all the ranges in both the strings when _IDX_ is given."
+      "content": "{{< multitabs id=\"lcs-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the longest common subsequence.\n* [Integer reply](../../develop/reference/protocol-spec#integers): the length of the longest common subsequence when _LEN_ is given.\n* [Array reply](../../develop/reference/protocol-spec#arrays): an array with the LCS length and all the ranges in both the strings when _IDX_ is given.\n\n-tab-sep-\n\nOne of the following:\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the longest common subsequence.\n* [Integer reply](../../develop/reference/protocol-spec#integers): the length of the longest common subsequence when _LEN_ is given.\n* [Map reply](../../develop/reference/protocol-spec#maps): a map with the LCS length and all the ranges in both the strings when _IDX_ is given.\n\n{{< /multitabs >}}"
     }
   ]
 }

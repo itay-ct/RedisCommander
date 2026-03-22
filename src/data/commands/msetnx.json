@@ -14,6 +14,262 @@
     "@string",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "mapping",
+            "type": "Mapping[AnyKeyT, EncodableT]"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "ResponseT"
+        },
+        "signature": "msetnx(mapping: Mapping[AnyKeyT, EncodableT])"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keysvalues",
+            "type": "byte[]..."
+          }
+        ],
+        "returns": {
+          "description": "1 if the all the keys were set, 0 if no key was set (at least one key already existed)",
+          "type": "long"
+        },
+        "signature": "long msetnx(final byte[]... keysvalues)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keysvalues",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "1 if the all the keys were set, 0 if no key was set (at least one key already existed)",
+          "type": "long"
+        },
+        "signature": "long msetnx(final String... keysvalues)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the map.",
+            "name": "map",
+            "type": "Map<K, V>"
+          }
+        ],
+        "returns": {
+          "description": "Boolean integer-reply specifically: 1 if the all the keys were set. 0 if no key was set (at least one key already existed).",
+          "type": "Boolean"
+        },
+        "signature": "Boolean msetnx(Map<K, V> map)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the map.",
+            "name": "map",
+            "type": "Map<K, V>"
+          }
+        ],
+        "returns": {
+          "description": "Boolean integer-reply specifically: 1 if the all the keys were set. 0 if no key was set (at least one key already existed).",
+          "type": "RedisFuture<Boolean>"
+        },
+        "signature": "RedisFuture<Boolean> msetnx(Map<K, V> map)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the map.",
+            "name": "map",
+            "type": "Map<K, V>"
+          }
+        ],
+        "returns": {
+          "description": "Boolean integer-reply specifically: 1 if the all the keys were set. 0 if no key was set (at least one key already existed).",
+          "type": "Mono<Boolean>"
+        },
+        "signature": "Mono<Boolean> msetnx(Map<K, V> map)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "values",
+            "type": "...interface{}"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*BoolCmd"
+        },
+        "signature": "MSetNX(ctx context.Context, values ...interface{})"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "toSet",
+            "type": "MSetArguments"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "MSETNX(toSet: MSetArguments)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "object",
+            "type": "object"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<\"OK\">)"
+          },
+          {
+            "description": "",
+            "name": "map",
+            "type": "Map<string | Buffer | number, string | Buffer | number>"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<\"OK\">"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "msetnx(object: object, callback?: Callback<\"OK\">): Result<\"OK\", Context>;, msetnx(, map: Map<string | Buffer | number, string | Buffer | number>, callback?: Callback<\"OK\">)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, ...keyValues"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "msetnx(...args: [, ...keyValues: (RedisKey | string | Buffer | number)[], callback: Callback<number>, ])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[...keyValues"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "msetnx(...args: [...keyValues: (RedisKey | string | Buffer | number)[]])"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "items",
+            "type": "&'a [(K, V)]"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(bool)"
+        },
+        "signature": "mset_nx(items: &'a [(K, V)])"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "items",
+            "type": "&'a [(K, V)]"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(bool)"
+        },
+        "signature": "mset_nx(items: &'a [(K, V)])"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$dictionary",
+            "type": "array"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "int"
+        },
+        "signature": "msetnx(array $dictionary)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "array of keys and values",
+            "name": "*args",
+            "type": "Array<String>"
+          }
+        ],
+        "returns": {
+          "description": "whether or not all values were set",
+          "type": "Boolean"
+        },
+        "signature": "msetnx(*args)"
+      }
+    ]
+  },
   "commandFlags": [
     "write",
     "denyoom"
@@ -69,34 +325,25 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nSets the given keys to their respective values.\n`MSETNX` will not perform any operation at all even if just a single key already\nexists.\n\nBecause of this semantic `MSETNX` can be used in order to set different keys\nrepresenting different fields of a unique logic object in a way that ensures\nthat either all the fields or none at all are set.\n\n`MSETNX` is atomic, so all given keys are set at once.\nIt is not possible for clients to see that some of the keys were updated while\nothers are unchanged.\n\n## Examples\n\n\nMSETNX key1 \"Hello\" key2 \"there\"\nMSETNX key2 \"new\" key3 \"world\"\nMGET key1 key2 key3\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if no key was set (at least one key already existed).\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if all the keys were set.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if no key was set (at least one key already existed).\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if all the keys were set.",
-  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nSets the given keys to their respective values.\n`MSETNX` will not perform any operation at all even if just a single key already\nexists.\n\nBecause of this semantic `MSETNX` can be used in order to set different keys\nrepresenting different fields of a unique logic object in a way that ensures\nthat either all the fields or none at all are set.\n\n`MSETNX` is atomic, so all given keys are set at once.\nIt is not possible for clients to see that some of the keys were updated while\nothers are unchanged.",
+  "content": "Sets the given keys to their respective values.\n`MSETNX` will not perform any operation at all even if just a single key already\nexists.\n\nBecause of this semantic `MSETNX` can be used in order to set different keys\nrepresenting different fields of a unique logic object in a way that ensures\nthat either all the fields or none at all are set.\n\n`MSETNX` is atomic, so all given keys are set at once.\nIt is not possible for clients to see that some of the keys were updated while\nothers are unchanged.\n\n## Examples\n\n{{% redis-cli %}}\nMSETNX key1 \"Hello\" key2 \"there\"\nMSETNX key2 \"new\" key3 \"world\"\nMGET key1 key2 key3\n{{% /redis-cli %}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"msetnx-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if no key was set (at least one key already existed).\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if all the keys were set.\n\n-tab-sep-\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if no key was set (at least one key already existed).\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if all the keys were set.\n\n{{< /multitabs >}}",
+  "example": "MSETNX key1 \"Hello\" key2 \"there\"\nMSETNX key2 \"new\" key3 \"world\"\nMGET key1 key2 key3",
+  "intro": "Sets the given keys to their respective values.\n`MSETNX` will not perform any operation at all even if just a single key already\nexists.\n\nBecause of this semantic `MSETNX` can be used in order to set different keys\nrepresenting different fields of a unique logic object in a way that ensures\nthat either all the fields or none at all are set.\n\n`MSETNX` is atomic, so all given keys are set at once.\nIt is not possible for clients to see that some of the keys were updated while\nothers are unchanged.",
+  "notes": [
+    "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information."
+  ],
   "sections": [
     {
       "title": "Overview",
       "level": 1,
-      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nSets the given keys to their respective values.\n`MSETNX` will not perform any operation at all even if just a single key already\nexists.\n\nBecause of this semantic `MSETNX` can be used in order to set different keys\nrepresenting different fields of a unique logic object in a way that ensures\nthat either all the fields or none at all are set.\n\n`MSETNX` is atomic, so all given keys are set at once.\nIt is not possible for clients to see that some of the keys were updated while\nothers are unchanged."
+      "content": "Sets the given keys to their respective values.\n`MSETNX` will not perform any operation at all even if just a single key already\nexists.\n\nBecause of this semantic `MSETNX` can be used in order to set different keys\nrepresenting different fields of a unique logic object in a way that ensures\nthat either all the fields or none at all are set.\n\n`MSETNX` is atomic, so all given keys are set at once.\nIt is not possible for clients to see that some of the keys were updated while\nothers are unchanged."
     },
     {
       "title": "Examples",
       "level": 2,
-      "content": "MSETNX key1 \"Hello\" key2 \"there\"\nMSETNX key2 \"new\" key3 \"world\"\nMGET key1 key2 key3"
+      "content": "{{% redis-cli %}}\nMSETNX key1 \"Hello\" key2 \"there\"\nMSETNX key2 \"new\" key3 \"world\"\nMGET key1 key2 key3\n{{% /redis-cli %}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -106,7 +353,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if no key was set (at least one key already existed).\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if all the keys were set.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if no key was set (at least one key already existed).\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if all the keys were set."
+      "content": "{{< multitabs id=\"msetnx-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if no key was set (at least one key already existed).\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if all the keys were set.\n\n-tab-sep-\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if no key was set (at least one key already existed).\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if all the keys were set.\n\n{{< /multitabs >}}"
     }
   ]
 }

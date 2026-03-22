@@ -14,6 +14,160 @@
     "@read",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "The name of the Bloom filter",
+            "name": "key",
+            "type": "str"
+          },
+          {
+            "description": "Items to check",
+            "name": "*items",
+            "type": "str"
+          }
+        ],
+        "returns": {
+          "description": "List of booleans indicating if each item may exist",
+          "type": "list"
+        },
+        "signature": "mexists(key, *items)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "The name of the Bloom filter",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "Items to check",
+            "name": "items",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "List of booleans",
+          "type": "List<Boolean>"
+        },
+        "signature": "List<Boolean> bfMExists(String key, String... items)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "The name of the Bloom filter",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "Items to check",
+            "name": "elements",
+            "type": "...interface{}"
+          }
+        ],
+        "returns": {
+          "description": "Boolean slice command result",
+          "type": "*BoolSliceCmd"
+        },
+        "signature": "BFMExists(ctx context.Context, key string, elements ...interface{}) *BoolSliceCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "The name of the Bloom filter",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "Items to check",
+            "name": "items",
+            "type": "RedisVariadicArgument"
+          }
+        ],
+        "returns": {
+          "description": "Array of booleans",
+          "type": "boolean[]"
+        },
+        "signature": "BF.MEXISTS(key: RedisArgument, items: RedisVariadicArgument)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The name of the Bloom filter",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "Items to check",
+            "name": "items",
+            "type": "RedisValue[]"
+          }
+        ],
+        "returns": {
+          "description": "Array of booleans",
+          "type": "bool[]"
+        },
+        "signature": "bool[] MExists(RedisKey key, RedisValue[] items)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The name of the Bloom filter",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "Items to check",
+            "name": "items",
+            "type": "RedisValue[]"
+          }
+        ],
+        "returns": {
+          "description": "Array of booleans",
+          "type": "Task<bool[]>"
+        },
+        "signature": "async Task<bool[]> MExistsAsync(RedisKey key, RedisValue[] items)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "The name of the Bloom filter",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "Items to check",
+            "name": "$item",
+            "type": "..."
+          }
+        ],
+        "returns": {
+          "description": "Array of booleans",
+          "type": "array"
+        },
+        "signature": "bfmexists(string $key, ...$item)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -38,28 +192,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Determines whether one or more items were added to a Bloom filter.\n\nThis command is similar to [`BF.EXISTS`](), except that more than one item can be checked.\n\n## Required arguments\n\n<details open><summary><code>key</code></summary>\n\nis key name for a Bloom filter.\n\n</details>\n\n<details open><summary><code>item...</code></summary>\n\nOne or more items to check.\n</details>\n\n## Examples\n\n\nredis> BF.MADD bf item1 item2\n1) (integer) 1\n2) (integer) 1\nredis> BF.MEXISTS bf item1 item2 item3\n1) (integer) 1\n2) (integer) 1\n3) (integer) 0\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Array reply]() of [integer replies](), where `1` means that, with high probability, `item` was already added to the filter, and `0` means that `key` does not exist or that `item` was definitely not added to the filter.\n* [Simple error reply]() in these cases: in these cases: invalid arguments, wrong key type, or when the key was not found.\n\n**RESP3:**\n\nOne of the following:\n* [Array reply]() of [boolean replies](), where `true` means that, with high probability, `item` was already added to the filter, and `false` means that `key` does not exist or that `item` was definitely not added to the filter.\n* [Simple error reply]() in these cases: in these cases: invalid arguments, wrong key type, or when the key was not found.",
+  "content": "Determines whether one or more items were added to a Bloom filter.\n\nThis command is similar to [`BF.EXISTS`](), except that more than one item can be checked.\n\n## Required arguments\n\n<details open><summary><code>key</code></summary>\n\nis key name for a Bloom filter.\n\n</details>\n\n<details open><summary><code>item...</code></summary>\n\nOne or more items to check.\n</details>\n\n## Examples\n\n{{< highlight bash >}}\nredis> BF.MADD bf item1 item2\n1) (integer) 1\n2) (integer) 1\nredis> BF.MEXISTS bf item1 item2 item3\n1) (integer) 1\n2) (integer) 1\n3) (integer) 0\n{{< / highlight >}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"bf-mexists-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [integer replies]({{< relref \"/develop/reference/protocol-spec#integers\" >}}), where `1` means that, with high probability, `item` was already added to the filter, and `0` means that `key` does not exist or that `item` was definitely not added to the filter.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: in these cases: invalid arguments, wrong key type, or when the key was not found.\n\n-tab-sep-\n\nOne of the following:\n* [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [boolean replies]({{< relref \"/develop/reference/protocol-spec#booleans\" >}}), where `true` means that, with high probability, `item` was already added to the filter, and `false` means that `key` does not exist or that `item` was definitely not added to the filter.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: in these cases: invalid arguments, wrong key type, or when the key was not found.\n\n{{< /multitabs >}}",
+  "example": "redis> BF.MADD bf item1 item2\n1) (integer) 1\n2) (integer) 1\nredis> BF.MEXISTS bf item1 item2 item3\n1) (integer) 1\n2) (integer) 1\n3) (integer) 0",
   "intro": "Determines whether one or more items were added to a Bloom filter.\n\nThis command is similar to [`BF.EXISTS`](), except that more than one item can be checked.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -74,7 +213,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "redis> BF.MADD bf item1 item2\n1) (integer) 1\n2) (integer) 1\nredis> BF.MEXISTS bf item1 item2 item3\n1) (integer) 1\n2) (integer) 1\n3) (integer) 0"
+      "content": "{{< highlight bash >}}\nredis> BF.MADD bf item1 item2\n1) (integer) 1\n2) (integer) 1\nredis> BF.MEXISTS bf item1 item2 item3\n1) (integer) 1\n2) (integer) 1\n3) (integer) 0\n{{< / highlight >}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -84,7 +223,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Array reply]() of [integer replies](), where `1` means that, with high probability, `item` was already added to the filter, and `0` means that `key` does not exist or that `item` was definitely not added to the filter.\n* [Simple error reply]() in these cases: in these cases: invalid arguments, wrong key type, or when the key was not found.\n\n**RESP3:**\n\nOne of the following:\n* [Array reply]() of [boolean replies](), where `true` means that, with high probability, `item` was already added to the filter, and `false` means that `key` does not exist or that `item` was definitely not added to the filter.\n* [Simple error reply]() in these cases: in these cases: invalid arguments, wrong key type, or when the key was not found."
+      "content": "{{< multitabs id=\"bf-mexists-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [integer replies]({{< relref \"/develop/reference/protocol-spec#integers\" >}}), where `1` means that, with high probability, `item` was already added to the filter, and `0` means that `key` does not exist or that `item` was definitely not added to the filter.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: in these cases: invalid arguments, wrong key type, or when the key was not found.\n\n-tab-sep-\n\nOne of the following:\n* [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [boolean replies]({{< relref \"/develop/reference/protocol-spec#booleans\" >}}), where `true` means that, with high probability, `item` was already added to the filter, and `false` means that `key` does not exist or that `item` was definitely not added to the filter.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: in these cases: invalid arguments, wrong key type, or when the key was not found.\n\n{{< /multitabs >}}"
     }
   ]
 }

@@ -14,6 +14,984 @@
     "@string",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "EncodableT"
+          },
+          {
+            "description": "",
+            "name": "ex",
+            "type": "Optional[ExpiryT] = None"
+          },
+          {
+            "description": "",
+            "name": "px",
+            "type": "Optional[ExpiryT] = None"
+          },
+          {
+            "description": "",
+            "name": "nx",
+            "type": "bool = False"
+          },
+          {
+            "description": "",
+            "name": "xx",
+            "type": "bool = False"
+          },
+          {
+            "description": "",
+            "name": "keepttl",
+            "type": "bool = False"
+          },
+          {
+            "description": "",
+            "name": "get",
+            "type": "bool = False"
+          },
+          {
+            "description": "",
+            "name": "exat",
+            "type": "Optional[AbsExpiryT] = None"
+          },
+          {
+            "description": "",
+            "name": "pxat",
+            "type": "Optional[AbsExpiryT] = None"
+          },
+          {
+            "description": "",
+            "name": "ifeq",
+            "type": "Optional[Union[bytes, str]] = None"
+          },
+          {
+            "description": "",
+            "name": "ifne",
+            "type": "Optional[Union[bytes, str]] = None"
+          },
+          {
+            "description": "",
+            "name": "ifdeq",
+            "type": "Optional[str] = None"
+          },
+          {
+            "description": "",
+            "name": "ifdne",
+            "type": "Optional[str] = None"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "ResponseT"
+        },
+        "signature": "set(, name: KeyT,, value: EncodableT,, ex: Optional[ExpiryT] = None,, px: Optional[ExpiryT] = None,, nx: bool = False,, xx: bool = False,, keepttl: bool = False,, get: bool = False,, exat: Optional[AbsExpiryT] = None,, pxat: Optional[AbsExpiryT] = None,, ifeq: Optional[Union[bytes, str]] = None,, ifne: Optional[Union[bytes, str]] = None,, ifdeq: Optional[str] = None,, ifdne: Optional[str] = None,)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "byte[]"
+          }
+        ],
+        "returns": {
+          "description": "simple-string-reply OK if SET was executed correctly, or null if the SET operation was not performed because the user specified the NX or XX option but the condition was not met.",
+          "type": "String"
+        },
+        "signature": "String set(final byte[] key, final byte[] value)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "byte[]"
+          },
+          {
+            "description": "key if it already exists. EX|PX, expire time units: EX = seconds; PX = milliseconds",
+            "name": "params",
+            "type": "SetParams"
+          }
+        ],
+        "returns": {
+          "description": "simple-string-reply OK if SET was executed correctly, or null if the SET operation was not performed because the user specified the NX or XX option but the condition was not met.",
+          "type": "String"
+        },
+        "signature": "String set(final byte[] key, final byte[] value, final SetParams params)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "simple-string-reply OK if SET was executed correctly, or null if the SET operation was not performed because the user specified the NX or XX option but the condition was not met.",
+          "type": "String"
+        },
+        "signature": "String set(final String key, final String value)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "String"
+          },
+          {
+            "description": "key if it already exists. EX|PX, expire time units: EX = seconds; PX = milliseconds",
+            "name": "params",
+            "type": "SetParams"
+          }
+        ],
+        "returns": {
+          "description": "simple-string-reply OK if SET was executed correctly, or null if the SET operation was not performed because the user specified the NX or XX option but the condition was not met.",
+          "type": "String"
+        },
+        "signature": "String set(final String key, final String value, final SetParams params)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the value.",
+            "name": "value",
+            "type": "V"
+          }
+        ],
+        "returns": {
+          "description": "String simple-string-reply OK if SET was executed correctly.",
+          "type": "String"
+        },
+        "signature": "String set(K key, V value)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the value.",
+            "name": "value",
+            "type": "V"
+          },
+          {
+            "description": "the setArgs.",
+            "name": "setArgs",
+            "type": "SetArgs"
+          }
+        ],
+        "returns": {
+          "description": "String simple-string-reply OK if SET was executed correctly.",
+          "type": "String"
+        },
+        "signature": "String set(K key, V value, SetArgs setArgs)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the value.",
+            "name": "value",
+            "type": "V"
+          }
+        ],
+        "returns": {
+          "description": "String simple-string-reply OK if SET was executed correctly.",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> set(K key, V value)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the value.",
+            "name": "value",
+            "type": "V"
+          },
+          {
+            "description": "the setArgs.",
+            "name": "setArgs",
+            "type": "SetArgs"
+          }
+        ],
+        "returns": {
+          "description": "String simple-string-reply OK if SET was executed correctly.",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> set(K key, V value, SetArgs setArgs)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the value.",
+            "name": "value",
+            "type": "V"
+          }
+        ],
+        "returns": {
+          "description": "String simple-string-reply OK if SET was executed correctly.",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> set(K key, V value)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the value.",
+            "name": "value",
+            "type": "V"
+          },
+          {
+            "description": "the setArgs.",
+            "name": "setArgs",
+            "type": "SetArgs"
+          }
+        ],
+        "returns": {
+          "description": "String simple-string-reply OK if SET was executed correctly.",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> set(K key, V value, SetArgs setArgs)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "interface{}"
+          },
+          {
+            "description": "",
+            "name": "expiration",
+            "type": "time.Duration"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StatusCmd"
+        },
+        "signature": "Set(ctx context.Context, key string, value interface{}, expiration time.Duration)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "RedisArgument | number"
+          },
+          {
+            "description": "",
+            "name": "options?",
+            "type": "SetOptions"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "SET(key: RedisArgument, value: RedisArgument | number, options?: SetOptions)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "string | Buffer | number"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<\"OK\">"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "set(key: RedisKey, value: string | Buffer | number, callback?: Callback<\"OK\">)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "string | Buffer | number"
+          },
+          {
+            "description": "",
+            "name": "get",
+            "type": "\"GET\""
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<string | null>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "set(key: RedisKey, value: string | Buffer | number, get: \"GET\", callback?: Callback<string | null>)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "string | Buffer | number"
+          },
+          {
+            "description": "",
+            "name": "nx",
+            "type": "\"NX\""
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<\"OK\" | null>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "set(key: RedisKey, value: string | Buffer | number, nx: \"NX\", callback?: Callback<\"OK\" | null>)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "string | Buffer | number"
+          },
+          {
+            "description": "",
+            "name": "nx",
+            "type": "\"NX\""
+          },
+          {
+            "description": "",
+            "name": "get",
+            "type": "\"GET\""
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<string | null>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "set(key: RedisKey, value: string | Buffer | number, nx: \"NX\", get: \"GET\", callback?: Callback<string | null>)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "string | Buffer | number"
+          },
+          {
+            "description": "",
+            "name": "xx",
+            "type": "\"XX\""
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<\"OK\" | null>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "set(key: RedisKey, value: string | Buffer | number, xx: \"XX\", callback?: Callback<\"OK\" | null>)"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "V"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(())"
+        },
+        "signature": "set(key: K, value: V)"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "V"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(())"
+        },
+        "signature": "set(key: K, value: V)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The expiry to set.",
+            "name": "expiry",
+            "type": "TimeSpan?"
+          },
+          {
+            "description": "Which condition to set the value under (defaults to always).",
+            "name": "when",
+            "type": "When"
+          }
+        ],
+        "returns": {
+          "description": "true if the keys were set, false otherwise.",
+          "type": "bool"
+        },
+        "signature": "StringSet(RedisKey key, RedisValue value, TimeSpan? expiry, When when)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The expiry to set.",
+            "name": "expiry",
+            "type": "TimeSpan?"
+          },
+          {
+            "description": "Which condition to set the value under (defaults to always).",
+            "name": "when",
+            "type": "When"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "true if the keys were set, false otherwise.",
+          "type": "bool"
+        },
+        "signature": "StringSet(RedisKey key, RedisValue value, TimeSpan? expiry, When when, CommandFlags flags)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The expiry to set.",
+            "name": "expiry",
+            "type": "TimeSpan?"
+          },
+          {
+            "description": "",
+            "name": "keepTtl",
+            "type": "bool"
+          },
+          {
+            "description": "Which condition to set the value under (defaults to always).",
+            "name": "when",
+            "type": "When"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "true if the keys were set, false otherwise.",
+          "type": "bool"
+        },
+        "signature": "StringSet(RedisKey key, RedisValue value, TimeSpan? expiry, bool keepTtl, When when = When.Always, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The expiry to set.",
+            "name": "expiry",
+            "type": "Expiration"
+          },
+          {
+            "description": "Which condition to set the value under (defaults to always).",
+            "name": "when",
+            "type": "ValueCondition"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "true if the keys were set, false otherwise.",
+          "type": "bool"
+        },
+        "signature": "StringSet(RedisKey key, RedisValue value, Expiration expiry = default, ValueCondition when = default, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The keys and values to set.",
+            "name": "values",
+            "type": "KeyValuePair<RedisKey, RedisValue>[]"
+          },
+          {
+            "description": "Which condition to set the value under (defaults to always).",
+            "name": "when",
+            "type": "When"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "true if the keys were set, false otherwise.",
+          "type": "bool"
+        },
+        "signature": "StringSet(KeyValuePair<RedisKey, RedisValue>[] values, When when, CommandFlags flags)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The expiry to set.",
+            "name": "expiry",
+            "type": "TimeSpan?"
+          },
+          {
+            "description": "Which condition to set the value under (defaults to always).",
+            "name": "when",
+            "type": "When"
+          }
+        ],
+        "returns": {
+          "description": "true if the keys were set, false otherwise.",
+          "type": "bool"
+        },
+        "signature": "StringSet(RedisKey key, RedisValue value, TimeSpan? expiry, When when)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The expiry to set.",
+            "name": "expiry",
+            "type": "TimeSpan?"
+          },
+          {
+            "description": "Which condition to set the value under (defaults to always).",
+            "name": "when",
+            "type": "When"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "true if the keys were set, false otherwise.",
+          "type": "bool"
+        },
+        "signature": "StringSet(RedisKey key, RedisValue value, TimeSpan? expiry, When when, CommandFlags flags)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The expiry to set.",
+            "name": "expiry",
+            "type": "TimeSpan?"
+          },
+          {
+            "description": "",
+            "name": "keepTtl",
+            "type": "bool"
+          },
+          {
+            "description": "Which condition to set the value under (defaults to always).",
+            "name": "when",
+            "type": "When"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "true if the keys were set, false otherwise.",
+          "type": "bool"
+        },
+        "signature": "StringSet(RedisKey key, RedisValue value, TimeSpan? expiry, bool keepTtl, When when = When.Always, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The expiry to set.",
+            "name": "expiry",
+            "type": "Expiration"
+          },
+          {
+            "description": "Which condition to set the value under (defaults to always).",
+            "name": "when",
+            "type": "ValueCondition"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "true if the keys were set, false otherwise.",
+          "type": "bool"
+        },
+        "signature": "StringSet(RedisKey key, RedisValue value, Expiration expiry = default, ValueCondition when = default, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The keys and values to set.",
+            "name": "values",
+            "type": "KeyValuePair<RedisKey, RedisValue>[]"
+          },
+          {
+            "description": "Which condition to set the value under (defaults to always).",
+            "name": "when",
+            "type": "When"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "true if the keys were set, false otherwise.",
+          "type": "bool"
+        },
+        "signature": "StringSet(KeyValuePair<RedisKey, RedisValue>[] values, When when, CommandFlags flags)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$value",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "$expireResolution = null",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "$expireTTL = null",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "$flag = null",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "$flagValue = null",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Status|null"
+        },
+        "signature": "set(string $key, $value, $expireResolution = null, $expireTTL = null, $flag = null, $flagValue = null)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "String"
+          },
+          {
+            "description": "Set the specified expire time, in seconds.",
+            "name": "ex",
+            "type": "Integer"
+          },
+          {
+            "description": "Set the specified expire time, in milliseconds.",
+            "name": "px",
+            "type": "Integer"
+          },
+          {
+            "description": "Set the specified Unix time at which the key will expire, in seconds.",
+            "name": "exat",
+            "type": "Integer"
+          },
+          {
+            "description": "Set the specified Unix time at which the key will expire, in milliseconds.",
+            "name": "pxat",
+            "type": "Integer"
+          },
+          {
+            "description": "Only set the key if it does not already exist.",
+            "name": "nx",
+            "type": "Boolean"
+          },
+          {
+            "description": "Only set the key if it already exists.",
+            "name": "xx",
+            "type": "Boolean"
+          },
+          {
+            "description": "Retain the time to live associated with the key.",
+            "name": "keepttl",
+            "type": "Boolean"
+          },
+          {
+            "description": "Return the old string stored at key, or nil if key did not exist.",
+            "name": "get",
+            "type": "Boolean"
+          }
+        ],
+        "returns": {
+          "description": "\"OK\" or true, false if :nx => true or :xx => true",
+          "type": "String, Boolean"
+        },
+        "signature": "set(key, value, ex: nil, px: nil, exat: nil, pxat: nil, nx: nil, xx: nil, keepttl: nil, get: nil)"
+      }
+    ]
+  },
   "commandFlags": [
     "write",
     "denyoom"
@@ -163,80 +1141,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "options",
-        "title": "Options"
-      },
-      {
-        "id": "hash-digest",
-        "title": "Hash Digest"
-      },
-      {
-        "children": [
-          {
-            "id": "code-examples",
-            "title": "Code examples"
-          }
-        ],
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "patterns",
-        "title": "Patterns"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
-  "codeExamples": [
-    {
-      "codetabsId": "set_and_get-stepset",
-      "description": "Foundational: Set the string value of a key using SET (creates key if needed, overwrites existing value, supports expiration options)",
-      "difficulty": "beginner",
-      "id": "set",
-      "languages": [
-        {
-          "clientId": "redis-py",
-          "clientName": "redis-py",
-          "id": "Python",
-          "langId": "python",
-          "panelId": "panel_Python_set_and_get-stepset"
-        },
-        {
-          "id": "Node-js",
-          "panelId": "panel_Nodejs_set_and_get-stepset"
-        },
-        {
-          "clientId": "jedis",
-          "clientName": "Jedis",
-          "id": "Java-Sync",
-          "langId": "java",
-          "panelId": "panel_Java-Sync_set_and_get-stepset"
-        },
-        {
-          "clientId": "go-redis",
-          "clientName": "go-redis",
-          "id": "Go",
-          "langId": "go",
-          "panelId": "panel_Go_set_and_get-stepset"
-        },
-        {
-          "id": "dotnet-Sync",
-          "panelId": "panel_Csharp-Sync_set_and_get-stepset"
-        }
-      ]
-    }
-  ],
-  "content": "Set `key` to hold the string `value`.\nIf `key` already holds a value, it is overwritten, regardless of its type.\nAny previous time to live associated with the key is discarded on successful `SET` operation.\n\n## Options\n\nThe `SET` command supports a set of options that modify its behavior:\n\n* `NX` -- Only set the key if it does not already exist.\n* `XX` -- Only set the key if it already exists.\n* `IFEQ ifeq-value` -- Set the key’s value and expiration only if its current value is equal to `ifeq-value`. If the key doesn’t exist, it won’t be created.\n* `IFNE ifne-value` -- Set the key’s value and expiration only if its current value is not equal to `ifne-value`. If the key doesn’t exist, it will be created.\n* `IFDEQ ifeq-digest` -- Set the key’s value and expiration only if the hash digest of its current value is equal to `ifeq-digest`. If the key doesn’t exist, it won’t be created. See the [Hash Digest](#hash-digest) section below for more information.\n* `IFDNE ifne-digest` -- Set the key’s value and expiration only if the hash digest of its current value is not equal to `ifne-digest`. If the key doesn’t exist, it will be created. See the [Hash Digest](#hash-digest) section below for more information.\n* `GET` -- Return the old string stored at key, or nil if key did not exist. An error is returned and `SET` aborted if the value stored at key is not a string.\n* `EX` *seconds* -- Set the specified expire time, in seconds (a positive integer).\n* `PX` *milliseconds* -- Set the specified expire time, in milliseconds (a positive integer).\n* `EXAT` *timestamp-seconds* -- Set the specified Unix time at which the key will expire, in seconds (a positive integer).\n* `PXAT` *timestamp-milliseconds* -- Set the specified Unix time at which the key will expire, in milliseconds (a positive integer).\n* `KEEPTTL` -- Retain the time to live associated with the key.\n\nNote: Since the `SET` command options can replace [`SETNX`](), [`SETEX`](), [`PSETEX`](), [`GETSET`](), it is possible that in future versions of Redis these commands will be deprecated and finally removed.\n\n## Hash Digest\n\nA hash digest is a fixed-size numerical representation of a string value, computed using the XXH3 hash algorithm. Redis uses this hash digest for efficient comparison operations without needing to compare the full string content. You can retrieve a key's hash digest using the [`DIGEST`]() command, which returns it as a hexadecimal string that you can use with the `IFDEQ` and `IFDNE` options, and also the [`DELEX`]() command's `IFDEQ` and `IFDNE` options.\n\n## Examples\n\n\nSET mykey \"Hello\"\nGET mykey\n\nSET anotherkey \"will expire in a minute\" EX 60\n\n\n### Code examples\n\n#### Code Examples\n\nFoundational: Set the string value of a key using SET (creates key if needed, overwrites existing value, supports expiration options)\n\n**Difficulty:** Beginner\n\n**Available in:** Python, JavaScript (Node.js), Java (Synchronous - Jedis), Go, C# (Synchronous)\n\n**Python:**\n\n```python\n\"\"\"\nCode samples for data structure store quickstart pages:\n    https://redis.io/docs/latest/develop/get-started/data-store/\n\"\"\"\n\nimport redis\n\nr = redis.Redis(host=\"localhost\", port=6379, db=0, decode_responses=True)\n\nres = r.set(\"bike:1\", \"Process 134\")\nprint(res)\n# >>> True\n\nres = r.get(\"bike:1\")\nprint(res)\n# >>> \"Process 134\"\n\n```\n\n**JavaScript (Node.js):**\n\n```javascript\n\nimport { createClient } from 'redis';\n\nconst client = createClient();\n\nclient.on('error', err => console.log('Redis Client Error', err));\n\nawait client.connect().catch(console.error);\n\nawait client.set('bike:1', 'Process 134');\nconst value = await client.get('bike:1');\nconsole.log(value);\n// returns 'Process 134'\n\nawait client.close();\n\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\npackage io.redis.examples;\n\nimport redis.clients.jedis.RedisClient;\n\n\npublic class SetGetExample {\n\n  public void run() {\n\n    RedisClient jedis = RedisClient.create(\"redis://localhost:6379\");\n\n    String status = jedis.set(\"bike:1\", \"Process 134\");\n\n    if (\"OK\".equals(status)) System.out.println(\"Successfully added a bike.\");\n\n    String value = jedis.get(\"bike:1\");\n\n    if (value != null) System.out.println(\"The name of the bike is: \" + value + \".\");\n\n\n    jedis.close();\n  }\n}\n\n```\n\n**Go:**\n\n```go\npackage example_commands_test\n\nimport (\n\t\"context\"\n\t\"fmt\"\n\n\t\"github.com/redis/go-redis/v9\"\n)\n\nfunc ExampleClient_Set_and_get() {\n\tctx := context.Background()\n\n\trdb := redis.NewClient(&redis.Options{\n\t\tAddr:     \"localhost:6379\",\n\t\tPassword: \"\", // no password docs\n\t\tDB:       0,  // use default DB\n\t})\n\n\n\n\terr := rdb.Set(ctx, \"bike:1\", \"Process 134\", 0).Err()\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(\"OK\")\n\n\tvalue, err := rdb.Get(ctx, \"bike:1\").Result()\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\tfmt.Printf(\"The name of the bike is %s\", value)\n\n}\n\n\n```\n\n**C# (Synchronous):**\n\n```csharp\n\nusing NRedisStack.Tests;\nusing StackExchange.Redis;\n\npublic class SetGetExample\n{\n    public void Run()\n    {\n        var muxer = ConnectionMultiplexer.Connect(\"localhost:6379\");\n        var db = muxer.GetDatabase();\n\n        bool status = db.StringSet(\"bike:1\", \"Process 134\");\n\n        if (status)\n            Console.WriteLine(\"Successfully added a bike.\");\n\n        var value = db.StringGet(\"bike:1\");\n\n        if (value.HasValue)\n            Console.WriteLine(\"The name of the bike is: \" + value + \".\");\n\n    }\n}\n\n```\n\n\n\n## Patterns\n\n**Note:** The following pattern is discouraged in favor of [the Redlock algorithm]() which is only a bit more complex to implement, but offers better guarantees and is fault tolerant.\n\nThe command `SET resource-name anystring NX EX max-lock-time` is a simple way to implement a locking system with Redis.\n\nA client can acquire the lock if the above command returns `OK` (or retry after some time if the command returns Nil), and remove the lock just using [`DEL`]().\n\nThe lock will be auto-released after the expire time is reached.\n\nIt is possible to make this system more robust modifying the unlock schema as follows:\n\n* Instead of setting a fixed string, set a non-guessable large random string, called token.\n* Instead of releasing the lock with [`DEL`](), send a script that only removes the key if the value matches.\n\nThis avoids that a client will try to release the lock after the expire time deleting the key created by another client that acquired the lock later.\n\nAn example of unlock script would be similar to the following:\n\n    if redis.call(\"get\",KEYS[1]) == ARGV[1]\n    then\n        return redis.call(\"del\",KEYS[1])\n    else\n        return 0\n    end\n\nThe script should be called with `EVAL ...script... 1 resource-name token-value`\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n* If `GET` was not specified, one of the following:\n  * [Null bulk string reply](../../develop/reference/protocol-spec#bulk-strings) in the following two cases.\n    * The key doesn’t exist and `XX/IFEQ/IFDEQ` was specified. The key was not created.\n    * The key exists, and `NX` was specified or a specified `IFEQ/IFNE/IFDEQ/IFDNE` condition is false. The key was not set.\n  * [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`: The key was set.\n* If `GET` was specified, one of the following:\n  * [Null bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The key didn't exist before the `SET` operation, whether the key was created of not.\n  * [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The previous value of the key, whether the key was set or not.\n\n**RESP3:**\n\n* If `GET` was not specified, one of the following:\n  * [Null reply](../../develop/reference/protocol-spec#nulls) in the following two cases.\n    * The key doesn’t exist and `XX/IFEQ/IFDEQ` was specified. The key was not created.\n    * The key exists, and `NX` was specified or a specified `IFEQ/IFNE/IFDEQ/IFDNE` condition is false. The key was not set.\n  * [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`: The key was set.\n* If `GET` was specified, one of the following:\n  * [Null reply](../../develop/reference/protocol-spec#nulls): The key didn't exist before the `SET` operation, whether the key was created of not.\n  * [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The previous value of the key, whether the key was set or not.",
+  "codeExamples": [],
+  "content": "Set `key` to hold the string `value`.\nIf `key` already holds a value, it is overwritten, regardless of its type.\nAny previous time to live associated with the key is discarded on successful `SET` operation.\n\n## Options\n\nThe `SET` command supports a set of options that modify its behavior:\n\n* `NX` -- Only set the key if it does not already exist.\n* `XX` -- Only set the key if it already exists.\n* `IFEQ ifeq-value` -- Set the key’s value and expiration only if its current value is equal to `ifeq-value`. If the key doesn’t exist, it won’t be created.\n* `IFNE ifne-value` -- Set the key’s value and expiration only if its current value is not equal to `ifne-value`. If the key doesn’t exist, it will be created.\n* `IFDEQ ifeq-digest` -- Set the key’s value and expiration only if the hash digest of its current value is equal to `ifeq-digest`. If the key doesn’t exist, it won’t be created. See the [Hash Digest](#hash-digest) section below for more information.\n* `IFDNE ifne-digest` -- Set the key’s value and expiration only if the hash digest of its current value is not equal to `ifne-digest`. If the key doesn’t exist, it will be created. See the [Hash Digest](#hash-digest) section below for more information.\n* `GET` -- Return the old string stored at key, or nil if key did not exist. An error is returned and `SET` aborted if the value stored at key is not a string.\n* `EX` *seconds* -- Set the specified expire time, in seconds (a positive integer).\n* `PX` *milliseconds* -- Set the specified expire time, in milliseconds (a positive integer).\n* `EXAT` *timestamp-seconds* -- Set the specified Unix time at which the key will expire, in seconds (a positive integer).\n* `PXAT` *timestamp-milliseconds* -- Set the specified Unix time at which the key will expire, in milliseconds (a positive integer).\n* `KEEPTTL` -- Retain the time to live associated with the key.\n\nNote: Since the `SET` command options can replace [`SETNX`]({{< relref \"/commands/setnx\" >}}), [`SETEX`]({{< relref \"/commands/setex\" >}}), [`PSETEX`]({{< relref \"/commands/psetex\" >}}), [`GETSET`]({{< relref \"/commands/getset\" >}}), it is possible that in future versions of Redis these commands will be deprecated and finally removed.\n\n## Hash Digest\n\nA hash digest is a fixed-size numerical representation of a string value, computed using the XXH3 hash algorithm. Redis uses this hash digest for efficient comparison operations without needing to compare the full string content. You can retrieve a key's hash digest using the [`DIGEST`]({{< relref \"/commands/digest\" >}}) command, which returns it as a hexadecimal string that you can use with the `IFDEQ` and `IFDNE` options, and also the [`DELEX`]({{< relref \"/commands/delex\" >}}) command's `IFDEQ` and `IFDNE` options.\n\n## Examples\n\n{{% redis-cli %}}\nSET mykey \"Hello\"\nGET mykey\n\nSET anotherkey \"will expire in a minute\" EX 60\n{{% /redis-cli %}}\n\n### Code examples\n\n{{< clients-example set=\"set_and_get\" step=\"set\" description=\"Foundational: Set the string value of a key using SET (creates key if needed, overwrites existing value, supports expiration options)\" difficulty=\"beginner\" />}}\n\n## Patterns\n\n**Note:** The following pattern is discouraged in favor of [the Redlock algorithm]({{< relref \"/develop/clients/patterns/distributed-locks\" >}}) which is only a bit more complex to implement, but offers better guarantees and is fault tolerant.\n\nThe command `SET resource-name anystring NX EX max-lock-time` is a simple way to implement a locking system with Redis.\n\nA client can acquire the lock if the above command returns `OK` (or retry after some time if the command returns Nil), and remove the lock just using [`DEL`]({{< relref \"/commands/del\" >}}).\n\nThe lock will be auto-released after the expire time is reached.\n\nIt is possible to make this system more robust modifying the unlock schema as follows:\n\n* Instead of setting a fixed string, set a non-guessable large random string, called token.\n* Instead of releasing the lock with [`DEL`]({{< relref \"/commands/del\" >}}), send a script that only removes the key if the value matches.\n\nThis avoids that a client will try to release the lock after the expire time deleting the key created by another client that acquired the lock later.\n\nAn example of unlock script would be similar to the following:\n\n    if redis.call(\"get\",KEYS[1]) == ARGV[1]\n    then\n        return redis.call(\"del\",KEYS[1])\n    else\n        return 0\n    end\n\nThe script should be called with `EVAL ...script... 1 resource-name token-value`\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"set-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n* If `GET` was not specified, one of the following:\n  * [Null bulk string reply](../../develop/reference/protocol-spec#bulk-strings) in the following two cases.\n    * The key doesn’t exist and `XX/IFEQ/IFDEQ` was specified. The key was not created.\n    * The key exists, and `NX` was specified or a specified `IFEQ/IFNE/IFDEQ/IFDNE` condition is false. The key was not set.\n  * [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`: The key was set.\n* If `GET` was specified, one of the following:\n  * [Null bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The key didn't exist before the `SET` operation, whether the key was created of not.\n  * [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The previous value of the key, whether the key was set or not.\n\n-tab-sep-\n\n* If `GET` was not specified, one of the following:\n  * [Null reply](../../develop/reference/protocol-spec#nulls) in the following two cases.\n    * The key doesn’t exist and `XX/IFEQ/IFDEQ` was specified. The key was not created.\n    * The key exists, and `NX` was specified or a specified `IFEQ/IFNE/IFDEQ/IFDNE` condition is false. The key was not set.\n  * [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`: The key was set.\n* If `GET` was specified, one of the following:\n  * [Null reply](../../develop/reference/protocol-spec#nulls): The key didn't exist before the `SET` operation, whether the key was created of not.\n  * [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The previous value of the key, whether the key was set or not.\n\n{{< /multitabs >}}",
+  "example": "SET mykey \"Hello\"\nGET mykey\n\nSET anotherkey \"will expire in a minute\" EX 60",
   "intro": "Set `key` to hold the string `value`.\nIf `key` already holds a value, it is overwritten, regardless of its type.\nAny previous time to live associated with the key is discarded on successful `SET` operation.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -246,27 +1157,27 @@
     {
       "title": "Options",
       "level": 2,
-      "content": "The `SET` command supports a set of options that modify its behavior:\n\n* `NX` -- Only set the key if it does not already exist.\n* `XX` -- Only set the key if it already exists.\n* `IFEQ ifeq-value` -- Set the key’s value and expiration only if its current value is equal to `ifeq-value`. If the key doesn’t exist, it won’t be created.\n* `IFNE ifne-value` -- Set the key’s value and expiration only if its current value is not equal to `ifne-value`. If the key doesn’t exist, it will be created.\n* `IFDEQ ifeq-digest` -- Set the key’s value and expiration only if the hash digest of its current value is equal to `ifeq-digest`. If the key doesn’t exist, it won’t be created. See the [Hash Digest](#hash-digest) section below for more information.\n* `IFDNE ifne-digest` -- Set the key’s value and expiration only if the hash digest of its current value is not equal to `ifne-digest`. If the key doesn’t exist, it will be created. See the [Hash Digest](#hash-digest) section below for more information.\n* `GET` -- Return the old string stored at key, or nil if key did not exist. An error is returned and `SET` aborted if the value stored at key is not a string.\n* `EX` *seconds* -- Set the specified expire time, in seconds (a positive integer).\n* `PX` *milliseconds* -- Set the specified expire time, in milliseconds (a positive integer).\n* `EXAT` *timestamp-seconds* -- Set the specified Unix time at which the key will expire, in seconds (a positive integer).\n* `PXAT` *timestamp-milliseconds* -- Set the specified Unix time at which the key will expire, in milliseconds (a positive integer).\n* `KEEPTTL` -- Retain the time to live associated with the key.\n\nNote: Since the `SET` command options can replace [`SETNX`](), [`SETEX`](), [`PSETEX`](), [`GETSET`](), it is possible that in future versions of Redis these commands will be deprecated and finally removed."
+      "content": "The `SET` command supports a set of options that modify its behavior:\n\n* `NX` -- Only set the key if it does not already exist.\n* `XX` -- Only set the key if it already exists.\n* `IFEQ ifeq-value` -- Set the key’s value and expiration only if its current value is equal to `ifeq-value`. If the key doesn’t exist, it won’t be created.\n* `IFNE ifne-value` -- Set the key’s value and expiration only if its current value is not equal to `ifne-value`. If the key doesn’t exist, it will be created.\n* `IFDEQ ifeq-digest` -- Set the key’s value and expiration only if the hash digest of its current value is equal to `ifeq-digest`. If the key doesn’t exist, it won’t be created. See the [Hash Digest](#hash-digest) section below for more information.\n* `IFDNE ifne-digest` -- Set the key’s value and expiration only if the hash digest of its current value is not equal to `ifne-digest`. If the key doesn’t exist, it will be created. See the [Hash Digest](#hash-digest) section below for more information.\n* `GET` -- Return the old string stored at key, or nil if key did not exist. An error is returned and `SET` aborted if the value stored at key is not a string.\n* `EX` *seconds* -- Set the specified expire time, in seconds (a positive integer).\n* `PX` *milliseconds* -- Set the specified expire time, in milliseconds (a positive integer).\n* `EXAT` *timestamp-seconds* -- Set the specified Unix time at which the key will expire, in seconds (a positive integer).\n* `PXAT` *timestamp-milliseconds* -- Set the specified Unix time at which the key will expire, in milliseconds (a positive integer).\n* `KEEPTTL` -- Retain the time to live associated with the key.\n\nNote: Since the `SET` command options can replace [`SETNX`]({{< relref \"/commands/setnx\" >}}), [`SETEX`]({{< relref \"/commands/setex\" >}}), [`PSETEX`]({{< relref \"/commands/psetex\" >}}), [`GETSET`]({{< relref \"/commands/getset\" >}}), it is possible that in future versions of Redis these commands will be deprecated and finally removed."
     },
     {
       "title": "Hash Digest",
       "level": 2,
-      "content": "A hash digest is a fixed-size numerical representation of a string value, computed using the XXH3 hash algorithm. Redis uses this hash digest for efficient comparison operations without needing to compare the full string content. You can retrieve a key's hash digest using the [`DIGEST`]() command, which returns it as a hexadecimal string that you can use with the `IFDEQ` and `IFDNE` options, and also the [`DELEX`]() command's `IFDEQ` and `IFDNE` options."
+      "content": "A hash digest is a fixed-size numerical representation of a string value, computed using the XXH3 hash algorithm. Redis uses this hash digest for efficient comparison operations without needing to compare the full string content. You can retrieve a key's hash digest using the [`DIGEST`]({{< relref \"/commands/digest\" >}}) command, which returns it as a hexadecimal string that you can use with the `IFDEQ` and `IFDNE` options, and also the [`DELEX`]({{< relref \"/commands/delex\" >}}) command's `IFDEQ` and `IFDNE` options."
     },
     {
       "title": "Examples",
       "level": 2,
-      "content": "SET mykey \"Hello\"\nGET mykey\n\nSET anotherkey \"will expire in a minute\" EX 60"
+      "content": "{{% redis-cli %}}\nSET mykey \"Hello\"\nGET mykey\n\nSET anotherkey \"will expire in a minute\" EX 60\n{{% /redis-cli %}}"
     },
     {
       "title": "Code examples",
       "level": 3,
-      "content": "#### Code Examples\n\nFoundational: Set the string value of a key using SET (creates key if needed, overwrites existing value, supports expiration options)\n\n**Difficulty:** Beginner\n\n**Available in:** Python, JavaScript (Node.js), Java (Synchronous - Jedis), Go, C# (Synchronous)\n\n**Python:**\n\n```python\n\"\"\"\nCode samples for data structure store quickstart pages:\n    https://redis.io/docs/latest/develop/get-started/data-store/\n\"\"\"\n\nimport redis\n\nr = redis.Redis(host=\"localhost\", port=6379, db=0, decode_responses=True)\n\nres = r.set(\"bike:1\", \"Process 134\")\nprint(res)\n# >>> True\n\nres = r.get(\"bike:1\")\nprint(res)\n# >>> \"Process 134\"\n\n```\n\n**JavaScript (Node.js):**\n\n```javascript\n\nimport { createClient } from 'redis';\n\nconst client = createClient();\n\nclient.on('error', err => console.log('Redis Client Error', err));\n\nawait client.connect().catch(console.error);\n\nawait client.set('bike:1', 'Process 134');\nconst value = await client.get('bike:1');\nconsole.log(value);\n// returns 'Process 134'\n\nawait client.close();\n\n```\n\n**Java (Synchronous - Jedis):**\n\n```java\npackage io.redis.examples;\n\nimport redis.clients.jedis.RedisClient;\n\n\npublic class SetGetExample {\n\n  public void run() {\n\n    RedisClient jedis = RedisClient.create(\"redis://localhost:6379\");\n\n    String status = jedis.set(\"bike:1\", \"Process 134\");\n\n    if (\"OK\".equals(status)) System.out.println(\"Successfully added a bike.\");\n\n    String value = jedis.get(\"bike:1\");\n\n    if (value != null) System.out.println(\"The name of the bike is: \" + value + \".\");\n\n\n    jedis.close();\n  }\n}\n\n```\n\n**Go:**\n\n```go\npackage example_commands_test\n\nimport (\n\t\"context\"\n\t\"fmt\"\n\n\t\"github.com/redis/go-redis/v9\"\n)\n\nfunc ExampleClient_Set_and_get() {\n\tctx := context.Background()\n\n\trdb := redis.NewClient(&redis.Options{\n\t\tAddr:     \"localhost:6379\",\n\t\tPassword: \"\", // no password docs\n\t\tDB:       0,  // use default DB\n\t})\n\n\n\n\terr := rdb.Set(ctx, \"bike:1\", \"Process 134\", 0).Err()\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\n\tfmt.Println(\"OK\")\n\n\tvalue, err := rdb.Get(ctx, \"bike:1\").Result()\n\tif err != nil {\n\t\tpanic(err)\n\t}\n\tfmt.Printf(\"The name of the bike is %s\", value)\n\n}\n\n\n```\n\n**C# (Synchronous):**\n\n```csharp\n\nusing NRedisStack.Tests;\nusing StackExchange.Redis;\n\npublic class SetGetExample\n{\n    public void Run()\n    {\n        var muxer = ConnectionMultiplexer.Connect(\"localhost:6379\");\n        var db = muxer.GetDatabase();\n\n        bool status = db.StringSet(\"bike:1\", \"Process 134\");\n\n        if (status)\n            Console.WriteLine(\"Successfully added a bike.\");\n\n        var value = db.StringGet(\"bike:1\");\n\n        if (value.HasValue)\n            Console.WriteLine(\"The name of the bike is: \" + value + \".\");\n\n    }\n}\n\n```"
+      "content": "{{< clients-example set=\"set_and_get\" step=\"set\" description=\"Foundational: Set the string value of a key using SET (creates key if needed, overwrites existing value, supports expiration options)\" difficulty=\"beginner\" />}}"
     },
     {
       "title": "Patterns",
       "level": 2,
-      "content": "**Note:** The following pattern is discouraged in favor of [the Redlock algorithm]() which is only a bit more complex to implement, but offers better guarantees and is fault tolerant.\n\nThe command `SET resource-name anystring NX EX max-lock-time` is a simple way to implement a locking system with Redis.\n\nA client can acquire the lock if the above command returns `OK` (or retry after some time if the command returns Nil), and remove the lock just using [`DEL`]().\n\nThe lock will be auto-released after the expire time is reached.\n\nIt is possible to make this system more robust modifying the unlock schema as follows:\n\n* Instead of setting a fixed string, set a non-guessable large random string, called token.\n* Instead of releasing the lock with [`DEL`](), send a script that only removes the key if the value matches.\n\nThis avoids that a client will try to release the lock after the expire time deleting the key created by another client that acquired the lock later.\n\nAn example of unlock script would be similar to the following:\n\n    if redis.call(\"get\",KEYS[1]) == ARGV[1]\n    then\n        return redis.call(\"del\",KEYS[1])\n    else\n        return 0\n    end\n\nThe script should be called with `EVAL ...script... 1 resource-name token-value`"
+      "content": "**Note:** The following pattern is discouraged in favor of [the Redlock algorithm]({{< relref \"/develop/clients/patterns/distributed-locks\" >}}) which is only a bit more complex to implement, but offers better guarantees and is fault tolerant.\n\nThe command `SET resource-name anystring NX EX max-lock-time` is a simple way to implement a locking system with Redis.\n\nA client can acquire the lock if the above command returns `OK` (or retry after some time if the command returns Nil), and remove the lock just using [`DEL`]({{< relref \"/commands/del\" >}}).\n\nThe lock will be auto-released after the expire time is reached.\n\nIt is possible to make this system more robust modifying the unlock schema as follows:\n\n* Instead of setting a fixed string, set a non-guessable large random string, called token.\n* Instead of releasing the lock with [`DEL`]({{< relref \"/commands/del\" >}}), send a script that only removes the key if the value matches.\n\nThis avoids that a client will try to release the lock after the expire time deleting the key created by another client that acquired the lock later.\n\nAn example of unlock script would be similar to the following:\n\n    if redis.call(\"get\",KEYS[1]) == ARGV[1]\n    then\n        return redis.call(\"del\",KEYS[1])\n    else\n        return 0\n    end\n\nThe script should be called with `EVAL ...script... 1 resource-name token-value`"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -276,7 +1187,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n* If `GET` was not specified, one of the following:\n  * [Null bulk string reply](../../develop/reference/protocol-spec#bulk-strings) in the following two cases.\n    * The key doesn’t exist and `XX/IFEQ/IFDEQ` was specified. The key was not created.\n    * The key exists, and `NX` was specified or a specified `IFEQ/IFNE/IFDEQ/IFDNE` condition is false. The key was not set.\n  * [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`: The key was set.\n* If `GET` was specified, one of the following:\n  * [Null bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The key didn't exist before the `SET` operation, whether the key was created of not.\n  * [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The previous value of the key, whether the key was set or not.\n\n**RESP3:**\n\n* If `GET` was not specified, one of the following:\n  * [Null reply](../../develop/reference/protocol-spec#nulls) in the following two cases.\n    * The key doesn’t exist and `XX/IFEQ/IFDEQ` was specified. The key was not created.\n    * The key exists, and `NX` was specified or a specified `IFEQ/IFNE/IFDEQ/IFDNE` condition is false. The key was not set.\n  * [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`: The key was set.\n* If `GET` was specified, one of the following:\n  * [Null reply](../../develop/reference/protocol-spec#nulls): The key didn't exist before the `SET` operation, whether the key was created of not.\n  * [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The previous value of the key, whether the key was set or not."
+      "content": "{{< multitabs id=\"set-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n* If `GET` was not specified, one of the following:\n  * [Null bulk string reply](../../develop/reference/protocol-spec#bulk-strings) in the following two cases.\n    * The key doesn’t exist and `XX/IFEQ/IFDEQ` was specified. The key was not created.\n    * The key exists, and `NX` was specified or a specified `IFEQ/IFNE/IFDEQ/IFDNE` condition is false. The key was not set.\n  * [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`: The key was set.\n* If `GET` was specified, one of the following:\n  * [Null bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The key didn't exist before the `SET` operation, whether the key was created of not.\n  * [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The previous value of the key, whether the key was set or not.\n\n-tab-sep-\n\n* If `GET` was not specified, one of the following:\n  * [Null reply](../../develop/reference/protocol-spec#nulls) in the following two cases.\n    * The key doesn’t exist and `XX/IFEQ/IFDEQ` was specified. The key was not created.\n    * The key exists, and `NX` was specified or a specified `IFEQ/IFNE/IFDEQ/IFDNE` condition is false. The key was not set.\n  * [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK`: The key was set.\n* If `GET` was specified, one of the following:\n  * [Null reply](../../develop/reference/protocol-spec#nulls): The key didn't exist before the `SET` operation, whether the key was created of not.\n  * [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): The previous value of the key, whether the key was set or not.\n\n{{< /multitabs >}}"
     }
   ]
 }

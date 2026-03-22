@@ -13,6 +13,101 @@
     "@fast",
     "@connection"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Union[Awaitable[bool], bool]"
+        },
+        "signature": "ping(**kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "PONG",
+          "type": "String"
+        },
+        "signature": "String ping()"
+      },
+      {
+        "params": [
+          {
+            "description": "The message to echo",
+            "name": "message",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "The message",
+          "type": "String"
+        },
+        "signature": "String ping(final String message)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context",
+            "name": "ctx",
+            "type": "context.Context"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StatusCmd"
+        },
+        "signature": "Ping(ctx context.Context) *StatusCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "The command parser",
+            "name": "parser",
+            "type": "CommandParser"
+          },
+          {
+            "description": "Optional message to be returned instead of PONG",
+            "name": "message",
+            "type": "RedisArgument"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "SimpleStringReply | BlobStringReply"
+        },
+        "signature": "parseCommand(parser: CommandParser, message?: RedisArgument)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "Optional message",
+            "name": "$message",
+            "type": "?string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "mixed"
+        },
+        "signature": "ping(?string $message = null)"
+      }
+    ]
+  },
   "commandFlags": [
     "fast"
   ],
@@ -36,24 +131,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Returns `PONG` if no argument is provided, otherwise return a copy of the\nargument as a bulk.\nThis command is useful for:\n1. Testing whether a connection is still alive.\n1. Verifying the server's ability to serve data - an error is returned when this isn't the case (e.g., during load from persistence or accessing a stale replica).\n1. Measuring latency.\n\nIf the client is subscribed to a channel or a pattern, it will instead return a\nmulti-bulk with a \"pong\" in the first position and an empty bulk in the second\nposition, unless an argument is provided in which case it returns a copy\nof the argument.\n\n## Examples\n\n\nPING\n\nPING \"hello world\"\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nAny of the following:\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `PONG` when no argument is provided.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the provided argument.\n\n**RESP3:**\n\nAny of the following:\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `PONG` when no argument is provided.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the provided argument.",
+  "content": "Returns `PONG` if no argument is provided, otherwise return a copy of the\nargument as a bulk.\nThis command is useful for:\n1. Testing whether a connection is still alive.\n1. Verifying the server's ability to serve data - an error is returned when this isn't the case (e.g., during load from persistence or accessing a stale replica).\n1. Measuring latency.\n\nIf the client is subscribed to a channel or a pattern, it will instead return a\nmulti-bulk with a \"pong\" in the first position and an empty bulk in the second\nposition, unless an argument is provided in which case it returns a copy\nof the argument.\n\n## Examples\n\n{{% redis-cli %}}\nPING\n\nPING \"hello world\"\n{{% /redis-cli %}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"ping-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nAny of the following:\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `PONG` when no argument is provided.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the provided argument.\n\n-tab-sep-\n\nAny of the following:\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `PONG` when no argument is provided.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the provided argument.\n\n{{< /multitabs >}}",
+  "example": "PING\n\nPING \"hello world\"",
   "intro": "Returns `PONG` if no argument is provided, otherwise return a copy of the\nargument as a bulk.\nThis command is useful for:\n1. Testing whether a connection is still alive.\n1. Verifying the server's ability to serve data - an error is returned when this isn't the case (e.g., during load from persistence or accessing a stale replica).\n1. Measuring latency.\n\nIf the client is subscribed to a channel or a pattern, it will instead return a\nmulti-bulk with a \"pong\" in the first position and an empty bulk in the second\nposition, unless an argument is provided in which case it returns a copy\nof the argument.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -63,7 +147,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "PING\n\nPING \"hello world\""
+      "content": "{{% redis-cli %}}\nPING\n\nPING \"hello world\"\n{{% /redis-cli %}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -73,7 +157,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nAny of the following:\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `PONG` when no argument is provided.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the provided argument.\n\n**RESP3:**\n\nAny of the following:\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `PONG` when no argument is provided.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the provided argument."
+      "content": "{{< multitabs id=\"ping-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nAny of the following:\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `PONG` when no argument is provided.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the provided argument.\n\n-tab-sep-\n\nAny of the following:\n* [Simple string reply](../../develop/reference/protocol-spec#simple-strings): `PONG` when no argument is provided.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): the provided argument.\n\n{{< /multitabs >}}"
     }
   ]
 }

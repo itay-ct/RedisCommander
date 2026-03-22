@@ -14,6 +14,144 @@
     "@read",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "str"
+        },
+        "signature": "randomkey()"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "the random key, or null when the database is empty.",
+          "type": "byte[]"
+        },
+        "signature": "byte[] randomBinaryKey()"
+      },
+      {
+        "params": [],
+        "returns": {
+          "description": "the random key, or null when the database is empty.",
+          "type": "String"
+        },
+        "signature": "String randomKey()"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StringCmd"
+        },
+        "signature": "RandomKey(ctx context.Context)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "RANDOMKEY()"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [],
+        "returns": {
+          "description": "K bulk-string-reply the random key, or null when the database is empty.",
+          "type": "K"
+        },
+        "signature": "K randomkey()"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [],
+        "returns": {
+          "description": "K bulk-string-reply the random key, or null when the database is empty.",
+          "type": "RedisFuture<K>"
+        },
+        "signature": "RedisFuture<K> randomkey()"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [],
+        "returns": {
+          "description": "K bulk-string-reply the random key, or null when the database is empty.",
+          "type": "Mono<K>"
+        },
+        "signature": "Mono<K> randomkey()"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The random key, or null when the database is empty.",
+          "type": "RedisKey"
+        },
+        "signature": "KeyRandom(CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The random key, or null when the database is empty.",
+          "type": "Task<RedisKey>"
+        },
+        "signature": "KeyRandomAsync(CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "string"
+        },
+        "signature": "randomKey()"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "String"
+        },
+        "signature": "randomkey"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly"
   ],
@@ -30,20 +168,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Return a random key from the currently selected database.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): when the database is empty.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): a random key in database.\n\n**RESP3:**\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): when the database is empty.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): a random key in the database.",
+  "content": "Return a random key from the currently selected database.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"randomkey-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): when the database is empty.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): a random key in database.\n\n-tab-sep-\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): when the database is empty.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): a random key in the database.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "Return a random key from the currently selected database.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -58,7 +189,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): when the database is empty.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): a random key in database.\n\n**RESP3:**\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): when the database is empty.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): a random key in the database."
+      "content": "{{< multitabs id=\"randomkey-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): when the database is empty.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): a random key in database.\n\n-tab-sep-\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): when the database is empty.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): a random key in the database.\n\n{{< /multitabs >}}"
     }
   ]
 }

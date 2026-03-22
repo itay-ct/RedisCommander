@@ -14,6 +14,195 @@
     "@write",
     "@fast"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "str"
+          },
+          {
+            "description": "Number of counters in each array",
+            "name": "width",
+            "type": "int"
+          },
+          {
+            "description": "Number of counter-arrays",
+            "name": "depth",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "True if created successfully",
+          "type": "bool"
+        },
+        "signature": "initbydim(key, width, depth)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "width",
+            "type": "long"
+          },
+          {
+            "description": "",
+            "name": "depth",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "String"
+        },
+        "signature": "cmsInitByDim(String key, long width, long depth)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "width",
+            "type": "int64"
+          },
+          {
+            "description": "",
+            "name": "depth",
+            "type": "int64"
+          }
+        ],
+        "returns": {
+          "description": "Status command result",
+          "type": "*StatusCmd"
+        },
+        "signature": "CMSInitByDim(ctx context.Context, key string, width, depth int64) *StatusCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "Number of counters in each array",
+            "name": "width",
+            "type": "number"
+          },
+          {
+            "description": "Number of counter arrays",
+            "name": "depth",
+            "type": "number"
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "SimpleStringReply<'OK'>"
+        },
+        "signature": "CMS.INITBYDIM(key, width, depth)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "width",
+            "type": "long"
+          },
+          {
+            "description": "",
+            "name": "depth",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "True if created successfully",
+          "type": "bool"
+        },
+        "signature": "InitByDim(RedisKey key, long width, long depth)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "width",
+            "type": "long"
+          },
+          {
+            "description": "",
+            "name": "depth",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "True if created successfully",
+          "type": "Task<bool>"
+        },
+        "signature": "InitByDimAsync(RedisKey key, long width, long depth)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "width",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "depth",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "OK",
+          "type": "string"
+        },
+        "signature": "cmsinitbydim($key, $width, $depth)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -41,24 +230,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Initializes a Count-Min Sketch to dimensions specified by user.\n\n### Parameters:\n\n* **key**: The name of the sketch.\n* **width**: Number of counters in each array. Reduces the error size.\n* **depth**: Number of counter-arrays. Reduces the probability for an\n    error of a certain size (percentage of total count).\n\n## Examples\n\n```\nredis> CMS.INITBYDIM test 2000 5\nOK\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n\n* [Simple string reply]() `OK` if executed correctly.\n* [Simple error reply]() if the given key already exists.\n\n**RESP3:**\n\nOne of the following:\n\n* [Simple string reply]() `OK` if executed correctly.\n* [Simple error reply]() if the given key already exists.",
-  "intro": "Initializes a Count-Min Sketch to dimensions specified by user.",
+  "content": "Initializes a Count-Min Sketch to dimensions specified by user.\n\n### Parameters:\n\n* **key**: The name of the sketch.\n* **width**: Number of counters in each array. Reduces the error size.\n* **depth**: Number of counter-arrays. Reduces the probability for an\n    error of a certain size (percentage of total count).\n\n## Examples\n\n```\nredis> CMS.INITBYDIM test 2000 5\nOK\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"cms-initbydim-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}) `OK` if executed correctly.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) if the given key already exists.\n\n-tab-sep-\n\nOne of the following:\n\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}) `OK` if executed correctly.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) if the given key already exists.\n\n{{< /multitabs >}}",
+  "example": "redis> CMS.INITBYDIM test 2000 5\nOK",
+  "intro": "Initializes a Count-Min Sketch to dimensions specified by user.\n\n### Parameters:\n\n* **key**: The name of the sketch.\n* **width**: Number of counters in each array. Reduces the error size.\n* **depth**: Number of counter-arrays. Reduces the probability for an\n    error of a certain size (percentage of total count).",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -83,7 +261,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n\n* [Simple string reply]() `OK` if executed correctly.\n* [Simple error reply]() if the given key already exists.\n\n**RESP3:**\n\nOne of the following:\n\n* [Simple string reply]() `OK` if executed correctly.\n* [Simple error reply]() if the given key already exists."
+      "content": "{{< multitabs id=\"cms-initbydim-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}) `OK` if executed correctly.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) if the given key already exists.\n\n-tab-sep-\n\nOne of the following:\n\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}) `OK` if executed correctly.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) if the given key already exists.\n\n{{< /multitabs >}}"
     }
   ]
 }

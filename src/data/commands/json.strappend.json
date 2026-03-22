@@ -14,6 +14,476 @@
     "@write",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "str"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "str"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "Optional[str] = Path.root_path()"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Union[int, List[Optional[int]]]"
+        },
+        "signature": "strappend(name: str, value: str, path: Optional[str] = Path.root_path())"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "string",
+            "type": "Object"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "long"
+        },
+        "signature": "long jsonStrAppend(String key, Object string)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "Path"
+          },
+          {
+            "description": "",
+            "name": "string",
+            "type": "Object"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "long"
+        },
+        "signature": "long jsonStrAppend(String key, Path path, Object string)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "Path2"
+          },
+          {
+            "description": "",
+            "name": "string",
+            "type": "Object"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List<Long>"
+        },
+        "signature": "List<Long> jsonStrAppend(String key, Path2 path, Object string)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the JsonPath pointing to the value(s) where we want to append the value.",
+            "name": "jsonPath",
+            "type": "JsonPath"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "JsonValue"
+          }
+        ],
+        "returns": {
+          "description": "Long the new length of the string, or null if the matching JSON value is not a string. @since 6.8",
+          "type": "List<Long>"
+        },
+        "signature": "List<Long> jsonStrappend(K key, JsonPath jsonPath, JsonValue value)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "JsonValue"
+          }
+        ],
+        "returns": {
+          "description": "Long the new length of the string, or null if the matching JSON value is not a string. @since 6.8",
+          "type": "List<Long>"
+        },
+        "signature": "List<Long> jsonStrappend(K key, JsonValue value)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the JSON string to append.",
+            "name": "jsonString",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "Long the new length of the string, or null if the matching JSON value is not a string. @since 6.8",
+          "type": "List<Long>"
+        },
+        "signature": "List<Long> jsonStrappend(K key, String jsonString)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the JsonPath pointing to the value(s) where we want to append the value.",
+            "name": "jsonPath",
+            "type": "JsonPath"
+          },
+          {
+            "description": "the JSON string to append.",
+            "name": "jsonString",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "Long the new length of the string, or null if the matching JSON value is not a string. @since 6.8",
+          "type": "List<Long>"
+        },
+        "signature": "List<Long> jsonStrappend(K key, JsonPath jsonPath, String jsonString)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the JsonPath pointing to the value(s) where we want to append the value.",
+            "name": "jsonPath",
+            "type": "JsonPath"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "JsonValue"
+          }
+        ],
+        "returns": {
+          "description": "Long the new length of the string, or null if the matching JSON value is not a string. @since 6.8",
+          "type": "RedisFuture<List<Long>>"
+        },
+        "signature": "RedisFuture<List<Long>> jsonStrappend(K key, JsonPath jsonPath, JsonValue value)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "JsonValue"
+          }
+        ],
+        "returns": {
+          "description": "Long the new length of the string, or null if the matching JSON value is not a string. @since 6.8",
+          "type": "RedisFuture<List<Long>>"
+        },
+        "signature": "RedisFuture<List<Long>> jsonStrappend(K key, JsonValue value)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the JSON string to append.",
+            "name": "jsonString",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "Long the new length of the string, or null if the matching JSON value is not a string. @since 6.8",
+          "type": "RedisFuture<List<Long>>"
+        },
+        "signature": "RedisFuture<List<Long>> jsonStrappend(K key, String jsonString)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the JsonPath pointing to the value(s) where we want to append the value.",
+            "name": "jsonPath",
+            "type": "JsonPath"
+          },
+          {
+            "description": "the JSON string to append.",
+            "name": "jsonString",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "Long the new length of the string, or null if the matching JSON value is not a string. @since 6.8",
+          "type": "RedisFuture<List<Long>>"
+        },
+        "signature": "RedisFuture<List<Long>> jsonStrappend(K key, JsonPath jsonPath, String jsonString)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the JsonPath pointing to the value(s) where we want to append the value.",
+            "name": "jsonPath",
+            "type": "JsonPath"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "JsonValue"
+          }
+        ],
+        "returns": {
+          "description": "Long the new length of the string, or null if the matching JSON value is not a string. @since 6.8",
+          "type": "Flux<Long>"
+        },
+        "signature": "Flux<Long> jsonStrappend(K key, JsonPath jsonPath, JsonValue value)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "JsonValue"
+          }
+        ],
+        "returns": {
+          "description": "Long the new length of the string, or null if the matching JSON value is not a string. @since 6.8",
+          "type": "Flux<Long>"
+        },
+        "signature": "Flux<Long> jsonStrappend(K key, JsonValue value)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the JSON string to append.",
+            "name": "jsonString",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "Long the new length of the string, or null if the matching JSON value is not a string. @since 6.8",
+          "type": "Flux<Long>"
+        },
+        "signature": "Flux<Long> jsonStrappend(K key, String jsonString)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key holding the JSON document.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the JsonPath pointing to the value(s) where we want to append the value.",
+            "name": "jsonPath",
+            "type": "JsonPath"
+          },
+          {
+            "description": "the JSON string to append.",
+            "name": "jsonString",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "Long the new length of the string, or null if the matching JSON value is not a string. @since 6.8",
+          "type": "Flux<Long>"
+        },
+        "signature": "Flux<Long> jsonStrappend(K key, JsonPath jsonPath, String jsonString)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*IntPointerSliceCmd"
+        },
+        "signature": "JSONStrAppend(ctx context.Context, key, path, value string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "append",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "options?",
+            "type": "JsonStrAppendOptions"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "STRAPPEND(key: RedisArgument, append: string, options?: JsonStrAppendOptions)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "value",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "path",
+            "type": "string?"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "long?[]"
+        },
+        "signature": "StrAppend(RedisKey key, string value, string? path = null)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$path",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$value",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array"
+        },
+        "signature": "jsonstrappend(string $key, string $path, string $value)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -42,40 +512,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "optional-arguments",
-        "title": "Optional arguments"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      },
-      {
-        "id": "see-also",
-        "title": "See also"
-      },
-      {
-        "id": "related-topics",
-        "title": "Related topics"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Append the `json-string` values to the string at `path`\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open><summary><code>key</code></summary> \n\nis key to modify.\n</details>\n\n<details open><summary><code>value</code></summary> \n\nis value to append to one or more strings. \n\n\nTo specify a string as an array value to append, wrap the quoted string with an additional set of single quotes. Example: `'\"silver\"'`. For more detailed use, see [Examples](#examples).\n\n</details>\n\n## Optional arguments\n\n<details open><summary><code>path</code></summary> \n\nis JSONPath to specify. Default is root `$`.\n</details>\n\n## Examples\n\n\nredis> JSON.SET doc $ '{\"a\":\"foo\", \"nested\": {\"a\": \"hello\"}, \"nested2\": {\"a\": 31}}'\nOK\nredis> JSON.STRAPPEND doc $..a '\"baz\"'\n1) (integer) 6\n2) (integer) 8\n3) (nil)\nredis> JSON.GET doc $\n\"[{\\\"a\\\":\\\"foobaz\\\",\\\"nested\\\":{\\\"a\\\":\\\"hellobaz\\\"},\\\"nested2\\\":{\\\"a\\\":31}}]\"\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nWith `$`-based path argument: [Array reply]() of [integer replies]() or [null replies](), where each element is the string's new length, or `null` if the matching value is not a string.\n\nWith `.`-based path argument: [Integer reply]() representing the string's new length, or [null reply]() if the matching value is not a string.\n\n**RESP3:**\n\nWith `$`-based path argument (default): [Array reply]() of [integer replies]() or [null replies](), where each element is the string's new length, or `null` if the matching value is not a string.\n\nWith `.`-based path argument: [Integer reply]() representing the string's new length, or [null reply]() if the matching value is not a string.\n\n\n\n## See also\n\n`JSON.ARRAPEND` | [`JSON.ARRINSERT`]() \n\n## Related topics\n\n* [RedisJSON]()\n* [Index and search JSON documents]()",
+  "content": "Append the `json-string` values to the string at `path`\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open><summary><code>key</code></summary> \n\nis key to modify.\n</details>\n\n<details open><summary><code>value</code></summary> \n\nis value to append to one or more strings. \n\n{{% alert title=\"About using strings with JSON commands\" color=\"warning\" %}}\nTo specify a string as an array value to append, wrap the quoted string with an additional set of single quotes. Example: `'\"silver\"'`. For more detailed use, see [Examples](#examples).\n{{% /alert %}}\n</details>\n\n## Optional arguments\n\n<details open><summary><code>path</code></summary> \n\nis JSONPath to specify. Default is root `$`.\n</details>\n\n## Examples\n\n{{< highlight bash >}}\nredis> JSON.SET doc $ '{\"a\":\"foo\", \"nested\": {\"a\": \"hello\"}, \"nested2\": {\"a\": 31}}'\nOK\nredis> JSON.STRAPPEND doc $..a '\"baz\"'\n1) (integer) 6\n2) (integer) 8\n3) (nil)\nredis> JSON.GET doc $\n\"[{\\\"a\\\":\\\"foobaz\\\",\\\"nested\\\":{\\\"a\\\":\\\"hellobaz\\\"},\\\"nested2\\\":{\\\"a\\\":31}}]\"\n{{< / highlight >}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"json-strappend-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\nWith `$`-based path argument: [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [integer replies]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) or [null replies]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}), where each element is the string's new length, or `null` if the matching value is not a string.\n\nWith `.`-based path argument: [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) representing the string's new length, or [null reply]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}) if the matching value is not a string.\n\n-tab-sep-\n\nWith `$`-based path argument (default): [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [integer replies]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) or [null replies]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}), where each element is the string's new length, or `null` if the matching value is not a string.\n\nWith `.`-based path argument: [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) representing the string's new length, or [null reply]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}) if the matching value is not a string.\n\n{{< /multitabs >}}\n\n## See also\n\n`JSON.ARRAPEND` | [`JSON.ARRINSERT`]({{< relref \"commands/json.arrinsert/\" >}}) \n\n## Related topics\n\n* [RedisJSON]({{< relref \"/develop/data-types/json/\" >}})\n* [Index and search JSON documents]({{< relref \"/develop/ai/search-and-query/indexing/\" >}})",
+  "example": "redis> JSON.SET doc $ '{\"a\":\"foo\", \"nested\": {\"a\": \"hello\"}, \"nested2\": {\"a\": 31}}'\nOK\nredis> JSON.STRAPPEND doc $..a '\"baz\"'\n1) (integer) 6\n2) (integer) 8\n3) (nil)\nredis> JSON.GET doc $\n\"[{\\\"a\\\":\\\"foobaz\\\",\\\"nested\\\":{\\\"a\\\":\\\"hellobaz\\\"},\\\"nested2\\\":{\\\"a\\\":31}}]\"",
   "intro": "Append the `json-string` values to the string at `path`\n\n[Examples](#examples)",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -85,7 +528,7 @@
     {
       "title": "Required arguments",
       "level": 2,
-      "content": "<details open><summary><code>key</code></summary> \n\nis key to modify.\n</details>\n\n<details open><summary><code>value</code></summary> \n\nis value to append to one or more strings. \n\n\nTo specify a string as an array value to append, wrap the quoted string with an additional set of single quotes. Example: `'\"silver\"'`. For more detailed use, see [Examples](#examples).\n\n</details>"
+      "content": "<details open><summary><code>key</code></summary> \n\nis key to modify.\n</details>\n\n<details open><summary><code>value</code></summary> \n\nis value to append to one or more strings. \n\n{{% alert title=\"About using strings with JSON commands\" color=\"warning\" %}}\nTo specify a string as an array value to append, wrap the quoted string with an additional set of single quotes. Example: `'\"silver\"'`. For more detailed use, see [Examples](#examples).\n{{% /alert %}}\n</details>"
     },
     {
       "title": "Optional arguments",
@@ -95,7 +538,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "redis> JSON.SET doc $ '{\"a\":\"foo\", \"nested\": {\"a\": \"hello\"}, \"nested2\": {\"a\": 31}}'\nOK\nredis> JSON.STRAPPEND doc $..a '\"baz\"'\n1) (integer) 6\n2) (integer) 8\n3) (nil)\nredis> JSON.GET doc $\n\"[{\\\"a\\\":\\\"foobaz\\\",\\\"nested\\\":{\\\"a\\\":\\\"hellobaz\\\"},\\\"nested2\\\":{\\\"a\\\":31}}]\""
+      "content": "{{< highlight bash >}}\nredis> JSON.SET doc $ '{\"a\":\"foo\", \"nested\": {\"a\": \"hello\"}, \"nested2\": {\"a\": 31}}'\nOK\nredis> JSON.STRAPPEND doc $..a '\"baz\"'\n1) (integer) 6\n2) (integer) 8\n3) (nil)\nredis> JSON.GET doc $\n\"[{\\\"a\\\":\\\"foobaz\\\",\\\"nested\\\":{\\\"a\\\":\\\"hellobaz\\\"},\\\"nested2\\\":{\\\"a\\\":31}}]\"\n{{< / highlight >}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -105,17 +548,17 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nWith `$`-based path argument: [Array reply]() of [integer replies]() or [null replies](), where each element is the string's new length, or `null` if the matching value is not a string.\n\nWith `.`-based path argument: [Integer reply]() representing the string's new length, or [null reply]() if the matching value is not a string.\n\n**RESP3:**\n\nWith `$`-based path argument (default): [Array reply]() of [integer replies]() or [null replies](), where each element is the string's new length, or `null` if the matching value is not a string.\n\nWith `.`-based path argument: [Integer reply]() representing the string's new length, or [null reply]() if the matching value is not a string."
+      "content": "{{< multitabs id=\"json-strappend-return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\nWith `$`-based path argument: [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [integer replies]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) or [null replies]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}), where each element is the string's new length, or `null` if the matching value is not a string.\n\nWith `.`-based path argument: [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) representing the string's new length, or [null reply]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}) if the matching value is not a string.\n\n-tab-sep-\n\nWith `$`-based path argument (default): [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [integer replies]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) or [null replies]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}), where each element is the string's new length, or `null` if the matching value is not a string.\n\nWith `.`-based path argument: [Integer reply]({{< relref \"/develop/reference/protocol-spec#integers\" >}}) representing the string's new length, or [null reply]({{< relref \"/develop/reference/protocol-spec#nulls\" >}}) if the matching value is not a string.\n\n{{< /multitabs >}}"
     },
     {
       "title": "See also",
       "level": 2,
-      "content": "`JSON.ARRAPEND` | [`JSON.ARRINSERT`]()"
+      "content": "`JSON.ARRAPEND` | [`JSON.ARRINSERT`]({{< relref \"commands/json.arrinsert/\" >}})"
     },
     {
       "title": "Related topics",
       "level": 2,
-      "content": "* [RedisJSON]()\n* [Index and search JSON documents]()"
+      "content": "* [RedisJSON]({{< relref \"/develop/data-types/json/\" >}})\n* [Index and search JSON documents]({{< relref \"/develop/ai/search-and-query/indexing/\" >}})"
     }
   ]
 }

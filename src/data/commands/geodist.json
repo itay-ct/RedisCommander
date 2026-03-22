@@ -14,6 +14,888 @@
     "@geo",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "place1",
+            "type": "FieldT"
+          },
+          {
+            "description": "",
+            "name": "place2",
+            "type": "FieldT"
+          },
+          {
+            "description": "",
+            "name": "unit",
+            "type": "Optional[str] = None"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "ResponseT"
+        },
+        "signature": "geodist(name: KeyT, place1: FieldT, place2: FieldT, unit: Optional[str] = None)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "member1",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "member2",
+            "type": "byte[]"
+          }
+        ],
+        "returns": {
+          "description": "The distance as a double",
+          "type": "Double"
+        },
+        "signature": "Double geodist(final byte[] key, final byte[] member1, final byte[] member2)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "member1",
+            "type": "byte[]"
+          },
+          {
+            "description": "can be M, KM, MI or FT can M, KM, MI or FT",
+            "name": "unit",
+            "type": "byte[] member2 final GeoUnit"
+          }
+        ],
+        "returns": {
+          "description": "The distance as a double",
+          "type": "Double"
+        },
+        "signature": "Double geodist(final byte[] key, final byte[] member1, final byte[] member2 final GeoUnit unit)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "member1",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "member2",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "The distance as a double",
+          "type": "Double"
+        },
+        "signature": "Double geodist(final String key, final String member1, final String member2)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "member1",
+            "type": "String"
+          },
+          {
+            "description": "can be M, KM, MI or FT can M, KM, MI or FT",
+            "name": "unit",
+            "type": "String member2 final GeoUnit"
+          }
+        ],
+        "returns": {
+          "description": "The distance as a double",
+          "type": "Double"
+        },
+        "signature": "Double geodist(final String key, final String member1, final String member2 final GeoUnit unit)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "member1",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "member2",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "The distance as a double",
+          "type": "Double"
+        },
+        "signature": "Double geodist(String key, String member1, String member2)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the key of the geo set.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "from member.",
+            "name": "from",
+            "type": "V"
+          },
+          {
+            "description": "to member.",
+            "name": "to",
+            "type": "V"
+          },
+          {
+            "description": "distance unit.",
+            "name": "unit",
+            "type": "GeoArgs.Unit"
+          }
+        ],
+        "returns": {
+          "description": "distance between points from and to. If one or more elements are missing null is returned.",
+          "type": "Double"
+        },
+        "signature": "Double geodist(K key, V from, V to, GeoArgs.Unit unit)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the key of the geo set.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "from member.",
+            "name": "from",
+            "type": "V"
+          },
+          {
+            "description": "to member.",
+            "name": "to",
+            "type": "V"
+          },
+          {
+            "description": "distance unit.",
+            "name": "unit",
+            "type": "GeoArgs.Unit"
+          }
+        ],
+        "returns": {
+          "description": "distance between points from and to. If one or more elements are missing null is returned.",
+          "type": "RedisFuture<Double>"
+        },
+        "signature": "RedisFuture<Double> geodist(K key, V from, V to, GeoArgs.Unit unit)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the key of the geo set.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "from member.",
+            "name": "from",
+            "type": "V"
+          },
+          {
+            "description": "to member.",
+            "name": "to",
+            "type": "V"
+          },
+          {
+            "description": "distance unit.",
+            "name": "unit",
+            "type": "GeoArgs.Unit"
+          }
+        ],
+        "returns": {
+          "description": "distance between points from and to. If one or more elements are missing null is returned.",
+          "type": "Mono<Double>"
+        },
+        "signature": "Mono<Double> geodist(K key, V from, V to, GeoArgs.Unit unit)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "member1",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "member2",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "unit",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*FloatCmd"
+        },
+        "signature": "GeoDist(ctx context.Context, key string, member1, member2, unit string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "member1",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "member2",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "unit?",
+            "type": "GeoUnits"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "GEODIST(key: RedisArgument, member1: RedisArgument, member2: RedisArgument, unit?: GeoUnits)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "member1",
+            "type": "string | Buffer | number"
+          },
+          {
+            "description": "",
+            "name": "member2",
+            "type": "string | Buffer | number"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<string | null>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "geodist(key: RedisKey, member1: string | Buffer | number, member2: string | Buffer | number, callback?: Callback<string | null>)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "member1",
+            "type": "string | Buffer | number"
+          },
+          {
+            "description": "",
+            "name": "member2",
+            "type": "string | Buffer | number"
+          },
+          {
+            "description": "",
+            "name": "m",
+            "type": "\"M\""
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<string | null>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "geodist(key: RedisKey, member1: string | Buffer | number, member2: string | Buffer | number, m: \"M\", callback?: Callback<string | null>)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "member1",
+            "type": "string | Buffer | number"
+          },
+          {
+            "description": "",
+            "name": "member2",
+            "type": "string | Buffer | number"
+          },
+          {
+            "description": "",
+            "name": "km",
+            "type": "\"KM\""
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<string | null>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "geodist(key: RedisKey, member1: string | Buffer | number, member2: string | Buffer | number, km: \"KM\", callback?: Callback<string | null>)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "member1",
+            "type": "string | Buffer | number"
+          },
+          {
+            "description": "",
+            "name": "member2",
+            "type": "string | Buffer | number"
+          },
+          {
+            "description": "",
+            "name": "ft",
+            "type": "\"FT\""
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<string | null>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "geodist(key: RedisKey, member1: string | Buffer | number, member2: string | Buffer | number, ft: \"FT\", callback?: Callback<string | null>)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "member1",
+            "type": "string | Buffer | number"
+          },
+          {
+            "description": "",
+            "name": "member2",
+            "type": "string | Buffer | number"
+          },
+          {
+            "description": "",
+            "name": "mi",
+            "type": "\"MI\""
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<string | null>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "geodist(key: RedisKey, member1: string | Buffer | number, member2: string | Buffer | number, mi: \"MI\", callback?: Callback<string | null>)"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "member1",
+            "type": "M1"
+          },
+          {
+            "description": "",
+            "name": "member2",
+            "type": "M2"
+          },
+          {
+            "description": "",
+            "name": "unit",
+            "type": "geo"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Option<f64>)"
+        },
+        "signature": "geo_dist(key: K, member1: M1, member2: M2, unit: geo::Unit)"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "member1",
+            "type": "M1"
+          },
+          {
+            "description": "",
+            "name": "member2",
+            "type": "M2"
+          },
+          {
+            "description": "",
+            "name": "unit",
+            "type": "geo"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Option<f64>)"
+        },
+        "signature": "geo_dist(key: K, member1: M1, member2: M2, unit: geo::Unit)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The key of the set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The first member to check.",
+            "name": "member1",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The second member to check.",
+            "name": "member2",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The unit of distance to return (defaults to meters).",
+            "name": "unit",
+            "type": "GeoUnit"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The command returns the distance as a double (represented as a string) in the specified unit, or null if one or both the elements are missing.",
+          "type": "double?"
+        },
+        "signature": "GeoDistance(RedisKey key, RedisValue member1, RedisValue member2, GeoUnit unit = GeoUnit.Meters, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "member1",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "member2",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "unit",
+            "type": "GeoUnit"
+          },
+          {
+            "description": "",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Task<double?>"
+        },
+        "signature": "GeoDistanceAsync(RedisKey key, RedisValue member1, RedisValue member2, GeoUnit unit = GeoUnit.Meters, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The first member to check.",
+            "name": "member1",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The second member to check.",
+            "name": "member2",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The unit of distance to return (defaults to meters).",
+            "name": "unit",
+            "type": "GeoUnit"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The command returns the distance as a double (represented as a string) in the specified unit, or null if one or both the elements are missing.",
+          "type": "double?"
+        },
+        "signature": "GeoDistance(RedisKey key, RedisValue member1, RedisValue member2, GeoUnit unit = GeoUnit.Meters, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "value0",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "value1",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "unit",
+            "type": "GeoUnit"
+          },
+          {
+            "description": "",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Task<double?>"
+        },
+        "signature": "GeoDistanceAsync(RedisKey key, RedisValue value0, RedisValue value1, GeoUnit unit = GeoUnit.Meters, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "member1",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "member2",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "unit",
+            "type": "GeoUnit"
+          },
+          {
+            "description": "",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Task<double?>"
+        },
+        "signature": "GeoDistanceAsync(RedisKey key, RedisValue member1, RedisValue member2, GeoUnit unit = GeoUnit.Meters, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The first member to check.",
+            "name": "member1",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The second member to check.",
+            "name": "member2",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The unit of distance to return (defaults to meters).",
+            "name": "unit",
+            "type": "GeoUnit"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The command returns the distance as a double (represented as a string) in the specified unit, or null if one or both the elements are missing.",
+          "type": "double?"
+        },
+        "signature": "GeoDistance(RedisKey key, RedisValue member1, RedisValue member2, GeoUnit unit = GeoUnit.Meters, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the set.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The first member to check.",
+            "name": "member1",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The second member to check.",
+            "name": "member2",
+            "type": "RedisValue"
+          },
+          {
+            "description": "The unit of distance to return (defaults to meters).",
+            "name": "unit",
+            "type": "GeoUnit"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "The command returns the distance as a double (represented as a string) in the specified unit, or null if one or both the elements are missing.",
+          "type": "double?"
+        },
+        "signature": "GeoDistance(RedisKey key, RedisValue member1, RedisValue member2, GeoUnit unit = GeoUnit.Meters, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "value0",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "value1",
+            "type": "RedisValue"
+          },
+          {
+            "description": "",
+            "name": "unit",
+            "type": "GeoUnit"
+          },
+          {
+            "description": "",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Task<double?>"
+        },
+        "signature": "GeoDistanceAsync(RedisKey key, RedisValue value0, RedisValue value1, GeoUnit unit = GeoUnit.Meters, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$member1",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "$member2",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "$unit = null",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "string|null"
+        },
+        "signature": "geodist(string $key, $member1, $member2, $unit = null)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "member1",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "member2",
+            "type": "String"
+          },
+          {
+            "description": "m, km, mi, ft",
+            "name": "unit",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "distance in specified unit if both members present, nil otherwise",
+          "type": "String, nil"
+        },
+        "signature": "geodist(key, member1, member2, unit = 'm')"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly"
   ],
@@ -97,24 +979,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Return the distance between two members in the geospatial index represented by the sorted set.\n\nGiven a sorted set representing a geospatial index, populated using the [`GEOADD`]() command, the command returns the distance between the two specified members in the specified unit.\n\nIf one or both the members are missing, the command returns NULL.\n\nThe unit must be one of the following, and defaults to meters:\n\n* **m** for meters.\n* **km** for kilometers.\n* **mi** for miles.\n* **ft** for feet.\n\nThe distance is computed assuming that the Earth is a perfect sphere, so errors up to 0.5% are possible in edge cases.\n\n## Examples\n\n\nGEOADD Sicily 13.361389 38.115556 \"Palermo\" 15.087269 37.502669 \"Catania\"\nGEODIST Sicily Palermo Catania\nGEODIST Sicily Palermo Catania km\nGEODIST Sicily Palermo Catania mi\nGEODIST Sicily Foo Bar\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): one or both of the elements are missing.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): distance as a double (represented as a string) in the specified units.\n\n**RESP3:**\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): one or both of the elements are missing.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): distance as a double (represented as a string) in the specified units.",
+  "content": "Return the distance between two members in the geospatial index represented by the sorted set.\n\nGiven a sorted set representing a geospatial index, populated using the [`GEOADD`]() command, the command returns the distance between the two specified members in the specified unit.\n\nIf one or both the members are missing, the command returns NULL.\n\nThe unit must be one of the following, and defaults to meters:\n\n* **m** for meters.\n* **km** for kilometers.\n* **mi** for miles.\n* **ft** for feet.\n\nThe distance is computed assuming that the Earth is a perfect sphere, so errors up to 0.5% are possible in edge cases.\n\n## Examples\n\n{{% redis-cli %}}\nGEOADD Sicily 13.361389 38.115556 \"Palermo\" 15.087269 37.502669 \"Catania\"\nGEODIST Sicily Palermo Catania\nGEODIST Sicily Palermo Catania km\nGEODIST Sicily Palermo Catania mi\nGEODIST Sicily Foo Bar\n{{% /redis-cli %}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"geodist-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): one or both of the elements are missing.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): distance as a double (represented as a string) in the specified units.\n\n-tab-sep-\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): one or both of the elements are missing.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): distance as a double (represented as a string) in the specified units.\n\n{{< /multitabs >}}",
+  "example": "GEOADD Sicily 13.361389 38.115556 \"Palermo\" 15.087269 37.502669 \"Catania\"\nGEODIST Sicily Palermo Catania\nGEODIST Sicily Palermo Catania km\nGEODIST Sicily Palermo Catania mi\nGEODIST Sicily Foo Bar",
   "intro": "Return the distance between two members in the geospatial index represented by the sorted set.\n\nGiven a sorted set representing a geospatial index, populated using the [`GEOADD`]() command, the command returns the distance between the two specified members in the specified unit.\n\nIf one or both the members are missing, the command returns NULL.\n\nThe unit must be one of the following, and defaults to meters:\n\n* **m** for meters.\n* **km** for kilometers.\n* **mi** for miles.\n* **ft** for feet.\n\nThe distance is computed assuming that the Earth is a perfect sphere, so errors up to 0.5% are possible in edge cases.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -124,7 +995,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "GEOADD Sicily 13.361389 38.115556 \"Palermo\" 15.087269 37.502669 \"Catania\"\nGEODIST Sicily Palermo Catania\nGEODIST Sicily Palermo Catania km\nGEODIST Sicily Palermo Catania mi\nGEODIST Sicily Foo Bar"
+      "content": "{{% redis-cli %}}\nGEOADD Sicily 13.361389 38.115556 \"Palermo\" 15.087269 37.502669 \"Catania\"\nGEODIST Sicily Palermo Catania\nGEODIST Sicily Palermo Catania km\nGEODIST Sicily Palermo Catania mi\nGEODIST Sicily Foo Bar\n{{% /redis-cli %}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -134,7 +1005,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): one or both of the elements are missing.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): distance as a double (represented as a string) in the specified units.\n\n**RESP3:**\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): one or both of the elements are missing.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): distance as a double (represented as a string) in the specified units."
+      "content": "{{< multitabs id=\"geodist-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): one or both of the elements are missing.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): distance as a double (represented as a string) in the specified units.\n\n-tab-sep-\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): one or both of the elements are missing.\n* [Bulk string reply](../../develop/reference/protocol-spec#bulk-strings): distance as a double (represented as a string) in the specified units.\n\n{{< /multitabs >}}"
     }
   ]
 }

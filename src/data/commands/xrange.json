@@ -14,6 +14,817 @@
     "@stream",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "name",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "min",
+            "type": "StreamIdT = \"-\""
+          },
+          {
+            "description": "",
+            "name": "max",
+            "type": "StreamIdT = \"+\""
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "Optional[int] = None"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "ResponseT"
+        },
+        "signature": "xrange(, name: KeyT,, min: StreamIdT = \"-\",, max: StreamIdT = \"+\",, count: Optional[int] = None,)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "byte[]"
+          },
+          {
+            "description": "minimum StreamEntryID for the retrieved range, passing null will",
+            "name": "start",
+            "type": "byte[]"
+          },
+          {
+            "description": "maximum StreamEntryID for the retrieved range, passing null will",
+            "name": "end",
+            "type": "byte[]"
+          }
+        ],
+        "returns": {
+          "description": "the entries with IDs matching the specified range, from the higher ID to the lower ID matching.",
+          "type": "List<Object>"
+        },
+        "signature": "List<Object> xrange(byte[] key, byte[] start, byte[] end)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "byte[]"
+          },
+          {
+            "description": "minimum StreamEntryID for the retrieved range, passing null will",
+            "name": "start",
+            "type": "byte[]"
+          },
+          {
+            "description": "maximum StreamEntryID for the retrieved range, passing null will",
+            "name": "end",
+            "type": "byte[]"
+          },
+          {
+            "description": "The entries with IDs matching the specified range.",
+            "name": "count",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "the entries with IDs matching the specified range, from the higher ID to the lower ID matching.",
+          "type": "List<Object>"
+        },
+        "signature": "List<Object> xrange(byte[] key, byte[] start, byte[] end, int count)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "minimum StreamEntryID for the retrieved range, passing null will",
+            "name": "start",
+            "type": "StreamEntryID"
+          },
+          {
+            "description": "maximum StreamEntryID for the retrieved range, passing null will",
+            "name": "end",
+            "type": "StreamEntryID"
+          }
+        ],
+        "returns": {
+          "description": "the entries with IDs matching the specified range, from the higher ID to the lower ID matching.",
+          "type": "List<StreamEntry>"
+        },
+        "signature": "List<StreamEntry> xrange(final String key, final StreamEntryID start, final StreamEntryID end)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "maximum StreamEntryID for the retrieved range, passing null will",
+            "name": "end",
+            "type": "StreamEntryID start final StreamEntryID"
+          },
+          {
+            "description": "The entries with IDs matching the specified range.",
+            "name": "count",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "the entries with IDs matching the specified range, from the higher ID to the lower ID matching.",
+          "type": "List<StreamEntry>"
+        },
+        "signature": "List<StreamEntry> xrange(final String key, final StreamEntryID start final StreamEntryID end, final int count)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "minimum StreamEntryID for the retrieved range, passing null will",
+            "name": "start",
+            "type": "String"
+          },
+          {
+            "description": "maximum StreamEntryID for the retrieved range, passing null will",
+            "name": "end",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "the entries with IDs matching the specified range, from the higher ID to the lower ID matching.",
+          "type": "List<StreamEntry>"
+        },
+        "signature": "List<StreamEntry> xrange(final String key, final String start, final String end)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "must not be null.",
+            "name": "range",
+            "type": "Range<String>"
+          }
+        ],
+        "returns": {
+          "description": "List&lt;StreamMessage&gt; array-reply list with members of the resulting stream.",
+          "type": "List<StreamMessage<K, V>>"
+        },
+        "signature": "List<StreamMessage<K, V>> xrange(K key, Range<String> range)"
+      },
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "must not be null.",
+            "name": "range",
+            "type": "Range<String>"
+          },
+          {
+            "description": "must not be null.",
+            "name": "limit",
+            "type": "Limit"
+          }
+        ],
+        "returns": {
+          "description": "List&lt;StreamMessage&gt; array-reply list with members of the resulting stream.",
+          "type": "List<StreamMessage<K, V>>"
+        },
+        "signature": "List<StreamMessage<K, V>> xrange(K key, Range<String> range, Limit limit)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "must not be null.",
+            "name": "range",
+            "type": "Range<String>"
+          }
+        ],
+        "returns": {
+          "description": "List&lt;StreamMessage&gt; array-reply list with members of the resulting stream.",
+          "type": "RedisFuture<List<StreamMessage<K, V>>>"
+        },
+        "signature": "RedisFuture<List<StreamMessage<K, V>>> xrange(K key, Range<String> range)"
+      },
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "must not be null.",
+            "name": "range",
+            "type": "Range<String>"
+          },
+          {
+            "description": "must not be null.",
+            "name": "limit",
+            "type": "Limit"
+          }
+        ],
+        "returns": {
+          "description": "List&lt;StreamMessage&gt; array-reply list with members of the resulting stream.",
+          "type": "RedisFuture<List<StreamMessage<K, V>>>"
+        },
+        "signature": "RedisFuture<List<StreamMessage<K, V>>> xrange(K key, Range<String> range, Limit limit)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "must not be null.",
+            "name": "range",
+            "type": "Range<String>"
+          }
+        ],
+        "returns": {
+          "description": "StreamMessage array-reply list with members of the resulting stream.",
+          "type": "Flux<StreamMessage<K, V>>"
+        },
+        "signature": "Flux<StreamMessage<K, V>> xrange(K key, Range<String> range)"
+      },
+      {
+        "params": [
+          {
+            "description": "the stream key.",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "must not be null.",
+            "name": "range",
+            "type": "Range<String>"
+          },
+          {
+            "description": "must not be null.",
+            "name": "limit",
+            "type": "Limit"
+          }
+        ],
+        "returns": {
+          "description": "StreamMessage array-reply list with members of the resulting stream.",
+          "type": "Flux<StreamMessage<K, V>>"
+        },
+        "signature": "Flux<StreamMessage<K, V>> xrange(K key, Range<String> range, Limit limit)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "stream",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "start",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "stop",
+            "type": "string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*XMessageSliceCmd"
+        },
+        "signature": "XRange(ctx context.Context, stream, start, stop string)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "stream",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "start",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "stop",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "int64"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*XMessageSliceCmd"
+        },
+        "signature": "XRangeN(ctx context.Context, stream, start, stop string, count int64)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "...args",
+            "type": "Parameters<typeof xRangeArguments>"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "XRANGE(key: RedisArgument, ...args: Parameters<typeof xRangeArguments>)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "start",
+            "type": "string | Buffer | number"
+          },
+          {
+            "description": "",
+            "name": "end",
+            "type": "string | Buffer | number"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<[id"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "xrange(key: RedisKey, start: string | Buffer | number, end: string | Buffer | number, callback?: Callback<[id: string, fields: string[]][]>)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "start",
+            "type": "string | Buffer | number"
+          },
+          {
+            "description": "",
+            "name": "end",
+            "type": "string | Buffer | number"
+          },
+          {
+            "description": "",
+            "name": "countToken",
+            "type": "\"COUNT\""
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "number | string"
+          },
+          {
+            "description": "",
+            "name": "callback?",
+            "type": "Callback<[id"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "xrange(key: RedisKey, start: string | Buffer | number, end: string | Buffer | number, countToken: \"COUNT\", count: number | string, callback?: Callback<[id: string, fields: string[]][]>)"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "start",
+            "type": "S"
+          },
+          {
+            "description": "",
+            "name": "end",
+            "type": "E"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(streams::StreamRangeReply)"
+        },
+        "signature": "xrange(key: K, start: S, end: E)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(streams::StreamRangeReply)"
+        },
+        "signature": "xrange_all(key: K)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "start",
+            "type": "S"
+          },
+          {
+            "description": "",
+            "name": "end",
+            "type": "E"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "C"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(streams::StreamRangeReply)"
+        },
+        "signature": "xrange_count(key: K, start: S, end: E, count: C)"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "start",
+            "type": "S"
+          },
+          {
+            "description": "",
+            "name": "end",
+            "type": "E"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(streams::StreamRangeReply)"
+        },
+        "signature": "xrange(key: K, start: S, end: E)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(streams::StreamRangeReply)"
+        },
+        "signature": "xrange_all(key: K)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "start",
+            "type": "S"
+          },
+          {
+            "description": "",
+            "name": "end",
+            "type": "E"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "C"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(streams::StreamRangeReply)"
+        },
+        "signature": "xrange_count(key: K, start: S, end: E, count: C)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The key of the stream.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The minimum ID from which to read the stream. The method will default to reading from the beginning of the stream.",
+            "name": "minId",
+            "type": "RedisValue?"
+          },
+          {
+            "description": "The maximum ID to read to within the stream. The method will default to reading to the end of the stream.",
+            "name": "maxId",
+            "type": "RedisValue?"
+          },
+          {
+            "description": "The maximum number of messages to return.",
+            "name": "count",
+            "type": "int?"
+          },
+          {
+            "description": "The order of the messages. Ascending will execute XRANGE and Descending will execute XREVRANGE.",
+            "name": "messageOrder",
+            "type": "Order"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "Returns an instance of StreamEntry for each message returned.",
+          "type": "StreamEntry[]"
+        },
+        "signature": "StreamRange(RedisKey key, RedisValue? minId = null, RedisValue? maxId = null, int? count = null, Order messageOrder = Order.Ascending, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the stream.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The minimum ID from which to read the stream. The method will default to reading from the beginning of the stream.",
+            "name": "minId",
+            "type": "RedisValue?"
+          },
+          {
+            "description": "The maximum ID to read to within the stream. The method will default to reading to the end of the stream.",
+            "name": "maxId",
+            "type": "RedisValue?"
+          },
+          {
+            "description": "The maximum number of messages to return.",
+            "name": "count",
+            "type": "int?"
+          },
+          {
+            "description": "The order of the messages. Ascending will execute XRANGE and Descending will execute XREVRANGE.",
+            "name": "messageOrder",
+            "type": "Order"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "Returns an instance of StreamEntry for each message returned.",
+          "type": "StreamEntry[]"
+        },
+        "signature": "StreamRange(RedisKey key, RedisValue? minId = null, RedisValue? maxId = null, int? count = null, Order messageOrder = Order.Ascending, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The key of the stream.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The minimum ID from which to read the stream. The method will default to reading from the beginning of the stream.",
+            "name": "minId",
+            "type": "RedisValue?"
+          },
+          {
+            "description": "The maximum ID to read to within the stream. The method will default to reading to the end of the stream.",
+            "name": "maxId",
+            "type": "RedisValue?"
+          },
+          {
+            "description": "The maximum number of messages to return.",
+            "name": "count",
+            "type": "int?"
+          },
+          {
+            "description": "The order of the messages. Ascending will execute XRANGE and Descending will execute XREVRANGE.",
+            "name": "messageOrder",
+            "type": "Order"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "Returns an instance of StreamEntry for each message returned.",
+          "type": "StreamEntry[]"
+        },
+        "signature": "StreamRange(RedisKey key, RedisValue? minId = null, RedisValue? maxId = null, int? count = null, Order messageOrder = Order.Ascending, CommandFlags flags = CommandFlags.None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key of the stream.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The minimum ID from which to read the stream. The method will default to reading from the beginning of the stream.",
+            "name": "minId",
+            "type": "RedisValue?"
+          },
+          {
+            "description": "The maximum ID to read to within the stream. The method will default to reading to the end of the stream.",
+            "name": "maxId",
+            "type": "RedisValue?"
+          },
+          {
+            "description": "The maximum number of messages to return.",
+            "name": "count",
+            "type": "int?"
+          },
+          {
+            "description": "The order of the messages. Ascending will execute XRANGE and Descending will execute XREVRANGE.",
+            "name": "messageOrder",
+            "type": "Order"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "Returns an instance of StreamEntry for each message returned.",
+          "type": "StreamEntry[]"
+        },
+        "signature": "StreamRange(RedisKey key, RedisValue? minId = null, RedisValue? maxId = null, int? count = null, Order messageOrder = Order.Ascending, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$start",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$end",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "?int $count = null",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array"
+        },
+        "signature": "xrange(string $key, string $start, string $end, ?int $count = null)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "the stream key",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "first entry id of range, default is -",
+            "name": "start",
+            "type": "String"
+          },
+          {
+            "description": "last entry id of range, default is +",
+            "name": "range_end",
+            "type": "String"
+          },
+          {
+            "description": "the number of entries as limit",
+            "name": "count",
+            "type": "Integer"
+          }
+        ],
+        "returns": {
+          "description": "the ids and entries pairs",
+          "type": "Array<Array<String, Hash>>"
+        },
+        "signature": "xrange(key, start = '-', range_end = '+', count: nil)"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly"
   ],
@@ -73,58 +884,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "and-special-ids",
-        "title": "- and + special IDs"
-      },
-      {
-        "id": "incomplete-ids",
-        "title": "Incomplete IDs"
-      },
-      {
-        "id": "exclusive-ranges",
-        "title": "Exclusive ranges"
-      },
-      {
-        "id": "returning-a-maximum-number-of-entries",
-        "title": "Returning a maximum number of entries"
-      },
-      {
-        "children": [
-          {
-            "id": "iterating-with-earlier-versions-of-redis",
-            "title": "Iterating with earlier versions of Redis"
-          }
-        ],
-        "id": "iterating-a-stream",
-        "title": "Iterating a stream"
-      },
-      {
-        "id": "fetching-single-items",
-        "title": "Fetching single items"
-      },
-      {
-        "id": "additional-information-about-streams",
-        "title": "Additional information about streams"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "The command returns the stream entries matching a given range of IDs.\nThe range is specified by a minimum and maximum ID. All the entries having\nan ID between the two specified or exactly one of the two IDs specified\n(closed interval) are returned.\n\nThe `XRANGE` command has a number of applications:\n\n* Returning items in a specific time range. This is possible because\n  Stream IDs are [related to time]().\n* Iterating a stream incrementally, returning just\n  a few items at every iteration. However it is semantically much more\n  robust than the [`SCAN`]() family of functions.\n* Fetching a single entry from a stream, providing the ID of the entry\n  to fetch two times: as start and end of the query interval.\n\nThe command also has a reciprocal command returning items in the\nreverse order, called [`XREVRANGE`](), which is otherwise identical.\n\n## `-` and `+` special IDs\n\nThe `-` and `+` special IDs mean respectively the minimum ID possible\nand the maximum ID possible inside a stream, so the following command\nwill just return every entry in the stream:\n\n```\n> XRANGE somestream - +\n1) 1) 1526985054069-0\n   2) 1) \"duration\"\n      2) \"72\"\n      3) \"event-id\"\n      4) \"9\"\n      5) \"user-id\"\n      6) \"839248\"\n2) 1) 1526985069902-0\n   2) 1) \"duration\"\n      2) \"415\"\n      3) \"event-id\"\n      4) \"2\"\n      5) \"user-id\"\n      6) \"772213\"\n... other entries here ...\n```\n\nThe `-` and `+` special IDs mean, respectively, the minimal and maximal range IDs,\nhowever they are nicer to type.\n\n## Incomplete IDs\n\nStream IDs are composed of two parts, a Unix millisecond time stamp and a\nsequence number for entries inserted in the same millisecond. It is possible\nto use `XRANGE` specifying just the first part of the ID, the millisecond time,\nlike in the following example:\n\n```\n> XRANGE somestream 1526985054069 1526985055069\n```\n\nIn this case, `XRANGE` will auto-complete the start interval with `-0`\nand end interval with `-18446744073709551615`, in order to return all the\nentries that were generated between a given millisecond and the end of\nthe other specified millisecond. This also means that repeating the same\nmillisecond two times, we get all the entries within such millisecond,\nbecause the sequence number range will be from zero to the maximum.\n\nUsed in this way `XRANGE` works as a range query command to obtain entries\nin a specified time. This is very handy in order to access the history\nof past events in a stream.\n\n## Exclusive ranges\n\nThe range is close (inclusive) by default, meaning that the reply can include\nentries with IDs matching the query's start and end intervals. It is possible\nto specify an open interval (exclusive) by prefixing the ID with the\ncharacter `(`. This is useful for iterating the stream, as explained below.\n\n## Returning a maximum number of entries\n\nUsing the **COUNT** option it is possible to reduce the number of entries\nreported. This is a very important feature even if it may look marginal,\nbecause it allows, for instance, to model operations such as *give me\nthe entry greater or equal to the following*:\n\n```\n> XRANGE somestream 1526985054069-0 + COUNT 1\n1) 1) 1526985054069-0\n   2) 1) \"duration\"\n      2) \"72\"\n      3) \"event-id\"\n      4) \"9\"\n      5) \"user-id\"\n      6) \"839248\"\n```\n\nIn the above case the entry `1526985054069-0` exists, otherwise the server\nwould have sent us the next one. Using `COUNT` is also the base in order to\nuse `XRANGE` as an iterator.\n\n## Iterating a stream\n\nIn order to iterate a stream, we can proceed as follows. Let's assume that\nwe want two elements per iteration. We start fetching the first two\nelements, which is trivial:\n\n```\n> XRANGE writers - + COUNT 2\n1) 1) 1526985676425-0\n   2) 1) \"name\"\n      2) \"Virginia\"\n      3) \"surname\"\n      4) \"Woolf\"\n2) 1) 1526985685298-0\n   2) 1) \"name\"\n      2) \"Jane\"\n      3) \"surname\"\n      4) \"Austen\"\n```\n\nThen instead of starting the iteration again from `-`, as the start\nof the range we use the entry ID of the *last* entry returned by the\nprevious `XRANGE` call as an exclusive interval.\n\nThe ID of the last entry is `1526985685298-0`, so we just prefix it\nwith a '(', and continue our iteration:\n\n```\n> XRANGE writers (1526985685298-0 + COUNT 2\n1) 1) 1526985691746-0\n   2) 1) \"name\"\n      2) \"Toni\"\n      3) \"surname\"\n      4) \"Morrison\"\n2) 1) 1526985712947-0\n   2) 1) \"name\"\n      2) \"Agatha\"\n      3) \"surname\"\n      4) \"Christie\"\n```\n\nAnd so forth. Eventually this will allow to visit all the entries in the\nstream. Obviously, we can start the iteration from any ID, or even from\na specific time, by providing a given incomplete start ID. Moreover, we\ncan limit the iteration to a given ID or time, by providing an end\nID or incomplete ID instead of `+`.\n\nThe command [`XREAD`]() is also able to iterate the stream.\nThe command [`XREVRANGE`]() can iterate the stream reverse, from higher IDs\n(or times) to lower IDs (or times).\n\n### Iterating with earlier versions of Redis\n\nWhile exclusive range intervals are only available from Redis 6.2, it is still\npossible to use a similar stream iteration pattern with earlier versions. You\nstart fetching from the stream the same way as described above to obtain the\nfirst entries.\n\nFor the subsequent calls, you'll need to programmatically advance the last\nentry's ID returned. Most Redis client should abstract this detail, but the\nimplementation can also be in the application if needed. In the example above,\nthis means incrementing the sequence of `1526985685298-0` by one, from 0 to 1.\nThe second call would, therefore, be:\n\n```\n> XRANGE writers 1526985685298-1 + COUNT 2\n1) 1) 1526985691746-0\n   2) 1) \"name\"\n      2) \"Toni\"\n...\n```\n\nAlso, note that once the sequence part of the last ID equals \n18446744073709551615, you'll need to increment the timestamp and reset the\nsequence part to 0. For example, incrementing the ID\n`1526985685298-18446744073709551615` should result in `1526985685299-0`.\n\nA symmetrical pattern applies to iterating the stream with [`XREVRANGE`](). The\nonly difference is that the client needs to decrement the ID for the subsequent\ncalls. When decrementing an ID with a sequence part of 0, the timestamp needs\nto be decremented by 1 and the sequence set to 18446744073709551615.\n\n## Fetching single items\n\nIf you look for an `XGET` command you'll be disappointed because `XRANGE`\nis effectively the way to go in order to fetch a single entry from a\nstream. All you have to do is to specify the ID two times in the arguments\nof XRANGE:\n\n```\n> XRANGE mystream 1526984818136-0 1526984818136-0\n1) 1) 1526984818136-0\n   2) 1) \"duration\"\n      2) \"1532\"\n      3) \"event-id\"\n      4) \"5\"\n      5) \"user-id\"\n      6) \"7782813\"\n```\n\n## Additional information about streams\n\nFor further information about Redis streams please check our\n[introduction to Redis Streams document]().\n\n## Examples\n\n\nXADD writers * name Virginia surname Woolf\nXADD writers * name Jane surname Austen\nXADD writers * name Toni surname Morrison\nXADD writers * name Agatha surname Christie\nXADD writers * name Ngozi surname Adichie\nXLEN writers\nXRANGE writers - + COUNT 2\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of stream entries with IDs matching the specified range.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of stream entries with IDs matching the specified range.",
+  "content": "The command returns the stream entries matching a given range of IDs.\nThe range is specified by a minimum and maximum ID. All the entries having\nan ID between the two specified or exactly one of the two IDs specified\n(closed interval) are returned.\n\nThe `XRANGE` command has a number of applications:\n\n* Returning items in a specific time range. This is possible because\n  Stream IDs are [related to time]().\n* Iterating a stream incrementally, returning just\n  a few items at every iteration. However it is semantically much more\n  robust than the [`SCAN`]() family of functions.\n* Fetching a single entry from a stream, providing the ID of the entry\n  to fetch two times: as start and end of the query interval.\n\nThe command also has a reciprocal command returning items in the\nreverse order, called [`XREVRANGE`](), which is otherwise identical.\n\n## `-` and `+` special IDs\n\nThe `-` and `+` special IDs mean respectively the minimum ID possible\nand the maximum ID possible inside a stream, so the following command\nwill just return every entry in the stream:\n\n```\n> XRANGE somestream - +\n1) 1) 1526985054069-0\n   2) 1) \"duration\"\n      2) \"72\"\n      3) \"event-id\"\n      4) \"9\"\n      5) \"user-id\"\n      6) \"839248\"\n2) 1) 1526985069902-0\n   2) 1) \"duration\"\n      2) \"415\"\n      3) \"event-id\"\n      4) \"2\"\n      5) \"user-id\"\n      6) \"772213\"\n... other entries here ...\n```\n\nThe `-` and `+` special IDs mean, respectively, the minimal and maximal range IDs,\nhowever they are nicer to type.\n\n## Incomplete IDs\n\nStream IDs are composed of two parts, a Unix millisecond time stamp and a\nsequence number for entries inserted in the same millisecond. It is possible\nto use `XRANGE` specifying just the first part of the ID, the millisecond time,\nlike in the following example:\n\n```\n> XRANGE somestream 1526985054069 1526985055069\n```\n\nIn this case, `XRANGE` will auto-complete the start interval with `-0`\nand end interval with `-18446744073709551615`, in order to return all the\nentries that were generated between a given millisecond and the end of\nthe other specified millisecond. This also means that repeating the same\nmillisecond two times, we get all the entries within such millisecond,\nbecause the sequence number range will be from zero to the maximum.\n\nUsed in this way `XRANGE` works as a range query command to obtain entries\nin a specified time. This is very handy in order to access the history\nof past events in a stream.\n\n## Exclusive ranges\n\nThe range is close (inclusive) by default, meaning that the reply can include\nentries with IDs matching the query's start and end intervals. It is possible\nto specify an open interval (exclusive) by prefixing the ID with the\ncharacter `(`. This is useful for iterating the stream, as explained below.\n\n## Returning a maximum number of entries\n\nUsing the **COUNT** option it is possible to reduce the number of entries\nreported. This is a very important feature even if it may look marginal,\nbecause it allows, for instance, to model operations such as *give me\nthe entry greater or equal to the following*:\n\n```\n> XRANGE somestream 1526985054069-0 + COUNT 1\n1) 1) 1526985054069-0\n   2) 1) \"duration\"\n      2) \"72\"\n      3) \"event-id\"\n      4) \"9\"\n      5) \"user-id\"\n      6) \"839248\"\n```\n\nIn the above case the entry `1526985054069-0` exists, otherwise the server\nwould have sent us the next one. Using `COUNT` is also the base in order to\nuse `XRANGE` as an iterator.\n\n## Iterating a stream\n\nIn order to iterate a stream, we can proceed as follows. Let's assume that\nwe want two elements per iteration. We start fetching the first two\nelements, which is trivial:\n\n```\n> XRANGE writers - + COUNT 2\n1) 1) 1526985676425-0\n   2) 1) \"name\"\n      2) \"Virginia\"\n      3) \"surname\"\n      4) \"Woolf\"\n2) 1) 1526985685298-0\n   2) 1) \"name\"\n      2) \"Jane\"\n      3) \"surname\"\n      4) \"Austen\"\n```\n\nThen instead of starting the iteration again from `-`, as the start\nof the range we use the entry ID of the *last* entry returned by the\nprevious `XRANGE` call as an exclusive interval.\n\nThe ID of the last entry is `1526985685298-0`, so we just prefix it\nwith a '(', and continue our iteration:\n\n```\n> XRANGE writers (1526985685298-0 + COUNT 2\n1) 1) 1526985691746-0\n   2) 1) \"name\"\n      2) \"Toni\"\n      3) \"surname\"\n      4) \"Morrison\"\n2) 1) 1526985712947-0\n   2) 1) \"name\"\n      2) \"Agatha\"\n      3) \"surname\"\n      4) \"Christie\"\n```\n\nAnd so forth. Eventually this will allow to visit all the entries in the\nstream. Obviously, we can start the iteration from any ID, or even from\na specific time, by providing a given incomplete start ID. Moreover, we\ncan limit the iteration to a given ID or time, by providing an end\nID or incomplete ID instead of `+`.\n\nThe command [`XREAD`]({{< relref \"/commands/xread\" >}}) is also able to iterate the stream.\nThe command [`XREVRANGE`]({{< relref \"/commands/xrevrange\" >}}) can iterate the stream reverse, from higher IDs\n(or times) to lower IDs (or times).\n\n### Iterating with earlier versions of Redis\n\nWhile exclusive range intervals are only available from Redis 6.2, it is still\npossible to use a similar stream iteration pattern with earlier versions. You\nstart fetching from the stream the same way as described above to obtain the\nfirst entries.\n\nFor the subsequent calls, you'll need to programmatically advance the last\nentry's ID returned. Most Redis client should abstract this detail, but the\nimplementation can also be in the application if needed. In the example above,\nthis means incrementing the sequence of `1526985685298-0` by one, from 0 to 1.\nThe second call would, therefore, be:\n\n```\n> XRANGE writers 1526985685298-1 + COUNT 2\n1) 1) 1526985691746-0\n   2) 1) \"name\"\n      2) \"Toni\"\n...\n```\n\nAlso, note that once the sequence part of the last ID equals \n18446744073709551615, you'll need to increment the timestamp and reset the\nsequence part to 0. For example, incrementing the ID\n`1526985685298-18446744073709551615` should result in `1526985685299-0`.\n\nA symmetrical pattern applies to iterating the stream with [`XREVRANGE`]({{< relref \"/commands/xrevrange\" >}}). The\nonly difference is that the client needs to decrement the ID for the subsequent\ncalls. When decrementing an ID with a sequence part of 0, the timestamp needs\nto be decremented by 1 and the sequence set to 18446744073709551615.\n\n## Fetching single items\n\nIf you look for an `XGET` command you'll be disappointed because `XRANGE`\nis effectively the way to go in order to fetch a single entry from a\nstream. All you have to do is to specify the ID two times in the arguments\nof XRANGE:\n\n```\n> XRANGE mystream 1526984818136-0 1526984818136-0\n1) 1) 1526984818136-0\n   2) 1) \"duration\"\n      2) \"1532\"\n      3) \"event-id\"\n      4) \"5\"\n      5) \"user-id\"\n      6) \"7782813\"\n```\n\n## Additional information about streams\n\nFor further information about Redis streams please check our\n[introduction to Redis Streams document]({{< relref \"/develop/data-types/streams\" >}}).\n\n## Examples\n\n{{% redis-cli %}}\nXADD writers * name Virginia surname Woolf\nXADD writers * name Jane surname Austen\nXADD writers * name Toni surname Morrison\nXADD writers * name Agatha surname Christie\nXADD writers * name Ngozi surname Adichie\nXLEN writers\nXRANGE writers - + COUNT 2\n{{% /redis-cli %}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"xrange-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of stream entries with IDs matching the specified range.\n\n-tab-sep-\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of stream entries with IDs matching the specified range.\n\n{{< /multitabs >}}",
+  "example": "XADD writers * name Virginia surname Woolf\nXADD writers * name Jane surname Austen\nXADD writers * name Toni surname Morrison\nXADD writers * name Agatha surname Christie\nXADD writers * name Ngozi surname Adichie\nXLEN writers\nXRANGE writers - + COUNT 2",
   "intro": "The command returns the stream entries matching a given range of IDs.\nThe range is specified by a minimum and maximum ID. All the entries having\nan ID between the two specified or exactly one of the two IDs specified\n(closed interval) are returned.\n\nThe `XRANGE` command has a number of applications:\n\n* Returning items in a specific time range. This is possible because\n  Stream IDs are [related to time]().\n* Iterating a stream incrementally, returning just\n  a few items at every iteration. However it is semantically much more\n  robust than the [`SCAN`]() family of functions.\n* Fetching a single entry from a stream, providing the ID of the entry\n  to fetch two times: as start and end of the query interval.\n\nThe command also has a reciprocal command returning items in the\nreverse order, called [`XREVRANGE`](), which is otherwise identical.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -154,12 +920,12 @@
     {
       "title": "Iterating a stream",
       "level": 2,
-      "content": "In order to iterate a stream, we can proceed as follows. Let's assume that\nwe want two elements per iteration. We start fetching the first two\nelements, which is trivial:\n\n```\n> XRANGE writers - + COUNT 2\n1) 1) 1526985676425-0\n   2) 1) \"name\"\n      2) \"Virginia\"\n      3) \"surname\"\n      4) \"Woolf\"\n2) 1) 1526985685298-0\n   2) 1) \"name\"\n      2) \"Jane\"\n      3) \"surname\"\n      4) \"Austen\"\n```\n\nThen instead of starting the iteration again from `-`, as the start\nof the range we use the entry ID of the *last* entry returned by the\nprevious `XRANGE` call as an exclusive interval.\n\nThe ID of the last entry is `1526985685298-0`, so we just prefix it\nwith a '(', and continue our iteration:\n\n```\n> XRANGE writers (1526985685298-0 + COUNT 2\n1) 1) 1526985691746-0\n   2) 1) \"name\"\n      2) \"Toni\"\n      3) \"surname\"\n      4) \"Morrison\"\n2) 1) 1526985712947-0\n   2) 1) \"name\"\n      2) \"Agatha\"\n      3) \"surname\"\n      4) \"Christie\"\n```\n\nAnd so forth. Eventually this will allow to visit all the entries in the\nstream. Obviously, we can start the iteration from any ID, or even from\na specific time, by providing a given incomplete start ID. Moreover, we\ncan limit the iteration to a given ID or time, by providing an end\nID or incomplete ID instead of `+`.\n\nThe command [`XREAD`]() is also able to iterate the stream.\nThe command [`XREVRANGE`]() can iterate the stream reverse, from higher IDs\n(or times) to lower IDs (or times)."
+      "content": "In order to iterate a stream, we can proceed as follows. Let's assume that\nwe want two elements per iteration. We start fetching the first two\nelements, which is trivial:\n\n```\n> XRANGE writers - + COUNT 2\n1) 1) 1526985676425-0\n   2) 1) \"name\"\n      2) \"Virginia\"\n      3) \"surname\"\n      4) \"Woolf\"\n2) 1) 1526985685298-0\n   2) 1) \"name\"\n      2) \"Jane\"\n      3) \"surname\"\n      4) \"Austen\"\n```\n\nThen instead of starting the iteration again from `-`, as the start\nof the range we use the entry ID of the *last* entry returned by the\nprevious `XRANGE` call as an exclusive interval.\n\nThe ID of the last entry is `1526985685298-0`, so we just prefix it\nwith a '(', and continue our iteration:\n\n```\n> XRANGE writers (1526985685298-0 + COUNT 2\n1) 1) 1526985691746-0\n   2) 1) \"name\"\n      2) \"Toni\"\n      3) \"surname\"\n      4) \"Morrison\"\n2) 1) 1526985712947-0\n   2) 1) \"name\"\n      2) \"Agatha\"\n      3) \"surname\"\n      4) \"Christie\"\n```\n\nAnd so forth. Eventually this will allow to visit all the entries in the\nstream. Obviously, we can start the iteration from any ID, or even from\na specific time, by providing a given incomplete start ID. Moreover, we\ncan limit the iteration to a given ID or time, by providing an end\nID or incomplete ID instead of `+`.\n\nThe command [`XREAD`]({{< relref \"/commands/xread\" >}}) is also able to iterate the stream.\nThe command [`XREVRANGE`]({{< relref \"/commands/xrevrange\" >}}) can iterate the stream reverse, from higher IDs\n(or times) to lower IDs (or times)."
     },
     {
       "title": "Iterating with earlier versions of Redis",
       "level": 3,
-      "content": "While exclusive range intervals are only available from Redis 6.2, it is still\npossible to use a similar stream iteration pattern with earlier versions. You\nstart fetching from the stream the same way as described above to obtain the\nfirst entries.\n\nFor the subsequent calls, you'll need to programmatically advance the last\nentry's ID returned. Most Redis client should abstract this detail, but the\nimplementation can also be in the application if needed. In the example above,\nthis means incrementing the sequence of `1526985685298-0` by one, from 0 to 1.\nThe second call would, therefore, be:\n\n```\n> XRANGE writers 1526985685298-1 + COUNT 2\n1) 1) 1526985691746-0\n   2) 1) \"name\"\n      2) \"Toni\"\n...\n```\n\nAlso, note that once the sequence part of the last ID equals \n18446744073709551615, you'll need to increment the timestamp and reset the\nsequence part to 0. For example, incrementing the ID\n`1526985685298-18446744073709551615` should result in `1526985685299-0`.\n\nA symmetrical pattern applies to iterating the stream with [`XREVRANGE`](). The\nonly difference is that the client needs to decrement the ID for the subsequent\ncalls. When decrementing an ID with a sequence part of 0, the timestamp needs\nto be decremented by 1 and the sequence set to 18446744073709551615."
+      "content": "While exclusive range intervals are only available from Redis 6.2, it is still\npossible to use a similar stream iteration pattern with earlier versions. You\nstart fetching from the stream the same way as described above to obtain the\nfirst entries.\n\nFor the subsequent calls, you'll need to programmatically advance the last\nentry's ID returned. Most Redis client should abstract this detail, but the\nimplementation can also be in the application if needed. In the example above,\nthis means incrementing the sequence of `1526985685298-0` by one, from 0 to 1.\nThe second call would, therefore, be:\n\n```\n> XRANGE writers 1526985685298-1 + COUNT 2\n1) 1) 1526985691746-0\n   2) 1) \"name\"\n      2) \"Toni\"\n...\n```\n\nAlso, note that once the sequence part of the last ID equals \n18446744073709551615, you'll need to increment the timestamp and reset the\nsequence part to 0. For example, incrementing the ID\n`1526985685298-18446744073709551615` should result in `1526985685299-0`.\n\nA symmetrical pattern applies to iterating the stream with [`XREVRANGE`]({{< relref \"/commands/xrevrange\" >}}). The\nonly difference is that the client needs to decrement the ID for the subsequent\ncalls. When decrementing an ID with a sequence part of 0, the timestamp needs\nto be decremented by 1 and the sequence set to 18446744073709551615."
     },
     {
       "title": "Fetching single items",
@@ -169,12 +935,12 @@
     {
       "title": "Additional information about streams",
       "level": 2,
-      "content": "For further information about Redis streams please check our\n[introduction to Redis Streams document]()."
+      "content": "For further information about Redis streams please check our\n[introduction to Redis Streams document]({{< relref \"/develop/data-types/streams\" >}})."
     },
     {
       "title": "Examples",
       "level": 2,
-      "content": "XADD writers * name Virginia surname Woolf\nXADD writers * name Jane surname Austen\nXADD writers * name Toni surname Morrison\nXADD writers * name Agatha surname Christie\nXADD writers * name Ngozi surname Adichie\nXLEN writers\nXRANGE writers - + COUNT 2"
+      "content": "{{% redis-cli %}}\nXADD writers * name Virginia surname Woolf\nXADD writers * name Jane surname Austen\nXADD writers * name Toni surname Morrison\nXADD writers * name Agatha surname Christie\nXADD writers * name Ngozi surname Adichie\nXLEN writers\nXRANGE writers - + COUNT 2\n{{% /redis-cli %}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -184,7 +950,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of stream entries with IDs matching the specified range.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of stream entries with IDs matching the specified range."
+      "content": "{{< multitabs id=\"xrange-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of stream entries with IDs matching the specified range.\n\n-tab-sep-\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of stream entries with IDs matching the specified range.\n\n{{< /multitabs >}}"
     }
   ]
 }

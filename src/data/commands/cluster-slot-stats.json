@@ -10,6 +10,7 @@
   "since": "8.2.0",
   "arity": -4,
   "aclCategories": [],
+  "apiMethods": {},
   "commandFlags": [
     "STALE",
     "LOADING"
@@ -83,24 +84,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "options",
-        "title": "Options"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Use this command to get an array of slot usage statistics for the slots assigned to the current shard. If you're working with a Redis cluster, this data helps you understand overall slot usage, spot hot or cold slots, plan slot migrations to balance load, or refine your application logic to better distribute keys.\n\n## Options\n\n`CLUSTER SLOT-STATS` has two mutually exclusive options:\n\n* `ORDERBY`: Sorts the slot statistics by the specified metric. Use ASC or DESC to sort in ascending or descending order. If multiple slots have the same value, the command uses the slot number as a tiebreaker, sorted in ascending order.\n\n* `SLOTSRANGE`: Limits the results to a specific, inclusive range of slots. Results are always sorted by slot number in ascending order.\n\nThe command reports on the following statistics:\n\n* `KEY-COUNT`: Number of keys stored in the slot.\n* `CPU-USEC`: CPU time (in microseconds) spent handling the slot.\n* `MEMORY-BYTES`: Number of bytes allocated by the slot.\n* `NETWORK-BYTES-IN`: Total inbound network traffic (in bytes) received by the slot.\n* `NETWORK-BYTES-OUT`: Total outbound network traffic (in bytes) sent from the slot.\n\n\n`MEMORY-BYTES` requires that you set `cluster-slot-stats-enabled` to `yes` in your `redis.conf` file.\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n\n* [Array reply](): a nested list of slot usage statistics.\n* [Simple error]() otherwise.\n\n**RESP3:**\n\nOne of the following:\n\n* [Array reply](): a nested list of slot usage statistics.\n* [Simple error]() otherwise.",
+  "content": "Use this command to get an array of slot usage statistics for the slots assigned to the current shard. If you're working with a Redis cluster, this data helps you understand overall slot usage, spot hot or cold slots, plan slot migrations to balance load, or refine your application logic to better distribute keys.\n\n## Options\n\n`CLUSTER SLOT-STATS` has two mutually exclusive options:\n\n* `ORDERBY`: Sorts the slot statistics by the specified metric. Use ASC or DESC to sort in ascending or descending order. If multiple slots have the same value, the command uses the slot number as a tiebreaker, sorted in ascending order.\n\n* `SLOTSRANGE`: Limits the results to a specific, inclusive range of slots. Results are always sorted by slot number in ascending order.\n\nThe command reports on the following statistics:\n\n* `KEY-COUNT`: Number of keys stored in the slot.\n* `CPU-USEC`: CPU time (in microseconds) spent handling the slot.\n* `MEMORY-BYTES`: Number of bytes allocated by the slot.\n* `NETWORK-BYTES-IN`: Total inbound network traffic (in bytes) received by the slot.\n* `NETWORK-BYTES-OUT`: Total outbound network traffic (in bytes) sent from the slot.\n\n{{< note>}}\n`MEMORY-BYTES` requires that you set `cluster-slot-stats-enabled` to `yes` in your `redis.conf` file.\n{{< /note >}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"cmd-name-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n\n* [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): a nested list of slot usage statistics.\n* [Simple error]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) otherwise.\n\n-tab-sep-\n\nOne of the following:\n\n* [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): a nested list of slot usage statistics.\n* [Simple error]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) otherwise.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "Use this command to get an array of slot usage statistics for the slots assigned to the current shard. If you're working with a Redis cluster, this data helps you understand overall slot usage, spot hot or cold slots, plan slot migrations to balance load, or refine your application logic to better distribute keys.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -110,7 +100,7 @@
     {
       "title": "Options",
       "level": 2,
-      "content": "`CLUSTER SLOT-STATS` has two mutually exclusive options:\n\n* `ORDERBY`: Sorts the slot statistics by the specified metric. Use ASC or DESC to sort in ascending or descending order. If multiple slots have the same value, the command uses the slot number as a tiebreaker, sorted in ascending order.\n\n* `SLOTSRANGE`: Limits the results to a specific, inclusive range of slots. Results are always sorted by slot number in ascending order.\n\nThe command reports on the following statistics:\n\n* `KEY-COUNT`: Number of keys stored in the slot.\n* `CPU-USEC`: CPU time (in microseconds) spent handling the slot.\n* `MEMORY-BYTES`: Number of bytes allocated by the slot.\n* `NETWORK-BYTES-IN`: Total inbound network traffic (in bytes) received by the slot.\n* `NETWORK-BYTES-OUT`: Total outbound network traffic (in bytes) sent from the slot.\n\n\n`MEMORY-BYTES` requires that you set `cluster-slot-stats-enabled` to `yes` in your `redis.conf` file."
+      "content": "`CLUSTER SLOT-STATS` has two mutually exclusive options:\n\n* `ORDERBY`: Sorts the slot statistics by the specified metric. Use ASC or DESC to sort in ascending or descending order. If multiple slots have the same value, the command uses the slot number as a tiebreaker, sorted in ascending order.\n\n* `SLOTSRANGE`: Limits the results to a specific, inclusive range of slots. Results are always sorted by slot number in ascending order.\n\nThe command reports on the following statistics:\n\n* `KEY-COUNT`: Number of keys stored in the slot.\n* `CPU-USEC`: CPU time (in microseconds) spent handling the slot.\n* `MEMORY-BYTES`: Number of bytes allocated by the slot.\n* `NETWORK-BYTES-IN`: Total inbound network traffic (in bytes) received by the slot.\n* `NETWORK-BYTES-OUT`: Total outbound network traffic (in bytes) sent from the slot.\n\n{{< note>}}\n`MEMORY-BYTES` requires that you set `cluster-slot-stats-enabled` to `yes` in your `redis.conf` file.\n{{< /note >}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -120,7 +110,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n\n* [Array reply](): a nested list of slot usage statistics.\n* [Simple error]() otherwise.\n\n**RESP3:**\n\nOne of the following:\n\n* [Array reply](): a nested list of slot usage statistics.\n* [Simple error]() otherwise."
+      "content": "{{< multitabs id=\"cmd-name-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n\n* [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): a nested list of slot usage statistics.\n* [Simple error]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) otherwise.\n\n-tab-sep-\n\nOne of the following:\n\n* [Array reply]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}): a nested list of slot usage statistics.\n* [Simple error]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) otherwise.\n\n{{< /multitabs >}}"
     }
   ]
 }

@@ -10,6 +10,814 @@
   "since": "8.0.0",
   "arity": null,
   "aclCategories": [],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "KeyT"
+          },
+          {
+            "description": "",
+            "name": "vector",
+            "type": "Union[List[float], bytes]"
+          },
+          {
+            "description": "",
+            "name": "element",
+            "type": "str"
+          },
+          {
+            "description": "",
+            "name": "reduce_dim",
+            "type": "Optional[int] = None"
+          },
+          {
+            "description": "",
+            "name": "cas",
+            "type": "Optional[bool] = False"
+          },
+          {
+            "description": "",
+            "name": "quantization",
+            "type": "Optional[QuantizationOptions] = None"
+          },
+          {
+            "description": "",
+            "name": "ef",
+            "type": "Optional[Number] = None"
+          },
+          {
+            "description": "",
+            "name": "attributes",
+            "type": "Optional[Union[dict, str]] = None"
+          },
+          {
+            "description": "",
+            "name": "numlinks",
+            "type": "Optional[int] = None"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Union[Awaitable[int], int]"
+        },
+        "signature": "vadd(, key: KeyT,, vector: Union[List[float], bytes],, element: str,, reduce_dim: Optional[int] = None,, cas: Optional[bool] = False,, quantization: Optional[QuantizationOptions] = None,, ef: Optional[Number] = None,, attributes: Optional[Union[dict, str]] = None,, numlinks: Optional[int] = None,)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "the name of the key that will hold the vector set data",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "the vector as floating point numbers",
+            "name": "vector",
+            "type": "float[]"
+          },
+          {
+            "description": "the name of the element that is being added to the vector set",
+            "name": "element",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "1 if key was added; 0 if key was not added",
+          "type": "boolean"
+        },
+        "signature": "boolean vadd(String key, float[] vector, String element)"
+      },
+      {
+        "params": [
+          {
+            "description": "the name of the key that will hold the vector set data",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "the vector as floating point numbers",
+            "name": "vector",
+            "type": "float[]"
+          },
+          {
+            "description": "the name of the element that is being added to the vector set",
+            "name": "element",
+            "type": "String"
+          },
+          {
+            "description": "additional parameters for the VADD command",
+            "name": "params",
+            "type": "VAddParams"
+          }
+        ],
+        "returns": {
+          "description": "1 if key was added; 0 if key was not added",
+          "type": "boolean"
+        },
+        "signature": "boolean vadd(String key, float[] vector, String element, VAddParams params)"
+      },
+      {
+        "params": [
+          {
+            "description": "the name of the key that will hold the vector set data",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "the vector as floating point numbers",
+            "name": "vector",
+            "type": "float[]"
+          },
+          {
+            "description": "the name of the element that is being added to the vector set",
+            "name": "element",
+            "type": "String"
+          },
+          {
+            "description": "the target dimension after reduction using random projection",
+            "name": "reduceDim",
+            "type": "int"
+          },
+          {
+            "description": "additional parameters for the VADD command",
+            "name": "params",
+            "type": "VAddParams"
+          }
+        ],
+        "returns": {
+          "description": "1 if key was added; 0 if key was not added",
+          "type": "boolean"
+        },
+        "signature": "boolean vadd(String key, float[] vector, String element, int reduceDim, VAddParams params)"
+      },
+      {
+        "params": [
+          {
+            "description": "the name of the key that will hold the vector set data",
+            "name": "key",
+            "type": "byte[]"
+          },
+          {
+            "description": "the vector as floating point numbers",
+            "name": "vector",
+            "type": "float[]"
+          },
+          {
+            "description": "the name of the element that is being added to the vector set",
+            "name": "element",
+            "type": "byte[]"
+          }
+        ],
+        "returns": {
+          "description": "1 if key was added; 0 if key was not added",
+          "type": "boolean"
+        },
+        "signature": "boolean vadd(byte[] key, float[] vector, byte[] element)"
+      },
+      {
+        "params": [
+          {
+            "description": "the name of the key that will hold the vector set data",
+            "name": "key",
+            "type": "byte[]"
+          },
+          {
+            "description": "the vector as floating point numbers",
+            "name": "vector",
+            "type": "float[]"
+          },
+          {
+            "description": "the name of the element that is being added to the vector set",
+            "name": "element",
+            "type": "byte[]"
+          },
+          {
+            "description": "additional parameters for the VADD command",
+            "name": "params",
+            "type": "VAddParams"
+          }
+        ],
+        "returns": {
+          "description": "1 if key was added; 0 if key was not added",
+          "type": "boolean"
+        },
+        "signature": "boolean vadd(byte[] key, float[] vector, byte[] element, VAddParams params)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the key of the vector set",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the name of the element that is being added to the vector set",
+            "name": "element",
+            "type": "V"
+          },
+          {
+            "description": "the vector values as floating point numbers",
+            "name": "vectors",
+            "type": "Double..."
+          }
+        ],
+        "returns": {
+          "description": "true if the element was added, false otherwise @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vadd/\">Redis Documentation: VADD</a>",
+          "type": "Boolean"
+        },
+        "signature": "Boolean vadd(K key, V element, Double... vectors)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key of the vector set",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the reduced number of dimensions for the vector",
+            "name": "dimensionality",
+            "type": "int"
+          },
+          {
+            "description": "the name of the element that is being added to the vector set",
+            "name": "element",
+            "type": "V"
+          },
+          {
+            "description": "the vector values as floating point numbers",
+            "name": "vectors",
+            "type": "Double..."
+          }
+        ],
+        "returns": {
+          "description": "true if the element was added, false otherwise @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vadd/\">Redis Documentation: VADD</a>",
+          "type": "Boolean"
+        },
+        "signature": "Boolean vadd(K key, int dimensionality, V element, Double... vectors)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key of the vector set",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the name of the element that is being added to the vector set",
+            "name": "element",
+            "type": "V"
+          },
+          {
+            "description": "the additional arguments for the VADD command",
+            "name": "args",
+            "type": "VAddArgs"
+          },
+          {
+            "description": "the vector values as floating point numbers",
+            "name": "vectors",
+            "type": "Double..."
+          }
+        ],
+        "returns": {
+          "description": "true if the element was added, false otherwise @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vadd/\">Redis Documentation: VADD</a>",
+          "type": "Boolean"
+        },
+        "signature": "Boolean vadd(K key, V element, VAddArgs args, Double... vectors)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key of the vector set",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the reduced number of dimensions for the vector",
+            "name": "dimensionality",
+            "type": "int"
+          },
+          {
+            "description": "the name of the element that is being added to the vector set",
+            "name": "element",
+            "type": "V"
+          },
+          {
+            "description": "the additional arguments for the VADD command",
+            "name": "args",
+            "type": "VAddArgs"
+          },
+          {
+            "description": "the vector values as floating point numbers",
+            "name": "vectors",
+            "type": "Double..."
+          }
+        ],
+        "returns": {
+          "description": "true if the element was added, false otherwise @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vadd/\">Redis Documentation: VADD</a>",
+          "type": "Boolean"
+        },
+        "signature": "Boolean vadd(K key, int dimensionality, V element, VAddArgs args, Double... vectors)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the key of the vector set",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the name of the element that is being added to the vector set",
+            "name": "element",
+            "type": "V"
+          },
+          {
+            "description": "the vector values as floating point numbers",
+            "name": "vectors",
+            "type": "Double..."
+          }
+        ],
+        "returns": {
+          "description": "true if the element was added, false otherwise @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vadd/\">Redis Documentation: VADD</a>",
+          "type": "RedisFuture<Boolean>"
+        },
+        "signature": "RedisFuture<Boolean> vadd(K key, V element, Double... vectors)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key of the vector set",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the reduced number of dimensions for the vector",
+            "name": "dimensionality",
+            "type": "int"
+          },
+          {
+            "description": "the name of the element that is being added to the vector set",
+            "name": "element",
+            "type": "V"
+          },
+          {
+            "description": "the vector values as floating point numbers",
+            "name": "vectors",
+            "type": "Double..."
+          }
+        ],
+        "returns": {
+          "description": "true if the element was added, false otherwise @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vadd/\">Redis Documentation: VADD</a>",
+          "type": "RedisFuture<Boolean>"
+        },
+        "signature": "RedisFuture<Boolean> vadd(K key, int dimensionality, V element, Double... vectors)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key of the vector set",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the name of the element that is being added to the vector set",
+            "name": "element",
+            "type": "V"
+          },
+          {
+            "description": "the additional arguments for the VADD command",
+            "name": "args",
+            "type": "VAddArgs"
+          },
+          {
+            "description": "the vector values as floating point numbers",
+            "name": "vectors",
+            "type": "Double..."
+          }
+        ],
+        "returns": {
+          "description": "true if the element was added, false otherwise @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vadd/\">Redis Documentation: VADD</a>",
+          "type": "RedisFuture<Boolean>"
+        },
+        "signature": "RedisFuture<Boolean> vadd(K key, V element, VAddArgs args, Double... vectors)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key of the vector set",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the reduced number of dimensions for the vector",
+            "name": "dimensionality",
+            "type": "int"
+          },
+          {
+            "description": "the name of the element that is being added to the vector set",
+            "name": "element",
+            "type": "V"
+          },
+          {
+            "description": "the additional arguments for the VADD command",
+            "name": "args",
+            "type": "VAddArgs"
+          },
+          {
+            "description": "the vector values as floating point numbers",
+            "name": "vectors",
+            "type": "Double..."
+          }
+        ],
+        "returns": {
+          "description": "true if the element was added, false otherwise @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vadd/\">Redis Documentation: VADD</a>",
+          "type": "RedisFuture<Boolean>"
+        },
+        "signature": "RedisFuture<Boolean> vadd(K key, int dimensionality, V element, VAddArgs args, Double... vectors)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the key of the vector set",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the name of the element that is being added to the vector set",
+            "name": "element",
+            "type": "V"
+          },
+          {
+            "description": "the vector values as floating point numbers",
+            "name": "vectors",
+            "type": "Double..."
+          }
+        ],
+        "returns": {
+          "description": "true if the element was added, false otherwise @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vadd/\">Redis Documentation: VADD</a>",
+          "type": "Mono<Boolean>"
+        },
+        "signature": "Mono<Boolean> vadd(K key, V element, Double... vectors)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key of the vector set",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the reduced number of dimensions for the vector",
+            "name": "dimensionality",
+            "type": "int"
+          },
+          {
+            "description": "the name of the element that is being added to the vector set",
+            "name": "element",
+            "type": "V"
+          },
+          {
+            "description": "the vector values as floating point numbers",
+            "name": "vectors",
+            "type": "Double..."
+          }
+        ],
+        "returns": {
+          "description": "true if the element was added, false otherwise @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vadd/\">Redis Documentation: VADD</a>",
+          "type": "Mono<Boolean>"
+        },
+        "signature": "Mono<Boolean> vadd(K key, int dimensionality, V element, Double... vectors)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key of the vector set",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the name of the element that is being added to the vector set",
+            "name": "element",
+            "type": "V"
+          },
+          {
+            "description": "the additional arguments for the VADD command",
+            "name": "args",
+            "type": "VAddArgs"
+          },
+          {
+            "description": "the vector values as floating point numbers",
+            "name": "vectors",
+            "type": "Double..."
+          }
+        ],
+        "returns": {
+          "description": "true if the element was added, false otherwise @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vadd/\">Redis Documentation: VADD</a>",
+          "type": "Mono<Boolean>"
+        },
+        "signature": "Mono<Boolean> vadd(K key, V element, VAddArgs args, Double... vectors)"
+      },
+      {
+        "params": [
+          {
+            "description": "the key of the vector set",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "the reduced number of dimensions for the vector",
+            "name": "dimensionality",
+            "type": "int"
+          },
+          {
+            "description": "the name of the element that is being added to the vector set",
+            "name": "element",
+            "type": "V"
+          },
+          {
+            "description": "the additional arguments for the VADD command",
+            "name": "args",
+            "type": "VAddArgs"
+          },
+          {
+            "description": "the vector values as floating point numbers",
+            "name": "vectors",
+            "type": "Double..."
+          }
+        ],
+        "returns": {
+          "description": "true if the element was added, false otherwise @since 6.7 @see <a href=\"https://redis.io/docs/latest/commands/vadd/\">Redis Documentation: VADD</a>",
+          "type": "Mono<Boolean>"
+        },
+        "signature": "Mono<Boolean> vadd(K key, int dimensionality, V element, VAddArgs args, Double... vectors)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "element",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "val",
+            "type": "Vector"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*BoolCmd"
+        },
+        "signature": "VAdd(ctx context.Context, key, element string, val Vector)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "vector",
+            "type": "Array<number>"
+          },
+          {
+            "description": "",
+            "name": "element",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "options?",
+            "type": "VAddOptions"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "VADD(key: RedisArgument, vector: Array<number>, element: RedisArgument, options?: VAddOptions)"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "input",
+            "type": "vector_sets"
+          },
+          {
+            "description": "",
+            "name": "element",
+            "type": "E"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(bool)"
+        },
+        "signature": "vadd(key: K, input: vector_sets::VectorAddInput<'a>, element: E)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "input",
+            "type": "vector_sets"
+          },
+          {
+            "description": "",
+            "name": "element",
+            "type": "E"
+          },
+          {
+            "description": "",
+            "name": "options",
+            "type": "&'a vector_sets"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(bool)"
+        },
+        "signature": "vadd_options(key: K, input: vector_sets::VectorAddInput<'a>, element: E, options: &'a vector_sets::VAddOptions)"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "input",
+            "type": "vector_sets"
+          },
+          {
+            "description": "",
+            "name": "element",
+            "type": "E"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(bool)"
+        },
+        "signature": "vadd(key: K, input: vector_sets::VectorAddInput<'a>, element: E)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "input",
+            "type": "vector_sets"
+          },
+          {
+            "description": "",
+            "name": "element",
+            "type": "E"
+          },
+          {
+            "description": "",
+            "name": "options",
+            "type": "&'a vector_sets"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(bool)"
+        },
+        "signature": "vadd_options(key: K, input: vector_sets::VectorAddInput<'a>, element: E, options: &'a vector_sets::VAddOptions)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "",
+            "name": "request",
+            "type": "VectorSetAddRequest"
+          },
+          {
+            "description": "",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Task<bool>"
+        },
+        "signature": "VectorSetAddAsync(RedisKey key, VectorSetAddRequest request, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$vector",
+            "type": "string|array"
+          },
+          {
+            "description": "",
+            "name": "$elem",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "int $dim = null",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "bool $cas = false",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "string $quant = VADD::QUANT_DEFAULT",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "int $bef = null",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "string|array $attributes = null",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "int $numlinks = null",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "bool"
+        },
+        "signature": "vadd(string $key, string|array $vector, string $elem, int $dim = null, bool $cas = false, string $quant = VADD::QUANT_DEFAULT, int $bef = null, string|array $attributes = null, int $numlinks = null)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [],
   "keySpecs": [],
@@ -24,32 +832,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "optional-arguments",
-        "title": "Optional arguments"
-      },
-      {
-        "id": "related-topics",
-        "title": "Related topics"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Add a new element into the vector set specified by `key`. The vector can be provided as 32-bit floating point (`FP32`) blob of values, or as floating point numbers as strings, prefixed by the number of elements (3 in the example below):\n\n```\nVADD mykey VALUES 3 0.1 1.2 0.5 my-element\n```\n\n## Required arguments\n\n<details open>\n<summary><code>key</code></summary>\n\nis the name of the key that will hold the vector set data.\n</details>\n\n<details open>\n<summary><code>FP32 vector or VALUES num vector</code></summary>\n\neither a 32-bit floating point (FP32) blob of values or `num` floating point numbers as strings. When using the FP32 format, the blob must use little-endian encoding. On platforms with different endianness, you should either manually adjust the byte order or use the VALUES syntax instead.\n</details>\n\n<details open>\n<summary><code>element</code></summary>\n\nis the name of the element that is being added to the vector set.\n</details>\n\n## Optional arguments\n\n<details open>\n<summary><code>REDUCE dim</code></summary>\n\nimplements random projection to reduce the dimensionality of the vector. The projection matrix is saved and reloaded along with the vector set. Please note that the REDUCE option must be passed immediately before the vector. For example,\n\n```\nVADD mykey REDUCE 50 VALUES ...\n```\n</details>\n\n<details open>\n<summary><code>CAS</code></summary>\n\nperforms the operation partially using threads, in a check-and-set style. The neighbor candidates collection, which is slow, is performed in the background, while the command is executed in the main thread.\n</details>\n\n<details open>\n<summary><code>NOQUANT</code></summary>\n\nin the first VADD call for a given key, NOQUANT forces the vector to be created without int8 quantization, which is otherwise the default.\n</details>\n\n<details open>\n<summary><code>BIN</code></summary>\n\nforces the vector to use binary quantization instead of int8. This is much faster and uses less memory, but impacts the recall quality.\n</details>\n\n<details open>\n<summary><code>Q8</code></summary>\n\nforces the vector to use signed 8-bit quantization. This is the default, and the option only exists to make sure to check at insertion time that the vector set is of the same format.\n</details>\n\n\n`NOQUANT`, `Q8`, and `BIN` are mutually exclusive.\n\n\n\n<details open>\n<summary><code>EF build-exploration-factor</code></summary>\n\nplays a role in the effort made to find good candidates when connecting the new node to the existing Hierarchical Navigable Small World (HNSW) graph. The default is 200. Using a larger value may help in achieving a better recall. To improve the recall it is also possible to increase EF during VSIM searches.\n</details>\n\n<details open>\n<summary><code>SETATTR attributes</code></summary>\n\nassociates attributes in the form of a JavaScript object to the newly created entry or updates the attributes (if they already exist).\nIt is the same as calling the VSETATTR command separately.\n</details>\n\n<details open>\n<summary><code>M numlinks</code></summary>\n\nis the maximum number of connections that each node of the graph will have with other nodes. The default is 16. More connections means more memory, but provides for more efficient graph exploration. Nodes at layer zero (every node exists at least at layer zero) have `M * 2` connections, while the other layers only have `M` connections. For example, setting `M` to `64` will use at least 1024 bytes of memory for layer zero. That's `M * 2` connections times 8 bytes (pointers), or `128 * 8 = 1024`. For higher layers, consider the following:\n\n- Each node appears in ~1.33 layers on average (empirical observation from HNSW papers), which works out to be 0.33 higher layers per node.\n- Each of those higher layers has `M = 64` connections.\n\nSo, the additional amount of memory is approximately `0.33 × 64 × 8 ≈ 169.6` bytes per node, bringing the total memory to ~1193 bytes.\n\nIf you don't have a recall quality problem, the default is acceptable, and uses a minimal amount of memory.\n</details>\n\n## Related topics\n\n- [Vector sets]()\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): 1 if key was added; 0 if key was not added.\n* [Simple error reply](../../develop/reference/protocol-spec#simple-errors): if the command was malformed.\n\n**RESP3:**\n\nOne of the following:\n* [Boolean reply](../../develop/reference/protocol-spec#booleans): true if key was added; false if key was not added.\n* [Simple error reply](../../develop/reference/protocol-spec#simple-errors): if the command was malformed.",
+  "content": "Add a new element into the vector set specified by `key`. The vector can be provided as 32-bit floating point (`FP32`) blob of values, or as floating point numbers as strings, prefixed by the number of elements (3 in the example below):\n\n```\nVADD mykey VALUES 3 0.1 1.2 0.5 my-element\n```\n\n## Required arguments\n\n<details open>\n<summary><code>key</code></summary>\n\nis the name of the key that will hold the vector set data.\n</details>\n\n<details open>\n<summary><code>FP32 vector or VALUES num vector</code></summary>\n\neither a 32-bit floating point (FP32) blob of values or `num` floating point numbers as strings. When using the FP32 format, the blob must use little-endian encoding. On platforms with different endianness, you should either manually adjust the byte order or use the VALUES syntax instead.\n</details>\n\n<details open>\n<summary><code>element</code></summary>\n\nis the name of the element that is being added to the vector set.\n</details>\n\n## Optional arguments\n\n<details open>\n<summary><code>REDUCE dim</code></summary>\n\nimplements random projection to reduce the dimensionality of the vector. The projection matrix is saved and reloaded along with the vector set. Please note that the REDUCE option must be passed immediately before the vector. For example,\n\n```\nVADD mykey REDUCE 50 VALUES ...\n```\n</details>\n\n<details open>\n<summary><code>CAS</code></summary>\n\nperforms the operation partially using threads, in a check-and-set style. The neighbor candidates collection, which is slow, is performed in the background, while the command is executed in the main thread.\n</details>\n\n<details open>\n<summary><code>NOQUANT</code></summary>\n\nin the first VADD call for a given key, NOQUANT forces the vector to be created without int8 quantization, which is otherwise the default.\n</details>\n\n<details open>\n<summary><code>BIN</code></summary>\n\nforces the vector to use binary quantization instead of int8. This is much faster and uses less memory, but impacts the recall quality.\n</details>\n\n<details open>\n<summary><code>Q8</code></summary>\n\nforces the vector to use signed 8-bit quantization. This is the default, and the option only exists to make sure to check at insertion time that the vector set is of the same format.\n</details>\n\n{{< note >}}\n`NOQUANT`, `Q8`, and `BIN` are mutually exclusive.\n\n{{< /note >}}\n\n<details open>\n<summary><code>EF build-exploration-factor</code></summary>\n\nplays a role in the effort made to find good candidates when connecting the new node to the existing Hierarchical Navigable Small World (HNSW) graph. The default is 200. Using a larger value may help in achieving a better recall. To improve the recall it is also possible to increase EF during VSIM searches.\n</details>\n\n<details open>\n<summary><code>SETATTR attributes</code></summary>\n\nassociates attributes in the form of a JavaScript object to the newly created entry or updates the attributes (if they already exist).\nIt is the same as calling the VSETATTR command separately.\n</details>\n\n<details open>\n<summary><code>M numlinks</code></summary>\n\nis the maximum number of connections that each node of the graph will have with other nodes. The default is 16. More connections means more memory, but provides for more efficient graph exploration. Nodes at layer zero (every node exists at least at layer zero) have `M * 2` connections, while the other layers only have `M` connections. For example, setting `M` to `64` will use at least 1024 bytes of memory for layer zero. That's `M * 2` connections times 8 bytes (pointers), or `128 * 8 = 1024`. For higher layers, consider the following:\n\n- Each node appears in ~1.33 layers on average (empirical observation from HNSW papers), which works out to be 0.33 higher layers per node.\n- Each of those higher layers has `M = 64` connections.\n\nSo, the additional amount of memory is approximately `0.33 × 64 × 8 ≈ 169.6` bytes per node, bringing the total memory to ~1193 bytes.\n\nIf you don't have a recall quality problem, the default is acceptable, and uses a minimal amount of memory.\n</details>\n\n## Related topics\n\n- [Vector sets]({{< relref \"/develop/data-types/vector-sets\" >}})\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"vadd-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): 1 if key was added; 0 if key was not added.\n* [Simple error reply](../../develop/reference/protocol-spec#simple-errors): if the command was malformed.\n\n-tab-sep-\n\nOne of the following:\n* [Boolean reply](../../develop/reference/protocol-spec#booleans): true if key was added; false if key was not added.\n* [Simple error reply](../../develop/reference/protocol-spec#simple-errors): if the command was malformed.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "Add a new element into the vector set specified by `key`. The vector can be provided as 32-bit floating point (`FP32`) blob of values, or as floating point numbers as strings, prefixed by the number of elements (3 in the example below):\n\n```\nVADD mykey VALUES 3 0.1 1.2 0.5 my-element\n```",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -64,12 +853,12 @@
     {
       "title": "Optional arguments",
       "level": 2,
-      "content": "<details open>\n<summary><code>REDUCE dim</code></summary>\n\nimplements random projection to reduce the dimensionality of the vector. The projection matrix is saved and reloaded along with the vector set. Please note that the REDUCE option must be passed immediately before the vector. For example,\n\n```\nVADD mykey REDUCE 50 VALUES ...\n```\n</details>\n\n<details open>\n<summary><code>CAS</code></summary>\n\nperforms the operation partially using threads, in a check-and-set style. The neighbor candidates collection, which is slow, is performed in the background, while the command is executed in the main thread.\n</details>\n\n<details open>\n<summary><code>NOQUANT</code></summary>\n\nin the first VADD call for a given key, NOQUANT forces the vector to be created without int8 quantization, which is otherwise the default.\n</details>\n\n<details open>\n<summary><code>BIN</code></summary>\n\nforces the vector to use binary quantization instead of int8. This is much faster and uses less memory, but impacts the recall quality.\n</details>\n\n<details open>\n<summary><code>Q8</code></summary>\n\nforces the vector to use signed 8-bit quantization. This is the default, and the option only exists to make sure to check at insertion time that the vector set is of the same format.\n</details>\n\n\n`NOQUANT`, `Q8`, and `BIN` are mutually exclusive.\n\n\n\n<details open>\n<summary><code>EF build-exploration-factor</code></summary>\n\nplays a role in the effort made to find good candidates when connecting the new node to the existing Hierarchical Navigable Small World (HNSW) graph. The default is 200. Using a larger value may help in achieving a better recall. To improve the recall it is also possible to increase EF during VSIM searches.\n</details>\n\n<details open>\n<summary><code>SETATTR attributes</code></summary>\n\nassociates attributes in the form of a JavaScript object to the newly created entry or updates the attributes (if they already exist).\nIt is the same as calling the VSETATTR command separately.\n</details>\n\n<details open>\n<summary><code>M numlinks</code></summary>\n\nis the maximum number of connections that each node of the graph will have with other nodes. The default is 16. More connections means more memory, but provides for more efficient graph exploration. Nodes at layer zero (every node exists at least at layer zero) have `M * 2` connections, while the other layers only have `M` connections. For example, setting `M` to `64` will use at least 1024 bytes of memory for layer zero. That's `M * 2` connections times 8 bytes (pointers), or `128 * 8 = 1024`. For higher layers, consider the following:\n\n- Each node appears in ~1.33 layers on average (empirical observation from HNSW papers), which works out to be 0.33 higher layers per node.\n- Each of those higher layers has `M = 64` connections.\n\nSo, the additional amount of memory is approximately `0.33 × 64 × 8 ≈ 169.6` bytes per node, bringing the total memory to ~1193 bytes.\n\nIf you don't have a recall quality problem, the default is acceptable, and uses a minimal amount of memory.\n</details>"
+      "content": "<details open>\n<summary><code>REDUCE dim</code></summary>\n\nimplements random projection to reduce the dimensionality of the vector. The projection matrix is saved and reloaded along with the vector set. Please note that the REDUCE option must be passed immediately before the vector. For example,\n\n```\nVADD mykey REDUCE 50 VALUES ...\n```\n</details>\n\n<details open>\n<summary><code>CAS</code></summary>\n\nperforms the operation partially using threads, in a check-and-set style. The neighbor candidates collection, which is slow, is performed in the background, while the command is executed in the main thread.\n</details>\n\n<details open>\n<summary><code>NOQUANT</code></summary>\n\nin the first VADD call for a given key, NOQUANT forces the vector to be created without int8 quantization, which is otherwise the default.\n</details>\n\n<details open>\n<summary><code>BIN</code></summary>\n\nforces the vector to use binary quantization instead of int8. This is much faster and uses less memory, but impacts the recall quality.\n</details>\n\n<details open>\n<summary><code>Q8</code></summary>\n\nforces the vector to use signed 8-bit quantization. This is the default, and the option only exists to make sure to check at insertion time that the vector set is of the same format.\n</details>\n\n{{< note >}}\n`NOQUANT`, `Q8`, and `BIN` are mutually exclusive.\n\n{{< /note >}}\n\n<details open>\n<summary><code>EF build-exploration-factor</code></summary>\n\nplays a role in the effort made to find good candidates when connecting the new node to the existing Hierarchical Navigable Small World (HNSW) graph. The default is 200. Using a larger value may help in achieving a better recall. To improve the recall it is also possible to increase EF during VSIM searches.\n</details>\n\n<details open>\n<summary><code>SETATTR attributes</code></summary>\n\nassociates attributes in the form of a JavaScript object to the newly created entry or updates the attributes (if they already exist).\nIt is the same as calling the VSETATTR command separately.\n</details>\n\n<details open>\n<summary><code>M numlinks</code></summary>\n\nis the maximum number of connections that each node of the graph will have with other nodes. The default is 16. More connections means more memory, but provides for more efficient graph exploration. Nodes at layer zero (every node exists at least at layer zero) have `M * 2` connections, while the other layers only have `M` connections. For example, setting `M` to `64` will use at least 1024 bytes of memory for layer zero. That's `M * 2` connections times 8 bytes (pointers), or `128 * 8 = 1024`. For higher layers, consider the following:\n\n- Each node appears in ~1.33 layers on average (empirical observation from HNSW papers), which works out to be 0.33 higher layers per node.\n- Each of those higher layers has `M = 64` connections.\n\nSo, the additional amount of memory is approximately `0.33 × 64 × 8 ≈ 169.6` bytes per node, bringing the total memory to ~1193 bytes.\n\nIf you don't have a recall quality problem, the default is acceptable, and uses a minimal amount of memory.\n</details>"
     },
     {
       "title": "Related topics",
       "level": 2,
-      "content": "- [Vector sets]()"
+      "content": "- [Vector sets]({{< relref \"/develop/data-types/vector-sets\" >}})"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -79,7 +868,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): 1 if key was added; 0 if key was not added.\n* [Simple error reply](../../develop/reference/protocol-spec#simple-errors): if the command was malformed.\n\n**RESP3:**\n\nOne of the following:\n* [Boolean reply](../../develop/reference/protocol-spec#booleans): true if key was added; false if key was not added.\n* [Simple error reply](../../develop/reference/protocol-spec#simple-errors): if the command was malformed."
+      "content": "{{< multitabs id=\"vadd-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): 1 if key was added; 0 if key was not added.\n* [Simple error reply](../../develop/reference/protocol-spec#simple-errors): if the command was malformed.\n\n-tab-sep-\n\nOne of the following:\n* [Boolean reply](../../develop/reference/protocol-spec#booleans): true if key was added; false if key was not added.\n* [Simple error reply](../../develop/reference/protocol-spec#simple-errors): if the command was malformed.\n\n{{< /multitabs >}}"
     }
   ]
 }

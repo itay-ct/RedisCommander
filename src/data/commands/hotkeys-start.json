@@ -14,6 +14,7 @@
     "@slow",
     "@dangerous"
   ],
+  "apiMethods": {},
   "commandFlags": [
     "admin",
     "noscript"
@@ -98,28 +99,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "arguments",
-        "title": "Arguments"
-      },
-      {
-        "id": "optional-arguments",
-        "title": "Optional arguments"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Starts hotkeys tracking with specified metrics.\n\nThis command initiates a hotkey tracking session. You must specify which metrics to track using the required `METRICS` parameter.\nAn error is returned if a tracking session is already in progress.\n\nThe tracking session continues until manually stopped with [`HOTKEYS STOP`]() or automatically stopped after the specified duration.\n\n## Arguments\n\n<details open><summary><code>METRICS count [CPU] [NET]</code></summary>\n\n**Required.** Specifies which metrics to track and how many hotkeys to track.\n\n- `count` - The number of metrics to collect (required).\n- `CPU` - Track hotkeys by CPU time percentage (optional).\n- `NET` - Track hotkeys by network bytes percentage (optional).\n\nAt least one of `CPU` or `NET` must be specified.\n\n</details>\n\n## Optional arguments\n\n<details open><summary><code>COUNT</code></summary>\n\nSpecifies the value of K for the top-K hotkeys tracking.\n\n</details>\n\n<details open><summary><code>DURATION</code></summary>\n\nThe duration in seconds for how long the hotkeys tracking should run. After this time period, tracking will automatically stop. If not specified, tracking continues until manually stopped with `HOTKEYS STOP`.\n\n</details>\n\n<details open><summary><code>SAMPLE</code></summary>\n\nSampling ratio for probabilistic tracking. Each key is sampled with probability `1/ratio`. Higher values reduce performance impact but may miss some hotkeys. Lower values provide more accurate results but with higher performance cost.\n\n</details>\n\n<details open><summary><code>SLOTS</code></summary>\n\nSpecifies which hash slots to track in a cluster environment. Takes a count followed by that many slot numbers. Only keys that hash to the specified slots will be tracked. Useful for tracking hotkeys on specific shards in a Redis cluster. Using `SLOTS` when not in cluster mode will result in an error.\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n\n- [Simple string]() reply: `OK` when tracking is successfully started.\n- [Error reply](): when invalid parameters are provided.\n\n**RESP3:**\n\nOne of the following:\n\n- [Simple string]() reply: `OK` when tracking is successfully started.\n- [Error reply](): when invalid parameters are provided.",
+  "content": "Starts hotkeys tracking with specified metrics.\n\nThis command initiates a hotkey tracking session. You must specify which metrics to track using the required `METRICS` parameter.\nAn error is returned if a tracking session is already in progress.\n\nThe tracking session continues until manually stopped with [`HOTKEYS STOP`]() or automatically stopped after the specified duration.\n\n## Arguments\n\n<details open><summary><code>METRICS count [CPU] [NET]</code></summary>\n\n**Required.** Specifies which metrics to track and how many hotkeys to track.\n\n- `count` - The number of metrics to collect (required).\n- `CPU` - Track hotkeys by CPU time percentage (optional).\n- `NET` - Track hotkeys by network bytes percentage (optional).\n\nAt least one of `CPU` or `NET` must be specified.\n\n</details>\n\n## Optional arguments\n\n<details open><summary><code>COUNT</code></summary>\n\nSpecifies the value of K for the top-K hotkeys tracking.\n\n</details>\n\n<details open><summary><code>DURATION</code></summary>\n\nThe duration in seconds for how long the hotkeys tracking should run. After this time period, tracking will automatically stop. If not specified, tracking continues until manually stopped with `HOTKEYS STOP`.\n\n</details>\n\n<details open><summary><code>SAMPLE</code></summary>\n\nSampling ratio for probabilistic tracking. Each key is sampled with probability `1/ratio`. Higher values reduce performance impact but may miss some hotkeys. Lower values provide more accurate results but with higher performance cost.\n\n</details>\n\n<details open><summary><code>SLOTS</code></summary>\n\nSpecifies which hash slots to track in a cluster environment. Takes a count followed by that many slot numbers. Only keys that hash to the specified slots will be tracked. Useful for tracking hotkeys on specific shards in a Redis cluster. Using `SLOTS` when not in cluster mode will result in an error.\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\nOne of the following:\n\n- [Simple string]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}) reply: `OK` when tracking is successfully started.\n- [Error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}): when invalid parameters are provided.\n\n-tab-sep-\n\nOne of the following:\n\n- [Simple string]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}) reply: `OK` when tracking is successfully started.\n- [Error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}): when invalid parameters are provided.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "Starts hotkeys tracking with specified metrics.\n\nThis command initiates a hotkey tracking session. You must specify which metrics to track using the required `METRICS` parameter.\nAn error is returned if a tracking session is already in progress.\n\nThe tracking session continues until manually stopped with [`HOTKEYS STOP`]() or automatically stopped after the specified duration.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -144,7 +130,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n\n- [Simple string]() reply: `OK` when tracking is successfully started.\n- [Error reply](): when invalid parameters are provided.\n\n**RESP3:**\n\nOne of the following:\n\n- [Simple string]() reply: `OK` when tracking is successfully started.\n- [Error reply](): when invalid parameters are provided."
+      "content": "{{< multitabs id=\"return-info\"\n    tab1=\"RESP2\"\n    tab2=\"RESP3\" >}}\n\nOne of the following:\n\n- [Simple string]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}) reply: `OK` when tracking is successfully started.\n- [Error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}): when invalid parameters are provided.\n\n-tab-sep-\n\nOne of the following:\n\n- [Simple string]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}) reply: `OK` when tracking is successfully started.\n- [Error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}): when invalid parameters are provided.\n\n{{< /multitabs >}}"
     }
   ]
 }

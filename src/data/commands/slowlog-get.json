@@ -14,6 +14,167 @@
     "@slow",
     "@dangerous"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "num",
+            "type": "int | None"
+          },
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "slowlog_get(num: int | None = None, **kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "List<Slowlog>"
+        },
+        "signature": "List<Slowlog> slowlogGet()"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "entries",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List<Slowlog>"
+        },
+        "signature": "List<Slowlog> slowlogGet(long entries)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "num",
+            "type": "int64"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*SlowLogCmd"
+        },
+        "signature": "SlowLogGet(ctx context.Context, num int64) *SlowLogCmd"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "List<Object>"
+        },
+        "signature": "List<Object> slowlogGet()"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "count",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List<Object>"
+        },
+        "signature": "List<Object> slowlogGet(int count)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "RedisFuture<List<Object>>"
+        },
+        "signature": "RedisFuture<List<Object>> slowlogGet()"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "count",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "RedisFuture<List<Object>>"
+        },
+        "signature": "RedisFuture<List<Object>> slowlogGet(int count)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "Flux<Object>"
+        },
+        "signature": "Flux<Object> slowlogGet()"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "count",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Flux<Object>"
+        },
+        "signature": "Flux<Object> slowlogGet(int count)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$operation",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$length",
+            "type": "int|null"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array|int|bool"
+        },
+        "signature": "slowlog(string $operation, ?int $length = null)"
+      }
+    ]
+  },
   "commandFlags": [
     "admin",
     "loading",
@@ -39,20 +200,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "The `SLOWLOG GET` command returns entries from the slow log in chronological order.\n\nThe Redis Slow Log is a system to log queries that exceeded a specified execution time.\nThe execution time does not include I/O operations like talking with the client, sending the reply and so forth, but just the time needed to actually execute the command (this is the only stage of command execution where the thread is blocked and can not serve other requests in the meantime).\n\nA new entry is added to the slow log whenever a command exceeds the execution time threshold defined by the `slowlog-log-slower-than` configuration directive.\nThe maximum number of entries in the slow log is governed by the `slowlog-max-len` configuration directive.\n\nBy default the command returns latest ten entries in the log. The optional `count` argument limits the number of returned entries, so the command returns at most up to `count` entries, the special number -1 means return all entries.\n\nEach entry from the slow log is comprised of the following six values:\n\n1. A unique progressive identifier for every slow log entry.\n2. The unix timestamp at which the logged command was processed.\n3. The amount of time needed for its execution, in microseconds.\n4. The array composing the arguments of the command.\n5. Client IP address and port.\n6. Client name if set via the [`CLIENT SETNAME`]() command.\n\nThe entry's unique ID can be used in order to avoid processing slow log entries multiple times (for instance you may have a script sending you an email alert for every new slow log entry).\nThe ID is never reset in the course of the Redis server execution, only a server\nrestart will reset it.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Not supported for [scripts](). Also, the client IP address, port, and name are not returned by Redis Software. |\n\n## Return information\n\n**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of slow log entries per the above format.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of slow log entries per the above format.",
+  "content": "The `SLOWLOG GET` command returns entries from the slow log in chronological order.\n\nThe Redis Slow Log is a system to log queries that exceeded a specified execution time.\nThe execution time does not include I/O operations like talking with the client, sending the reply and so forth, but just the time needed to actually execute the command (this is the only stage of command execution where the thread is blocked and can not serve other requests in the meantime).\n\nA new entry is added to the slow log whenever a command exceeds the execution time threshold defined by the `slowlog-log-slower-than` configuration directive.\nThe maximum number of entries in the slow log is governed by the `slowlog-max-len` configuration directive.\n\nBy default the command returns latest ten entries in the log. The optional `count` argument limits the number of returned entries, so the command returns at most up to `count` entries, the special number -1 means return all entries.\n\nEach entry from the slow log is comprised of the following six values:\n\n1. A unique progressive identifier for every slow log entry.\n2. The unix timestamp at which the logged command was processed.\n3. The amount of time needed for its execution, in microseconds.\n4. The array composing the arguments of the command.\n5. Client IP address and port.\n6. Client name if set via the [`CLIENT SETNAME`]() command.\n\nThe entry's unique ID can be used in order to avoid processing slow log entries multiple times (for instance you may have a script sending you an email alert for every new slow log entry).\nThe ID is never reset in the course of the Redis server execution, only a server\nrestart will reset it.\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Not supported for [scripts]({{<relref \"/develop/programmability\">}}). Also, the client IP address, port, and name are not returned by Redis Software. |\n\n## Return information\n\n{{< multitabs id=\"slowlog-get-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of slow log entries per the above format.\n\n-tab-sep-\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of slow log entries per the above format.\n\n{{< /multitabs >}}",
+  "example": null,
   "intro": "The `SLOWLOG GET` command returns entries from the slow log in chronological order.\n\nThe Redis Slow Log is a system to log queries that exceeded a specified execution time.\nThe execution time does not include I/O operations like talking with the client, sending the reply and so forth, but just the time needed to actually execute the command (this is the only stage of command execution where the thread is blocked and can not serve other requests in the meantime).\n\nA new entry is added to the slow log whenever a command exceeds the execution time threshold defined by the `slowlog-log-slower-than` configuration directive.\nThe maximum number of entries in the slow log is governed by the `slowlog-max-len` configuration directive.\n\nBy default the command returns latest ten entries in the log. The optional `count` argument limits the number of returned entries, so the command returns at most up to `count` entries, the special number -1 means return all entries.\n\nEach entry from the slow log is comprised of the following six values:\n\n1. A unique progressive identifier for every slow log entry.\n2. The unix timestamp at which the logged command was processed.\n3. The amount of time needed for its execution, in microseconds.\n4. The array composing the arguments of the command.\n5. Client IP address and port.\n6. Client name if set via the [`CLIENT SETNAME`]() command.\n\nThe entry's unique ID can be used in order to avoid processing slow log entries multiple times (for instance you may have a script sending you an email alert for every new slow log entry).\nThe ID is never reset in the course of the Redis server execution, only a server\nrestart will reset it.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -62,12 +216,12 @@
     {
       "title": "Redis Software and Redis Cloud compatibility",
       "level": 2,
-      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Not supported for [scripts](). Also, the client IP address, port, and name are not returned by Redis Software. |"
+      "content": "| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | Not supported for [scripts]({{<relref \"/develop/programmability\">}}). Also, the client IP address, port, and name are not returned by Redis Software. |"
     },
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of slow log entries per the above format.\n\n**RESP3:**\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of slow log entries per the above format."
+      "content": "{{< multitabs id=\"slowlog-get-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of slow log entries per the above format.\n\n-tab-sep-\n\n[Array reply](../../develop/reference/protocol-spec#arrays): a list of slow log entries per the above format.\n\n{{< /multitabs >}}"
     }
   ]
 }

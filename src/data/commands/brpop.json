@@ -15,6 +15,478 @@
     "@slow",
     "@blocking"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keys",
+            "type": "List"
+          },
+          {
+            "description": "",
+            "name": "timeout",
+            "type": "Optional[Number] = 0"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Union[Awaitable[list], list]"
+        },
+        "signature": "brpop(keys: List, timeout: Optional[Number] = 0)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "timeout",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List<String>"
+        },
+        "signature": "List<String> brpop(final int timeout, final String... keys)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "timeout",
+            "type": "double"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "KeyValue<String, String>"
+        },
+        "signature": "KeyValue<String, String> brpop(final double timeout, final String... keys)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "timeout",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List<String>"
+        },
+        "signature": "List<String> brpop(final int timeout, final String key)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "timeout",
+            "type": "double"
+          },
+          {
+            "description": "",
+            "name": "key",
+            "type": "String"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "KeyValue<String, String>"
+        },
+        "signature": "KeyValue<String, String> brpop(double timeout, String key)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "timeout",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "List<String>"
+        },
+        "signature": "List<String> brpop(int timeout, String... keys)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the timeout in seconds.",
+            "name": "timeout",
+            "type": "long"
+          },
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "KeyValue&lt;K,V&gt; array-reply specifically: A null multi-bulk when no element could be popped and the timeout expired. A two-element multi-bulk with the first element being the name of the key where an element was popped and the second element being the value of the popped element. @since 6.1.3",
+          "type": "KeyValue<K, V>"
+        },
+        "signature": "KeyValue<K, V> brpop(long timeout, K... keys)"
+      },
+      {
+        "params": [
+          {
+            "description": "the timeout in seconds.",
+            "name": "timeout",
+            "type": "double"
+          },
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "KeyValue&lt;K,V&gt; array-reply specifically: A null multi-bulk when no element could be popped and the timeout expired. A two-element multi-bulk with the first element being the name of the key where an element was popped and the second element being the value of the popped element. @since 6.1.3",
+          "type": "KeyValue<K, V>"
+        },
+        "signature": "KeyValue<K, V> brpop(double timeout, K... keys)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the timeout in seconds.",
+            "name": "timeout",
+            "type": "long"
+          },
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "KeyValue&lt;K,V&gt; array-reply specifically: A null multi-bulk when no element could be popped and the timeout expired. A two-element multi-bulk with the first element being the name of the key where an element was popped and the second element being the value of the popped element. @since 6.1.3",
+          "type": "RedisFuture<KeyValue<K, V>>"
+        },
+        "signature": "RedisFuture<KeyValue<K, V>> brpop(long timeout, K... keys)"
+      },
+      {
+        "params": [
+          {
+            "description": "the timeout in seconds.",
+            "name": "timeout",
+            "type": "double"
+          },
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "KeyValue&lt;K,V&gt; array-reply specifically: A null multi-bulk when no element could be popped and the timeout expired. A two-element multi-bulk with the first element being the name of the key where an element was popped and the second element being the value of the popped element. @since 6.1.3",
+          "type": "RedisFuture<KeyValue<K, V>>"
+        },
+        "signature": "RedisFuture<KeyValue<K, V>> brpop(double timeout, K... keys)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the timeout in seconds.",
+            "name": "timeout",
+            "type": "long"
+          },
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "KeyValue&lt;K,V&gt; array-reply specifically: A null multi-bulk when no element could be popped and the timeout expired. A two-element multi-bulk with the first element being the name of the key where an element was popped and the second element being the value of the popped element. @since 6.1.3",
+          "type": "Mono<KeyValue<K, V>>"
+        },
+        "signature": "Mono<KeyValue<K, V>> brpop(long timeout, K... keys)"
+      },
+      {
+        "params": [
+          {
+            "description": "the timeout in seconds.",
+            "name": "timeout",
+            "type": "double"
+          },
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "KeyValue&lt;K,V&gt; array-reply specifically: A null multi-bulk when no element could be popped and the timeout expired. A two-element multi-bulk with the first element being the name of the key where an element was popped and the second element being the value of the popped element. @since 6.1.3",
+          "type": "Mono<KeyValue<K, V>>"
+        },
+        "signature": "Mono<KeyValue<K, V>> brpop(double timeout, K... keys)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "timeout",
+            "type": "time.Duration"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "...string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StringSliceCmd"
+        },
+        "signature": "BRPop(ctx context.Context, timeout time.Duration, keys ...string)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, ...keys"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "brpop(...args: [, ...keys: RedisKey[], timeout: number | string, callback: Callback<[string, string] | null>, ])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, keys"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "brpop(...args: [, keys: RedisKey[], timeout: number | string, callback: Callback<[string, string] | null>, ])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[...keys"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "brpop(...args: [...keys: RedisKey[], timeout: number | string])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[keys"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "brpop(...args: [keys: RedisKey[], timeout: number | string])"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "timeout",
+            "type": "f64"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Option<[String"
+        },
+        "signature": "brpop(key: K, timeout: f64)"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "key",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "timeout",
+            "type": "f64"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Option<[String"
+        },
+        "signature": "brpop(key: K, timeout: f64)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keys",
+            "type": "RedisKey[]"
+          },
+          {
+            "description": "Server-side timeout for the wait. A value of 0 means to wait indefinitely.",
+            "name": "timeout",
+            "type": "double"
+          }
+        ],
+        "returns": {
+          "description": "A value, together with the key it was popped from, or null if the server timeoutexpires.",
+          "type": "Tuple<RedisKey, RedisValue>?"
+        },
+        "signature": "BRPop(RedisKey[] keys, double timeout)"
+      },
+      {
+        "params": [
+          {
+            "description": "The key to check.",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "Server-side timeout for the wait. A value of 0 means to wait indefinitely.",
+            "name": "timeout",
+            "type": "double"
+          }
+        ],
+        "returns": {
+          "description": "A value, together with the key it was popped from, or null if the server timeoutexpires.",
+          "type": "Tuple<RedisKey, RedisValue>?"
+        },
+        "signature": "BRPop(RedisKey key, double timeout)"
+      },
+      {
+        "params": [
+          {
+            "description": "The IDatabase class where this extension method is applied.",
+            "name": "db",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "[key]",
+            "type": "Any"
+          },
+          {
+            "description": "Server-side timeout for the wait. A value of 0 means to wait indefinitely.",
+            "name": "timeout",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "A value, together with the key it was popped from, or null if the server timeoutexpires.",
+          "type": "return"
+        },
+        "signature": "BRPop(db, [key], timeout)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$keys",
+            "type": "array|string"
+          },
+          {
+            "description": "",
+            "name": "$timeout",
+            "type": "int|float"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array|null"
+        },
+        "signature": "brpop(array|string $keys, int|float $timeout)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "one or more keys to perform the blocking pop on",
+            "name": "*args",
+            "type": "String, Array<String>"
+          },
+          {
+            "description": "timeout in seconds",
+            "name": "timeout",
+            "type": "Float, Integer"
+          }
+        ],
+        "returns": {
+          "description": "tuple of the list that was popped from and element",
+          "type": "nil, [String, String]"
+        },
+        "signature": "brpop(*args)"
+      }
+    ]
+  },
   "commandFlags": [
     "write",
     "blocking"
@@ -65,29 +537,20 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\n`BRPOP` is a blocking list pop primitive.\nIt is the blocking version of [`RPOP`]() because it blocks the connection when there\nare no elements to pop from any of the given lists.\nAn element is popped from the tail of the first list that is non-empty, with the\ngiven keys being checked in the order that they are given.\n\nSee the [BLPOP documentation][cb] for the exact semantics, since `BRPOP` is\nidentical to [`BLPOP`]() with the only difference being that it pops elements from\nthe tail of a list instead of popping from the head.\n\n[cb]: /commands/blpop\n\n## Examples\n\n```\nredis> DEL list1 list2\n(integer) 0\nredis> RPUSH list1 a b c\n(integer) 3\nredis> BRPOP list1 list2 0\n1) \"list1\"\n2) \"c\"\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): no element could be popped and the timeout expired.\n* [Array reply](../../develop/reference/protocol-spec#arrays): the key from which the element was popped and the value of the popped element\n\n**RESP3:**\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): no element could be popped and the timeout expired.\n* [Array reply](../../develop/reference/protocol-spec#arrays): the key from which the element was popped and the value of the popped element",
-  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\n`BRPOP` is a blocking list pop primitive.\nIt is the blocking version of [`RPOP`]() because it blocks the connection when there\nare no elements to pop from any of the given lists.\nAn element is popped from the tail of the first list that is non-empty, with the\ngiven keys being checked in the order that they are given.\n\nSee the [BLPOP documentation][cb] for the exact semantics, since `BRPOP` is\nidentical to [`BLPOP`]() with the only difference being that it pops elements from\nthe tail of a list instead of popping from the head.\n\n[cb]: /commands/blpop",
+  "content": "`BRPOP` is a blocking list pop primitive.\nIt is the blocking version of [`RPOP`]() because it blocks the connection when there\nare no elements to pop from any of the given lists.\nAn element is popped from the tail of the first list that is non-empty, with the\ngiven keys being checked in the order that they are given.\n\nSee the [BLPOP documentation][cb] for the exact semantics, since `BRPOP` is\nidentical to [`BLPOP`]() with the only difference being that it pops elements from\nthe tail of a list instead of popping from the head.\n\n[cb]: /commands/blpop\n\n## Examples\n\n```\nredis> DEL list1 list2\n(integer) 0\nredis> RPUSH list1 a b c\n(integer) 3\nredis> BRPOP list1 list2 0\n1) \"list1\"\n2) \"c\"\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"brpop-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): no element could be popped and the timeout expired.\n* [Array reply](../../develop/reference/protocol-spec#arrays): the key from which the element was popped and the value of the popped element\n\n-tab-sep-\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): no element could be popped and the timeout expired.\n* [Array reply](../../develop/reference/protocol-spec#arrays): the key from which the element was popped and the value of the popped element\n\n{{< /multitabs >}}",
+  "example": "redis> DEL list1 list2\n(integer) 0\nredis> RPUSH list1 a b c\n(integer) 3\nredis> BRPOP list1 list2 0\n1) \"list1\"\n2) \"c\"",
+  "intro": "`BRPOP` is a blocking list pop primitive.\nIt is the blocking version of [`RPOP`]() because it blocks the connection when there\nare no elements to pop from any of the given lists.\nAn element is popped from the tail of the first list that is non-empty, with the\ngiven keys being checked in the order that they are given.\n\nSee the [BLPOP documentation][cb] for the exact semantics, since `BRPOP` is\nidentical to [`BLPOP`]() with the only difference being that it pops elements from\nthe tail of a list instead of popping from the head.\n\n[cb]: /commands/blpop",
+  "notes": [
+    "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information."
+  ],
   "sections": [
     {
       "title": "Overview",
       "level": 1,
-      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\n`BRPOP` is a blocking list pop primitive.\nIt is the blocking version of [`RPOP`]() because it blocks the connection when there\nare no elements to pop from any of the given lists.\nAn element is popped from the tail of the first list that is non-empty, with the\ngiven keys being checked in the order that they are given.\n\nSee the [BLPOP documentation][cb] for the exact semantics, since `BRPOP` is\nidentical to [`BLPOP`]() with the only difference being that it pops elements from\nthe tail of a list instead of popping from the head.\n\n[cb]: /commands/blpop"
+      "content": "`BRPOP` is a blocking list pop primitive.\nIt is the blocking version of [`RPOP`]() because it blocks the connection when there\nare no elements to pop from any of the given lists.\nAn element is popped from the tail of the first list that is non-empty, with the\ngiven keys being checked in the order that they are given.\n\nSee the [BLPOP documentation][cb] for the exact semantics, since `BRPOP` is\nidentical to [`BLPOP`]() with the only difference being that it pops elements from\nthe tail of a list instead of popping from the head.\n\n[cb]: /commands/blpop"
     },
     {
       "title": "Examples",
@@ -102,7 +565,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): no element could be popped and the timeout expired.\n* [Array reply](../../develop/reference/protocol-spec#arrays): the key from which the element was popped and the value of the popped element\n\n**RESP3:**\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): no element could be popped and the timeout expired.\n* [Array reply](../../develop/reference/protocol-spec#arrays): the key from which the element was popped and the value of the popped element"
+      "content": "{{< multitabs id=\"brpop-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): no element could be popped and the timeout expired.\n* [Array reply](../../develop/reference/protocol-spec#arrays): the key from which the element was popped and the value of the popped element\n\n-tab-sep-\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): no element could be popped and the timeout expired.\n* [Array reply](../../develop/reference/protocol-spec#arrays): the key from which the element was popped and the value of the popped element\n\n{{< /multitabs >}}"
     }
   ]
 }

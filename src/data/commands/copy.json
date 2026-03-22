@@ -14,6 +14,415 @@
     "@write",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "source",
+            "type": "str"
+          },
+          {
+            "description": "",
+            "name": "destination",
+            "type": "str"
+          },
+          {
+            "description": "",
+            "name": "destination_db",
+            "type": "Optional[int]"
+          },
+          {
+            "description": "",
+            "name": "replace",
+            "type": "bool"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "int"
+        },
+        "signature": "copy(source: str, destination: str, destination_db: Optional[int] = None, replace: bool = False)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "srcKey",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "dstKey",
+            "type": "byte[]"
+          },
+          {
+            "description": "",
+            "name": "replace",
+            "type": "boolean"
+          }
+        ],
+        "returns": {
+          "description": "1 if source was copied. 0 if source was not copied.",
+          "type": "long"
+        },
+        "signature": "long copy(final byte[] srcKey, final byte[] dstKey, final boolean replace)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "srcKey",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "dstKey",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "replace",
+            "type": "boolean"
+          }
+        ],
+        "returns": {
+          "description": "1 if source was copied. 0 if source was not copied.",
+          "type": "long"
+        },
+        "signature": "long copy(final String srcKey, final String dstKey, final boolean replace)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "sourceKey",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "destKey",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "db",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "replace",
+            "type": "bool"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*IntCmd"
+        },
+        "signature": "Copy(ctx context.Context, sourceKey string, destKey string, db int, replace bool)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "source",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "destination",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "",
+            "name": "options?",
+            "type": "CopyOptions"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "COPY(source: RedisArgument, destination: RedisArgument, options?: CopyOptions)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the source key.",
+            "name": "source",
+            "type": "K"
+          },
+          {
+            "description": "the destination key.",
+            "name": "destination",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "Boolean integer-reply specifically: true if source was copied. false if source was not copied.",
+          "type": "Boolean"
+        },
+        "signature": "Boolean copy(K source, K destination)"
+      },
+      {
+        "params": [
+          {
+            "description": "the source key.",
+            "name": "source",
+            "type": "K"
+          },
+          {
+            "description": "the destination key.",
+            "name": "destination",
+            "type": "K"
+          },
+          {
+            "description": "the copy arguments.",
+            "name": "copyArgs",
+            "type": "CopyArgs"
+          }
+        ],
+        "returns": {
+          "description": "Boolean integer-reply specifically: true if source was copied. false if source was not copied.",
+          "type": "Boolean"
+        },
+        "signature": "Boolean copy(K source, K destination, CopyArgs copyArgs)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the source key.",
+            "name": "source",
+            "type": "K"
+          },
+          {
+            "description": "the destination key.",
+            "name": "destination",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "Boolean integer-reply specifically: true if source was copied. false if source was not copied.",
+          "type": "RedisFuture<Boolean>"
+        },
+        "signature": "RedisFuture<Boolean> copy(K source, K destination)"
+      },
+      {
+        "params": [
+          {
+            "description": "the source key.",
+            "name": "source",
+            "type": "K"
+          },
+          {
+            "description": "the destination key.",
+            "name": "destination",
+            "type": "K"
+          },
+          {
+            "description": "the copy arguments.",
+            "name": "copyArgs",
+            "type": "CopyArgs"
+          }
+        ],
+        "returns": {
+          "description": "Boolean integer-reply specifically: true if source was copied. false if source was not copied.",
+          "type": "RedisFuture<Boolean>"
+        },
+        "signature": "RedisFuture<Boolean> copy(K source, K destination, CopyArgs copyArgs)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the source key.",
+            "name": "source",
+            "type": "K"
+          },
+          {
+            "description": "the destination key.",
+            "name": "destination",
+            "type": "K"
+          }
+        ],
+        "returns": {
+          "description": "Boolean integer-reply specifically: true if source was copied. false if source was not copied.",
+          "type": "Mono<Boolean>"
+        },
+        "signature": "Mono<Boolean> copy(K source, K destination)"
+      },
+      {
+        "params": [
+          {
+            "description": "the source key.",
+            "name": "source",
+            "type": "K"
+          },
+          {
+            "description": "the destination key.",
+            "name": "destination",
+            "type": "K"
+          },
+          {
+            "description": "the copy arguments.",
+            "name": "copyArgs",
+            "type": "CopyArgs"
+          }
+        ],
+        "returns": {
+          "description": "Boolean integer-reply specifically: true if source was copied. false if source was not copied.",
+          "type": "Mono<Boolean>"
+        },
+        "signature": "Mono<Boolean> copy(K source, K destination, CopyArgs copyArgs)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The source key.",
+            "name": "sourceKey",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The destination key.",
+            "name": "destinationKey",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The destination database.",
+            "name": "destinationDatabase",
+            "type": "int"
+          },
+          {
+            "description": "Whether to replace the destination key if it exists.",
+            "name": "replace",
+            "type": "bool"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "true if source was copied. false if source was not copied.",
+          "type": "bool"
+        },
+        "signature": "KeyCopy(RedisKey sourceKey, RedisKey destinationKey, int destinationDatabase = -1, bool replace = false, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The source key.",
+            "name": "sourceKey",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The destination key.",
+            "name": "destinationKey",
+            "type": "RedisKey"
+          },
+          {
+            "description": "The destination database.",
+            "name": "destinationDatabase",
+            "type": "int"
+          },
+          {
+            "description": "Whether to replace the destination key if it exists.",
+            "name": "replace",
+            "type": "bool"
+          },
+          {
+            "description": "The flags to use for this operation.",
+            "name": "flags",
+            "type": "CommandFlags"
+          }
+        ],
+        "returns": {
+          "description": "true if source was copied. false if source was not copied.",
+          "type": "Task<bool>"
+        },
+        "signature": "KeyCopyAsync(RedisKey sourceKey, RedisKey destinationKey, int destinationDatabase = -1, bool replace = false, CommandFlags flags = CommandFlags.None)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$src",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$dst",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$options",
+            "type": "array|null"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "bool"
+        },
+        "signature": "copy(string $src, string $dst, array|null $options = null)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "source",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "destination",
+            "type": "String"
+          },
+          {
+            "description": "",
+            "name": "db",
+            "type": "Integer"
+          },
+          {
+            "description": "removes the destination key before copying value to it",
+            "name": "replace",
+            "type": "Boolean"
+          }
+        ],
+        "returns": {
+          "description": "whether the key was copied or not",
+          "type": "Boolean"
+        },
+        "signature": "copy(source, destination, db: nil, replace: false)"
+      }
+    ]
+  },
   "commandFlags": [
     "write",
     "denyoom"
@@ -95,29 +504,20 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nThis command copies the value stored at the `source` key to the `destination`\nkey.\n\nBy default, the `destination` key is created in the logical database used by the\nconnection. The `DB` option allows specifying an alternative logical database\nindex for the destination key.\n\nThe command returns zero when the `destination` key already exists. The\n`REPLACE` option removes the `destination` key before copying the value to it.\n\n## Examples\n\n```\nSET dolly \"sheep\"\nCOPY dolly clone\nGET clone\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active\\*</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active\\*</nobr></span> | For Active-Active or clustered databases, the source and destination keys must be in the same hash slot.<br /><br />\\*Not supported for stream consumer group info. |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if _source_ was copied.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if _source_ was not copied.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if _source_ was copied.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if _source_ was not copied.",
-  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nThis command copies the value stored at the `source` key to the `destination`\nkey.\n\nBy default, the `destination` key is created in the logical database used by the\nconnection. The `DB` option allows specifying an alternative logical database\nindex for the destination key.\n\nThe command returns zero when the `destination` key already exists. The\n`REPLACE` option removes the `destination` key before copying the value to it.",
+  "content": "This command copies the value stored at the `source` key to the `destination`\nkey.\n\nBy default, the `destination` key is created in the logical database used by the\nconnection. The `DB` option allows specifying an alternative logical database\nindex for the destination key.\n\nThe command returns zero when the `destination` key already exists. The\n`REPLACE` option removes the `destination` key before copying the value to it.\n\n## Examples\n\n```\nSET dolly \"sheep\"\nCOPY dolly clone\nGET clone\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active\\*</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active\\*</nobr></span> | For Active-Active or clustered databases, the source and destination keys must be in the same hash slot.<br /><br />\\*Not supported for stream consumer group info. |\n\n## Return information\n\n{{< multitabs id=\"copy-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if _source_ was copied.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if _source_ was not copied.\n\n-tab-sep-\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if _source_ was copied.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if _source_ was not copied.\n\n{{< /multitabs >}}",
+  "example": "SET dolly \"sheep\"\nCOPY dolly clone\nGET clone",
+  "intro": "This command copies the value stored at the `source` key to the `destination`\nkey.\n\nBy default, the `destination` key is created in the logical database used by the\nconnection. The `DB` option allows specifying an alternative logical database\nindex for the destination key.\n\nThe command returns zero when the `destination` key already exists. The\n`REPLACE` option removes the `destination` key before copying the value to it.",
+  "notes": [
+    "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information."
+  ],
   "sections": [
     {
       "title": "Overview",
       "level": 1,
-      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nThis command copies the value stored at the `source` key to the `destination`\nkey.\n\nBy default, the `destination` key is created in the logical database used by the\nconnection. The `DB` option allows specifying an alternative logical database\nindex for the destination key.\n\nThe command returns zero when the `destination` key already exists. The\n`REPLACE` option removes the `destination` key before copying the value to it."
+      "content": "This command copies the value stored at the `source` key to the `destination`\nkey.\n\nBy default, the `destination` key is created in the logical database used by the\nconnection. The `DB` option allows specifying an alternative logical database\nindex for the destination key.\n\nThe command returns zero when the `destination` key already exists. The\n`REPLACE` option removes the `destination` key before copying the value to it."
     },
     {
       "title": "Examples",
@@ -132,7 +532,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if _source_ was copied.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if _source_ was not copied.\n\n**RESP3:**\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if _source_ was copied.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if _source_ was not copied."
+      "content": "{{< multitabs id=\"copy-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if _source_ was copied.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if _source_ was not copied.\n\n-tab-sep-\n\nOne of the following:\n* [Integer reply](../../develop/reference/protocol-spec#integers): `1` if _source_ was copied.\n* [Integer reply](../../develop/reference/protocol-spec#integers): `0` if _source_ was not copied.\n\n{{< /multitabs >}}"
     }
   ]
 }

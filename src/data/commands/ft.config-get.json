@@ -13,6 +13,7 @@
     "@admin",
     "@search"
   ],
+  "apiMethods": {},
   "commandFlags": [
     "readonly"
   ],
@@ -34,36 +35,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      },
-      {
-        "id": "see-also",
-        "title": "See also"
-      },
-      {
-        "id": "related-topics",
-        "title": "Related topics"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Retrieve configuration options\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open>\n<summary><code>option</code></summary> \n\nis name of the configuration option, or '*' for all. \n</details>\n\n## Examples\n\n<details open>\n<summary><b>Retrieve configuration options</b></summary>\n\n\n127.0.0.1:6379> FT.CONFIG GET TIMEOUT\n1) 1) TIMEOUT\n   2) 42\n\n\n\n127.0.0.1:6379> FT.CONFIG GET *\n 1) 1) EXTLOAD\n    2) (nil)\n 2) 1) SAFEMODE\n    2) true\n 3) 1) CONCURRENT_WRITE_MODE\n    2) false\n 4) 1) NOGC\n    2) false\n 5) 1) MINPREFIX\n    2) 2\n 6) 1) FORKGC_SLEEP_BEFORE_EXIT\n    2) 0\n 7) 1) MAXDOCTABLESIZE\n    2) 1000000\n 8) 1) MAXSEARCHRESULTS\n    2) 1000000\n 9) 1) MAXAGGREGATERESULTS\n    2) unlimited\n10) 1) MAXEXPANSIONS\n    2) 200\n11) 1) MAXPREFIXEXPANSIONS\n    2) 200\n12) 1) TIMEOUT\n    2) 42\n13) 1) INDEX_THREADS\n    2) 8\n14) 1) SEARCH_THREADS\n    2) 20\n15) 1) FRISOINI\n    2) (nil)\n16) 1) ON_TIMEOUT\n    2) return\n17) 1) GCSCANSIZE\n    2) 100\n18) 1) MIN_PHONETIC_TERM_LEN\n    2) 3\n19) 1) GC_POLICY\n    2) fork\n20) 1) FORK_GC_RUN_INTERVAL\n    2) 30\n21) 1) FORK_GC_CLEAN_THRESHOLD\n    2) 100\n22) 1) FORK_GC_RETRY_INTERVAL\n    2) 5\n23) 1) FORK_GC_CLEAN_NUMERIC_EMPTY_NODES\n    2) true\n24) 1) _FORK_GC_CLEAN_NUMERIC_EMPTY_NODES\n    2) true\n25) 1) _MAX_RESULTS_TO_UNSORTED_MODE\n    2) 1000\n26) 1) UNION_ITERATOR_HEAP\n    2) 20\n27) 1) CURSOR_MAX_IDLE\n    2) 300000\n28) 1) NO_MEM_POOLS\n    2) false\n29) 1) PARTIAL_INDEXED_DOCS\n    2) false\n30) 1) UPGRADE_INDEX\n    2) Upgrade config for upgrading\n31) 1) _NUMERIC_COMPRESS\n    2) false\n32) 1) _FREE_RESOURCE_ON_THREAD\n    2) true\n33) 1) _PRINT_PROFILE_CLOCK\n    2) true\n34) 1) RAW_DOCID_ENCODING\n    2) false\n35) 1) _NUMERIC_RANGES_PARENTS\n    2) 0\n36) 1) MINSTEMLEN\n    2) 4\n\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:-----------------|:------|\n| <span title=\"Not supported\"><nobr>&#x274c; Not supported</span> | <span title=\"Not supported\"><nobr>&#x26A0;&#xFE0F; Not supported</span><sup>1</sup> | <span title=\"Not supported\"><nobr>&#x274c; Not supported</nobr></span> |  |\n\n1. </a>[Contact support](https://redis.com/company/support/) to view the current configuration values or request configuration changes for Flexible or Annual Redis Cloud subscriptions.\n\n## Return information\n\n**RESP2:**\n\n[Array]() of [arrays](), where each sub-array contains a configuration option name and its value.\n\n**RESP3:**\n\n[Map]() where keys are configuration option names and values are their corresponding values.\n\n\n\n## See also\n\n[`FT.CONFIG SET`]() | [`FT.CONFIG HELP`]()\n\n## Related topics\n\n[RediSearch]()",
+  "content": "Retrieve configuration options\n\n[Examples](#examples)\n\n## Required arguments\n\n<details open>\n<summary><code>option</code></summary> \n\nis name of the configuration option, or '*' for all. \n</details>\n\n## Examples\n\n<details open>\n<summary><b>Retrieve configuration options</b></summary>\n\n{{< highlight bash >}}\n127.0.0.1:6379> FT.CONFIG GET TIMEOUT\n1) 1) TIMEOUT\n   2) 42\n{{< / highlight >}}\n\n{{< highlight bash >}}\n127.0.0.1:6379> FT.CONFIG GET *\n 1) 1) EXTLOAD\n    2) (nil)\n 2) 1) SAFEMODE\n    2) true\n 3) 1) CONCURRENT_WRITE_MODE\n    2) false\n 4) 1) NOGC\n    2) false\n 5) 1) MINPREFIX\n    2) 2\n 6) 1) FORKGC_SLEEP_BEFORE_EXIT\n    2) 0\n 7) 1) MAXDOCTABLESIZE\n    2) 1000000\n 8) 1) MAXSEARCHRESULTS\n    2) 1000000\n 9) 1) MAXAGGREGATERESULTS\n    2) unlimited\n10) 1) MAXEXPANSIONS\n    2) 200\n11) 1) MAXPREFIXEXPANSIONS\n    2) 200\n12) 1) TIMEOUT\n    2) 42\n13) 1) INDEX_THREADS\n    2) 8\n14) 1) SEARCH_THREADS\n    2) 20\n15) 1) FRISOINI\n    2) (nil)\n16) 1) ON_TIMEOUT\n    2) return\n17) 1) GCSCANSIZE\n    2) 100\n18) 1) MIN_PHONETIC_TERM_LEN\n    2) 3\n19) 1) GC_POLICY\n    2) fork\n20) 1) FORK_GC_RUN_INTERVAL\n    2) 30\n21) 1) FORK_GC_CLEAN_THRESHOLD\n    2) 100\n22) 1) FORK_GC_RETRY_INTERVAL\n    2) 5\n23) 1) FORK_GC_CLEAN_NUMERIC_EMPTY_NODES\n    2) true\n24) 1) _FORK_GC_CLEAN_NUMERIC_EMPTY_NODES\n    2) true\n25) 1) _MAX_RESULTS_TO_UNSORTED_MODE\n    2) 1000\n26) 1) UNION_ITERATOR_HEAP\n    2) 20\n27) 1) CURSOR_MAX_IDLE\n    2) 300000\n28) 1) NO_MEM_POOLS\n    2) false\n29) 1) PARTIAL_INDEXED_DOCS\n    2) false\n30) 1) UPGRADE_INDEX\n    2) Upgrade config for upgrading\n31) 1) _NUMERIC_COMPRESS\n    2) false\n32) 1) _FREE_RESOURCE_ON_THREAD\n    2) true\n33) 1) _PRINT_PROFILE_CLOCK\n    2) true\n34) 1) RAW_DOCID_ENCODING\n    2) false\n35) 1) _NUMERIC_RANGES_PARENTS\n    2) 0\n36) 1) MINSTEMLEN\n    2) 4\n{{< / highlight >}}\n</details>\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis Cloud<br />Flexible & Annual | Redis Cloud<br />Free & Fixed | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:-----------------|:------|\n| <span title=\"Not supported\"><nobr>&#x274c; Not supported</span> | <span title=\"Not supported\"><nobr>&#x26A0;&#xFE0F; Not supported</span><sup>1</sup> | <span title=\"Not supported\"><nobr>&#x274c; Not supported</nobr></span> |  |\n\n1. </a>[Contact support](https://redis.com/company/support/) to view the current configuration values or request configuration changes for Flexible or Annual Redis Cloud subscriptions.\n\n## Return information\n\n{{< multitabs id=\"ft-config-get-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [arrays]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}), where each sub-array contains a configuration option name and its value.\n\n-tab-sep-\n\n[Map]({{< relref \"/develop/reference/protocol-spec#maps\" >}}) where keys are configuration option names and values are their corresponding values.\n\n{{< /multitabs >}}\n\n## See also\n\n[`FT.CONFIG SET`]({{< relref \"commands/ft.config-set/\" >}}) | [`FT.CONFIG HELP`]({{< relref \"commands/ft.config-help/\" >}})\n\n## Related topics\n\n[RediSearch]({{< relref \"/develop/ai/search-and-query/\" >}})",
+  "example": "127.0.0.1:6379> FT.CONFIG GET TIMEOUT\n1) 1) TIMEOUT\n   2) 42",
   "intro": "Retrieve configuration options\n\n[Examples](#examples)",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -78,7 +56,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "<details open>\n<summary><b>Retrieve configuration options</b></summary>\n\n\n127.0.0.1:6379> FT.CONFIG GET TIMEOUT\n1) 1) TIMEOUT\n   2) 42\n\n\n\n127.0.0.1:6379> FT.CONFIG GET *\n 1) 1) EXTLOAD\n    2) (nil)\n 2) 1) SAFEMODE\n    2) true\n 3) 1) CONCURRENT_WRITE_MODE\n    2) false\n 4) 1) NOGC\n    2) false\n 5) 1) MINPREFIX\n    2) 2\n 6) 1) FORKGC_SLEEP_BEFORE_EXIT\n    2) 0\n 7) 1) MAXDOCTABLESIZE\n    2) 1000000\n 8) 1) MAXSEARCHRESULTS\n    2) 1000000\n 9) 1) MAXAGGREGATERESULTS\n    2) unlimited\n10) 1) MAXEXPANSIONS\n    2) 200\n11) 1) MAXPREFIXEXPANSIONS\n    2) 200\n12) 1) TIMEOUT\n    2) 42\n13) 1) INDEX_THREADS\n    2) 8\n14) 1) SEARCH_THREADS\n    2) 20\n15) 1) FRISOINI\n    2) (nil)\n16) 1) ON_TIMEOUT\n    2) return\n17) 1) GCSCANSIZE\n    2) 100\n18) 1) MIN_PHONETIC_TERM_LEN\n    2) 3\n19) 1) GC_POLICY\n    2) fork\n20) 1) FORK_GC_RUN_INTERVAL\n    2) 30\n21) 1) FORK_GC_CLEAN_THRESHOLD\n    2) 100\n22) 1) FORK_GC_RETRY_INTERVAL\n    2) 5\n23) 1) FORK_GC_CLEAN_NUMERIC_EMPTY_NODES\n    2) true\n24) 1) _FORK_GC_CLEAN_NUMERIC_EMPTY_NODES\n    2) true\n25) 1) _MAX_RESULTS_TO_UNSORTED_MODE\n    2) 1000\n26) 1) UNION_ITERATOR_HEAP\n    2) 20\n27) 1) CURSOR_MAX_IDLE\n    2) 300000\n28) 1) NO_MEM_POOLS\n    2) false\n29) 1) PARTIAL_INDEXED_DOCS\n    2) false\n30) 1) UPGRADE_INDEX\n    2) Upgrade config for upgrading\n31) 1) _NUMERIC_COMPRESS\n    2) false\n32) 1) _FREE_RESOURCE_ON_THREAD\n    2) true\n33) 1) _PRINT_PROFILE_CLOCK\n    2) true\n34) 1) RAW_DOCID_ENCODING\n    2) false\n35) 1) _NUMERIC_RANGES_PARENTS\n    2) 0\n36) 1) MINSTEMLEN\n    2) 4\n\n</details>"
+      "content": "<details open>\n<summary><b>Retrieve configuration options</b></summary>\n\n{{< highlight bash >}}\n127.0.0.1:6379> FT.CONFIG GET TIMEOUT\n1) 1) TIMEOUT\n   2) 42\n{{< / highlight >}}\n\n{{< highlight bash >}}\n127.0.0.1:6379> FT.CONFIG GET *\n 1) 1) EXTLOAD\n    2) (nil)\n 2) 1) SAFEMODE\n    2) true\n 3) 1) CONCURRENT_WRITE_MODE\n    2) false\n 4) 1) NOGC\n    2) false\n 5) 1) MINPREFIX\n    2) 2\n 6) 1) FORKGC_SLEEP_BEFORE_EXIT\n    2) 0\n 7) 1) MAXDOCTABLESIZE\n    2) 1000000\n 8) 1) MAXSEARCHRESULTS\n    2) 1000000\n 9) 1) MAXAGGREGATERESULTS\n    2) unlimited\n10) 1) MAXEXPANSIONS\n    2) 200\n11) 1) MAXPREFIXEXPANSIONS\n    2) 200\n12) 1) TIMEOUT\n    2) 42\n13) 1) INDEX_THREADS\n    2) 8\n14) 1) SEARCH_THREADS\n    2) 20\n15) 1) FRISOINI\n    2) (nil)\n16) 1) ON_TIMEOUT\n    2) return\n17) 1) GCSCANSIZE\n    2) 100\n18) 1) MIN_PHONETIC_TERM_LEN\n    2) 3\n19) 1) GC_POLICY\n    2) fork\n20) 1) FORK_GC_RUN_INTERVAL\n    2) 30\n21) 1) FORK_GC_CLEAN_THRESHOLD\n    2) 100\n22) 1) FORK_GC_RETRY_INTERVAL\n    2) 5\n23) 1) FORK_GC_CLEAN_NUMERIC_EMPTY_NODES\n    2) true\n24) 1) _FORK_GC_CLEAN_NUMERIC_EMPTY_NODES\n    2) true\n25) 1) _MAX_RESULTS_TO_UNSORTED_MODE\n    2) 1000\n26) 1) UNION_ITERATOR_HEAP\n    2) 20\n27) 1) CURSOR_MAX_IDLE\n    2) 300000\n28) 1) NO_MEM_POOLS\n    2) false\n29) 1) PARTIAL_INDEXED_DOCS\n    2) false\n30) 1) UPGRADE_INDEX\n    2) Upgrade config for upgrading\n31) 1) _NUMERIC_COMPRESS\n    2) false\n32) 1) _FREE_RESOURCE_ON_THREAD\n    2) true\n33) 1) _PRINT_PROFILE_CLOCK\n    2) true\n34) 1) RAW_DOCID_ENCODING\n    2) false\n35) 1) _NUMERIC_RANGES_PARENTS\n    2) 0\n36) 1) MINSTEMLEN\n    2) 4\n{{< / highlight >}}\n</details>"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -88,17 +66,17 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Array]() of [arrays](), where each sub-array contains a configuration option name and its value.\n\n**RESP3:**\n\n[Map]() where keys are configuration option names and values are their corresponding values."
+      "content": "{{< multitabs id=\"ft-config-get-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Array]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}) of [arrays]({{< relref \"/develop/reference/protocol-spec#arrays\" >}}), where each sub-array contains a configuration option name and its value.\n\n-tab-sep-\n\n[Map]({{< relref \"/develop/reference/protocol-spec#maps\" >}}) where keys are configuration option names and values are their corresponding values.\n\n{{< /multitabs >}}"
     },
     {
       "title": "See also",
       "level": 2,
-      "content": "[`FT.CONFIG SET`]() | [`FT.CONFIG HELP`]()"
+      "content": "[`FT.CONFIG SET`]({{< relref \"commands/ft.config-set/\" >}}) | [`FT.CONFIG HELP`]({{< relref \"commands/ft.config-help/\" >}})"
     },
     {
       "title": "Related topics",
       "level": 2,
-      "content": "[RediSearch]()"
+      "content": "[RediSearch]({{< relref \"/develop/ai/search-and-query/\" >}})"
     }
   ]
 }

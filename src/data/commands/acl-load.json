@@ -14,6 +14,111 @@
     "@slow",
     "@dangerous"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "**kwargs",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "str"
+        },
+        "signature": "acl_load(**kwargs)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "String"
+        },
+        "signature": "String aclLoad()"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context",
+            "name": "ctx",
+            "type": "context.Context"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StatusCmd"
+        },
+        "signature": "ACLLoad(ctx context.Context) *StatusCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "SimpleStringReply<'OK'>"
+        },
+        "signature": "aclLoad()"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "String"
+        },
+        "signature": "String aclLoad()"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "RedisFuture<String>"
+        },
+        "signature": "RedisFuture<String> aclLoad()"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [],
+        "returns": {
+          "description": "",
+          "type": "Mono<String>"
+        },
+        "signature": "Mono<String> aclLoad()"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$subcommand",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "$args",
+            "type": "mixed"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "string"
+        },
+        "signature": "acl(string $subcommand, ...$args)"
+      }
+    ]
+  },
   "commandFlags": [
     "admin",
     "noscript",
@@ -33,24 +138,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "When Redis is configured to use an ACL file (with the `aclfile` configuration\noption), this command will reload the ACLs from the file, replacing all\nthe current ACL rules with the ones defined in the file. The command makes\nsure to have an *all or nothing* behavior, that is:\n\n* If every line in the file is valid, all the ACLs are loaded.\n* If one or more line in the file is not valid, nothing is loaded, and the old ACL rules defined in the server memory continue to be used.\n\n## Examples\n\n```\n> ACL LOAD\n+OK\n\n> ACL LOAD\n-ERR /tmp/foo:1: Unknown command or category name in ACL...\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` on success.\nThe command may fail with an error for several reasons: if the file is not readable, if there is an error inside the file, and in such cases, the error will be reported to the user in the error.\nFinally, the command will fail if the server is not configured to use an external ACL file.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` on success.\nThe command may fail with an error for several reasons: if the file is not readable, if there is an error inside the file, and in such cases, the error will be reported to the user in the error.\nFinally, the command will fail if the server is not configured to use an external ACL file.",
+  "content": "When Redis is configured to use an ACL file (with the `aclfile` configuration\noption), this command will reload the ACLs from the file, replacing all\nthe current ACL rules with the ones defined in the file. The command makes\nsure to have an *all or nothing* behavior, that is:\n\n* If every line in the file is valid, all the ACLs are loaded.\n* If one or more line in the file is not valid, nothing is loaded, and the old ACL rules defined in the server memory continue to be used.\n\n## Examples\n\n```\n> ACL LOAD\n+OK\n\n> ACL LOAD\n-ERR /tmp/foo:1: Unknown command or category name in ACL...\n```\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> | <span title=\"Not supported\">&#x274c; Standard</span><br /><span title=\"Not supported\"><nobr>&#x274c; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"acl-load-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` on success.\nThe command may fail with an error for several reasons: if the file is not readable, if there is an error inside the file, and in such cases, the error will be reported to the user in the error.\nFinally, the command will fail if the server is not configured to use an external ACL file.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` on success.\nThe command may fail with an error for several reasons: if the file is not readable, if there is an error inside the file, and in such cases, the error will be reported to the user in the error.\nFinally, the command will fail if the server is not configured to use an external ACL file.\n\n{{< /multitabs >}}",
+  "example": "> ACL LOAD\n+OK\n\n> ACL LOAD\n-ERR /tmp/foo:1: Unknown command or category name in ACL...",
   "intro": "When Redis is configured to use an ACL file (with the `aclfile` configuration\noption), this command will reload the ACLs from the file, replacing all\nthe current ACL rules with the ones defined in the file. The command makes\nsure to have an *all or nothing* behavior, that is:\n\n* If every line in the file is valid, all the ACLs are loaded.\n* If one or more line in the file is not valid, nothing is loaded, and the old ACL rules defined in the server memory continue to be used.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -70,7 +164,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` on success.\nThe command may fail with an error for several reasons: if the file is not readable, if there is an error inside the file, and in such cases, the error will be reported to the user in the error.\nFinally, the command will fail if the server is not configured to use an external ACL file.\n\n**RESP3:**\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` on success.\nThe command may fail with an error for several reasons: if the file is not readable, if there is an error inside the file, and in such cases, the error will be reported to the user in the error.\nFinally, the command will fail if the server is not configured to use an external ACL file."
+      "content": "{{< multitabs id=\"acl-load-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` on success.\nThe command may fail with an error for several reasons: if the file is not readable, if there is an error inside the file, and in such cases, the error will be reported to the user in the error.\nFinally, the command will fail if the server is not configured to use an external ACL file.\n\n-tab-sep-\n\n[Simple string reply](../../develop/reference/protocol-spec#simple-strings): `OK` on success.\nThe command may fail with an error for several reasons: if the file is not readable, if there is an error inside the file, and in such cases, the error will be reported to the user in the error.\nFinally, the command will fail if the server is not configured to use an external ACL file.\n\n{{< /multitabs >}}"
     }
   ]
 }

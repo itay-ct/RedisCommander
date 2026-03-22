@@ -14,6 +14,244 @@
     "@sortedset",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keys",
+            "type": "KeysT"
+          },
+          {
+            "description": "",
+            "name": "withscores",
+            "type": "bool = False"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "ResponseT"
+        },
+        "signature": "zdiff(keys: KeysT, withscores: bool = False)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keys",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "1 if the new element was added, 0 if the element was already a member of the sorted set and the score was updated",
+          "type": "List<String>"
+        },
+        "signature": "List<String> zdiff(String... keys)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "List&lt;V&gt; array-reply list of elements. @since 6.1",
+          "type": "List<V>"
+        },
+        "signature": "List<V> zdiff(K... keys)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "List&lt;V&gt; array-reply list of elements. @since 6.1",
+          "type": "RedisFuture<List<V>>"
+        },
+        "signature": "RedisFuture<List<V>> zdiff(K... keys)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "V array-reply list of elements. @since 6.1",
+          "type": "Flux<V>"
+        },
+        "signature": "Flux<V> zdiff(K... keys)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "...string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*StringSliceCmd"
+        },
+        "signature": "ZDiff(ctx context.Context, keys ...string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keys",
+            "type": "RedisVariadicArgument"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "ZDIFF(keys: RedisVariadicArgument)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, numkeys"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zdiff(...args: [, numkeys: number | string, ...keys: RedisKey[], callback: Callback<string[]>, ])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, numkeys"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zdiff(...args: [, numkeys: number | string, keys: RedisKey[], callback: Callback<string[]>, ])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[numkeys"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zdiff(...args: [numkeys: number | string, ...keys: RedisKey[]])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[numkeys"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zdiff(...args: [numkeys: number | string, keys: RedisKey[]])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, numkeys"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zdiff(...args: [, numkeys: number | string, ...keys: RedisKey[], withscores: \"WITHSCORES\", callback: Callback<string[]>, ])"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$keys",
+            "type": "array"
+          },
+          {
+            "description": "",
+            "name": "bool $withScores = false",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array"
+        },
+        "signature": "zdiff(array $keys, bool $withScores = false)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "one or more keys to compute the difference",
+            "name": "*keys",
+            "type": "String, Array<String>"
+          },
+          {
+            "description": "include scores in output",
+            "name": "with_scores",
+            "type": "Boolean"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Array<String>, Array<[String, Float]>"
+        },
+        "signature": "zdiff(*keys, with_scores: false)"
+      }
+    ]
+  },
   "commandFlags": [
     "readonly",
     "movablekeys"
@@ -70,34 +308,25 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nThis command is similar to [`ZDIFFSTORE`](), but instead of storing the resulting\nsorted set, it is returned to the client.\n\n## Examples\n\n\nZADD zset1 1 \"one\"\nZADD zset1 2 \"two\"\nZADD zset1 3 \"three\"\nZADD zset2 1 \"one\"\nZADD zset2 2 \"two\"\nZDIFF 2 zset1 zset2\nZDIFF 2 zset1 zset2 WITHSCORES\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\n* [Array reply](../../develop/reference/protocol-spec#arrays): the result of the difference including, optionally, scores when the _WITHSCORES_ option is used.\n\n**RESP3:**\n\n* [Array reply](../../develop/reference/protocol-spec#arrays): the result of the difference including, optionally, scores when the _WITHSCORES_ option is used.",
-  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nThis command is similar to [`ZDIFFSTORE`](), but instead of storing the resulting\nsorted set, it is returned to the client.",
+  "content": "This command is similar to [`ZDIFFSTORE`](), but instead of storing the resulting\nsorted set, it is returned to the client.\n\n## Examples\n\n{{% redis-cli %}}\nZADD zset1 1 \"one\"\nZADD zset1 2 \"two\"\nZADD zset1 3 \"three\"\nZADD zset2 1 \"one\"\nZADD zset2 2 \"two\"\nZDIFF 2 zset1 zset2\nZDIFF 2 zset1 zset2 WITHSCORES\n{{% /redis-cli %}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"zdiff-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n* [Array reply](../../develop/reference/protocol-spec#arrays): the result of the difference including, optionally, scores when the _WITHSCORES_ option is used.\n\n-tab-sep-\n\n* [Array reply](../../develop/reference/protocol-spec#arrays): the result of the difference including, optionally, scores when the _WITHSCORES_ option is used.\n\n{{< /multitabs >}}",
+  "example": "ZADD zset1 1 \"one\"\nZADD zset1 2 \"two\"\nZADD zset1 3 \"three\"\nZADD zset2 1 \"one\"\nZADD zset2 2 \"two\"\nZDIFF 2 zset1 zset2\nZDIFF 2 zset1 zset2 WITHSCORES",
+  "intro": "This command is similar to [`ZDIFFSTORE`](), but instead of storing the resulting\nsorted set, it is returned to the client.",
+  "notes": [
+    "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information."
+  ],
   "sections": [
     {
       "title": "Overview",
       "level": 1,
-      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nThis command is similar to [`ZDIFFSTORE`](), but instead of storing the resulting\nsorted set, it is returned to the client."
+      "content": "This command is similar to [`ZDIFFSTORE`](), but instead of storing the resulting\nsorted set, it is returned to the client."
     },
     {
       "title": "Examples",
       "level": 2,
-      "content": "ZADD zset1 1 \"one\"\nZADD zset1 2 \"two\"\nZADD zset1 3 \"three\"\nZADD zset2 1 \"one\"\nZADD zset2 2 \"two\"\nZDIFF 2 zset1 zset2\nZDIFF 2 zset1 zset2 WITHSCORES"
+      "content": "{{% redis-cli %}}\nZADD zset1 1 \"one\"\nZADD zset1 2 \"two\"\nZADD zset1 3 \"three\"\nZADD zset2 1 \"one\"\nZADD zset2 2 \"two\"\nZDIFF 2 zset1 zset2\nZDIFF 2 zset1 zset2 WITHSCORES\n{{% /redis-cli %}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -107,7 +336,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\n* [Array reply](../../develop/reference/protocol-spec#arrays): the result of the difference including, optionally, scores when the _WITHSCORES_ option is used.\n\n**RESP3:**\n\n* [Array reply](../../develop/reference/protocol-spec#arrays): the result of the difference including, optionally, scores when the _WITHSCORES_ option is used."
+      "content": "{{< multitabs id=\"zdiff-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\n* [Array reply](../../develop/reference/protocol-spec#arrays): the result of the difference including, optionally, scores when the _WITHSCORES_ option is used.\n\n-tab-sep-\n\n* [Array reply](../../develop/reference/protocol-spec#arrays): the result of the difference including, optionally, scores when the _WITHSCORES_ option is used.\n\n{{< /multitabs >}}"
     }
   ]
 }

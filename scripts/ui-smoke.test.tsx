@@ -93,8 +93,9 @@ test('terminal shell stays fixed, keyboard-driven, and hides ASCII art on tighte
   )
 
   expect(document.body.textContent).not.toContain('C:\\REDIS\\')
-  expect(document.body.textContent).toContain('version 1.05')
+  expect(document.body.textContent).toContain('version 1.07')
   expect(document.body.textContent).toContain('commands')
+  expect(document.body.textContent).toContain('Client: Redis CLI')
   expect(document.body.textContent).not.toContain('cached locally')
   expect(document.querySelector('.dos-header__menu')).toBeNull()
   expect(document.querySelector('.dossier__example-code')?.textContent?.trim()).not.toContain(
@@ -146,11 +147,61 @@ test('terminal shell stays fixed, keyboard-driven, and hides ASCII art on tighte
   await waitFor(() => expect(document.querySelector('.find-palette')).toBeNull())
   expect(document.querySelector('.dossier__title')?.textContent).toContain('JSON.GET')
 
+  keyboard('f')
+  await waitFor(() => expect(document.querySelector('.find-palette')).not.toBeNull())
+
+  const mgetFindInput = document.querySelector('.find-palette__input') as HTMLInputElement | null
+  fireEvent.change(mgetFindInput!, { target: { value: 'mget' } })
+  fireEvent.keyDown(mgetFindInput!, { bubbles: true, cancelable: true, key: 'Enter' })
+  await waitFor(() => expect(document.querySelector('.find-palette')).toBeNull())
+  await waitFor(() => expect(document.querySelector('.dossier__title')?.textContent).toContain('MGET'))
+
+  expect(document.querySelector('.dossier__intro')?.textContent).not.toContain(
+    "This command's behavior varies in clustered Redis environments.",
+  )
+  expect(document.querySelector('.dossier__note-copy')?.textContent).toContain(
+    'This command\'s behavior varies in clustered Redis environments.',
+  )
+  expect(document.querySelector('.dossier__example-code')?.textContent).toContain('(nil)')
+
+  keyboard('f')
+  await waitFor(() => expect(document.querySelector('.find-palette')).not.toBeNull())
+
+  const expireFindInput = document.querySelector('.find-palette__input') as HTMLInputElement | null
+  fireEvent.change(expireFindInput!, { target: { value: 'expire' } })
+  fireEvent.keyDown(expireFindInput!, { bubbles: true, cancelable: true, key: 'Enter' })
+  await waitFor(() => expect(document.querySelector('.find-palette')).toBeNull())
+  await waitFor(() => expect(document.querySelector('.dossier__title')?.textContent).toContain('EXPIRE'))
+
+  expect(getFooterText()).toContain('UP/DNSelect client')
+  keyboard('ArrowDown')
+  await waitFor(() => expect(document.body.textContent).toContain('Client: Python'))
+  expect(document.cookie).toContain('redis-commander-client=redis_py')
+  await waitFor(() =>
+    expect(document.querySelector('.dossier__api-signature')?.textContent).toContain('expire('),
+  )
+
+  keyboard('F2')
+  await waitFor(() => expect(getFocusedBar()).toContain('Generic'))
+  expect(getFooterText()).not.toContain('UP/DNSelect client')
+
+  keyboard('f')
+  await waitFor(() => expect(document.querySelector('.find-palette')).not.toBeNull())
+
+  const smoveFindInput = document.querySelector('.find-palette__input') as HTMLInputElement | null
+  fireEvent.change(smoveFindInput!, { target: { value: 'smove' } })
+  fireEvent.keyDown(smoveFindInput!, { bubbles: true, cancelable: true, key: 'Enter' })
+  await waitFor(() => expect(document.querySelector('.find-palette')).toBeNull())
+  await waitFor(() => expect(document.querySelector('.dossier__title')?.textContent).toContain('SMOVE'))
+  expect(document.querySelector('.dossier__intro')?.textContent).toContain(
+    'destination for other clients.',
+  )
+
   keyboard('F10')
   expect(openedUrl).toContain('github.com/itay-ct/RedisCommander')
 
   keyboard('Escape')
-  await waitFor(() => expect(getFocusedBar()).toContain('JSON'))
+  await waitFor(() => expect(getFocusedBar()).toContain('Sets'))
 
   keyboard('F4')
   await waitFor(() => expect(getFocusedBar()).toContain('More'))
@@ -164,6 +215,7 @@ test('terminal shell stays fixed, keyboard-driven, and hides ASCII art on tighte
   expect(getFooterText()).toContain('F3Dossier')
   expect(getFooterText()).toContain('F5Docs')
   expect(getFooterText()).toContain('FFind')
+  expect(getFooterText()).not.toContain('UP/DNSelect client')
   expect(getFooterText().indexOf('F5Docs')).toBeLessThan(getFooterText().indexOf('FFind'))
 
   const favicon = await readFile(`${process.cwd()}/public/favicon.svg`, 'utf8')

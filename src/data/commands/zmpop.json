@@ -14,6 +14,485 @@
     "@sortedset",
     "@slow"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "num_keys",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "List[str]"
+          },
+          {
+            "description": "",
+            "name": "min",
+            "type": "Optional[bool] = False"
+          },
+          {
+            "description": "",
+            "name": "max",
+            "type": "Optional[bool] = False"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "Optional[int] = 1"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Union[Awaitable[list], list]"
+        },
+        "signature": "zmpop(, num_keys: int,, keys: List[str],, min: Optional[bool] = False,, max: Optional[bool] = False,, count: Optional[int] = 1,)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "option",
+            "type": "SortedSetOption"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "KeyValue<String, List<Tuple>>"
+        },
+        "signature": "KeyValue<String, List<Tuple>> zmpop(SortedSetOption option, String... keys)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "option",
+            "type": "SortedSetOption"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "int"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "String..."
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "KeyValue<String, List<Tuple>>"
+        },
+        "signature": "KeyValue<String, List<Tuple>> zmpop(SortedSetOption option, int count, String... keys)"
+      }
+    ],
+    "lettuce_sync": [
+      {
+        "params": [
+          {
+            "description": "the command args.",
+            "name": "args",
+            "type": "ZPopArgs"
+          },
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "ScoredValue&lt;V&gt; the removed elements or KeyValue#empty(). @since 6.3",
+          "type": "KeyValue<K, ScoredValue<V>>"
+        },
+        "signature": "KeyValue<K, ScoredValue<V>> zmpop(ZPopArgs args, K... keys)"
+      },
+      {
+        "params": [
+          {
+            "description": "number of elements to pop.",
+            "name": "count",
+            "type": "int"
+          },
+          {
+            "description": "the command args.",
+            "name": "args",
+            "type": "ZPopArgs"
+          },
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "ScoredValue&lt;V&gt; the removed elements or KeyValue#empty(). @since 6.3",
+          "type": "KeyValue<K, List<ScoredValue<V>>>"
+        },
+        "signature": "KeyValue<K, List<ScoredValue<V>>> zmpop(int count, ZPopArgs args, K... keys)"
+      }
+    ],
+    "lettuce_async": [
+      {
+        "params": [
+          {
+            "description": "the command args.",
+            "name": "args",
+            "type": "ZPopArgs"
+          },
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "ScoredValue&lt;V&gt; the removed elements or KeyValue#empty(). @since 6.3",
+          "type": "RedisFuture<KeyValue<K, ScoredValue<V>>>"
+        },
+        "signature": "RedisFuture<KeyValue<K, ScoredValue<V>>> zmpop(ZPopArgs args, K... keys)"
+      },
+      {
+        "params": [
+          {
+            "description": "number of elements to pop.",
+            "name": "count",
+            "type": "int"
+          },
+          {
+            "description": "the command args.",
+            "name": "args",
+            "type": "ZPopArgs"
+          },
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "ScoredValue&lt;V&gt; the removed elements or KeyValue#empty(). @since 6.3",
+          "type": "RedisFuture<KeyValue<K, List<ScoredValue<V>>>>"
+        },
+        "signature": "RedisFuture<KeyValue<K, List<ScoredValue<V>>>> zmpop(int count, ZPopArgs args, K... keys)"
+      }
+    ],
+    "lettuce_reactive": [
+      {
+        "params": [
+          {
+            "description": "the command args.",
+            "name": "args",
+            "type": "ZPopArgs"
+          },
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "ScoredValue&lt;V&gt; the removed elements or KeyValue#empty(). @since 6.3",
+          "type": "Mono<KeyValue<K, ScoredValue<V>>>"
+        },
+        "signature": "Mono<KeyValue<K, ScoredValue<V>>> zmpop(ZPopArgs args, K... keys)"
+      },
+      {
+        "params": [
+          {
+            "description": "number of elements to pop.",
+            "name": "count",
+            "type": "int"
+          },
+          {
+            "description": "the command args.",
+            "name": "args",
+            "type": "ZPopArgs"
+          },
+          {
+            "description": "the keys.",
+            "name": "keys",
+            "type": "K..."
+          }
+        ],
+        "returns": {
+          "description": "ScoredValue&lt;V&gt; the removed elements or KeyValue#empty(). @since 6.3",
+          "type": "Mono<KeyValue<K, List<ScoredValue<V>>>>"
+        },
+        "signature": "Mono<KeyValue<K, List<ScoredValue<V>>>> zmpop(int count, ZPopArgs args, K... keys)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "",
+            "name": "order",
+            "type": "string"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "int64"
+          },
+          {
+            "description": "",
+            "name": "keys",
+            "type": "...string"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "*ZSliceWithKeyCmd"
+        },
+        "signature": "ZMPop(ctx context.Context, order string, count int64, keys ...string)"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keys",
+            "type": "RedisVariadicArgument"
+          },
+          {
+            "description": "",
+            "name": "side",
+            "type": "SortedSetSide"
+          },
+          {
+            "description": "",
+            "name": "options?",
+            "type": "ZMPopOptions"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "ZMPOP(keys: RedisVariadicArgument, side: SortedSetSide, options?: ZMPopOptions)"
+      }
+    ],
+    "ioredis": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, numkeys"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zmpop(...args: [, numkeys: number | string, ...keys: RedisKey[], min: \"MIN\", callback: Callback<unknown>, ])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, numkeys"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zmpop(...args: [, numkeys: number | string, keys: RedisKey[], min: \"MIN\", callback: Callback<unknown>, ])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[numkeys"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zmpop(...args: [numkeys: number | string, ...keys: RedisKey[], min: \"MIN\"])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[numkeys"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zmpop(...args: [numkeys: number | string, keys: RedisKey[], min: \"MIN\"])"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "...args",
+            "type": "[, numkeys"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "Any"
+        },
+        "signature": "zmpop(...args: [, numkeys: number | string, ...keys: RedisKey[], min: \"MIN\", countToken: \"COUNT\", count: number | string, callback: Callback<unknown>, ])"
+      }
+    ],
+    "redis_rs_sync": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keys",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "isize"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Option<(String, Vec<(String, f64)>)>)"
+        },
+        "signature": "zmpop_max(keys: K, count: isize)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keys",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "isize"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Option<(String, Vec<(String, f64)>)>)"
+        },
+        "signature": "zmpop_min(keys: K, count: isize)"
+      }
+    ],
+    "redis_rs_async": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keys",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "isize"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Option<(String, Vec<(String, f64)>)>)"
+        },
+        "signature": "zmpop_max(keys: K, count: isize)"
+      },
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "keys",
+            "type": "K"
+          },
+          {
+            "description": "",
+            "name": "count",
+            "type": "isize"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "(Option<(String, Vec<(String, f64)>)>)"
+        },
+        "signature": "zmpop_min(keys: K, count: isize)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "",
+            "name": "$keys",
+            "type": "array"
+          },
+          {
+            "description": "",
+            "name": "string $modifier = 'min'",
+            "type": "Any"
+          },
+          {
+            "description": "",
+            "name": "int $count = 1",
+            "type": "Any"
+          }
+        ],
+        "returns": {
+          "description": "",
+          "type": "array"
+        },
+        "signature": "zmpop(array $keys, string $modifier = 'min', int $count = 1)"
+      }
+    ],
+    "redis_rb": [
+      {
+        "params": [
+          {
+            "description": "one or more keys with sorted sets",
+            "name": "*keys",
+            "type": "String, Array<String>"
+          },
+          {
+            "description": "MIN or MAX",
+            "name": "modifier",
+            "type": "String"
+          },
+          {
+            "description": "a number of members to pop",
+            "name": "count",
+            "type": "Integer"
+          }
+        ],
+        "returns": {
+          "description": "list of popped elements and scores",
+          "type": "Array<String, Array<String, Float>>"
+        },
+        "signature": "zmpop(*keys, modifier: \"MIN\", count: nil)"
+      }
+    ]
+  },
   "commandFlags": [
     "write",
     "movablekeys"
@@ -89,34 +568,25 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nPops one or more elements, that are member-score pairs, from the first non-empty sorted set in the provided list of key names.\n\n`ZMPOP` and [`BZMPOP`]() are similar to the following, more limited, commands:\n\n- [`ZPOPMIN`]() or [`ZPOPMAX`]() which take only one key, and can return multiple elements.\n- [`BZPOPMIN`]() or [`BZPOPMAX`]() which take multiple keys, but return only one element from just one key.\n\nSee [`BZMPOP`]() for the blocking variant of this command.\n\nWhen the `MIN` modifier is used, the elements popped are those with the lowest scores from the first non-empty sorted set. The `MAX` modifier causes elements with the highest scores to be popped.\nThe optional `COUNT` can be used to specify the number of elements to pop, and is set to 1 by default.\n\nThe number of popped elements is the minimum from the sorted set's cardinality and `COUNT`'s value.\n\n## Examples\n\n\nZMPOP 1 notsuchkey MIN\nZADD myzset 1 \"one\" 2 \"two\" 3 \"three\"\nZMPOP 1 myzset MIN\nZRANGE myzset 0 -1 WITHSCORES\nZMPOP 1 myzset MAX COUNT 10\nZADD myzset2 4 \"four\" 5 \"five\" 6 \"six\"\nZMPOP 2 myzset myzset2 MIN COUNT 10\nZRANGE myzset 0 -1 WITHSCORES\nZMPOP 2 myzset myzset2 MAX COUNT 10\nZRANGE myzset2 0 -1 WITHSCORES\nEXISTS myzset myzset2\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): when no element could be popped.\n* [Array reply](../../develop/reference/protocol-spec#arrays): A two-element array with the first element being the name of the key from which elements were popped, and the second element is an array of the popped elements. Every entry in the elements array is also an array that contains the member and its score.\n\n**RESP3:**\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): when no element could be popped.\n* [Array reply](../../develop/reference/protocol-spec#arrays): A two-element array with the first element being the name of the key from which elements were popped, and the second element is an array of the popped elements. Every entry in the elements array is also an array that contains the member and its score.",
-  "intro": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nPops one or more elements, that are member-score pairs, from the first non-empty sorted set in the provided list of key names.\n\n`ZMPOP` and [`BZMPOP`]() are similar to the following, more limited, commands:\n\n- [`ZPOPMIN`]() or [`ZPOPMAX`]() which take only one key, and can return multiple elements.\n- [`BZPOPMIN`]() or [`BZPOPMAX`]() which take multiple keys, but return only one element from just one key.\n\nSee [`BZMPOP`]() for the blocking variant of this command.\n\nWhen the `MIN` modifier is used, the elements popped are those with the lowest scores from the first non-empty sorted set. The `MAX` modifier causes elements with the highest scores to be popped.\nThe optional `COUNT` can be used to specify the number of elements to pop, and is set to 1 by default.\n\nThe number of popped elements is the minimum from the sorted set's cardinality and `COUNT`'s value.",
+  "content": "Pops one or more elements, that are member-score pairs, from the first non-empty sorted set in the provided list of key names.\n\n`ZMPOP` and [`BZMPOP`]() are similar to the following, more limited, commands:\n\n- [`ZPOPMIN`]() or [`ZPOPMAX`]() which take only one key, and can return multiple elements.\n- [`BZPOPMIN`]() or [`BZPOPMAX`]() which take multiple keys, but return only one element from just one key.\n\nSee [`BZMPOP`]() for the blocking variant of this command.\n\nWhen the `MIN` modifier is used, the elements popped are those with the lowest scores from the first non-empty sorted set. The `MAX` modifier causes elements with the highest scores to be popped.\nThe optional `COUNT` can be used to specify the number of elements to pop, and is set to 1 by default.\n\nThe number of popped elements is the minimum from the sorted set's cardinality and `COUNT`'s value.\n\n## Examples\n\n{{% redis-cli %}}\nZMPOP 1 notsuchkey MIN\nZADD myzset 1 \"one\" 2 \"two\" 3 \"three\"\nZMPOP 1 myzset MIN\nZRANGE myzset 0 -1 WITHSCORES\nZMPOP 1 myzset MAX COUNT 10\nZADD myzset2 4 \"four\" 5 \"five\" 6 \"six\"\nZMPOP 2 myzset myzset2 MIN COUNT 10\nZRANGE myzset 0 -1 WITHSCORES\nZMPOP 2 myzset myzset2 MAX COUNT 10\nZRANGE myzset2 0 -1 WITHSCORES\nEXISTS myzset myzset2\n{{% /redis-cli %}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> | <span title=\"Supported\">&#x2705; Standard</span><br /><span title=\"Supported\"><nobr>&#x2705; Active-Active</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"zmpop-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): when no element could be popped.\n* [Array reply](../../develop/reference/protocol-spec#arrays): A two-element array with the first element being the name of the key from which elements were popped, and the second element is an array of the popped elements. Every entry in the elements array is also an array that contains the member and its score.\n\n-tab-sep-\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): when no element could be popped.\n* [Array reply](../../develop/reference/protocol-spec#arrays): A two-element array with the first element being the name of the key from which elements were popped, and the second element is an array of the popped elements. Every entry in the elements array is also an array that contains the member and its score.\n\n{{< /multitabs >}}",
+  "example": "ZMPOP 1 notsuchkey MIN\nZADD myzset 1 \"one\" 2 \"two\" 3 \"three\"\nZMPOP 1 myzset MIN\nZRANGE myzset 0 -1 WITHSCORES\nZMPOP 1 myzset MAX COUNT 10\nZADD myzset2 4 \"four\" 5 \"five\" 6 \"six\"\nZMPOP 2 myzset myzset2 MIN COUNT 10\nZRANGE myzset 0 -1 WITHSCORES\nZMPOP 2 myzset myzset2 MAX COUNT 10\nZRANGE myzset2 0 -1 WITHSCORES\nEXISTS myzset myzset2",
+  "intro": "Pops one or more elements, that are member-score pairs, from the first non-empty sorted set in the provided list of key names.\n\n`ZMPOP` and [`BZMPOP`]() are similar to the following, more limited, commands:\n\n- [`ZPOPMIN`]() or [`ZPOPMAX`]() which take only one key, and can return multiple elements.\n- [`BZPOPMIN`]() or [`BZPOPMAX`]() which take multiple keys, but return only one element from just one key.\n\nSee [`BZMPOP`]() for the blocking variant of this command.\n\nWhen the `MIN` modifier is used, the elements popped are those with the lowest scores from the first non-empty sorted set. The `MAX` modifier causes elements with the highest scores to be popped.\nThe optional `COUNT` can be used to specify the number of elements to pop, and is set to 1 by default.\n\nThe number of popped elements is the minimum from the sorted set's cardinality and `COUNT`'s value.",
+  "notes": [
+    "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information."
+  ],
   "sections": [
     {
       "title": "Overview",
       "level": 1,
-      "content": "This command's behavior varies in clustered Redis environments. See the [multi-key operations]() page for more information.\n\n\n\nPops one or more elements, that are member-score pairs, from the first non-empty sorted set in the provided list of key names.\n\n`ZMPOP` and [`BZMPOP`]() are similar to the following, more limited, commands:\n\n- [`ZPOPMIN`]() or [`ZPOPMAX`]() which take only one key, and can return multiple elements.\n- [`BZPOPMIN`]() or [`BZPOPMAX`]() which take multiple keys, but return only one element from just one key.\n\nSee [`BZMPOP`]() for the blocking variant of this command.\n\nWhen the `MIN` modifier is used, the elements popped are those with the lowest scores from the first non-empty sorted set. The `MAX` modifier causes elements with the highest scores to be popped.\nThe optional `COUNT` can be used to specify the number of elements to pop, and is set to 1 by default.\n\nThe number of popped elements is the minimum from the sorted set's cardinality and `COUNT`'s value."
+      "content": "Pops one or more elements, that are member-score pairs, from the first non-empty sorted set in the provided list of key names.\n\n`ZMPOP` and [`BZMPOP`]() are similar to the following, more limited, commands:\n\n- [`ZPOPMIN`]() or [`ZPOPMAX`]() which take only one key, and can return multiple elements.\n- [`BZPOPMIN`]() or [`BZPOPMAX`]() which take multiple keys, but return only one element from just one key.\n\nSee [`BZMPOP`]() for the blocking variant of this command.\n\nWhen the `MIN` modifier is used, the elements popped are those with the lowest scores from the first non-empty sorted set. The `MAX` modifier causes elements with the highest scores to be popped.\nThe optional `COUNT` can be used to specify the number of elements to pop, and is set to 1 by default.\n\nThe number of popped elements is the minimum from the sorted set's cardinality and `COUNT`'s value."
     },
     {
       "title": "Examples",
       "level": 2,
-      "content": "ZMPOP 1 notsuchkey MIN\nZADD myzset 1 \"one\" 2 \"two\" 3 \"three\"\nZMPOP 1 myzset MIN\nZRANGE myzset 0 -1 WITHSCORES\nZMPOP 1 myzset MAX COUNT 10\nZADD myzset2 4 \"four\" 5 \"five\" 6 \"six\"\nZMPOP 2 myzset myzset2 MIN COUNT 10\nZRANGE myzset 0 -1 WITHSCORES\nZMPOP 2 myzset myzset2 MAX COUNT 10\nZRANGE myzset2 0 -1 WITHSCORES\nEXISTS myzset myzset2"
+      "content": "{{% redis-cli %}}\nZMPOP 1 notsuchkey MIN\nZADD myzset 1 \"one\" 2 \"two\" 3 \"three\"\nZMPOP 1 myzset MIN\nZRANGE myzset 0 -1 WITHSCORES\nZMPOP 1 myzset MAX COUNT 10\nZADD myzset2 4 \"four\" 5 \"five\" 6 \"six\"\nZMPOP 2 myzset myzset2 MIN COUNT 10\nZRANGE myzset 0 -1 WITHSCORES\nZMPOP 2 myzset myzset2 MAX COUNT 10\nZRANGE myzset2 0 -1 WITHSCORES\nEXISTS myzset myzset2\n{{% /redis-cli %}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -126,7 +596,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): when no element could be popped.\n* [Array reply](../../develop/reference/protocol-spec#arrays): A two-element array with the first element being the name of the key from which elements were popped, and the second element is an array of the popped elements. Every entry in the elements array is also an array that contains the member and its score.\n\n**RESP3:**\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): when no element could be popped.\n* [Array reply](../../develop/reference/protocol-spec#arrays): A two-element array with the first element being the name of the key from which elements were popped, and the second element is an array of the popped elements. Every entry in the elements array is also an array that contains the member and its score."
+      "content": "{{< multitabs id=\"zmpop-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Nil reply](../../develop/reference/protocol-spec#bulk-strings): when no element could be popped.\n* [Array reply](../../develop/reference/protocol-spec#arrays): A two-element array with the first element being the name of the key from which elements were popped, and the second element is an array of the popped elements. Every entry in the elements array is also an array that contains the member and its score.\n\n-tab-sep-\n\nOne of the following:\n* [Null reply](../../develop/reference/protocol-spec#nulls): when no element could be popped.\n* [Array reply](../../develop/reference/protocol-spec#arrays): A two-element array with the first element being the name of the key from which elements were popped, and the second element is an array of the popped elements. Every entry in the elements array is also an array that contains the member and its score.\n\n{{< /multitabs >}}"
     }
   ]
 }

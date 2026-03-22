@@ -14,6 +14,307 @@
     "@write",
     "@fast"
   ],
+  "apiMethods": {
+    "redis_py": [
+      {
+        "params": [
+          {
+            "description": "The name of the Cuckoo filter",
+            "name": "key",
+            "type": "str"
+          },
+          {
+            "description": "Number of entries intended to be added",
+            "name": "capacity",
+            "type": "int"
+          },
+          {
+            "description": "Optional expansion rate",
+            "name": "expansion",
+            "type": "int"
+          },
+          {
+            "description": "Optional bucket size",
+            "name": "bucket_size",
+            "type": "int"
+          },
+          {
+            "description": "Optional max iterations",
+            "name": "max_iterations",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "str"
+        },
+        "signature": "create(key, capacity, expansion=None, bucket_size=None, max_iterations=None)"
+      },
+      {
+        "params": [
+          {
+            "description": "The name of the Cuckoo filter",
+            "name": "key",
+            "type": "str"
+          },
+          {
+            "description": "Number of entries intended to be added",
+            "name": "capacity",
+            "type": "int"
+          },
+          {
+            "description": "Optional expansion rate",
+            "name": "expansion",
+            "type": "int"
+          },
+          {
+            "description": "Optional bucket size",
+            "name": "bucket_size",
+            "type": "int"
+          },
+          {
+            "description": "Optional max iterations",
+            "name": "max_iterations",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "OK on success (alias for create)",
+          "type": "str"
+        },
+        "signature": "reserve(key, capacity, expansion=None, bucket_size=None, max_iterations=None)"
+      }
+    ],
+    "jedis": [
+      {
+        "params": [
+          {
+            "description": "The name of the Cuckoo filter",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "Initial capacity",
+            "name": "capacity",
+            "type": "long"
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "String"
+        },
+        "signature": "String cfReserve(String key, long capacity)"
+      },
+      {
+        "params": [
+          {
+            "description": "The name of the Cuckoo filter",
+            "name": "key",
+            "type": "String"
+          },
+          {
+            "description": "Initial capacity",
+            "name": "capacity",
+            "type": "long"
+          },
+          {
+            "description": "Reserve parameters (bucketSize, maxIterations, expansion)",
+            "name": "reserveParams",
+            "type": "CFReserveParams"
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "String"
+        },
+        "signature": "String cfReserve(String key, long capacity, CFReserveParams reserveParams)"
+      }
+    ],
+    "go-redis": [
+      {
+        "params": [
+          {
+            "description": "Context",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "The name of the Cuckoo filter",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "Initial capacity",
+            "name": "capacity",
+            "type": "int64"
+          }
+        ],
+        "returns": {
+          "description": "Status command result",
+          "type": "*StatusCmd"
+        },
+        "signature": "CFReserve(ctx context.Context, key string, capacity int64) *StatusCmd"
+      },
+      {
+        "params": [
+          {
+            "description": "Context",
+            "name": "ctx",
+            "type": "context.Context"
+          },
+          {
+            "description": "The name of the Cuckoo filter",
+            "name": "key",
+            "type": "string"
+          },
+          {
+            "description": "Reserve options (Capacity, BucketSize, MaxIterations, Expansion)",
+            "name": "options",
+            "type": "*CFReserveOptions"
+          }
+        ],
+        "returns": {
+          "description": "Status command result",
+          "type": "*StatusCmd"
+        },
+        "signature": "CFReserveWithArgs(ctx context.Context, key string, options *CFReserveOptions) *StatusCmd"
+      }
+    ],
+    "node_redis": [
+      {
+        "params": [
+          {
+            "description": "The name of the Cuckoo filter",
+            "name": "key",
+            "type": "RedisArgument"
+          },
+          {
+            "description": "Initial capacity",
+            "name": "capacity",
+            "type": "number"
+          },
+          {
+            "description": "Optional: BUCKETSIZE, MAXITERATIONS, EXPANSION",
+            "name": "options",
+            "type": "CfReserveOptions"
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "SimpleStringReply<'OK'>"
+        },
+        "signature": "CF.RESERVE(key: RedisArgument, capacity: number, options?: CfReserveOptions)"
+      }
+    ],
+    "nredisstack_sync": [
+      {
+        "params": [
+          {
+            "description": "The name of the Cuckoo filter",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "Initial capacity",
+            "name": "capacity",
+            "type": "long"
+          },
+          {
+            "description": "Optional bucket size",
+            "name": "bucketSize",
+            "type": "long?"
+          },
+          {
+            "description": "Optional max iterations",
+            "name": "maxIterations",
+            "type": "int?"
+          },
+          {
+            "description": "Optional expansion rate",
+            "name": "expansion",
+            "type": "int?"
+          }
+        ],
+        "returns": {
+          "description": "true on success",
+          "type": "bool"
+        },
+        "signature": "bool Reserve(RedisKey key, long capacity, long? bucketSize = null, int? maxIterations = null, int? expansion = null)"
+      }
+    ],
+    "nredisstack_async": [
+      {
+        "params": [
+          {
+            "description": "The name of the Cuckoo filter",
+            "name": "key",
+            "type": "RedisKey"
+          },
+          {
+            "description": "Initial capacity",
+            "name": "capacity",
+            "type": "long"
+          },
+          {
+            "description": "Optional bucket size",
+            "name": "bucketSize",
+            "type": "long?"
+          },
+          {
+            "description": "Optional max iterations",
+            "name": "maxIterations",
+            "type": "int?"
+          },
+          {
+            "description": "Optional expansion rate",
+            "name": "expansion",
+            "type": "int?"
+          }
+        ],
+        "returns": {
+          "description": "true on success",
+          "type": "Task<bool>"
+        },
+        "signature": "async Task<bool> ReserveAsync(RedisKey key, long capacity, long? bucketSize = null, int? maxIterations = null, int? expansion = null)"
+      }
+    ],
+    "php": [
+      {
+        "params": [
+          {
+            "description": "The name of the Cuckoo filter",
+            "name": "$key",
+            "type": "string"
+          },
+          {
+            "description": "Initial capacity",
+            "name": "$capacity",
+            "type": "int"
+          },
+          {
+            "description": "Optional bucket size (-1 for default)",
+            "name": "$bucketSize",
+            "type": "int"
+          },
+          {
+            "description": "Optional max iterations (-1 for default)",
+            "name": "$maxIterations",
+            "type": "int"
+          },
+          {
+            "description": "Optional expansion rate (-1 for default)",
+            "name": "$expansion",
+            "type": "int"
+          }
+        ],
+        "returns": {
+          "description": "OK on success",
+          "type": "Status"
+        },
+        "signature": "cfreserve(string $key, int $capacity, int $bucketSize = -1, int $maxIterations = -1, int $expansion = -1)"
+      }
+    ]
+  },
   "commandFlags": [],
   "arguments": [
     {
@@ -55,32 +356,13 @@
     "clients"
   ],
   "tableOfContents": {
-    "sections": [
-      {
-        "id": "required-arguments",
-        "title": "Required arguments"
-      },
-      {
-        "id": "optional-arguments",
-        "title": "Optional arguments"
-      },
-      {
-        "id": "examples",
-        "title": "Examples"
-      },
-      {
-        "id": "redis-software-and-redis-cloud-compatibility",
-        "title": "Redis Software and Redis Cloud compatibility"
-      },
-      {
-        "id": "return-information",
-        "title": "Return information"
-      }
-    ]
+    "sections": []
   },
   "codeExamples": [],
-  "content": "Creates an empty cuckoo filter with a single sub-filter for the initial specified capacity.\n\nAccording to the cuckoo filter behavior, the filter is likely to declare itself full before `capacity` is reached; therefore, the fill rate will likely never reach 100 percent.\nThe fill rate can be improved by using a larger `bucketsize` at the cost of a higher error rate.\nWhen the filter self-declare itself `full`, it will auto-expand by generating additional sub-filters at the cost of reduced performance and increased error rate.\nThe new sub-filter is created with size of the previous sub-filter multiplied by `expansion`.\nLike bucket size, additional sub-filters grow the error rate linearly.\n\nThe minimal false positive error rate is 2/255 ≈ 0.78% when bucket size of 1 is used.\nLarger buckets increase the error rate linearly (for example, a bucket size of 3 yields a 2.35% error rate) but improve the fill rate of the filter.\n\n`maxiterations` dictates the number of attempts to find a slot for the incoming fingerprint.\nOnce the filter gets full, high `maxIterations` value will slow down insertions.\n\nUnused capacity in prior sub-filters is automatically used when possible. \nThe filter can grow up to 32 times.\n\n## Required arguments\n\n<details open><summary><code>key</code></summary>\n\nis key name for the the cuckoo filter to be created.\n</details>\n\n<details open><summary><code>capacity</code></summary>\n\nEstimated capacity for the filter.\n\nCapacity is rounded to the next `2^n` number.\n\nThe filter will likely not fill up to 100% of it's capacity. Make sure to reserve extra capacity if you want to avoid expansions.\n</details>\n\n## Optional arguments\n\n<details open><summary><code>BUCKETSIZE bucketsize</code></summary>\n\nNumber of items in each bucket.\n\nA higher bucket size value improves the fill rate but also causes a higher error rate and slightly slower performance.\n\n`bucketsize` is an integer between 1 and 255. The default value is 2.\n</details>\n\n<details open><summary><code>MAXITERATIONS maxiterations</code></summary>\n\nNumber of attempts to swap items between buckets before declaring filter as full and creating an additional filter. \n\nA low value is better for performance and a higher number is better for filter fill rate.\n\n`maxiterations` is an integer between 1 and 65535. The default value is 20.\n</details>\n\n<details open><summary><code>EXPANSION expansion</code></summary>\n\nWhen a new filter is created, its size is the size of the current filter multiplied by `expansion`.\n\n`expansion` is an integer between 0 and 32768. The default value is 1.\n\nExpansion is rounded to the next `2^n` number. \n</details>\n\n## Examples\n\n\nredis> CF.RESERVE cf 1000\nOK\n\nredis> CF.RESERVE cf 1000\n(error) ERR item exists\n\nredis> CF.RESERVE cf_params 1000 BUCKETSIZE 8 MAXITERATIONS 20 EXPANSION 2\nOK\n\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n**RESP2:**\n\nOne of the following:\n* [Simple string reply](): `OK` if the filter was created successfully.\n* [Simple error reply]() in these cases: invalid arguments or the key already exists.\n\n**RESP3:**\n\nOne of the following:\n* [Simple string reply](): `OK` if the filter was created successfully.\n* [Simple error reply]() in these cases: invalid arguments or the key already exists.",
+  "content": "Creates an empty cuckoo filter with a single sub-filter for the initial specified capacity.\n\nAccording to the cuckoo filter behavior, the filter is likely to declare itself full before `capacity` is reached; therefore, the fill rate will likely never reach 100 percent.\nThe fill rate can be improved by using a larger `bucketsize` at the cost of a higher error rate.\nWhen the filter self-declare itself `full`, it will auto-expand by generating additional sub-filters at the cost of reduced performance and increased error rate.\nThe new sub-filter is created with size of the previous sub-filter multiplied by `expansion`.\nLike bucket size, additional sub-filters grow the error rate linearly.\n\nThe minimal false positive error rate is 2/255 ≈ 0.78% when bucket size of 1 is used.\nLarger buckets increase the error rate linearly (for example, a bucket size of 3 yields a 2.35% error rate) but improve the fill rate of the filter.\n\n`maxiterations` dictates the number of attempts to find a slot for the incoming fingerprint.\nOnce the filter gets full, high `maxIterations` value will slow down insertions.\n\nUnused capacity in prior sub-filters is automatically used when possible. \nThe filter can grow up to 32 times.\n\n## Required arguments\n\n<details open><summary><code>key</code></summary>\n\nis key name for the the cuckoo filter to be created.\n</details>\n\n<details open><summary><code>capacity</code></summary>\n\nEstimated capacity for the filter.\n\nCapacity is rounded to the next `2^n` number.\n\nThe filter will likely not fill up to 100% of it's capacity. Make sure to reserve extra capacity if you want to avoid expansions.\n</details>\n\n## Optional arguments\n\n<details open><summary><code>BUCKETSIZE bucketsize</code></summary>\n\nNumber of items in each bucket.\n\nA higher bucket size value improves the fill rate but also causes a higher error rate and slightly slower performance.\n\n`bucketsize` is an integer between 1 and 255. The default value is 2.\n</details>\n\n<details open><summary><code>MAXITERATIONS maxiterations</code></summary>\n\nNumber of attempts to swap items between buckets before declaring filter as full and creating an additional filter. \n\nA low value is better for performance and a higher number is better for filter fill rate.\n\n`maxiterations` is an integer between 1 and 65535. The default value is 20.\n</details>\n\n<details open><summary><code>EXPANSION expansion</code></summary>\n\nWhen a new filter is created, its size is the size of the current filter multiplied by `expansion`.\n\n`expansion` is an integer between 0 and 32768. The default value is 1.\n\nExpansion is rounded to the next `2^n` number. \n</details>\n\n## Examples\n\n{{< highlight bash >}}\nredis> CF.RESERVE cf 1000\nOK\n\nredis> CF.RESERVE cf 1000\n(error) ERR item exists\n\nredis> CF.RESERVE cf_params 1000 BUCKETSIZE 8 MAXITERATIONS 20 EXPANSION 2\nOK\n{{< / highlight >}}\n\n## Redis Software and Redis Cloud compatibility\n\n| Redis<br />Software | Redis<br />Cloud | <span style=\"min-width: 9em; display: table-cell\">Notes</span> |\n|:----------------------|:-----------------|:------|\n| <span title=\"Supported\">&#x2705; Supported</span><br /> | <span title=\"Supported\">&#x2705; Flexible & Annual</span><br /><span title=\"Supported\">&#x2705; Free & Fixed</nobr></span> |  |\n\n## Return information\n\n{{< multitabs id=\"cf-reserve-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` if the filter was created successfully.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments or the key already exists.\n\n-tab-sep-\n\nOne of the following:\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` if the filter was created successfully.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments or the key already exists.\n\n{{< /multitabs >}}",
+  "example": "redis> CF.RESERVE cf 1000\nOK\n\nredis> CF.RESERVE cf 1000\n(error) ERR item exists\n\nredis> CF.RESERVE cf_params 1000 BUCKETSIZE 8 MAXITERATIONS 20 EXPANSION 2\nOK",
   "intro": "Creates an empty cuckoo filter with a single sub-filter for the initial specified capacity.\n\nAccording to the cuckoo filter behavior, the filter is likely to declare itself full before `capacity` is reached; therefore, the fill rate will likely never reach 100 percent.\nThe fill rate can be improved by using a larger `bucketsize` at the cost of a higher error rate.\nWhen the filter self-declare itself `full`, it will auto-expand by generating additional sub-filters at the cost of reduced performance and increased error rate.\nThe new sub-filter is created with size of the previous sub-filter multiplied by `expansion`.\nLike bucket size, additional sub-filters grow the error rate linearly.\n\nThe minimal false positive error rate is 2/255 ≈ 0.78% when bucket size of 1 is used.\nLarger buckets increase the error rate linearly (for example, a bucket size of 3 yields a 2.35% error rate) but improve the fill rate of the filter.\n\n`maxiterations` dictates the number of attempts to find a slot for the incoming fingerprint.\nOnce the filter gets full, high `maxIterations` value will slow down insertions.\n\nUnused capacity in prior sub-filters is automatically used when possible. \nThe filter can grow up to 32 times.",
+  "notes": [],
   "sections": [
     {
       "title": "Overview",
@@ -100,7 +382,7 @@
     {
       "title": "Examples",
       "level": 2,
-      "content": "redis> CF.RESERVE cf 1000\nOK\n\nredis> CF.RESERVE cf 1000\n(error) ERR item exists\n\nredis> CF.RESERVE cf_params 1000 BUCKETSIZE 8 MAXITERATIONS 20 EXPANSION 2\nOK"
+      "content": "{{< highlight bash >}}\nredis> CF.RESERVE cf 1000\nOK\n\nredis> CF.RESERVE cf 1000\n(error) ERR item exists\n\nredis> CF.RESERVE cf_params 1000 BUCKETSIZE 8 MAXITERATIONS 20 EXPANSION 2\nOK\n{{< / highlight >}}"
     },
     {
       "title": "Redis Software and Redis Cloud compatibility",
@@ -110,7 +392,7 @@
     {
       "title": "Return information",
       "level": 2,
-      "content": "**RESP2:**\n\nOne of the following:\n* [Simple string reply](): `OK` if the filter was created successfully.\n* [Simple error reply]() in these cases: invalid arguments or the key already exists.\n\n**RESP3:**\n\nOne of the following:\n* [Simple string reply](): `OK` if the filter was created successfully.\n* [Simple error reply]() in these cases: invalid arguments or the key already exists."
+      "content": "{{< multitabs id=\"cf-reserve-return-info\" \n    tab1=\"RESP2\" \n    tab2=\"RESP3\" >}}\n\nOne of the following:\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` if the filter was created successfully.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments or the key already exists.\n\n-tab-sep-\n\nOne of the following:\n* [Simple string reply]({{< relref \"/develop/reference/protocol-spec#simple-strings\" >}}): `OK` if the filter was created successfully.\n* [Simple error reply]({{< relref \"/develop/reference/protocol-spec#simple-errors\" >}}) in these cases: invalid arguments or the key already exists.\n\n{{< /multitabs >}}"
     }
   ]
 }
