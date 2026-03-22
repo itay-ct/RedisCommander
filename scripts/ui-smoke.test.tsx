@@ -111,7 +111,7 @@ test(
   )
 
     expect(document.body.textContent).not.toContain('C:\\REDIS\\')
-    expect(document.body.textContent).toContain('version 1.12')
+    expect(document.body.textContent).toContain('version 1.13')
   expect(document.body.textContent).toContain('commands')
   expect(document.body.textContent).toContain('Client: Redis CLI')
   expect(document.body.textContent).not.toContain('cached locally')
@@ -220,6 +220,43 @@ test(
   expect(lmpopLink).toBeDefined()
   fireEvent.click(lmpopLink!)
   await waitFor(() => expect(document.querySelector('.dossier__title')?.textContent).toContain('BLMPOP'))
+
+  keyboard('f')
+  await waitFor(() => expect(document.querySelector('.find-palette')).not.toBeNull())
+
+  const xinfoGroupsFindInput = document.querySelector('.find-palette__input') as HTMLInputElement | null
+  fireEvent.change(xinfoGroupsFindInput!, { target: { value: 'xinfo groups' } })
+  fireEvent.keyDown(xinfoGroupsFindInput!, { bubbles: true, cancelable: true, key: 'Enter' })
+  await waitFor(() => expect(document.querySelector('.find-palette')).toBeNull())
+  await waitFor(() => expect(document.querySelector('.dossier__title')?.textContent).toContain('XINFO GROUPS'))
+  expect(document.querySelector('.dossier__intro')?.textContent).not.toContain('Consumer group lag')
+
+  const xinfoGroupBullets = [...document.querySelectorAll('.dossier__intro-list-item')].map((node) =>
+    node.textContent?.trim() ?? '',
+  )
+  expect(xinfoGroupBullets.length).toBeGreaterThanOrEqual(6)
+  expect(xinfoGroupBullets[0]).toContain('name')
+  expect(document.querySelector('.dossier__list-bullet')?.textContent).toContain('>')
+
+  keyboard('f')
+  await waitFor(() => expect(document.querySelector('.find-palette')).not.toBeNull())
+
+  const xrangeFindInput = document.querySelector('.find-palette__input') as HTMLInputElement | null
+  fireEvent.change(xrangeFindInput!, { target: { value: 'xrange' } })
+  fireEvent.keyDown(xrangeFindInput!, { bubbles: true, cancelable: true, key: 'Enter' })
+  await waitFor(() => expect(document.querySelector('.find-palette')).toBeNull())
+  await waitFor(() => expect(document.querySelector('.dossier__title')?.textContent).toContain('XRANGE'))
+
+  const xrangeBullets = [...document.querySelectorAll('.dossier__intro-list-item')].map((node) =>
+    node.textContent?.trim() ?? '',
+  )
+  expect(xrangeBullets.length).toBeGreaterThanOrEqual(3)
+  expect(xrangeBullets[0]).toContain('Returning items in a specific time range.')
+
+  const xrangeLink = [...document.querySelectorAll('.dossier__inline-link')].find((node) =>
+    node.textContent?.includes('SCAN'),
+  ) as HTMLButtonElement | undefined
+  expect(xrangeLink).toBeDefined()
 
   keyboard('f')
   await waitFor(() => expect(document.querySelector('.find-palette')).not.toBeNull())

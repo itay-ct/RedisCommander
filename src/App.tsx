@@ -44,7 +44,7 @@ const COMMAND_ROWS = 14
 const ARGUMENT_ROWS = 6
 const FIND_RESULT_LIMIT = 6
 const API_METHOD_LIMIT = 4
-const RELEASE_VERSION = '1.12'
+const RELEASE_VERSION = '1.13'
 const REPO_URL = 'https://github.com/itay-ct/RedisCommander'
 const CLIENT_COOKIE_NAME = 'redis-commander-client'
 const DEFAULT_CLIENT_ID = 'redis-cli'
@@ -81,6 +81,10 @@ type ExcerptBlock =
       kind: 'paragraph'
       text: string
     }
+
+type ExcerptOptions = {
+  stopAtHeading?: boolean
+}
 
 const commandIndex = commandIndexJson as CommandIndex
 
@@ -212,12 +216,33 @@ function toPlainText(value: string) {
     .trim()
 }
 
-function extractExcerptBlocks(value: string, maxBlocks: number, maxChars: number): ExcerptBlock[] {
-  const chunks = value
+function extractExcerptBlocks(
+  value: string,
+  maxBlocks: number,
+  maxChars: number,
+  options: ExcerptOptions = {},
+): ExcerptBlock[] {
+  let normalizedValue = value
     .replace(/<\/?[^>]+>/g, ' ')
     .replace(/[ \t]+\n/g, '\n')
     .replace(/\n{3,}/g, '\n\n')
     .trim()
+
+  if (options.stopAtHeading) {
+    const introLines: string[] = []
+
+    for (const line of normalizedValue.split('\n')) {
+      if (/^\s{0,3}#{2,6}\s+/.test(line)) {
+        break
+      }
+
+      introLines.push(line)
+    }
+
+    normalizedValue = introLines.join('\n').trim()
+  }
+
+  const chunks = normalizedValue
     .split(/\n{2,}/)
     .map((chunk) => chunk.trim())
     .filter(Boolean)
@@ -246,7 +271,6 @@ function extractExcerptBlocks(value: string, maxBlocks: number, maxChars: number
       if (listItems.length) {
         listItems[listItems.length - 1] = `${listItems[listItems.length - 1]} ${line}`.trim()
       } else {
-        listItems.length = 0
         break
       }
     }
@@ -703,6 +727,7 @@ function App() {
         commandDetail.intro || commandDetail.description || selectedCommand?.description || '',
         5,
         980,
+        { stopAtHeading: true },
       )
     : fallbackIntroBlocks
   const detailIntroTextLength = detailIntroBlocks.reduce(
@@ -1039,9 +1064,14 @@ function App() {
       return (
         <div className="dossier__inline-list" key={keyPrefix}>
           {block.items.map((item, itemIndex) => (
-            <p className={itemClass} key={`${keyPrefix}-item-${itemIndex}`}>
-              {renderRichParagraph(item, `${keyPrefix}-item-${itemIndex}`)}
-            </p>
+            <div className={itemClass} key={`${keyPrefix}-item-${itemIndex}`}>
+              <span aria-hidden="true" className="dossier__list-bullet">
+                &gt;
+              </span>
+              <span className="dossier__list-copy">
+                {renderRichParagraph(item, `${keyPrefix}-item-${itemIndex}`)}
+              </span>
+            </div>
           ))}
         </div>
       )
