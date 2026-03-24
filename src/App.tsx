@@ -46,13 +46,20 @@ const COMMAND_ROWS = 14
 const ARGUMENT_ROWS = 6
 const FIND_RESULT_LIMIT = 6
 const API_METHOD_LIMIT = 4
-const RELEASE_VERSION = '1.17'
+const RELEASE_VERSION = '1.18'
 const REPO_URL = 'https://github.com/itay-ct/RedisCommander'
 const CLIENT_COOKIE_NAME = 'redis-commander-client'
+const DEPRECATED_COOKIE_NAME = 'redis-commander-deprecated'
 const DEFAULT_CLIENT_ID = 'redis-cli'
 const MOBILE_LAYOUT_MAX_WIDTH = 1024
 const MOBILE_LANDSCAPE_MIN_WIDTH = 700
 const MOBILE_SWIPE_THRESHOLD = 48
+const MODULE_PRODUCT_NAMES = {
+  Bloom: 'RedisBloom',
+  JSON: 'RedisJSON',
+  Search: 'RedisSearch',
+  TimeSeries: 'RedisTimeSeries',
+} as const
 
 const CLIENT_OPTIONS = [
   { id: DEFAULT_CLIENT_ID, label: 'Redis CLI' },
@@ -143,6 +150,16 @@ function buildCommandsByGroup(commands: CommandSummary[]) {
     record[command.group].push(command)
   }
 
+  for (const group of Object.keys(record)) {
+    record[group].sort((left, right) => {
+      if (left.deprecated !== right.deprecated) {
+        return Number(left.deprecated) - Number(right.deprecated)
+      }
+
+      return left.title.localeCompare(right.title)
+    })
+  }
+
   return record
 }
 
@@ -195,12 +212,6 @@ function formatCounter(position: number, total: number) {
   const width = Math.max(2, String(total).length)
   const safePosition = total === 0 ? 0 : position
   return `${String(safePosition).padStart(width, '0')}/${String(total).padStart(width, '0')}`
-}
-
-function formatClock(value: Date) {
-  return value.toLocaleTimeString('en-GB', {
-    hour12: false,
-  })
 }
 
 function getMobileLayoutMode(): MobileLayoutMode {
@@ -422,6 +433,8 @@ function buildFallbackDetail(command: CommandSummary, groupLabel: string): Comma
     commandFlags: [],
     complexity: command.complexity,
     content: command.description,
+    deprecated: command.deprecated,
+    deprecatedSince: command.deprecatedSince,
     description: command.description,
     docsUrl: resolveRedisHref(commandIndex.sourceUrl, `./${command.slug}/`),
     example: null,
@@ -429,8 +442,10 @@ function buildFallbackDetail(command: CommandSummary, groupLabel: string): Comma
     groupLabel,
     intro: command.description,
     keySpecs: [],
+    moduleName: command.moduleName,
     notes: [],
     redisCategories: [command.group],
+    replacedBy: command.replacedBy,
     sections: [
       {
         content: command.description || 'No local transcript excerpt is available for this command.',
@@ -589,6 +604,22 @@ function getClientOptionById(clientId: string) {
   return CLIENT_OPTIONS.find((option) => option.id === clientId) ?? CLIENT_OPTIONS[0]
 }
 
+function getDeprecatedProductName(moduleName: string | null | undefined) {
+  if (!moduleName) {
+    return 'Redis'
+  }
+
+  return MODULE_PRODUCT_NAMES[moduleName as keyof typeof MODULE_PRODUCT_NAMES] ?? `Redis${moduleName}`
+}
+
+function getCommandDisplayTitle(command: Pick<CommandSummary, 'deprecated' | 'title'> | null) {
+  if (!command) {
+    return ''
+  }
+
+  return command.deprecated ? `${command.title} (deprecated)` : command.title
+}
+
 function normalizeInlineText(value: string | undefined) {
   return value?.replace(/\s+/g, ' ').trim() ?? ''
 }
@@ -681,7 +712,7 @@ function buildApiMethodLines(method: ApiMethod): ApiMethodLine[] {
   return lines
 }
 
-const commandsByGroup = buildCommandsByGroup(commandIndex.commands)
+const allCommandsByGroup = buildCommandsByGroup(commandIndex.commands)
 const commandReferenceLookup = new Map<string, CommandSummary>()
 
 for (const command of commandIndex.commands) {
@@ -689,7 +720,7 @@ for (const command of commandIndex.commands) {
   commandReferenceLookup.set(normalizeCommandSearchValue(command.slug), command)
 }
 
-const categoryRecords = buildCategoryRecords(commandsByGroup, commandIndex.categories)
+const categoryRecords = buildCategoryRecords(allCommandsByGroup, commandIndex.categories)
 const categoryLookup = Object.fromEntries(
   categoryRecords.map((category) => [category.group, category]),
 ) as Record<string, CategoryRecord>
@@ -723,11 +754,13 @@ function App() {
   const [secondaryIndex, setSecondaryIndex] = useState(secondaryCategories.length ? 1 : 0)
   const [activeGroup, setActiveGroup] = useState(initialGroup)
   const [commandCursors, setCommandCursors] = useState<Record<string, number>>({})
-  const [clock, setClock] = useState(() => formatClock(new Date()))
   const [findOpen, setFindOpen] = useState(false)
   const [findQuery, setFindQuery] = useState('')
   const [findIndex, setFindIndex] = useState(0)
   const [preferredClientId, setPreferredClientId] = useState(() => readCookie(CLIENT_COOKIE_NAME) ?? DEFAULT_CLIENT_ID)
+  const [showDeprecatedCommands, setShowDeprecatedCommands] = useState(
+    () => readCookie(DEPRECATED_COOKIE_NAME) !== 'hide',
+  )
   const [mobileClientPickerOpen, setMobileClientPickerOpen] = useState(false)
   const findInputRef = useRef<HTMLInputElement | null>(null)
   const activeCategoryRowRef = useRef<HTMLButtonElement | null>(null)
@@ -744,12 +777,19 @@ function App() {
   const isMobileLayout = mobileLayout !== 'desktop'
   const isMobilePortrait = mobileLayout === 'portrait'
   const isMobileLandscape = mobileLayout === 'landscape'
+  const visibleCommands = showDeprecatedCommands
+    ? commandIndex.commands
+    : commandIndex.commands.filter((command) => !command.deprecated)
+  const visibleCommandsByGroup = buildCommandsByGroup(visibleCommands)
+  const visibleCommandCountByGroup = new Map(
+    Object.entries(visibleCommandsByGroup).map(([group, commands]) => [group, commands.length]),
+  )
 
   const categoryMenu = categoryShelf === 'primary' ? primaryMenu : secondaryMenu
   const categoryIndex = categoryShelf === 'primary' ? primaryIndex : secondaryIndex
   const highlightedCategoryItem = categoryMenu[categoryIndex] ?? categoryMenu[0] ?? showMoreItem
   const currentCategory = categoryLookup[activeGroup] ?? primaryCategories[0] ?? categoryRecords[0] ?? null
-  const currentCommands = commandsByGroup[activeGroup] ?? []
+  const currentCommands = visibleCommandsByGroup[activeGroup] ?? []
   const currentCommandIndex = clampIndex(commandCursors[activeGroup] ?? 0, currentCommands.length)
   const selectedCommand = currentCommands[currentCommandIndex] ?? null
   const commandDetail = selectedCommand
@@ -792,6 +832,7 @@ function App() {
   const hiddenApiMethodCount = Math.max(selectedApiMethods.length - visibleApiMethods.length, 0)
   const categoryAccent = highlightedCategoryItem.accent
   const currentAccent = currentCategory?.accent ?? '#ff4438'
+  const deprecationCopy = buildDeprecationCopy(commandDetail)
   const docsUrl =
     commandDetail?.docsUrl ??
     (selectedCommand
@@ -799,13 +840,13 @@ function App() {
       : commandIndex.sourceUrl)
   const categoryPanelTitle = categoryShelf === 'primary' ? 'Core' : 'More'
   const commandPanelTitle = currentCategory?.label ?? 'Commands'
-  const detailPanelTitle = selectedCommand?.title ?? 'Dossier'
+  const detailPanelTitle = selectedCommand ? getCommandDisplayTitle(selectedCommand) : 'Dossier'
   const categoryPanelStyle = { '--panel-accent': categoryAccent } as CSSProperties
   const commandPanelStyle = { '--panel-accent': currentAccent } as CSSProperties
   const detailPanelStyle = { '--panel-accent': currentAccent } as CSSProperties
   const dossierStyle = { '--dossier-intro-max': detailIntroMaxHeight } as CSSProperties
   const headerStyle = { '--brand-accent': currentAccent } as CSSProperties
-  const findResults = getCommandSearchResults(commandIndex.commands, deferredFindQuery, FIND_RESULT_LIMIT)
+  const findResults = getCommandSearchResults(visibleCommands, deferredFindQuery, FIND_RESULT_LIMIT)
   const activeFindIndex = clampIndex(findIndex, findResults.length)
   const highlightedFindResult = findResults[activeFindIndex] ?? null
   const findCompletionTail = getCompletionTail(findQuery, highlightedFindResult)
@@ -815,6 +856,10 @@ function App() {
   }, [preferredClientId])
 
   useEffect(() => {
+    writeCookie(DEPRECATED_COOKIE_NAME, showDeprecatedCommands ? 'show' : 'hide')
+  }, [showDeprecatedCommands])
+
+  useEffect(() => {
     const syncLayout = () => {
       setMobileLayout(getMobileLayoutMode())
     }
@@ -822,14 +867,6 @@ function App() {
     syncLayout()
     window.addEventListener('resize', syncLayout)
     return () => window.removeEventListener('resize', syncLayout)
-  }, [])
-
-  useEffect(() => {
-    const intervalId = window.setInterval(() => {
-      setClock(formatClock(new Date()))
-    }, 1000)
-
-    return () => window.clearInterval(intervalId)
   }, [])
 
   useEffect(() => {
@@ -853,6 +890,18 @@ function App() {
 
     document.title = pageTitle
   }, [currentCategory, selectedCommand])
+
+  useEffect(() => {
+    if (selectedCommand || paneFocus !== 'details') {
+      return
+    }
+
+    const frameId = window.requestAnimationFrame(() => {
+      setPaneFocus(currentCommands.length ? 'commands' : 'categories')
+    })
+
+    return () => window.cancelAnimationFrame(frameId)
+  }, [currentCommands.length, paneFocus, selectedCommand])
 
   useEffect(() => {
     if (!isMobileLayout) {
@@ -1162,7 +1211,11 @@ function App() {
   }
 
   function revealCommand(command: CommandSummary) {
-    const groupCommands = commandsByGroup[command.group] ?? []
+    if (!showDeprecatedCommands && command.deprecated) {
+      return
+    }
+
+    const groupCommands = visibleCommandsByGroup[command.group] ?? []
     const nextCommandIndex = groupCommands.findIndex((entry) => entry.slug === command.slug)
     const nextPrimaryIndex = primaryCategories.findIndex((category) => category.group === command.group)
     const nextSecondaryIndex = secondaryCategories.findIndex((category) => category.group === command.group)
@@ -1207,10 +1260,53 @@ function App() {
       /\/commands\/([^/#?]+)\/?/i.exec(normalizedTarget) ?? /^\.\/([^/#?]+)\/?$/i.exec(normalizedTarget)
 
     if (slugMatch) {
-      return commandReferenceLookup.get(normalizeCommandSearchValue(slugMatch[1])) ?? null
+      const linkedCommand = commandReferenceLookup.get(normalizeCommandSearchValue(slugMatch[1])) ?? null
+      return !showDeprecatedCommands && linkedCommand?.deprecated ? null : linkedCommand
     }
 
-    return commandReferenceLookup.get(normalizeCommandSearchValue(label)) ?? null
+    const linkedCommand = commandReferenceLookup.get(normalizeCommandSearchValue(label)) ?? null
+    return !showDeprecatedCommands && linkedCommand?.deprecated ? null : linkedCommand
+  }
+
+  function linkifyCommandMentions(value: string) {
+    return value
+      .split(/(`[^`]+`)/g)
+      .map((segment, index, segments) => {
+        if (!segment.startsWith('`') || !segment.endsWith('`')) {
+          return segment
+        }
+
+        const previousSegment = segments[index - 1] ?? ''
+        if (previousSegment.endsWith('[')) {
+          return segment
+        }
+
+        const label = segment.slice(1, -1)
+        const linkedCommand = resolveReferencedCommand(label, '')
+        return linkedCommand ? `[${label}](./${linkedCommand.slug}/)` : segment
+      })
+      .join('')
+  }
+
+  function buildDeprecationCopy(detail: CommandDetail | null) {
+    if (!detail?.deprecated) {
+      return null
+    }
+
+    const productName = getDeprecatedProductName(detail.moduleName)
+    const deprecationAnchor = detail.deprecatedSince
+      ? `As of ${productName} ${detail.deprecatedSince}, this command is regarded as deprecated.`
+      : 'This command is regarded as deprecated.'
+
+    if (!detail.replacedBy) {
+      return deprecationAnchor
+    }
+
+    return `${deprecationAnchor} It can be replaced by ${linkifyCommandMentions(detail.replacedBy)}.`
+  }
+
+  function toggleDeprecatedVisibility() {
+    setShowDeprecatedCommands((previous) => !previous)
   }
 
   function renderRichParagraph(paragraph: string, keyPrefix: string) {
@@ -1292,6 +1388,50 @@ function App() {
       <p className="dossier__note-copy" key={keyPrefix}>
         {renderRichParagraph(block.text, keyPrefix)}
       </p>
+    )
+  }
+
+  function getVisibleGroupCount(group: string | null | undefined) {
+    if (!group) {
+      return 0
+    }
+
+    return visibleCommandCountByGroup.get(group) ?? 0
+  }
+
+  function renderDeprecatedMarker(className = '') {
+    return (
+      <span
+        aria-hidden="true"
+        className={`deprecated-marker ${className}`.trim()}
+        title="Deprecated command"
+      >
+        !
+      </span>
+    )
+  }
+
+  function renderCommandLabel(command: CommandSummary, options: { active?: boolean; mobile?: boolean } = {}) {
+    const active = options.active ?? false
+
+    return (
+      <span className="dos-row__label-wrap">
+        {active && !options.mobile ? (
+          <ShuffleText
+            animateKey={`command:${command.slug}:${command.title}`}
+            className="dos-row__label"
+            text={command.title}
+          />
+        ) : (
+          <span className="dos-row__label">{command.title}</span>
+        )}
+        {command.deprecated ? (
+          <>
+            <span className="dos-row__deprecated-copy">(deprecated)</span>
+            {renderDeprecatedMarker('deprecated-marker--row')}
+          </>
+        ) : null}
+      </span>
     )
   }
 
@@ -1434,6 +1574,12 @@ function App() {
     if (event.key === 'F5') {
       event.preventDefault()
       openOfficialDocs()
+      return
+    }
+
+    if (event.key === 'h' || event.key === 'H') {
+      event.preventDefault()
+      toggleDeprecatedVisibility()
       return
     }
 
@@ -1628,10 +1774,10 @@ function App() {
       label: 'More',
     },
     {
-      action: openOfficialDocs,
-      disabled: !selectedCommand,
-      hotkey: 'F5',
-      label: 'Docs',
+      action: toggleDeprecatedVisibility,
+      disabled: false,
+      hotkey: 'H',
+      label: 'Deprecated',
     },
     ...(paneFocus === 'details'
       ? [
@@ -1685,7 +1831,7 @@ function App() {
           const active = actualIndex === categoryIndex
           const countLabel =
             item.kind === 'category'
-              ? String(item.count).padStart(3, '0')
+              ? String(getVisibleGroupCount(item.group)).padStart(3, '0')
               : item.kind === 'more'
                 ? `${String(secondaryCategories.length).padStart(2, '0')}+`
                 : 'UP'
@@ -1781,15 +1927,7 @@ function App() {
               type="button"
             >
               <span className="dos-row__index">{String(actualIndex + 1).padStart(2, '0')}</span>
-              {active && !mobile ? (
-                <ShuffleText
-                  animateKey={`command:${command.slug}:${actualIndex}`}
-                  className="dos-row__label"
-                  text={command.title}
-                />
-              ) : (
-                <span className="dos-row__label">{command.title}</span>
-              )}
+              {renderCommandLabel(command, { active, mobile })}
               <span className="dos-row__meta">{command.since ?? 'docs'}</span>
             </button>
           )
@@ -1817,7 +1955,7 @@ function App() {
           <span>{highlightedCategoryItem.label}</span>
           <span>
             {highlightedCategoryItem.kind === 'category'
-              ? formatCount(highlightedCategoryItem.count)
+              ? formatCount(getVisibleGroupCount(highlightedCategoryItem.group))
               : `${secondaryCategories.length} extra groups`}
           </span>
           <span className="dos-panel__footer-copy">{highlightedCategoryItem.tagline}</span>
@@ -1842,7 +1980,7 @@ function App() {
         </div>
 
         <div className={`dos-panel__footer ${mobile ? 'dos-panel__footer--mobile' : ''}`}>
-          <span>{selectedCommand?.title ?? 'No command selected'}</span>
+          <span>{selectedCommand ? getCommandDisplayTitle(selectedCommand) : 'No command selected'}</span>
           <span>
             {selectedCommand
               ? `since ${selectedCommand.since ?? 'n/a'} / arity ${formatArity(selectedCommand.arity)}`
@@ -1882,7 +2020,15 @@ function App() {
           <div className={`dossier ${mobile ? 'dossier--mobile' : ''}`} style={dossierStyle}>
             <div className="dossier__hero">
               <div className="dossier__hero-top">
-                <h1 className="dossier__title">{selectedCommand?.title ?? 'NO COMMAND SELECTED'}</h1>
+                <h1 className="dossier__title">
+                  <span className="dossier__title-copy">{selectedCommand?.title ?? 'NO COMMAND SELECTED'}</span>
+                  {selectedCommand?.deprecated ? (
+                    <>
+                      <span className="dossier__title-deprecated">(deprecated)</span>
+                      {renderDeprecatedMarker('deprecated-marker--title')}
+                    </>
+                  ) : null}
+                </h1>
                 <span className="dossier__complexity">
                   {selectedCommand?.complexity ?? 'complexity n/a'}
                 </span>
@@ -1890,6 +2036,14 @@ function App() {
               <code className="dossier__syntax">
                 {selectedCommand?.syntax ?? 'Choose a Redis command from the middle pane.'}
               </code>
+              {deprecationCopy ? (
+                <div className="dossier__deprecation">
+                  <span className="dossier__deprecation-label">// deprecated</span>
+                  <p className="dossier__deprecation-copy">
+                    {renderRichParagraph(deprecationCopy, `${selectedCommand?.slug ?? 'detail'}-deprecated`)}
+                  </p>
+                </div>
+              ) : null}
               <div className="dossier__intro">
                 {detailIntroBlocks.map((block, blockIndex) =>
                   renderRichBlock(
@@ -2090,14 +2244,14 @@ function App() {
               <span>{highlightedCategoryItem.label}</span>
               <span>
                 {highlightedCategoryItem.kind === 'category'
-                  ? formatCount(highlightedCategoryItem.count)
+                  ? formatCount(getVisibleGroupCount(highlightedCategoryItem.group))
                   : `${secondaryCategories.length} extra groups`}
               </span>
               <span className="dos-panel__footer-copy">{highlightedCategoryItem.tagline}</span>
             </>
           ) : (
             <>
-              <span>{selectedCommand?.title ?? 'No command selected'}</span>
+              <span>{selectedCommand ? getCommandDisplayTitle(selectedCommand) : 'No command selected'}</span>
               <span>
                 {selectedCommand
                   ? `since ${selectedCommand.since ?? 'n/a'} / arity ${formatArity(selectedCommand.arity)}`
@@ -2122,10 +2276,12 @@ function App() {
       <header className="dos-header" style={headerStyle}>
         <div className="dos-header__status">
           <span className="dos-header__brand">Redis Commander</span>
-          <span>{commandIndex.commandCount} commands</span>
+          <span>{visibleCommands.length} commands</span>
           <span>snapshot {docsSnapshotLabel}</span>
           <span>Client: {headerClientOption.label}</span>
-          <time className="dos-header__clock">{clock}</time>
+          <button className="dos-header__toggle" onClick={toggleDeprecatedVisibility} type="button">
+            deprecated: {showDeprecatedCommands ? 'show' : 'hide'}
+          </button>
           <button className="dos-header__link" onClick={openRepository} type="button">
             version {RELEASE_VERSION}
           </button>
@@ -2260,7 +2416,15 @@ function App() {
                       onMouseEnter={() => setFindIndex(index)}
                       type="button"
                     >
-                      <span className="find-palette__result-title">{command.title}</span>
+                      <span className="find-palette__result-title">
+                        <span className="find-palette__result-title-copy">{command.title}</span>
+                        {command.deprecated ? (
+                          <>
+                            <span className="find-palette__result-deprecated">(deprecated)</span>
+                            {renderDeprecatedMarker('deprecated-marker--find')}
+                          </>
+                        ) : null}
+                      </span>
                       <span className="find-palette__result-meta">{getCategoryMeta(command.group).label}</span>
                       <span className="find-palette__result-copy">
                         {command.description || command.syntax || 'Open the dossier to inspect this command.'}

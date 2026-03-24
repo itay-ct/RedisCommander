@@ -55,8 +55,12 @@ export type CommandSection = {
 export type CommandSummary = {
   arity: number | null
   complexity: string | null
+  deprecated: boolean
+  deprecatedSince: string | null
   description: string
   group: string
+  moduleName: string | null
+  replacedBy: string | null
   since: string | null
   slug: string
   syntax: string
@@ -72,6 +76,8 @@ export type CommandDetail = {
   commandFlags: string[]
   complexity: string | null
   content: string
+  deprecated: boolean
+  deprecatedSince: string | null
   description: string
   docsUrl: string
   example: string | null
@@ -79,8 +85,10 @@ export type CommandDetail = {
   groupLabel: string
   intro: string
   keySpecs: unknown[]
+  moduleName: string | null
   notes: string[]
   redisCategories: string[]
+  replacedBy: string | null
   sections: CommandSection[]
   since: string | null
   slug: string

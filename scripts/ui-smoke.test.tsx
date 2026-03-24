@@ -178,6 +178,9 @@ test(
       .filter(Boolean)
       .join(' | ')
 
+  const getActiveCommandRowText = () =>
+    document.querySelector('.dos-panel--focus .dos-row--active')?.textContent?.trim() ?? ''
+
   await waitFor(() => expect(getFocusedBar()).toContain('Core'))
 
   const asciiPane = document.querySelector('.ascii-pane') as HTMLElement | null
@@ -193,6 +196,10 @@ test(
 
   keyboard('Enter')
   await waitFor(() => expect(getFocusedBar()).toContain('Strings'))
+  keyboard('End')
+  await waitFor(() => expect(getActiveCommandRowText()).toContain('(deprecated)'))
+  keyboard('Home')
+  await waitFor(() => expect(getActiveCommandRowText()).not.toContain('(deprecated)'))
 
   keyboard('Enter')
   await waitFor(() =>
@@ -200,9 +207,10 @@ test(
   )
 
     expect(document.body.textContent).not.toContain('C:\\REDIS\\')
-    expect(document.body.textContent).toContain('version 1.17')
+    expect(document.body.textContent).toContain('version 1.18')
   expect(document.body.textContent).toContain('commands')
   expect(document.body.textContent).toContain('Client: Redis CLI')
+  expect(document.body.textContent).toContain('deprecated: show')
   expect(document.body.textContent).not.toContain('cached locally')
   expect(document.querySelector('.dos-header__menu')).toBeNull()
   expect(document.querySelector('.dossier__example-code')?.textContent?.trim()).not.toContain(
@@ -275,6 +283,61 @@ test(
   keyboard('f')
   await waitFor(() => expect(document.querySelector('.find-palette')).not.toBeNull())
 
+  const georadiusFindInput = document.querySelector('.find-palette__input') as HTMLInputElement | null
+  fireEvent.change(georadiusFindInput!, { target: { value: 'georadius_ro' } })
+  await waitFor(() =>
+    expect(document.querySelector('.find-palette__result-title')?.textContent).toContain('GEORADIUS_RO'),
+  )
+  expect(document.querySelector('.find-palette__result-title')?.textContent).toContain('(deprecated)')
+  fireEvent.keyDown(georadiusFindInput!, { bubbles: true, cancelable: true, key: 'Enter' })
+  await waitFor(() => expect(document.querySelector('.find-palette')).toBeNull())
+  await waitFor(() => expect(document.querySelector('.dossier__title')?.textContent).toContain('GEORADIUS_RO'))
+  expect(document.querySelector('.dossier__title')?.textContent).toContain('(deprecated)')
+  expect(document.querySelector('.dossier__deprecation-copy')?.textContent).toContain('As of Redis 6.2.0')
+  expect(document.querySelector('.dossier__deprecation-copy')?.textContent).toContain('It can be replaced by')
+
+  const deprecatedReplacementLink = [...document.querySelectorAll('.dossier__deprecation .dossier__inline-link')].find(
+    (node) => node.textContent?.includes('GEOSEARCH'),
+  ) as HTMLButtonElement | undefined
+  expect(deprecatedReplacementLink).toBeDefined()
+  fireEvent.click(deprecatedReplacementLink!)
+  await waitFor(() => expect(document.querySelector('.dossier__title')?.textContent).toContain('GEOSEARCH'))
+
+  keyboard('H')
+  await waitFor(() => expect(document.body.textContent).toContain('deprecated: hide'))
+  expect(document.cookie).toContain('redis-commander-deprecated=hide')
+
+  keyboard('f')
+  await waitFor(() => expect(document.querySelector('.find-palette')).not.toBeNull())
+
+  const hiddenDeprecatedFindInput = document.querySelector('.find-palette__input') as HTMLInputElement | null
+  fireEvent.change(hiddenDeprecatedFindInput!, { target: { value: 'substr' } })
+  await waitFor(() => {
+    const resultTitles = [...document.querySelectorAll('.find-palette__result-title')].map((node) =>
+      node.textContent?.trim() ?? '',
+    )
+    expect(resultTitles.some((title) => title.startsWith('SUBSTR'))).toBe(false)
+  })
+  fireEvent.keyDown(hiddenDeprecatedFindInput!, { bubbles: true, cancelable: true, key: 'Escape' })
+  await waitFor(() => expect(document.querySelector('.find-palette')).toBeNull())
+
+  fireEvent.click(document.querySelector('.dos-header__toggle') as HTMLButtonElement)
+  await waitFor(() => expect(document.body.textContent).toContain('deprecated: show'))
+  expect(document.cookie).toContain('redis-commander-deprecated=show')
+
+  keyboard('f')
+  await waitFor(() => expect(document.querySelector('.find-palette')).not.toBeNull())
+  const restoredDeprecatedFindInput = document.querySelector('.find-palette__input') as HTMLInputElement | null
+  fireEvent.change(restoredDeprecatedFindInput!, { target: { value: 'substr' } })
+  await waitFor(() =>
+    expect(document.querySelector('.find-palette__result-title')?.textContent).toContain('SUBSTR'),
+  )
+  expect(document.querySelector('.find-palette__result-title')?.textContent).toContain('(deprecated)')
+  fireEvent.keyDown(restoredDeprecatedFindInput!, { bubbles: true, cancelable: true, key: 'Escape' })
+  await waitFor(() => expect(document.querySelector('.find-palette')).toBeNull())
+
+  keyboard('f')
+  await waitFor(() => expect(document.querySelector('.find-palette')).not.toBeNull())
   const zincrbyFindInput = document.querySelector('.find-palette__input') as HTMLInputElement | null
   fireEvent.change(zincrbyFindInput!, { target: { value: 'zincrby' } })
   fireEvent.keyDown(zincrbyFindInput!, { bubbles: true, cancelable: true, key: 'Enter' })
@@ -440,10 +503,11 @@ test(
 
   expect(getFooterText()).toContain('F2Commands')
   expect(getFooterText()).toContain('F3Dossier')
-  expect(getFooterText()).toContain('F5Docs')
+  expect(getFooterText()).toContain('HDeprecated')
   expect(getFooterText()).toContain('FFind')
   expect(getFooterText()).not.toContain('UP/DNSelect client')
-  expect(getFooterText().indexOf('F5Docs')).toBeLessThan(getFooterText().indexOf('FFind'))
+  expect(getFooterText()).not.toContain('F5Docs')
+  expect(getFooterText().indexOf('HDeprecated')).toBeLessThan(getFooterText().indexOf('FFind'))
 
   const favicon = await readFile(`${process.cwd()}/public/favicon.svg`, 'utf8')
   expect(favicon).toContain('shape-rendering="crispEdges"')

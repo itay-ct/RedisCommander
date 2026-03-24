@@ -65,6 +65,23 @@ function getGroupLabel(group) {
   return GROUP_LABELS[group] ?? escapeTitleCase(group)
 }
 
+function normalizeNullableString(value) {
+  if (typeof value !== 'string') {
+    return null
+  }
+
+  const trimmed = value.trim()
+  return trimmed ? trimmed : null
+}
+
+function isDeprecatedCommand(metadata) {
+  return Boolean(
+    normalizeNullableString(metadata.deprecated_since) ||
+      (metadata.doc_flags ?? []).includes('deprecated') ||
+      (metadata.command_flags ?? []).includes('deprecated'),
+  )
+}
+
 function normalizeSourceKey(value) {
   return value.replace(/\s+/g, ' ').trim()
 }
@@ -254,6 +271,7 @@ function normalizeCommandRecord(slug, parsed, apiMethods) {
   const { metadata, content, example, intro, notes, sections } = parsed
   const title = metadata.title?.trim()
   const group = metadata.group?.trim()
+  const deprecated = isDeprecatedCommand(metadata)
 
   if (metadata.hidden || !title || !group) {
     return null
@@ -277,8 +295,12 @@ function normalizeCommandRecord(slug, parsed, apiMethods) {
     apiMethods,
     commandFlags: metadata.command_flags ?? [],
     arguments: metadata.arguments ?? [],
+    deprecated,
+    deprecatedSince: normalizeNullableString(metadata.deprecated_since),
     keySpecs: metadata.key_specs ?? [],
+    moduleName: normalizeNullableString(metadata.module),
     redisCategories: unique(metadata.categories ?? []),
+    replacedBy: normalizeNullableString(metadata.replaced_by),
     tableOfContents: { sections: [] },
     codeExamples: [],
     content,
@@ -447,8 +469,12 @@ async function main() {
   const commands = records.map((record) => ({
     arity: record.arity,
     complexity: record.complexity,
+    deprecated: record.deprecated,
+    deprecatedSince: record.deprecatedSince,
     description: record.description,
     group: record.group,
+    moduleName: record.moduleName,
+    replacedBy: record.replacedBy,
     since: record.since,
     slug: record.slug,
     syntax: record.syntax,
