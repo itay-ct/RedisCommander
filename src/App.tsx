@@ -43,10 +43,9 @@ type CategoryBrowserItem =
 
 const CATEGORY_ROWS = 11
 const COMMAND_ROWS = 14
-const ARGUMENT_ROWS = 6
 const FIND_RESULT_LIMIT = 6
 const API_METHOD_LIMIT = 4
-const RELEASE_VERSION = '1.18'
+const RELEASE_VERSION = '1.19'
 const REPO_URL = 'https://github.com/itay-ct/RedisCommander'
 const CLIENT_COOKIE_NAME = 'redis-commander-client'
 const DEPRECATED_COOKIE_NAME = 'redis-commander-deprecated'
@@ -813,10 +812,9 @@ function App() {
   )
   const detailIntroMaxHeight =
     detailIntroTextLength > 720 ? '15.5rem' : detailIntroTextLength > 520 ? '14rem' : detailIntroTextLength > 360 ? '12.5rem' : '10rem'
-  const previewArgumentRows =
-    detailIntroTextLength > 720 ? Math.max(3, ARGUMENT_ROWS - 2) : detailIntroTextLength > 520 ? ARGUMENT_ROWS - 1 : ARGUMENT_ROWS
-  const previewArguments = commandDetail?.arguments.slice(0, previewArgumentRows) ?? []
-  const extraArgumentCount = Math.max((commandDetail?.arguments.length ?? 0) - previewArguments.length, 0)
+  const detailSyntax =
+    commandDetail?.syntax ?? selectedCommand?.syntax ?? 'Choose a Redis command from the middle pane.'
+  const detailArguments = commandDetail?.arguments ?? []
   const detailNotes = commandDetail?.notes ?? []
   const exampleCard = getExampleCard(commandDetail, selectedCommand)
   const availableClientOptions = getClientOptions(commandDetail)
@@ -2033,9 +2031,7 @@ function App() {
                   {selectedCommand?.complexity ?? 'complexity n/a'}
                 </span>
               </div>
-              <code className="dossier__syntax">
-                {selectedCommand?.syntax ?? 'Choose a Redis command from the middle pane.'}
-              </code>
+              <code className="dossier__syntax">{detailSyntax}</code>
               {deprecationCopy ? (
                 <div className="dossier__deprecation">
                   <span className="dossier__deprecation-label">// deprecated</span>
@@ -2162,9 +2158,9 @@ function App() {
               <section className="dossier__card">
                 <div className="dossier__card-bar">Arguments</div>
                 <div className="dossier__arguments">
-                  {previewArguments.length ? (
+                  {detailArguments.length ? (
                     <>
-                      {previewArguments.map((argument) => (
+                      {detailArguments.map((argument) => (
                         <div className="dossier__argument" key={`${argument.name}-${argument.type}`}>
                           <span className="dossier__argument-name">{formatArgumentLabel(argument)}</span>
                           <span className="dossier__argument-meta">
@@ -2173,12 +2169,6 @@ function App() {
                           </span>
                         </div>
                       ))}
-                      {extraArgumentCount ? (
-                        <div className="dossier__argument dossier__argument--more">
-                          <span className="dossier__argument-name">+{extraArgumentCount} more</span>
-                          <span className="dossier__argument-meta">open docs for the full argument tree</span>
-                        </div>
-                      ) : null}
                     </>
                   ) : (
                     <div className="dossier__argument dossier__argument--more">

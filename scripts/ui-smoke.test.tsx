@@ -207,7 +207,7 @@ test(
   )
 
     expect(document.body.textContent).not.toContain('C:\\REDIS\\')
-    expect(document.body.textContent).toContain('version 1.18')
+    expect(document.body.textContent).toContain('version 1.19')
   expect(document.body.textContent).toContain('commands')
   expect(document.body.textContent).toContain('Client: Redis CLI')
   expect(document.body.textContent).toContain('deprecated: show')
@@ -424,6 +424,27 @@ test(
   keyboard('f')
   await waitFor(() => expect(document.querySelector('.find-palette')).not.toBeNull())
 
+  const georadiusCommandFindInput = document.querySelector('.find-palette__input') as HTMLInputElement | null
+  fireEvent.change(georadiusCommandFindInput!, { target: { value: 'georadius' } })
+  fireEvent.keyDown(georadiusCommandFindInput!, { bubbles: true, cancelable: true, key: 'Enter' })
+  await waitFor(() => expect(document.querySelector('.find-palette')).toBeNull())
+  await waitFor(() => expect(document.querySelector('.dossier__title')?.textContent).toContain('GEORADIUS'))
+
+  const georadiusSyntax = document.querySelector('.dossier__syntax')?.textContent ?? ''
+  expect(georadiusSyntax).toContain('GEORADIUS key longitude latitude radius')
+  expect(georadiusSyntax).toContain('\n')
+
+  const georadiusArgumentLabels = [...document.querySelectorAll('.dossier__argument-name')].map((node) =>
+    node.textContent?.trim() ?? '',
+  )
+  expect(georadiusArgumentLabels.length).toBe(11)
+  expect(georadiusArgumentLabels).toContain('withcoord')
+  expect(georadiusArgumentLabels).toContain('store')
+  expect(georadiusArgumentLabels.some((label) => label.includes('more'))).toBe(false)
+
+  keyboard('f')
+  await waitFor(() => expect(document.querySelector('.find-palette')).not.toBeNull())
+
   const expireFindInput = document.querySelector('.find-palette__input') as HTMLInputElement | null
   fireEvent.change(expireFindInput!, { target: { value: 'expire' } })
   fireEvent.keyDown(expireFindInput!, { bubbles: true, cancelable: true, key: 'Enter' })
@@ -517,6 +538,8 @@ test(
 
   expect(css).toContain('scrollbar-gutter: stable')
   expect(css).toContain('.dossier__arguments::-webkit-scrollbar')
+  expect(/\.dossier__syntax\s*\{[^}]*white-space:\s*pre-wrap;/m.test(css)).toBe(true)
+  expect(/\.dossier__syntax\s*\{[^}]*text-overflow:\s*ellipsis;/m.test(css)).toBe(false)
 
   const html = await readFile(`${process.cwd()}/index.html`, 'utf8')
   expect(html).toContain('apple-touch-icon')
